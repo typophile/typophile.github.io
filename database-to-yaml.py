@@ -102,7 +102,7 @@ def add_nested_comments(c, target):
     add_nested_comments(child, comment["children"])
 
 for n in tqdm.tqdm(session.query(Node).all()):
-  filename = "site/node/%i.md" % n.nid
+  filename = "node/%i.md" % n.nid
 
   if not n.body:
     continue

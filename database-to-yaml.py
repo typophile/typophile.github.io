@@ -102,9 +102,7 @@ def add_nested_comments(c, target):
     add_nested_comments(child, comment["children"])
 
 for n in tqdm.tqdm(session.query(Node).all()):
-  filename = "yaml/%i.md" % n.nid
-  if n.nid > 1000:
-    break
+  filename = "site/node/%i.md" % n.nid
 
   if not n.body:
     continue
@@ -114,8 +112,6 @@ for n in tqdm.tqdm(session.query(Node).all()):
     "body": n.body.body_value,
     "date": datetime.fromtimestamp(n.created).strftime(DATE_FORMAT)
   }
-  if n.user.name:
-    node["author"] = n.user.name
 
   if n.comment_collection:
     node["comments"] = []

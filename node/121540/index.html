@@ -71,19 +71,24 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">In this thread http://typophile.com/node/121385 OP put a scanned page from a 1961 book. Used types have somewhat twitched appearance. As I made earlier an OT feature which does that effect I modified a font (in that case Plantin) to recreate that look.
-
-1. FEA file:
+  <div class="post-content e-content" itemprop="articleBody"><p>In this thread <a href="http://typophile.com/node/121385">http://typophile.com/node/121385</a> OP put a scanned page from a 1961 book. Used types have somewhat twitched appearance. As I made earlier an OT feature which does that effect I modified a font (in that case Plantin) to recreate that look.</p>
+<ol>
+<li>
+<p>FEA file:
 @class_alt1 contains UC and lc letters, space, comma, etc
 @class_alt2 contains as above, slightly displaced, names with .alt2
-etc up to @class_alt10 ( .alt10)
-
-2. I made new glyphs - and copied the references of original glyphs and add the .alt1 to their names
-3. Again the same with .alt2 names
-etc up to .alt10
-
-4. I moved glyphs of every class slightly up or down 
-<code>
+etc up to @class_alt10 ( .alt10)</p>
+</li>
+<li>
+<p>I made new glyphs - and copied the references of original glyphs and add the .alt1 to their names</p>
+</li>
+<li>
+<p>Again the same with .alt2 names
+etc up to .alt10</p>
+</li>
+<li>
+<p>I moved glyphs of every class slightly up or down 
+<!-- raw HTML omitted -->
 feature calt { # contextual Alternates
 sub @class_alt1 @class_alt1' by @class_alt2;
 sub @class_alt2 @class_alt1' by @class_alt3;
@@ -95,29 +100,31 @@ sub @class_alt7 @class_alt1' by @class_alt8;
 sub @class_alt8 @class_alt1' by @class_alt9;
 sub @class_alt9 @class_alt1' by @class_alt10;
 sub @class_alt10 @class_alt1' by @class_alt1;
-} calt;<code\>
-
-As feature calt is applied, letters (and spaces, commas etc) are substituted and in effect their sequence is:
-x1, x2, x3, (etc), x10, x1, x2, x3 ...
+} calt;&lt;code&gt;</p>
+</li>
+</ol>
+<p>As feature calt is applied, letters (and spaces, commas etc) are substituted and in effect their sequence is:
+x1, x2, x3, (etc), x10, x1, x2, x3 &hellip;
 so every next letter belongs to the group moved in slightly different way.
 Because font is slightly thinner (and more contrasty) than lead types used I added some black stroke and - to compensate inter letter space - some tracking.
 [img:sites/default/files/old-images/book_3673.jpg]
-[img:sites/default/files/old-images/idd_5284.jpg]
-
-Advantage: -calt works almost everywhere
-Drawback:
-- in InD tracking about 40 switches off calt (why?!)
-- when you repeat lines the letters are moved in the same way (doesn't happen frequently in books)
-
-Special thanks to Adam Twardoch
+[img:sites/default/files/old-images/idd_5284.jpg]</p>
+<p>Advantage: -calt works almost everywhere
+Drawback:</p>
+<ul>
+<li>in InD tracking about 40 switches off calt (why?!)</li>
+<li>when you repeat lines the letters are moved in the same way (doesn&rsquo;t happen frequently in books)</li>
+</ul>
+<p>Special thanks to Adam Twardoch
 [[http://typedrawers.com/discussion/comment/10641/#Comment_10641|1]]
-[[http://sites.twardoch.com/typography/font-tech/gpos-stylistic-sets|2]]</div>
+[[http://sites.twardoch.com/typography/font-tech/gpos-stylistic-sets|2]]</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">InDesign turns off contextual features and ligatures for tracked text above a certain value, and in many, but unfortunately not all cases, this makes sense, since contextual substitutions are often used to avoid clashing letterforms or to effect better joins in script faces (though such faces probably shouldn't be tracked in the first place). However, InDesign's threshold is arbitrary and I've often felt it would be better if it were left to the designer to turn these features off.
-
-Andre</div>
+		<div class="commentbody"><p>InDesign turns off contextual features and ligatures for tracked text above a certain value, and in many, but unfortunately not all cases, this makes sense, since contextual substitutions are often used to avoid clashing letterforms or to effect better joins in script faces (though such faces probably shouldn&rsquo;t be tracked in the first place). However, InDesign&rsquo;s threshold is arbitrary and I&rsquo;ve often felt it would be better if it were left to the designer to turn these features off.</p>
+<p>Andre</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -138,16 +145,15 @@ Andre</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Agree, André.
-Stylistic Set can be used in that case - ssXX's are not turned off by tracking. But support is not that wide and in some environments only GSUB ssXX are allowed. See: https://www.microsoft.com/typography/otspec/features_pt.htm#ssxx "Each ssXX feature uses one-to-one (GSUB lookup type 1) substitutions."
-So precise adjusting of glyph's widths will help.
-
-[edit]
-I made an error in first post (and can't edit it)
-
-"2. I made new glyphs - and copied the references of original glyphs and add the .alt1 to their names"
+		<div class="commentbody"><p>Agree, André.
+Stylistic Set can be used in that case - ssXX&rsquo;s are not turned off by tracking. But support is not that wide and in some environments only GSUB ssXX are allowed. See: <a href="https://www.microsoft.com/typography/otspec/features_pt.htm#ssxx">https://www.microsoft.com/typography/otspec/features_pt.htm#ssxx</a> &ldquo;Each ssXX feature uses one-to-one (GSUB lookup type 1) substitutions.&rdquo;
+So precise adjusting of glyph&rsquo;s widths will help.</p>
+<p>[edit]
+I made an error in first post (and can&rsquo;t edit it)</p>
+<p>&ldquo;2. I made new glyphs - and copied the references of original glyphs and add the .alt1 to their names&rdquo;
 I did not change their names, the first class:
-<code>@class_alt1=[space exclam comma hyphen period colon semicolon question a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z];<code\></div>
+<!-- raw HTML omitted -->@class_alt1=[space exclam comma hyphen period colon semicolon question a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z];&lt;code&gt;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -168,9 +174,8 @@ I did not change their names, the first class:
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><blockquote>However, InDesign's threshold is arbitrary and I've often felt it would be better if it were left to the designer to turn these features off.</blockquote>
-
-Not quite arbitrary: it is based on a percentage of the /space/ glyph width in a font, which means that the tracking unit at which ligatures and contextual alternates is turned off is proportional to the width of the font: lower for a condensed font and higher for an expanded font.</div>
+		<div class="commentbody"><!-- raw HTML omitted -->
+<p>Not quite arbitrary: it is based on a percentage of the /space/ glyph width in a font, which means that the tracking unit at which ligatures and contextual alternates is turned off is proportional to the width of the font: lower for a condensed font and higher for an expanded font.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

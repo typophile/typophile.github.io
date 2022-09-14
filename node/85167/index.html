@@ -71,81 +71,25 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">(Cross-posted on the OpenType list, with apologies)
-
-I've been helping with production of a typeface, which cycles through alternate versions of its letters. The idea is that the next time the same letter shows up in a line, the font will select the next version of that letter. So essentially each letter needs to do its own independent cycling. In other words, if a user types "abbakang" they should they get a b b.1 a.1 k a.2 b.2 a.3 n g1.That is, each time a specific letter comes up, it needs to pick the next alternate, relative to the last one that came up.
-
-I have no problem coming up with code to do this, but the problem is the code is freakin' huge. I'm wondering if there is any more efficient approach that gets the same effect? (I do know easy ways to do this if one just cycles through a different alternate where each glyph is dependent on the immediately preceding glyph. But that's not the assignment here, unfortunately.)
-
-Of course, it may be that there is no more efficient way of doing exactly this, which would be why few if any fonts have used this style of letter cycling.  :/
-
-Here's what I have so far, in AFDKO/FontLab feature syntax. The "not_A" class contains every glyph *except* the A and its variant forms. Similarly the "not_B" class.
-
-<code>
-feature calt {
-  lookup AA useExtension {
-    sub A A' by A.1 ;
-	  sub A.1 A' by A.2 ;
-  	sub A.2 A' by A.3 ;
-  	sub A.3 A' by A ;
-	  sub A @not_A A' by A.1 ;
-	  sub A.1 @not_A A' by A.2 ;
-	  sub A.2 @not_A A' by A.3 ;
-	  sub A.3 @not_A A' by A ;
-	  sub A @not_A @not_A A' by A.1 ;
-	  sub A.1 @not_A @not_A A' by A.2 ;
-	  sub A.2 @not_A @not_A A' by A.3 ;
-	  sub A.3 @not_A @not_A A' by A ;
-	  sub A @not_A @not_A @not_A A' by A.1 ;
-	  sub A.1 @not_A @not_A @not_A A' by A.2 ;
-	  sub A.2 @not_A @not_A @not_A A' by A.3 ;
-	  sub A.3 @not_A @not_A @not_A A' by A ;
-	  sub A @not_A @not_A @not_A @not_A A' by A.1 ;
-	  sub A.1 @not_A @not_A @not_A @not_A A' by A.2 ;
-	  sub A.2 @not_A @not_A @not_A @not_A A' by A.3 ;    
-	  sub A.3 @not_A @not_A @not_A @not_A A' by A ;
-	  sub A @not_A @not_A @not_A @not_A @not_A A' by A.1 ;
-	  sub A.1 @not_A @not_A @not_A @not_A @not_A A' by A.2 ;
-	  sub A.2 @not_A @not_A @not_A @not_A @not_A A' by A.3 ;    
-	  sub A.3 @not_A @not_A @not_A @not_A @not_A A' by A ;  
-          ... and so on with more backtracking context  
-  } AA ;
-  lookup BB useExtension {
-    sub B B' by B.1 ;
-	  sub B.1 B' by B.2 ;
-  	sub B.2 B' by B.3 ;
-  	sub B.3 B' by B ;
-	  sub B @not_B B' by B.1 ;
-	  sub B.1 @not_B B' by B.2 ;
-	  sub B.2 @not_B B' by B.3 ;
-	  sub B.3 @not_B B' by B ;
-	  sub B @not_B @not_B B' by B.1 ;
-	  sub B.1 @not_B @not_B B' by B.2 ;
-	  sub B.2 @not_B @not_B B' by B.3 ;
-	  sub B.3 @not_B @not_B B' by B ;
-          ... and so on with more backtracking context
-  } BB ;
-... repeat  with one lookup for each letter
-} calt;
-</code>
-
-Suggestions welcome!
-
-T
-
-P.S. Despite my use of "code" formatting, my leading spaces are getting deleted. Oh well, I imagine it's clear enough.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>(Cross-posted on the OpenType list, with apologies)</p>
+<p>I&rsquo;ve been helping with production of a typeface, which cycles through alternate versions of its letters. The idea is that the next time the same letter shows up in a line, the font will select the next version of that letter. So essentially each letter needs to do its own independent cycling. In other words, if a user types &ldquo;abbakang&rdquo; they should they get a b b.1 a.1 k a.2 b.2 a.3 n g1.That is, each time a specific letter comes up, it needs to pick the next alternate, relative to the last one that came up.</p>
+<p>I have no problem coming up with code to do this, but the problem is the code is freakin' huge. I&rsquo;m wondering if there is any more efficient approach that gets the same effect? (I do know easy ways to do this if one just cycles through a different alternate where each glyph is dependent on the immediately preceding glyph. But that&rsquo;s not the assignment here, unfortunately.)</p>
+<p>Of course, it may be that there is no more efficient way of doing exactly this, which would be why few if any fonts have used this style of letter cycling.  :/</p>
+<p>Here&rsquo;s what I have so far, in AFDKO/FontLab feature syntax. The &ldquo;not_A&rdquo; class contains every glyph <em>except</em> the A and its variant forms. Similarly the &ldquo;not_B&rdquo; class.</p>
+<!-- raw HTML omitted -->
+<p>Suggestions welcome!</p>
+<p>T</p>
+<p>P.S. Despite my use of &ldquo;code&rdquo; formatting, my leading spaces are getting deleted. Oh well, I imagine it&rsquo;s clear enough.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">(Use "pre", not "code"...)
-
-This might be crazy, but what if you put each set of alternates into a class, e.g.:
-
-<pre>@alts1 = [A.1 B.1 C.1 ...];
-@alts2 = [A.2 B.2 C.2 ...];
-@alts3 = [A.3 B.3 C.3 ...];</pre>
-
-Then you (maybe) would need only one cascade. Not sure what the "@not_" classes would look like. Just a thought.</div>
+		<div class="commentbody"><p>(Use &ldquo;pre&rdquo;, not &ldquo;code&rdquo;&hellip;)</p>
+<p>This might be crazy, but what if you put each set of alternates into a class, e.g.:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Then you (maybe) would need only one cascade. Not sure what the &ldquo;@not_&rdquo; classes would look like. Just a thought.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -168,9 +112,7 @@ Then you (maybe) would need only one cascade. Not sure what the "@not_" classes 
 	<div class="card-body">
 		<div class="commentbody">Hello Thomas,
 did you compiled your large code and after this opened the font into Fontlab?
-Did Makeotf optimized your code in a more simpler way?
-
-</div>
+Did Makeotf optimized your code in a more simpler way?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -191,13 +133,11 @@ Did Makeotf optimized your code in a more simpler way?
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Mark: I've done that before, and it's much simpler, but is not the effect the client is after. Or perhaps you have something different in mind...? Can you show me a snippet of the code using these classes?
-
-Andreas: No, we haven't actually tested a full-on implementation using the massive code approach. I think we are about to do that, however.  I wouldn't expect MakeOTF to generate anything noticeably better than FontLab, as FontLab is based on the same code as MakeOTF.
-
-Thanks!
-
-T</div>
+		<div class="commentbody"><p>Mark: I&rsquo;ve done that before, and it&rsquo;s much simpler, but is not the effect the client is after. Or perhaps you have something different in mind&hellip;? Can you show me a snippet of the code using these classes?</p>
+<p>Andreas: No, we haven&rsquo;t actually tested a full-on implementation using the massive code approach. I think we are about to do that, however.  I wouldn&rsquo;t expect MakeOTF to generate anything noticeably better than FontLab, as FontLab is based on the same code as MakeOTF.</p>
+<p>Thanks!</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -218,7 +158,7 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It was just a hunch. I didn't follow through and actually try it out.</div>
+		<div class="commentbody">It was just a hunch. I didn&rsquo;t follow through and actually try it out.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -239,7 +179,7 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I think only one @everything class is needed as the "wildcard" in the middle instead of the many @not_somethings... same length of lookup, but much fewer classes.</div>
+		<div class="commentbody">I think only one @everything class is needed as the &ldquo;wildcard&rdquo; in the middle instead of the many @not_somethings&hellip; same length of lookup, but much fewer classes.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -260,7 +200,7 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The problem with one @everything class is that the letter you are trying to cycle is then also part of it. That doesn't work....</div>
+		<div class="commentbody">The problem with one @everything class is that the letter you are trying to cycle is then also part of it. That doesn&rsquo;t work&hellip;.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -281,7 +221,7 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">But the order of the lookup takes care of this, and you never end up with sub A A A' because the second A is already A.1... It does work!</div>
+		<div class="commentbody">But the order of the lookup takes care of this, and you never end up with sub A A A' because the second A is already A.1&hellip; It does work!</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -323,11 +263,10 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">ovaalk: Of course, good point. I should have seen that.
-
-I wonder how much that will reduce the compiled size....
-
-T</div>
+		<div class="commentbody"><p>ovaalk: Of course, good point. I should have seen that.</p>
+<p>I wonder how much that will reduce the compiled size&hellip;.</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -348,9 +287,9 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The problem, though, is that presumably you also *would* need to include A.1 in your @everything class if you want it to work for your BB, CC, etc. lookups, so I suspect you will need to create separate @notB, @notC etc. classes, each of which would have to include the 'cycled' variants of the previous letters.
-
-André</div>
+		<div class="commentbody"><p>The problem, though, is that presumably you also <em>would</em> need to include A.1 in your @everything class if you want it to work for your BB, CC, etc. lookups, so I suspect you will need to create separate @notB, @notC etc. classes, each of which would have to include the &lsquo;cycled&rsquo; variants of the previous letters.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -372,8 +311,8 @@ André</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">I have tried a font cycling five sets of capitals (A-Z) with the code like Thomas posted, and it works very well with only one class containing all the capitals from the five sets, space and punctuation.
-The real limitation of this code though is that it doesn't look further than six steps back, and the code gets much longer with each additional step... And with each five new glyphs longer still. 
-You might want to add some more conventional 'shuffle' lookup before this code to avoid always starting with the same set of versions, and to help glyphs from different sets mix together more evenly. </div>
+The real limitation of this code though is that it doesn&rsquo;t look further than six steps back, and the code gets much longer with each additional step&hellip; And with each five new glyphs longer still. 
+You might want to add some more conventional &lsquo;shuffle&rsquo; lookup before this code to avoid always starting with the same set of versions, and to help glyphs from different sets mix together more evenly.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -71,9 +71,9 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Does anyone know a good way to batch process fonts into UFO format? I don't have RoboFont so unfortunately that's not an option.
-
-Thanks</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Does anyone know a good way to batch process fonts into UFO format? I don&rsquo;t have RoboFont so unfortunately that&rsquo;s not an option.</p>
+<p>Thanks</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
@@ -98,12 +98,12 @@ Thanks</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">What do you mean by batch "process"?
-batch generate? batch edit font info? batch rename?
-
-If batch Generate, you can use Area51
+		<div class="commentbody"><p>What do you mean by batch &ldquo;process&rdquo;?
+batch generate? batch edit font info? batch rename?</p>
+<p>If batch Generate, you can use Area51
 if batch Edit Font Info, you can write some python scripts
-It depends on what you want to do...</div>
+It depends on what you want to do&hellip;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -124,21 +124,14 @@ It depends on what you want to do...</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Did you find a problem with FontForge? For me the script
-<PRE>
----- fnt2ufo ----
-#!/usr/bin/env fontforge -lang=ff
-
-Open($1);
-Generate($1:r + ".ufo");
-Quit(0);
----- cut here ---
-</PRE>
-appears to work. With linux or OS X, a simple
-<PRE>
-find . -name "*.otf" -exec fnt2ufo {} \;
-</PRE>
-should do the job for all otf font files in the current directory and subdirectories. If that is not fast enough (due to one call to fontforge for each file) you can reduce the number of calls to one reusing some code of http://fontforge.org/scripting-tutorial.html</div>
+		<div class="commentbody"><p>Did you find a problem with FontForge? For me the script</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>appears to work. With linux or OS X, a simple</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>should do the job for all otf font files in the current directory and subdirectories. If that is not fast enough (due to one call to fontforge for each file) you can reduce the number of calls to one reusing some code of <a href="http://fontforge.org/scripting-tutorial.html">http://fontforge.org/scripting-tutorial.html</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -159,25 +152,18 @@ should do the job for all otf font files in the current directory and subdirecto
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Now I remember that you have been using the <a href="http://fontforge.github.io/en-US/downloads/mac/">github version of FontForge</a>. If so, and if FontForge.app is in /Applications then save the following lines in a file, say sfnt2ufo
-<PRE>
-#!/Applications/FontForge.app/Contents/Resources/opt/local/bin/fontforge -lang=ff
-Open($1);
-Generate($1:r + ".ufo");
-</PRE>
-Then execute the command
-<PRE>
-chmod 755 sfnt2ufo
-</PRE> and put the file <code>sfnt2ufo</code> somewhere in your path (one of the folders listed when you type <code>echo $PATH</code>). Then, and only then, you can execute (in any folder)
-<PRE>
-find . -iname "*.[ot]tf" -exec sfnt2ufo {} \;
-</PRE>
-to process all ttf and otf files or simply use
-<PRE>
-sfnt2ufo &lt;fontfile&gt;
-</PRE>
-to get the corresponding ufo of one particular font file.
-
+		<div class="commentbody"><p>Now I remember that you have been using the <!-- raw HTML omitted -->github version of FontForge<!-- raw HTML omitted -->. If so, and if FontForge.app is in /Applications then save the following lines in a file, say sfnt2ufo</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Then execute the command</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>to process all ttf and otf files or simply use</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>to get the corresponding ufo of one particular font file.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -241,25 +227,17 @@ to get the corresponding ufo of one particular font file.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">More that two months afterwards! You are lucky I did not scrap those files. Here is the answer I had prepared for your post.
-
-----
-Here is a trace searching for a particular problem in the .fea files that were generated
-<PRE>
- find . -name "*.fea" -exec grep 'by[ ]*;' {} \; | sort | uniq -c
- 102        sub [\uniF661 ]' [\slash \fraction \uni2215 ]' [\uniF661 ]'  by ;
-  12        sub [\uniF661 ]' [\slash \fraction ]' [\uniF661 ]'  by ;
- 128        sub [\zero ]' [\slash \fraction ]' [\zero ]'  by ;
-</PRE>
-This found all feature files and searched in them for lines where 'by ;' is written. There is a total of 102 + 12 +128 =242 lines. Those are the 242 lines that cause the problem with the 242 ufo files. 
-
-After executing 
-
-<PRE>
-find . -name "*.fea" -exec sed -i .orig '/by[ ]*;/d' {} \;
-</PRE>
-
-to remove those lines, FontForge accepted the ufo files as input without scrapping the features.</div>
+		<div class="commentbody"><p>More that two months afterwards! You are lucky I did not scrap those files. Here is the answer I had prepared for your post.</p>
+<hr>
+<p>Here is a trace searching for a particular problem in the .fea files that were generated</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>This found all feature files and searched in them for lines where &lsquo;by ;&rsquo; is written. There is a total of 102 + 12 +128 =242 lines. Those are the 242 lines that cause the problem with the 242 ufo files.</p>
+<p>After executing</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>to remove those lines, FontForge accepted the ufo files as input without scrapping the features.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -280,23 +258,10 @@ to remove those lines, FontForge accepted the ufo files as input without scrappi
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>Please post the exact error message so I can get this fixed :)</cite>
-
-Here is the stderr file that was generated when reading in the .ufo file for Utopia Standard Regular
-<blockquote>
-Copyright (c) 2000-2012 by George Williams. See AUTHORS for contributors.
- License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
- with many parts BSD <http://fontforge.org/license.html>. Please read LICENSE.
- Executable based on sources from 12:29 EST 18-Jul-2013-ML-NoPython-D.
- Library based on sources from 12:29 EST 18-Jul-2013.
- Based on source from git with hash:f8dc0063ea93c64e70e5ab1402a840e8c9801cc8
-No substitution specified on line 583 of /Users/boyer/Desktop/Western Fonts/Utopia Std Opticals/UtopiaStd-Regular.ufo/feature.fea
-There were errors when parsing the feature file and the features have not been applied
-</blockquote>
-Line 583 is
-<pre>
-    sub [\uniF661 ]' [\slash \fraction \uni2215 ]' [\uniF661 ]'  by ;
-</pre></div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Please post the exact error message so I can get this fixed :)<!-- raw HTML omitted --></p>
+<p>Here is the stderr file that was generated when reading in the .ufo file for Utopia Standard Regular</p>
+<!-- raw HTML omitted -->
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

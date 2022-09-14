@@ -71,29 +71,22 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I was looking at how arabic type designs have been using metrics today. I was wondering what you all think is best practice for various non latin designs. In my case I am most concerned with Arabic but I don't see what this thread has to be limited to that.
-
-One of the things I have seen ( my sample size is far too small for this to be representative of an industry approach) is that Arabic type that includes latin glyphs will use x and cap height values. But those that do not don't. Or more accurately they make the value for both cap & x heights near the baseline. The idea I have about this is that rendering engines use x heights & cap height to normalize the presentation of latin type for screen and in print and so maybe taking these values out of play by dropping them to -1 prevents undesired "normalization" of the Arabic shapes which vary in height quite a lot.
-
-Bonus points for talking about working outside the em square vs keeping all marks including diacritics within it.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I was looking at how arabic type designs have been using metrics today. I was wondering what you all think is best practice for various non latin designs. In my case I am most concerned with Arabic but I don&rsquo;t see what this thread has to be limited to that.</p>
+<p>One of the things I have seen ( my sample size is far too small for this to be representative of an industry approach) is that Arabic type that includes latin glyphs will use x and cap height values. But those that do not don&rsquo;t. Or more accurately they make the value for both cap &amp; x heights near the baseline. The idea I have about this is that rendering engines use x heights &amp; cap height to normalize the presentation of latin type for screen and in print and so maybe taking these values out of play by dropping them to -1 prevents undesired &ldquo;normalization&rdquo; of the Arabic shapes which vary in height quite a lot.</p>
+<p>Bonus points for talking about working outside the em square vs keeping all marks including diacritics within it.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>The idea I have about this is that rendering engines use x heights & cap height to normalize the presentation of latin type for screen and in print and so maybe taking these values out of play by dropping them to -1 prevents undesired “normalization” of the Arabic shapes which vary in height quite a lot.</em>
-
-Not really. The first thing to note is that the set of metrics to which you refer are PS-specific, and not of significant impact in OpenType. They are useful to set in FontLab primarily for design and vertical alignment setting (BlueZone or corresponding TT hinting alignment). But it is those alignment zones, not the metrics, that affect rendering.
-
-You shouldn't make Arabic-only fonts. For technical reasons, every font should support at least one complete 8-bit codepage, which implies at least a subset of Latin characters. If you look at the Linotype Arabic fonts, for example, you'll see that they all contain a set of best-match Latin glyphs from other fonts in the Linotype library, scaled to harmonise with the Arabic.
-
-If you do have only Arabic glyphs to work with, my inclination would be to set the cap height to match the ascender height, and to set the x-height somewhere around the top of the middle-band of the Arabic, e.g. at the top of the bowl of the tah.
-
-For bonus points:
-
-Since most Arabic text uses few marks -- only shadda is used with some frequency in non-vocalised text --, I consider it quite safe for mark heights to be beyond the em. Users working with vocalised text will know to increase the leading. What the marks should not do is extend beyond the OS/2 WinAscent and WinDescent heights, or they will be clipped.
-
-Note, however, that the OS/2 Win metrics values will be used to determine default linespacing in almost all Windows apps, which means that the default linespacing of Arabic fonts tends to be very loose in order to accomodate marks that most of the time will not be present. You can get around this by using a version 4 OS/2 table and setting fsSelection bit 7 to have applications use the Os/2 Typo values for linespacing instead of the Win values. This requires editing the OS/2 table post-FontLab. [Note that a version 4 table also requires you to make decisions about fsSelection bits 8 and 9.]
-
-[This discussion probably belongs in the Build forum.]</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->The idea I have about this is that rendering engines use x heights &amp; cap height to normalize the presentation of latin type for screen and in print and so maybe taking these values out of play by dropping them to -1 prevents undesired “normalization” of the Arabic shapes which vary in height quite a lot.<!-- raw HTML omitted --></p>
+<p>Not really. The first thing to note is that the set of metrics to which you refer are PS-specific, and not of significant impact in OpenType. They are useful to set in FontLab primarily for design and vertical alignment setting (BlueZone or corresponding TT hinting alignment). But it is those alignment zones, not the metrics, that affect rendering.</p>
+<p>You shouldn&rsquo;t make Arabic-only fonts. For technical reasons, every font should support at least one complete 8-bit codepage, which implies at least a subset of Latin characters. If you look at the Linotype Arabic fonts, for example, you&rsquo;ll see that they all contain a set of best-match Latin glyphs from other fonts in the Linotype library, scaled to harmonise with the Arabic.</p>
+<p>If you do have only Arabic glyphs to work with, my inclination would be to set the cap height to match the ascender height, and to set the x-height somewhere around the top of the middle-band of the Arabic, e.g. at the top of the bowl of the tah.</p>
+<p>For bonus points:</p>
+<p>Since most Arabic text uses few marks &ndash; only shadda is used with some frequency in non-vocalised text &ndash;, I consider it quite safe for mark heights to be beyond the em. Users working with vocalised text will know to increase the leading. What the marks should not do is extend beyond the OS/2 WinAscent and WinDescent heights, or they will be clipped.</p>
+<p>Note, however, that the OS/2 Win metrics values will be used to determine default linespacing in almost all Windows apps, which means that the default linespacing of Arabic fonts tends to be very loose in order to accomodate marks that most of the time will not be present. You can get around this by using a version 4 OS/2 table and setting fsSelection bit 7 to have applications use the Os/2 Typo values for linespacing instead of the Win values. This requires editing the OS/2 table post-FontLab. [Note that a version 4 table also requires you to make decisions about fsSelection bits 8 and 9.]</p>
+<p>[This discussion probably belongs in the Build forum.]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

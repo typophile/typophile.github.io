@@ -72,17 +72,17 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody">Hello all,
-I like to build a random feature in a typeface I'm working on.
+I like to build a random feature in a typeface I&rsquo;m working on.
 Every character has four alternates and I like the fontsoftware to choose between them.
 Can I do this in OpenType? And if so, how?
 Thanks.
-Pieter </div>
+Pieter</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Although rand is in the OT spec, no application currently support it (or are likely to any time soon).
-
-You can emulate it in some way using calt though. Check our Thomas Phinney's sample code from the Adobe FDK forums: http://www.adobeforums.com/cgi-bin/webx?50@755.561rfSM0Gas.1@.3bbc5ea4</div>
+		<div class="commentbody"><p>Although rand is in the OT spec, no application currently support it (or are likely to any time soon).</p>
+<p>You can emulate it in some way using calt though. Check our Thomas Phinney&rsquo;s sample code from the Adobe FDK forums: <a href="http://www.adobeforums.com/cgi-bin/webx?50@755.561rfSM0Gas.1@.3bbc5ea4">http://www.adobeforums.com/cgi-bin/webx?50@755.561rfSM0Gas.1@.3bbc5ea4</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -103,12 +103,10 @@ You can emulate it in some way using calt though. Check our Thomas Phinney's sam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks you, but it's not working. I made a test font with code like this:
-
-
-feature calt { # Connection or other contextual Forms 
-# Latin 
-lookup rotate { 
+		<div class="commentbody"><p>Thanks you, but it&rsquo;s not working. I made a test font with code like this:</p>
+<p>feature calt { # Connection or other contextual Forms</p>
+<h1 id="latin">Latin</h1>
+<p>lookup rotate { 
 sub @default @default' by @calt1;
 sub @calt1 @default' by @calt2;
 sub @calt2 @default' by @calt3;
@@ -127,16 +125,15 @@ lookup rotate;
 lookup rotate; 
 lookup rotate; 
 lookup rotate; 
-} calt;
-
-@default = [a b c d e f g h i j];
+} calt;</p>
+<p>@default = [a b c d e f g h i j];
 @calt1 = [b c d e f g h i j a];
 @calt2 = [c d e f g h i j a b];
 @calt3 = [d e f g h i j a b c];
-@calt4 = [e f g h i j a b c d];
-
-I only get an a followed by a b. Is there something wrong in the code?
-Thanks!</div>
+@calt4 = [e f g h i j a b c d];</p>
+<p>I only get an a followed by a b. Is there something wrong in the code?
+Thanks!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -157,20 +154,16 @@ Thanks!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If I'm understanding your problem correctly, I think it's because each of your groups is effectively equivalent to the next. A better example would be
-
-*****
-
-@default = [a b c d];
+		<div class="commentbody"><p>If I&rsquo;m understanding your problem correctly, I think it&rsquo;s because each of your groups is effectively equivalent to the next. A better example would be</p>
+<hr>
+<p>@default = [a b c d];
 @calt1 = [e g h i];
 @calt2 = [j k l m];
-@calt3 = [n o p q];
-
-*****
-
-where each of the groups contain unique characters.
-
-so, aaaa becomes aejn.</div>
+@calt3 = [n o p q];</p>
+<hr>
+<p>where each of the groups contain unique characters.</p>
+<p>so, aaaa becomes aejn.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -191,8 +184,8 @@ so, aaaa becomes aejn.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, that's it. It's working. Thanks!
-Is there a reason why 'lookup rotate' is repeated 13 times? It also works when it's only one time in the code.</div>
+		<div class="commentbody">Yes, that&rsquo;s it. It&rsquo;s working. Thanks!
+Is there a reason why &lsquo;lookup rotate&rsquo; is repeated 13 times? It also works when it&rsquo;s only one time in the code.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -213,7 +206,7 @@ Is there a reason why 'lookup rotate' is repeated 13 times? It also works when i
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">To be honest, I'm stratching my head about that too. Seeing this thread reminded me to investigate that aspect of it further - if I find out, I'll post back here :)</div>
+		<div class="commentbody">To be honest, I&rsquo;m stratching my head about that too. Seeing this thread reminded me to investigate that aspect of it further - if I find out, I&rsquo;ll post back here :)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -255,15 +248,13 @@ Is there a reason why 'lookup rotate' is repeated 13 times? It also works when i
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I've never done any [[OpenType]] programming, but I would guess that the 13 lookups work like modulo.
-
-So instead of the eight alternatives coming in this order:
-1 2 3 4 5 6 7 8 1 2 3 4 5 6 7 8
-
-You get a pseudo-random order:
-1 6 3 8 5 2 7 4 1 6 3 8 5 2 7 4
-
-But there's probably more to it since I get the same series repeating...</div>
+		<div class="commentbody"><p>I&rsquo;ve never done any [[OpenType]] programming, but I would guess that the 13 lookups work like modulo.</p>
+<p>So instead of the eight alternatives coming in this order:
+1 2 3 4 5 6 7 8 1 2 3 4 5 6 7 8</p>
+<p>You get a pseudo-random order:
+1 6 3 8 5 2 7 4 1 6 3 8 5 2 7 4</p>
+<p>But there&rsquo;s probably more to it since I get the same series repeating&hellip;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -284,7 +275,7 @@ But there's probably more to it since I get the same series repeating...</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You can make seemingly-random randomization, but not actually-random randomization. The OpenType version of LetTerror's <a href="http://www.eccentrifuge.com/clients/KosmikOT.html">Kosmik</a> by John Butler does this, as does Christian Schwartz's <a href="http://www.orangeitalic.com/local.shtml">Local Gothic</a>, thanks to Tal Leming's brilliant code.</div>
+		<div class="commentbody">You can make seemingly-random randomization, but not actually-random randomization. The OpenType version of LetTerror&rsquo;s <!-- raw HTML omitted -->Kosmik<!-- raw HTML omitted --> by John Butler does this, as does Christian Schwartz&rsquo;s <!-- raw HTML omitted -->Local Gothic<!-- raw HTML omitted -->, thanks to Tal Leming&rsquo;s brilliant code.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -305,9 +296,9 @@ But there's probably more to it since I get the same series repeating...</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Does the OT Kozmik still utilize just the three variants of each glyph, as in the original?
-
-How many variants in Local Gothic?</div>
+		<div class="commentbody"><p>Does the OT Kozmik still utilize just the three variants of each glyph, as in the original?</p>
+<p>How many variants in Local Gothic?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -328,13 +319,11 @@ How many variants in Local Gothic?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Zapfino Extra LT Pro uses approx. 600 contextual substitutions to simulate pseudorandom typesetting. Each letter has between 4 and 7 variants. Some of the feature definition code was generated by Python code that I wrote. 
-
-The slides that I showed at TypoTechnica in London show some excerpts from the Python code and the OT code for Zapfino Extra LT Pro that I developed: 
-http://www.twardoch.com/adam/project.php?pid=0049
-
-Regards,
-Adam 
+		<div class="commentbody"><p>Zapfino Extra LT Pro uses approx. 600 contextual substitutions to simulate pseudorandom typesetting. Each letter has between 4 and 7 variants. Some of the feature definition code was generated by Python code that I wrote.</p>
+<p>The slides that I showed at TypoTechnica in London show some excerpts from the Python code and the OT code for Zapfino Extra LT Pro that I developed: 
+<a href="http://www.twardoch.com/adam/project.php?pid=0049">http://www.twardoch.com/adam/project.php?pid=0049</a></p>
+<p>Regards,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -356,30 +345,22 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">yay! i found a cached version of [[Christian Robertson]]'s thread for [[Dear Sarah]] on Google. Here it is with Christian's OT code hacks intact:
-
-Excerpt of Christian's comments:
-
-<cite>It's not true randomness. The OT code looks something like this:</cite>
-
-<code>@random_set_1 = [a d g j l m n o c];
+		<div class="commentbody"><p>yay! i found a cached version of [[Christian Robertson]]&rsquo;s thread for [[Dear Sarah]] on Google. Here it is with Christian&rsquo;s OT code hacks intact:</p>
+<p>Excerpt of Christian&rsquo;s comments:</p>
+<p><!-- raw HTML omitted -->It&rsquo;s not true randomness. The OT code looks something like this:<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->@random_set_1 = [a d g j l m n o c];
 @random_set_2 = [k e i n p q t v z];
 @letter = [a b c d e f g h i j k l m n o p q r s t u v w x y z];
-@letter_alt = [a.alt b.alt c.alt d.alt e.alt f.alt g.alt h.alt i.alt j.alt k.alt l.alt m.alt n.alt o.alt p.alt q.alt r.alt s.alt t.alt u.alt v.alt w.alt x.alt y.alt z.alt];
-
-feature calt {
+@letter_alt = [a.alt b.alt c.alt d.alt e.alt f.alt g.alt h.alt i.alt j.alt k.alt l.alt m.alt n.alt o.alt p.alt q.alt r.alt s.alt t.alt u.alt v.alt w.alt x.alt y.alt z.alt];</p>
+<p>feature calt {
 sub @random_set_1 @letter @letter' by @letter_alt;
 sub @random_set_2 @letter @letter' by @letter_alt2;
-} calt;</code>
-
-<cite>If you put in enough of these ugly hacks it starts to appear random. You would also want to make sure that no two letters were ever the same right next to each other. There are only so many of those that happen regularly in English, so I have added specific substitution rules for each of those cases (ee ff gg ll mm nn oo, etc.) Also notice that I have placed an @letter between the @random character. This makes the pattern even more difficult to spot. You might notice the funky h after every t, but you wouldn't notice the funky h after t-anycharacter, (unless you were freaking crazy).</cite>
-
-<cite>In the case of this font, the fact that there are a different set of characters to connect to the o b v w also helps the font appear more random. The randomness feature above needs to be adjusted to get the connectors right for this one, which makes it more complicated. To be honest, I haven't completely figured it out.</cite>
-
-
-<a href="http://72.14.203.104/search?q=cache:xsEFmPhUpBIJ:www.typophile.com/forums/messages/29/34366.html%3F1096994612+dear+sarah+site:typophile.com&hl=en&gl=us&ct=clnk&cd=2&client=firefox-a">Full Thread Here</a>
-
-also, for a bit of pseudo randomness, i think you could combine a couple contextual lookups that do different things. For example, you could have 2 sets of letters and have every third one switch to an alternate. Then have another lookup that changes double letter combinations so that the second letter in the combo gets switched out by its alternate. the interplay of these two functions will give a predictable, but somewhat random appearing effect. this is just one example, there are probably endless ways of combining effects such as this to get something that approaches randomness.</div>
+} calt;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->If you put in enough of these ugly hacks it starts to appear random. You would also want to make sure that no two letters were ever the same right next to each other. There are only so many of those that happen regularly in English, so I have added specific substitution rules for each of those cases (ee ff gg ll mm nn oo, etc.) Also notice that I have placed an @letter between the @random character. This makes the pattern even more difficult to spot. You might notice the funky h after every t, but you wouldn&rsquo;t notice the funky h after t-anycharacter, (unless you were freaking crazy).<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->In the case of this font, the fact that there are a different set of characters to connect to the o b v w also helps the font appear more random. The randomness feature above needs to be adjusted to get the connectors right for this one, which makes it more complicated. To be honest, I haven&rsquo;t completely figured it out.<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->Full Thread Here<!-- raw HTML omitted --></p>
+<p>also, for a bit of pseudo randomness, i think you could combine a couple contextual lookups that do different things. For example, you could have 2 sets of letters and have every third one switch to an alternate. Then have another lookup that changes double letter combinations so that the second letter in the combo gets switched out by its alternate. the interplay of these two functions will give a predictable, but somewhat random appearing effect. this is just one example, there are probably endless ways of combining effects such as this to get something that approaches randomness.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -400,13 +381,11 @@ also, for a bit of pseudo randomness, i think you could combine a couple context
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for the information Paul, but I don't get this line:
-
-sub @random_set_2 @letter @letter' by @letter_alt2;
-
-You mean I have to make and @letter_alt2 class?
-
-Pieter</div>
+		<div class="commentbody"><p>Thanks for the information Paul, but I don&rsquo;t get this line:</p>
+<p>sub @random_set_2 @letter @letter' by @letter_alt2;</p>
+<p>You mean I have to make and @letter_alt2 class?</p>
+<p>Pieter</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -427,7 +406,7 @@ Pieter</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">hmmm, i'm not sure exactly what christian meant, but i think just using the @letter_alt class again would work...</div>
+		<div class="commentbody">hmmm, i&rsquo;m not sure exactly what christian meant, but i think just using the @letter_alt class again would work&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -448,7 +427,7 @@ Pieter</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">At Cialis online that time, the blood vessels that <a href=http://campus.murraystate.edu/academic/faculty/fred.miller/hkmkt/thread.cfm?ThreadID=88&messages=1&Reply=FALSE>buy cialis </a> <a href=http://campus.murraystate.edu/academic/faculty/fred.miller/hkmkt/thread.cfm?ThreadID=89&messages=1&Reply=FALSE>levitra side effects </a> <a href=http://campus.murraystate.edu/academic/faculty/fred.miller/hkmkt/thread.cfm?ThreadID=90&messages=1&Reply=FALSE>natural viagra </a> <a href=http://campus.murraystate.edu/academic/faculty/fred.miller/hkmkt/thread.cfm?ThreadID=91&messages=1&Reply=FALSE>buy prozac </a> <a href=http://campus.murraystate.edu/academic/faculty/fred.miller/hkmkt/thread.cfm?ThreadID=92&messages=1&Reply=FALSE>buy soma lowest prices </a> <a href=http://campus.murraystate.edu/academic/faculty/fred.miller/hkmkt/thread.cfm?ThreadID=93&messages=1&Reply=FALSE>discount viagra </a></div>
+		<div class="commentbody">At Cialis online that time, the blood vessels that &lt;a href=http://campus.murraystate.edu/academic/faculty/fred.miller/hkmkt/thread.cfm?ThreadID=88&amp;messages=1&amp;Reply=FALSE&gt;buy cialis <!-- raw HTML omitted --> &lt;a href=http://campus.murraystate.edu/academic/faculty/fred.miller/hkmkt/thread.cfm?ThreadID=89&amp;messages=1&amp;Reply=FALSE&gt;levitra side effects <!-- raw HTML omitted --> &lt;a href=http://campus.murraystate.edu/academic/faculty/fred.miller/hkmkt/thread.cfm?ThreadID=90&amp;messages=1&amp;Reply=FALSE&gt;natural viagra <!-- raw HTML omitted --> &lt;a href=http://campus.murraystate.edu/academic/faculty/fred.miller/hkmkt/thread.cfm?ThreadID=91&amp;messages=1&amp;Reply=FALSE&gt;buy prozac <!-- raw HTML omitted --> &lt;a href=http://campus.murraystate.edu/academic/faculty/fred.miller/hkmkt/thread.cfm?ThreadID=92&amp;messages=1&amp;Reply=FALSE&gt;buy soma lowest prices <!-- raw HTML omitted --> &lt;a href=http://campus.murraystate.edu/academic/faculty/fred.miller/hkmkt/thread.cfm?ThreadID=93&amp;messages=1&amp;Reply=FALSE&gt;discount viagra <!-- raw HTML omitted --></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -469,15 +448,12 @@ Pieter</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">How should I change my OTF code to get the line “I need“ (image link http://clip2net.com/s/1qAvm)?
-
-My code:
-
-@letter = [b c d e f g h i j k l m n o p q r s t u v w x y z space];
+		<div class="commentbody"><p>How should I change my OTF code to get the line “I need“ (image link <a href="http://clip2net.com/s/1qAvm)">http://clip2net.com/s/1qAvm)</a>?</p>
+<p>My code:</p>
+<p>@letter = [b c d e f g h i j k l m n o p q r s t u v w x y z space];
 @letter1 = [a c d e f g h i j k l m n o p q r s t u v w x y z space];
-@letter2 = [a b d e f g h i j k l m n o p q r s t u v w x y z space];
-
-feature calt {
+@letter2 = [a b d e f g h i j k l m n o p q r s t u v w x y z space];</p>
+<p>feature calt {
 lookup rotate {
 sub a a' by a.calt1;
 sub a.calt1 a' by a.calt2;
@@ -499,9 +475,8 @@ sub a.calt1 @letter @letter @letter @letter @letter a' by a.calt2;
 sub a.calt2 @letter @letter @letter @letter @letter a' by a;
 sub a @letter @letter @letter @letter @letter @letter a' by a.calt1;
 sub a.calt1 @letter @letter @letter @letter @letter @letter a' by a.calt2;
-sub a.calt2 @letter @letter @letter @letter @letter @letter a' by a;
-
-sub b b' by b.calt1;
+sub a.calt2 @letter @letter @letter @letter @letter @letter a' by a;</p>
+<p>sub b b' by b.calt1;
 sub b.calt1 b' by b.calt2;
 sub b.calt2 b' by b;
 sub b @letter1 b' by b.calt1;
@@ -521,9 +496,8 @@ sub b.calt1 @letter1 @letter1 @letter1 @letter1 @letter1 b' by b.calt2;
 sub b.calt2 @letter1 @letter1 @letter1 @letter1 @letter1 b' by b;
 sub b @letter1 @letter1 @letter1 @letter1 @letter1 @letter1 b' by b.calt1;
 sub b.calt1 @letter1 @letter1 @letter1 @letter1 @letter1 @letter1 b' by b.calt2;
-sub b.calt2 @letter1 @letter1 @letter1 @letter1 @letter1 @letter1 b' by b;
-
-sub c c' by c.calt1;
+sub b.calt2 @letter1 @letter1 @letter1 @letter1 @letter1 @letter1 b' by b;</p>
+<p>sub c c' by c.calt1;
 sub c.calt1 c' by c.calt2;
 sub c.calt2 c' by c;
 sub c @letter2 c' by c.calt1;
@@ -545,7 +519,8 @@ sub c @letter2 @letter2 @letter2 @letter2 @letter2 @letter2 c' by c.calt1;
 sub c.calt1 @letter2 @letter2 @letter2 @letter2 @letter2 @letter2 c' by c.calt2;
 sub c.calt2 @letter2 @letter2 @letter2 @letter2 @letter2 @letter2 c' by c;
 } rotate;
-} calt;</div>
+} calt;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -566,18 +541,18 @@ sub c.calt2 @letter2 @letter2 @letter2 @letter2 @letter2 @letter2 c' by c;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@default = [b c d e f g h i j k l m n o p q r s t u v w x y z space];
+		<div class="commentbody"><p>@default = [b c d e f g h i j k l m n o p q r s t u v w x y z space];
 @alt1 = [a c d e f g h i j k l m n o p q r s t u v w x y z space];
-@alt2 = [a b d e f g h i j k l m n o p q r s t u v w x y z space];
-
-feature calt {
+@alt2 = [a b d e f g h i j k l m n o p q r s t u v w x y z space];</p>
+<p>feature calt {
 lookup rotate {
 sub @default @default' by @alt1;
 sub @alt1 @default' by @alt2;
 sub @alt2 @alt2' by @default;
 } rotate;
 lookup rotate;
-} calt;</div>
+} calt;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -598,11 +573,11 @@ lookup rotate;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank You.  
-
-I understand that it's the general code. 
-But I don't understand how I should change it. 
-Could you explain me how to apply it to my case?</div>
+		<div class="commentbody"><p>Thank You.</p>
+<p>I understand that it&rsquo;s the general code. 
+But I don&rsquo;t understand how I should change it. 
+Could you explain me how to apply it to my case?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -623,26 +598,22 @@ Could you explain me how to apply it to my case?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Every character have two alternates.
-This code doesn't show b.calt1 and c.calt2.
+		<div class="commentbody"><p>Every character have two alternates.
+This code doesn&rsquo;t show b.calt1 and c.calt2.
 This code does not include the work of all the other letters.
-How can I do it?
-
-
-Your code:
-
-@default = [b c d e f g h i j k l m n o p q r s t u v w x y z space];
-@alt1 = [a.calt1 c.calt1 ....... space];
-@alt2 = [a.calt2 b.calt2 ....... space];
-
-feature calt {
+How can I do it?</p>
+<p>Your code:</p>
+<p>@default = [b c d e f g h i j k l m n o p q r s t u v w x y z space];
+@alt1 = [a.calt1 c.calt1 &hellip;&hellip;. space];
+@alt2 = [a.calt2 b.calt2 &hellip;&hellip;. space];</p>
+<p>feature calt {
 lookup rotate {
 sub @default @default' by @alt1;
 sub @alt1 @default' by @alt2;
 sub @alt2 @alt2' by @default;
 } rotate;
 lookup rotate;
-} calt;
+} calt;</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -664,34 +635,26 @@ lookup rotate;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I correct my code. All works.
-Do not work correctly only a and j characters.
-
-why?
-
-
-My new code:
-
-feature calt {
-lookup rotate {
-
-sub @default @default' by @calt1;
+		<div class="commentbody"><p>I correct my code. All works.
+Do not work correctly only a and j characters.</p>
+<p>why?</p>
+<p>My new code:</p>
+<p>feature calt {
+lookup rotate {</p>
+<p>sub @default @default' by @calt1;
 sub @calt1 @default' by @calt2;
-sub @calt2 @default' by @default;
-
-sub @default_jpqx @default_jpqx' by @calt1_jpqx;
-sub @calt1_jpqx @default_jpqx' by @default_jpqx;
-
-} rotate;
+sub @calt2 @default' by @default;</p>
+<p>sub @default_jpqx @default_jpqx' by @calt1_jpqx;
+sub @calt1_jpqx @default_jpqx' by @default_jpqx;</p>
+<p>} rotate;
 lookup rotate;
-} calt;
-
-@default = [a b c d e f g h i k l m n o r s t u v w y z space];
+} calt;</p>
+<p>@default = [a b c d e f g h i k l m n o r s t u v w y z space];
 @calt1 = [a.calt1 b.calt1 c.calt1 d.calt1 e.calt1 f.calt1 g.calt1 h.calt1 i.calt1 k.calt1 l.calt1 m.calt1 n.calt1 o.calt1 r.calt1 s.calt1 t.calt1 u.calt1 v.calt1 w.calt1 y.calt1 z.calt1 space];
-@calt2 = [a.calt2 b.calt2 c.calt2 d.calt2 e.calt2 f.calt2 g.calt2 h.calt2 i.calt2 k.calt2 l.calt2 m.calt2 n.calt2 o.calt2 r.calt2 s.calt2 t.calt2 u.calt2 v.calt2 w.calt2 y.calt2 z.calt2 space];
-
-@default_jpqx = [j p q x space];
-@calt1_jpqx = [j.calt1 p.calt1 q.calt1 x.calt1 space];</div>
+@calt2 = [a.calt2 b.calt2 c.calt2 d.calt2 e.calt2 f.calt2 g.calt2 h.calt2 i.calt2 k.calt2 l.calt2 m.calt2 n.calt2 o.calt2 r.calt2 s.calt2 t.calt2 u.calt2 v.calt2 w.calt2 y.calt2 z.calt2 space];</p>
+<p>@default_jpqx = [j p q x space];
+@calt1_jpqx = [j.calt1 p.calt1 q.calt1 x.calt1 space];</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -712,7 +675,7 @@ lookup rotate;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don't fully understand this, but a and j are the first in each group. If there is no better answer, you can probably go around the problem by starting each group with another character that has no alternates. I assume each group ends with space for a similar reason.</div>
+		<div class="commentbody">I don&rsquo;t fully understand this, but a and j are the first in each group. If there is no better answer, you can probably go around the problem by starting each group with another character that has no alternates. I assume each group ends with space for a similar reason.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

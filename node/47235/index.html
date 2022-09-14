@@ -71,27 +71,21 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Could anyone tell me if this is a correct way to handle the turkish i problem.
-
-I put the locl feature on top so it overrides everything.
-
-I font know the language really, but tried to make some sense out of it.
-
-The glyph "i.dot" is a copy of i.
-
-Thanks in advance!
-
-[img:sites/default/files/old-images/turskishi_5110.png]</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Could anyone tell me if this is a correct way to handle the turkish i problem.</p>
+<p>I put the locl feature on top so it overrides everything.</p>
+<p>I font know the language really, but tried to make some sense out of it.</p>
+<p>The glyph &ldquo;i.dot&rdquo; is a copy of i.</p>
+<p>Thanks in advance!</p>
+<p>[img:sites/default/files/old-images/turskishi_5110.png]</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The underlying reasoning is that 'i' "ee" and 'ı' "ih" are two different characters. Capitalizing and small-capitalizing in a Western locale loses the dot, which makes it a different character in Turkish.
-
-You don't really need an "i.dot" glyph (as dotted equivalent of "dotlessi"), you can use the regular latin 'i' for that. So the translation you specify is not necessary.
-
-The only caveat is, for Turkish you should translate "i" to "idotaccent.sc" for small caps, and "i" to "Idotaccent" for capitals. The dotless 'i' can be converted to a 'regular' small cap I and capital I, for any locale, so it doesn't need a localized handling.
-
-You <em>will</em> get bonus points if you weed out the ligatures containing an "i" for Turkish, such as "fi" and "ffi" :-) (As a side note, your translation of 'i' to 'i.dot' may rule out that lookup; but I still think it makes life more complicated, instead of less.)</div>
+		<div class="commentbody"><p>The underlying reasoning is that &lsquo;i&rsquo; &ldquo;ee&rdquo; and &lsquo;ı&rsquo; &ldquo;ih&rdquo; are two different characters. Capitalizing and small-capitalizing in a Western locale loses the dot, which makes it a different character in Turkish.</p>
+<p>You don&rsquo;t really need an &ldquo;i.dot&rdquo; glyph (as dotted equivalent of &ldquo;dotlessi&rdquo;), you can use the regular latin &lsquo;i&rsquo; for that. So the translation you specify is not necessary.</p>
+<p>The only caveat is, for Turkish you should translate &ldquo;i&rdquo; to &ldquo;idotaccent.sc&rdquo; for small caps, and &ldquo;i&rdquo; to &ldquo;Idotaccent&rdquo; for capitals. The dotless &lsquo;i&rsquo; can be converted to a &lsquo;regular&rsquo; small cap I and capital I, for any locale, so it doesn&rsquo;t need a localized handling.</p>
+<p>You <!-- raw HTML omitted -->will<!-- raw HTML omitted --> get bonus points if you weed out the ligatures containing an &ldquo;i&rdquo; for Turkish, such as &ldquo;fi&rdquo; and &ldquo;ffi&rdquo; :-) (As a side note, your translation of &lsquo;i&rsquo; to &lsquo;i.dot&rsquo; may rule out that lookup; but I still think it makes life more complicated, instead of less.)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -112,13 +106,15 @@ You <em>will</em> get bonus points if you weed out the ligatures containing an "
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> <em>You will get bonus points if you weed out the ligatures containing an “i” for Turkish, such as “fi” and “ffi”</em>
-
-That's exactly what will happen.
-
-> <em>(As a side note, your translation of ’i’ to ’i.dot’ may rule out that lookup; but I still think it makes life more complicated, instead of less.)</em>
-
-I disagree. Taking care of the Turkish i upstream, in 'locl', makes the code for other features (e.g. 'liga', 'smcp') much much simpler.</div>
+		<div class="commentbody"><blockquote>
+<p><!-- raw HTML omitted -->You will get bonus points if you weed out the ligatures containing an “i” for Turkish, such as “fi” and “ffi”<!-- raw HTML omitted --></p>
+</blockquote>
+<p>That&rsquo;s exactly what will happen.</p>
+<blockquote>
+<p><!-- raw HTML omitted -->(As a side note, your translation of ’i’ to ’i.dot’ may rule out that lookup; but I still think it makes life more complicated, instead of less.)<!-- raw HTML omitted --></p>
+</blockquote>
+<p>I disagree. Taking care of the Turkish i upstream, in &lsquo;locl&rsquo;, makes the code for other features (e.g. &lsquo;liga&rsquo;, &lsquo;smcp&rsquo;) much much simpler.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -139,21 +135,26 @@ I disagree. Taking care of the Turkish i upstream, in 'locl', makes the code for
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Goran, your approach is good, but there are some issues,
-
-1. <code>languagesystem dflt dflt;</code> is incorrect.
-It should be <code>languagesystem&nbsp;DFLT&nbsp;dflt;</code>
-
-2. If you want to be thorough, you can include other languages that need the same treatment such as Azeri (AZE) and Crimean Tatar (CRT).
-
-3. You can actually remove the substitution 
-<code>sub&nbsp;i.small&nbsp;by&nbsp;idotaccent.small;</code> 
-from the 'locl' feature. The reasoning for this is, the glyph 'i.small' won't be in the glyph stream until 'smcp' is applied. Since 'locl' comes before 'smcp' (and assuming that the text engine will do the right thing which is apply the lookups in the order they appear in the font), at the time 'locl' is applied the glyph 'i.small' won't be available as input. 
-In any case, don't forget to include the following substitution in 'smcp',
-<code>sub i.dot by idotaccent.small;</code>
-
-4. <code>idotaccent.small</code> is not a good name because 'idotaccent' is not a standard name. ('Idotaccent' is, but that's different). You need to call it something like 'i.dotsmall'.
-
+		<div class="commentbody"><p>Goran, your approach is good, but there are some issues,</p>
+<ol>
+<li>
+<p><!-- raw HTML omitted -->languagesystem dflt dflt;<!-- raw HTML omitted --> is incorrect.
+It should be <!-- raw HTML omitted -->languagesystem DFLT dflt;<!-- raw HTML omitted --></p>
+</li>
+<li>
+<p>If you want to be thorough, you can include other languages that need the same treatment such as Azeri (AZE) and Crimean Tatar (CRT).</p>
+</li>
+<li>
+<p>You can actually remove the substitution 
+<!-- raw HTML omitted -->sub i.small by idotaccent.small;<!-- raw HTML omitted --> 
+from the &lsquo;locl&rsquo; feature. The reasoning for this is, the glyph &lsquo;i.small&rsquo; won&rsquo;t be in the glyph stream until &lsquo;smcp&rsquo; is applied. Since &lsquo;locl&rsquo; comes before &lsquo;smcp&rsquo; (and assuming that the text engine will do the right thing which is apply the lookups in the order they appear in the font), at the time &lsquo;locl&rsquo; is applied the glyph &lsquo;i.small&rsquo; won&rsquo;t be available as input. 
+In any case, don&rsquo;t forget to include the following substitution in &lsquo;smcp&rsquo;,
+<!-- raw HTML omitted -->sub i.dot by idotaccent.small;<!-- raw HTML omitted --></p>
+</li>
+<li>
+<p><!-- raw HTML omitted -->idotaccent.small<!-- raw HTML omitted --> is not a good name because &lsquo;idotaccent&rsquo; is not a standard name. (&lsquo;Idotaccent&rsquo; is, but that&rsquo;s different). You need to call it something like &lsquo;i.dotsmall&rsquo;.</p>
+</li>
+</ol>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -196,9 +197,8 @@ In any case, don't forget to include the following substitution in 'smcp',
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">When I write DFLT capitalized I get this warning, are you sure on the capitalization, Miguel?
-
-[WARNING] Use of DFLT tag has been deprecated. It will work, but please use 'dflt' instead. [/Users/goran/Library/Application Support/FontLab/Studio 5/Features/fontlab.fea 57]
+		<div class="commentbody"><p>When I write DFLT capitalized I get this warning, are you sure on the capitalization, Miguel?</p>
+<p>[WARNING] Use of DFLT tag has been deprecated. It will work, but please use &lsquo;dflt&rsquo; instead. [/Users/goran/Library/Application Support/FontLab/Studio 5/Features/fontlab.fea 57]</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -220,12 +220,10 @@ In any case, don't forget to include the following substitution in 'smcp',
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">
-Goran,
-
-See that thread — Script Tag + i dot:
-
-http://typophile.com/node/29469</div>
+		<div class="commentbody"><p>Goran,</p>
+<p>See that thread — Script Tag + i dot:</p>
+<p><a href="http://typophile.com/node/29469">http://typophile.com/node/29469</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -246,7 +244,7 @@ http://typophile.com/node/29469</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">There's always a "but" with FontLab...</div>
+		<div class="commentbody">There&rsquo;s always a &ldquo;but&rdquo; with FontLab&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -267,12 +265,10 @@ http://typophile.com/node/29469</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">And, what will exactly happen if I take away the DFLT tag and only put this in:
-
-languagesystem latn dflt;
+		<div class="commentbody"><p>And, what will exactly happen if I take away the DFLT tag and only put this in:</p>
+<p>languagesystem latn dflt;
 languagesystem latn TRK;
-Will this produce a completely useless font regarding language support?
-
+Will this produce a completely useless font regarding language support?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -294,7 +290,7 @@ Will this produce a completely useless font regarding language support?
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">No, it won't be useless.</div>
+		<div class="commentbody">No, it won&rsquo;t be useless.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

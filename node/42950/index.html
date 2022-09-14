@@ -71,24 +71,19 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi everyone,
-
-I've just started using FontLab Studio and I'm working on a new typeface, but I am having a few problems. I have 3 variations of each character. These variations would be used according to the preceding character. For example, variation 1 of the character a would always be used after the character b, but variation 2 would be the one always used after the character c.
-
-etc, for the entire alphabet.
-
-I've figured out how to create ligatures, but the problem is .. if I were to maanually create ligatures, I would have to make every combination of characters (which is like millions). 
-
-I can get ligatures of ab, bc, cd etc .. But I would like to find a way to program the font so that I can get "abc" ... without having to make an actual glyph consisting of the letters a, b, and c. 
-
-I hope that makes sense, and that it is possible to achieve this in FontLab Studio.
-
-Thanks,
-Veronica</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi everyone,</p>
+<p>I&rsquo;ve just started using FontLab Studio and I&rsquo;m working on a new typeface, but I am having a few problems. I have 3 variations of each character. These variations would be used according to the preceding character. For example, variation 1 of the character a would always be used after the character b, but variation 2 would be the one always used after the character c.</p>
+<p>etc, for the entire alphabet.</p>
+<p>I&rsquo;ve figured out how to create ligatures, but the problem is .. if I were to maanually create ligatures, I would have to make every combination of characters (which is like millions).</p>
+<p>I can get ligatures of ab, bc, cd etc .. But I would like to find a way to program the font so that I can get &ldquo;abc&rdquo; &hellip; without having to make an actual glyph consisting of the letters a, b, and c.</p>
+<p>I hope that makes sense, and that it is possible to achieve this in FontLab Studio.</p>
+<p>Thanks,
+Veronica</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I've actually been thinking of doing the same thing with serifs on my font, except with two types (a: rimshot, B: top and bottom start), with the added problem that the the influence a letter has on the one following it depends on its type, so that there would be three or four letter combos.
+		<div class="commentbody">I&rsquo;ve actually been thinking of doing the same thing with serifs on my font, except with two types (a: rimshot, B: top and bottom start), with the added problem that the the influence a letter has on the one following it depends on its type, so that there would be three or four letter combos.
 I have no idea how to even make ligatures.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -110,33 +105,27 @@ I have no idea how to even make ligatures.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Very briefly, you need to add features. For ligatures, add a 'liga' feature:
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;feature liga {
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub f l by f_l;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub f i by f_i;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} liga;
-
-To replace glyphs by alternate versions in specific contexts, you need to add a 'calt' feature:
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;feature calt {
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub b a' by a.calt.1;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub c a' by a.calt.2;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} calt;
-
-The <em>a</em> marked with a single quote (Typophile may have turned this into an apostrophe ...) will be replaced by <em>a.calt.1</em>, but only if it is preceded by the glyphs(s) not marked that way -- non-marked letters are considered as 'context' which must be present so that marked glyphs will be replaced.
-Rather than defining context glyphs individually, you can also create a class and refer to this:
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@CALT_BEFORE_A1 = [b d f]
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@CALT_BEFORE_A1 = [c e g]
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;feature calt {
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub @CALT_BEFORE_A1 a' by a.calt.1;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub @CALT_BEFORE_A2 a' by a.calt.2;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} calt;
-
-Or define classes in FLS's Classes Panel, but omit the <em>@</em> there.
-
-Also try to google for phrases like "feature site:typophile.com", "feature syntax site:typophile.com", "calt site:typophile.com", etc. Feature issues have been dealt with extensively on Typophile.</div>
+		<div class="commentbody"><p>Very briefly, you need to add features. For ligatures, add a &lsquo;liga&rsquo; feature:</p>
+<p>     feature liga {
+         sub f l by f_l;
+         sub f i by f_i;
+     } liga;</p>
+<p>To replace glyphs by alternate versions in specific contexts, you need to add a &lsquo;calt&rsquo; feature:</p>
+<p>     feature calt {
+         sub b a' by a.calt.1;
+         sub c a' by a.calt.2;
+     } calt;</p>
+<p>The <!-- raw HTML omitted -->a<!-- raw HTML omitted --> marked with a single quote (Typophile may have turned this into an apostrophe &hellip;) will be replaced by <!-- raw HTML omitted -->a.calt.1<!-- raw HTML omitted -->, but only if it is preceded by the glyphs(s) not marked that way &ndash; non-marked letters are considered as &lsquo;context&rsquo; which must be present so that marked glyphs will be replaced.
+Rather than defining context glyphs individually, you can also create a class and refer to this:</p>
+<p>     @CALT_BEFORE_A1 = [b d f]
+     @CALT_BEFORE_A1 = [c e g]
+     feature calt {
+         sub @CALT_BEFORE_A1 a' by a.calt.1;
+         sub @CALT_BEFORE_A2 a' by a.calt.2;
+     } calt;</p>
+<p>Or define classes in FLS&rsquo;s Classes Panel, but omit the <!-- raw HTML omitted -->@<!-- raw HTML omitted --> there.</p>
+<p>Also try to google for phrases like &ldquo;feature site:typophile.com&rdquo;, &ldquo;feature syntax site:typophile.com&rdquo;, &ldquo;calt site:typophile.com&rdquo;, etc. Feature issues have been dealt with extensively on Typophile.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -157,7 +146,7 @@ Also try to google for phrases like "feature site:typophile.com", "feature synta
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Connecting you with http://typophile.com/node/42886</div>
+		<div class="commentbody">Connecting you with <a href="http://typophile.com/node/42886">http://typophile.com/node/42886</a></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -178,17 +167,15 @@ Also try to google for phrases like "feature site:typophile.com", "feature synta
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">K.L.
-
-Thank you for your info, but actually I am so at the beggining that it is really hard for me to understand how the whole structure works.
-I tried to create a class for some glyphs and assign the calt feature your refer to but actually when I try to generate the .otf font an error doesn't let it to be generated. 
+		<div class="commentbody"><p>K.L.</p>
+<p>Thank you for your info, but actually I am so at the beggining that it is really hard for me to understand how the whole structure works.
+I tried to create a class for some glyphs and assign the calt feature your refer to but actually when I try to generate the .otf font an error doesn&rsquo;t let it to be generated. 
 Would it be possible for you to be more specific on how to do it?
-As you sugested, I googled the phrases and there is lots of information on this subject but because it is not in a sistematic text it is very difficult for me to build the puzzle...
-
-Hope my begginer questions are not too much...
-
-Thanks a lot
-a.</div>
+As you sugested, I googled the phrases and there is lots of information on this subject but because it is not in a sistematic text it is very difficult for me to build the puzzle&hellip;</p>
+<p>Hope my begginer questions are not too much&hellip;</p>
+<p>Thanks a lot
+a.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

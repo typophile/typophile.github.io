@@ -71,34 +71,21 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I can't quite find this circumstance in the forums, manuals, or elsewhere...
-
-I want to substitute multiple glyphs with multiple alternate glyphs.
-
-For example, if I type chalk, I want it to be replaced by cha.alt and lk.alt. 
-
-Can't do:
-sub c' h' a' by cha.alt;
-
-because if I type champ, I don't want the .alt.
-
-I can do:
+  <div class="post-content e-content" itemprop="articleBody"><p>I can&rsquo;t quite find this circumstance in the forums, manuals, or elsewhere&hellip;</p>
+<p>I want to substitute multiple glyphs with multiple alternate glyphs.</p>
+<p>For example, if I type chalk, I want it to be replaced by cha.alt and lk.alt.</p>
+<p>Can&rsquo;t do:
+sub c' h' a' by cha.alt;</p>
+<p>because if I type champ, I don&rsquo;t want the .alt.</p>
+<p>I can do:
 sub c' h' a' l k  by cha.alt;
-sub cha.alt l' k' by lk.alt;
-
-Is that as simple as I can get, or can I make it one line of code?
-
-I'd ideally like this:
-sub c h a l k by cha.alt and lk.alt;
-
-Thoughts?
-
-Thanks,
-
-
-Mcs
-
-
+sub cha.alt l' k' by lk.alt;</p>
+<p>Is that as simple as I can get, or can I make it one line of code?</p>
+<p>I&rsquo;d ideally like this:
+sub c h a l k by cha.alt and lk.alt;</p>
+<p>Thoughts?</p>
+<p>Thanks,</p>
+<p>Mcs</p>
 </div>
 
    <div class="comment card m-3">
@@ -145,13 +132,11 @@ Mcs
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It's not really an OT order thing so much as a group-replace function.
-
-If I were to type "international" and I wanted it to force "int'l" to replace it, with each letter being an independent glyph, how could (or can I at all) do that?
-
-I want a group of letters in a particular order to be replaced by a different group of letters in a different particular order, not necessarily of the same count for each group.
-
-Can it be done?</div>
+		<div class="commentbody"><p>It&rsquo;s not really an OT order thing so much as a group-replace function.</p>
+<p>If I were to type &ldquo;international&rdquo; and I wanted it to force &ldquo;int&rsquo;l&rdquo; to replace it, with each letter being an independent glyph, how could (or can I at all) do that?</p>
+<p>I want a group of letters in a particular order to be replaced by a different group of letters in a different particular order, not necessarily of the same count for each group.</p>
+<p>Can it be done?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -172,15 +157,11 @@ Can it be done?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Have no idea if the following will help you 
-
-"mergeFonts
-This program will merge glyphs from one font into another, optionally copying a subset from the source fonts, and changing the names of the glyphs. It can also be used to subset and change the glyph names in a font. By using the same font more than once as a source with different mapping files, glyphs can be duplicated under other names."
-
-However, just ran across it yesterday. Its part of the Adobe Font Development Kit -some utilities they made available, though not documented super well.
-
-http://www.adobe.com/devnet/opentype/afdko/topic_overview.html
-
+		<div class="commentbody"><p>Have no idea if the following will help you</p>
+<p>&ldquo;mergeFonts
+This program will merge glyphs from one font into another, optionally copying a subset from the source fonts, and changing the names of the glyphs. It can also be used to subset and change the glyph names in a font. By using the same font more than once as a source with different mapping files, glyphs can be duplicated under other names.&rdquo;</p>
+<p>However, just ran across it yesterday. Its part of the Adobe Font Development Kit -some utilities they made available, though not documented super well.</p>
+<p><a href="http://www.adobe.com/devnet/opentype/afdko/topic_overview.html">http://www.adobe.com/devnet/opentype/afdko/topic_overview.html</a></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -202,22 +183,19 @@ http://www.adobe.com/devnet/opentype/afdko/topic_overview.html
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">OpenType cannot do many-to-many substitutions. It can to one-to-one, one-to-one-out-of-many, many-to-one and one-to-many (though the last one is not supported by some applications). 
-
-To achieve what you're trying to do, you need a series of lookups, each performing a many-to-one substitution. Each lookup is executed on the glyph string produced by the previous lookup. So: 
-
-<code>feature calt { 
+		<div class="commentbody"><p>OpenType cannot do many-to-many substitutions. It can to one-to-one, one-to-one-out-of-many, many-to-one and one-to-many (though the last one is not supported by some applications).</p>
+<p>To achieve what you&rsquo;re trying to do, you need a series of lookups, each performing a many-to-one substitution. Each lookup is executed on the glyph string produced by the previous lookup. So:</p>
+<p><!-- raw HTML omitted -->feature calt { 
 lookup calt1 { 
 sub c' h' a' l k by c_h_a.alt;
 } calt1;
 lookup calt2 {
 sub c_h_a.alt l' k' by l_k.alt;
 } calt2;
-} calt;</code>
-
-Note above that I've used PDF-compatible glyphnames for ligatures. c_h_a.alt and l_k.alt will be "understood" by PDF applications while cha.alt and lk.alt will not, i.e. copy-paste or searching may not work properly. 
-
-Adam</div>
+} calt;<!-- raw HTML omitted --></p>
+<p>Note above that I&rsquo;ve used PDF-compatible glyphnames for ligatures. c_h_a.alt and l_k.alt will be &ldquo;understood&rdquo; by PDF applications while cha.alt and lk.alt will not, i.e. copy-paste or searching may not work properly.</p>
+<p>Adam</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -238,10 +216,9 @@ Adam</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks, Adam. I figured it might me the more complicated way, I just needed the clarity/reassurance you gave. 
-
-
-Mcs</div>
+		<div class="commentbody"><p>Thanks, Adam. I figured it might me the more complicated way, I just needed the clarity/reassurance you gave.</p>
+<p>Mcs</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

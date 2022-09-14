@@ -71,11 +71,10 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi all - I am doing an OT font in FLS 5. It has only latin characters plus the four figure sets with accompanying currencies etc and numr/dmom sets along with a handful of ligatures. That is, I guess, as simple as it gets. When I generate my font and use it in InDesign, the OT features are bracketed, i.e. unavailable. I have read other threads here and tried to paste text like "languagesystem DFLT dflt;" into the OT panel in FLS, but it never works, it only sometimes gives me an error message. 
-
-It must be a simple problem, and I realise that I am ignorant, but I would really appreciate if someone could give me clues to a solution ...
-
-Per Baasch Jørgensen</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi all - I am doing an OT font in FLS 5. It has only latin characters plus the four figure sets with accompanying currencies etc and numr/dmom sets along with a handful of ligatures. That is, I guess, as simple as it gets. When I generate my font and use it in InDesign, the OT features are bracketed, i.e. unavailable. I have read other threads here and tried to paste text like &ldquo;languagesystem DFLT dflt;&rdquo; into the OT panel in FLS, but it never works, it only sometimes gives me an error message.</p>
+<p>It must be a simple problem, and I realise that I am ignorant, but I would really appreciate if someone could give me clues to a solution &hellip;</p>
+<p>Per Baasch Jørgensen</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
@@ -100,13 +99,11 @@ Per Baasch Jørgensen</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">(Still me – first profile that I forgot I had ...)
-
-I have designed the font with all characters, but the testing in FSL is not of much use since I can't find out how to change between for instance the different figure sets. 
-
-I was sort of hoping that there might be some basic coding publicly available that I could paste into my OT panel. It ought to be the same thing for most fonts like mine that don't have many special features. It would, I think, also be in the interest of the people behind  the OT technology, that OT fonts get on the market and function correctly. 
-
-As I am not a full time type designer, I can't spend that much time on figuring out technical stuff in fonts far beyond the actual drawing and spacing of letters. I hardly get any income from all the hours of work on my fonts, as is surely the case for many of my colleagues. But maybe the OT-people actually have made that kind of coding, and I just haven't found it yet ... he said wishfully. </div>
+		<div class="commentbody"><p>(Still me – first profile that I forgot I had &hellip;)</p>
+<p>I have designed the font with all characters, but the testing in FSL is not of much use since I can&rsquo;t find out how to change between for instance the different figure sets.</p>
+<p>I was sort of hoping that there might be some basic coding publicly available that I could paste into my OT panel. It ought to be the same thing for most fonts like mine that don&rsquo;t have many special features. It would, I think, also be in the interest of the people behind  the OT technology, that OT fonts get on the market and function correctly.</p>
+<p>As I am not a full time type designer, I can&rsquo;t spend that much time on figuring out technical stuff in fonts far beyond the actual drawing and spacing of letters. I hardly get any income from all the hours of work on my fonts, as is surely the case for many of my colleagues. But maybe the OT-people actually have made that kind of coding, and I just haven&rsquo;t found it yet &hellip; he said wishfully.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -127,43 +124,35 @@ As I am not a full time type designer, I can't spend that much time on figuring 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">That's what I suspected... Well, you can't expect InDesign to magically make the fonts work if they don't contain the necessary code.
-
-> <em>I was sort of hoping that there might be some basic coding publicly available that I could paste into my OT panel.</em>
-
-And there is. <a href="http://www.adobeforums.com/webx/.3bb58628">Minion Pro</a> and <a href="http://www.adobeforums.com/webx/.3bb7c828">Bickham Script Pro</a>'s features files have been available for quite some time now.
-
-In any case, I'm including the code below that will get your four sets of figures working. Copy and save it in a file with a .fea extension. Then it's just a matter of opening it from the OT panel in FLS. (Before trying to compile the code and start getting errors, make sure the glyph names used in it match the glyph names in your font)
-<code>
+		<div class="commentbody"><p>That&rsquo;s what I suspected&hellip; Well, you can&rsquo;t expect InDesign to magically make the fonts work if they don&rsquo;t contain the necessary code.</p>
+<blockquote>
+<p><!-- raw HTML omitted -->I was sort of hoping that there might be some basic coding publicly available that I could paste into my OT panel.<!-- raw HTML omitted --></p>
+</blockquote>
+<p>And there is. <!-- raw HTML omitted -->Minion Pro<!-- raw HTML omitted --> and <!-- raw HTML omitted -->Bickham Script Pro<!-- raw HTML omitted -->&rsquo;s features files have been available for quite some time now.</p>
+<p>In any case, I&rsquo;m including the code below that will get your four sets of figures working. Copy and save it in a file with a .fea extension. Then it&rsquo;s just a matter of opening it from the OT panel in FLS. (Before trying to compile the code and start getting errors, make sure the glyph names used in it match the glyph names in your font)
+<!-- raw HTML omitted -->
 @FIG_TAB_LINING = [zero one two three four five six seven eight nine];
 @FIG_FIT_LINING = [zero.fitted one.fitted two.fitted three.fitted four.fitted five.fitted six.fitted seven.fitted eight.fitted nine.fitted];
 @FIG_FIT_OLDSTYLE = [zero.oldstyle one.oldstyle two.oldstyle three.oldstyle four.oldstyle five.oldstyle six.oldstyle seven.oldstyle eight.oldstyle nine.oldstyle];
-@FIG_TAB_OLDSTYLE = [zero.taboldstyle one.taboldstyle two.taboldstyle three.taboldstyle four.taboldstyle five.taboldstyle six.taboldstyle seven.taboldstyle eight.taboldstyle nine.taboldstyle];
-
-feature onum { 
-	sub @FIG_TAB_LINING by @FIG_TAB_OLDSTYLE;
-	sub @FIG_FIT_LINING by @FIG_FIT_OLDSTYLE;
-} onum;
-
-
-feature lnum { 
-	sub @FIG_TAB_OLDSTYLE by @FIG_TAB_LINING;
-	sub @FIG_FIT_OLDSTYLE by @FIG_FIT_LINING;
-} lnum;
-
-
-feature pnum { 
-	sub @FIG_TAB_OLDSTYLE by @FIG_FIT_OLDSTYLE;
-	sub @FIG_TAB_LINING by @FIG_FIT_LINING;
-} pnum;
-
-
-feature tnum {
-	sub @FIG_FIT_OLDSTYLE by @FIG_TAB_OLDSTYLE;
-	sub @FIG_FIT_LINING by @FIG_TAB_LINING;
-} tnum;
-
-</code></div>
+@FIG_TAB_OLDSTYLE = [zero.taboldstyle one.taboldstyle two.taboldstyle three.taboldstyle four.taboldstyle five.taboldstyle six.taboldstyle seven.taboldstyle eight.taboldstyle nine.taboldstyle];</p>
+<p>feature onum { 
+sub @FIG_TAB_LINING by @FIG_TAB_OLDSTYLE;
+sub @FIG_FIT_LINING by @FIG_FIT_OLDSTYLE;
+} onum;</p>
+<p>feature lnum { 
+sub @FIG_TAB_OLDSTYLE by @FIG_TAB_LINING;
+sub @FIG_FIT_OLDSTYLE by @FIG_FIT_LINING;
+} lnum;</p>
+<p>feature pnum { 
+sub @FIG_TAB_OLDSTYLE by @FIG_FIT_OLDSTYLE;
+sub @FIG_TAB_LINING by @FIG_FIT_LINING;
+} pnum;</p>
+<p>feature tnum {
+sub @FIG_FIT_OLDSTYLE by @FIG_TAB_OLDSTYLE;
+sub @FIG_FIT_LINING by @FIG_TAB_LINING;
+} tnum;</p>
+<!-- raw HTML omitted -->
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -184,7 +173,7 @@ feature tnum {
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks a lot Miguel, it is beginning to make sense now. I think I'll be okay now. It ain't easy being blond in this brave new world ...</div>
+		<div class="commentbody">Thanks a lot Miguel, it is beginning to make sense now. I think I&rsquo;ll be okay now. It ain&rsquo;t easy being blond in this brave new world &hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -205,10 +194,10 @@ feature tnum {
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This stuff has been covered extensively at
-http://typophile.com/node/29580
-
-A.</div>
+		<div class="commentbody"><p>This stuff has been covered extensively at
+<a href="http://typophile.com/node/29580">http://typophile.com/node/29580</a></p>
+<p>A.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

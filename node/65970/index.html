@@ -71,34 +71,29 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">There seem to be a couple of bugs with InDesign CS3 & CS4 that affect the characters that can be included in a font.
-
-First: If Unicode characters 2002 through 200B are included in a font, InDesign CS3 and CS4 will crash under certain circumstances. Specifically, if you enter 9 (nine) em spaces in a line and uni2003 is included in a font, IDCS3 and IDCS4 crash. We learned of this while setting a Cataloging-in-Publication page, where you often get 10 9 8 7 6 5 4 3 2 1 (signifying print runs) separated by an em-space. Turns out it doesn't really matter if it is an em, en, thin, whatever, just any combination of 9 characters from uni2002 through uni200B on a single line.
-
-It has to be nine characters. Eight is fine, 10 is fine. We got around this by putting the numbers on two lines, and used two en-spaces between one group. When the return was deleted, we had *10* space characters from this region in the line, and the program didn't crash.
-
-I suppose this argues for leaving such characters out of a font. But not all layout programs treat spaces as a part of the program rather than the font. And some people already include 2000 through 200B in their fonts -- SIL Charis, for example. It does seem a bug worthy of a fix when a sequence of valid Unicode characters crashes a program. But it's each font designer's call; the way we proved out the bug was to simply to remove these characters from the font, regenerate the .otf, & rely on InDesign's routines for the spaces. No crash with the characters removed.
-
-The second bug occurs when there are no characters in the Private Use region of E020 through E07E. If there are no such characters in a font, and you enter the Unicode sequence from the keyboard with ID-CS2, 3 (and I think 4), the program places the characters from the Controls and Basic Latin plane -- i.e., a space through an ASCII tilde (0020 through 007E).
-
-This might argue for putting the glyph used for .notdef in E020 through E07E if you're not using them for some purpose. That would at least let somebody know there could be a problem with the document. While it would be unusual for somebody to enter such characters from the keyboard, I, for one, have been known to make mistakes when keying . . .
-
-FWIW,
-
-Charles</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>There seem to be a couple of bugs with InDesign CS3 &amp; CS4 that affect the characters that can be included in a font.</p>
+<p>First: If Unicode characters 2002 through 200B are included in a font, InDesign CS3 and CS4 will crash under certain circumstances. Specifically, if you enter 9 (nine) em spaces in a line and uni2003 is included in a font, IDCS3 and IDCS4 crash. We learned of this while setting a Cataloging-in-Publication page, where you often get 10 9 8 7 6 5 4 3 2 1 (signifying print runs) separated by an em-space. Turns out it doesn&rsquo;t really matter if it is an em, en, thin, whatever, just any combination of 9 characters from uni2002 through uni200B on a single line.</p>
+<p>It has to be nine characters. Eight is fine, 10 is fine. We got around this by putting the numbers on two lines, and used two en-spaces between one group. When the return was deleted, we had <em>10</em> space characters from this region in the line, and the program didn&rsquo;t crash.</p>
+<p>I suppose this argues for leaving such characters out of a font. But not all layout programs treat spaces as a part of the program rather than the font. And some people already include 2000 through 200B in their fonts &ndash; SIL Charis, for example. It does seem a bug worthy of a fix when a sequence of valid Unicode characters crashes a program. But it&rsquo;s each font designer&rsquo;s call; the way we proved out the bug was to simply to remove these characters from the font, regenerate the .otf, &amp; rely on InDesign&rsquo;s routines for the spaces. No crash with the characters removed.</p>
+<p>The second bug occurs when there are no characters in the Private Use region of E020 through E07E. If there are no such characters in a font, and you enter the Unicode sequence from the keyboard with ID-CS2, 3 (and I think 4), the program places the characters from the Controls and Basic Latin plane &ndash; i.e., a space through an ASCII tilde (0020 through 007E).</p>
+<p>This might argue for putting the glyph used for .notdef in E020 through E07E if you&rsquo;re not using them for some purpose. That would at least let somebody know there could be a problem with the document. While it would be unusual for somebody to enter such characters from the keyboard, I, for one, have been known to make mistakes when keying . . .</p>
+<p>FWIW,</p>
+<p>Charles</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Charles, thanks for the feedback.
-I was able to reproduce the second problem and filed a bug. However, I'm unable to reproduce the first issue. I tried both ID CS4 (v6.0.3) and CS3 (v5.0.4) using Charis SIL Regular (v4.100). Here are the steps I did:
-
-1. Launch ID CS4
-2. Create a new document
-3. Create a new text frame
-4. Select the font "Charis SIL Regular"
-5. Type the sequence "10 9 8 7 6 5 4 3 2 1"
-
-No crash happened. Can you please retest this or provide more info? Thanks.</div>
+		<div class="commentbody"><p>Charles, thanks for the feedback.
+I was able to reproduce the second problem and filed a bug. However, I&rsquo;m unable to reproduce the first issue. I tried both ID CS4 (v6.0.3) and CS3 (v5.0.4) using Charis SIL Regular (v4.100). Here are the steps I did:</p>
+<ol>
+<li>Launch ID CS4</li>
+<li>Create a new document</li>
+<li>Create a new text frame</li>
+<li>Select the font &ldquo;Charis SIL Regular&rdquo;</li>
+<li>Type the sequence &ldquo;10 9 8 7 6 5 4 3 2 1&rdquo;</li>
+</ol>
+<p>No crash happened. Can you please retest this or provide more info? Thanks.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -119,19 +114,14 @@ No crash happened. Can you please retest this or provide more info? Thanks.</div
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Miguel, thanks for taking an interest in this. I know Adobe doesn't use uni2002-uni200B, and not many other people do either. 
-
-We tried our test again, starting with a new document and your procedure. This did not produce the crash. As I'm sure you know, debugging can be a painful process, esp. as we started things on a 64-bit Vista machine running a plug-in dictionary.
-
-To start clean with ID CS4, we used my 32-bit Vista machine with the box-stock proximity dictionary. I was able to get the program to fail converting 9 em spaces, but not quite as simply as originally described.
-
-What we did to recreate the problem was to open a new document, create a new text frame (font Consula), type in two lines of gibberish, type in a third line of 9-em spaces. Now highlight the em spaces and change the font to Charis SIL. Repeated this test several times. Sometime the failure was immediate, sometimes a further action such as *zoom* or *file save* was needed. We opened & saved a new document between each failure to try & clear anything ID was hanging on to.
-
-Not to say it isn't a problem we created, we do some oddball stuff. BTW, it doesn't seem to be just Charis SIL, I also tried one of my modified fonts which include the U+2002-U+200B characters, with the same result. I'm not looking forward to going back into those fonts to take the offending characters out.
-
-I've sent you the file and a screen shot of the message that appears when the program quits.
-
-Charles</div>
+		<div class="commentbody"><p>Miguel, thanks for taking an interest in this. I know Adobe doesn&rsquo;t use uni2002-uni200B, and not many other people do either.</p>
+<p>We tried our test again, starting with a new document and your procedure. This did not produce the crash. As I&rsquo;m sure you know, debugging can be a painful process, esp. as we started things on a 64-bit Vista machine running a plug-in dictionary.</p>
+<p>To start clean with ID CS4, we used my 32-bit Vista machine with the box-stock proximity dictionary. I was able to get the program to fail converting 9 em spaces, but not quite as simply as originally described.</p>
+<p>What we did to recreate the problem was to open a new document, create a new text frame (font Consula), type in two lines of gibberish, type in a third line of 9-em spaces. Now highlight the em spaces and change the font to Charis SIL. Repeated this test several times. Sometime the failure was immediate, sometimes a further action such as <em>zoom</em> or <em>file save</em> was needed. We opened &amp; saved a new document between each failure to try &amp; clear anything ID was hanging on to.</p>
+<p>Not to say it isn&rsquo;t a problem we created, we do some oddball stuff. BTW, it doesn&rsquo;t seem to be just Charis SIL, I also tried one of my modified fonts which include the U+2002-U+200B characters, with the same result. I&rsquo;m not looking forward to going back into those fonts to take the offending characters out.</p>
+<p>I&rsquo;ve sent you the file and a screen shot of the message that appears when the program quits.</p>
+<p>Charles</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

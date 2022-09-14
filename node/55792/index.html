@@ -71,16 +71,15 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Sorry, but I'm here with another (probably) semi-dumb question.
-
-I was reading a presentation by Christopher Slye about features, and while I see there is no single rule in the order in which OpenType features are placed (for an optimal behavior), I was wondering: is generally better to have the Stylistic Sets features (ss01, ss02 etc.) placed at the end of the Features, or at the beginning?
-I understand it all depends on how you want the other features to affect the already transformed glyphs, but if I have, let's say, a few ordinary features like [liga] or [smcp], do you usually place eventual ssXX sets after or before them?
-
-I am a born-bugger, I know…</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Sorry, but I&rsquo;m here with another (probably) semi-dumb question.</p>
+<p>I was reading a presentation by Christopher Slye about features, and while I see there is no single rule in the order in which OpenType features are placed (for an optimal behavior), I was wondering: is generally better to have the Stylistic Sets features (ss01, ss02 etc.) placed at the end of the Features, or at the beginning?
+I understand it all depends on how you want the other features to affect the already transformed glyphs, but if I have, let&rsquo;s say, a few ordinary features like [liga] or [smcp], do you usually place eventual ssXX sets after or before them?</p>
+<p>I am a born-bugger, I know…</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I know my questions are often embarassingly silly, but isn't there anyone willing to share his more common apporach? :=)</div>
+		<div class="commentbody">I know my questions are often embarassingly silly, but isn&rsquo;t there anyone willing to share his more common apporach? :=)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -101,29 +100,23 @@ I am a born-bugger, I know…</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It makes a difference if two different features affect the same glyphs. For example, let's say you have a normal and and alternate "f" and there is also a corresponding normal and alternate "fi" ligature. Let's say the alternate "f" is part of stylistic set 1. If <code>liga</code> comes before <code>ss01</code>, you would do it like this:
-
-<code>feature liga {
+		<div class="commentbody"><p>It makes a difference if two different features affect the same glyphs. For example, let&rsquo;s say you have a normal and and alternate &ldquo;f&rdquo; and there is also a corresponding normal and alternate &ldquo;fi&rdquo; ligature. Let&rsquo;s say the alternate &ldquo;f&rdquo; is part of stylistic set 1. If <!-- raw HTML omitted -->liga<!-- raw HTML omitted --> comes before <!-- raw HTML omitted -->ss01<!-- raw HTML omitted -->, you would do it like this:</p>
+<p><!-- raw HTML omitted -->feature liga {
   sub f i by fi ;
-} liga;
-
-feature ss01 {
+} liga;</p>
+<p>feature ss01 {
   sub f by f.alt ;
   sub fi by fi.alt ;
-} ss01;</code>
-
-If <code>ss01</code> comes first, and you don't change the code, <code>ss01</code> would never encounter an "fi" ligature to transform. You would need to do it like this to get the same effect:
-
-<code>feature ss01 {
+} ss01;<!-- raw HTML omitted --></p>
+<p>If <!-- raw HTML omitted -->ss01<!-- raw HTML omitted --> comes first, and you don&rsquo;t change the code, <!-- raw HTML omitted -->ss01<!-- raw HTML omitted --> would never encounter an &ldquo;fi&rdquo; ligature to transform. You would need to do it like this to get the same effect:</p>
+<p><!-- raw HTML omitted -->feature ss01 {
   sub f by f.alt ;
-} ss01;
-
-feature liga {
+} ss01;</p>
+<p>feature liga {
   sub f i by fi ;
   sub f.alt i by fi.alt ;
-} liga;</code>
-
-Make sense?
+} liga;<!-- raw HTML omitted --></p>
+<p>Make sense?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -145,7 +138,7 @@ Make sense?
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">By the way, in the example above, I would put <code>liga</code> first because there are other ways to generate an "fi" ligature than via the OT feature. For instance, if someone types opt-5 on a Mac to get an "fi" ligature, the <code>ss01</code> code in the second example would have no effect on it.</div>
+		<div class="commentbody">By the way, in the example above, I would put <!-- raw HTML omitted -->liga<!-- raw HTML omitted --> first because there are other ways to generate an &ldquo;fi&rdquo; ligature than via the OT feature. For instance, if someone types opt-5 on a Mac to get an &ldquo;fi&rdquo; ligature, the <!-- raw HTML omitted -->ss01<!-- raw HTML omitted --> code in the second example would have no effect on it.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -166,9 +159,9 @@ Make sense?
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ha! I see John Hudson said almost the same thing in a thread yesterday:
-
-http://typophile.com/node/55805</div>
+		<div class="commentbody"><p>Ha! I see John Hudson said almost the same thing in a thread yesterday:</p>
+<p><a href="http://typophile.com/node/55805">http://typophile.com/node/55805</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -189,22 +182,15 @@ http://typophile.com/node/55805</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Piccic, 
-
-one rule of thumb is that the features that are more semantic, orthographic or linguistic should be processed as early as possible, while the features that are more visual or typographic should be processed later. 
-
-Another rule of thumb is that within the visual features, the features that perform a more dramatic visual change to the whole of text should be processed earlier than those that only perform minor changes. 
-
-For example, when a feature such as "locl", "sups", "sinf", "subs" or "frac" is applied, the underlying text changes its meaning in some way (there is linguistic adaptation through localized forms, or some scientific meaning induced through superscript or subscript or fraction etc.). This means that such features should be processed as early as possible and if multiple features are applies, those features should take precedence — so their features definitions should be placed higher in FontLab Studio's OpenType panel. 
-
-A feature such as "smcp" or "c2sc" is somewhat visual but also somewhat semantic — setting some text in small caps often conveys some change of meaning. And also, applying "smcp" or "c2sc" performs a more dramatic change to the text than, say, "liga". So when mixing "smcp" with "liga", you'd normally want "smcp" to take precedence — so the feature definitions should be placed higher in FontLab Studio's OpenType panel, but only AFTER the purely semantic features. For example, if the user applies both "smcp" and "sups" to a number, "superscript" will probably be more important to him than "small caps" because "superscript" is more semantic, i.e. it conveys a stronger change in meaning. 
-
-The same principle applies to ordering stylistic sets. If you have some stylistic sets that perform some linguistic or semantic actions (such as changing, say, "Russian" Cyrillic forms to "Bulgarian" forms), those should be placed tentatively higher. If you have some stylistic sets that completely exchange the uppercase letters with completely different shapes (e.g. engraved or ornamental), those should be tentatively high. And if you have some stylistic sets that only exchange your standard "R" and "Q" by variants with a long tail — which is a purely visual change, and fairly minor in its effect to the overall look of the text — those features should be further down the row. 
-
-I hope this helps. 
-
-Best,
-Adam
+		<div class="commentbody"><p>Piccic,</p>
+<p>one rule of thumb is that the features that are more semantic, orthographic or linguistic should be processed as early as possible, while the features that are more visual or typographic should be processed later.</p>
+<p>Another rule of thumb is that within the visual features, the features that perform a more dramatic visual change to the whole of text should be processed earlier than those that only perform minor changes.</p>
+<p>For example, when a feature such as &ldquo;locl&rdquo;, &ldquo;sups&rdquo;, &ldquo;sinf&rdquo;, &ldquo;subs&rdquo; or &ldquo;frac&rdquo; is applied, the underlying text changes its meaning in some way (there is linguistic adaptation through localized forms, or some scientific meaning induced through superscript or subscript or fraction etc.). This means that such features should be processed as early as possible and if multiple features are applies, those features should take precedence — so their features definitions should be placed higher in FontLab Studio&rsquo;s OpenType panel.</p>
+<p>A feature such as &ldquo;smcp&rdquo; or &ldquo;c2sc&rdquo; is somewhat visual but also somewhat semantic — setting some text in small caps often conveys some change of meaning. And also, applying &ldquo;smcp&rdquo; or &ldquo;c2sc&rdquo; performs a more dramatic change to the text than, say, &ldquo;liga&rdquo;. So when mixing &ldquo;smcp&rdquo; with &ldquo;liga&rdquo;, you&rsquo;d normally want &ldquo;smcp&rdquo; to take precedence — so the feature definitions should be placed higher in FontLab Studio&rsquo;s OpenType panel, but only AFTER the purely semantic features. For example, if the user applies both &ldquo;smcp&rdquo; and &ldquo;sups&rdquo; to a number, &ldquo;superscript&rdquo; will probably be more important to him than &ldquo;small caps&rdquo; because &ldquo;superscript&rdquo; is more semantic, i.e. it conveys a stronger change in meaning.</p>
+<p>The same principle applies to ordering stylistic sets. If you have some stylistic sets that perform some linguistic or semantic actions (such as changing, say, &ldquo;Russian&rdquo; Cyrillic forms to &ldquo;Bulgarian&rdquo; forms), those should be placed tentatively higher. If you have some stylistic sets that completely exchange the uppercase letters with completely different shapes (e.g. engraved or ornamental), those should be tentatively high. And if you have some stylistic sets that only exchange your standard &ldquo;R&rdquo; and &ldquo;Q&rdquo; by variants with a long tail — which is a purely visual change, and fairly minor in its effect to the overall look of the text — those features should be further down the row.</p>
+<p>I hope this helps.</p>
+<p>Best,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -226,14 +212,12 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Adam: thank you!
-
-I have no strong semantic features in my current typeface, since it's mostly for epigraphy and titling, so I'm just trying to avoid one Set "disturbing" the other.
-In fact I've seen that [dlig] [salt] and [calt] are better processed after my alternate sets that are not semantic, but in the end I see it's all related to which non-semantic set you wish to have precedence over the others (and in general ligatures affecting them should necessarily come after).
-
-Mark: thanks, precisely the more recurring problem I have, since the few ligatures I have are unusual and would not affect some combinations if placed first.
-
-Now I hope my "simple" question won't trigger another unending discussion over the Ultimate Logical Solution to Functional Problems™. :ROFL:</div>
+		<div class="commentbody"><p>Adam: thank you!</p>
+<p>I have no strong semantic features in my current typeface, since it&rsquo;s mostly for epigraphy and titling, so I&rsquo;m just trying to avoid one Set &ldquo;disturbing&rdquo; the other.
+In fact I&rsquo;ve seen that [dlig] [salt] and [calt] are better processed after my alternate sets that are not semantic, but in the end I see it&rsquo;s all related to which non-semantic set you wish to have precedence over the others (and in general ligatures affecting them should necessarily come after).</p>
+<p>Mark: thanks, precisely the more recurring problem I have, since the few ligatures I have are unusual and would not affect some combinations if placed first.</p>
+<p>Now I hope my &ldquo;simple&rdquo; question won&rsquo;t trigger another unending discussion over the Ultimate Logical Solution to Functional Problems™. :ROFL:</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

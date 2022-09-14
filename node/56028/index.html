@@ -71,18 +71,16 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I've been renaming and regenerating for days now. The problem I have is that Roman typefaces and their italics appear under different font menus even though the family name is exactly the same (see pic). How can I sort this and have them all appear under the same menu? I have spent enough time going round in circles getting nowhere. Why are there so many options in FontLab and no definitive solution to generating an OTF family in a range of weights?
-
-Any help much appreciated. Thanks.
-
-
-[img:sites/default/files/old-images/Fontmenu_4695.gif]</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;ve been renaming and regenerating for days now. The problem I have is that Roman typefaces and their italics appear under different font menus even though the family name is exactly the same (see pic). How can I sort this and have them all appear under the same menu? I have spent enough time going round in circles getting nowhere. Why are there so many options in FontLab and no definitive solution to generating an OTF family in a range of weights?</p>
+<p>Any help much appreciated. Thanks.</p>
+<p>[img:sites/default/files/old-images/Fontmenu_4695.gif]</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">http://forum.fontlab.com/fontlab-studio-tips-and-tricks/font-family-naming-in-fontlab-studio-5-t313.0.html
-
-Hope this helps, it helped me.</div>
+		<div class="commentbody"><p><a href="http://forum.fontlab.com/fontlab-studio-tips-and-tricks/font-family-naming-in-fontlab-studio-5-t313.0.html">http://forum.fontlab.com/fontlab-studio-tips-and-tricks/font-family-naming-in-fontlab-studio-5-t313.0.html</a></p>
+<p>Hope this helps, it helped me.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -103,7 +101,7 @@ Hope this helps, it helped me.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Karsten Lücke's "[[http://kltf.de/kltf_otproduction.htm|Font Naming]]" pdf is great. Maybe you should nuke your font caches too.</div>
+		<div class="commentbody">Karsten Lücke&rsquo;s &ldquo;[[http://kltf.de/kltf_otproduction.htm|Font Naming]]&rdquo; pdf is great. Maybe you should nuke your font caches too.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -124,9 +122,9 @@ Hope this helps, it helped me.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Post screenshots of your naming and OT naming options for these fonts, please. Regular and italic versions.
-
-Also, I have found that even after deleting fonts and cleaning the font caches Indesign will sometimes maintain an incorrect family name for a font even after a correctly named version has replaced it. </div>
+		<div class="commentbody"><p>Post screenshots of your naming and OT naming options for these fonts, please. Regular and italic versions.</p>
+<p>Also, I have found that even after deleting fonts and cleaning the font caches Indesign will sometimes maintain an incorrect family name for a font even after a correctly named version has replaced it.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -147,86 +145,10 @@ Also, I have found that even after deleting fonts and cleaning the font caches I
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick
-
-I wrote this python code to help me with naming fonts in FL - it works for Light, Regular, Medium, Bold and Italics. You should be able to adapt it for other weights.
-
-<code>
-from robofab.world import CurrentFont
-from robofab.interface.all.dialogs import AskString
-f = CurrentFont()
-#
-fontName = AskString('Font Name') 
-Weight = AskString('Weight')
-#
-def naming( short, weight, weight2 ):
-	f.info.familyName = fontName+" "+short
-	f.info.widthName = "Normal"
-	f.info.styleName = weight
-	f.info.fontName = fontName.replace(' ', '')+"-"+weight2.replace(' ', '')
-	f.info.fullName = fontName+" "+weight2
-	f.info.menuName = fontName+" "+short
-	f.info.fondName = fontName.replace(' ', '')+" "+weight2.replace(' ', '')
-	f.info.otFamilyName = fontName
-	f.info.otStyleName = weight2
-#	
-if Weight == "Thin":
-	naming("Th", "Regular", "Thin")
-	f.info.weightName = "Thin"
-	f.info.weightValue = 250
-	print f.info.fullName+" "+"Named"
-elif Weight == "Light":
-	naming("Lt", "Regular", "Light")
-	f.info.weightName = "Light"
-	f.info.weightValue = 300
-	print f.info.fullName+" "+"Named"
-elif Weight == "Regular":
-	naming("Rg", "Regular", "Regular")
-	f.info.weightName = "Regular"
-	f.info.weightValue = 400
-	print f.info.fullName+" "+"Named"
-elif Weight == "Medium":
-	naming("Lt", "Bold", "Medium")
-	f.info.weightName = "Medium"
-	f.info.weightValue = 500
-	print f.info.fullName+" "+"Named"
-elif Weight == "Bold":
-	naming("Rg", "Bold" ,"Bold")
-	f.info.weightName = "Bold"
-	f.info.weightValue = 700
-	print f.info.fullName+" "+"Named"
-elif Weight == "Thin Italic":
-	naming("Th", "Italic", "Thin Italic")
-	f.info.weightName = "Thin"
-	f.info.weightValue = 250	
-	print f.info.fullName+" "+"Named"
-elif Weight == "Light Italic":
-	naming("Lt", "Italic", "Light Italic")
-	f.info.weightName = "Light"
-	f.info.weightValue = 300	
-	print f.info.fullName+" "+"Named"
-elif Weight == "Italic":
-	naming("Rg", "Italic", "Italic")
-	f.info.weightName = "Regular"
-	f.info.weightValue = 400
-	print f.info.fullName+" "+"Named"
-elif Weight == "Medium Italic":
-	naming("Lt", "Bold Italic", "Medium Italic")
-	f.info.weightName = "Medium"
-	f.info.weightValue = 500
-	print f.info.fullName+" "+"Named"
-elif Weight == "Bold Italic":
-	naming("Rg", "Bold Italic", "Bold Italic")	
-	f.info.weightName = "Bold"
-	f.info.weightValue = 700
-	print f.info.fullName+" "+"Named"
-else:
-	print "Ooops that's not a weight"	
-	print fontName+" "+"is not named"
-#
-f.update()
-
-</code>
+		<div class="commentbody"><p>Nick</p>
+<p>I wrote this python code to help me with naming fonts in FL - it works for Light, Regular, Medium, Bold and Italics. You should be able to adapt it for other weights.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -248,8 +170,8 @@ f.update()
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Rachel, that's a good idea.
-Let's hope that this is incorporated into the next FontLab, invisibly!</div>
+		<div class="commentbody">Rachel, that&rsquo;s a good idea.
+Let&rsquo;s hope that this is incorporated into the next FontLab, invisibly!</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -270,10 +192,10 @@ Let's hope that this is incorporated into the next FontLab, invisibly!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>Why are there so many options in FontLab and no definitive solution to generating an OTF family in a range of weights?</em>
-
-The whole font-naming mess is a conspiracy to create work for programmers and derogate the importance of mere glyph-limners.
-On the up side, if you ever get this sorted out, you can charge big bucks/eros/pounds for being such a pro!</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Why are there so many options in FontLab and no definitive solution to generating an OTF family in a range of weights?<!-- raw HTML omitted --></p>
+<p>The whole font-naming mess is a conspiracy to create work for programmers and derogate the importance of mere glyph-limners.
+On the up side, if you ever get this sorted out, you can charge big bucks/eros/pounds for being such a pro!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -294,7 +216,7 @@ On the up side, if you ever get this sorted out, you can charge big bucks/eros/p
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The font naming issues are complex and varied… I'm glad I'm not the only one who has had problems. I figured it out through a combination of sources such as the links above and a lot of trial and error, now that I'm set I'm sticking with the process I have as it works well.</div>
+		<div class="commentbody">The font naming issues are complex and varied… I&rsquo;m glad I&rsquo;m not the only one who has had problems. I figured it out through a combination of sources such as the links above and a lot of trial and error, now that I&rsquo;m set I&rsquo;m sticking with the process I have as it works well.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -316,7 +238,7 @@ On the up side, if you ever get this sorted out, you can charge big bucks/eros/p
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">As this involves italic, how about this little gem from Miguel Sousa (nothing to do with naming fonts):
-http://typophile.com/node/55320</div>
+<a href="http://typophile.com/node/55320">http://typophile.com/node/55320</a></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -337,7 +259,7 @@ http://typophile.com/node/55320</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Since my last post I ran into the same problem. There was a space after the last character in one of the font names, and that space was causing the font to be counted as a second family with what looked like the same name. Fixing the fonts did not fix the problem; I found that the only way to fix it was to stop using the fonts via a font manager and instead put them in /Library/Application Support/Adobe/Fonts. </div>
+		<div class="commentbody">Since my last post I ran into the same problem. There was a space after the last character in one of the font names, and that space was causing the font to be counted as a second family with what looked like the same name. Fixing the fonts did not fix the problem; I found that the only way to fix it was to stop using the fonts via a font manager and instead put them in /Library/Application Support/Adobe/Fonts.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -358,11 +280,10 @@ http://typophile.com/node/55320</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for all the help. It's sorted now - I renamed them all slightly and that sorted it.
-
-Rachel - thanks for that, but I have no idea what to do with it; I have an aversion to all that python stuff - it's on a par with manual hinting which thankfully I have also managed to steer well clear of. Creating features and classes is bad enough, but that makes me shudder.
-
-Nick Cooke</div>
+		<div class="commentbody"><p>Thanks for all the help. It&rsquo;s sorted now - I renamed them all slightly and that sorted it.</p>
+<p>Rachel - thanks for that, but I have no idea what to do with it; I have an aversion to all that python stuff - it&rsquo;s on a par with manual hinting which thankfully I have also managed to steer well clear of. Creating features and classes is bad enough, but that makes me shudder.</p>
+<p>Nick Cooke</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -383,17 +304,18 @@ Nick Cooke</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick
-
-You do need RoboFab installed it's really simple - I'm not the sharpest knife in the box.
-
-1. Select all the code and save it in a text file (I use TextMate on a mac).
-2. Name the file something with .py at the end, I use NamingMacro.py
-3. Put this file into your macros folder, on a mac thats - /Users/Username/Library/Application Support/FontLab/Studio 5/Macros
-4. In FontLab open the macros toolbar    View - Toolbars - Macro.
-5. The file you put in the macros folder should be there, select it and press run.
-6. A window will open asking you for the family name then one for the weight.
-7. Done.</div>
+		<div class="commentbody"><p>Nick</p>
+<p>You do need RoboFab installed it&rsquo;s really simple - I&rsquo;m not the sharpest knife in the box.</p>
+<ol>
+<li>Select all the code and save it in a text file (I use TextMate on a mac).</li>
+<li>Name the file something with .py at the end, I use NamingMacro.py</li>
+<li>Put this file into your macros folder, on a mac thats - /Users/Username/Library/Application Support/FontLab/Studio 5/Macros</li>
+<li>In FontLab open the macros toolbar    View - Toolbars - Macro.</li>
+<li>The file you put in the macros folder should be there, select it and press run.</li>
+<li>A window will open asking you for the family name then one for the weight.</li>
+<li>Done.</li>
+</ol>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -414,15 +336,12 @@ You do need RoboFab installed it's really simple - I'm not the sharpest knife in
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It would be nice to have an expanded version of RoboFab to handle all weight possibilities… does RoboFab mimic FontLab Studio naming even for the PS Font name with no spaces and the OpenType naming?
-
-Does it sync with Adam Twardoch's naming conventions for FontLab Studio?
-
-Just curious this looks interesting.
-
-I don't have any problems currently with naming but it looks like a very efficient system…
-
-Mike</div>
+		<div class="commentbody"><p>It would be nice to have an expanded version of RoboFab to handle all weight possibilities… does RoboFab mimic FontLab Studio naming even for the PS Font name with no spaces and the OpenType naming?</p>
+<p>Does it sync with Adam Twardoch&rsquo;s naming conventions for FontLab Studio?</p>
+<p>Just curious this looks interesting.</p>
+<p>I don&rsquo;t have any problems currently with naming but it looks like a very efficient system…</p>
+<p>Mike</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -443,17 +362,14 @@ Mike</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I tried that on an unnamed font and an output window came up with:
-
-  File "<string>", line 1
-    {\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf430
-                                                     ^
-SyntaxError: invalid token
-
-I assume that's not right?
-
-
-Nick Cooke</div>
+		<div class="commentbody"><p>I tried that on an unnamed font and an output window came up with:</p>
+<p>File &ldquo;<!-- raw HTML omitted -->&rdquo;, line 1
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf430
+^
+SyntaxError: invalid token</p>
+<p>I assume that&rsquo;s not right?</p>
+<p>Nick Cooke</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -474,11 +390,10 @@ Nick Cooke</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick 
-
-Do you have RoboFab installed and working correctly ?
-
-Do you get the windows asking for the Font name and Font weight ?</div>
+		<div class="commentbody"><p>Nick</p>
+<p>Do you have RoboFab installed and working correctly ?</p>
+<p>Do you get the windows asking for the Font name and Font weight ?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

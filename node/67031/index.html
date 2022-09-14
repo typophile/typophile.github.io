@@ -71,32 +71,29 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi
-
-Can anyone tell if it's possible to delete OT Classes using Python. I have tried something like:
-
-for k in range(len(f.classes)):
-  s = f.classes[k][0]
-  if s=="_":
-    del f.classes[k]
-
-to delete every class that starts with an underscore, but this approach doesn't work. Is there another way to delete classes or am I doing something stupid?
-
-tia
-M</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi</p>
+<p>Can anyone tell if it&rsquo;s possible to delete OT Classes using Python. I have tried something like:</p>
+<p>for k in range(len(f.classes)):
+s = f.classes[k][0]
+if s==&quot;_&quot;:
+del f.classes[k]</p>
+<p>to delete every class that starts with an underscore, but this approach doesn&rsquo;t work. Is there another way to delete classes or am I doing something stupid?</p>
+<p>tia
+M</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Try this:
-
-f=fl.font
+		<div class="commentbody"><p>Try this:</p>
+<p>f=fl.font
 fIdx=fl.ifont
 classes = f.classes
 for k in range(len(classes)-1,-1,-1):
-&nbsp;&nbsp;&nbsp;if len(classes[k].strip()) and classes[k][0] == "_":
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;del classes[k]
+   if len(classes[k].strip()) and classes[k][0] == &ldquo;_&quot;:
+      del classes[k]
 f.classes = classes
-fl.UpdateFont(fIdx)</div>
+fl.UpdateFont(fIdx)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -138,9 +135,9 @@ fl.UpdateFont(fIdx)</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you Karsten. I must admit I don't understand 100% why that works but thanks you for your solution.
-
-M</div>
+		<div class="commentbody"><p>Thank you Karsten. I must admit I don&rsquo;t understand 100% why that works but thanks you for your solution.</p>
+<p>M</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -161,11 +158,16 @@ M</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Two things: 
-
-1. When you delete an element from a list, the number of items in the list obviously is reduced by one. But the initial range(len()) loop is just a static list so if you remove any elements, you'll get an "Index out of range". This is why Karsten is iterating through the loop in the descending order of elements. This is not FontLab-specific, it would happen with every Python list for which you'd remove elements that way. 
-
-2. Many of FontLab's pseudolist objects only implement partial behavior of list objects. But you can assign such pseudolist object to a real Python list, then perform some list modifications, and then reassign the list back to the FontLab pseudolist. I don't consider this "normal behavior" but, well, the FontLab Python API was developed quite a few years ago and some of the objects behave a bit strangely. </div>
+		<div class="commentbody"><p>Two things:</p>
+<ol>
+<li>
+<p>When you delete an element from a list, the number of items in the list obviously is reduced by one. But the initial range(len()) loop is just a static list so if you remove any elements, you&rsquo;ll get an &ldquo;Index out of range&rdquo;. This is why Karsten is iterating through the loop in the descending order of elements. This is not FontLab-specific, it would happen with every Python list for which you&rsquo;d remove elements that way.</p>
+</li>
+<li>
+<p>Many of FontLab&rsquo;s pseudolist objects only implement partial behavior of list objects. But you can assign such pseudolist object to a real Python list, then perform some list modifications, and then reassign the list back to the FontLab pseudolist. I don&rsquo;t consider this &ldquo;normal behavior&rdquo; but, well, the FontLab Python API was developed quite a few years ago and some of the objects behave a bit strangely.</p>
+</li>
+</ol>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -71,56 +71,47 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">In a way, this is an InDesign post. My only excuse for posting here is there may be some implications for OT features. And that a bunch of you have greater skill writing regular expressions . . .
-
-* * *
-
-It always bothers me when full caps aren't letterspaced, or are set with old style figures. The latter can happen with newspaper section page references (e.g., C2), U.S. Interstate highways (e.g., I-85), and other things (e.g., Box 42A) etc. -- usually in notes/references/bibliographies.
-
-Some would say just set the full caps as small caps. Well, finding them is still a chore, and some publishers prohibit small caps in backmatter (notes, references). This isn't as bad an idea as some might think. Additionally, some construction, (e.g., Interstate I-15) don't work well with small caps & o.s. figs.
-
-For my purposes, it's enough that some publishers banish small caps in the backmatter, though I hope I've shown there are other reasons for an automated solution. And there is the matter of letterspacing full caps, just like small caps.
-
-Now with InDesign, a grep style could do this. Problem is how to write it. At fist glance, it would seem that anything within word boundaries that doesn't have a lower case letter would qualify. But no, straight numbers would then qualify, and that's no good. What's needed is
-
-1. There must be at least two letters.
-
-2. There must be at least one cap.
-
-3. There can be no lowercase letters.
-
-4. At least some punctuation should be allowed -- period, hyphen, slash, quotes, maybe parens and brackets . . .
-
-5. Numbers should be included.
-
-You cannot assume that a cap starts the string. It would also be nice if, say, US$100 did not qualify.
-
-Anybody think of other inclusions/restrictions?
-
-* * *
-
-As I envision a grep style rather than a grep search, one could use more than expression.
-
-Since you'd be calling a character style, everything could be hand-coded there -- letterspacing and figure style being primary. But if *cpsp* and *case* were adequate in the font, a lot of niceties would come along for free.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>In a way, this is an InDesign post. My only excuse for posting here is there may be some implications for OT features. And that a bunch of you have greater skill writing regular expressions . . .</p>
+<hr>
+<p>It always bothers me when full caps aren&rsquo;t letterspaced, or are set with old style figures. The latter can happen with newspaper section page references (e.g., C2), U.S. Interstate highways (e.g., I-85), and other things (e.g., Box 42A) etc. &ndash; usually in notes/references/bibliographies.</p>
+<p>Some would say just set the full caps as small caps. Well, finding them is still a chore, and some publishers prohibit small caps in backmatter (notes, references). This isn&rsquo;t as bad an idea as some might think. Additionally, some construction, (e.g., Interstate I-15) don&rsquo;t work well with small caps &amp; o.s. figs.</p>
+<p>For my purposes, it&rsquo;s enough that some publishers banish small caps in the backmatter, though I hope I&rsquo;ve shown there are other reasons for an automated solution. And there is the matter of letterspacing full caps, just like small caps.</p>
+<p>Now with InDesign, a grep style could do this. Problem is how to write it. At fist glance, it would seem that anything within word boundaries that doesn&rsquo;t have a lower case letter would qualify. But no, straight numbers would then qualify, and that&rsquo;s no good. What&rsquo;s needed is</p>
+<ol>
+<li>
+<p>There must be at least two letters.</p>
+</li>
+<li>
+<p>There must be at least one cap.</p>
+</li>
+<li>
+<p>There can be no lowercase letters.</p>
+</li>
+<li>
+<p>At least some punctuation should be allowed &ndash; period, hyphen, slash, quotes, maybe parens and brackets . . .</p>
+</li>
+<li>
+<p>Numbers should be included.</p>
+</li>
+</ol>
+<p>You cannot assume that a cap starts the string. It would also be nice if, say, US$100 did not qualify.</p>
+<p>Anybody think of other inclusions/restrictions?</p>
+<hr>
+<p>As I envision a grep style rather than a grep search, one could use more than expression.</p>
+<p>Since you&rsquo;d be calling a character style, everything could be hand-coded there &ndash; letterspacing and figure style being primary. But if <em>cpsp</em> and <em>case</em> were adequate in the font, a lot of niceties would come along for free.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ah, the wonders of GREP styles -- how did I ever work without them?
-
-Let's see -- the following GREP style will find any run of the following characters, with at least two uppercase characters anywhere (not consecutively): Capitals, digits, hyphen, period, open and close single and double curly quotes, and round parentheses.
-
-It will match "123A456B" but not "(...A1...)" (only one capital); 'word' delimiters are all possible kinds of white space, plus begin/end of string.
-
-It works like this: to the left of the starting point there should not be NOT a space (I cannot use the regular \b boundary here, because it seems some non-whitespace characters also define a word boundary; in addition, I cannot use "to the left <em>should be</em> white space, because then it will fail at the start of a paragraph). Then, from the start, there should be any number of allowed characters, excluding uppercase, followed by an uppercase, followed by again any number of allowed characters and again at least a single uppercase. That's to fulfill the requirement "1. There must be at least two letters" (which, incidentally, is repeated in "2. At least one cap" and "3. No lowercase letters"). If the previous check matches, all characters are allowed up to NOT a non-space at the right.
-
-<code>(?&lt;!\S)(?=[\d\-\./~[~{~}~]()]*\u[\d\-\./~{~[~]~}()]*\u)[\u\d\-\./~{~[~]~}()]+(?!\S)</code>
-
-
-To test, you can set up a character style with a fat colored underline, so you can see what it picks up and what gets ignored:
-
-[img:sites/default/files/old-images/grepstyle_3612.png]
-
-The great thing about GREP styles in InDesign is that they are entirely <em>live</em>, so you can type text and see the result immediately!</div>
+		<div class="commentbody"><p>Ah, the wonders of GREP styles &ndash; how did I ever work without them?</p>
+<p>Let&rsquo;s see &ndash; the following GREP style will find any run of the following characters, with at least two uppercase characters anywhere (not consecutively): Capitals, digits, hyphen, period, open and close single and double curly quotes, and round parentheses.</p>
+<p>It will match &ldquo;123A456B&rdquo; but not &ldquo;(&hellip;A1&hellip;)&rdquo; (only one capital); &lsquo;word&rsquo; delimiters are all possible kinds of white space, plus begin/end of string.</p>
+<p>It works like this: to the left of the starting point there should not be NOT a space (I cannot use the regular \b boundary here, because it seems some non-whitespace characters also define a word boundary; in addition, I cannot use &ldquo;to the left <!-- raw HTML omitted -->should be<!-- raw HTML omitted --> white space, because then it will fail at the start of a paragraph). Then, from the start, there should be any number of allowed characters, excluding uppercase, followed by an uppercase, followed by again any number of allowed characters and again at least a single uppercase. That&rsquo;s to fulfill the requirement &ldquo;1. There must be at least two letters&rdquo; (which, incidentally, is repeated in &ldquo;2. At least one cap&rdquo; and &ldquo;3. No lowercase letters&rdquo;). If the previous check matches, all characters are allowed up to NOT a non-space at the right.</p>
+<p><!-- raw HTML omitted -->(?&lt;!\S)(?=[\d-./~<a href="">~{~}~</a>]<em>\u[\d-./~{~[~]~}()]</em>\u)[\u\d-./~{~[~]~}()]+(?!\S)<!-- raw HTML omitted --></p>
+<p>To test, you can set up a character style with a fat colored underline, so you can see what it picks up and what gets ignored:</p>
+<p>[img:sites/default/files/old-images/grepstyle_3612.png]</p>
+<p>The great thing about GREP styles in InDesign is that they are entirely <!-- raw HTML omitted -->live<!-- raw HTML omitted -->, so you can type text and see the result immediately!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -141,11 +132,10 @@ The great thing about GREP styles in InDesign is that they are entirely <em>live
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi Theunis.
-
-Nice. I screwed up the spec. (1) should read "there should be at least two *characters*," not two *letters.* That way, A1 would qualify, but a single cap -- I, A, O -- wouldn't. And (2) wouldn't be redundant . . .
-
-BTW, do you think this useful? OK to say no.</div>
+		<div class="commentbody"><p>Hi Theunis.</p>
+<p>Nice. I screwed up the spec. (1) should read &ldquo;there should be at least two <em>characters</em>,&rdquo; not two <em>letters.</em> That way, A1 would qualify, but a single cap &ndash; I, A, O &ndash; wouldn&rsquo;t. And (2) wouldn&rsquo;t be redundant . . .</p>
+<p>BTW, do you think this useful? OK to say no.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -166,25 +156,17 @@ BTW, do you think this useful? OK to say no.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Okay ... this needs a slightly different approach, then:
-
-<code>(?&lt;!\S)(?=\S*\u)([\u\d~[~]~{~}.()]){2,}(?![^\s[:punct:]])</code>
-
-This needs at least a sequence of non-spaces followed by an uppercase (the (?=\S*\u) part), then the same characters as above may get repeated, at least two times and as much as possible.
-
-I also changed the "end" condition slightly. Rather than a space character -- or, as I said before, "not <em>not</em> a space character --, it also needs to check for regular punctuation. My previous try also failed on "... A1, .." (a single comma right after a 'good' expression).
-
-<cite>BTW, do you think this useful? OK to say no.</cite>
-
-"Jugdement call. Ask a real human." (Quoted freely from -- I think -- a Terry Pratchett novel.)
-
-As you can see with a highlight style applied, it picks up everything mildly applicably and <em>relentlessly</em>. GREP Styles are the Terminators of InDesign -- They Will Not Stop. You cannot manually override a GREP style, unless you make another one with every attribute set to the exact opposite. The Highlight style, for example, needs one with Underline forcibly switched Off. Worse is that you have to apply them manually as well.
-
-I'd have to see a run of the text you intend to apply it to, because it may well be it works as intended ... So <em>do</em> try out with a Highlighting Style, so at least you can see where it gets applied.
-
-Here's one I missed so far: since it also includes the parentheses, the closing ones in your short list of examples get picked up. It's virtually impossible to force "matching parentheses" in a GREP style ...
-
-[img:sites/default/files/old-images/grepstyle2_4003.png]</div>
+		<div class="commentbody"><p>Okay &hellip; this needs a slightly different approach, then:</p>
+<p><!-- raw HTML omitted -->(?&lt;!\S)(?=\S*\u)([\u\d~[~]~{~}.()]){2,}(?![^\s[:punct:]])<!-- raw HTML omitted --></p>
+<p>This needs at least a sequence of non-spaces followed by an uppercase (the (?=\S*\u) part), then the same characters as above may get repeated, at least two times and as much as possible.</p>
+<p>I also changed the &ldquo;end&rdquo; condition slightly. Rather than a space character &ndash; or, as I said before, &ldquo;not <!-- raw HTML omitted -->not<!-- raw HTML omitted --> a space character &ndash;, it also needs to check for regular punctuation. My previous try also failed on &ldquo;&hellip; A1, ..&rdquo; (a single comma right after a &lsquo;good&rsquo; expression).</p>
+<p><!-- raw HTML omitted -->BTW, do you think this useful? OK to say no.<!-- raw HTML omitted --></p>
+<p>&ldquo;Jugdement call. Ask a real human.&rdquo; (Quoted freely from &ndash; I think &ndash; a Terry Pratchett novel.)</p>
+<p>As you can see with a highlight style applied, it picks up everything mildly applicably and <!-- raw HTML omitted -->relentlessly<!-- raw HTML omitted -->. GREP Styles are the Terminators of InDesign &ndash; They Will Not Stop. You cannot manually override a GREP style, unless you make another one with every attribute set to the exact opposite. The Highlight style, for example, needs one with Underline forcibly switched Off. Worse is that you have to apply them manually as well.</p>
+<p>I&rsquo;d have to see a run of the text you intend to apply it to, because it may well be it works as intended &hellip; So <!-- raw HTML omitted -->do<!-- raw HTML omitted --> try out with a Highlighting Style, so at least you can see where it gets applied.</p>
+<p>Here&rsquo;s one I missed so far: since it also includes the parentheses, the closing ones in your short list of examples get picked up. It&rsquo;s virtually impossible to force &ldquo;matching parentheses&rdquo; in a GREP style &hellip;</p>
+<p>[img:sites/default/files/old-images/grepstyle2_4003.png]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

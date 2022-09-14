@@ -71,19 +71,16 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">The following is from the specfication for Glyf tables in Apple's OTF file specification. http://developer.apple.com/fonts/TTRefMan/RM06/Chap6glyf.html
-
-"If the x-short Vector bit is not set, and this bit is set, then the current x-coordinate is the same as the previous x-coordinate."
-
-Is is not clear whether they mean the *actual* x coordinate or the *relative* x coordinate.  What is actually stored in the table is relative offsets from the previously listed coordinate, so if the above statement refers to relative coordinates it would mean if you have a string of x coordinates "3,3,3,3,...." (indicating a constant angle for some stretch)  that just one "3" would be stored for that stretch.  OTOH if the above spec means *actual* x coordinates, it would mean that only in the case of a series of x's indicating a vertical line (i.e. no change in actual x coordinate) would all those x coordinates be collapsed to 1.
-
-So I can't tell from the spec which they're referring to.  And you can't tell from looking at most ttf files because the above spec only applies when x coordinates are 2 bytes as opposed to 1, which will be in an extreme minority as most x offsets form the previous x will be small.
-
-So an obscure question maybe, unless you have to parse TTF/OTF files directly (as in an application).  I wouldn't blame you guys if no one here knows this, but if knowledge of the TTF/OTF spec cannot be found here, then I don't know where.  </div>
+  <div class="post-content e-content" itemprop="articleBody"><p>The following is from the specfication for Glyf tables in Apple&rsquo;s OTF file specification. <a href="http://developer.apple.com/fonts/TTRefMan/RM06/Chap6glyf.html">http://developer.apple.com/fonts/TTRefMan/RM06/Chap6glyf.html</a></p>
+<p>&ldquo;If the x-short Vector bit is not set, and this bit is set, then the current x-coordinate is the same as the previous x-coordinate.&rdquo;</p>
+<p>Is is not clear whether they mean the <em>actual</em> x coordinate or the <em>relative</em> x coordinate.  What is actually stored in the table is relative offsets from the previously listed coordinate, so if the above statement refers to relative coordinates it would mean if you have a string of x coordinates &ldquo;3,3,3,3,&hellip;.&rdquo; (indicating a constant angle for some stretch)  that just one &ldquo;3&rdquo; would be stored for that stretch.  OTOH if the above spec means <em>actual</em> x coordinates, it would mean that only in the case of a series of x&rsquo;s indicating a vertical line (i.e. no change in actual x coordinate) would all those x coordinates be collapsed to 1.</p>
+<p>So I can&rsquo;t tell from the spec which they&rsquo;re referring to.  And you can&rsquo;t tell from looking at most ttf files because the above spec only applies when x coordinates are 2 bytes as opposed to 1, which will be in an extreme minority as most x offsets form the previous x will be small.</p>
+<p>So an obscure question maybe, unless you have to parse TTF/OTF files directly (as in an application).  I wouldn&rsquo;t blame you guys if no one here knows this, but if knowledge of the TTF/OTF spec cannot be found here, then I don&rsquo;t know where.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You are looking for something like line 2008 in FontForge's <a href="http://fontforge.cvs.sourceforge.net/viewvc/fontforge/fontforge/fontforge/parsettf.c?revision=1.207&view=markup&sortby=date">parsettf.c</a> source file?</div>
+		<div class="commentbody">You are looking for something like line 2008 in FontForge&rsquo;s <!-- raw HTML omitted -->parsettf.c<!-- raw HTML omitted --> source file?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -104,11 +101,10 @@ So an obscure question maybe, unless you have to parse TTF/OTF files directly (a
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Are they parsing the glyf table there?  You actually found that out? Outstanding.  I haven't looked at their source before.
-
-If you're looking at it now would do you know the answer to my question.
-
-thanks</div>
+		<div class="commentbody"><p>Are they parsing the glyf table there?  You actually found that out? Outstanding.  I haven&rsquo;t looked at their source before.</p>
+<p>If you&rsquo;re looking at it now would do you know the answer to my question.</p>
+<p>thanks</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -129,10 +125,7 @@ thanks</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">just click on the link above or <a href="http://fontforge.cvs.sourceforge.net/viewvc/*checkout*/fontforge/fontforge/fontforge/parsettf.c?revision=1.207"><strong>here</strong></a> to download the file without line numbers. The FontForge source repository is <a href="http://fontforge.cvs.sourceforge.net/fontforge/fontforge/fontforge/?sortby=date#dirlist"><strong>here</stong></a>
-
-
-</div>
+		<div class="commentbody">just click on the link above or <!-- raw HTML omitted --><!-- raw HTML omitted -->here<!-- raw HTML omitted --><!-- raw HTML omitted --> to download the file without line numbers. The FontForge source repository is <!-- raw HTML omitted --><!-- raw HTML omitted -->here<!-- raw HTML omitted --><!-- raw HTML omitted --></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -153,7 +146,7 @@ thanks</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks I'll get back in a bit and report what I found.   "Look at someone else's source" - what a concept.  THanks again.</div>
+		<div class="commentbody">Thanks I&rsquo;ll get back in a bit and report what I found.   &ldquo;Look at someone else&rsquo;s source&rdquo; - what a concept.  THanks again.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -174,7 +167,7 @@ thanks</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">They look at the actual x coordinate which is what I first assumed as well.  But if the goal is space savings you might as well save all repeat relative offsets when they're the same, (just as in the glyf spec any arbitrary flag is saved and repeated when the same as the previous).  But if sourceforge interprets it as the actual x coord and get away with it it must be OK.  </div>
+		<div class="commentbody">They look at the actual x coordinate which is what I first assumed as well.  But if the goal is space savings you might as well save all repeat relative offsets when they&rsquo;re the same, (just as in the glyf spec any arbitrary flag is saved and repeated when the same as the previous).  But if sourceforge interprets it as the actual x coord and get away with it it must be OK.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

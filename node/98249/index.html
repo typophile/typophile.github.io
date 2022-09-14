@@ -71,36 +71,31 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hello,
-
-I read in a book "Book Typography: A Designer's Manual" that fractions near old style figures should be minimized if they seem to large. 
-
-So I think: isn't it possible with OT features? 
-
-I could make additional sets of numerators and denominators - one.numr.osf etc. and fraction.osf that would be a little bit smaller to harmonize with lowercase glyphs.
-
-Than some changes to the frac feature should be made. 
-Here's my frac (auto-generated from Glyphs) :
-<code>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hello,</p>
+<p>I read in a book &ldquo;Book Typography: A Designer&rsquo;s Manual&rdquo; that fractions near old style figures should be minimized if they seem to large.</p>
+<p>So I think: isn&rsquo;t it possible with OT features?</p>
+<p>I could make additional sets of numerators and denominators - one.numr.osf etc. and fraction.osf that would be a little bit smaller to harmonize with lowercase glyphs.</p>
+<p>Than some changes to the frac feature should be made. 
+Here&rsquo;s my frac (auto-generated from Glyphs) :
+<!-- raw HTML omitted -->
 lookup FRAC {
-	sub slash by fraction;
+sub slash by fraction;
 } FRAC;
 lookup HOCH {
-	sub [zero one two three four five six seven eight nine] by [zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr];
+sub [zero one two three four five six seven eight nine] by [zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr];
 } HOCH;
 lookup TIEF {
-	sub fraction [zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr]' by [zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom];
-	sub [zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom] [zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr]' by [zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom];
+sub fraction [zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr]' by [zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom];
+sub [zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom] [zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr]' by [zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom];
 } TIEF;
-</code>
-
-And my question is how to write such feature?
-
-Thanks.</div>
+<!-- raw HTML omitted --></p>
+<p>And my question is how to write such feature?</p>
+<p>Thanks.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I wouldn't make changes to the frac feature. Rather, I would order the frac feature lookups before the numeral style selection features (which is normally the case anyway), and then simply add mapping from the default numerator and denominator glyphs to the variant forms in the numeral style selection feature lookups. So, for example, you would add mappings of /one.numr/ to /one.numr.osf/ in the onum feature.</div>
+		<div class="commentbody">I wouldn&rsquo;t make changes to the frac feature. Rather, I would order the frac feature lookups before the numeral style selection features (which is normally the case anyway), and then simply add mapping from the default numerator and denominator glyphs to the variant forms in the numeral style selection feature lookups. So, for example, you would add mappings of /one.numr/ to /one.numr.osf/ in the onum feature.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -142,25 +137,21 @@ Thanks.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ok. I did it. John, it came to my mind thanks to your tips :)
-
-It turned out to be very simple. I just added old style glyphs (numerators, denominators, fraction and slash) and made some changes to the frac feature:
-
-<code>
-
-lookup FRAC {
-	sub <strong>[slash slash.osf] by [fraction fraction.osf] </strong>;
+		<div class="commentbody"><p>Ok. I did it. John, it came to my mind thanks to your tips :)</p>
+<p>It turned out to be very simple. I just added old style glyphs (numerators, denominators, fraction and slash) and made some changes to the frac feature:</p>
+<!-- raw HTML omitted -->
+<p>lookup FRAC {
+sub <!-- raw HTML omitted -->[slash slash.osf] by [fraction fraction.osf] <!-- raw HTML omitted -->;
 } FRAC;
 lookup HOCH {
-	sub [zero one two three four five six seven eight nine] by [zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr];
+sub [zero one two three four five six seven eight nine] by [zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr];
 } HOCH;
 lookup TIEF {
-	sub <strong>[fraction fraction.osf]</strong> [zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr]' by [zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom];
-	sub [zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom] [zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr]' by [zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom];
-} TIEF;
-
-
-</code></div>
+sub <!-- raw HTML omitted -->[fraction fraction.osf]<!-- raw HTML omitted --> [zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr]' by [zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom];
+sub [zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom] [zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr]' by [zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom];
+} TIEF;</p>
+<!-- raw HTML omitted -->
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -181,24 +172,21 @@ lookup TIEF {
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Here’s what I did in the Modern Suite.
-
-First, I made a set of quite small superiors and inferiors (because I have never liked these—especially superiors for use in references—to be too obtrusive).
-Then I made a set of numerators and denominators that were larger, for use as the default fraction style, with the default ﬁgures, which are lining.
-
-To change to the smaller size of fraction style, I included a change from “numerator/denominator” style to “superior/inferior” style in the Oldstyle ﬁgures feature—shown below in bold. (Making sure the Fraction feature came before the Oldstyle features in sequence.)
-
-There is no need to include this change in the Fraction feature, as John has already mentioned.
-
-<code>feature onum { 
-# Oldstyle Numerals
-  sub @figs by @figs_onum_tnum;
-  sub @figs_lnum_pnum by @figs_onum_pnum;
-   <strong> sub @figs_numr by @figs_sups;
-sub @figs_dnom by @figs_sinf;</strong>
+		<div class="commentbody"><p>Here’s what I did in the Modern Suite.</p>
+<p>First, I made a set of quite small superiors and inferiors (because I have never liked these—especially superiors for use in references—to be too obtrusive).
+Then I made a set of numerators and denominators that were larger, for use as the default fraction style, with the default ﬁgures, which are lining.</p>
+<p>To change to the smaller size of fraction style, I included a change from “numerator/denominator” style to “superior/inferior” style in the Oldstyle ﬁgures feature—shown below in bold. (Making sure the Fraction feature came before the Oldstyle features in sequence.)</p>
+<p>There is no need to include this change in the Fraction feature, as John has already mentioned.</p>
+<p><!-- raw HTML omitted -->feature onum {</p>
+<h1 id="oldstyle-numerals">Oldstyle Numerals</h1>
+<p>sub @figs by @figs_onum_tnum;
+sub @figs_lnum_pnum by @figs_onum_pnum;
+<!-- raw HTML omitted --> sub @figs_numr by @figs_sups;
+sub @figs_dnom by @figs_sinf;<!-- raw HTML omitted -->
 } onum;
-</code>
-[img:sites/default/files/old-images/Numr_5497.png]</div>
+<!-- raw HTML omitted -->
+[img:sites/default/files/old-images/Numr_5497.png]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -219,13 +207,12 @@ sub @figs_dnom by @figs_sinf;</strong>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick,
-You are right, there is no need to change frac feature. I've removed changes and it works well. 
-In fact, my scenario is similar to yours except that I've created new glyphs for osf fractions instead of using inferiors and superiors. 
-I work in Glyphs app so all glyphs with .osf suffix are automatically included in onum feature, so that approach was more elegant for me. 
-
-Thank You. 
- </div>
+		<div class="commentbody"><p>Nick,
+You are right, there is no need to change frac feature. I&rsquo;ve removed changes and it works well. 
+In fact, my scenario is similar to yours except that I&rsquo;ve created new glyphs for osf fractions instead of using inferiors and superiors. 
+I work in Glyphs app so all glyphs with .osf suffix are automatically included in onum feature, so that approach was more elegant for me.</p>
+<p>Thank You.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

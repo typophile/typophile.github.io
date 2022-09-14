@@ -71,40 +71,31 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I'm adding Opentype features to a font for the first time. I have already added two sets of alternates and a set of discretionary ligatures. Most of the ligatures I want are made and I would like to add accents on some of them using anchors. Here's an example:
-
-[img:sites/default/files/old-images/MultiLigature1_4990.gif]
-
-When I look at the preview, everything seems to be ok, but when I'm trying to generate composite, it doesn't work as you can see in the next picture. 
-
-[img:sites/default/files/old-images/MultiLigature2_4729.gif]
-
-The accents are positioned correctly but the ligature are replaced by both glyphs.
-
-When I'm trying to positioned the accent on the second letter within the ligature. The preview is still correct:
-
-[img:sites/default/files/old-images/MultiLigature3_5884.gif]
-
-When I generate composite, the ligature is still replaced by both glyphs, the position of the accent is not above the right part of the ligature and is too low:
-
-[img:sites/default/files/old-images/MultiLigature4_4634.gif]
-
-Anyone knows what I'm doing wrong
-Thanks
-
-Raphael</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m adding Opentype features to a font for the first time. I have already added two sets of alternates and a set of discretionary ligatures. Most of the ligatures I want are made and I would like to add accents on some of them using anchors. Here&rsquo;s an example:</p>
+<p>[img:sites/default/files/old-images/MultiLigature1_4990.gif]</p>
+<p>When I look at the preview, everything seems to be ok, but when I&rsquo;m trying to generate composite, it doesn&rsquo;t work as you can see in the next picture.</p>
+<p>[img:sites/default/files/old-images/MultiLigature2_4729.gif]</p>
+<p>The accents are positioned correctly but the ligature are replaced by both glyphs.</p>
+<p>When I&rsquo;m trying to positioned the accent on the second letter within the ligature. The preview is still correct:</p>
+<p>[img:sites/default/files/old-images/MultiLigature3_5884.gif]</p>
+<p>When I generate composite, the ligature is still replaced by both glyphs, the position of the accent is not above the right part of the ligature and is too low:</p>
+<p>[img:sites/default/files/old-images/MultiLigature4_4634.gif]</p>
+<p>Anyone knows what I&rsquo;m doing wrong
+Thanks</p>
+<p>Raphael</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">As regards the wrongly placed accents (your last screenshot):
+		<div class="commentbody"><p>As regards the wrongly placed accents (your last screenshot):
 If you add a tilde before each accent name in your glyph composition text like
-&nbsp;&nbsp;&nbsp;&nbsp;<em>C_A+~acute=C_Acute</em>
-this will prevent FLS5 from performing some positioning tricks. If you click the green button with a questionmark in it (bottom right of the <em>Generate Glyphs</em> ... dialog), a dialog will show some more information.
-
-As regards decomposition of ligature into individual glyphs:
-FLS5's glyph generation mechanism has a built-in trick that, if you provide a glyph name that involves underscores like
-&nbsp;&nbsp;&nbsp;&nbsp;<em>C_A+dieresis</em>
-then FLS will ignore the part after the '=' and instead use the 'components' as found in the 'C_A' name, i.e. 'C' and 'A'. I have not found a way to avoid this -- except for, temporarily, replacing the underscore in the ligatures' glyph names by another character or string.</div>
+    <!-- raw HTML omitted -->C_A+~acute=C_Acute<!-- raw HTML omitted -->
+this will prevent FLS5 from performing some positioning tricks. If you click the green button with a questionmark in it (bottom right of the <!-- raw HTML omitted -->Generate Glyphs<!-- raw HTML omitted --> &hellip; dialog), a dialog will show some more information.</p>
+<p>As regards decomposition of ligature into individual glyphs:
+FLS5&rsquo;s glyph generation mechanism has a built-in trick that, if you provide a glyph name that involves underscores like
+    <!-- raw HTML omitted -->C_A+dieresis<!-- raw HTML omitted -->
+then FLS will ignore the part after the &lsquo;=&rsquo; and instead use the &lsquo;components&rsquo; as found in the &lsquo;C_A&rsquo; name, i.e. &lsquo;C&rsquo; and &lsquo;A&rsquo;. I have not found a way to avoid this &ndash; except for, temporarily, replacing the underscore in the ligatures' glyph names by another character or string.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -125,9 +116,9 @@ then FLS will ignore the part after the '=' and instead use the 'components' as 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I've tried to add the tilde before each accent name in the glyph composition text and it didn't work. But when I changed temporarily the glyph name for ’CA’ instead of ’C_A’ the composite were generated perfectly. Of course, it's not the best solution because I have to rename each composite but at least it works.
-
-Thanks</div>
+		<div class="commentbody"><p>I&rsquo;ve tried to add the tilde before each accent name in the glyph composition text and it didn&rsquo;t work. But when I changed temporarily the glyph name for ’CA’ instead of ’C_A’ the composite were generated perfectly. Of course, it&rsquo;s not the best solution because I have to rename each composite but at least it works.</p>
+<p>Thanks</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -148,16 +139,14 @@ Thanks</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You could use a little script like:
-
-sr = ("_","!!!")
-#sr = ("!!!","_")
+		<div class="commentbody"><p>You could use a little script like:</p>
+<p>sr = (&quot;<em>&quot;,&quot;!!!&quot;)
+#sr = (&quot;!!!&quot;,&quot;</em>&quot;)
 for g in fl.font.glyphs: g.name = str(g.name).replace(sr[0],sr[1])
 fl.UpdateFont(fl.ifont)
-print "done!"
-
-Copy/paste into the Macros Panel. You'll need to replace typographic quotes by simple ones.
-Before generating glyphs, run the script with the second "sr = ..." line commented out. After generating glyphs, run it again but with the first "sr = ..." line commented out. (Of course you'll need to do a search/replace in your glyph composition text too.)
+print &ldquo;done!&rdquo;</p>
+<p>Copy/paste into the Macros Panel. You&rsquo;ll need to replace typographic quotes by simple ones.
+Before generating glyphs, run the script with the second &ldquo;sr = &hellip;&rdquo; line commented out. After generating glyphs, run it again but with the first &ldquo;sr = &hellip;&rdquo; line commented out. (Of course you&rsquo;ll need to do a search/replace in your glyph composition text too.)</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -200,17 +189,13 @@ Before generating glyphs, run the script with the second "sr = ..." line comment
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Regarding the script. I'm really not sure to get it, never worked with macros before. This script is made for renaming the font before generating composite and then renaming them again when the composite have been generated???
-
-I paste it in the macro panel, but as soon as I replace the typographic quotes by simple quotes the first line: 
-
-sr = (“_”,”!!!”)
-
-becomes red.
-
-I'm not sure either of what you mean by saying to run the script with the second “sr = ...” line commented.
-
-Well, I guess I still have a lot of reading to do about macros</div>
+		<div class="commentbody"><p>Regarding the script. I&rsquo;m really not sure to get it, never worked with macros before. This script is made for renaming the font before generating composite and then renaming them again when the composite have been generated???</p>
+<p>I paste it in the macro panel, but as soon as I replace the typographic quotes by simple quotes the first line:</p>
+<p>sr = (“_”,”!!!”)</p>
+<p>becomes red.</p>
+<p>I&rsquo;m not sure either of what you mean by saying to run the script with the second “sr = &hellip;” line commented.</p>
+<p>Well, I guess I still have a lot of reading to do about macros</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -231,11 +216,10 @@ Well, I guess I still have a lot of reading to do about macros</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">
-This is a bug. We will need to correct it in FLS6. 
-
-Cheers,
-Adam</div>
+		<div class="commentbody"><p>This is a bug. We will need to correct it in FLS6.</p>
+<p>Cheers,
+Adam</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -256,15 +240,12 @@ Adam</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ok Sorry about my last post. I may sounded really lost. After examining the script better I get it. It works!
-
-Now I do understand that the first line of the script says to replace underscore in all glyph names by !!!, and that the second line is says to replace !!! by the underscore. I also get what meant first line commented out.
-
-I'm still a bit lost when I try to understand what everything stands for in the last three lines of the script, but I'll try to sort it out.
-
-Anyway, thanks for that scripting introduction. I understand that it can saves me a lot of time.
-
-Raphael</div>
+		<div class="commentbody"><p>Ok Sorry about my last post. I may sounded really lost. After examining the script better I get it. It works!</p>
+<p>Now I do understand that the first line of the script says to replace underscore in all glyph names by !!!, and that the second line is says to replace !!! by the underscore. I also get what meant first line commented out.</p>
+<p>I&rsquo;m still a bit lost when I try to understand what everything stands for in the last three lines of the script, but I&rsquo;ll try to sort it out.</p>
+<p>Anyway, thanks for that scripting introduction. I understand that it can saves me a lot of time.</p>
+<p>Raphael</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -285,11 +266,10 @@ Raphael</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Good you found out how to make it work!
-
-<cite>this is why i actually prefer visually ligating contextual alternates rather than single glyphs to solve problems such as these.</cite>
-
-I prefer (individual) contextual alternates too, but because it is the more elegant solution on the font level (as to the ligatures shown above, the one-glyph solution is fine), not because of an editor's restrictions and so have my own method for glyph composition.</div>
+		<div class="commentbody"><p>Good you found out how to make it work!</p>
+<p><!-- raw HTML omitted -->this is why i actually prefer visually ligating contextual alternates rather than single glyphs to solve problems such as these.<!-- raw HTML omitted --></p>
+<p>I prefer (individual) contextual alternates too, but because it is the more elegant solution on the font level (as to the ligatures shown above, the one-glyph solution is fine), not because of an editor&rsquo;s restrictions and so have my own method for glyph composition.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

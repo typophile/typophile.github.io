@@ -71,31 +71,23 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I'm having to build a few "ccmp" glyphs for setting Kiowa. I seem to remember that the order of specifying diacriticals in Unicode is "inside out", starting with the top.
-
-OK, no problem, the name for an "oh" with a macron & and acute above is, for example,
-
-uni006F03040301 (or shorter, uni01010301)
-
-But when you add the macron below as well, is it preferable to work "inside out" regardless of position, so the glyph name would be
-
-uni010103310301 (omacron, macronbelow combining, acute combining),
-
-or take care of the top first, e.g.
-
-uni010103010331 (omacron, acute combining, macronbelow combining)
-
-I suppose at some level it doesn't mater, but if there is a convention I'd like to follow it, because for all I know, either the text file or the PDf may be repurposed.
-
-TIA
-
-Charles</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m having to build a few &ldquo;ccmp&rdquo; glyphs for setting Kiowa. I seem to remember that the order of specifying diacriticals in Unicode is &ldquo;inside out&rdquo;, starting with the top.</p>
+<p>OK, no problem, the name for an &ldquo;oh&rdquo; with a macron &amp; and acute above is, for example,</p>
+<p>uni006F03040301 (or shorter, uni01010301)</p>
+<p>But when you add the macron below as well, is it preferable to work &ldquo;inside out&rdquo; regardless of position, so the glyph name would be</p>
+<p>uni010103310301 (omacron, macronbelow combining, acute combining),</p>
+<p>or take care of the top first, e.g.</p>
+<p>uni010103010331 (omacron, acute combining, macronbelow combining)</p>
+<p>I suppose at some level it doesn&rsquo;t mater, but if there is a convention I&rsquo;d like to follow it, because for all I know, either the text file or the PDf may be repurposed.</p>
+<p>TIA</p>
+<p>Charles</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'm not sure how relevant it is to what you are doing, but you might want to have a look at p. 111-113 of:
-
-http://www.unicode.org/versions/Unicode5.0.0/ch03.pdf</div>
+		<div class="commentbody"><p>I&rsquo;m not sure how relevant it is to what you are doing, but you might want to have a look at p. 111-113 of:</p>
+<p><a href="http://www.unicode.org/versions/Unicode5.0.0/ch03.pdf">http://www.unicode.org/versions/Unicode5.0.0/ch03.pdf</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -116,18 +108,15 @@ http://www.unicode.org/versions/Unicode5.0.0/ch03.pdf</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The ā̱́ character can be expressed in a two main canonical Unicode forms. The Normalization Form D (NFD), which is achieved by the complete canonical decomposition of the string: 
-<code>U+0061 U+0331 U+0304 U+0301</code>
+		<div class="commentbody"><p>The ā̱́ character can be expressed in a two main canonical Unicode forms. The Normalization Form D (NFD), which is achieved by the complete canonical decomposition of the string: 
+<!-- raw HTML omitted -->U+0061 U+0331 U+0304 U+0301<!-- raw HTML omitted -->
 and the Normalization Form C (NFC), which is achieved by the complete canonical decomposition and a subsequent canonical composition of the string: 
-<code>U+0101 U+0331 U+0301</code>
-
-When creating glyphnames for characters such as ā̱́ glyph, I recommend converting the Unicode sequence to the NFC form (on the Mac, you can use Unicode Checker for that), so a sensible glyphname would be <code>uni010103310301</code>. 
-
-Your <code>ccmp</code> code would be then: 
-<code>sub amacron uni0331 acutecomb by uni010103310301;</code>
-
-However, since many application don't perform Unicode normalization of the string, your ccmp code could also add code for other situations: 
-<code>sub amacron acutecomb uni0331 by uni010103310301;
+<!-- raw HTML omitted -->U+0101 U+0331 U+0301<!-- raw HTML omitted --></p>
+<p>When creating glyphnames for characters such as ā̱́ glyph, I recommend converting the Unicode sequence to the NFC form (on the Mac, you can use Unicode Checker for that), so a sensible glyphname would be <!-- raw HTML omitted -->uni010103310301<!-- raw HTML omitted -->.</p>
+<p>Your <!-- raw HTML omitted -->ccmp<!-- raw HTML omitted --> code would be then: 
+<!-- raw HTML omitted -->sub amacron uni0331 acutecomb by uni010103310301;<!-- raw HTML omitted --></p>
+<p>However, since many application don&rsquo;t perform Unicode normalization of the string, your ccmp code could also add code for other situations: 
+<!-- raw HTML omitted -->sub amacron acutecomb uni0331 by uni010103310301;
 sub aacute uni0304 uni0331 by uni010103310301;
 sub aacute uni0331 uni0304 by uni010103310301;
 sub a acutecomb uni0304 uni0331 by uni010103310301;
@@ -135,16 +124,13 @@ sub a acutecomb uni0331 uni0304 by uni010103310301;
 sub a uni0331 uni0304 acutecomb by uni010103310301;
 sub a uni0331 acutecomb uni0304 by uni010103310301;
 sub a uni0304 uni0331 acutecomb by uni010103310301;
-sub a uni0304 acutecomb uni0331 by uni010103310301;</code>
-
-More on this:
-http://groups.msn.com/FontLab/tipsandtricks.msnw?action=get_message&mview=0&ID_Message=3403
-
-More on NFC:
-http://unicode.org/reports/tr15/
-
-Regards,
-Adam
+sub a uni0304 acutecomb uni0331 by uni010103310301;<!-- raw HTML omitted --></p>
+<p>More on this:
+<a href="http://groups.msn.com/FontLab/tipsandtricks.msnw?action=get_message&amp;mview=0&amp;ID_Message=3403">http://groups.msn.com/FontLab/tipsandtricks.msnw?action=get_message&amp;mview=0&amp;ID_Message=3403</a></p>
+<p>More on NFC:
+<a href="http://unicode.org/reports/tr15/">http://unicode.org/reports/tr15/</a></p>
+<p>Regards,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

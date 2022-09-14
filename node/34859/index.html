@@ -71,55 +71,11 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody"><?php
-
-function crawlWiki($node_title,$depth){
-	
-	$query = "select n.nid,nr.body,n.title from node as n left join node_revisions as nr on n.vid = nr.vid where type='wiki' and n.title like '$node_title' limit 1";
-	$result = mysql_query($query);
-
-	if($result){
-		$wiki_entry = mysql_fetch_object($result);
-		
-		$regex = '/\[\[(.*)\]\]/Ui';
-		$link_array = array();
-		preg_match_all($regex,$wiki_entry->body,$link_array);
-		
-		if ($wiki_entry){
-			$encoded_title = urlencode($wiki_entry->title);
-			if (count($link_array) > 0){
-				print "<li><a href='/node/34859?s=$encoded_title'> $wiki_entry->title </a>&nbsp;<a href='http://dev.typophile.com/node/$wiki_entry->nid'>[view]</a></li>\n";	
-			} else {
-				print "$wiki_entry->title &nbsp;<a href='http://typophile.com/node/$wiki_entry->nid'>[view]</a></li>\n";
-			}
-			
-		} else {
-			print "<li>$node_title <a href='/wiki/".urlencode($node_title)."'>[create]</a></li>"; return;
-		}
-
-		
-		if ($depth < 2 && count($link_array) > 0){
-			print "<ul>\n";
-			foreach(array_unique($link_array[1]) as $value){
-				$value = preg_replace("/\|.+/","",$value);
-				$exceptions = "Indices,Designers,Foundries,Typefaces,Publications,Blogs,Writers,Font Retailers,Books";
-				if (!stristr($exceptions,$value)){
-					crawlWiki($value,$depth+1);
-				}
-			}
-			print "</ul>\n";
-		}
-	}
-
-}
-print "<ul>\n";
-$start = "Indices";
-if (isset($_GET['s'])) {
-  $start = $_GET['s'];
-}
-crawlWiki($start,0);
-print "<ul>\n";
-?></div>
+  <div class="post-content e-content" itemprop="articleBody"><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<blockquote>
+</blockquote>
+</div>
 
   
 </article>

@@ -71,58 +71,50 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Having a bit of trouble with alt characters… everything works fine in the Fontlab OpenType features window using
-
-feature aalt {
-  sub O by Oalt;
-  sub Oacute by Oacutealt;
-  sub Ograve by Ogravealt;
-  sub Ocircumflex by Ocircumflexalt;
-  sub Odieresis by Odieresisalt;
-  sub Otilde by Otildealt;
-  sub Oslash by Oslashalt;
-  sub o by oalt;
-  sub oacute by oacutealt;
-  sub ograve by ogravealt;
-  sub ocircumflex by ocircumflexalt;
-  sub odieresis by odieresisalt;
-  sub otilde by otildealt;
-  sub oslash by oslashalt;
-} aalt;
-
-But I noticed there's no way to access 'aalt' in Illustrator CS3… so I wanted to add salt, ss01 and maybe titl as well in the OT features for multi-application access.
-
-I found this thread containing a suggestion:
-
-Whenever you define any features in your font that produce 1:1 substitutions by some alternates (salt, ss01-ss20, swsh, hist, smcp, c2sc etc.), you should link these features to aalt in the following way:
-
-feature aalt { 
+  <div class="post-content e-content" itemprop="articleBody"><p>Having a bit of trouble with alt characters… everything works fine in the Fontlab OpenType features window using</p>
+<p>feature aalt {
+sub O by Oalt;
+sub Oacute by Oacutealt;
+sub Ograve by Ogravealt;
+sub Ocircumflex by Ocircumflexalt;
+sub Odieresis by Odieresisalt;
+sub Otilde by Otildealt;
+sub Oslash by Oslashalt;
+sub o by oalt;
+sub oacute by oacutealt;
+sub ograve by ogravealt;
+sub ocircumflex by ocircumflexalt;
+sub odieresis by odieresisalt;
+sub otilde by otildealt;
+sub oslash by oslashalt;
+} aalt;</p>
+<p>But I noticed there&rsquo;s no way to access &lsquo;aalt&rsquo; in Illustrator CS3… so I wanted to add salt, ss01 and maybe titl as well in the OT features for multi-application access.</p>
+<p>I found this thread containing a suggestion:</p>
+<p>Whenever you define any features in your font that produce 1:1 substitutions by some alternates (salt, ss01-ss20, swsh, hist, smcp, c2sc etc.), you should link these features to aalt in the following way:</p>
+<p>feature aalt { 
 feature salt; 
 feature ss01; 
 feature ss02; 
 feature hist;
  feature smcp; 
 feature c2sc;
- } aalt;
-
-But not sure how to implement and 'link' these… does it go above or below the 'aalt' feature code?
-
-And does aalt on it's own just not show up in some applications such as Illustrator?
-
-Thanks</div>
+ } aalt;</p>
+<p>But not sure how to implement and &lsquo;link&rsquo; these… does it go above or below the &lsquo;aalt&rsquo; feature code?</p>
+<p>And does aalt on it&rsquo;s own just not show up in some applications such as Illustrator?</p>
+<p>Thanks</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Mike, 'aalt' is (indirectly) accessed via the Glyph Palette.
+		<div class="commentbody"><p>Mike, &lsquo;aalt&rsquo; is (indirectly) accessed via the Glyph Palette.
 But anyway, I think this is what you want:
-<code>
+<!-- raw HTML omitted -->
 feature aalt {
 feature salt;
 feature ss01;
 feature titl;
-} aalt;
-
-feature salt {
+} aalt;</p>
+<p>feature salt {
 lookup OALT {
 sub O by Oalt;
 sub Oacute by Oacutealt;
@@ -139,17 +131,15 @@ sub odieresis by odieresisalt;
 sub otilde by otildealt;
 sub oslash by oslashalt;
 }OALT;
-} salt;
-
-feature ss01 {
+} salt;</p>
+<p>feature ss01 {
 lookup OALT;
-} ss01;
-
-feature titl {
+} ss01;</p>
+<p>feature titl {
 lookup OALT;
-} titl;</code>
-
-And while you're at it, the correct glyph names for your alternates is O.alt , Oacute.alt , etc. (notice the dot before 'alt')</div>
+} titl;<!-- raw HTML omitted --></p>
+<p>And while you&rsquo;re at it, the correct glyph names for your alternates is O.alt , Oacute.alt , etc. (notice the dot before &lsquo;alt&rsquo;)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -170,7 +160,7 @@ And while you're at it, the correct glyph names for your alternates is O.alt , O
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Okay cool thats working now I thought my output error had to do with the above lookup code but it was within a font that I had removed all of the kerning data but left the kern feature in… as soon as I deleted the kern feature and compiled all was fine… happens to be a font that i'm redoing the kerning on… </div>
+		<div class="commentbody">Okay cool thats working now I thought my output error had to do with the above lookup code but it was within a font that I had removed all of the kerning data but left the kern feature in… as soon as I deleted the kern feature and compiled all was fine… happens to be a font that i&rsquo;m redoing the kerning on…</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -191,13 +181,11 @@ And while you're at it, the correct glyph names for your alternates is O.alt , O
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Miguel, thanks I'll try that and correct the alt adding the dot before. 
-
-Out of curiosity does not having the dot before alt compromise anything?
-
-Appreciate your response!
-
-Mike</div>
+		<div class="commentbody"><p>Miguel, thanks I&rsquo;ll try that and correct the alt adding the dot before.</p>
+<p>Out of curiosity does not having the dot before alt compromise anything?</p>
+<p>Appreciate your response!</p>
+<p>Mike</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -218,9 +206,11 @@ Mike</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> <em>Out of curiosity does not having the dot before alt compromise anything?</em>
-
-<a href="http://www.adobe.com/devnet/opentype/archives/glyphnamelimits.html#2">Where and why glyph names are used</a></div>
+		<div class="commentbody"><blockquote>
+<p><!-- raw HTML omitted -->Out of curiosity does not having the dot before alt compromise anything?<!-- raw HTML omitted --></p>
+</blockquote>
+<p><!-- raw HTML omitted -->Where and why glyph names are used<!-- raw HTML omitted --></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

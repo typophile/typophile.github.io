@@ -71,59 +71,49 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hello typophiles:
-I'm writing the opentype code of a font, starting with ligatures I have some doubts about encoded ligatures and not encoded ones. In a previous thread http://typophile.com/node/35174 Miguel Sousa suggested to duplicate the encoded characters fi (FB01) and fl (FB02) for the liga feature and rename the duplicates as f_i, f_l. Then in small caps generate the glyphs fi.sc and fl.sc to replace fi and fl. And the OT code should look like this:
-
-feature smcp {
+  <div class="post-content e-content" itemprop="articleBody"><p>Hello typophiles:
+I&rsquo;m writing the opentype code of a font, starting with ligatures I have some doubts about encoded ligatures and not encoded ones. In a previous thread <a href="http://typophile.com/node/35174">http://typophile.com/node/35174</a> Miguel Sousa suggested to duplicate the encoded characters fi (FB01) and fl (FB02) for the liga feature and rename the duplicates as f_i, f_l. Then in small caps generate the glyphs fi.sc and fl.sc to replace fi and fl. And the OT code should look like this:</p>
+<p>feature smcp {
 sub fi by fi.sc;
 sub fl by fl.sc;
-} smcp;
-
-feature liga {
+} smcp;</p>
+<p>feature liga {
 sub f i by f_i;
 sub f l by f_l;
-} liga;
-
-My question is what about the other encoded ligatures? I dont know what is better, unencode them or keep the encoding and duplicate them as suggested. I also have these characters: ff (FB00), ffi (FB03), ffl (FB04), s_t (FB06) and longs_t (FB05). I have decided to duplicated them but i don't know if it is the right decision, here are my glyphs and my code. Could you advice me?
-
-Encoded: fi(FB01), fl (FB02), ff (FB00), ffi (FB03), ffl (FB04), st (FB06) and longs_t (FB05)
+} liga;</p>
+<p>My question is what about the other encoded ligatures? I dont know what is better, unencode them or keep the encoding and duplicate them as suggested. I also have these characters: ff (FB00), ffi (FB03), ffl (FB04), s_t (FB06) and longs_t (FB05). I have decided to duplicated them but i don&rsquo;t know if it is the right decision, here are my glyphs and my code. Could you advice me?</p>
+<p>Encoded: fi(FB01), fl (FB02), ff (FB00), ffi (FB03), ffl (FB04), st (FB06) and longs_t (FB05)
 Duplicated: f_f, f_f_i, f_f_l, s_t, longs_t.hlig
-Generated for smcp: fi. sc, fl.sc, ff.sc, ffi.sc, ffl.sc, st.sc
-
-feature smcp {
+Generated for smcp: fi. sc, fl.sc, ff.sc, ffi.sc, ffl.sc, st.sc</p>
+<p>feature smcp {
 sub ffi by ffi.sc;
 sub ffl by ffl.sc
 sub ff by ff.sc;
 sub fi by fi.sc;
 sub fl by fl.sc;
 sub st by st.sc;
-} smcp;
-
-feature liga {
+} smcp;</p>
+<p>feature liga {
 sub f f i by f_f_i;
 sub f i by f_i;
 sub f l by f_l;
-} liga;
-
-feature dlig {
+} liga;</p>
+<p>feature dlig {
 sub s t by s_t;
-} dlig;
-
-hlig {
+} dlig;</p>
+<p>hlig {
 sub ſ t by longs_t.hlig;
-} hlig;
-
-As for the uppercase forms, should I generate especial glyphs to substitute the enconded ligatures when the user changes the text from lowercase to all caps? Thanks in advance.</div>
+} hlig;</p>
+<p>As for the uppercase forms, should I generate especial glyphs to substitute the enconded ligatures when the user changes the text from lowercase to all caps? Thanks in advance.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'm a bit unclear on why you think you need to create duplicates of your ligatures.
-
-You can encode (e.g.) your <code>f_i</code> ligature as UFB01, include a rule <code>sub f i by f_i</code>, and omit the duplicate <code>fi</code> character altogether. Note that either name (<code>fi </code> or <code> f_i</code>) is consistent with proper naming conventions (though personally I'd use the latter).
-
-Including capital versions of the ligatures is only necessary if you want to accommodate users who employ hard-coded ligatures in their text (something which I view as a bad practice).
-
-André</div>
+		<div class="commentbody"><p>I&rsquo;m a bit unclear on why you think you need to create duplicates of your ligatures.</p>
+<p>You can encode (e.g.) your <!-- raw HTML omitted -->f_i<!-- raw HTML omitted --> ligature as UFB01, include a rule <!-- raw HTML omitted -->sub f i by f_i<!-- raw HTML omitted -->, and omit the duplicate <!-- raw HTML omitted -->fi<!-- raw HTML omitted --> character altogether. Note that either name (<!-- raw HTML omitted -->fi <!-- raw HTML omitted --> or <!-- raw HTML omitted --> f_i<!-- raw HTML omitted -->) is consistent with proper naming conventions (though personally I&rsquo;d use the latter).</p>
+<p>Including capital versions of the ligatures is only necessary if you want to accommodate users who employ hard-coded ligatures in their text (something which I view as a bad practice).</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -144,9 +134,9 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">In theory, Unicode should not exist for ligatures, because they confound the distinction between character and glyph.
-
-However, Unicode accommodates many "legacy" typographic characters that were part of exisiting encodings -- and so, because "fi" was part of, for instance, the Mac OS Roman encoding, it is given its own Unicode.</div>
+		<div class="commentbody"><p>In theory, Unicode should not exist for ligatures, because they confound the distinction between character and glyph.</p>
+<p>However, Unicode accommodates many &ldquo;legacy&rdquo; typographic characters that were part of exisiting encodings &ndash; and so, because &ldquo;fi&rdquo; was part of, for instance, the Mac OS Roman encoding, it is given its own Unicode.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -167,12 +157,12 @@ However, Unicode accommodates many "legacy" typographic characters that were par
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Are your fi.sc a real ligature or a mere aggregation of f.sc and i.sc, if the later is the case, then I see no point in having an fi.sc glyph at all, it is just redundant. you can instead say:
-<code>
+		<div class="commentbody"><p>Are your fi.sc a real ligature or a mere aggregation of f.sc and i.sc, if the later is the case, then I see no point in having an fi.sc glyph at all, it is just redundant. you can instead say:
+<!-- raw HTML omitted -->
 sub fi by f.sc i.sc;
-</code>
-
-and the same goes for other similar ligatures.</div>
+<!-- raw HTML omitted --></p>
+<p>and the same goes for other similar ligatures.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -214,11 +204,10 @@ and the same goes for other similar ligatures.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><code>sub fi by f.sc i.sc</code> requires an application to support one to many substitutions which many currently do not.
-
-The issue of small capital f_i, however, only arises where the user actually enters uFBO1 instead of simply entering the sequence f i. I'd hope that with the advent of opentype, few users are choosing to do this. Given a legacy text which includes hard-coded ligatures, I'd think the user would be better off doing a search-and-replace to fix so that spell-checking, hyphenation, etc. actually work properly anyway, so supporting smallcap (or all cap) versions of ligatures doesn't seem like it should be a priority when coding features.
-
-André</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->sub fi by f.sc i.sc<!-- raw HTML omitted --> requires an application to support one to many substitutions which many currently do not.</p>
+<p>The issue of small capital f_i, however, only arises where the user actually enters uFBO1 instead of simply entering the sequence f i. I&rsquo;d hope that with the advent of opentype, few users are choosing to do this. Given a legacy text which includes hard-coded ligatures, I&rsquo;d think the user would be better off doing a search-and-replace to fix so that spell-checking, hyphenation, etc. actually work properly anyway, so supporting smallcap (or all cap) versions of ligatures doesn&rsquo;t seem like it should be a priority when coding features.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -239,11 +228,10 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@Oldnick.
-
-Yes. You can find it at u0053.
-
-André</div>
+		<div class="commentbody"><p>@Oldnick.</p>
+<p>Yes. You can find it at u0053.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -265,10 +253,10 @@ André</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Hi André, this is what M.Sousa says about  duplicating ligatures:
-"The only reason why there's the need for smallcap versions of fi and fl is because they are characters, i.e. they have their own Unicode codepoints. In addition, these two characters are included in the MacRoman encoding and can be easily accessed from the keyboard, so there's a high chance to find them in texts."
-Thansk Nick, that's why I'm thinking about removing the encodings of my ligatures.
+&ldquo;The only reason why there&rsquo;s the need for smallcap versions of fi and fl is because they are characters, i.e. they have their own Unicode codepoints. In addition, these two characters are included in the MacRoman encoding and can be easily accessed from the keyboard, so there&rsquo;s a high chance to find them in texts.&rdquo;
+Thansk Nick, that&rsquo;s why I&rsquo;m thinking about removing the encodings of my ligatures.
 Khaled, good point, thanks.
-Mr. Oldnick, I also would like to know about that, I think there isn't an uppercase form of long s.</div>
+Mr. Oldnick, I also would like to know about that, I think there isn&rsquo;t an uppercase form of long s.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -289,11 +277,10 @@ Mr. Oldnick, I also would like to know about that, I think there isn't an upperc
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Eli,
-
-Sousa's comments provide a reason for providing a f_i.sc glyph, but not a reason for providing both f_i and fi glyphs. That's the part I'm not getting.
-
-André</div>
+		<div class="commentbody"><p>Eli,</p>
+<p>Sousa&rsquo;s comments provide a reason for providing a f_i.sc glyph, but not a reason for providing both f_i and fi glyphs. That&rsquo;s the part I&rsquo;m not getting.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -314,32 +301,23 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi Eli!
-
-I’d say the only encoded ligatures you should include are fi and fl, because there is a fair chance that in some texts they were set as one single character:
-
-(US keyboard)
-<code>alt shift 5 = ﬁ
-alt shift 6 = ﬂ</code>
-
-(Spanish ISO keyboard)
-<code>alt shift f = ﬁ 
-alt shift g = ﬂ</code>
-
-Duplicate them as f_i and f_l is not mandatory, but doesn’t hurt anyway, since this way you are not depending on the Mac OS Roman encoding.
-
-At least, that is what I did for [[http://new.myfonts.com/fonts/estudio-ch/espinosa-nova/regular/characters.html|Espinosa Nova]] (check out slots 386, 387, 390 and 391).
-
-
-———
-
-About the uppercase long s:
-http://en.wikipedia.org/wiki/Capital_%C3%9F
-(Included in Espinosa Nova as well, see slots 88 and 195.)
-
-———
-
-And please Eli, let me see your typeface when it is done. I am intrigued about the long s. Are you working on an oldstyle typeface?</div>
+		<div class="commentbody"><p>Hi Eli!</p>
+<p>I’d say the only encoded ligatures you should include are fi and fl, because there is a fair chance that in some texts they were set as one single character:</p>
+<p>(US keyboard)
+<!-- raw HTML omitted -->alt shift 5 = ﬁ
+alt shift 6 = ﬂ<!-- raw HTML omitted --></p>
+<p>(Spanish ISO keyboard)
+<!-- raw HTML omitted -->alt shift f = ﬁ 
+alt shift g = ﬂ<!-- raw HTML omitted --></p>
+<p>Duplicate them as f_i and f_l is not mandatory, but doesn’t hurt anyway, since this way you are not depending on the Mac OS Roman encoding.</p>
+<p>At least, that is what I did for [[http://new.myfonts.com/fonts/estudio-ch/espinosa-nova/regular/characters.html|Espinosa Nova]] (check out slots 386, 387, 390 and 391).</p>
+<p>———</p>
+<p>About the uppercase long s:
+<a href="http://en.wikipedia.org/wiki/Capital_%C3%9F">http://en.wikipedia.org/wiki/Capital_%C3%9F</a>
+(Included in Espinosa Nova as well, see slots 88 and 195.)</p>
+<p>———</p>
+<p>And please Eli, let me see your typeface when it is done. I am intrigued about the long s. Are you working on an oldstyle typeface?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -360,7 +338,7 @@ And please Eli, let me see your typeface when it is done. I am intrigued about t
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'm curious what applications don't support one to many substitutions? looks so 80s to me.</div>
+		<div class="commentbody">I&rsquo;m curious what applications don&rsquo;t support one to many substitutions? looks so 80s to me.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -381,10 +359,10 @@ And please Eli, let me see your typeface when it is done. I am intrigued about t
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">André, I think the problem with encoded ligatures is that when you use them and make the feature liga with them you are not changing the glyph but the character itself and I think it can cause problems with your GSUB table, but I'm not sure about that.
-
-Cristobal thank you for your clarification, I think I'm going to do what you did with your beautiful Espinosa Nova. Correct me if I'm wrong, the eszet is a ligature between long s and s, I don't know if there is a capital form of long s alone. You may want to have a look at these links for more comments about the capital eszet: http://www.flickr.com/photos/elibaal/5039507654/ http://www.flickr.com/photos/hardwig/5087231570/
-And finally, I'm currently working on a humanist sans, I'll send you a sneak preview.</div>
+		<div class="commentbody"><p>André, I think the problem with encoded ligatures is that when you use them and make the feature liga with them you are not changing the glyph but the character itself and I think it can cause problems with your GSUB table, but I&rsquo;m not sure about that.</p>
+<p>Cristobal thank you for your clarification, I think I&rsquo;m going to do what you did with your beautiful Espinosa Nova. Correct me if I&rsquo;m wrong, the eszet is a ligature between long s and s, I don&rsquo;t know if there is a capital form of long s alone. You may want to have a look at these links for more comments about the capital eszet: <a href="http://www.flickr.com/photos/elibaal/5039507654/">http://www.flickr.com/photos/elibaal/5039507654/</a> <a href="http://www.flickr.com/photos/hardwig/5087231570/">http://www.flickr.com/photos/hardwig/5087231570/</a>
+And finally, I&rsquo;m currently working on a humanist sans, I&rsquo;ll send you a sneak preview.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -405,9 +383,9 @@ And finally, I'm currently working on a humanist sans, I'll send you a sneak pre
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I stand corrected: yes, I was talking about an uppercase ß, not an uppercase long s alone. Sorry about that. :P
-
-Looking forward to see your sans serif long s!</div>
+		<div class="commentbody"><p>I stand corrected: yes, I was talking about an uppercase ß, not an uppercase long s alone. Sorry about that. :P</p>
+<p>Looking forward to see your sans serif long s!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -428,17 +406,13 @@ Looking forward to see your sans serif long s!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">My take is you grudgingly support legacy characters, you never encourage their use.
-
-We don't sell fonts, we work them over only to set type. Maybe my views shouldn't count, then. But when I run into a font with a fi or fl character, (and a Unicode codepoint), I take them out. At some point, the fi character should be *deprecated.* Far as I'm concerned, that was as soon as we could employ a character-glyph distinction.
-
-As for F_I ligatures, whether small or full cap, why? How many texts come to people who use type where that's been an issue? I've never seen one -- can somebody remember one, or is this just a theoretical exercise? 
-
-What to do when small or full caps are both ligatures and letterspaced, esp. just below the point where any ligatures break into component characters? They're going to look dreadful. And both are commonly letterspaced.
-
-Etc.
-
-I say let a text show .notdef and salmon for any fi/fl etc. characters. Fix that text then & there, and we've gotten rid of one more bum situation. </div>
+		<div class="commentbody"><p>My take is you grudgingly support legacy characters, you never encourage their use.</p>
+<p>We don&rsquo;t sell fonts, we work them over only to set type. Maybe my views shouldn&rsquo;t count, then. But when I run into a font with a fi or fl character, (and a Unicode codepoint), I take them out. At some point, the fi character should be <em>deprecated.</em> Far as I&rsquo;m concerned, that was as soon as we could employ a character-glyph distinction.</p>
+<p>As for F_I ligatures, whether small or full cap, why? How many texts come to people who use type where that&rsquo;s been an issue? I&rsquo;ve never seen one &ndash; can somebody remember one, or is this just a theoretical exercise?</p>
+<p>What to do when small or full caps are both ligatures and letterspaced, esp. just below the point where any ligatures break into component characters? They&rsquo;re going to look dreadful. And both are commonly letterspaced.</p>
+<p>Etc.</p>
+<p>I say let a text show .notdef and salmon for any fi/fl etc. characters. Fix that text then &amp; there, and we&rsquo;ve gotten rid of one more bum situation.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -459,7 +433,7 @@ I say let a text show .notdef and salmon for any fi/fl etc. characters. Fix that
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'm not a German, but small eszet always looked like an upper letter to me, I like the one in this sign http://www.flickr.com/photos/hardwig/5087231570/ as it looks like a real small letter (and does not look like a B or small beta either).</div>
+		<div class="commentbody">I&rsquo;m not a German, but small eszet always looked like an upper letter to me, I like the one in this sign <a href="http://www.flickr.com/photos/hardwig/5087231570/">http://www.flickr.com/photos/hardwig/5087231570/</a> as it looks like a real small letter (and does not look like a B or small beta either).</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

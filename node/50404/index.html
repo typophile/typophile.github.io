@@ -71,42 +71,19 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Is it possible to use python or Robofab to replicate Fontlabs 'copy to composites' command ?
-
-I know I could use something like this to update sidebearings of glyphs.
-
-<code>
-from robofab.world import CurrentFont
-f = CurrentFont()
-#
-E = ['Emacron','Ebreve','Edotaccent','Eogonek','Ecaron','Egrave','Eacute','Ecircumflex','Edieresis']
-#
-for glyphName in E:
-        f[glyphName].leftMargin = f['E'].leftMargin
-	f[glyphName].rightMargin = f['E'].rightMargin
-#
-f.update()
-#
-print "E composites updated"
-</code>
-
-
-
-This works fine until I get to the situation where the accents of glyphs over hang the sidebearing of the base glyph, this is where I would use the 'copy to composites' command or the measurement line.
-
-
-[img:sites/default/files/old-images/Picture-1_3563.jpg]
-
-
-Using 'copy to composites' is fine if not time consuming, but I have decomposed the composites in the process of generating the intermediate weight from a MM font. If I could write one macro that ensured all glyphs had the correct sidebearing it would save me loads of time.
-
-Rr</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Is it possible to use python or Robofab to replicate Fontlabs &lsquo;copy to composites&rsquo; command ?</p>
+<p>I know I could use something like this to update sidebearings of glyphs.</p>
+<!-- raw HTML omitted -->
+<p>This works fine until I get to the situation where the accents of glyphs over hang the sidebearing of the base glyph, this is where I would use the &lsquo;copy to composites&rsquo; command or the measurement line.</p>
+<p>[img:sites/default/files/old-images/Picture-1_3563.jpg]</p>
+<p>Using &lsquo;copy to composites&rsquo; is fine if not time consuming, but I have decomposed the composites in the process of generating the intermediate weight from a MM font. If I could write one macro that ensured all glyphs had the correct sidebearing it would save me loads of time.</p>
+<p>Rr</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I recommend that you set up metric classes in the Classes panel and then use Tools / Metrics Assistance. 
-
-Adam
+		<div class="commentbody"><p>I recommend that you set up metric classes in the Classes panel and then use Tools / Metrics Assistance.</p>
+<p>Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -128,22 +105,20 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If it's not possible to achieve this with a macro I'll have to go down the road of using Metrics classes, but I know it would be alot quicker and simpler using a macro.
-
-Mertics Class Method:
-
-1. Create the classes - a seperate class for most of the uppercase, lowercase and smallcaps.
-2. Open up each font and import the metrics classes 
-3. In each font, Tools - Metrics Assistance.
-4. Select the classes, click Use the measurement line then Apply and save.
-5. Delete the metrics classes from the classes panel - I don't see the need in leaving them there as they are just temporary 
-
-Macro Method (if it's possible)
-
-1. Create the macro
-2. Call the macro in each font.
-
-
+		<div class="commentbody"><p>If it&rsquo;s not possible to achieve this with a macro I&rsquo;ll have to go down the road of using Metrics classes, but I know it would be alot quicker and simpler using a macro.</p>
+<p>Mertics Class Method:</p>
+<ol>
+<li>Create the classes - a seperate class for most of the uppercase, lowercase and smallcaps.</li>
+<li>Open up each font and import the metrics classes</li>
+<li>In each font, Tools - Metrics Assistance.</li>
+<li>Select the classes, click Use the measurement line then Apply and save.</li>
+<li>Delete the metrics classes from the classes panel - I don&rsquo;t see the need in leaving them there as they are just temporary</li>
+</ol>
+<p>Macro Method (if it&rsquo;s possible)</p>
+<ol>
+<li>Create the macro</li>
+<li>Call the macro in each font.</li>
+</ol>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -165,15 +140,11 @@ Macro Method (if it's possible)
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I found this link to a marginPen object for Robofab
-
-http://code.robofab.com/browser/trunk/Lib/robofab/pens/marginPen.py
-
-I don't know how to implement this code but it looks like what I'm looking for. Could anyone offer any advise on how I go about using it.
-
-
-
-Rr</div>
+		<div class="commentbody"><p>I found this link to a marginPen object for Robofab</p>
+<p><a href="http://code.robofab.com/browser/trunk/Lib/robofab/pens/marginPen.py">http://code.robofab.com/browser/trunk/Lib/robofab/pens/marginPen.py</a></p>
+<p>I don&rsquo;t know how to implement this code but it looks like what I&rsquo;m looking for. Could anyone offer any advise on how I go about using it.</p>
+<p>Rr</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -194,9 +165,9 @@ Rr</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I too could use something like this!
-
---K</div>
+		<div class="commentbody"><p>I too could use something like this!</p>
+<p>&ndash;K</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -217,25 +188,8 @@ Rr</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I actually went down a different route of checking if the composites sidebearings matched the base glyph and then coloring the glyphs that didn't. It still dosen't get round the problem of the accents over hanging the sidebearings but it's heading in the direction of the functionality I wanted.
-
-<code>
-from robofab.world import CurrentFont
-f = CurrentFont()
-#
-myGlyphs = ['Amacron','Abreve','Aogonek','Agrave','Aacute','Acircumflex','Atilde','Adieresis','Aring']
-for glyphName in myGlyphs:
-	if f[glyphName].rightMargin != f['A'].rightMargin or f[glyphName].leftMargin != f['A'].leftMargin:
-		print 'A'
-		f['A'].mark = 10	
-#
-myGlyphs =  ['Cacute','Ccircumflex','Ccaron','Ccedilla']
-for glyphName in myGlyphs:
-	if f[glyphName].leftMargin != f['C'].leftMargin or f[glyphName].rightMargin != f['C'].rightMargin:
-		print 'C'
-		f['C'].mark = 30	
-#
-</code></div>
+		<div class="commentbody">I actually went down a different route of checking if the composites sidebearings matched the base glyph and then coloring the glyphs that didn&rsquo;t. It still dosen&rsquo;t get round the problem of the accents over hanging the sidebearings but it&rsquo;s heading in the direction of the functionality I wanted.</p>
+<!-- raw HTML omitted --></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

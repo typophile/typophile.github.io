@@ -71,14 +71,13 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I have a font with all the diacritical Latin flattened, that is, precomposed and decomposed with no trace of anchors whatsoever. I would want to reverse-engineer placement of anchors if there indeed were any or other effectively same preplanning. Now, doing this somewhat intuitively and matching it all by trial and error is obviously insane. Do you guys know any step-by-step algorithm that would make such a task a finite one or at least determine there was no approximate anchoring in the first place? </div>
+  <div class="post-content e-content" itemprop="articleBody">I have a font with all the diacritical Latin flattened, that is, precomposed and decomposed with no trace of anchors whatsoever. I would want to reverse-engineer placement of anchors if there indeed were any or other effectively same preplanning. Now, doing this somewhat intuitively and matching it all by trial and error is obviously insane. Do you guys know any step-by-step algorithm that would make such a task a finite one or at least determine there was no approximate anchoring in the first place?</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I imagine the best way would be to write a Python script that
-would take measurements and figure out the original numbers.
-
-hhp
+		<div class="commentbody"><p>I imagine the best way would be to write a Python script that
+would take measurements and figure out the original numbers.</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -100,9 +99,9 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don't think there'd be a way to figure out where the original anchors were, because anchors positions are arbitrary in relation to the glyphs as long as they match up between the base glyph and the mark.
-
-If you're planning to create more composite glyphs you wouldn't necessarily need to have details of the original anchors though. I'm not sure what your aim is.</div>
+		<div class="commentbody"><p>I don&rsquo;t think there&rsquo;d be a way to figure out where the original anchors were, because anchors positions are arbitrary in relation to the glyphs as long as they match up between the base glyph and the mark.</p>
+<p>If you&rsquo;re planning to create more composite glyphs you wouldn&rsquo;t necessarily need to have details of the original anchors though. I&rsquo;m not sure what your aim is.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -144,13 +143,12 @@ If you're planning to create more composite glyphs you wouldn't necessarily need
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ben, I guess I didn't mean "original" (which does indeed seem
-impossible) I meant an "extraction" that would reproduce the
+		<div class="commentbody"><p>Ben, I guess I didn&rsquo;t mean &ldquo;original&rdquo; (which does indeed seem
+impossible) I meant an &ldquo;extraction&rdquo; that would reproduce the
 same results (which is entirely possible, although it requires
 programming). Speaking of which: no heuristics necessary,
-it would "just" be an algorithm.
-
-hhp
+it would &ldquo;just&rdquo; be an algorithm.</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -172,36 +170,27 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Let us assume that like in the Adobe example <code>@TOP_MARKS</code>  of <a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#6.d">Mark-to-Base attachment positioning</a>, we have the base letters <code>a, e, o, u</code> and the diacritics <code>acute, grave, dieresis, umlaut</code>. Then it is true that to get the glyph for <code>aacute</code> all you need to do is to match the basis anchor for the <code>a</code> and the anchor for the <code>acute</code>, and you can decide arbitrarily to put either anchor wherever you want. For instance you can put the base anchor for  <code>a</code> at <code>(0,0)</code>. However, when you have done that arbitrary choice, all the other anchor positions are fixed; indeed,  there is then only one position for the anchors of <code>acute, grave, dieresis, umlaut</code> that will give the right looking glyph for <code>aacute, agrave, adieresis, aumlaut</code> when matching with the anchor for the <code>a</code> at <code>(0,0)</code>, and then there is also only one possible position for the base anchor on <code>e, o</code> and <code>u</code> that will match any of the anchors on the diacritics. The choice is thus unique up to a translation of all anchor pairs (you can add the same number to all x values, and the same other number to all y values of the anchor positions).
-
-In terms of programming, you can initialize one of the anchors to whatever pair  you want, and then run some algorithm. Now, I don't know what tools are available, I will just try to illustrate with one tool I use, namely FontForge. Here is a small script that takes as input a fontfile and a list of glyphnames and outputs their foreground; I called it <code>dmpfrgrnd</code>.
-
-<PRE>
-#!/usr/bin/env python
-
-import sys, fontforge
-fnt=fontforge.open(sys.argv[1],1)
-for gl in sys.argv[2:]:
-  print gl, fnt[gl].foreground
-</PRE>
-If I call 
-<code>dmpfrgrnd MyriadPro-Regular.otf dotlessi iacute acute</code> 
+		<div class="commentbody"><p>Let us assume that like in the Adobe example <!-- raw HTML omitted -->@TOP_MARKS<!-- raw HTML omitted -->  of <!-- raw HTML omitted -->Mark-to-Base attachment positioning<!-- raw HTML omitted -->, we have the base letters <!-- raw HTML omitted -->a, e, o, u<!-- raw HTML omitted --> and the diacritics <!-- raw HTML omitted -->acute, grave, dieresis, umlaut<!-- raw HTML omitted -->. Then it is true that to get the glyph for <!-- raw HTML omitted -->aacute<!-- raw HTML omitted --> all you need to do is to match the basis anchor for the <!-- raw HTML omitted -->a<!-- raw HTML omitted --> and the anchor for the <!-- raw HTML omitted -->acute<!-- raw HTML omitted -->, and you can decide arbitrarily to put either anchor wherever you want. For instance you can put the base anchor for  <!-- raw HTML omitted -->a<!-- raw HTML omitted --> at <!-- raw HTML omitted -->(0,0)<!-- raw HTML omitted -->. However, when you have done that arbitrary choice, all the other anchor positions are fixed; indeed,  there is then only one position for the anchors of <!-- raw HTML omitted -->acute, grave, dieresis, umlaut<!-- raw HTML omitted --> that will give the right looking glyph for <!-- raw HTML omitted -->aacute, agrave, adieresis, aumlaut<!-- raw HTML omitted --> when matching with the anchor for the <!-- raw HTML omitted -->a<!-- raw HTML omitted --> at <!-- raw HTML omitted -->(0,0)<!-- raw HTML omitted -->, and then there is also only one possible position for the base anchor on <!-- raw HTML omitted -->e, o<!-- raw HTML omitted --> and <!-- raw HTML omitted -->u<!-- raw HTML omitted --> that will match any of the anchors on the diacritics. The choice is thus unique up to a translation of all anchor pairs (you can add the same number to all x values, and the same other number to all y values of the anchor positions).</p>
+<p>In terms of programming, you can initialize one of the anchors to whatever pair  you want, and then run some algorithm. Now, I don&rsquo;t know what tools are available, I will just try to illustrate with one tool I use, namely FontForge. Here is a small script that takes as input a fontfile and a list of glyphnames and outputs their foreground; I called it <!-- raw HTML omitted -->dmpfrgrnd<!-- raw HTML omitted -->.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>If I call 
+<!-- raw HTML omitted -->dmpfrgrnd MyriadPro-Regular.otf dotlessi iacute acute<!-- raw HTML omitted --> 
 I get the following output (with one point per line however)
-<code>
-dotlessi&nbsp;&lt;Layer(cubic)
-&nbsp;&lt;Contour&nbsp;(161,0)&nbsp;on&nbsp;(73,0)&nbsp;on&nbsp;(73,484)&nbsp;on&nbsp;(161,484)&nbsp;on&nbsp;&gt;
+<!-- raw HTML omitted -->
+dotlessi &lt;Layer(cubic)
+ &lt;Contour (161,0) on (73,0) on (73,484) on (161,484) on &gt;
 &gt;
-iacute&nbsp;&lt;Layer(cubic)
-&nbsp;&lt;Contour&nbsp;(155,693)&nbsp;on&nbsp;(252,693)&nbsp;on&nbsp;(130,550)&nbsp;on&nbsp;(67,550)&nbsp;on&nbsp;&gt;
-&nbsp;&lt;Contour&nbsp;(161,0)&nbsp;on&nbsp;(73,0)&nbsp;on&nbsp;(73,484)&nbsp;on&nbsp;(161,484)&nbsp;on&nbsp;&gt;
+iacute &lt;Layer(cubic)
+ &lt;Contour (155,693) on (252,693) on (130,550) on (67,550) on &gt;
+ &lt;Contour (161,0) on (73,0) on (73,484) on (161,484) on &gt;
 &gt;
-acute&nbsp;&lt;Layer(cubic)
-&nbsp;&lt;Contour&nbsp;(189,693)&nbsp;on&nbsp;(286,693)&nbsp;on&nbsp;(164,550)&nbsp;on&nbsp;(101,550)&nbsp;on&nbsp;&gt;
+acute &lt;Layer(cubic)
+ &lt;Contour (189,693) on (286,693) on (164,550) on (101,550) on &gt;
 &gt;
-</code>
-Here it is easy to see that the <code>iacute</code> is obtained by "pasting" the <code>acute</code> on top of the <code>dotlessi</code> and moving it <code>(-34,0)</code>. As a consequence if the anchor for the <code>dotelessi</code> is at say <code>(10,0)</code> then the anchor for the <code>acute</code> needs to be at <code>(44,0)</code>. The problem in this particular example is matching the countours. For some fonts, the contours for the diacritics are listed first, some other fonts last. Once you have matched the contours, it is easy to get the displacement.
-
-I don't know how far one can go with that. During my vacations, I generated an AAT font using anchors. Once I was done, I happily moved some diacritics to where they seemed to look better. I don't see why professionals (I am not one) would not do the same.
+<!-- raw HTML omitted -->
+Here it is easy to see that the <!-- raw HTML omitted -->iacute<!-- raw HTML omitted --> is obtained by &ldquo;pasting&rdquo; the <!-- raw HTML omitted -->acute<!-- raw HTML omitted --> on top of the <!-- raw HTML omitted -->dotlessi<!-- raw HTML omitted --> and moving it <!-- raw HTML omitted -->(-34,0)<!-- raw HTML omitted -->. As a consequence if the anchor for the <!-- raw HTML omitted -->dotelessi<!-- raw HTML omitted --> is at say <!-- raw HTML omitted -->(10,0)<!-- raw HTML omitted --> then the anchor for the <!-- raw HTML omitted -->acute<!-- raw HTML omitted --> needs to be at <!-- raw HTML omitted -->(44,0)<!-- raw HTML omitted -->. The problem in this particular example is matching the countours. For some fonts, the contours for the diacritics are listed first, some other fonts last. Once you have matched the contours, it is easy to get the displacement.</p>
+<p>I don&rsquo;t know how far one can go with that. During my vacations, I generated an AAT font using anchors. Once I was done, I happily moved some diacritics to where they seemed to look better. I don&rsquo;t see why professionals (I am not one) would not do the same.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -223,9 +212,9 @@ I don't know how far one can go with that. During my vacations, I generated an A
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>Once you have matched the contours, it is easy to get the displacement.</code>
-
-I should have said "Once you have matched the contours, you have the displacement". Indeed, matching the contours means finding <code>(dx,dy)</code> such that the contours corresponding to the diacritic in the precomposed glyph are obtained by adding <code>(dx,dy)</code> to all pairs in the contours of the glyph for the diacritic: <code>(dx,dy)</code> is the displacement.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Once you have matched the contours, it is easy to get the displacement.<!-- raw HTML omitted --></p>
+<p>I should have said &ldquo;Once you have matched the contours, you have the displacement&rdquo;. Indeed, matching the contours means finding <!-- raw HTML omitted -->(dx,dy)<!-- raw HTML omitted --> such that the contours corresponding to the diacritic in the precomposed glyph are obtained by adding <!-- raw HTML omitted -->(dx,dy)<!-- raw HTML omitted --> to all pairs in the contours of the glyph for the diacritic: <!-- raw HTML omitted -->(dx,dy)<!-- raw HTML omitted --> is the displacement.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

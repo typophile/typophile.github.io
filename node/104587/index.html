@@ -71,17 +71,17 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">In the thread http://typophile.com/node/103643, a question was raised that can be reformulated as follows: "how can one build the latin small letter alpha?", which is uni0251 (in the IPA extensions). Even with a serif font, its lower part appears to be that of a d and its upper part that of a q. My question here is how to do that programmatically.
-<!--break-->
-The intent, in the tread above, was to get the corresponding glyph for the Roboto fonts. The question is interesting because with Roboto, in all fonts, the d and the q have the same number of truetype points, and they are numbered similarly. In order to get the "latin small letter alpha" in the middle below, I took a d and then moved the points  6, 7 and 8 at the coordinates they have in the letter q. 
+  <div class="post-content e-content" itemprop="articleBody"><p>In the thread <a href="http://typophile.com/node/103643">http://typophile.com/node/103643</a>, a question was raised that can be reformulated as follows: &ldquo;how can one build the latin small letter alpha?&rdquo;, which is uni0251 (in the IPA extensions). Even with a serif font, its lower part appears to be that of a d and its upper part that of a q. My question here is how to do that programmatically.</p>
+<!-- raw HTML omitted -->
+<p>The intent, in the tread above, was to get the corresponding glyph for the Roboto fonts. The question is interesting because with Roboto, in all fonts, the d and the q have the same number of truetype points, and they are numbered similarly. In order to get the &ldquo;latin small letter alpha&rdquo; in the middle below, I took a d and then moved the points  6, 7 and 8 at the coordinates they have in the letter q. 
 [img:sites/default/files/old-images/daq-Black3_4307.png]
-I could in fact do that editing (with a script) the ttx files. I found no way to do it (programmatically) with FontForge. I can only get a copy of the contours, the modifications are not reflected in the font. I found no way to access those points in the font tools. How can you do that (programmatically, I mean) with your professional tools (even if it is not really worth the trouble for this particular example). Is that easy to do with Glyphs?</div>
+I could in fact do that editing (with a script) the ttx files. I found no way to do it (programmatically) with FontForge. I can only get a copy of the contours, the modifications are not reflected in the font. I found no way to access those points in the font tools. How can you do that (programmatically, I mean) with your professional tools (even if it is not really worth the trouble for this particular example). Is that easy to do with Glyphs?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">In FontLab I'm sure Python can do it.
-
-hhp
+		<div class="commentbody"><p>In FontLab I&rsquo;m sure Python can do it.</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -103,20 +103,15 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">In RoboFont this would do:
-
-<pre>f = CurrentFont()
-f["a"] = f["q"] & f["d"]</pre>
-
-... but only because RoboFont has implemented the Boolean operators (in this case &, «and») for glyph operations. I don’t know if other editors have similar options.
-
-[img:sites/default/files/old-images/glyphmath_4041.png]
-
-The result would still need some manual cleaning though:
-
-[img:sites/default/files/old-images/glyphmath-a_3734.png]
-
-Edit: This only seems to work with PS curves, not TT curves.</div>
+		<div class="commentbody"><p>In RoboFont this would do:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>&hellip; but only because RoboFont has implemented the Boolean operators (in this case &amp;, «and») for glyph operations. I don’t know if other editors have similar options.</p>
+<p>[img:sites/default/files/old-images/glyphmath_4041.png]</p>
+<p>The result would still need some manual cleaning though:</p>
+<p>[img:sites/default/files/old-images/glyphmath-a_3734.png]</p>
+<p>Edit: This only seems to work with PS curves, not TT curves.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -137,26 +132,11 @@ Edit: This only seems to work with PS curves, not TT curves.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If the point indices are the same, and known, this would work in any Robofab environment:
-
-<pre>
-f = CurrentFont()
-f["a"] = f["d"].copy()
-
-# contour 0, segment 1, point 2
-f["a"][0][1][2].x = f["q"][0][1][2].x
-f["a"][0][1][2].y = f["q"][0][1][2].y
-
-# contour 0, segment 2, point 0
-f["a"][0][2][0].x = f["q"][0][2][0].x
-f["a"][0][2][0].y = f["q"][0][2][0].y
-
-# contour 0, segment 3, point 0
-f["a"][0][3][0].x = f["q"][0][3][0].x
-f["a"][0][3][0].y = f["q"][0][3][0].y
-</pre>
-
-but in practice it doesn’t because in Roboto the q is narrower than the d, so the right side of the new «a» won’t end up vertical.</div>
+		<div class="commentbody"><p>If the point indices are the same, and known, this would work in any Robofab environment:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>but in practice it doesn’t because in Roboto the q is narrower than the d, so the right side of the new «a» won’t end up vertical.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -177,15 +157,12 @@ but in practice it doesn’t because in Roboto the q is narrower than the d, so 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Jens, I can do the intersection with a native FontForge script (but not with an assignment as you did). Here is what I get with the medium weight:
-
-<img src="/files/lalphamedium_3458.png">
-
-There is too much cleaning to do.
-
-The Robofab code of your second post is exactly the type of code I had in mind. As for the right side, there is no need to change the x coordinate, changing the y coordinate fixes the height and then the right side stays vertical.
-
-Is that something that can be programmed as a tool to be used in a GUI environment, so that corrections can then be made on the fly?</div>
+		<div class="commentbody"><p>Jens, I can do the intersection with a native FontForge script (but not with an assignment as you did). Here is what I get with the medium weight:</p>
+<!-- raw HTML omitted -->
+<p>There is too much cleaning to do.</p>
+<p>The Robofab code of your second post is exactly the type of code I had in mind. As for the right side, there is no need to change the x coordinate, changing the y coordinate fixes the height and then the right side stays vertical.</p>
+<p>Is that something that can be programmed as a tool to be used in a GUI environment, so that corrections can then be made on the fly?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -206,9 +183,9 @@ Is that something that can be programmed as a tool to be used in a GUI environme
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You can certainly create the GUI in vanilla, but the complexity of the script increases the more corrections you want to enable, obviously. You could actually do this outside of Fontlab using defcon, but I don't think there's an advantage to that.
-
-Jason C</div>
+		<div class="commentbody"><p>You can certainly create the GUI in vanilla, but the complexity of the script increases the more corrections you want to enable, obviously. You could actually do this outside of Fontlab using defcon, but I don&rsquo;t think there&rsquo;s an advantage to that.</p>
+<p>Jason C</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -229,47 +206,23 @@ Jason C</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">After all, it is unclear I would gain much with Robofab; to create a new character, I can do something fairly close to the code above, but I need to use the pen to draw (or redraw) the character; here is something that works from the Fontforge script menu and creates uni0251 for Roboto.
-<PRE>
-f=fontforge.activeFont()
-ld=f["d"].foreground
-lq=f["q"].foreground
-# Contour 0, point 6
-ld[0][6].x = lq[0][6].x
-ld[0][6].y = lq[0][6].y
-# Contour 0, point 7
-ld[0][7].x = lq[0][7].x
-ld[0][7].y = lq[0][7].y
-# Contour 0, point 8
-ld[0][8].y = lq[0][8].y
-# Create the new character
-f.createChar(0x0251,"uni0251")
-# Draw the modified layer ld
-pen=f["uni0251"].glyphPen()
-ld.draw(pen)
-pen=None
-f["uni0251"].width = f["d"].width
-</PRE>
-Since <code>ld</code> is only a copy, the character d is left unchanged.
-
-Added: to get the same numbering for the points in the resulting glyph, I have to draw contour 1 before contour 0. So it is
-<PRE>
-ld[1].draw(pen);  ld[0].draw(pen)
-</PRE>
-instead of <code>ld.draw(pen)</code>. (weird!)
-
-Of course, for the italic, we need to calculate the x coordinate of point 8. To cover all cases we thus need to add something like
-<PRE>
-m=(ld[0][8].x -ld[0][9].x)*1.0/(ld[0][8].y-ld[0][9].y)
-ld[0][8].x =ld[0][9].x + (lq[0][8].y-ld[0][9].y)*m
-</PRE>
-before <code>ld[0][8].y = lq[0][8].y</code>. This works fine even for the thin italic where there are four points between the top and the bottom of the right part of the d and q.
-
-Here is the picture with d (green) in the background. 
+		<div class="commentbody"><p>After all, it is unclear I would gain much with Robofab; to create a new character, I can do something fairly close to the code above, but I need to use the pen to draw (or redraw) the character; here is something that works from the Fontforge script menu and creates uni0251 for Roboto.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Since <!-- raw HTML omitted -->ld<!-- raw HTML omitted --> is only a copy, the character d is left unchanged.</p>
+<p>Added: to get the same numbering for the points in the resulting glyph, I have to draw contour 1 before contour 0. So it is</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>instead of <!-- raw HTML omitted -->ld.draw(pen)<!-- raw HTML omitted -->. (weird!)</p>
+<p>Of course, for the italic, we need to calculate the x coordinate of point 8. To cover all cases we thus need to add something like</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>before <!-- raw HTML omitted -->ld[0][8].y = lq[0][8].y<!-- raw HTML omitted -->. This works fine even for the thin italic where there are four points between the top and the bottom of the right part of the d and q.</p>
+<p>Here is the picture with d (green) in the background. 
 [img:sites/default/files/old-images/segment-9-10_5148.png]
-Points 9 and 10 are very close. The value of m above is the slope of the segment 8-9 when x is seen as a function of y.
-
-Correction: there are two other points close to 9; there is thus a 9,10,11 cluster and then a 12,13,14 cluster. Hmm, no! I looked closer and there is a cluster of four points, 9,10,11,12 and then two point 13,14</div>
+Points 9 and 10 are very close. The value of m above is the slope of the segment 8-9 when x is seen as a function of y.</p>
+<p>Correction: there are two other points close to 9; there is thus a 9,10,11 cluster and then a 12,13,14 cluster. Hmm, no! I looked closer and there is a cluster of four points, 9,10,11,12 and then two point 13,14</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

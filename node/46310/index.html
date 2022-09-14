@@ -71,47 +71,35 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Is it possible to add a kerning pair using RoboFab ?
-
-I'm using class kerning but I quickly wanted to add kerning for pairs like AC, DA, AG, AQ, QA once I have kerned OAO
-
-I was thinking something like 
-
-
-'pseudocode'
-<code>
-
-addpair('A','C') = AO
-
-</code></div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Is it possible to add a kerning pair using RoboFab ?</p>
+<p>I&rsquo;m using class kerning but I quickly wanted to add kerning for pairs like AC, DA, AG, AQ, QA once I have kerned OAO</p>
+<p>I was thinking something like</p>
+<p>&lsquo;pseudocode&rsquo;
+<!-- raw HTML omitted --></p>
+<p>addpair(&lsquo;A&rsquo;,&lsquo;C&rsquo;) = AO</p>
+<!-- raw HTML omitted -->
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Have you checked the RoboFab site? The RoboFab documentation at http://www.robofab.com/objects/index.html is pretty good.
-As regards kerning, see especially http://www.robofab.com/objects/font.html and http://robofab.com/objects/kerning.html
-I haven't used it for some time now, but in a RoboFab font object, kerning is a dictionary which you access like this
-
-<code># import the font class:
-from robofab import CurrentFont 
-# turn the current FLS font into a RoboFab font object:
-f = CurrentFont()
-# get at kerning in the current font:
-kerning = f.kerning</code>
-
-and then you should be able to either directly add kerning to this kerning object/dict like
-
-<code># note that the key is a tuple:
-kerning[ ('glyphA','glyphB') ] = 10</code>
-
-or, alternatively, create a new temporary kerning dictionary which you feed with additional kerning pairs, and finally update the font's kerning dictionary with the new one
-
-<code>newKerning = {}
-newKerning[ ('glyphA','glyphB') ] = 10
-kerning.update(newKerning)</code>
-
-and don't forget to update the font
-
-<code>f.update()</code>
+		<div class="commentbody"><p>Have you checked the RoboFab site? The RoboFab documentation at <a href="http://www.robofab.com/objects/index.html">http://www.robofab.com/objects/index.html</a> is pretty good.
+As regards kerning, see especially <a href="http://www.robofab.com/objects/font.html">http://www.robofab.com/objects/font.html</a> and <a href="http://robofab.com/objects/kerning.html">http://robofab.com/objects/kerning.html</a>
+I haven&rsquo;t used it for some time now, but in a RoboFab font object, kerning is a dictionary which you access like this</p>
+<p><!-- raw HTML omitted --># import the font class:
+from robofab import CurrentFont</p>
+<h1 id="turn-the-current-fls-font-into-a-robofab-font-object">turn the current FLS font into a RoboFab font object:</h1>
+<p>f = CurrentFont()</p>
+<h1 id="get-at-kerning-in-the-current-font">get at kerning in the current font:</h1>
+<p>kerning = f.kerning<!-- raw HTML omitted --></p>
+<p>and then you should be able to either directly add kerning to this kerning object/dict like</p>
+<p><!-- raw HTML omitted --># note that the key is a tuple:
+kerning[ (&lsquo;glyphA&rsquo;,&lsquo;glyphB&rsquo;) ] = 10<!-- raw HTML omitted --></p>
+<p>or, alternatively, create a new temporary kerning dictionary which you feed with additional kerning pairs, and finally update the font&rsquo;s kerning dictionary with the new one</p>
+<p><!-- raw HTML omitted -->newKerning = {}
+newKerning[ (&lsquo;glyphA&rsquo;,&lsquo;glyphB&rsquo;) ] = 10
+kerning.update(newKerning)<!-- raw HTML omitted --></p>
+<p>and don&rsquo;t forget to update the font</p>
+<p><!-- raw HTML omitted -->f.update()<!-- raw HTML omitted --></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -133,27 +121,15 @@ and don't forget to update the font
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">k.l.
-
-Thanks for your reply  - Yes I've been to the Robofab site and got all the documentation. I got the code working to create a new pair but I still need to work out how capture a value that already exists.
-
-In my example here I'm trying to use the kerning value for 'AO' and create a new pair for 'AC' with the same value.
-
-The Robofab documentation says that get(aPair) is used to get a value for a pair, I don't know if my syntax is wrong or this is the wrong way to do it.
-
-<code>
-#Kerning---------------
-#
-from robofab.world import CurrentFont
-f = CurrentFont()
-kerning = f.kerning
-#
-AO = kerning.get('A','O')
-
-kerning[('A','C')] = AO 
-
-f.update()
-</code></div>
+		<div class="commentbody"><p>k.l.</p>
+<p>Thanks for your reply  - Yes I&rsquo;ve been to the Robofab site and got all the documentation. I got the code working to create a new pair but I still need to work out how capture a value that already exists.</p>
+<p>In my example here I&rsquo;m trying to use the kerning value for &lsquo;AO&rsquo; and create a new pair for &lsquo;AC&rsquo; with the same value.</p>
+<p>The Robofab documentation says that get(aPair) is used to get a value for a pair, I don&rsquo;t know if my syntax is wrong or this is the wrong way to do it.</p>
+<!-- raw HTML omitted -->
+<p>kerning[(&lsquo;A&rsquo;,&lsquo;C&rsquo;)] = AO</p>
+<p>f.update()
+<!-- raw HTML omitted --></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -174,26 +150,20 @@ f.update()
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Since the kerning object works like a standard Python dictionary you don't have to use get(), you can call a value out like this:
-
-<code>AO = kerning[('A', 'O')]
-</code>
-
-...or even better, combine that with making a new dictionary entry:
-
-<code>kerning[('A', 'C')] = kerning[('A', 'O')]
-</code>
-
-If an entry already existed for <code>('A', 'C')</code> then it would now be replaced, or if there wasn't an entry yet a new one would have been created. Then, check your work to see if it did what you wanted:
-
-<code>print kerning[('A', 'C')]
-print kerning[('A', 'O')]
-</code>
-
-...the two of those should now be the same. 
-
-Hope that helps,
-Andy</div>
+		<div class="commentbody"><p>Since the kerning object works like a standard Python dictionary you don&rsquo;t have to use get(), you can call a value out like this:</p>
+<p><!-- raw HTML omitted -->AO = kerning[(&lsquo;A&rsquo;, &lsquo;O&rsquo;)]
+<!-- raw HTML omitted --></p>
+<p>&hellip;or even better, combine that with making a new dictionary entry:</p>
+<p><!-- raw HTML omitted -->kerning[(&lsquo;A&rsquo;, &lsquo;C&rsquo;)] = kerning[(&lsquo;A&rsquo;, &lsquo;O&rsquo;)]
+<!-- raw HTML omitted --></p>
+<p>If an entry already existed for <!-- raw HTML omitted -->(&lsquo;A&rsquo;, &lsquo;C&rsquo;)<!-- raw HTML omitted --> then it would now be replaced, or if there wasn&rsquo;t an entry yet a new one would have been created. Then, check your work to see if it did what you wanted:</p>
+<p><!-- raw HTML omitted -->print kerning[(&lsquo;A&rsquo;, &lsquo;C&rsquo;)]
+print kerning[(&lsquo;A&rsquo;, &lsquo;O&rsquo;)]
+<!-- raw HTML omitted --></p>
+<p>&hellip;the two of those should now be the same.</p>
+<p>Hope that helps,
+Andy</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -214,55 +184,10 @@ Andy</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">andy Thanks for the reply - I just worked out how to do.
-
-I did it slightly differently from the way you said to make it easier to read.
-
-<code>
-#Kerning---------------
-#
-from robofab.world import CurrentFont
-f = CurrentFont()
-kerning = f.kerning
-#
-OA = kerning[('O','A')]
-AO = kerning[('A','O')]
-OV = kerning[('O','V')]
-VO = kerning[('V','O')]
-OW = kerning[('O','W')]
-WO = kerning[('W','O')]
-OY = kerning[('O','Y')]
-YO = kerning[('Y','O')]
-OX = kerning[('O','X')]
-XO = kerning[('X','O')]
-OT = kerning[('O','T')]
-TO = kerning[('T','O')]
-KO = kerning[('K','O')]
-#
-#
-kerning[('A','C')] = kerning[('A','G')] = kerning[('A','Q')] = kerning[('A','OE')] = AO
-kerning[('D','A')] = kerning[('Q','A')] = OA
-#
-kerning[('V','C')] = kerning[('V','G')] = kerning[('V','Q')] = kerning[('V','OE')] = VO
-kerning[('D','V')] = kerning[('Q','V')] = OV
-#
-kerning[('W','C')] = kerning[('W','G')] = kerning[('W','Q')] = kerning[('W','OE')] = WO
-kerning[('D','W')] = kerning[('Q','W')] = OW
-#
-kerning[('Y','C')] = kerning[('Y','G')] = kerning[('Y','Q')] = kerning[('Y','OE')] = YO
-kerning[('D','Y')] = kerning[('Q','Y')] = OY
-#
-kerning[('X','C')] = kerning[('X','G')] = kerning[('X','Q')] = kerning[('X','OE')] = XO
-kerning[('D','X')] = kerning[('Q','X')] = OX
-#
-kerning[('T','C')] = kerning[('T','G')] = kerning[('T','Q')] = kerning[('T','OE')] = TO
-kerning[('D','T')] = kerning[('Q','T')] = OT
-#
-kerning[('K','C')] = kerning[('K','K')] = kerning[('K','Q')] = kerning[('K','OE')] = KO
-#√ç
-#
-f.update()
-</code></div>
+		<div class="commentbody"><p>andy Thanks for the reply - I just worked out how to do.</p>
+<p>I did it slightly differently from the way you said to make it easier to read.</p>
+<!-- raw HTML omitted -->
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

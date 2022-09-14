@@ -71,54 +71,30 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I have a very irregularly shaped, non-latin font, where I have to kern every letter pair. Let's say this font contains eleven letters. I have set the right margin of one letter – let's call it "A" – to 50 units. Then I kern that letter with the other ten letters, let's call them "B" to "K".
-
-After kerning, I realize that of the ten letter pairs, eight ("B" to "I") have a kerning of -10 units, one ("J") has a kerning of +10, and one ("K") has no kerning (i.e. 0).
-
-My font data now looks like this:
-
-<pre>
-    A 50
-        B -10
-        C -10
-        D -10
-        E -10
-        F -10
-        G -10
-        H -10
-        I -10
-        J +10
-</pre>
-
-To simplify the kerning, I would like to change the right margin of letter "A" from 50 to 40 units (50 - 10 = 40), the kerning of the eight letters from -10 to 0 (-10 + 10 = 0), the kerning of "J" from 10 to 20 (10 + 10 = 20), and the kerning of "K" from 0 to 10 (0 + 10 = 10).
-
-My font data should then look like this:
-
-<pre>
-    A 40
-        J +20
-        k +10
-</pre>
-
-which results in the same spaces between pairs as before (e.g. 50 - 10 = 40 - 0).
-
-Now, instead of going through the font and changing the margin and kerning manually, which is time consuming and error prone, I would like to do this programmatically.
-
-While I was thinking about writing a Python script that will read the kerning information from the font file into arrays and then loop through the arrays and calculate the new values, I am wondering if there is font software that allows this manipulation out of the box, or maybe there are scripts available online that do this manipulation, and I could save me a couple of hours of inventing the wheel a second time.
-
-Do you know of such solutions?</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I have a very irregularly shaped, non-latin font, where I have to kern every letter pair. Let&rsquo;s say this font contains eleven letters. I have set the right margin of one letter – let&rsquo;s call it &ldquo;A&rdquo; – to 50 units. Then I kern that letter with the other ten letters, let&rsquo;s call them &ldquo;B&rdquo; to &ldquo;K&rdquo;.</p>
+<p>After kerning, I realize that of the ten letter pairs, eight (&ldquo;B&rdquo; to &ldquo;I&rdquo;) have a kerning of -10 units, one (&ldquo;J&rdquo;) has a kerning of +10, and one (&ldquo;K&rdquo;) has no kerning (i.e. 0).</p>
+<p>My font data now looks like this:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>To simplify the kerning, I would like to change the right margin of letter &ldquo;A&rdquo; from 50 to 40 units (50 - 10 = 40), the kerning of the eight letters from -10 to 0 (-10 + 10 = 0), the kerning of &ldquo;J&rdquo; from 10 to 20 (10 + 10 = 20), and the kerning of &ldquo;K&rdquo; from 0 to 10 (0 + 10 = 10).</p>
+<p>My font data should then look like this:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>which results in the same spaces between pairs as before (e.g. 50 - 10 = 40 - 0).</p>
+<p>Now, instead of going through the font and changing the margin and kerning manually, which is time consuming and error prone, I would like to do this programmatically.</p>
+<p>While I was thinking about writing a Python script that will read the kerning information from the font file into arrays and then loop through the arrays and calculate the new values, I am wondering if there is font software that allows this manipulation out of the box, or maybe there are scripts available online that do this manipulation, and I could save me a couple of hours of inventing the wheel a second time.</p>
+<p>Do you know of such solutions?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don't have an answer to your question, but in general reducing the number of kerning pairs by changing the left and/or right side bearings is not a good idea.
-
-If your metrics are correct, don't change them. If they are not good, then correct them before starting with your kerning.
-
-Also be aware in your example all other characters that are likely to pair with A should now include the additional 10 units as well, so:
+		<div class="commentbody"><p>I don&rsquo;t have an answer to your question, but in general reducing the number of kerning pairs by changing the left and/or right side bearings is not a good idea.</p>
+<p>If your metrics are correct, don&rsquo;t change them. If they are not good, then correct them before starting with your kerning.</p>
+<p>Also be aware in your example all other characters that are likely to pair with A should now include the additional 10 units as well, so:
 A +10
 L +10
 M +10
-etc
+etc</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -140,9 +116,9 @@ etc
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you, erwindenissen. In my example the font does not contain any letters beyond "K", so there are no "L" or "M", but I get what you mean and will take care not to forget that.
-
-As for "correct metrics", my font does not have regular letter shapes, so I cannot set, for example, the right side bearing to be the same for "n", "h" and "m". For better understanding, think of a symbol font where each glyph contains a unique form. Or hieroglyphs, where each glyph contains a different shape. I gave latin letters in my example only because you have them on your system, and I did not want to include images of my font.</div>
+		<div class="commentbody"><p>Thank you, erwindenissen. In my example the font does not contain any letters beyond &ldquo;K&rdquo;, so there are no &ldquo;L&rdquo; or &ldquo;M&rdquo;, but I get what you mean and will take care not to forget that.</p>
+<p>As for &ldquo;correct metrics&rdquo;, my font does not have regular letter shapes, so I cannot set, for example, the right side bearing to be the same for &ldquo;n&rdquo;, &ldquo;h&rdquo; and &ldquo;m&rdquo;. For better understanding, think of a symbol font where each glyph contains a unique form. Or hieroglyphs, where each glyph contains a different shape. I gave latin letters in my example only because you have them on your system, and I did not want to include images of my font.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

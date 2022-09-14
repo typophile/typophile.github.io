@@ -71,35 +71,33 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi, I've been searching everywhere for the last week to find a definitive answer to the question: Is it actually possible to do style linking with your @font-face declarations and have it use the proper font faces in IE7-8 (when just using 4 basic variations - normal/bold/italic/bold-italic)?
-
-In our tests, with a single self-hosted font and just 4 variations (normal, bold, italic, bold-italic), all browsers understand the @font-face style linking properly and apply the right face for bold/italic/bold-italic type. But our good friend IE recognizes the normal face properly, then just applies a 'faux' bold & italic to all instances of bold/italic/bold-italic type! It looks terrible.
-
-We've tried most every variation of popular syntax, including the original Paul Irish 'Bulletproof' method, updates to that, the 'Smiley' syntax, the recommended syntax from Fonts.com (where we're getting the fonts from), and even what's listed here: http://css-tricks.com/snippets/css/using-font-face/. They all seem to have the same issues with IE7-8 : bold is 'super-bold' and italic is 'extra-italic'. It just looks bad.
-
-Here's our test page: http://joomla25.lanetest.com/index.php/client-test-article
-
-So I've found a few discussions about style linking that seem to indicate it is just NOT possible in IE7-8 at all. That seems to be what I'm finding.
-
-HOWEVER, there are also a couple discussions that state that IE6-8 can't handle style linking when MORE THAN 4 STYLE/WEIGHT VARIANTS are used. We're not doing more than 4! 
-See here (toward bottom of page): http://help.typekit.com/customer/portal/articles/6855-using-multiple-weights-and-styles
-And here: http://blog.typekit.com/2011/06/27/new-from-typekit-variation-specific-font-family-names-in-ie-6-8/
-
-But the most confusing thing is that we have definitely been doing this with 2 different hosted solutions: FontsLive.com and Typekit. We add the 4 basic variations of a font to our 'project', then give them all the same font-name, and lastly just add that font-name to our master font-family stack on our body tag. Every instance of styling that asks for bold/italic/bold-italic, whether with font-weight/font-style rules, or just applying strong/em, just works. EVEN IN IE7-8!!! So it sure seems like this is possible! Unfortunately, FontsLive.com was bought out by Fonts.com and they use a different method. This is why we're trying their self-hosting option - to see if we can get that easy solution back.
-
-- Anyone have any insight I'm missing here???
-
-- Any other resources or places I should look??
-
-THANKS!</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi, I&rsquo;ve been searching everywhere for the last week to find a definitive answer to the question: Is it actually possible to do style linking with your @font-face declarations and have it use the proper font faces in IE7-8 (when just using 4 basic variations - normal/bold/italic/bold-italic)?</p>
+<p>In our tests, with a single self-hosted font and just 4 variations (normal, bold, italic, bold-italic), all browsers understand the @font-face style linking properly and apply the right face for bold/italic/bold-italic type. But our good friend IE recognizes the normal face properly, then just applies a &lsquo;faux&rsquo; bold &amp; italic to all instances of bold/italic/bold-italic type! It looks terrible.</p>
+<p>We&rsquo;ve tried most every variation of popular syntax, including the original Paul Irish &lsquo;Bulletproof&rsquo; method, updates to that, the &lsquo;Smiley&rsquo; syntax, the recommended syntax from Fonts.com (where we&rsquo;re getting the fonts from), and even what&rsquo;s listed here: <a href="http://css-tricks.com/snippets/css/using-font-face/">http://css-tricks.com/snippets/css/using-font-face/</a>. They all seem to have the same issues with IE7-8 : bold is &lsquo;super-bold&rsquo; and italic is &lsquo;extra-italic&rsquo;. It just looks bad.</p>
+<p>Here&rsquo;s our test page: <a href="http://joomla25.lanetest.com/index.php/client-test-article">http://joomla25.lanetest.com/index.php/client-test-article</a></p>
+<p>So I&rsquo;ve found a few discussions about style linking that seem to indicate it is just NOT possible in IE7-8 at all. That seems to be what I&rsquo;m finding.</p>
+<p>HOWEVER, there are also a couple discussions that state that IE6-8 can&rsquo;t handle style linking when MORE THAN 4 STYLE/WEIGHT VARIANTS are used. We&rsquo;re not doing more than 4! 
+See here (toward bottom of page): <a href="http://help.typekit.com/customer/portal/articles/6855-using-multiple-weights-and-styles">http://help.typekit.com/customer/portal/articles/6855-using-multiple-weights-and-styles</a>
+And here: <a href="http://blog.typekit.com/2011/06/27/new-from-typekit-variation-specific-font-family-names-in-ie-6-8/">http://blog.typekit.com/2011/06/27/new-from-typekit-variation-specific-font-family-names-in-ie-6-8/</a></p>
+<p>But the most confusing thing is that we have definitely been doing this with 2 different hosted solutions: FontsLive.com and Typekit. We add the 4 basic variations of a font to our &lsquo;project&rsquo;, then give them all the same font-name, and lastly just add that font-name to our master font-family stack on our body tag. Every instance of styling that asks for bold/italic/bold-italic, whether with font-weight/font-style rules, or just applying strong/em, just works. EVEN IN IE7-8!!! So it sure seems like this is possible! Unfortunately, FontsLive.com was bought out by Fonts.com and they use a different method. This is why we&rsquo;re trying their self-hosting option - to see if we can get that easy solution back.</p>
+<ul>
+<li>
+<p>Anyone have any insight I&rsquo;m missing here???</p>
+</li>
+<li>
+<p>Any other resources or places I should look??</p>
+</li>
+</ul>
+<p>THANKS!</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It doesn't matter how you setup the @font-face declaration. If the font family itself does not support this internally, you cannot get it to work in IE <=8 in the normal CSS way of declaring one family and different styles of that family. 
-The normal way to work around this would be to setup conditional comments to directly target any use of "i", "em", "strong" and so on and apply the individual styles (as single-style family) for IE smaller version 9. You can find example code in the Web FontFont user-guide. 
-Webfont services detect the browser for each request, so they can apply such work-arounds on the fly if necessary. 
-
-There are however a few fonts that work without such work-around. Ethan from Fontspring suspected the OS/2 fsSelection flags to be responsible for this. </div>
+		<div class="commentbody"><p>It doesn&rsquo;t matter how you setup the @font-face declaration. If the font family itself does not support this internally, you cannot get it to work in IE &lt;=8 in the normal CSS way of declaring one family and different styles of that family. 
+The normal way to work around this would be to setup conditional comments to directly target any use of &ldquo;i&rdquo;, &ldquo;em&rdquo;, &ldquo;strong&rdquo; and so on and apply the individual styles (as single-style family) for IE smaller version 9. You can find example code in the Web FontFont user-guide. 
+Webfont services detect the browser for each request, so they can apply such work-arounds on the fly if necessary.</p>
+<p>There are however a few fonts that work without such work-around. Ethan from Fontspring suspected the OS/2 fsSelection flags to be responsible for this.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -120,21 +118,15 @@ There are however a few fonts that work without such work-around. Ethan from Fon
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi Ralf,
-Thanks for the reply! I appreciate the help.
-
-I had wondered if the hosted solutions (FontsLive.com or Typekit) were doing some sort of js or other magic to 'redefine' all of my styles for IE7-8. But there are just a couple things that make me wonder if this is really true:
-
-A) With FontsLive.com at least, we are not using the js method, just one straight line of CSS added to the head. They use @font-face to deliver fonts. I know that they may deliver a separate version of the actual style sheet for each browser, but upon examining the style sheet that appears to be coming into IE, it looks like pretty standard @font-face syntax, just linking to the EOT files. It is using style linking with one family name, and not much more than that.
-
-B) We do all CSS locally on our site, nothing is added on the hosting site (they do allow you to define CSS rules there usually, but we decline). So the hosted solution would have to parse all of my CSS rules to override them with the specific font face and reset the default bold/italic/bold-italic declarations to 'normal' so that it wouldn't then apply a 'faux' bold/italic on top of the now proper font face. And on large sites we might have 30-40 different rules declaring type to be bold/italic/bold-italic, not just 'strong' & 'em' tags. We see no evidence of this actually happening, though I may be missing it.
-
-The font we are trying to use is from the same foundry (Monotype), and very similar to, one we are currently using on a hosted solution (Avant Garde local vs. Century Gothic hosted). So we would hope they use similar standards in regards to 'internal' linking. Maybe I can try this with Century Gothic to be certain.
-
-If it helps, here's a link to the site using FontsLive.com's implementation. We only declare 'Century Gothic Web' (the served font) in 2 places in our style sheets, the main one being on the body & other main elements. And it's not even first in the stack. But bold/italic/bold-italic is defined in many different rules.
-http://www.raphahouse.org/what-we-do
-
-Thanks again for any insight here. Just trying to get to the bottom of it.
+		<div class="commentbody"><p>Hi Ralf,
+Thanks for the reply! I appreciate the help.</p>
+<p>I had wondered if the hosted solutions (FontsLive.com or Typekit) were doing some sort of js or other magic to &lsquo;redefine&rsquo; all of my styles for IE7-8. But there are just a couple things that make me wonder if this is really true:</p>
+<p>A) With FontsLive.com at least, we are not using the js method, just one straight line of CSS added to the head. They use @font-face to deliver fonts. I know that they may deliver a separate version of the actual style sheet for each browser, but upon examining the style sheet that appears to be coming into IE, it looks like pretty standard @font-face syntax, just linking to the EOT files. It is using style linking with one family name, and not much more than that.</p>
+<p>B) We do all CSS locally on our site, nothing is added on the hosting site (they do allow you to define CSS rules there usually, but we decline). So the hosted solution would have to parse all of my CSS rules to override them with the specific font face and reset the default bold/italic/bold-italic declarations to &lsquo;normal&rsquo; so that it wouldn&rsquo;t then apply a &lsquo;faux&rsquo; bold/italic on top of the now proper font face. And on large sites we might have 30-40 different rules declaring type to be bold/italic/bold-italic, not just &lsquo;strong&rsquo; &amp; &lsquo;em&rsquo; tags. We see no evidence of this actually happening, though I may be missing it.</p>
+<p>The font we are trying to use is from the same foundry (Monotype), and very similar to, one we are currently using on a hosted solution (Avant Garde local vs. Century Gothic hosted). So we would hope they use similar standards in regards to &lsquo;internal&rsquo; linking. Maybe I can try this with Century Gothic to be certain.</p>
+<p>If it helps, here&rsquo;s a link to the site using FontsLive.com&rsquo;s implementation. We only declare &lsquo;Century Gothic Web&rsquo; (the served font) in 2 places in our style sheets, the main one being on the body &amp; other main elements. And it&rsquo;s not even first in the stack. But bold/italic/bold-italic is defined in many different rules.
+<a href="http://www.raphahouse.org/what-we-do">http://www.raphahouse.org/what-we-do</a></p>
+<p>Thanks again for any insight here. Just trying to get to the bottom of it.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -156,11 +148,10 @@ Thanks again for any insight here. Just trying to get to the bottom of it.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><blockquote>The font we are trying to use is from the same foundry (Monotype), and very similar to, one we are currently using on a hosted solution (Avant Garde local vs. Century Gothic hosted). So we would hope they use similar standards in regards to 'internal' linking.</blockquote>
-
-That does not appear to be the case. You're declaring the Book weight of Avant Garde as the "regular" CSS weight, and the Medium weight as the "bold", and those weights are not linked together internally. Century Gothic Web has four weights with (I'm assuming) standard style linking, and is apparently intended to be "compatible" style-wise to the Century Gothic fonts that ship with various Microsoft products. That allows it to be listed in the font stack after versions that might already be installed locally.
-
-You could try declaring Avant Garde's Demibold weight as the <code>font-weight: bold;</code> for Avant Garde Book. Likewise, Avant Garde Bold might function as a CSS bold with the Medium weight as regular, if they're linked as such internally.</div>
+		<div class="commentbody"><!-- raw HTML omitted -->
+<p>That does not appear to be the case. You&rsquo;re declaring the Book weight of Avant Garde as the &ldquo;regular&rdquo; CSS weight, and the Medium weight as the &ldquo;bold&rdquo;, and those weights are not linked together internally. Century Gothic Web has four weights with (I&rsquo;m assuming) standard style linking, and is apparently intended to be &ldquo;compatible&rdquo; style-wise to the Century Gothic fonts that ship with various Microsoft products. That allows it to be listed in the font stack after versions that might already be installed locally.</p>
+<p>You could try declaring Avant Garde&rsquo;s Demibold weight as the <!-- raw HTML omitted -->font-weight: bold;<!-- raw HTML omitted --> for Avant Garde Book. Likewise, Avant Garde Bold might function as a CSS bold with the Medium weight as regular, if they&rsquo;re linked as such internally.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -181,21 +172,15 @@ You could try declaring Avant Garde's Demibold weight as the <code>font-weight: 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for the help here! I hadn't thought that using Medium for the 'bold' weight might not work properly. I guess that does make sense if what you're saying about 'internal linking' is true.
-
-UNFORTUNATELY, I tried swapping out the medium face for demi and even bold. Neither of them made any difference in IE7. (it's currently set for demi now). And even with that, why would the italic face not be displaying properly?!?
-
-I even tried going so far as to load Century Gothic - the same font we currently have working through FontsLive.com (this is how I've left it for now). Still same issue. So I downloaded the CSS file that is served just to IE from FontsLive.com and mirrored it for this test so that the only difference was the location & names of the font files (even took off the .eot extension that they don't list). Took out all the rules that target other browsers so only the IE stuff was in there. SAME ISSUES!
-
-It seems like no matter what I try, IE grabs the first face that it sees in the @font-face stack and uses that. Then it applies a 'faux' italic and bold for every instance that is required. If I put the bold face first in the CSS file, it makes all of the type bold, with 'faux' italic and bold applied to those specific instances.
-
-Argh! From my extensive testing it would certainly lead me to believe that it is 100% NOT possible to do style linking with IE7-8, but yet FontsLive.com and TypeKit somehow magically get it to work!
-
-- Any other thoughts or things I might have missed???
-
-THANKS!
-
-
+		<div class="commentbody"><p>Thanks for the help here! I hadn&rsquo;t thought that using Medium for the &lsquo;bold&rsquo; weight might not work properly. I guess that does make sense if what you&rsquo;re saying about &lsquo;internal linking&rsquo; is true.</p>
+<p>UNFORTUNATELY, I tried swapping out the medium face for demi and even bold. Neither of them made any difference in IE7. (it&rsquo;s currently set for demi now). And even with that, why would the italic face not be displaying properly?!?</p>
+<p>I even tried going so far as to load Century Gothic - the same font we currently have working through FontsLive.com (this is how I&rsquo;ve left it for now). Still same issue. So I downloaded the CSS file that is served just to IE from FontsLive.com and mirrored it for this test so that the only difference was the location &amp; names of the font files (even took off the .eot extension that they don&rsquo;t list). Took out all the rules that target other browsers so only the IE stuff was in there. SAME ISSUES!</p>
+<p>It seems like no matter what I try, IE grabs the first face that it sees in the @font-face stack and uses that. Then it applies a &lsquo;faux&rsquo; italic and bold for every instance that is required. If I put the bold face first in the CSS file, it makes all of the type bold, with &lsquo;faux&rsquo; italic and bold applied to those specific instances.</p>
+<p>Argh! From my extensive testing it would certainly lead me to believe that it is 100% NOT possible to do style linking with IE7-8, but yet FontsLive.com and TypeKit somehow magically get it to work!</p>
+<ul>
+<li>Any other thoughts or things I might have missed???</li>
+</ul>
+<p>THANKS!</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -217,11 +202,11 @@ THANKS!
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Like I said before: “real style-linking“ (the way the CSS specs declare it) in IE 6-8 is only possible for certain fonts that have certain flags set correctly. If the font is not set this way, you cannot do anything about it directly. 
-
-You either need to target these IE version with conditional comments or you need to apply work-arounds dynamically. Typekit describes their work-around here: (They basically turn every style into a single family for IE 6 to 8)
-http://help.typekit.com/customer/portal/articles/6855-using-multiple-weights-and-styles
-http://blog.typekit.com/2011/06/29/using-typekit-fonts-in-your-own-css/</div>
+		<div class="commentbody"><p>Like I said before: “real style-linking“ (the way the CSS specs declare it) in IE 6-8 is only possible for certain fonts that have certain flags set correctly. If the font is not set this way, you cannot do anything about it directly.</p>
+<p>You either need to target these IE version with conditional comments or you need to apply work-arounds dynamically. Typekit describes their work-around here: (They basically turn every style into a single family for IE 6 to 8)
+<a href="http://help.typekit.com/customer/portal/articles/6855-using-multiple-weights-and-styles">http://help.typekit.com/customer/portal/articles/6855-using-multiple-weights-and-styles</a>
+<a href="http://blog.typekit.com/2011/06/29/using-typekit-fonts-in-your-own-css/">http://blog.typekit.com/2011/06/29/using-typekit-fonts-in-your-own-css/</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -263,19 +248,20 @@ http://blog.typekit.com/2011/06/29/using-typekit-fonts-in-your-own-css/</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Ralf! 
-
-I have a message in to someone at Fonts.com trying to ask the FontsLive.com developers how they pull it off. But he was also starting to wonder if the internal metadata style linking was not correct with the EOT files.  If so, this might help me understand why NOTHING I do on my end (CSS tricks, etc.) is making any difference.
-
-The only thing that is puzzling about this situation is the fact that the font that we have working with FontsLive.com is a Monotype font, so they would have had to get it from the same source as Fonts.com (a Monotype division). But I'm wondering if they made some modifications while creating the EOT files that might have fixed the issues before they started. 
-
-- Is this what you are thinking in regards to the 'flags' not being set right??
-
-- If this is actually the case, I would also be curious to know if there are any tools/methods that would allow me to 'fix' the metadata/flags for these EOT files so they would work properly??? FontsLive.com somehow did it, as apparently Typekit does as well.
-
-And according to both of those links you posted for Typekit, they both indicate that the extra 'variation-specific family names' is for when you have more than the default 2 weights in your family. They try to strip families down to the basic 2 weights (normal/bold) and 2 styles (normal/italic) so they work across browsers by default. We are not trying to use more than the 4 basic style/weight variations. 
-
-<blockquote>The biggest limitation is that in IE6, IE7, and IE8, you can only link up to four fonts with two weights into a single font-family name before the entire family stops working. <br />In order to avoid breaking things completely in these older browsers, Typekit filters the set of fonts that you select in each family down to a basic four weights and styles when serving fonts to these browsers.</blockquote></div>
+		<div class="commentbody"><p>Thanks Ralf!</p>
+<p>I have a message in to someone at Fonts.com trying to ask the FontsLive.com developers how they pull it off. But he was also starting to wonder if the internal metadata style linking was not correct with the EOT files.  If so, this might help me understand why NOTHING I do on my end (CSS tricks, etc.) is making any difference.</p>
+<p>The only thing that is puzzling about this situation is the fact that the font that we have working with FontsLive.com is a Monotype font, so they would have had to get it from the same source as Fonts.com (a Monotype division). But I&rsquo;m wondering if they made some modifications while creating the EOT files that might have fixed the issues before they started.</p>
+<ul>
+<li>
+<p>Is this what you are thinking in regards to the &lsquo;flags&rsquo; not being set right??</p>
+</li>
+<li>
+<p>If this is actually the case, I would also be curious to know if there are any tools/methods that would allow me to &lsquo;fix&rsquo; the metadata/flags for these EOT files so they would work properly??? FontsLive.com somehow did it, as apparently Typekit does as well.</p>
+</li>
+</ul>
+<p>And according to both of those links you posted for Typekit, they both indicate that the extra &lsquo;variation-specific family names&rsquo; is for when you have more than the default 2 weights in your family. They try to strip families down to the basic 2 weights (normal/bold) and 2 styles (normal/italic) so they work across browsers by default. We are not trying to use more than the 4 basic style/weight variations.</p>
+<!-- raw HTML omitted -->
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -296,11 +282,10 @@ And according to both of those links you posted for Typekit, they both indicate 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I have to investigate/test this myself with fonts and old browsers to check, but why would you even want to use web fonts with IE6,7 or 8? They look crap most of the time anyway on XP (or, I could say they don't look so good in any IE).
-
-But I thought that style linking worked whenever it was properly configured for regular/italic and bold/bold italic, just like for the Office environments back in the day. Here's the fsSelection flags Ralf is talking about I think: http://www.microsoft.com/typography/otspec/os2.htm (search for fsSelection) which is in relation with font naming (http://www.microsoft.com/typography/otspec/name.htm, read under Name IDs).
-
-But in any case I would just create the site for modern browsers and then the alternative for old browsers and really check if you want to use web fonts in those cases. No?</div>
+		<div class="commentbody"><p>I have to investigate/test this myself with fonts and old browsers to check, but why would you even want to use web fonts with IE6,7 or 8? They look crap most of the time anyway on XP (or, I could say they don&rsquo;t look so good in any IE).</p>
+<p>But I thought that style linking worked whenever it was properly configured for regular/italic and bold/bold italic, just like for the Office environments back in the day. Here&rsquo;s the fsSelection flags Ralf is talking about I think: <a href="http://www.microsoft.com/typography/otspec/os2.htm">http://www.microsoft.com/typography/otspec/os2.htm</a> (search for fsSelection) which is in relation with font naming (<a href="http://www.microsoft.com/typography/otspec/name.htm">http://www.microsoft.com/typography/otspec/name.htm</a>, read under Name IDs).</p>
+<p>But in any case I would just create the site for modern browsers and then the alternative for old browsers and really check if you want to use web fonts in those cases. No?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -321,21 +306,15 @@ But in any case I would just create the site for modern browsers and then the al
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Want an explanation? Wanna get it to work?
-This explains what to do and the underlying theory:
-
-http://www.eotfast.com/documentation.php
-
-Skip to the section titled <strong>What To Do When You Run Into A Problem</strong>
+		<div class="commentbody"><p>Want an explanation? Wanna get it to work?
+This explains what to do and the underlying theory:</p>
+<p><a href="http://www.eotfast.com/documentation.php">http://www.eotfast.com/documentation.php</a></p>
+<p>Skip to the section titled <!-- raw HTML omitted -->What To Do When You Run Into A Problem<!-- raw HTML omitted -->
 and then skip to number 3 within that where it says:
-<em>If you are declaring the font as part of a larger Font-Family, the same style and weight as you are declaring for font-weight and font-style in the CSS needs to be defined inside the font, since IE 6, 7, and 8 will read that font data – and possibly override the CSS weight/style settings.</em>
-
-If you don't understand fonts well enough to know what all of this means and what internal settings are involved, I suggest you just fuggedaboudit. 
-But if you do - or you take it upon yourself to learn - I assure you that font weight and font-style will work predictably and reliably once you reconcile the internal data of the fonts with the font-weight and font-style properties declared for them in the @font-face declarations.
-
-Ok?
-
-
+<!-- raw HTML omitted -->If you are declaring the font as part of a larger Font-Family, the same style and weight as you are declaring for font-weight and font-style in the CSS needs to be defined inside the font, since IE 6, 7, and 8 will read that font data – and possibly override the CSS weight/style settings.<!-- raw HTML omitted --></p>
+<p>If you don&rsquo;t understand fonts well enough to know what all of this means and what internal settings are involved, I suggest you just fuggedaboudit. 
+But if you do - or you take it upon yourself to learn - I assure you that font weight and font-style will work predictably and reliably once you reconcile the internal data of the fonts with the font-weight and font-style properties declared for them in the @font-face declarations.</p>
+<p>Ok?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -357,13 +336,11 @@ Ok?
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ahhhh, feels like I'm finally getting somewhere! Thanks Rolf & Richard for the great tips and links!
-
-I'll look through the page on EOTFAST a bit more when I get a chance, but in glancing through it I can totally understand what may need to happen. It's just a matter of whether the tools to actually make what is probably a very simple change are easily accessible and simple enough to use.
-
-If we were going to try to correct any issues, we would most likely need to adjust the TrueType versions of the fonts then 're-convert' to EOTs, correct? Or are there tools to allow us to quickly adjust the settings in the EOT file itself? We would just have to hope the files we got from Fonts.com would allow for this.
-
-It is still puzzling that Fonts.com (Monotype) would get something like this wrong on two very popular fonts, while FontsLive.com was able to convert the files properly (apparently). I can see how Avant Garde might have an issue with many different weights, but Century Gothic is really only offered in regular/italic/bold/bold-italic. It's strange that the internal style linking would be off on that, but maybe their conversion tool messes something up?!?</div>
+		<div class="commentbody"><p>Ahhhh, feels like I&rsquo;m finally getting somewhere! Thanks Rolf &amp; Richard for the great tips and links!</p>
+<p>I&rsquo;ll look through the page on EOTFAST a bit more when I get a chance, but in glancing through it I can totally understand what may need to happen. It&rsquo;s just a matter of whether the tools to actually make what is probably a very simple change are easily accessible and simple enough to use.</p>
+<p>If we were going to try to correct any issues, we would most likely need to adjust the TrueType versions of the fonts then &rsquo;re-convert' to EOTs, correct? Or are there tools to allow us to quickly adjust the settings in the EOT file itself? We would just have to hope the files we got from Fonts.com would allow for this.</p>
+<p>It is still puzzling that Fonts.com (Monotype) would get something like this wrong on two very popular fonts, while FontsLive.com was able to convert the files properly (apparently). I can see how Avant Garde might have an issue with many different weights, but Century Gothic is really only offered in regular/italic/bold/bold-italic. It&rsquo;s strange that the internal style linking would be off on that, but maybe their conversion tool messes something up?!?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -384,10 +361,10 @@ It is still puzzling that Fonts.com (Monotype) would get something like this wro
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I would expect any serious web font service provider should be able the get you the correct fonts. They should fix them and serve "updated" versions after the fix. So I suggest you file a bug report with them :)
-Don't they offer some sort of trial period, sample testing while your developing so that you can test with actual fonts?
-
-I'm not sure if there are tools btw that let you easily edit and fix EOTs.</div>
+		<div class="commentbody"><p>I would expect any serious web font service provider should be able the get you the correct fonts. They should fix them and serve &ldquo;updated&rdquo; versions after the fix. So I suggest you file a bug report with them :)
+Don&rsquo;t they offer some sort of trial period, sample testing while your developing so that you can test with actual fonts?</p>
+<p>I&rsquo;m not sure if there are tools btw that let you easily edit and fix EOTs.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -408,12 +385,11 @@ I'm not sure if there are tools btw that let you easily edit and fix EOTs.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>It is still puzzling that Fonts.com (Monotype) would get something like this wrong on two very popular fonts…</cite>
-
-There is nothing »wrong« with the fonts. The problem is IE with its @font-face implementation. I am not aware that any webfont service provider would solve this problem within the fonts. They work around it dynamically or let you do it yourself by just serving single-style families. 
-The internal style-linking wouldn't help much for larger families where the customer might pick random styles from a family and wants to link them together via CSS. 
-
-If you got at 4-style family, just add a conditional comment for IE up to version 8. Within that comment define your 3 additional styles (italic/bold/bold italic) as single families and assign these fonts to every instance of “b”, “strong”, “i”, “em” and the combinations of those. That works all the time for every font and every version of IE. </div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->It is still puzzling that Fonts.com (Monotype) would get something like this wrong on two very popular fonts…<!-- raw HTML omitted --></p>
+<p>There is nothing »wrong« with the fonts. The problem is IE with its @font-face implementation. I am not aware that any webfont service provider would solve this problem within the fonts. They work around it dynamically or let you do it yourself by just serving single-style families. 
+The internal style-linking wouldn&rsquo;t help much for larger families where the customer might pick random styles from a family and wants to link them together via CSS.</p>
+<p>If you got at 4-style family, just add a conditional comment for IE up to version 8. Within that comment define your 3 additional styles (italic/bold/bold italic) as single families and assign these fonts to every instance of “b”, “strong”, “i”, “em” and the combinations of those. That works all the time for every font and every version of IE.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -434,23 +410,16 @@ If you got at 4-style family, just add a conditional comment for IE up to versio
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ohhh, I was so hopeful to have found the answer with internal style linking! UNFORTUNATELY, unless I converted something improperly, after 'fixing' the internal font name issues there is absolutely NO difference in behavior! Ugh...
-
-Here's the process I used:
-<ol>
-<li>I first used the free 'Microsoft Font Properties' tool to inspect the TTF versions of the fonts. Sure enough, they all said 'Regular' for the SubFamily name, and the Font Family name was actually blank on most.</li><li>I then used a tool called 'FontForge' to open the TTF fonts and edit the Family names to be all the same (AvantGardeGothic). Then I changed the TTF SubFamily names to what they should be according to the weight/style (Regular, Italic, Bold, Bold Italic).</li>
-<li>I generated new fonts after making these simple changes.</li>
-<li>When viewing the properties on these new TTF files, they did now all have the same Font Family name and proper SubFamily names.</li>
-<li>I then followed some instructions on using the Microsoft WEFT tool to convert the TTFs to EOTs. (after this didn't appear to work, I also tried an online version of a tool called 'ttf2eot').</li>
-<li>Lastly I uploaded the new EOT files, cleared history & hard-refreshed IE7, and NOTHING different! I tried stripping down the CSS @font-face declarations to be just IE-specific (only specifying the EOTs), and still nothing.</li>
-</ol>
-
-- Could I have done something wrong still?? 
-- Is there any way to examine the properties of the EOTs to make sure they didn't get messed up in conversion??
-
-And Ralf, I appreciate the insight. I think if I was going to skip style linking for IE, I would just skip it for everything and manually add the specific font-family info to every instance necessary (skipping adding IE-only CSS). The point of this post was to see if style linking IS EVEN possible at all in IE7-8. If you go setup a simple font stack at Typekit, you'll see that you don't have to do what you're talking about with adding specific font-families to every CSS rule. You just add the one font-family name, and do everything else as-if it was a local font.
-
-Still wondering what magic FontsLive.com and Typekit use... </div>
+		<div class="commentbody"><p>Ohhh, I was so hopeful to have found the answer with internal style linking! UNFORTUNATELY, unless I converted something improperly, after &lsquo;fixing&rsquo; the internal font name issues there is absolutely NO difference in behavior! Ugh&hellip;</p>
+<p>Here&rsquo;s the process I used:</p>
+<!-- raw HTML omitted -->
+<ul>
+<li>Could I have done something wrong still??</li>
+<li>Is there any way to examine the properties of the EOTs to make sure they didn&rsquo;t get messed up in conversion??</li>
+</ul>
+<p>And Ralf, I appreciate the insight. I think if I was going to skip style linking for IE, I would just skip it for everything and manually add the specific font-family info to every instance necessary (skipping adding IE-only CSS). The point of this post was to see if style linking IS EVEN possible at all in IE7-8. If you go setup a simple font stack at Typekit, you&rsquo;ll see that you don&rsquo;t have to do what you&rsquo;re talking about with adding specific font-families to every CSS rule. You just add the one font-family name, and do everything else as-if it was a local font.</p>
+<p>Still wondering what magic FontsLive.com and Typekit use&hellip;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -471,13 +440,12 @@ Still wondering what magic FontsLive.com and Typekit use... </div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You shouldn’t have done all this work. First of all, the internal names are usually not used at all. Webfonts might even work if they don't have a name table at all. They are just file references within the browser. From what I read, you also didn't change the fsSelection flags. 
-
-Also, I would not advise to mess with existing TrueType fonts in font editors. If they have manual hinting you will probably strip that in the process. 
-
-So again concerning to your original question:
+		<div class="commentbody"><p>You shouldn’t have done all this work. First of all, the internal names are usually not used at all. Webfonts might even work if they don&rsquo;t have a name table at all. They are just file references within the browser. From what I read, you also didn&rsquo;t change the fsSelection flags.</p>
+<p>Also, I would not advise to mess with existing TrueType fonts in font editors. If they have manual hinting you will probably strip that in the process.</p>
+<p>So again concerning to your original question:
 Yes, style-linking IS possible in IE up to version 8 for a regular 4-style families, if these families are set up in a certain way internally. 
-Usually we can't expect that so you either have faux italic/bold in IE until version 8 or you work around that with one of the methods mentioned above. But basically they all do the same thing. Even if they don't use conditional comments, they use automatically altered font stacks to achieve exactly the same thing. There is no other »magic« is use. Just pick one of the methods and implement it. </div>
+Usually we can&rsquo;t expect that so you either have faux italic/bold in IE until version 8 or you work around that with one of the methods mentioned above. But basically they all do the same thing. Even if they don&rsquo;t use conditional comments, they use automatically altered font stacks to achieve exactly the same thing. There is no other »magic« is use. Just pick one of the methods and implement it.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -498,18 +466,14 @@ Usually we can't expect that so you either have faux italic/bold in IE until ver
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">SUCCESS!!!! 
-
-Thank you Ralf for the little hint about the fsSelection flags! I went back in to FontForge and paid a lot more attention to all the tabs in the 'Element/Font Info' section. There are quite a few things, and they're not named by standards (like 'fsSelection'). But I think I found everything, re-generated the TTF fonts, and re-converted to EOT using WEFT. SO nice to finally see it change when I refreshed!!!
-
-Here's my sample page using Avant Garde, with Avant Garde Medium used for bold/bold-italic:
-http://joomla25.lanetest.com/index.php/client-test-article
-
-So to answer the original question: YES, it is possible to use style linking in older versions of IE, as long as the font metadata is properly setup when it is converted. And it is possible to modify this information if it is not correct by default.
-
-I'm a bit frustrated with Fonts.com that I had to do all this, but I suppose that's why they don't explicitly support style linking. So FontsLive.com must have done something to the fonts before or during their conversion of them. I really figured this out when I tried converting my Windows desktop version of Century Gothic to EOT and it worked right off. Just can't understand why the web-hosting version of that font (both from Monotype) would be so different in the metadata?!?
-
-Thanks everyone for the great help!</div>
+		<div class="commentbody"><p>SUCCESS!!!!</p>
+<p>Thank you Ralf for the little hint about the fsSelection flags! I went back in to FontForge and paid a lot more attention to all the tabs in the &lsquo;Element/Font Info&rsquo; section. There are quite a few things, and they&rsquo;re not named by standards (like &lsquo;fsSelection&rsquo;). But I think I found everything, re-generated the TTF fonts, and re-converted to EOT using WEFT. SO nice to finally see it change when I refreshed!!!</p>
+<p>Here&rsquo;s my sample page using Avant Garde, with Avant Garde Medium used for bold/bold-italic:
+<a href="http://joomla25.lanetest.com/index.php/client-test-article">http://joomla25.lanetest.com/index.php/client-test-article</a></p>
+<p>So to answer the original question: YES, it is possible to use style linking in older versions of IE, as long as the font metadata is properly setup when it is converted. And it is possible to modify this information if it is not correct by default.</p>
+<p>I&rsquo;m a bit frustrated with Fonts.com that I had to do all this, but I suppose that&rsquo;s why they don&rsquo;t explicitly support style linking. So FontsLive.com must have done something to the fonts before or during their conversion of them. I really figured this out when I tried converting my Windows desktop version of Century Gothic to EOT and it worked right off. Just can&rsquo;t understand why the web-hosting version of that font (both from Monotype) would be so different in the metadata?!?</p>
+<p>Thanks everyone for the great help!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -530,7 +494,7 @@ Thanks everyone for the great help!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><a href="http://www.gust.org.pl/projects/e-foundry/tex-gyre/adventor/index_html"><strong>TeX Gyre Adventor</strong></a>, which is very close to Avant Garde, would allow it though.</div>
+		<div class="commentbody"><!-- raw HTML omitted --><!-- raw HTML omitted -->TeX Gyre Adventor<!-- raw HTML omitted --><!-- raw HTML omitted -->, which is very close to Avant Garde, would allow it though.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -572,7 +536,7 @@ Thanks everyone for the great help!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'll check it out and speak with Fonts.com. But we've paid for a license to use Avant Garde on our website, and this license included the ability to self-host a set of fonts that we are able to download from them. We downloaded all of the TTF, WOFF, SVG and EOT files as a package from their site. The only thing I did in essence was correct their poorly constructed metadata in the font files that I really believe should not even have to be done. If anything, we should get a discount for all the hours we had to put into figuring this out and correcting it!</div>
+		<div class="commentbody">I&rsquo;ll check it out and speak with Fonts.com. But we&rsquo;ve paid for a license to use Avant Garde on our website, and this license included the ability to self-host a set of fonts that we are able to download from them. We downloaded all of the TTF, WOFF, SVG and EOT files as a package from their site. The only thing I did in essence was correct their poorly constructed metadata in the font files that I really believe should not even have to be done. If anything, we should get a discount for all the hours we had to put into figuring this out and correcting it!</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -593,15 +557,12 @@ Thanks everyone for the great help!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I am very sorry for answering to an old thread, but I am very frustrated about using an EOT-File for Internet Explorer 8.0 (IE 8). I want  to use the very common font "Open Sans" from Google-Fonts.
-
-The problem in using exactly ONE font-family and different font-weights/font-styles was already mentioned above. I did not get it working within 2 days.
-
-I tried all the tips above regarding fsSelection and font-naming. Although I do well know the internal structure of a TTF-file, I wasn't succesful at all. I am very familar with the structure itself and also patched a ttf-file with a hex-editor in the past successfully (this was for a different purpose).
-
-@jehtro: Can you explain what you did to achieve using olny one font-familiy with different font-weights/font-styles in IE 8?
-
-Thanks in advance!</div>
+		<div class="commentbody"><p>I am very sorry for answering to an old thread, but I am very frustrated about using an EOT-File for Internet Explorer 8.0 (IE 8). I want  to use the very common font &ldquo;Open Sans&rdquo; from Google-Fonts.</p>
+<p>The problem in using exactly ONE font-family and different font-weights/font-styles was already mentioned above. I did not get it working within 2 days.</p>
+<p>I tried all the tips above regarding fsSelection and font-naming. Although I do well know the internal structure of a TTF-file, I wasn&rsquo;t succesful at all. I am very familar with the structure itself and also patched a ttf-file with a hex-editor in the past successfully (this was for a different purpose).</p>
+<p>@jehtro: Can you explain what you did to achieve using olny one font-familiy with different font-weights/font-styles in IE 8?</p>
+<p>Thanks in advance!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

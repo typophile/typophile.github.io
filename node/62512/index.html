@@ -71,59 +71,46 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I've been working at this for hours..ugh! Sure, if there's a better way to do this, please inform. Regardless, I want to really build this script from scratch to learn.
-
-What I want to do:
-Shift points at a certain y value to a different y value.
-
-Logical Process:
-Cycle through each glyph in my font. In each glyph, cycle through contours. Within the contours cycle through points. If the point has a y value or 395, or 265, change accordingly. 
-
-
---------------------------------------------------
-from robofab.world import CurrentGlyph
-from robofab.world import CurrentFont
-
-font=CurrentFont()
-
-for x in font: 
-	print font[x.name][0]
-	contour= font[x.name][0]
-	for p in contour.points:
-			if p.y==395:
-				p.y += 100
-			if p.y==265:
-				p.y -= 100
-font.update()
---------------------------------------------------
-
-What am I misunderstanding here? When I target the contour by doing CurrentGlyph()[0], it works. So why not font[x.name][0]? Oddly enough font[x.name] is returning the value expected, but CurrentGlyph() returns the glyph that apparently belongs to "unnamed_font". And for some reason, the unnamed_font one works. Am I totally off in my approach?</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;ve been working at this for hours..ugh! Sure, if there&rsquo;s a better way to do this, please inform. Regardless, I want to really build this script from scratch to learn.</p>
+<p>What I want to do:
+Shift points at a certain y value to a different y value.</p>
+<p>Logical Process:
+Cycle through each glyph in my font. In each glyph, cycle through contours. Within the contours cycle through points. If the point has a y value or 395, or 265, change accordingly.</p>
+<hr>
+<p>from robofab.world import CurrentGlyph
+from robofab.world import CurrentFont</p>
+<p>font=CurrentFont()</p>
+<h2 id="fontupdate">for x in font: 
+print font[x.name][0]
+contour= font[x.name][0]
+for p in contour.points:
+if p.y==395:
+p.y += 100
+if p.y==265:
+p.y -= 100
+font.update()</h2>
+<p>What am I misunderstanding here? When I target the contour by doing CurrentGlyph()[0], it works. So why not font[x.name][0]? Oddly enough font[x.name] is returning the value expected, but CurrentGlyph() returns the glyph that apparently belongs to &ldquo;unnamed_font&rdquo;. And for some reason, the unnamed_font one works. Am I totally off in my approach?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">#!@$%!! 
-just when I mustered up the will to post it, I figured it out:
-
-<code>
-from robofab.world import CurrentGlyph
-from robofab.world import CurrentFont
-
-font=CurrentFont()
-
-
-for x in font: 
-	for m in x:
-		print m
-		for p in m.points:
-				if p.y==395:
-					p.y += 100
-				if p.y==265:
-					p.y -= 100
-		
-	font.update()
-</code>
-
-The only question now is, would this be the best way you would solve this problem?</div>
+		<div class="commentbody"><p>#!@$%!! 
+just when I mustered up the will to post it, I figured it out:</p>
+<!-- raw HTML omitted -->
+<p>font=CurrentFont()</p>
+<p>for x in font: 
+for m in x:
+print m
+for p in m.points:
+if p.y==395:
+p.y += 100
+if p.y==265:
+p.y -= 100</p>
+<pre><code>font.update()
+</code></pre>
+<!-- raw HTML omitted -->
+<p>The only question now is, would this be the best way you would solve this problem?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -144,8 +131,7 @@ The only question now is, would this be the best way you would solve this proble
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">
-I suggest using more descriptive variable names. Why x for the glyph? I bet if you look at this code again in a year's time you will find this very confusing – especially since x would also be used for the abscissa of a point.</div>
+		<div class="commentbody">I suggest using more descriptive variable names. Why x for the glyph? I bet if you look at this code again in a year&rsquo;s time you will find this very confusing – especially since x would also be used for the abscissa of a point.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -166,14 +152,11 @@ I suggest using more descriptive variable names. Why x for the glyph? I bet if y
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I agree with Tim: using more descriptive variable names makes your code more readable, both to you and other people.
-
-One small optimisation could be "from robofab.world import CurrentFont, CurrentGlyph" instead of using two seperate lines.
-
-
-
--Paul van der Laan
-www.type-invaders.com</div>
+		<div class="commentbody"><p>I agree with Tim: using more descriptive variable names makes your code more readable, both to you and other people.</p>
+<p>One small optimisation could be &ldquo;from robofab.world import CurrentFont, CurrentGlyph&rdquo; instead of using two seperate lines.</p>
+<p>-Paul van der Laan
+<a href="http://www.type-invaders.com">www.type-invaders.com</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -194,7 +177,7 @@ www.type-invaders.com</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for the tips. I started using descriptive variable names, but i ended up confusing myself by not remembering which word was my own variable versus which were reserved words. Hope to get the hang of it soon...</div>
+		<div class="commentbody">Thanks for the tips. I started using descriptive variable names, but i ended up confusing myself by not remembering which word was my own variable versus which were reserved words. Hope to get the hang of it soon&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -215,33 +198,34 @@ www.type-invaders.com</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Regarding the naming of variables some one letter variables are used very often in RoboFab scripts:
+		<div class="commentbody"><p>Regarding the naming of variables some one letter variables are used very often in RoboFab scripts:
 f for a font object, i.e. f = CurrentFont()
-g for a glyph object, i.e. g = f['Adieresis']
+g for a glyph object, i.e. g = f[&lsquo;Adieresis&rsquo;]
 p for a point object
-and when dealing with multiple objects of the same type variables can be numbered, i.e. f1, f2, etc.
-
-To distinguish variable names from reserved keywords you can always opt to let them begin with the same suffix. For instance 'my':
-
-<code>
-from robofab.world import CurrentFont, CurrentGlyph
-
-myFont = CurrentFont()
-
-for myGlyph in myFont:
-> for myContour in myGlyph:
-> > for myPoint in myContour.points:
-> > > if myPoint.y == 395:
-> > > > myPoint.y += 100
-> > > if myPoint.y == 265:
-> > > > myPoint.y -= 100
-
-myFont.update()
-</code>
-
-
--Paul van der Laan
-www.type-invaders.com</div>
+and when dealing with multiple objects of the same type variables can be numbered, i.e. f1, f2, etc.</p>
+<p>To distinguish variable names from reserved keywords you can always opt to let them begin with the same suffix. For instance &lsquo;my&rsquo;:</p>
+<!-- raw HTML omitted -->
+<p>myFont = CurrentFont()</p>
+<p>for myGlyph in myFont:</p>
+<blockquote>
+<p>for myContour in myGlyph:</p>
+<blockquote>
+<p>for myPoint in myContour.points:</p>
+<blockquote>
+<p>if myPoint.y == 395:</p>
+<blockquote>
+<p>myPoint.y += 100
+if myPoint.y == 265:
+myPoint.y -= 100</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>myFont.update()
+<!-- raw HTML omitted --></p>
+<p>-Paul van der Laan
+<a href="http://www.type-invaders.com">www.type-invaders.com</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

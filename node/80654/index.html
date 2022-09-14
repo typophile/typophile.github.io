@@ -71,36 +71,27 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I'm wondering what sort of bug this is. When I compose Ncommaaccent for example, FL puts a cedilla, rather than a commaaccent on the N base glyph. This happens for all commaaccent glyphs. I know there has been extensive discussion about Romanian/Moldavian S and T cedilla/commaaccent characters, but haven't seen anything about the G, K, N or R commaaccent characters.
-
-So I'm wondering if this is a problem with the FL alias file which is telling the 'create glyph' command to look for U+0327 (cedilla) instead of U+0326 (commaaccent), or if it's a naming problem where the glyphs are supposed to be made with cedillas despite having commaaccent names?</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m wondering what sort of bug this is. When I compose Ncommaaccent for example, FL puts a cedilla, rather than a commaaccent on the N base glyph. This happens for all commaaccent glyphs. I know there has been extensive discussion about Romanian/Moldavian S and T cedilla/commaaccent characters, but haven&rsquo;t seen anything about the G, K, N or R commaaccent characters.</p>
+<p>So I&rsquo;m wondering if this is a problem with the FL alias file which is telling the &lsquo;create glyph&rsquo; command to look for U+0327 (cedilla) instead of U+0326 (commaaccent), or if it&rsquo;s a naming problem where the glyphs are supposed to be made with cedillas despite having commaaccent names?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You are right! 
-
-alias.dat is buggy in that regard, it says: 
-
-Ncommaaccent N+~uni0327.case
+		<div class="commentbody"><p>You are right!</p>
+<p>alias.dat is buggy in that regard, it says:</p>
+<p>Ncommaaccent N+~uni0327.case
 Ncommaaccent N+uni0327
-Ncommaaccent N+commaaccent
-
-but it should say
-
-Ncommaaccent N+~uni0326.case
+Ncommaaccent N+commaaccent</p>
+<p>but it should say</p>
+<p>Ncommaaccent N+~uni0326.case
 Ncommaaccent N+uni0326
-Ncommaaccent N+commaaccent
-
-This is the result of the -- now considered errorneous -- canonical decomposition in the Unicode Standard, which decomposes U+0145 to U+004E U+0327. 
-
-Also, please note that in the meantime, we've changed the recommendation for glyph naming. Rather than "Ncommaaccent", the glyph should be named "uni0145". 
-
-(Of course this also applies to all the other "commaaccent"-related glyphs).
-
-We'll rebuild alias.dat to improve this, but it will take some time, since building it is a kind of a complicated process. 
-
-Thank you for catching this!
-Adam
+Ncommaaccent N+commaaccent</p>
+<p>This is the result of the &ndash; now considered errorneous &ndash; canonical decomposition in the Unicode Standard, which decomposes U+0145 to U+004E U+0327.</p>
+<p>Also, please note that in the meantime, we&rsquo;ve changed the recommendation for glyph naming. Rather than &ldquo;Ncommaaccent&rdquo;, the glyph should be named &ldquo;uni0145&rdquo;.</p>
+<p>(Of course this also applies to all the other &ldquo;commaaccent&rdquo;-related glyphs).</p>
+<p>We&rsquo;ll rebuild alias.dat to improve this, but it will take some time, since building it is a kind of a complicated process.</p>
+<p>Thank you for catching this!
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -122,9 +113,9 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Phew, I was hoping you'd respond, Adam :)
-
-Glad the poking around inside FL dat files paid off!</div>
+		<div class="commentbody"><p>Phew, I was hoping you&rsquo;d respond, Adam :)</p>
+<p>Glad the poking around inside FL dat files paid off!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -145,14 +136,11 @@ Glad the poking around inside FL dat files paid off!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Actually, the funny thing is that you seem to have uni0327 (the combining cedilla, properly named) in your font (right?) -- which most people do not have. That's the reason why the problem was not discovered earlier. 
-
-As you may notice, after the "N+uni0327" recipe, the next in queue is "N+commaaccent". And the way alias.dat works is that FLS tries to find the best match by stepping through the entries with the same glyph name, until it finds the largest number of fitting composites. 
-
-Since most fonts don't have "uni0327" but they do have "commaaccent", the first rule got ignored, and the second one kicked in for most of them. So they did not experience your problem. 
-
-Anyhow, many thanks!
-A.
+		<div class="commentbody"><p>Actually, the funny thing is that you seem to have uni0327 (the combining cedilla, properly named) in your font (right?) &ndash; which most people do not have. That&rsquo;s the reason why the problem was not discovered earlier.</p>
+<p>As you may notice, after the &ldquo;N+uni0327&rdquo; recipe, the next in queue is &ldquo;N+commaaccent&rdquo;. And the way alias.dat works is that FLS tries to find the best match by stepping through the entries with the same glyph name, until it finds the largest number of fitting composites.</p>
+<p>Since most fonts don&rsquo;t have &ldquo;uni0327&rdquo; but they do have &ldquo;commaaccent&rdquo;, the first rule got ignored, and the second one kicked in for most of them. So they did not experience your problem.</p>
+<p>Anyhow, many thanks!
+A.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -174,7 +162,7 @@ A.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Also, I shall mention that "uni0145" is a better name than "Ncommaaccent" because it will work in OTFs under Mac OS X 10.4, while "Ncommaaccent" won't. The "*commaaccent" names were removed from AGLFN (Adobe Glyph List for New Fonts), so the "uni****" names are the recommended form for them. </div>
+		<div class="commentbody">Also, I shall mention that &ldquo;uni0145&rdquo; is a better name than &ldquo;Ncommaaccent&rdquo; because it will work in OTFs under Mac OS X 10.4, while &ldquo;Ncommaaccent&rdquo; won&rsquo;t. The &ldquo;<em>commaaccent&rdquo; names were removed from AGLFN (Adobe Glyph List for New Fonts), so the &ldquo;uni</em>***&rdquo; names are the recommended form for them.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -195,9 +183,9 @@ A.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Well, I only put in the combining cedilla at U+0327 to test my suspicion the aliases file was at fault...it took me several hours to figure out how FL builds the composites! My commaaccent must have had a weird name to start with, or FL would have found it without needing the unicode.
-
-I'll make sure to call Ncommaaccent uni0145 henceforth. Thanks for your help.</div>
+		<div class="commentbody"><p>Well, I only put in the combining cedilla at U+0327 to test my suspicion the aliases file was at fault&hellip;it took me several hours to figure out how FL builds the composites! My commaaccent must have had a weird name to start with, or FL would have found it without needing the unicode.</p>
+<p>I&rsquo;ll make sure to call Ncommaaccent uni0145 henceforth. Thanks for your help.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -239,9 +227,9 @@ I'll make sure to call Ncommaaccent uni0145 henceforth. Thanks for your help.</d
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If you're also using Fontographer in your workflow, the alias.dat file should also include
-
-<code>Ncommaaccent N+commasubnosp</code></div>
+		<div class="commentbody"><p>If you&rsquo;re also using Fontographer in your workflow, the alias.dat file should also include</p>
+<p><!-- raw HTML omitted -->Ncommaaccent N+commasubnosp<!-- raw HTML omitted --></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

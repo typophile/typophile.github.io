@@ -71,35 +71,25 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hello everyone,
-
-I was just wondering : since xMix, xMax, yMin, and yMax in the 'glyf' table define a bounding box for glyphs, I was wondering for what size is this bounding box given ?
-
-Let's say, if a 2000*2000 bounding box is - for example - for a 100 pt "M", then I'd like to be able to get the bounding box for another size with a rule of three.
-
-Thanks in advance for your help and your time !
-
-Frederic
+  <div class="post-content e-content" itemprop="articleBody"><p>Hello everyone,</p>
+<p>I was just wondering : since xMix, xMax, yMin, and yMax in the &lsquo;glyf&rsquo; table define a bounding box for glyphs, I was wondering for what size is this bounding box given ?</p>
+<p>Let&rsquo;s say, if a 2000*2000 bounding box is - for example - for a 100 pt &ldquo;M&rdquo;, then I&rsquo;d like to be able to get the bounding box for another size with a rule of three.</p>
+<p>Thanks in advance for your help and your time !</p>
+<p>Frederic</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">All values of this type inside a font are in 'design units' -- the 'unitsPerEm' value in Opentype font headers (other font types have a similar function defined elsewhere).
-
-"Design units" are a virtual construct. When you start drawing characters, imagine you start with a clean square sheet of paper, and you declare up front "I'm going to draw all characters <em>inside</em> these boundaries." The physical size of the sheet does not matter; what does is how many <em>units</em> you divide it in, to be able to assign x and y coordinates to all of the individual points of your characters. The total size of your paper sheet is "one em", and the number of divisions is your "units per em" value.
-
-(So why a separate 'bounding box'? Well, suppose you draw your average character set well inside the bounds of your em, but then you want to add <em>one</em> single large character that goes 'over the edge'. Of course you could throw everything away at that point and restart with a larger sheet, but at this point it's easier to step away from the "sheet" simile, and just design beyond the page boundaries. After all, it is just a virtual construct anyway.)
-
-To know whether your example, a bounding box of 2000 × 2000 units, is "large" or "small" you need to compare it to the em square size the font was designed on. If this would be a typical Type 1 font, for example, its em square size could be 1000 units. That means that the largest character is twice as large as the em square. On the other hand, if it's a typical Truetype font, its em square size could be 2,048 units and that would make the largest character slightly <em>smaller</em> than a full em width.
-
-Note that none of the above tells you <em>anything</em> about the size of individual characters! They could fill the em square from top to bottom, or they could be very small.
-
-Back to your question. If you know in advance that the size of a 100 pt "M" is 2000 x 2000 design units, then you don't need to know anything else to calculate the bounding box "in units" for any other size. A 300 pt "M" will also have a bounding box of 2000 x 2000 design units. Even weirder, so will a 3 pt "M"!
-That is because <em>no matter how big or small</em> you scale your font, design units are only virtual. If you draw a dot on your 'i' at a position of x=10,y=100 <em>in design units</em> and then scale that 'i' up by a factor of 2, the dot will still be at the position x=10,y=100 <em>in design units</em>.
-
-So what about the <em>physical</em> coordinates of that dot then, on screen on or paper? Well, of course these will change when you scale up, but that has nothing to do with design units.
-
-By way of <em>grande finale</em>, an answer to your question: you can scale a font size up and down until you go blue in the face, but its bounding box in design units will always stay the same.</div>
+		<div class="commentbody"><p>All values of this type inside a font are in &lsquo;design units&rsquo; &ndash; the &lsquo;unitsPerEm&rsquo; value in Opentype font headers (other font types have a similar function defined elsewhere).</p>
+<p>&ldquo;Design units&rdquo; are a virtual construct. When you start drawing characters, imagine you start with a clean square sheet of paper, and you declare up front &ldquo;I&rsquo;m going to draw all characters <!-- raw HTML omitted -->inside<!-- raw HTML omitted --> these boundaries.&rdquo; The physical size of the sheet does not matter; what does is how many <!-- raw HTML omitted -->units<!-- raw HTML omitted --> you divide it in, to be able to assign x and y coordinates to all of the individual points of your characters. The total size of your paper sheet is &ldquo;one em&rdquo;, and the number of divisions is your &ldquo;units per em&rdquo; value.</p>
+<p>(So why a separate &lsquo;bounding box&rsquo;? Well, suppose you draw your average character set well inside the bounds of your em, but then you want to add <!-- raw HTML omitted -->one<!-- raw HTML omitted --> single large character that goes &lsquo;over the edge&rsquo;. Of course you could throw everything away at that point and restart with a larger sheet, but at this point it&rsquo;s easier to step away from the &ldquo;sheet&rdquo; simile, and just design beyond the page boundaries. After all, it is just a virtual construct anyway.)</p>
+<p>To know whether your example, a bounding box of 2000 × 2000 units, is &ldquo;large&rdquo; or &ldquo;small&rdquo; you need to compare it to the em square size the font was designed on. If this would be a typical Type 1 font, for example, its em square size could be 1000 units. That means that the largest character is twice as large as the em square. On the other hand, if it&rsquo;s a typical Truetype font, its em square size could be 2,048 units and that would make the largest character slightly <!-- raw HTML omitted -->smaller<!-- raw HTML omitted --> than a full em width.</p>
+<p>Note that none of the above tells you <!-- raw HTML omitted -->anything<!-- raw HTML omitted --> about the size of individual characters! They could fill the em square from top to bottom, or they could be very small.</p>
+<p>Back to your question. If you know in advance that the size of a 100 pt &ldquo;M&rdquo; is 2000 x 2000 design units, then you don&rsquo;t need to know anything else to calculate the bounding box &ldquo;in units&rdquo; for any other size. A 300 pt &ldquo;M&rdquo; will also have a bounding box of 2000 x 2000 design units. Even weirder, so will a 3 pt &ldquo;M&rdquo;!
+That is because <!-- raw HTML omitted -->no matter how big or small<!-- raw HTML omitted --> you scale your font, design units are only virtual. If you draw a dot on your &lsquo;i&rsquo; at a position of x=10,y=100 <!-- raw HTML omitted -->in design units<!-- raw HTML omitted --> and then scale that &lsquo;i&rsquo; up by a factor of 2, the dot will still be at the position x=10,y=100 <!-- raw HTML omitted -->in design units<!-- raw HTML omitted -->.</p>
+<p>So what about the <!-- raw HTML omitted -->physical<!-- raw HTML omitted --> coordinates of that dot then, on screen on or paper? Well, of course these will change when you scale up, but that has nothing to do with design units.</p>
+<p>By way of <!-- raw HTML omitted -->grande finale<!-- raw HTML omitted -->, an answer to your question: you can scale a font size up and down until you go blue in the face, but its bounding box in design units will always stay the same.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -120,9 +110,9 @@ By way of <em>grande finale</em>, an answer to your question: you can scale a fo
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you so much Theunis for your amazing explanation ! 
-
-With the 'unitsPerEm' I think I'm actually getting exactly what I was looking for !</div>
+		<div class="commentbody"><p>Thank you so much Theunis for your amazing explanation !</p>
+<p>With the &lsquo;unitsPerEm&rsquo; I think I&rsquo;m actually getting exactly what I was looking for !</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

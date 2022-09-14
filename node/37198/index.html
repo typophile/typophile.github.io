@@ -71,15 +71,14 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I'm trying to figure out if there's a way to substitute the first letter of a word for an alternate version. I don't want the rest of the s's in the word to swap also like how standard swashes would work. I'd like it to be automatic so you don't have to hit the alternates every time.
-
-The only way I can think to do it is to substitute the s using the space before the word as a ligature. But that doesn't help when there is other punctuation going on.
-
-Any ideas? </div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m trying to figure out if there&rsquo;s a way to substitute the first letter of a word for an alternate version. I don&rsquo;t want the rest of the s&rsquo;s in the word to swap also like how standard swashes would work. I&rsquo;d like it to be automatic so you don&rsquo;t have to hit the alternates every time.</p>
+<p>The only way I can think to do it is to substitute the s using the space before the word as a ligature. But that doesn&rsquo;t help when there is other punctuation going on.</p>
+<p>Any ideas?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This isn't a great option because it only works with InDesign CS3, but we started supporting the OpenType features <code>'init', 'fina', 'isol',</code> and <code>'medi'</code> which can be dynamically applied to characters. These correspond with "initial letter", "final letter", "isolated letter" and "medial letter". It is only semi-smart, but can handle punctuation around words for example.
+		<div class="commentbody">This isn&rsquo;t a great option because it only works with InDesign CS3, but we started supporting the OpenType features <!-- raw HTML omitted -->&lsquo;init&rsquo;, &lsquo;fina&rsquo;, &lsquo;isol&rsquo;,<!-- raw HTML omitted --> and <!-- raw HTML omitted -->&lsquo;medi&rsquo;<!-- raw HTML omitted --> which can be dynamically applied to characters. These correspond with &ldquo;initial letter&rdquo;, &ldquo;final letter&rdquo;, &ldquo;isolated letter&rdquo; and &ldquo;medial letter&rdquo;. It is only semi-smart, but can handle punctuation around words for example.
 A more universal approach involves some complex contextual processing which is why Thomas Phinney suggested adding support for the positional forms feature.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -101,9 +100,9 @@ A more universal approach involves some complex contextual processing which is w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Are not positional forms required for proper Arabic anyway?
-
-ChrisL</div>
+		<div class="commentbody"><p>Are not positional forms required for proper Arabic anyway?</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -124,11 +123,10 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yeah, would prefer something that works in CS2 apps (AI, InDesign).
-
-I may just have to resort to the manual swashes and the client will just have to use them at their leisure.
-
-Matt</div>
+		<div class="commentbody"><p>Yeah, would prefer something that works in CS2 apps (AI, InDesign).</p>
+<p>I may just have to resort to the manual swashes and the client will just have to use them at their leisure.</p>
+<p>Matt</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -149,22 +147,14 @@ Matt</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Create a class that contains all glyphs that are letters (or anything else you consider to be part of a word). Then, set up a contextual substitution in which if a glyph is not preceded by a member of that class, use the alternate. 
-
-Here's one way to do it. In the following code, the classes are defined thus:
-
-<code>@letter</code> = any glyphs you consider part of a word;
-<code>@normal_letter</code> = any glyphs that have a different form for the beginning of a word
-<code>@alternate_letter</code> = the alternate versions of the glyphs in <code>@normal_letter</code>
-
-The contextual substitution (to be placed in the <code>calt</code> feature):
-
-<code>
-   lookup beginnings  {
-      ignore sub @letter @normal_letter' ;
-      sub @normal_letter' by @alternate_letter;
-   } beginnings;
-</code></div>
+		<div class="commentbody"><p>Create a class that contains all glyphs that are letters (or anything else you consider to be part of a word). Then, set up a contextual substitution in which if a glyph is not preceded by a member of that class, use the alternate.</p>
+<p>Here&rsquo;s one way to do it. In the following code, the classes are defined thus:</p>
+<p><!-- raw HTML omitted -->@letter<!-- raw HTML omitted --> = any glyphs you consider part of a word;
+<!-- raw HTML omitted -->@normal_letter<!-- raw HTML omitted --> = any glyphs that have a different form for the beginning of a word
+<!-- raw HTML omitted -->@alternate_letter<!-- raw HTML omitted --> = the alternate versions of the glyphs in <!-- raw HTML omitted -->@normal_letter<!-- raw HTML omitted --></p>
+<p>The contextual substitution (to be placed in the <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> feature):</p>
+<!-- raw HTML omitted -->
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -185,9 +175,9 @@ The contextual substitution (to be placed in the <code>calt</code> feature):
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ahh, must be smarter than fontlab.
-
-This looks like it should work, but I'm getting a weird "invalid token (text was "@")" error when I try to compile.</div>
+		<div class="commentbody"><p>Ahh, must be smarter than fontlab.</p>
+<p>This looks like it should work, but I&rsquo;m getting a weird &ldquo;invalid token (text was &ldquo;@&quot;)&rdquo; error when I try to compile.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -208,7 +198,7 @@ This looks like it should work, but I'm getting a weird "invalid token (text was
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If you copied the text from here and pasted it in, you might get some trouble with the non-breaking spaces I used for the indents at the beginning of the lines. If not, then make sure you've got all your ticks and semicolons accounted for...</div>
+		<div class="commentbody">If you copied the text from here and pasted it in, you might get some trouble with the non-breaking spaces I used for the indents at the beginning of the lines. If not, then make sure you&rsquo;ve got all your ticks and semicolons accounted for&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -250,9 +240,9 @@ This looks like it should work, but I'm getting a weird "invalid token (text was
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Oh, I see. Prior to that, an ME version was required. Thanks!
-
-ChrisL</div>
+		<div class="commentbody"><p>Oh, I see. Prior to that, an ME version was required. Thanks!</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -273,7 +263,7 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">OK, got rid of the error. Now I got this script to work with one letter substitution... What If I have dupes for all 26 letters? Do I need to make classes for each letter?</div>
+		<div class="commentbody">OK, got rid of the error. Now I got this script to work with one letter substitution&hellip; What If I have dupes for all 26 letters? Do I need to make classes for each letter?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -294,9 +284,9 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Never mind. I'm dim sometimes. It was replacing the letters with the blank spots I had for all of the glyphs. D'oh, it's beer time.
-
-Thanks a ton Mark!!!</div>
+		<div class="commentbody"><p>Never mind. I&rsquo;m dim sometimes. It was replacing the letters with the blank spots I had for all of the glyphs. D&rsquo;oh, it&rsquo;s beer time.</p>
+<p>Thanks a ton Mark!!!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -338,12 +328,11 @@ Thanks a ton Mark!!!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Paging Mark Simonson! 
-
-I understand how this method works now.
-Is there a way to use this same technique for replacing the end letter of a word?
-
-I am just no good at making the code do what I want it to do...</div>
+		<div class="commentbody"><p>Paging Mark Simonson!</p>
+<p>I understand how this method works now.
+Is there a way to use this same technique for replacing the end letter of a word?</p>
+<p>I am just no good at making the code do what I want it to do&hellip;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -364,9 +353,9 @@ I am just no good at making the code do what I want it to do...</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">check this thread:
-
-<a href ="http://www.typophile.com/node/19839">Contextual Swashes for Beginnings</a></div>
+		<div class="commentbody"><p>check this thread:</p>
+<p><!-- raw HTML omitted -->Contextual Swashes for Beginnings<!-- raw HTML omitted --></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -408,7 +397,7 @@ I am just no good at making the code do what I want it to do...</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">sorry i didn't link to it earlier. :^p</div>
+		<div class="commentbody">sorry i didn&rsquo;t link to it earlier. :^p</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -71,19 +71,16 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hey everybody,
-
-I'm working on a sans-serif with optical grades and I found that instances generated with mathematically evenly distributed values don't appear to be distributed evenly. I expected that something like that was going to happen, but I just wanted to see for myself. I've never used (or even studied/understood) Lucas de Groot's interpolation theory, but I understand the basic concept. Is there any way of using his theory with optical grades instead of weights?
-
-I'm OK with maths, but I'm no pro, so please explain as plainly as you can :-)
-
-Thanks in advance,
-
-Jasper de Waard</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hey everybody,</p>
+<p>I&rsquo;m working on a sans-serif with optical grades and I found that instances generated with mathematically evenly distributed values don&rsquo;t appear to be distributed evenly. I expected that something like that was going to happen, but I just wanted to see for myself. I&rsquo;ve never used (or even studied/understood) Lucas de Groot&rsquo;s interpolation theory, but I understand the basic concept. Is there any way of using his theory with optical grades instead of weights?</p>
+<p>I&rsquo;m OK with maths, but I&rsquo;m no pro, so please explain as plainly as you can :-)</p>
+<p>Thanks in advance,</p>
+<p>Jasper de Waard</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">From a mathematical standpoint, De Groot's "theory" simply says that instead of distributing evenly the values, you distribute evenly their log i.e. the values are to be evenly distributed when plotted on a log scale.</div>
+		<div class="commentbody">From a mathematical standpoint, De Groot&rsquo;s &ldquo;theory&rdquo; simply says that instead of distributing evenly the values, you distribute evenly their log i.e. the values are to be evenly distributed when plotted on a log scale.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -104,7 +101,7 @@ Jasper de Waard</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, something like a quadratical graph I figured, right? But doesn't it say anything about how quadratical it should be?</div>
+		<div class="commentbody">Yes, something like a quadratical graph I figured, right? But doesn&rsquo;t it say anything about how quadratical it should be?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -125,20 +122,14 @@ Jasper de Waard</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">De Groot works quite nicely, I think (but fails when the thin weight is very thin*).
-
-Suppose one grade has a horizontal thickness of 20 units and the other grade has a horizontal thickness of 40 units, then your interpolation must have thickness √(20 x 40) = 28.284... (significantly less than 30 which is the mean).
-
-That means if you are interpolating between 0 and 1000 your instance is at (28.284 - 20)/(40 - 20) = 414
-
-This will start to get more complicated if you have an even number of grades (e.g. 4) and just thinking about how to calculate that makes my head hurt.
-
-Most will tell you to trust your eye, the final arbiter on the matter.
-
-
-
-* Suppose your stem at the thin extreme is 1 unit thin (unlikely and not very practical I admit) and that your thick end is 100 units thick. De Groot will say that the optical halfway is √(1 x 100) = 10 which is still very thin so we may be looking for new maths in this instance.
-
+		<div class="commentbody"><p>De Groot works quite nicely, I think (but fails when the thin weight is very thin*).</p>
+<p>Suppose one grade has a horizontal thickness of 20 units and the other grade has a horizontal thickness of 40 units, then your interpolation must have thickness √(20 x 40) = 28.284&hellip; (significantly less than 30 which is the mean).</p>
+<p>That means if you are interpolating between 0 and 1000 your instance is at (28.284 - 20)/(40 - 20) = 414</p>
+<p>This will start to get more complicated if you have an even number of grades (e.g. 4) and just thinking about how to calculate that makes my head hurt.</p>
+<p>Most will tell you to trust your eye, the final arbiter on the matter.</p>
+<ul>
+<li>Suppose your stem at the thin extreme is 1 unit thin (unlikely and not very practical I admit) and that your thick end is 100 units thick. De Groot will say that the optical halfway is √(1 x 100) = 10 which is still very thin so we may be looking for new maths in this instance.</li>
+</ul>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -160,28 +151,25 @@ Most will tell you to trust your eye, the final arbiter on the matter.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">De Groot's formula is not quadratic and there seems to be no choice. Here is some Python code that returns the list of the n values to put  in between the endpoints a and b; the list also returns the endpoints;
-<code>
-from&nbsp;math&nbsp;import&nbsp;*
-def&nbsp;inter(a,b,n):
-&nbsp;&nbsp;d=(log(b)&nbsp;-&nbsp;log(a))/(n+1)
-&nbsp;&nbsp;l=&#91;&#93;
-&nbsp;&nbsp;for&nbsp;i&nbsp;in&nbsp;range(n+2):
-&nbsp;&nbsp;&nbsp;&nbsp;l=l+&#91;exp(log(a)+i*d)&#93;
-&nbsp;&nbsp;return&nbsp;l
-</code>
-
-and here is some trace:
-<code>
-&gt;&gt;&gt;&nbsp;inter(2,6,1)
-&#91;2.0,&nbsp;3.4641016151377539,&nbsp;6.0&#93;
-&gt;&gt;&gt;&nbsp;inter(2,6,2)
-&#91;2.0,&nbsp;2.8844991406148166,&nbsp;4.1601676461038073,&nbsp;6.0&#93;
-</code>
-
-i.e. to interpolate one value between 2 and 6 you need to choose 3.46, and if you want two values, they are 2.88 and 4.16. 
-
-For opticals of small point sizes, Knuth seems to be using a completely different formula (with, this time, some parameters to choose).
+		<div class="commentbody"><p>De Groot&rsquo;s formula is not quadratic and there seems to be no choice. Here is some Python code that returns the list of the n values to put  in between the endpoints a and b; the list also returns the endpoints;
+<!-- raw HTML omitted -->
+from math import *
+def inter(a,b,n):
+  d=(log(b) - log(a))/(n+1)
+  l=[]
+  for i in range(n+2):
+    l=l+[exp(log(a)+i*d)]
+  return l
+<!-- raw HTML omitted --></p>
+<p>and here is some trace:
+<!-- raw HTML omitted -->
+&gt;&gt;&gt; inter(2,6,1)
+[2.0, 3.4641016151377539, 6.0]
+&gt;&gt;&gt; inter(2,6,2)
+[2.0, 2.8844991406148166, 4.1601676461038073, 6.0]
+<!-- raw HTML omitted --></p>
+<p>i.e. to interpolate one value between 2 and 6 you need to choose 3.46, and if you want two values, they are 2.88 and 4.16.</p>
+<p>For opticals of small point sizes, Knuth seems to be using a completely different formula (with, this time, some parameters to choose).</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -203,11 +191,10 @@ For opticals of small point sizes, Knuth seems to be using a completely differen
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The precision of a formula provides an unearned sense of reassurance. If your eyes tell you it's wrong — it's wrong.
-
-As I understand it, De Groot's "theory" just describes the general idea that our eyes can distinguish lighter color values better than darker values. Interesting to those who haven't figured it out on their own; obvious to those who have.
-
-As applied to optical grades, I'd expect that you'd need to make bigger adjustments between the smaller-size grades than the larger-size grades. But unlike weight changes, optical grades often also incorporate changes in width and x-height.</div>
+		<div class="commentbody"><p>The precision of a formula provides an unearned sense of reassurance. If your eyes tell you it&rsquo;s wrong — it&rsquo;s wrong.</p>
+<p>As I understand it, De Groot&rsquo;s &ldquo;theory&rdquo; just describes the general idea that our eyes can distinguish lighter color values better than darker values. Interesting to those who haven&rsquo;t figured it out on their own; obvious to those who have.</p>
+<p>As applied to optical grades, I&rsquo;d expect that you&rsquo;d need to make bigger adjustments between the smaller-size grades than the larger-size grades. But unlike weight changes, optical grades often also incorporate changes in width and x-height.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -228,9 +215,9 @@ As applied to optical grades, I'd expect that you'd need to make bigger adjustme
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Nick! That's suddenly much easier, but I still don't know how to implement this in optical grades. I guess it's just a matter of testing, which I'm doing right now.
-
-Michel, I appreciate the effort, but Python is not for me. At least when there's a way around it, which there is. Thanks anyway :-)</div>
+		<div class="commentbody"><p>Thanks Nick! That&rsquo;s suddenly much easier, but I still don&rsquo;t know how to implement this in optical grades. I guess it&rsquo;s just a matter of testing, which I&rsquo;m doing right now.</p>
+<p>Michel, I appreciate the effort, but Python is not for me. At least when there&rsquo;s a way around it, which there is. Thanks anyway :-)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -251,11 +238,10 @@ Michel, I appreciate the effort, but Python is not for me. At least when there's
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Butterick, Your'e not the first to tell me and I agree with you. De Groot's method is just a guideline. Just something to keep in the back of your mind and consider as an option. If it doesn't work, forget about it, but I believe it might just work.
-
-The matter of optical grades is in this case, slightly more complicated. They're not actually "optical grades". They are build on the same principle, but the contrast between the to extremes is too extreme to be considered optical grades. They are no there to make things look the same at every size. They are there to make things look different, yet the same, disregarding the size. Off coarse every grade has a minimum point size (high-contrast at 10 pnts simply looks bad), but ALL grades work fine at display size.
-
-I'll upload some pdf samples in an hour.</div>
+		<div class="commentbody"><p>Butterick, Your&rsquo;e not the first to tell me and I agree with you. De Groot&rsquo;s method is just a guideline. Just something to keep in the back of your mind and consider as an option. If it doesn&rsquo;t work, forget about it, but I believe it might just work.</p>
+<p>The matter of optical grades is in this case, slightly more complicated. They&rsquo;re not actually &ldquo;optical grades&rdquo;. They are build on the same principle, but the contrast between the to extremes is too extreme to be considered optical grades. They are no there to make things look the same at every size. They are there to make things look different, yet the same, disregarding the size. Off coarse every grade has a minimum point size (high-contrast at 10 pnts simply looks bad), but ALL grades work fine at display size.</p>
+<p>I&rsquo;ll upload some pdf samples in an hour.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -297,10 +283,10 @@ I'll upload some pdf samples in an hour.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I uploaded an example where I used linear interpolation, and it actually looks fine to me. What do you think? The objective is to make the transition look evenly distributed. I plan to make 9 (9!) grades eventually, so between every two instances in the example will be another instance. May seem like too much, but then again, the difference between the two extremes is larger than anything I know off.
-
-Cheers!
-Jasper de Waard</div>
+		<div class="commentbody"><p>I uploaded an example where I used linear interpolation, and it actually looks fine to me. What do you think? The objective is to make the transition look evenly distributed. I plan to make 9 (9!) grades eventually, so between every two instances in the example will be another instance. May seem like too much, but then again, the difference between the two extremes is larger than anything I know off.</p>
+<p>Cheers!
+Jasper de Waard</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -342,9 +328,9 @@ Jasper de Waard</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I suggest you abandon any mathematical approach and trust your eyes.
-
-Again, I paraphrase Duke Ellington, "If it looks good, it is good."</div>
+		<div class="commentbody"><p>I suggest you abandon any mathematical approach and trust your eyes.</p>
+<p>Again, I paraphrase Duke Ellington, &ldquo;If it looks good, it is good.&rdquo;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -386,7 +372,7 @@ Again, I paraphrase Duke Ellington, "If it looks good, it is good."</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">DeGroot's theory is a starting point for interpolating typefaces that have enough weight to be easily differentiated from each other. In one of my projects I have not found it entirely relevant to optical sizes, probably because the changes are small enough that being a little bit off is very noticeable. Also, serif sizes do not always scale linearly along with weight/contrast changes, so you may need to adjust how you handle the flared terminals with another axis. Zapf discussed this in one of the essays that appeared in <em>Hermann Zapf and his Design Philosophy</em>, see page 70. </div>
+		<div class="commentbody">DeGroot&rsquo;s theory is a starting point for interpolating typefaces that have enough weight to be easily differentiated from each other. In one of my projects I have not found it entirely relevant to optical sizes, probably because the changes are small enough that being a little bit off is very noticeable. Also, serif sizes do not always scale linearly along with weight/contrast changes, so you may need to adjust how you handle the flared terminals with another axis. Zapf discussed this in one of the essays that appeared in <!-- raw HTML omitted -->Hermann Zapf and his Design Philosophy<!-- raw HTML omitted -->, see page 70.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -407,7 +393,7 @@ Again, I paraphrase Duke Ellington, "If it looks good, it is good."</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks James. I'll have a look at that book :-)</div>
+		<div class="commentbody">Thanks James. I&rsquo;ll have a look at that book :-)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -428,11 +414,10 @@ Again, I paraphrase Duke Ellington, "If it looks good, it is good."</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You might want to rethink your terminology. “Optical grades” is a misnomer. 
-
-The use of the word “optical” makes most type designers think about size-specific design. And the use of the term “grades” makes me think about fine weight & contrast compensations for varying press conditions (which this approximates, but is not quite the same).
-
-Really, these are just different instances along a contrast style axis. Which is part of why the interpolation distribution doesn’t really “need” any special adjustment.</div>
+		<div class="commentbody"><p>You might want to rethink your terminology. “Optical grades” is a misnomer.</p>
+<p>The use of the word “optical” makes most type designers think about size-specific design. And the use of the term “grades” makes me think about fine weight &amp; contrast compensations for varying press conditions (which this approximates, but is not quite the same).</p>
+<p>Really, these are just different instances along a contrast style axis. Which is part of why the interpolation distribution doesn’t really “need” any special adjustment.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -474,13 +459,10 @@ Really, these are just different instances along a contrast style axis. Which is
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Kent, there is also "Optical" kerning.
-
-I suspect that Optical may just be a legitimate typographic epithet; however, in this usage it is redundant.
-A grade (as coined by Tobias Frere-Jones, if I'm not mistaken) is a grade, and is inherently Optical.
-
-Nonetheless, I reserve the right to promote my next typeface with its beautiful Optical Ligatures :-)
-
+		<div class="commentbody"><p>Kent, there is also &ldquo;Optical&rdquo; kerning.</p>
+<p>I suspect that Optical may just be a legitimate typographic epithet; however, in this usage it is redundant.
+A grade (as coined by Tobias Frere-Jones, if I&rsquo;m not mistaken) is a grade, and is inherently Optical.</p>
+<p>Nonetheless, I reserve the right to promote my next typeface with its beautiful Optical Ligatures :-)</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -502,7 +484,7 @@ Nonetheless, I reserve the right to promote my next typeface with its beautiful 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks. I like it when it's simple. </div>
+		<div class="commentbody">Thanks. I like it when it&rsquo;s simple.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -523,11 +505,10 @@ Nonetheless, I reserve the right to promote my next typeface with its beautiful 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Wow, Michel! That's cool. Simple and practical :-D
-
-Any ideas for a different term for 'optical grades'? Without the 'optical', and without the 'grades', and perhaps with something contrast related ;-)
-
-I plan to simply devide the typefamily in Sensato A, Sensato B, C, etc. Does that make sense to you?</div>
+		<div class="commentbody"><p>Wow, Michel! That&rsquo;s cool. Simple and practical :-D</p>
+<p>Any ideas for a different term for &lsquo;optical grades&rsquo;? Without the &lsquo;optical&rsquo;, and without the &lsquo;grades&rsquo;, and perhaps with something contrast related ;-)</p>
+<p>I plan to simply devide the typefamily in Sensato A, Sensato B, C, etc. Does that make sense to you?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -548,9 +529,8 @@ I plan to simply devide the typefamily in Sensato A, Sensato B, C, etc. Does tha
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Michel, very nice! Thanks.
-
-hhp
+		<div class="commentbody"><p>Michel, very nice! Thanks.</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -614,7 +594,7 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Michel, I've bookmarked that.</div>
+		<div class="commentbody">Thanks Michel, I&rsquo;ve bookmarked that.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -656,19 +636,14 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>De Groot's method is just a guideline. Just something to keep in the back of your mind and consider as an option.</cite>
-
-Here's a concrete example of where De Groot's method will give you the wrong design answer. 
-
-Suppose you have a text face in a regular weight and a bold. You want to create a semibold. Some designers would just interpolate 50% and be done with it. Other designers would say "aha, I'll use De Groot's method" and calculate an interpolation less than 50%. 
-
-I propose that both these answers are incorrect. In actual use, both a semibold and a bold are meant to contrast with the regular. A bold is more useful if you need to emphasize an occasional word or phrase; a semibold is more useful if you'll have to emphasize whole sentences. 
-
-But the semibold & bold don't need to contrast with each other. For instance, would you have semibold running text with bold for emphasis? No, never.
-
-So the ideal interpolation for a semibold is something <em>more</em> than 50% — that way, you can ensure that both semibold and bold are distinct from the regular weight. A semibold that's closer to the regular than the bold — which is what you'll get with the De Groot method — is not useful.
-
-Which is a long way of saying (again) that the De Groot method — or any algorithmic method — can be useful as a guideline. But it's not a substitute for conscious thought about how people will be using your fonts (a process also known as "design")</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->De Groot&rsquo;s method is just a guideline. Just something to keep in the back of your mind and consider as an option.<!-- raw HTML omitted --></p>
+<p>Here&rsquo;s a concrete example of where De Groot&rsquo;s method will give you the wrong design answer.</p>
+<p>Suppose you have a text face in a regular weight and a bold. You want to create a semibold. Some designers would just interpolate 50% and be done with it. Other designers would say &ldquo;aha, I&rsquo;ll use De Groot&rsquo;s method&rdquo; and calculate an interpolation less than 50%.</p>
+<p>I propose that both these answers are incorrect. In actual use, both a semibold and a bold are meant to contrast with the regular. A bold is more useful if you need to emphasize an occasional word or phrase; a semibold is more useful if you&rsquo;ll have to emphasize whole sentences.</p>
+<p>But the semibold &amp; bold don&rsquo;t need to contrast with each other. For instance, would you have semibold running text with bold for emphasis? No, never.</p>
+<p>So the ideal interpolation for a semibold is something <!-- raw HTML omitted -->more<!-- raw HTML omitted --> than 50% — that way, you can ensure that both semibold and bold are distinct from the regular weight. A semibold that&rsquo;s closer to the regular than the bold — which is what you&rsquo;ll get with the De Groot method — is not useful.</p>
+<p>Which is a long way of saying (again) that the De Groot method — or any algorithmic method — can be useful as a guideline. But it&rsquo;s not a substitute for conscious thought about how people will be using your fonts (a process also known as &ldquo;design&rdquo;)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -689,20 +664,21 @@ Which is a long way of saying (again) that the De Groot method — or any algori
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> In actual use, both a semibold and a bold are meant to contrast with the regular.
-
-I wish (because that could maybe just mean Italic is being avoided in
+		<div class="commentbody"><blockquote>
+<p>In actual use, both a semibold and a bold are meant to contrast with the regular.</p>
+</blockquote>
+<p>I wish (because that could maybe just mean Italic is being avoided in
 favor of Demi*). In actual use, the Demi is usually made to contrast
-with the Light.
-
-* Something Typo magazine did (does?) to great effect.
-
-> would you have semibold running text with bold for emphasis?
-
-Maybe. If the Demi isn't too dark (like I make them) and you're
-setting smallish text, sure (assuming the Bold is dark enough).
-
-hhp
+with the Light.</p>
+<ul>
+<li>Something Typo magazine did (does?) to great effect.</li>
+</ul>
+<blockquote>
+<p>would you have semibold running text with bold for emphasis?</p>
+</blockquote>
+<p>Maybe. If the Demi isn&rsquo;t too dark (like I make them) and you&rsquo;re
+setting smallish text, sure (assuming the Bold is dark enough).</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -724,13 +700,11 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I have never used a Semibold as the "bold" of Regular.
-
-**
-
-The difficulty I have had, in making multi-weight faces, is in putting the right amount of contrast between Regular and Bold—which is the primary weight relationship in a typeface, and something that should not play second fiddle to a general plan of weight distribution.
-
-The fact is, the "Regular" weights of different typefaces may be quite different in weight from one another. Settling on the Regular weight for a typeface is an important aspect of its design, related to its overall horizontal scaling and the openness of its fit.</div>
+		<div class="commentbody"><p>I have never used a Semibold as the &ldquo;bold&rdquo; of Regular.</p>
+<p>**</p>
+<p>The difficulty I have had, in making multi-weight faces, is in putting the right amount of contrast between Regular and Bold—which is the primary weight relationship in a typeface, and something that should not play second fiddle to a general plan of weight distribution.</p>
+<p>The fact is, the &ldquo;Regular&rdquo; weights of different typefaces may be quite different in weight from one another. Settling on the Regular weight for a typeface is an important aspect of its design, related to its overall horizontal scaling and the openness of its fit.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -751,9 +725,9 @@ The fact is, the "Regular" weights of different typefaces may be quite different
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I adher to the ‘rule’ that the Semibold is to the Light (or Book) like the Bold to the Regular… Isn’t that why large type families used to be split up in fours (R+B+I+BI, L+SB+LI+SBI)?
-
-BTW The buttons here look very dainty, now that I am using Lion… : )</div>
+		<div class="commentbody"><p>I adher to the ‘rule’ that the Semibold is to the Light (or Book) like the Bold to the Regular… Isn’t that why large type families used to be split up in fours (R+B+I+BI, L+SB+LI+SBI)?</p>
+<p>BTW The buttons here look very dainty, now that I am using Lion… : )</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -774,11 +748,10 @@ BTW The buttons here look very dainty, now that I am using Lion… : )</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">James Montalbano has written here on Typophile, if I remember rightly, that he uses the same rule as Bert. In addition he has related the semibold to the regular so that it would work like the regular when reversed (white on black).
-
-Frutiger has written, as Nick, that getting the regular right for the design is of key importance. 
-
-I think another important factor is that how to handle weights may be different for sans and serifs. I'd be interested in others' experience and thoughts on this. </div>
+		<div class="commentbody"><p>James Montalbano has written here on Typophile, if I remember rightly, that he uses the same rule as Bert. In addition he has related the semibold to the regular so that it would work like the regular when reversed (white on black).</p>
+<p>Frutiger has written, as Nick, that getting the regular right for the design is of key importance.</p>
+<p>I think another important factor is that how to handle weights may be different for sans and serifs. I&rsquo;d be interested in others' experience and thoughts on this.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -799,9 +772,8 @@ I think another important factor is that how to handle weights may be different 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks William...
-
-hhp
+		<div class="commentbody"><p>Thanks William&hellip;</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -823,23 +795,22 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Addressing the comment of Nick Job on June 16th and his comment "...we may be 
-looking for new maths"...  In his example he uses an extreme example of 
+		<div class="commentbody"><p>Addressing the comment of Nick Job on June 16th and his comment &ldquo;&hellip;we may be 
+looking for new maths&rdquo;&hellip;  In his example he uses an extreme example of 
 starting a a value of 1 then ending at a value of 100, the geometric mean of 
 this would be then the (square root of 1 * 100) which is hard to write on a computer
-so I'll make it easy and say it is (1*100)^(1/2)  which ends up being 10.
+so I&rsquo;ll make it easy and say it is (1<em>100)^(1/2)  which ends up being 10.
 Now take the arithmetic mean of these two numbers which is (1+100)/2 = 50.5.
 So, if I get this right, the method used by de Groot would result in 10,
 the incorrect result (as most would agree) would be the arithmetic mean of 50.5 
 so why not just take the geometric mean of the arithmetic mean and geometric
 mean combined??
-((1*100)^(1/2))=10
+((1</em>100)^(1/2))=10
 ((1+100)/2) = 50.5
-((10*50.5)^(1/2)) = 22.472
-
-Is 22.242 a more acceptable result, rather than 10 or 50.5??
-
-If anyone wants to use this math please name it after me, just call it the "Raybon Method of Interpolation"  =)</div>
+((10*50.5)^(1/2)) = 22.472</p>
+<p>Is 22.242 a more acceptable result, rather than 10 or 50.5??</p>
+<p>If anyone wants to use this math please name it after me, just call it the &ldquo;Raybon Method of Interpolation&rdquo;  =)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -860,9 +831,9 @@ If anyone wants to use this math please name it after me, just call it the "Rayb
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>James Montalbano has written here on Typophile, if I remember rightly, that he uses the same rule as Bert. In addition he has related the semibold to the regular so that it would work like the regular when reversed (white on black).</cite>
-
-I don't remember every using the term SemiBold.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->James Montalbano has written here on Typophile, if I remember rightly, that he uses the same rule as Bert. In addition he has related the semibold to the regular so that it would work like the regular when reversed (white on black).<!-- raw HTML omitted --></p>
+<p>I don&rsquo;t remember every using the term SemiBold.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -883,19 +854,16 @@ I don't remember every using the term SemiBold.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Disregard my prior post, I didn't have the information when I wrote it, this
-should make a more sense:
-
-
-Interpolation Theory.
-
-This has a reasoning in human perception vs the answer if a true engineering
+		<div class="commentbody"><p>Disregard my prior post, I didn&rsquo;t have the information when I wrote it, this
+should make a more sense:</p>
+<p>Interpolation Theory.</p>
+<p>This has a reasoning in human perception vs the answer if a true engineering
 result were given.  In choosing an intermediate weight of a typeface, according 
 to de Groot it is not the mean (arithmetic mean) between the two weights but is 
 instead a value slightly less than half way.  Numerically, this can shown that 
 if a typeface has a value of 40 and the next typeface has a value of 70, an 
 intermediate type face, half way between the two, would have a value of 55
- if a strict engineering result would be used – this would be in error.  Human
+if a strict engineering result would be used – this would be in error.  Human
 perception does not follow the laws of math and the science of engineering,
 perception is altered slightly.  The true intermediate typeface would therefore,
 be slightly less than 55, say maybe 50 in value.  The calculated value of the 
@@ -906,27 +874,20 @@ then lies along this curve (a log curve vs a straight line) with leeway being
 given to the thickness of a front.  Also of note, the vertical axis and horizontal 
 axis of a font comes into play.  A horizontal axis is more confined to expansion 
 than is the vertical axis which can expand a lot more.  In the end  though, it
-is the type designer who’s good judgment should determine the look of the font.
-
-Where else do we see this “optical phenomena”?  We see it in the columns of the 
+is the type designer who’s good judgment should determine the look of the font.</p>
+<p>Where else do we see this “optical phenomena”?  We see it in the columns of the 
 Parthenon in Greece.  The columns are not dead straight (as an engineer would make 
 them) but are slightly thicker in the center.  The reason is, that at a distance human 
 perception would view a straight column slightly thinner in the center but a column
-with a slightly fatter center is viewed as straight.  This is the difference between the human arrived result and the mathematically engineered arrived at result.
-
-http://www.math.nus.edu.sg/aslaksen/projects/perspective/parthenon.htm
-
-Going back  to Lu(cas) de Groot.
-
-His “Interpolation Theory” explanation is best explained here:
-
-http://typoholic.ru/type/interpolation.html
-
-Interpolation Theory Calculation Example:
-
-			End(s) Value 	Arith. Mean	Geo, Mean	Difference
-
-Extra Light 		40		40		40		  0
+with a slightly fatter center is viewed as straight.  This is the difference between the human arrived result and the mathematically engineered arrived at result.</p>
+<p><a href="http://www.math.nus.edu.sg/aslaksen/projects/perspective/parthenon.htm">http://www.math.nus.edu.sg/aslaksen/projects/perspective/parthenon.htm</a></p>
+<p>Going back  to Lu(cas) de Groot.</p>
+<p>His “Interpolation Theory” explanation is best explained here:</p>
+<p><a href="http://typoholic.ru/type/interpolation.html">http://typoholic.ru/type/interpolation.html</a></p>
+<p>Interpolation Theory Calculation Example:</p>
+<pre><code>		End(s) Value 	Arith. Mean	Geo, Mean	Difference
+</code></pre>
+<p>Extra Light 		40		40		40		  0
 Light					45		43.620		  1.38
 Semi Light				50		47.568		  2.432	
 Normal 				        55		51.873            3.127
@@ -934,12 +895,9 @@ Normal/Semi Bold			60		56.56		  3.44
 Semi Bold				65		61.688	          3.312
 Bold					70		67.771		  2.729
 Extra Bold				75		73.360		  1.64
-Black			80		80		80		  0
-
-
-So, what does this all mean??
-It means that according to Lu(cas) de Groot when designing a font, that all fonts weights should stray away from the arithmetic mean the closer you get to “Normal/Semi Bold” when you choose “Extra Light” and “Black” as starting points, this is the inverse of the optical illusion seen in the Parthenon columns!!!!
-
+Black			80		80		80		  0</p>
+<p>So, what does this all mean??
+It means that according to Lu(cas) de Groot when designing a font, that all fonts weights should stray away from the arithmetic mean the closer you get to “Normal/Semi Bold” when you choose “Extra Light” and “Black” as starting points, this is the inverse of the optical illusion seen in the Parthenon columns!!!!</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -961,14 +919,12 @@ It means that according to Lu(cas) de Groot when designing a font, that all font
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ah heck, my nifty chart got all messed up, the numbers that matter again are below.
-The names don't really matter what matters is in my example there are nine steps along the curve.
+		<div class="commentbody"><p>Ah heck, my nifty chart got all messed up, the numbers that matter again are below.
+The names don&rsquo;t really matter what matters is in my example there are nine steps along the curve.
 Refer to this graph, I added Normal/Semi Bold to get nine steps.
-http://typoholic.ru/type/interpolation.html
-
-Starting with "Extra Light" and going to "Black" the difference fall along a curve:
-
-Light = 0 diff.
+<a href="http://typoholic.ru/type/interpolation.html">http://typoholic.ru/type/interpolation.html</a></p>
+<p>Starting with &ldquo;Extra Light&rdquo; and going to &ldquo;Black&rdquo; the difference fall along a curve:</p>
+<p>Light = 0 diff.
 Light = 1.38 diff.
 Semi Light = 2.432 diff.
 Normal = 3.127 diff.
@@ -976,13 +932,11 @@ Normal/Semi Bold = 3.44 diff.
 Semi Bold = 3.312 diff.
 Bold = 2.729 diff.
 Extra Bold = 1.64 diff.
-Black = 0 diff.
-
-See, the differences form a curve!
-
-I am not actually into typefaces at all, I am looking into de Groot for a class
+Black = 0 diff.</p>
+<p>See, the differences form a curve!</p>
+<p>I am not actually into typefaces at all, I am looking into de Groot for a class
 research project.  My background is in financial calculations, in finance you see these
-curves all the time when building portfolios of securities! 
+curves all the time when building portfolios of securities!</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1004,9 +958,9 @@ curves all the time when building portfolios of securities!
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ray, I don't get what you are interested in here, but the point of Lucas de Groot's method is, [[http://www.lucasfonts.com/about/interpolation-theory/|as he has pointed out]], very simple. If you have two weights A and C and want an intermediate weight B with the same ratio to both A and C, you get de Groot's formulas. 
-
-When you do this approach for a series of weights, they look nicely balanced in relation to one another in a comparative specimen sheet, as each has the same proportional jump in relation to the next. Whether this is ideal for use in typography is debatable, as you see.   </div>
+		<div class="commentbody"><p>Ray, I don&rsquo;t get what you are interested in here, but the point of Lucas de Groot&rsquo;s method is, [[http://www.lucasfonts.com/about/interpolation-theory/|as he has pointed out]], very simple. If you have two weights A and C and want an intermediate weight B with the same ratio to both A and C, you get de Groot&rsquo;s formulas.</p>
+<p>When you do this approach for a series of weights, they look nicely balanced in relation to one another in a comparative specimen sheet, as each has the same proportional jump in relation to the next. Whether this is ideal for use in typography is debatable, as you see.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1028,7 +982,7 @@ When you do this approach for a series of weights, they look nicely balanced in 
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Why do I even contribute??
-It is human perception vs a machine or engineered perception...</div>
+It is human perception vs a machine or engineered perception&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1049,9 +1003,9 @@ It is human perception vs a machine or engineered perception...</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ray, in a well-drawn typeface, optical adjustment of the kind done for the columns in the Parthenon happens with almost every glyph. I think here on Typophile you are trying to teach Br'er Rabbit about the briar patch. I understand that you want to get something that is optically better, but I don't understand why you think your variation is optically better than de Groot's, which is also an attempt to get optically good results. And I don't see what it has to do with the specific Parthenon optical adjustments in your link.
-
-As I said, de Groot's method gets you an optically balanced set of weights, but the issue is whether they work best in use in setting type. That's where the debate comes in, and you don't address those issues. </div>
+		<div class="commentbody"><p>Ray, in a well-drawn typeface, optical adjustment of the kind done for the columns in the Parthenon happens with almost every glyph. I think here on Typophile you are trying to teach Br&rsquo;er Rabbit about the briar patch. I understand that you want to get something that is optically better, but I don&rsquo;t understand why you think your variation is optically better than de Groot&rsquo;s, which is also an attempt to get optically good results. And I don&rsquo;t see what it has to do with the specific Parthenon optical adjustments in your link.</p>
+<p>As I said, de Groot&rsquo;s method gets you an optically balanced set of weights, but the issue is whether they work best in use in setting type. That&rsquo;s where the debate comes in, and you don&rsquo;t address those issues.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1072,8 +1026,7 @@ As I said, de Groot's method gets you an optically balanced set of weights, but 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The word "optical" seems redundant.
-</div>
+		<div class="commentbody">The word &ldquo;optical&rdquo; seems redundant.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1094,7 +1047,7 @@ As I said, de Groot's method gets you an optically balanced set of weights, but 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick, "optical" seems to be used for what works for the eye, as opposed to what is a simple geometrical or a linear solution. I agree that it's not such a good word, but I don't think it's redundant. If there's a better one, I'd like to learn and use it.  </div>
+		<div class="commentbody">Nick, &ldquo;optical&rdquo; seems to be used for what works for the eye, as opposed to what is a simple geometrical or a linear solution. I agree that it&rsquo;s not such a good word, but I don&rsquo;t think it&rsquo;s redundant. If there&rsquo;s a better one, I&rsquo;d like to learn and use it.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1115,7 +1068,7 @@ As I said, de Groot's method gets you an optically balanced set of weights, but 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don't think "mathematical" works because people have found equations to describe the curves good to the eye in some cases, like the swelling in the Parthenon columns. Still in search of better language...</div>
+		<div class="commentbody">I don&rsquo;t think &ldquo;mathematical&rdquo; works because people have found equations to describe the curves good to the eye in some cases, like the swelling in the Parthenon columns. Still in search of better language&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1136,16 +1089,15 @@ As I said, de Groot's method gets you an optically balanced set of weights, but 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Check this out...
-Google "geometric mean" and look for the Wiki entry.
+		<div class="commentbody"><p>Check this out&hellip;
+Google &ldquo;geometric mean&rdquo; and look for the Wiki entry.
 Go to the bottom of the explanation and you will see that this type of mean
 is used in aspect ratios of TVs.  Is that not what is being done to a degree
-in font making, altering its aspect ratio somewhat?
-
-Math can be used as a guide but in the end it is the type designer who makes
-the final "visual rightness" call.
-
-"Visual Rightness" is a term industrial designer Walter Dorwin Teague used to use.</div>
+in font making, altering its aspect ratio somewhat?</p>
+<p>Math can be used as a guide but in the end it is the type designer who makes
+the final &ldquo;visual rightness&rdquo; call.</p>
+<p>&ldquo;Visual Rightness&rdquo; is a term industrial designer Walter Dorwin Teague used to use.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1166,10 +1118,9 @@ the final "visual rightness" call.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, although I would bring that up a notch: math <em>should</em> be used as a guide but
-in the end it is the type designer who makes the final "visual rightness" call.
-
-hhp
+		<div class="commentbody"><p>Yes, although I would bring that up a notch: math <!-- raw HTML omitted -->should<!-- raw HTML omitted --> be used as a guide but
+in the end it is the type designer who makes the final &ldquo;visual rightness&rdquo; call.</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1191,11 +1142,10 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>"Visual Rightness" is a term industrial designer Walter Dorwin Teague used to use.</em>
-
-…for products that had some other function besides the visual.
-
-But type doesn't, so why does it have to be qualified with "optical" or "visual"?</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->&ldquo;Visual Rightness&rdquo; is a term industrial designer Walter Dorwin Teague used to use.<!-- raw HTML omitted --></p>
+<p>…for products that had some other function besides the visual.</p>
+<p>But type doesn&rsquo;t, so why does it have to be qualified with &ldquo;optical&rdquo; or &ldquo;visual&rdquo;?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1216,12 +1166,12 @@ But type doesn't, so why does it have to be qualified with "optical" or "visual"
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Teague was indeed a product designer and from an era where production techniques were far more limiting than today's anything-goes world.  The difficulty comes in only when, what some of us might call aesthetics, is a marketing afterthought--it is applied along the production line somewhere just before packaging.
-Type design is not product design.  Whatever the aesthetic component is, is an integral part of the design for better or for worse.  There is no "Styling Department" as there was in Detroit automobile companies who added a dash of chrome here or there to separate a Ford from a Mercury.
-Whatever any one of us may think about the particular aesthetic or WDT's "visual rightness" concept is opinion based.  We cannot extract that aesthetic from the type the way a car owner could pluck off  a 1956 Pontiac hood ornament.  
-We don't first design the type and then later spruce it up with shiny bits to add perceived value, snob appeal, or even a basic comfort level. Type is visual in its function alone.  It is not an actor who goes on to get stage makeup and costuming before playing his role.  If the actor cannot play the part well enough, he would have failed the audition.
-
-ChrisL</div>
+		<div class="commentbody"><p>Teague was indeed a product designer and from an era where production techniques were far more limiting than today&rsquo;s anything-goes world.  The difficulty comes in only when, what some of us might call aesthetics, is a marketing afterthought&ndash;it is applied along the production line somewhere just before packaging.
+Type design is not product design.  Whatever the aesthetic component is, is an integral part of the design for better or for worse.  There is no &ldquo;Styling Department&rdquo; as there was in Detroit automobile companies who added a dash of chrome here or there to separate a Ford from a Mercury.
+Whatever any one of us may think about the particular aesthetic or WDT&rsquo;s &ldquo;visual rightness&rdquo; concept is opinion based.  We cannot extract that aesthetic from the type the way a car owner could pluck off  a 1956 Pontiac hood ornament.<br>
+We don&rsquo;t first design the type and then later spruce it up with shiny bits to add perceived value, snob appeal, or even a basic comfort level. Type is visual in its function alone.  It is not an actor who goes on to get stage makeup and costuming before playing his role.  If the actor cannot play the part well enough, he would have failed the audition.</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1242,7 +1192,7 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Well, type does have a function, which is to be read. Whether it can be read at all, and if so how easily or comfortably does seem to me somewhat, though not totally, separable from aesthetics. </div>
+		<div class="commentbody">Well, type does have a function, which is to be read. Whether it can be read at all, and if so how easily or comfortably does seem to me somewhat, though not totally, separable from aesthetics.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1263,13 +1213,8 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The default usage should be without "optical" or other epithet such as "aesthetic", with the term "mathematical" applied to theoretical constructs.
-
-The way type looks, whether glyph shape, letter spacing or weight relationships, is its <em>sine qua non</em> and <em>raison d'être</em> (that is to say, it has no other functionality), so its essential visuality doesn't need to be spelled out.
-
-
-
-
+		<div class="commentbody"><p>The default usage should be without &ldquo;optical&rdquo; or other epithet such as &ldquo;aesthetic&rdquo;, with the term &ldquo;mathematical&rdquo; applied to theoretical constructs.</p>
+<p>The way type looks, whether glyph shape, letter spacing or weight relationships, is its <!-- raw HTML omitted -->sine qua non<!-- raw HTML omitted --> and <!-- raw HTML omitted -->raison d&rsquo;être<!-- raw HTML omitted --> (that is to say, it has no other functionality), so its essential visuality doesn&rsquo;t need to be spelled out.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1291,13 +1236,11 @@ The way type looks, whether glyph shape, letter spacing or weight relationships,
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>Well, type does have a function, which is to be read.</em>
-
-Of course, and that function is 100% visual.
-
-<em>… aesthetics …</em>
-
-Are you suggesting that "optical" equates with "aesthetic"?</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Well, type does have a function, which is to be read.<!-- raw HTML omitted --></p>
+<p>Of course, and that function is 100% visual.</p>
+<p><!-- raw HTML omitted -->… aesthetics …<!-- raw HTML omitted --></p>
+<p>Are you suggesting that &ldquo;optical&rdquo; equates with &ldquo;aesthetic&rdquo;?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1318,16 +1261,16 @@ Are you suggesting that "optical" equates with "aesthetic"?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Having a function is not the issue.  A car may function just as well no matter how ugly we may think it looks.  I am personally repulsed at the sight of today's Cadillac but I am sure that it operates quite well never-the-less. A car can function just as well within a broad range of appearances.  A typeface depends on its appearance.  If we change the appearance, we either change the identity of the typeface or change its usability in certain arenas.
-The big difference, to me, is that we cannot extract the appearance of a typeface and have it still be that typeface.  We can perhaps change a few things like color and size or even a few details--enough to make Helvetica into Arial.  If we go much further, it will become something else and may not function in the same way. I can dress up a Cadillac to look like an airplane but it will not fly.
-There is a difference between what something looks like and what it may function like--except when what it looks like "IS" what it functions like. With type, what it looks like is all that is apparent to the user. A typeface is not a woodgrain veneer covering some working parts beneath it.  It is not visible without whatever cloak it was a designed in.
-My point is that most type designers don't compartmentalize the appearance of the type they are designing from the construction of that typeface.  They don't first make a typeface and then make it "pretty".  What it looks like is not even intended to be "pretty" in the pure aesthetic sense of the word.  Others may respond to it as aesthetically pleasing or not if they choose. I may have a gut level aesthetic response to both a D9 Caterpillar bulldozer and an 18" Stillson Wrench (both of which I would not call "pretty") but that has no bearing on how well or badly they function.  Both were made out of the industrial production world as tools that are just intended to work no matter what they look like. A Typeface cannot escape its appearance and retain the same level of function.  If it does, it has become another typeface.
+		<div class="commentbody"><p>Having a function is not the issue.  A car may function just as well no matter how ugly we may think it looks.  I am personally repulsed at the sight of today&rsquo;s Cadillac but I am sure that it operates quite well never-the-less. A car can function just as well within a broad range of appearances.  A typeface depends on its appearance.  If we change the appearance, we either change the identity of the typeface or change its usability in certain arenas.
+The big difference, to me, is that we cannot extract the appearance of a typeface and have it still be that typeface.  We can perhaps change a few things like color and size or even a few details&ndash;enough to make Helvetica into Arial.  If we go much further, it will become something else and may not function in the same way. I can dress up a Cadillac to look like an airplane but it will not fly.
+There is a difference between what something looks like and what it may function like&ndash;except when what it looks like &ldquo;IS&rdquo; what it functions like. With type, what it looks like is all that is apparent to the user. A typeface is not a woodgrain veneer covering some working parts beneath it.  It is not visible without whatever cloak it was a designed in.
+My point is that most type designers don&rsquo;t compartmentalize the appearance of the type they are designing from the construction of that typeface.  They don&rsquo;t first make a typeface and then make it &ldquo;pretty&rdquo;.  What it looks like is not even intended to be &ldquo;pretty&rdquo; in the pure aesthetic sense of the word.  Others may respond to it as aesthetically pleasing or not if they choose. I may have a gut level aesthetic response to both a D9 Caterpillar bulldozer and an 18&quot; Stillson Wrench (both of which I would not call &ldquo;pretty&rdquo;) but that has no bearing on how well or badly they function.  Both were made out of the industrial production world as tools that are just intended to work no matter what they look like. A Typeface cannot escape its appearance and retain the same level of function.  If it does, it has become another typeface.
 Everything that is visible to humans has some kind of aesthetic even if it is not intended by the inventor. Some things, like energy, electricity, etc., may not be visible but may function none-the-less.  Humans may assign a symbolic visualization to invisible items but that has no bearing on either function or aesthetic.
-The Modernists found great joy in portraying what they described as functional as being also inherently beautiful.  Some anti-modernists dispute this vehemently  and heap great praise on what they call humanistic looking or others even proclaim decorative as the desired look.  Anti-modernists may claim that objects  admired by Modernists look too geometric or bland or simple.  
+The Modernists found great joy in portraying what they described as functional as being also inherently beautiful.  Some anti-modernists dispute this vehemently  and heap great praise on what they call humanistic looking or others even proclaim decorative as the desired look.  Anti-modernists may claim that objects  admired by Modernists look too geometric or bland or simple.<br>
 The very over-the-top “Artistes” (as Hrant might call them), go even further and proclaim that  what it looks like is really what matters most and how it functions is but a minor footnote.
-At the other extreme we have those who see science and its language of mathematics as the supreme ingredient in every item humankind produces.  The aesthetic can then be measured by how well it fits mathematical logic as we now know it to be.  The difficulty comes in determining if the mathematical aesthetic was born after the fact of measuring things done that humans thought were beautiful first.  Or if things were later called beautiful because they fit the mathematical description well.  Since Humans created the objects, their method of measurement, the mathematics, and the criteria, it is tough to  determine chicken or egg.
-
-ChrisL</div>
+At the other extreme we have those who see science and its language of mathematics as the supreme ingredient in every item humankind produces.  The aesthetic can then be measured by how well it fits mathematical logic as we now know it to be.  The difficulty comes in determining if the mathematical aesthetic was born after the fact of measuring things done that humans thought were beautiful first.  Or if things were later called beautiful because they fit the mathematical description well.  Since Humans created the objects, their method of measurement, the mathematics, and the criteria, it is tough to  determine chicken or egg.</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1348,9 +1291,11 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">>Are you suggesting that "optical" equates with "aesthetic"?
-
-No, as both you and Chris are saying, the aesthetic and functional are inextricably intertwined in type. But I think you can still assess a type for how well it reads, and on an aesthetic level. Because it's all visual functionality, both reading and aesthetics, you can't totally separate it, but I think you can to some extent in evaluation. </div>
+		<div class="commentbody"><blockquote>
+<p>Are you suggesting that &ldquo;optical&rdquo; equates with &ldquo;aesthetic&rdquo;?</p>
+</blockquote>
+<p>No, as both you and Chris are saying, the aesthetic and functional are inextricably intertwined in type. But I think you can still assess a type for how well it reads, and on an aesthetic level. Because it&rsquo;s all visual functionality, both reading and aesthetics, you can&rsquo;t totally separate it, but I think you can to some extent in evaluation.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1371,7 +1316,7 @@ No, as both you and Chris are saying, the aesthetic and functional are inextrica
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Are you (recent contributors to this thread) treating optical and visual as synonyms? I think of optical as having specifically to do with eyes and visual as having to do with the entire visual cortex. Hence, one can talk about optical degeneration -- glaucoma for instance -- that is independent of the 'back end' of the visual system.</div>
+		<div class="commentbody">Are you (recent contributors to this thread) treating optical and visual as synonyms? I think of optical as having specifically to do with eyes and visual as having to do with the entire visual cortex. Hence, one can talk about optical degeneration &ndash; glaucoma for instance &ndash; that is independent of the &lsquo;back end&rsquo; of the visual system.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1393,7 +1338,7 @@ No, as both you and Chris are saying, the aesthetic and functional are inextrica
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">John,
-I am steering clear of the word "Optical" because it is used in "Optical Sizes or variants" and would be confusing.</div>
+I am steering clear of the word &ldquo;Optical&rdquo; because it is used in &ldquo;Optical Sizes or variants&rdquo; and would be confusing.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1414,7 +1359,7 @@ I am steering clear of the word "Optical" because it is used in "Optical Sizes o
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">John, I don't like term "optical sizes" because it doesn't have to do really with the eye, as you say. It has to do with perception of different physical sizes, which involves more than the eye. Maybe the Adobe term "optical sizes" came from a reference to sizes on the visual acuity chart? To me it isn't a good term, but I don't have a better one.  </div>
+		<div class="commentbody">John, I don&rsquo;t like term &ldquo;optical sizes&rdquo; because it doesn&rsquo;t have to do really with the eye, as you say. It has to do with perception of different physical sizes, which involves more than the eye. Maybe the Adobe term &ldquo;optical sizes&rdquo; came from a reference to sizes on the visual acuity chart? To me it isn&rsquo;t a good term, but I don&rsquo;t have a better one.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1435,7 +1380,7 @@ I am steering clear of the word "Optical" because it is used in "Optical Sizes o
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I use the phrase 'size-specific designs' for what Adobe call 'optical sizes'.</div>
+		<div class="commentbody">I use the phrase &lsquo;size-specific designs&rsquo; for what Adobe call &lsquo;optical sizes&rsquo;.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1456,7 +1401,7 @@ I am steering clear of the word "Optical" because it is used in "Optical Sizes o
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">How about "use-graded" variants?  This could then be shortened to UG-t, UG-d, UG-c, UG-s, (with the lowercase letters meaning "text" "display" "caption" "subhead")</div>
+		<div class="commentbody">How about &ldquo;use-graded&rdquo; variants?  This could then be shortened to UG-t, UG-d, UG-c, UG-s, (with the lowercase letters meaning &ldquo;text&rdquo; &ldquo;display&rdquo; &ldquo;caption&rdquo; &ldquo;subhead&rdquo;)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1477,7 +1422,7 @@ I am steering clear of the word "Optical" because it is used in "Optical Sizes o
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"Size-specific designs" is better as far as meaning, but a bit of a mouthful to say.  </div>
+		<div class="commentbody">&ldquo;Size-specific designs&rdquo; is better as far as meaning, but a bit of a mouthful to say.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1498,7 +1443,7 @@ I am steering clear of the word "Optical" because it is used in "Optical Sizes o
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Some other variations: 
+		<div class="commentbody"><p>Some other variations: 
 Size-sensitive variants 
 Size-sensitive designs 
 Sized designs 
@@ -1511,11 +1456,9 @@ Size-suited designs
 Custom-designed sizes 
 Custom-designed size variants
 custom sizes
-size tailored
-
-Still not there...
- 
-  </div>
+size tailored</p>
+<p>Still not there&hellip;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1558,7 +1501,7 @@ Form-Fit</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">'Size-specific designs' is hardly a mouthful, and it is precise and accurate.</div>
+		<div class="commentbody">&lsquo;Size-specific designs&rsquo; is hardly a mouthful, and it is precise and accurate.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1579,7 +1522,7 @@ Form-Fit</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I wouldn't exactly say precise and accurate in every case, subheads can be the same or similar size as text but have other adjustments to make them suit the purpose.  Actually, as long as the name is not causing confusion (like optical) it  will eventually take on its own meaning.  "Use-Specific" seems more accurate (less confusing) to me than "size".  I can just imagine a type user asking, "At what size do I switch from text to subhead?"</div>
+		<div class="commentbody">I wouldn&rsquo;t exactly say precise and accurate in every case, subheads can be the same or similar size as text but have other adjustments to make them suit the purpose.  Actually, as long as the name is not causing confusion (like optical) it  will eventually take on its own meaning.  &ldquo;Use-Specific&rdquo; seems more accurate (less confusing) to me than &ldquo;size&rdquo;.  I can just imagine a type user asking, &ldquo;At what size do I switch from text to subhead?&rdquo;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1600,11 +1543,10 @@ Form-Fit</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>I wouldn't exactly say precise and accurate in every case, subheads can be the same or similar size as text but have other adjustments to make them suit the purpose.</em>
-
-But we're not talking about text of the same size that has non-size-specific adjust adjustments, we're talking about size-specific designs. I don't really care how a typographer uses the different designs, because I have no control over that. I've always thought Adobe's names for their 'optical sizes' were silly and ultimately irrelevant: I use the subhead fonts at the sizes at which I think they work best, not when I am typesetting subheads. They are size-specific designs, and should be identified as such, preferably with the size range in the font menu name.
-
-If you want to talk about non-size-specific design features of fonts intended for different typographic functions, independent of size, that's an interesting topic too, but it is a different one. The fact that it is possible to consider designs intended for e.g. subhead use that are not also size-specific designs just indicates that it is a bad idea to conflate the two things in naming.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->I wouldn&rsquo;t exactly say precise and accurate in every case, subheads can be the same or similar size as text but have other adjustments to make them suit the purpose.<!-- raw HTML omitted --></p>
+<p>But we&rsquo;re not talking about text of the same size that has non-size-specific adjust adjustments, we&rsquo;re talking about size-specific designs. I don&rsquo;t really care how a typographer uses the different designs, because I have no control over that. I&rsquo;ve always thought Adobe&rsquo;s names for their &lsquo;optical sizes&rsquo; were silly and ultimately irrelevant: I use the subhead fonts at the sizes at which I think they work best, not when I am typesetting subheads. They are size-specific designs, and should be identified as such, preferably with the size range in the font menu name.</p>
+<p>If you want to talk about non-size-specific design features of fonts intended for different typographic functions, independent of size, that&rsquo;s an interesting topic too, but it is a different one. The fact that it is possible to consider designs intended for e.g. subhead use that are not also size-specific designs just indicates that it is a bad idea to conflate the two things in naming.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1625,24 +1567,14 @@ If you want to talk about non-size-specific design features of fonts intended fo
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Interesting how this discussion has evolved. John, when I said "mouthful" I didn't mean that it's too long, but that it's a bit of a tongue-twister, at least for me.
-
-Chris brings up a good point, which highlights that there are different approaches to the problem of "use specific" or "usage specific" designs. At Adobe, they have called them "opticals" and emphasized the adjustment of design for size. At Font Bureau, they have emphasized functionality, talking about "deck" size, "newspaper" text and display type, and so on. Size is part of the story, though not the whole story. 
-
-Recently I heard the brilliant architect [[http://www.charlierose.com/view/interview/11954|Rem Koolhaas]] interviewed by Charlie Rose, and he preferred to talk about how a building "performs" rather than how it "functions."  I guess the idea is to emphasize the importance of how people interact with the physical objects and space in a dynamic process.
-
-That's probably the best word also for type: that you design it for performance in a particular role, or set of roles. 
-
-(I think Koolhaas' new Beijing building is an ugly monstrosity, but that's another matter.)  
-
-"tailored by size and role for optimal performance." 
-
-I think there is also a problem with "use specific," though. That there is a pretty standard set of things that is done for readability at small sizes: larger x height, lower contrast, wider spacing. But the user might successfully use the type for a different purpose than envisaged by the designer, so it might be a mistake to specify a single usage... 
-
-Ok, not helpful. But interesting, to me at least. 
-
-
-
+		<div class="commentbody"><p>Interesting how this discussion has evolved. John, when I said &ldquo;mouthful&rdquo; I didn&rsquo;t mean that it&rsquo;s too long, but that it&rsquo;s a bit of a tongue-twister, at least for me.</p>
+<p>Chris brings up a good point, which highlights that there are different approaches to the problem of &ldquo;use specific&rdquo; or &ldquo;usage specific&rdquo; designs. At Adobe, they have called them &ldquo;opticals&rdquo; and emphasized the adjustment of design for size. At Font Bureau, they have emphasized functionality, talking about &ldquo;deck&rdquo; size, &ldquo;newspaper&rdquo; text and display type, and so on. Size is part of the story, though not the whole story.</p>
+<p>Recently I heard the brilliant architect [[http://www.charlierose.com/view/interview/11954|Rem Koolhaas]] interviewed by Charlie Rose, and he preferred to talk about how a building &ldquo;performs&rdquo; rather than how it &ldquo;functions.&rdquo;  I guess the idea is to emphasize the importance of how people interact with the physical objects and space in a dynamic process.</p>
+<p>That&rsquo;s probably the best word also for type: that you design it for performance in a particular role, or set of roles.</p>
+<p>(I think Koolhaas' new Beijing building is an ugly monstrosity, but that&rsquo;s another matter.)</p>
+<p>&ldquo;tailored by size and role for optimal performance.&rdquo;</p>
+<p>I think there is also a problem with &ldquo;use specific,&rdquo; though. That there is a pretty standard set of things that is done for readability at small sizes: larger x height, lower contrast, wider spacing. But the user might successfully use the type for a different purpose than envisaged by the designer, so it might be a mistake to specify a single usage&hellip;</p>
+<p>Ok, not helpful. But interesting, to me at least.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1685,11 +1617,11 @@ Ok, not helpful. But interesting, to me at least.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">" The fact that it is possible to consider designs intended for e.g. subhead use that are not also size-specific designs just indicates that it is a bad idea to conflate the two things in naming."
-
-Perhaps so. Either name is still much better than "optical" yet neither may be the better label to put on type that is specific to a functional set of variables not aptly captured in the current one-outline-fits-all digital type genre. 
- I would like a term that stands for "multi-outline" that would combine both the usage-specific and the size-specific outlines rather than expect the hair-splitting nomenclature discussions to be replaced by an even more confusing concept for users to unravel. Users are often confused about when to use one or another "optical" size.  Perhaps it would be best to use an unknown variable glyph as we do in mathematics (x, y, z). Even better, we could use a common Greek letter like π followed by either a sweet-spot size like "π-12" or usage designation like "π/subhead, or π/sh". The π glyph would become a sign for the whole usage/size amalgam and would be very short to add to a font name.  Bodoni Bold π/sh is using less space than Bodoni Bold Subhead 12.  The problem I have with using numerical size in the name is that, as you say, users may choose a size differing from what the type designer chooses [even sometimes rightfully]. 
-The marketing folks might even buy in on a name less unerwhelming than "optical" ;-)</div>
+		<div class="commentbody"><p>&quot; The fact that it is possible to consider designs intended for e.g. subhead use that are not also size-specific designs just indicates that it is a bad idea to conflate the two things in naming.&quot;</p>
+<p>Perhaps so. Either name is still much better than &ldquo;optical&rdquo; yet neither may be the better label to put on type that is specific to a functional set of variables not aptly captured in the current one-outline-fits-all digital type genre. 
+I would like a term that stands for &ldquo;multi-outline&rdquo; that would combine both the usage-specific and the size-specific outlines rather than expect the hair-splitting nomenclature discussions to be replaced by an even more confusing concept for users to unravel. Users are often confused about when to use one or another &ldquo;optical&rdquo; size.  Perhaps it would be best to use an unknown variable glyph as we do in mathematics (x, y, z). Even better, we could use a common Greek letter like π followed by either a sweet-spot size like &ldquo;π-12&rdquo; or usage designation like &ldquo;π/subhead, or π/sh&rdquo;. The π glyph would become a sign for the whole usage/size amalgam and would be very short to add to a font name.  Bodoni Bold π/sh is using less space than Bodoni Bold Subhead 12.  The problem I have with using numerical size in the name is that, as you say, users may choose a size differing from what the type designer chooses [even sometimes rightfully]. 
+The marketing folks might even buy in on a name less unerwhelming than &ldquo;optical&rdquo; ;-)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1710,10 +1642,10 @@ The marketing folks might even buy in on a name less unerwhelming than "optical"
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Chris, you're too modest.
-You've invented the Lozos coefficient.
+		<div class="commentbody">Chris, you&rsquo;re too modest.
+You&rsquo;ve invented the Lozos coefficient.
 Now all you have to do is tabulate it.
-(While you're at it, it will probably require its own Unicode character …)</div>
+(While you&rsquo;re at it, it will probably require its own Unicode character …)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1734,10 +1666,8 @@ Now all you have to do is tabulate it.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"I'm OK with maths, but I'm no pro, so please explain as plainly as you can :-)"
-
-I'm not a math wiz either, but the styles you show have little to do with Grades as as we make them here at FB. They also, by getting wider as the contrast increases, are not Optical Size masters. 
-
+		<div class="commentbody"><p>&ldquo;I&rsquo;m OK with maths, but I&rsquo;m no pro, so please explain as plainly as you can :-)&rdquo;</p>
+<p>I&rsquo;m not a math wiz either, but the styles you show have little to do with Grades as as we make them here at FB. They also, by getting wider as the contrast increases, are not Optical Size masters.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1759,15 +1689,12 @@ I'm not a math wiz either, but the styles you show have little to do with Grades
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"While you're at it, it will probably require its own Unicode character …)"
-
-LOL!!! And it would look like a bald bearded guy with his finger up his ass ;-)
-
-PS:
-
-Here is an image to add π to your face.
-
-[img:sites/default/files/old-images/pie-in-the-face_6434.png]</div>
+		<div class="commentbody"><p>&ldquo;While you&rsquo;re at it, it will probably require its own Unicode character …)&rdquo;</p>
+<p>LOL!!! And it would look like a bald bearded guy with his finger up his ass ;-)</p>
+<p>PS:</p>
+<p>Here is an image to add π to your face.</p>
+<p>[img:sites/default/files/old-images/pie-in-the-face_6434.png]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1809,7 +1736,7 @@ Here is an image to add π to your face.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Size-graded designs. That's easier to say. </div>
+		<div class="commentbody">Size-graded designs. That&rsquo;s easier to say.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1830,9 +1757,8 @@ Here is an image to add π to your face.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">What about "scalar"?
-
-hhp
+		<div class="commentbody"><p>What about &ldquo;scalar&rdquo;?</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1875,11 +1801,9 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">But it's already taken.
-
-To be fair (?) though I only skimmed your post.
-
-hhp
+		<div class="commentbody"><p>But it&rsquo;s already taken.</p>
+<p>To be fair (?) though I only skimmed your post.</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1902,8 +1826,7 @@ hhp
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">It is only taken for math and Greek :-)
-My intent was to arrive at a very brief symbol that would not further clutter name fields than needed. It is available in every typeface and script and is a variable.
-</div>
+My intent was to arrive at a very brief symbol that would not further clutter name fields than needed. It is available in every typeface and script and is a variable.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1924,7 +1847,7 @@ My intent was to arrive at a very brief symbol that would not further clutter na
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">... and is not a character that I would want to risk putting in a font name table for display in menus.</div>
+		<div class="commentbody">&hellip; and is not a character that I would want to risk putting in a font name table for display in menus.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1945,7 +1868,7 @@ My intent was to arrive at a very brief symbol that would not further clutter na
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Also if you are a certain age, pi type brings to mind the not pretty picture of a case of type spilled on the floor :) </div>
+		<div class="commentbody">Also if you are a certain age, pi type brings to mind the not pretty picture of a case of type spilled on the floor :)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1966,8 +1889,7 @@ My intent was to arrive at a very brief symbol that would not further clutter na
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Or of the age where a slice of π a la mode with coffee sounds great!
-</div>
+		<div class="commentbody">Or of the age where a slice of π a la mode with coffee sounds great!</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

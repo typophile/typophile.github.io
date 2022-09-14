@@ -71,28 +71,23 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Not trying to forge the ticket -- don't worry!  I'm trying to write software that allows you to take a picture of your ticket and then recognizes the numbers so you don't have to check a bunch of them.  Knowing the specific font the ticket is printed in makes digit identification in the pictures far more accurate.
-
-I've used "What the font" and "identifont" and nothing's an exact match.  Here are a list of fonts that this resembles:
-
-<a href="http://www.myfonts.com/fonts/urw/nimbus-sans-mono/">Nimbus Sans Mono:</a>:
-The mid-line height of the "4" is lower on Nimbus sans, and the left side of the 5 is slanted instead of straight.  The leg of the "R" is curved instead of straight.
-
-<a href="http://www.myfonts.com/fonts/paratype/mono-condensed/">Mono Condensed</a>:
-Same as Nimbus -- mid-line of 4 is too low, 5 is slanted, R is curved
-
-<a href="http://www.myfonts.com/fonts/bitstream/gothic-720/">Gothic 720</a>:
-<a href="http://www.myfonts.com/fonts/efscangraphic/folio-sb/">Folio SB</a>:
-<a href="http://www.myfonts.com/fonts/mti/grotesque-mt/condensed/">Grotesque MT Condensed</a>:
-Midpoint of "M" is at the baseline instead of in the middle.  The capital "I" is just a line without top/base.
-
-Thoughts?
-
-[img:sites/default/files/old-images/powerball_6040.jpg][img:sites/default/files/old-images/sign_6398.jpg][img:sites/default/files/old-images/terminal_4377.jpg][img:sites/default/files/old-images/ticket_4008.jpg]</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Not trying to forge the ticket &ndash; don&rsquo;t worry!  I&rsquo;m trying to write software that allows you to take a picture of your ticket and then recognizes the numbers so you don&rsquo;t have to check a bunch of them.  Knowing the specific font the ticket is printed in makes digit identification in the pictures far more accurate.</p>
+<p>I&rsquo;ve used &ldquo;What the font&rdquo; and &ldquo;identifont&rdquo; and nothing&rsquo;s an exact match.  Here are a list of fonts that this resembles:</p>
+<p><!-- raw HTML omitted -->Nimbus Sans Mono:<!-- raw HTML omitted -->:
+The mid-line height of the &ldquo;4&rdquo; is lower on Nimbus sans, and the left side of the 5 is slanted instead of straight.  The leg of the &ldquo;R&rdquo; is curved instead of straight.</p>
+<p><!-- raw HTML omitted -->Mono Condensed<!-- raw HTML omitted -->:
+Same as Nimbus &ndash; mid-line of 4 is too low, 5 is slanted, R is curved</p>
+<p><!-- raw HTML omitted -->Gothic 720<!-- raw HTML omitted -->:
+<!-- raw HTML omitted -->Folio SB<!-- raw HTML omitted -->:
+<!-- raw HTML omitted -->Grotesque MT Condensed<!-- raw HTML omitted -->:
+Midpoint of &ldquo;M&rdquo; is at the baseline instead of in the middle.  The capital &ldquo;I&rdquo; is just a line without top/base.</p>
+<p>Thoughts?</p>
+<p>[img:sites/default/files/old-images/powerball_6040.jpg][img:sites/default/files/old-images/sign_6398.jpg][img:sites/default/files/old-images/terminal_4377.jpg][img:sites/default/files/old-images/ticket_4008.jpg]</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Looks like a bitmap font so that may help you narrow your search...</div>
+		<div class="commentbody">Looks like a bitmap font so that may help you narrow your search&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -113,9 +108,9 @@ Thoughts?
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">There are lots of different fonts - between states and possibly even within states, depending on what kind of machine the ticket is printed on. See attached for a (losing) California sample.
-
-[img:sites/default/files/old-images/CALotteryTicket_4881.jpg]</div>
+		<div class="commentbody"><p>There are lots of different fonts - between states and possibly even within states, depending on what kind of machine the ticket is printed on. See attached for a (losing) California sample.</p>
+<p>[img:sites/default/files/old-images/CALotteryTicket_4881.jpg]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -136,28 +131,31 @@ Thoughts?
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I apologize in advance for this long, off-topic post - it has nothing to do with font-identification, it's mostly about OCR and image recognition.
-
-I have wrote a similar application last year for banking/financial sector to recognize digits (customer id, amount to pay etc.) from a photo of a printed bill taken by iPhone. I used the tesseract open-source OCR engine.
-
-I understand that you need the original font to train your  OCR module but I think it's not actually required and more than this it may lead to inaccurate results, due to the difference between the perfect digit image rendered by the original font and the poor image quality acquired by taking a photo of an actual ticket.
-
-Here is my advice on how to improve your results:
-
-1. Create some good set of filters to equalize the image and remove any artifacts that could be considered noise and might confuse the OCR engine. Possible "noise" includes also any solid blobs of pixels bellow a Xmin x Ymin size or larger than Xmax or Ymax size - which are actually useless to the OCR engine.
-
-2. If you are using a mobile device, create an anti-shake mechanism (use the accelerometer to take the photo only when the device is stable). No OCR can have good results on blurry images.
-
-3. If you are using a mobile device, consider to *not* use the flash in some cases - e.g. when there are some numbers to recognize far away from flash/lens axis. The natural light will be much more effective in this case. (The camera-to-ticket distance is  usually small and the device flash can light only a part of the ticket resulting in a gradient than is difficult to equalize and/or filter it out).
-
-4. Collect as much *real* tickets as you can to create 4-5 digital samples of each required digit / size combination and train your OCR with these samples. OCR Engines usually includes algorithms to recognize broken samples (e.g. a '9' can be recognized as a broken/misprinted '8') and the only way to tell the engine when/how to use these algorithms is to train it using real samples.
-
-5. Last but not least: Use regular expressions to extract/validate the OCR result - this can have a tremendous impact in your recognition results.
-Example: Let's say that your ticket's printed text is: "BO 123.23 BI" and you know that you need to read the amount 123.23. The OCR output could be as wrong as:
-"80 123.2381", but if you extract a pattern of ([0-9]+)([.]{1})([0-9]{2}) of it, you will still be able to get a correct result out of an erroneous OCR reading.
-
-Good luck with your application  ;)
-Fivos
+		<div class="commentbody"><p>I apologize in advance for this long, off-topic post - it has nothing to do with font-identification, it&rsquo;s mostly about OCR and image recognition.</p>
+<p>I have wrote a similar application last year for banking/financial sector to recognize digits (customer id, amount to pay etc.) from a photo of a printed bill taken by iPhone. I used the tesseract open-source OCR engine.</p>
+<p>I understand that you need the original font to train your  OCR module but I think it&rsquo;s not actually required and more than this it may lead to inaccurate results, due to the difference between the perfect digit image rendered by the original font and the poor image quality acquired by taking a photo of an actual ticket.</p>
+<p>Here is my advice on how to improve your results:</p>
+<ol>
+<li>
+<p>Create some good set of filters to equalize the image and remove any artifacts that could be considered noise and might confuse the OCR engine. Possible &ldquo;noise&rdquo; includes also any solid blobs of pixels bellow a Xmin x Ymin size or larger than Xmax or Ymax size - which are actually useless to the OCR engine.</p>
+</li>
+<li>
+<p>If you are using a mobile device, create an anti-shake mechanism (use the accelerometer to take the photo only when the device is stable). No OCR can have good results on blurry images.</p>
+</li>
+<li>
+<p>If you are using a mobile device, consider to <em>not</em> use the flash in some cases - e.g. when there are some numbers to recognize far away from flash/lens axis. The natural light will be much more effective in this case. (The camera-to-ticket distance is  usually small and the device flash can light only a part of the ticket resulting in a gradient than is difficult to equalize and/or filter it out).</p>
+</li>
+<li>
+<p>Collect as much <em>real</em> tickets as you can to create 4-5 digital samples of each required digit / size combination and train your OCR with these samples. OCR Engines usually includes algorithms to recognize broken samples (e.g. a &lsquo;9&rsquo; can be recognized as a broken/misprinted &lsquo;8&rsquo;) and the only way to tell the engine when/how to use these algorithms is to train it using real samples.</p>
+</li>
+<li>
+<p>Last but not least: Use regular expressions to extract/validate the OCR result - this can have a tremendous impact in your recognition results.
+Example: Let&rsquo;s say that your ticket&rsquo;s printed text is: &ldquo;BO 123.23 BI&rdquo; and you know that you need to read the amount 123.23. The OCR output could be as wrong as:
+&ldquo;80 123.2381&rdquo;, but if you extract a pattern of ([0-9]+)([.]{1})([0-9]{2}) of it, you will still be able to get a correct result out of an erroneous OCR reading.</p>
+</li>
+</ol>
+<p>Good luck with your application  ;)
+Fivos</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

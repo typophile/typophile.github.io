@@ -71,29 +71,25 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Using FontLab 5, Windows.
-I'm creating an OTF font from a few Type1 fonts. One of the type one fonts is a small cap font. To get the kerning pairs from the old Type1 font into my new font I thought I could pull the Type1 into FontLab and export the AFM file. Then open the AFM in a text editor and change all the lowercase characters to my small cap glyphs.
-
-For instance:
-    KPX A c -18
+  <div class="post-content e-content" itemprop="articleBody"><p>Using FontLab 5, Windows.
+I&rsquo;m creating an OTF font from a few Type1 fonts. One of the type one fonts is a small cap font. To get the kerning pairs from the old Type1 font into my new font I thought I could pull the Type1 into FontLab and export the AFM file. Then open the AFM in a text editor and change all the lowercase characters to my small cap glyphs.</p>
+<p>For instance:
+KPX A c -18
 becomes
-    KPX A Csmall -18
-where Csmall is the name of my small cap c. But it isn't working and I can't see why!
-
-From the AFM file I'm also deleting all the kern pairs I won't need, like:
-    KPX A T -74
-as it's already in there from having procesed the "regular" text.
-
-When all my substitutions are made in the AFM file I change the StartKernPairs line to reflect the number of pairs I now have.
-
-However, when I try to import the modified AFM into FontLab it doesn't import any kern pairs, even if I tell it to completely replace them. I'm able to import kerning from other AFM files but I don't see any difference in structure between the ones that import and the one that won't. What am I missing?
-
-Thanks for any insight
-Ken</div>
+KPX A Csmall -18
+where Csmall is the name of my small cap c. But it isn&rsquo;t working and I can&rsquo;t see why!</p>
+<p>From the AFM file I&rsquo;m also deleting all the kern pairs I won&rsquo;t need, like:
+KPX A T -74
+as it&rsquo;s already in there from having procesed the &ldquo;regular&rdquo; text.</p>
+<p>When all my substitutions are made in the AFM file I change the StartKernPairs line to reflect the number of pairs I now have.</p>
+<p>However, when I try to import the modified AFM into FontLab it doesn&rsquo;t import any kern pairs, even if I tell it to completely replace them. I&rsquo;m able to import kerning from other AFM files but I don&rsquo;t see any difference in structure between the ones that import and the one that won&rsquo;t. What am I missing?</p>
+<p>Thanks for any insight
+Ken</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It appears that you need to change glyph names in the character metrics section too, i.e. in the list between keywords <em>StartCharMetrics</em> and <em>EndCharMetrics</em>.</div>
+		<div class="commentbody">It appears that you need to change glyph names in the character metrics section too, i.e. in the list between keywords <!-- raw HTML omitted -->StartCharMetrics<!-- raw HTML omitted --> and <!-- raw HTML omitted -->EndCharMetrics<!-- raw HTML omitted -->.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -114,19 +110,14 @@ Ken</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi Ken,
-
-It doesn't matter if the "number of kern pairs" line is corrrect.
-
-Try this: In your existing OpenType font, which does have the small caps, but does not have the small cap kerning, export an AFM.
-
-Now, working in a text editor, from the Type 1 font AFM you've pared down so that all KPX pairs contain at least one small cap, copy only the KPX portion, and paste that at the bottom (doesn't really matter, just easier) of the KPX portion of the AFM you exported from the OT version. (A lot of words trying to be clear. It is really very simple. You could export a AFM from the OT version and type in new KPX pairs. Just cut & paste instead.)
-
-Save the AFM file and reimport into the FontLab OTF file.
-
-You'll see immediately in the dialog box the number of new pairs FL found, and added. If it's "zero" added you have a problem, most likely a disagreement of glyph *names*
-
-As Karsten says, the glyphs in the kerning (KPX) portion must be matched in the character metrics portion. For me anyway, the above copy & paste technique offers the least chance for error with the greatest chance to figure out what went wrong.</div>
+		<div class="commentbody"><p>Hi Ken,</p>
+<p>It doesn&rsquo;t matter if the &ldquo;number of kern pairs&rdquo; line is corrrect.</p>
+<p>Try this: In your existing OpenType font, which does have the small caps, but does not have the small cap kerning, export an AFM.</p>
+<p>Now, working in a text editor, from the Type 1 font AFM you&rsquo;ve pared down so that all KPX pairs contain at least one small cap, copy only the KPX portion, and paste that at the bottom (doesn&rsquo;t really matter, just easier) of the KPX portion of the AFM you exported from the OT version. (A lot of words trying to be clear. It is really very simple. You could export a AFM from the OT version and type in new KPX pairs. Just cut &amp; paste instead.)</p>
+<p>Save the AFM file and reimport into the FontLab OTF file.</p>
+<p>You&rsquo;ll see immediately in the dialog box the number of new pairs FL found, and added. If it&rsquo;s &ldquo;zero&rdquo; added you have a problem, most likely a disagreement of glyph <em>names</em></p>
+<p>As Karsten says, the glyphs in the kerning (KPX) portion must be matched in the character metrics portion. For me anyway, the above copy &amp; paste technique offers the least chance for error with the greatest chance to figure out what went wrong.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -147,16 +138,8 @@ As Karsten says, the glyphs in the kerning (KPX) portion must be matched in the 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">My FL workflow for this kind of thing usually is:
-
-<ul>
-<li>Put the normal font into the mask of the small cap font</li>
-<li>Step through all the glyphs and mark those that are different from the mask</li>
-<li>Add .sc to the glyph names of all marked glyphs</li>
-<li>Export AFM (now contains the correct .sc glyph names automatically)</li>
-<li>Copy the .sc glyphs from the small cap font to normal font (or use Merge Fonts function)</li>
-<li>Import AFM into the merged font, choosing option "add kerning to existing" or whatever it's called</li>
-</ul></div>
+		<div class="commentbody">My FL workflow for this kind of thing usually is:</p>
+<!-- raw HTML omitted --></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

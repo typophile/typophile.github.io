@@ -71,27 +71,21 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">On the www-font list, John Hudson stated:
-
-<cite>If someone does want to start a Typophile thread on this topic, I'll be happy to explain why the OT 'size' feature is a lousy hack that breaks the OT layout model, is unlikely ever to be implemented in much software, and why a more robust and sensible approach is needed.</cite>
-
-I'm interested in understanding this statement.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>On the www-font list, John Hudson stated:</p>
+<p><!-- raw HTML omitted -->If someone does want to start a Typophile thread on this topic, I&rsquo;ll be happy to explain why the OT &lsquo;size&rsquo; feature is a lousy hack that breaks the OT layout model, is unlikely ever to be implemented in much software, and why a more robust and sensible approach is needed.<!-- raw HTML omitted --></p>
+<p>I&rsquo;m interested in understanding this statement.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Although the OT 'size' feature is implemented in an odd way in terms of where the data goes in the font, this does not bother me so much.
-
-What *does* bother me is that the 'size' feature deals strictly with point size, and not pixel resolution. In a world where the most important use of optical size is on screen, this is problematic. If one wants something for use at text sizes on an unspecified "average" screen of today, a design optimized for perhaps 6-8 points in print is likely to be a better choice than one optimized for 10-12 points in print, even if the screen size nominally matches 10 or 12 points.
-
-Ideally one would be able to express in the font family some sort of function using a combination of ppem size (number of pixels high the font is at the current sizing) and resolution of the user's screen to determine which distinct optical-size font to use.
-
-For so-called pixel fonts, a type designer would want to be able to express things purely in terms of ppem size.
-
-Failing all that, for a web browser to have an automatic function like "take the current ppem x2/3 and look for a font optimized for that point size" would be better than nothing.
-
-Regards,
-
-T</div>
+		<div class="commentbody"><p>Although the OT &lsquo;size&rsquo; feature is implemented in an odd way in terms of where the data goes in the font, this does not bother me so much.</p>
+<p>What <em>does</em> bother me is that the &lsquo;size&rsquo; feature deals strictly with point size, and not pixel resolution. In a world where the most important use of optical size is on screen, this is problematic. If one wants something for use at text sizes on an unspecified &ldquo;average&rdquo; screen of today, a design optimized for perhaps 6-8 points in print is likely to be a better choice than one optimized for 10-12 points in print, even if the screen size nominally matches 10 or 12 points.</p>
+<p>Ideally one would be able to express in the font family some sort of function using a combination of ppem size (number of pixels high the font is at the current sizing) and resolution of the user&rsquo;s screen to determine which distinct optical-size font to use.</p>
+<p>For so-called pixel fonts, a type designer would want to be able to express things purely in terms of ppem size.</p>
+<p>Failing all that, for a web browser to have an automatic function like &ldquo;take the current ppem x2/3 and look for a font optimized for that point size&rdquo; would be better than nothing.</p>
+<p>Regards,</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -112,9 +106,7 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">related threads <a href="http://typophile.com/node/60281">here on Typophile</a> and on the <a href="http://lists.w3.org/Archives/Public/www-font/2009JulSep/0793.html">www-fonts list</a>
-
-</div>
+		<div class="commentbody">related threads <!-- raw HTML omitted -->here on Typophile<!-- raw HTML omitted --> and on the <!-- raw HTML omitted -->www-fonts list<!-- raw HTML omitted --></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -135,32 +127,21 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Everything Thomas said, and then...
-
-The OT size feature is nominally a GPOS layout feature, despite the fact that is does not perform any glyph positioning function. It also does not conform to any of the normal characteristics of a GPOS feature. It also requires implementing software to process this feature outside of the normal chain of OT Layout processing.
-
-Given this, it is hard for me to see it as anything but a hack enshrined within the OTL feature descriptions. The fact that not even Adobe, who defined the feature and implement it in their optical master fonts, have implemented support for it in any of their applications suggests that it is not only a hack but even fails the typical justification of a hack: that it is useful.
-
-The normal processing order for OTL is cmap then GSUB then GPOS: first you get the default glyphs for the characters, then you substitute other glyphs as appropriate to GSUB features, then you apply positioning to those glyphs. The 'size' feature needs to be processed completely outside this chain, despite being nominally a GPOS feature. The 'size' feature actually needs to be applied prior to any glyph layout processing, since it affects font selection.
-
-I believe this is one of the reasons why the feature isn't supported in applications: many implementers struggle to get normal GSUB and GPOS layout right -- given the absence of a clear OTL implementation spec, as distinct from the font format spec --, and it is no wonder that they have simply ignored this eccentric 'size' feature.
-
-Also, in order to build 'size' feature data into a font, one needs to use an Adobe FDK-based tool for OpenType Layout tables. A tool such as VOLT, used by pretty much everyone making fonts for complex scripts, which is based around the normal structures of GPOS lookups, has no way to build a 'size' feature. Since it is not currently possible to mix-and-match tools for GSUB and GPOS development, this contributes to poor support for the 'size' feature on the font side as well as the application side.
-_____
-
-A couple of ideas have been put forward for better methods of implementing size-specific font selection.
-
-One idea is a new SIZE table in the font. At its simplest, this could present the same information as the 'size' feature but in a more appropriate location and with better implementation guidelines. David Berlow drafted a description of a more complex SIZE table during the OT 1.6 discussions; this sought to address more complication font family relationships including ppem-specific designs. I'm not sure how this relates to his new permissions and recommendations table idea, or whether some of the concepts in the SIZE table proposal have now found their way into the new table.
-
-A second idea is to use the new composite font format (currently under development as an mpeg-OFF standard) to enable multiple size-specific fonts to be packaged as a single virtual font with the composite font XML wrapper including information to enable applications to select the appropriate component font for specific sizes or size ranges. In theory, this could be expressed in point size or ppem size, or some combination (allowing a single component font to be used for one size in print and wysiwyg situations but another for reading on screen).
-
-This last idea brings me back to the web font format discussion. On the W3C list, I suggested that size-specific fonts were orthoganal to the web font format question, which is why I suggested that we continue the discussion over here. My thinking is that this is a font data matter, and hence something that would be within a potential web font wrapper.
-
-The only situation in which I think it at all likely to be otherwise would be if indication of a ppem-specific font were to be included in the .webfont info.xml meta data. But presuming this information is also in the font data in some format, then one runs into the problems of duplication, redundancy and potentially differing data for the same font.
-
-Finally, there is the point that Karsten alluded to on the W3C list: as real resolutions of screens increase, text at pixel-specific sizes gets smaller. In order to be able to serve ppem-specific designs that are also of appropriate size for reading, you need to know the resolution of the reader's device. Ideally, you also want to know how far away from the screen the reader is sitting.
-
-Somewhere in here, heads start exploding. I'm still trying to figure out whether David Berlow is the only person who can hold all this stuff in his head, or if his head exploded a long time ago and he just hasn't noticed yet. :)</div>
+		<div class="commentbody"><p>Everything Thomas said, and then&hellip;</p>
+<p>The OT size feature is nominally a GPOS layout feature, despite the fact that is does not perform any glyph positioning function. It also does not conform to any of the normal characteristics of a GPOS feature. It also requires implementing software to process this feature outside of the normal chain of OT Layout processing.</p>
+<p>Given this, it is hard for me to see it as anything but a hack enshrined within the OTL feature descriptions. The fact that not even Adobe, who defined the feature and implement it in their optical master fonts, have implemented support for it in any of their applications suggests that it is not only a hack but even fails the typical justification of a hack: that it is useful.</p>
+<p>The normal processing order for OTL is cmap then GSUB then GPOS: first you get the default glyphs for the characters, then you substitute other glyphs as appropriate to GSUB features, then you apply positioning to those glyphs. The &lsquo;size&rsquo; feature needs to be processed completely outside this chain, despite being nominally a GPOS feature. The &lsquo;size&rsquo; feature actually needs to be applied prior to any glyph layout processing, since it affects font selection.</p>
+<p>I believe this is one of the reasons why the feature isn&rsquo;t supported in applications: many implementers struggle to get normal GSUB and GPOS layout right &ndash; given the absence of a clear OTL implementation spec, as distinct from the font format spec &ndash;, and it is no wonder that they have simply ignored this eccentric &lsquo;size&rsquo; feature.</p>
+<p>Also, in order to build &lsquo;size&rsquo; feature data into a font, one needs to use an Adobe FDK-based tool for OpenType Layout tables. A tool such as VOLT, used by pretty much everyone making fonts for complex scripts, which is based around the normal structures of GPOS lookups, has no way to build a &lsquo;size&rsquo; feature. Since it is not currently possible to mix-and-match tools for GSUB and GPOS development, this contributes to poor support for the &lsquo;size&rsquo; feature on the font side as well as the application side.</p>
+<hr>
+<p>A couple of ideas have been put forward for better methods of implementing size-specific font selection.</p>
+<p>One idea is a new SIZE table in the font. At its simplest, this could present the same information as the &lsquo;size&rsquo; feature but in a more appropriate location and with better implementation guidelines. David Berlow drafted a description of a more complex SIZE table during the OT 1.6 discussions; this sought to address more complication font family relationships including ppem-specific designs. I&rsquo;m not sure how this relates to his new permissions and recommendations table idea, or whether some of the concepts in the SIZE table proposal have now found their way into the new table.</p>
+<p>A second idea is to use the new composite font format (currently under development as an mpeg-OFF standard) to enable multiple size-specific fonts to be packaged as a single virtual font with the composite font XML wrapper including information to enable applications to select the appropriate component font for specific sizes or size ranges. In theory, this could be expressed in point size or ppem size, or some combination (allowing a single component font to be used for one size in print and wysiwyg situations but another for reading on screen).</p>
+<p>This last idea brings me back to the web font format discussion. On the W3C list, I suggested that size-specific fonts were orthoganal to the web font format question, which is why I suggested that we continue the discussion over here. My thinking is that this is a font data matter, and hence something that would be within a potential web font wrapper.</p>
+<p>The only situation in which I think it at all likely to be otherwise would be if indication of a ppem-specific font were to be included in the .webfont info.xml meta data. But presuming this information is also in the font data in some format, then one runs into the problems of duplication, redundancy and potentially differing data for the same font.</p>
+<p>Finally, there is the point that Karsten alluded to on the W3C list: as real resolutions of screens increase, text at pixel-specific sizes gets smaller. In order to be able to serve ppem-specific designs that are also of appropriate size for reading, you need to know the resolution of the reader&rsquo;s device. Ideally, you also want to know how far away from the screen the reader is sitting.</p>
+<p>Somewhere in here, heads start exploding. I&rsquo;m still trying to figure out whether David Berlow is the only person who can hold all this stuff in his head, or if his head exploded a long time ago and he just hasn&rsquo;t noticed yet. :)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -181,9 +162,9 @@ Somewhere in here, heads start exploding. I'm still trying to figure out whether
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>Somewhere in here, heads start exploding. I’m still trying to figure out whether David Berlow is the only person who can hold all this stuff in his head, or if his head exploded a long time ago and he just hasn’t noticed yet. :)</cite>
-
-David's head has clearly exploded. :D</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Somewhere in here, heads start exploding. I’m still trying to figure out whether David Berlow is the only person who can hold all this stuff in his head, or if his head exploded a long time ago and he just hasn’t noticed yet. :)<!-- raw HTML omitted --></p>
+<p>David&rsquo;s head has clearly exploded. :D</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -204,30 +185,30 @@ David's head has clearly exploded. :D</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Carrying over something I wrote to the www-font list, with a little addition, this adds to Gustavo's comment rather than the original post:
-
-On the www-font list, Gustavo raised the issue of "size-specific" outline screen fonts -- with a specially designed font per each ppem-size -- which brought up the question how to tell UAs for which ppem-size a font is designed.
-
-I think that first of all one needs to make a fundamental distinction between two types of "specific-ness" that should not be mixed up:
-
-1. <em>size-specific design</em>
-The "one outline for all sizes" approach that outline fonts brought with them results in a compromise since one design needs to serve both very small and very large sizes.
-Size-specific design refers to special versions of a typeface, each serving a specific <em>range</em> of type sizes -- which are measured in pt, mm, or other. Size-specific-ness belongs to the "higher-level" realm of esthetics/legibility and is agnostic of the "lower-level" realm of this or that rasterization technology, output device, resolution (if rasterized at all).
-
-2. <em>ppem-specific design</em>
+		<div class="commentbody"><p>Carrying over something I wrote to the www-font list, with a little addition, this adds to Gustavo&rsquo;s comment rather than the original post:</p>
+<p>On the www-font list, Gustavo raised the issue of &ldquo;size-specific&rdquo; outline screen fonts &ndash; with a specially designed font per each ppem-size &ndash; which brought up the question how to tell UAs for which ppem-size a font is designed.</p>
+<p>I think that first of all one needs to make a fundamental distinction between two types of &ldquo;specific-ness&rdquo; that should not be mixed up:</p>
+<ol>
+<li>
+<p><!-- raw HTML omitted -->size-specific design<!-- raw HTML omitted -->
+The &ldquo;one outline for all sizes&rdquo; approach that outline fonts brought with them results in a compromise since one design needs to serve both very small and very large sizes.
+Size-specific design refers to special versions of a typeface, each serving a specific <!-- raw HTML omitted -->range<!-- raw HTML omitted --> of type sizes &ndash; which are measured in pt, mm, or other. Size-specific-ness belongs to the &ldquo;higher-level&rdquo; realm of esthetics/legibility and is agnostic of the &ldquo;lower-level&rdquo; realm of this or that rasterization technology, output device, resolution (if rasterized at all).</p>
+</li>
+<li>
+<p><!-- raw HTML omitted -->ppem-specific design<!-- raw HTML omitted -->
 In brief, it means designing along the pixel grid. A font per ppem-size.
-This approach addresses the "lower-level" realm of rasterization technology, output device, resolution.
-
-Thomas Phinney: <cite>"What <em>does</em> bother me is that the 'size' feature deals strictly with point size, and not pixel resolution."</cite>
-
-Size-specific design and ppem-specific design serve different purposes and hooking in at different level: esthetics/legibility vs technology. They do not even overlap.
-Therefore I think that the information for which ppem-size a font was designed does not belong into the current 'size' feature.
-This single ppem-size value per font is still more than just an on/off, so cannot be a single bit in 'head' table's 'flags'.
+This approach addresses the &ldquo;lower-level&rdquo; realm of rasterization technology, output device, resolution.</p>
+</li>
+</ol>
+<p>Thomas Phinney: <!-- raw HTML omitted -->&ldquo;What <!-- raw HTML omitted -->does<!-- raw HTML omitted --> bother me is that the &lsquo;size&rsquo; feature deals strictly with point size, and not pixel resolution.&quot;<!-- raw HTML omitted --></p>
+<p>Size-specific design and ppem-specific design serve different purposes and hooking in at different level: esthetics/legibility vs technology. They do not even overlap.
+Therefore I think that the information for which ppem-size a font was designed does not belong into the current &lsquo;size&rsquo; feature.
+This single ppem-size value per font is still more than just an on/off, so cannot be a single bit in &lsquo;head&rsquo; table&rsquo;s &lsquo;flags&rsquo;.
 Perhaps an update OS/2 version with a ppem value appended at the end.
-Or a 'ppem' table with a single value in it? Presence of the table signals to the UA that this is a ppem-specific design, and for which ppem-size. Then activate specific behavior. But if, as John suggests, even the current size-specific 'size' feature should be a table rather than a feature, then this may indeed inform if the font is either size-specific or ppem-specific -- in my current understanding, options are none/either/or.
-Or of course David Berlow's 'perm' table which has a section "Scaling" with both point- and pixel(=ppem)-related min/optimum/max size entries.
-
-I am sure I have missed something in my considerations.</div>
+Or a &lsquo;ppem&rsquo; table with a single value in it? Presence of the table signals to the UA that this is a ppem-specific design, and for which ppem-size. Then activate specific behavior. But if, as John suggests, even the current size-specific &lsquo;size&rsquo; feature should be a table rather than a feature, then this may indeed inform if the font is either size-specific or ppem-specific &ndash; in my current understanding, options are none/either/or.
+Or of course David Berlow&rsquo;s &lsquo;perm&rsquo; table which has a section &ldquo;Scaling&rdquo; with both point- and pixel(=ppem)-related min/optimum/max size entries.</p>
+<p>I am sure I have missed something in my considerations.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -248,25 +229,24 @@ I am sure I have missed something in my considerations.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@johnhudson
-"<em>as real resolutions of screens increase, text at pixel-specific sizes gets smaller. In order to be able to serve ppem-specific designs that are also of appropriate size for reading, you need to know the resolution of the reader’s device.</em>"
-
-I had a brief discussion with <a href="http://www.typophile.com/user/4431">kevlar</a> about this at TypeCon. It goes beyond "resolution" - which is used to refer to both the virtual grid imposed by software AND the "native" resolution of, say, LCD screens which exists physically.
-As a developer, I never understood that I could query for the screen resolution and yet be left totally in the dark as to the physical dimensions of the display. Without this knowledge, I fail to see how optical resolution can be set. I also have reservations about Thomas Phinney's "right for a majority of circumstances" approach.
-I mean, what the hell good is/was the Plug'n'Play spec if it doesn't supply this info?
+		<div class="commentbody"><p>@johnhudson
+&ldquo;<!-- raw HTML omitted -->as real resolutions of screens increase, text at pixel-specific sizes gets smaller. In order to be able to serve ppem-specific designs that are also of appropriate size for reading, you need to know the resolution of the reader’s device.<!-- raw HTML omitted -->&rdquo;</p>
+<p>I had a brief discussion with <!-- raw HTML omitted -->kevlar<!-- raw HTML omitted --> about this at TypeCon. It goes beyond &ldquo;resolution&rdquo; - which is used to refer to both the virtual grid imposed by software AND the &ldquo;native&rdquo; resolution of, say, LCD screens which exists physically.
+As a developer, I never understood that I could query for the screen resolution and yet be left totally in the dark as to the physical dimensions of the display. Without this knowledge, I fail to see how optical resolution can be set. I also have reservations about Thomas Phinney&rsquo;s &ldquo;right for a majority of circumstances&rdquo; approach.
+I mean, what the hell good is/was the Plug&rsquo;n&rsquo;Play spec if it doesn&rsquo;t supply this info?
 My understanding is that display manufacturers are now beginning to supply such info to the OS starting with Win7 and that interest in optical resolution is on the rise.
 We shall see.
-[Some info for the novice as to the fuzzy mess resulting when these two resolutions are in conflict on LCD screens:
-1) <a href="http://billhillsblog.blogspot.com/2009/05/confusion-over-screen-resolution-causes.html">Confusion Over Screen Resolution</a>
-2) <a href="http://readableweb.com/screen-resolution-and-me-clarity-begins-at-home/">Screen Resolution And Me</a>]
+[Some info for the novice as to the fuzzy mess resulting when these two resolutions are in conflict on LCD screens:</p>
+<ol>
+<li><!-- raw HTML omitted -->Confusion Over Screen Resolution<!-- raw HTML omitted --></li>
+<li><!-- raw HTML omitted -->Screen Resolution And Me<!-- raw HTML omitted -->]
 Kevlar tells me the problem I describe fixing in Screen Resolution And Me, goes unfixed among appr. 60% of users.
-An incredibly big problem being swept under the rug. Supposedly Win7 addresses the issue.
-
-"<em>Ideally, you also want to know how far away from the screen the reader is sitting.</em>"
-I believe there's a product that uses a display mounted cam to determine this distance. But the problem of optical size has to be solved before we can refine it in this way and add the additional variable of user-distance.
-I would like to be able to specify 1 inch and have it be 1 inch no matter what display is being used.
-
-rich
+An incredibly big problem being swept under the rug. Supposedly Win7 addresses the issue.</li>
+</ol>
+<p>&ldquo;<!-- raw HTML omitted -->Ideally, you also want to know how far away from the screen the reader is sitting.<!-- raw HTML omitted -->&rdquo;
+I believe there&rsquo;s a product that uses a display mounted cam to determine this distance. But the problem of optical size has to be solved before we can refine it in this way and add the additional variable of user-distance.
+I would like to be able to specify 1 inch and have it be 1 inch no matter what display is being used.</p>
+<p>rich</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -288,32 +268,19 @@ rich
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">TP>What *does* bother me is that the ’size’ feature deals strictly with point size, and not pixel resolution. In a world where the most important use of optical size is on screen, this is problematic.
-
-What actually could bother you, if you were me, is that neither point or pixel is a true measure on screen, so that as things stand now, in a craft that was once concerned with the effects of one human breath on the type, type designers seeking remedy for readers must choose only what's <em>closest to useful</em>, point or pixel. 
-
-Also, I hear what you are saying, but I don't consider the design of fonts for screen to be optical sizing. I divide font variation into; for style, for size and for device. So, though the style and size heavily influence the decisions (e.g. in the Franky designs), if the coarseness and multiplicity of pixel colors doesn't overwhelm my per-size decisions, (remembering that I'm only talking about the bottom 18-24 sizes or so for Latin, 67 or so for Chinese), the user's preferred choices (of style or weight) might overwhelm my per-size decisions. So, if one must prepare a web font, then pixels, or the concerns of the device (and how I perceive this effect on the user), must lead the way, and the size and style issues <em>should</em> follow in a broad fan of choices suiting the size and style preferences, satisfying all possible css and end-user choices. That is, if you're making web fonts for the bottom end of resolution. (Franky would stylistically represent a feather in the fan, but not the way I done drawd and engineared that particular feather, I'd hope.) 
-
-JH>I’m not sure how this relates to his new permissions and recommendations table idea, or whether some of the concepts in the SIZE table proposal have now found their way into the new table.
-
-The size table would be used to inform the recommendations after permissions define the possible uses. Remember that this is not just conceived for the web; permissions can query the size, or other tables to inform recommendations for print, sky-writing or film-making. It all depends on how cooperative composition agents and devices want to be, versus how cooperatively the incoming user market wants these same agents and devices to be. On the web, of course, it's harder because of the dynamic natures of the media and users, and made nearly impossible by the creeping and various description languages that live there. But it's not impossible if one considers all the things a type designer can do, and if doing those things impresses people enough, maybe they'll listen, and the web will move more considerately, and thus considerably on type and typography.  
-
-This reminds me, that some large number of people have told me that actual everyday web users do not want to do anything, not even change the font size, they just want the site to show up all nice so they they can read it, wherever, and whatever. If I was your average web designer, which means I have absolutely few typographic skills whatsoever, I'd be wondering where I am too. ;)
-
-CS>David’s head has clearly exploded. :D
-
-You obviously didn't start Chinese web type sensitivity training in 2004, did you? Start thinking about Chinese ClearType web fonts for 2 seconds a day, and square those seconds each month. Then, after a few years, Latin web fonts, according to any scaler, won't make your head explode, clearly or otherwise, which is more likely, surely. :E
-
-JH>A second idea is to use the new composite font format (currently under development as an mpeg-OFF standard) to enable multiple size-specific fonts to be packaged as a single virtual font
-
-And yet a first idea would be to use the existing var tables which are perfectly-suited for just exactly this problem, multiple size-specific fonts to be packaged as a single virtual font. Is the public asking for GX-like Variations yet or what, John? They never will, it's up to 'us' to figure it out and get it served so they never do.
-
-KL>Size-specific design and ppem-specific design serve different purposes and hooking in at different level: esthetics/legibility vs technology. They do not even overlap.
-
-I guess I'm going to have to remove overlap surgically then. I hope not to turn you all into Spinal Tap drummers by September 1st, but I told you so. 
-
-Cheers!
-
+		<div class="commentbody"><p>TP&gt;What <em>does</em> bother me is that the ’size’ feature deals strictly with point size, and not pixel resolution. In a world where the most important use of optical size is on screen, this is problematic.</p>
+<p>What actually could bother you, if you were me, is that neither point or pixel is a true measure on screen, so that as things stand now, in a craft that was once concerned with the effects of one human breath on the type, type designers seeking remedy for readers must choose only what&rsquo;s <!-- raw HTML omitted -->closest to useful<!-- raw HTML omitted -->, point or pixel.</p>
+<p>Also, I hear what you are saying, but I don&rsquo;t consider the design of fonts for screen to be optical sizing. I divide font variation into; for style, for size and for device. So, though the style and size heavily influence the decisions (e.g. in the Franky designs), if the coarseness and multiplicity of pixel colors doesn&rsquo;t overwhelm my per-size decisions, (remembering that I&rsquo;m only talking about the bottom 18-24 sizes or so for Latin, 67 or so for Chinese), the user&rsquo;s preferred choices (of style or weight) might overwhelm my per-size decisions. So, if one must prepare a web font, then pixels, or the concerns of the device (and how I perceive this effect on the user), must lead the way, and the size and style issues <!-- raw HTML omitted -->should<!-- raw HTML omitted --> follow in a broad fan of choices suiting the size and style preferences, satisfying all possible css and end-user choices. That is, if you&rsquo;re making web fonts for the bottom end of resolution. (Franky would stylistically represent a feather in the fan, but not the way I done drawd and engineared that particular feather, I&rsquo;d hope.)</p>
+<p>JH&gt;I’m not sure how this relates to his new permissions and recommendations table idea, or whether some of the concepts in the SIZE table proposal have now found their way into the new table.</p>
+<p>The size table would be used to inform the recommendations after permissions define the possible uses. Remember that this is not just conceived for the web; permissions can query the size, or other tables to inform recommendations for print, sky-writing or film-making. It all depends on how cooperative composition agents and devices want to be, versus how cooperatively the incoming user market wants these same agents and devices to be. On the web, of course, it&rsquo;s harder because of the dynamic natures of the media and users, and made nearly impossible by the creeping and various description languages that live there. But it&rsquo;s not impossible if one considers all the things a type designer can do, and if doing those things impresses people enough, maybe they&rsquo;ll listen, and the web will move more considerately, and thus considerably on type and typography.</p>
+<p>This reminds me, that some large number of people have told me that actual everyday web users do not want to do anything, not even change the font size, they just want the site to show up all nice so they they can read it, wherever, and whatever. If I was your average web designer, which means I have absolutely few typographic skills whatsoever, I&rsquo;d be wondering where I am too. ;)</p>
+<p>CS&gt;David’s head has clearly exploded. :D</p>
+<p>You obviously didn&rsquo;t start Chinese web type sensitivity training in 2004, did you? Start thinking about Chinese ClearType web fonts for 2 seconds a day, and square those seconds each month. Then, after a few years, Latin web fonts, according to any scaler, won&rsquo;t make your head explode, clearly or otherwise, which is more likely, surely. :E</p>
+<p>JH&gt;A second idea is to use the new composite font format (currently under development as an mpeg-OFF standard) to enable multiple size-specific fonts to be packaged as a single virtual font</p>
+<p>And yet a first idea would be to use the existing var tables which are perfectly-suited for just exactly this problem, multiple size-specific fonts to be packaged as a single virtual font. Is the public asking for GX-like Variations yet or what, John? They never will, it&rsquo;s up to &lsquo;us&rsquo; to figure it out and get it served so they never do.</p>
+<p>KL&gt;Size-specific design and ppem-specific design serve different purposes and hooking in at different level: esthetics/legibility vs technology. They do not even overlap.</p>
+<p>I guess I&rsquo;m going to have to remove overlap surgically then. I hope not to turn you all into Spinal Tap drummers by September 1st, but I told you so.</p>
+<p>Cheers!</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -335,7 +302,7 @@ Cheers!
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I think if systems (Oses) could more reliably convey what ppem they are really displaying with, we'd have a much more useful foundation to deal with optical size on screen... but I hear you David. One thing you might or might not have mentioned is the style of screen rendering. The well-known, opposing camps -- Windows crispness versus Mac smoothness -- would quite possibly prefer different designs for those two styles, all other technical aspects (ppem, etc.) being equal.</div>
+		<div class="commentbody">I think if systems (Oses) could more reliably convey what ppem they are really displaying with, we&rsquo;d have a much more useful foundation to deal with optical size on screen&hellip; but I hear you David. One thing you might or might not have mentioned is the style of screen rendering. The well-known, opposing camps &ndash; Windows crispness versus Mac smoothness &ndash; would quite possibly prefer different designs for those two styles, all other technical aspects (ppem, etc.) being equal.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -356,11 +323,10 @@ Cheers!
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">David: <em>And yet a first idea would be to use the existing var tables which are perfectly-suited for just exactly this problem, multiple size-specific fonts to be packaged as a single virtual font. Is the public asking for GX-like Variations yet or what, John? They never will, it’s up to ’us’ to figure it out and get it served so they never do.</em>
-
-If size-specific glyph variants are all in the same font -- as I understand the case would be using GX-like variations --, then size could be handled as GSUB substitutions, which would the addded benefit that it would plug easily into existing OTL implementations and not require any parsing of any new table. Or is it the axes aspect of GX variations that you are thinking about?
-
-But such an approach also means completely rebuilding all the size-specific fonts that various type designers have been making for the past twenty years, rather than just adding some size meta data that identifies at which sizes these existing fonts should be used. With the composite font approach, intelligent users could create their own virtual fonts of size-specific designs, opt to follow foundry recommendations or not, and even make separate composite fonts using the same design for different sizes depending on purpose.</div>
+		<div class="commentbody"><p>David: <!-- raw HTML omitted -->And yet a first idea would be to use the existing var tables which are perfectly-suited for just exactly this problem, multiple size-specific fonts to be packaged as a single virtual font. Is the public asking for GX-like Variations yet or what, John? They never will, it’s up to ’us’ to figure it out and get it served so they never do.<!-- raw HTML omitted --></p>
+<p>If size-specific glyph variants are all in the same font &ndash; as I understand the case would be using GX-like variations &ndash;, then size could be handled as GSUB substitutions, which would the addded benefit that it would plug easily into existing OTL implementations and not require any parsing of any new table. Or is it the axes aspect of GX variations that you are thinking about?</p>
+<p>But such an approach also means completely rebuilding all the size-specific fonts that various type designers have been making for the past twenty years, rather than just adding some size meta data that identifies at which sizes these existing fonts should be used. With the composite font approach, intelligent users could create their own virtual fonts of size-specific designs, opt to follow foundry recommendations or not, and even make separate composite fonts using the same design for different sizes depending on purpose.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -381,21 +347,17 @@ But such an approach also means completely rebuilding all the size-specific font
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">DB -- <cite>[...] I don't consider the design of fonts for screen to be optical sizing. I divide font variation into; for style, for size and for device. [...] So, if one must prepare a web font, then pixels, or the concerns of the device [...], must lead the way, and the size and style issues should follow in a broad fan of choices suiting the size and style preferences [...] That is, if you’re making web fonts for the bottom end of resolution.</cite>
-
-Despite "overlap" was the wrong term ... Do we disagree? Your "for size" is my "size-specific", your "for device" is my "ppem-specific". With fonts made "for the bottom end of resolution", the "for size" category evaporates -- it's hard to make serifs <em>a bit</em> fatter for smaller sizes if a pixel more would constitute another style, e.g. a bold. So effectively one ends up, "for style", with a bunch of fonts, some (or none) of them with "for size" flag and others (or none) with "for device" flag. If there is none for both categories, there is one "size"/"device"-independent "for style" font.
-
-So based on
-<em>a)</em> screen resolution given as 144ppem (not as 1024*768 pixel count) and
-<em>b)</em> desired type size (like 12pt, i.e. resolution-independent)
+		<div class="commentbody"><p>DB &ndash; <!-- raw HTML omitted -->[&hellip;] I don&rsquo;t consider the design of fonts for screen to be optical sizing. I divide font variation into; for style, for size and for device. [&hellip;] So, if one must prepare a web font, then pixels, or the concerns of the device [&hellip;], must lead the way, and the size and style issues should follow in a broad fan of choices suiting the size and style preferences [&hellip;] That is, if you’re making web fonts for the bottom end of resolution.<!-- raw HTML omitted --></p>
+<p>Despite &ldquo;overlap&rdquo; was the wrong term &hellip; Do we disagree? Your &ldquo;for size&rdquo; is my &ldquo;size-specific&rdquo;, your &ldquo;for device&rdquo; is my &ldquo;ppem-specific&rdquo;. With fonts made &ldquo;for the bottom end of resolution&rdquo;, the &ldquo;for size&rdquo; category evaporates &ndash; it&rsquo;s hard to make serifs <!-- raw HTML omitted -->a bit<!-- raw HTML omitted --> fatter for smaller sizes if a pixel more would constitute another style, e.g. a bold. So effectively one ends up, &ldquo;for style&rdquo;, with a bunch of fonts, some (or none) of them with &ldquo;for size&rdquo; flag and others (or none) with &ldquo;for device&rdquo; flag. If there is none for both categories, there is one &ldquo;size&rdquo;/&ldquo;device&rdquo;-independent &ldquo;for style&rdquo; font.</p>
+<p>So based on
+<!-- raw HTML omitted -->a)<!-- raw HTML omitted --> screen resolution given as 144ppem (not as 1024*768 pixel count) and
+<!-- raw HTML omitted -->b)<!-- raw HTML omitted --> desired type size (like 12pt, i.e. resolution-independent)
 the rasterizer could determine which font ppem-size is required and then
-<em>1)</em> check if the according "for device" font variation "for [requested] style" is present and if yes, use it,
-<em>2)</em> else check if the according "for size" font variant "for [requested] style" is present and if yes, use it,
-<em>3)</em> else use the present "size"/"device"-agnostic "for style" variant.
-
-(This is a summary of how I understand your description.)
-
-Question is how to package the "for size" and "for device" fonts (which I consider to be sub-categories of "for style") -- I mean: in terms of font naming.
+<!-- raw HTML omitted -->1)<!-- raw HTML omitted --> check if the according &ldquo;for device&rdquo; font variation &ldquo;for [requested] style&rdquo; is present and if yes, use it,
+<!-- raw HTML omitted -->2)<!-- raw HTML omitted --> else check if the according &ldquo;for size&rdquo; font variant &ldquo;for [requested] style&rdquo; is present and if yes, use it,
+<!-- raw HTML omitted -->3)<!-- raw HTML omitted --> else use the present &ldquo;size&rdquo;/&ldquo;device&rdquo;-agnostic &ldquo;for style&rdquo; variant.</p>
+<p>(This is a summary of how I understand your description.)</p>
+<p>Question is how to package the &ldquo;for size&rdquo; and &ldquo;for device&rdquo; fonts (which I consider to be sub-categories of &ldquo;for style&rdquo;) &ndash; I mean: in terms of font naming.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -417,21 +379,15 @@ Question is how to package the "for size" and "for device" fonts (which I consid
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">CS>The well-known, opposing camps — Windows crispness versus Mac smoothness — would quite possibly prefer different designs for those two styles...
-
-Absolutely. The OS have expressed their 'preferences' for how dark a given shape should render. Adobe is the darkest, MS is the lightest and Apple is in between leaning towards Adobe. Establishing this in 2007 was job 1, job 1101, was making Franky with "all weights possible." This weight choice takes care of whatever preferences clash in this area between user and web site developer, user and font vendor, or user and OS rendering. Good?
-
-I don't think users should have their text type color decided for them by anyone but themselves, especially when the 'opposing camps' are doing it for reasons divorced nearly entirely from user preferences. 
-
-KL>Question is how to package the “for size” and “for device” fonts (which I consider to be sub-categories of “for style”) — I mean: in terms of font naming.
-
-I worship variations so I don't have to name every possible style. I worship the web because it's a place where users can make choices based on appearance alone, and because I don't have to 'deliver' anything. 
-
-JH>But such an approach also means completely rebuilding all the size-specific fonts that various type designers have been making for the past twenty years, rather than just adding some size meta data that identifies at which sizes these existing fonts should be used...
-
-Why is it either or? If a font is made for one size, add a little data that indicates it. If a font is made for a lot of sizes, add a lot of data to indicate it. But everything beats the one-size-fits-all outline that can't do so in reality. We rebuilt all the per-size designs into outlines in the 70's and 80's, nobody seemed to mind then. ;)
-
-Cheers!</div>
+		<div class="commentbody"><p>CS&gt;The well-known, opposing camps — Windows crispness versus Mac smoothness — would quite possibly prefer different designs for those two styles&hellip;</p>
+<p>Absolutely. The OS have expressed their &lsquo;preferences&rsquo; for how dark a given shape should render. Adobe is the darkest, MS is the lightest and Apple is in between leaning towards Adobe. Establishing this in 2007 was job 1, job 1101, was making Franky with &ldquo;all weights possible.&rdquo; This weight choice takes care of whatever preferences clash in this area between user and web site developer, user and font vendor, or user and OS rendering. Good?</p>
+<p>I don&rsquo;t think users should have their text type color decided for them by anyone but themselves, especially when the &lsquo;opposing camps&rsquo; are doing it for reasons divorced nearly entirely from user preferences.</p>
+<p>KL&gt;Question is how to package the “for size” and “for device” fonts (which I consider to be sub-categories of “for style”) — I mean: in terms of font naming.</p>
+<p>I worship variations so I don&rsquo;t have to name every possible style. I worship the web because it&rsquo;s a place where users can make choices based on appearance alone, and because I don&rsquo;t have to &lsquo;deliver&rsquo; anything.</p>
+<p>JH&gt;But such an approach also means completely rebuilding all the size-specific fonts that various type designers have been making for the past twenty years, rather than just adding some size meta data that identifies at which sizes these existing fonts should be used&hellip;</p>
+<p>Why is it either or? If a font is made for one size, add a little data that indicates it. If a font is made for a lot of sizes, add a lot of data to indicate it. But everything beats the one-size-fits-all outline that can&rsquo;t do so in reality. We rebuilt all the per-size designs into outlines in the 70&rsquo;s and 80&rsquo;s, nobody seemed to mind then. ;)</p>
+<p>Cheers!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -452,16 +408,12 @@ Cheers!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"> understand arguments towards having ppem-specific fonts. Goal is to choose font optimal for readability by automatically choosing font based on calculated ppem size. However, there are scenarios where you will have same variation to be displayed at different ppem sizes, even ones it is not intended for. 
-
-For example, if you read PDF on various devices you have to display text using font chosen by document creator. Or you are just zooming in document in Word. For dynamic document scenario, many of you are using optical zoom in Safari on iPhone. All these scenarios do not change resolved font while ppem changes, which means choice is ppem-independent. For all these sizes font should be displayed as good as possible.
-
-For me as layout applications developer, it means that this may be better to have different ppem sizes in one physical font, using same glyph index and changing glyph proportions as less as possible. Of course, it places restrictions over how font can achieve this and hinting is the way it is done now. 
-
-Of course, font variants can include ppem axis to choose from. But there should be a way to choose ppem-independent variant. This will be application’s choice to use ppem-independent variant if scenario is using fixed layout or optical zoom.
-
-Thanks,
-Sergey
+		<div class="commentbody"><p>understand arguments towards having ppem-specific fonts. Goal is to choose font optimal for readability by automatically choosing font based on calculated ppem size. However, there are scenarios where you will have same variation to be displayed at different ppem sizes, even ones it is not intended for.</p>
+<p>For example, if you read PDF on various devices you have to display text using font chosen by document creator. Or you are just zooming in document in Word. For dynamic document scenario, many of you are using optical zoom in Safari on iPhone. All these scenarios do not change resolved font while ppem changes, which means choice is ppem-independent. For all these sizes font should be displayed as good as possible.</p>
+<p>For me as layout applications developer, it means that this may be better to have different ppem sizes in one physical font, using same glyph index and changing glyph proportions as less as possible. Of course, it places restrictions over how font can achieve this and hinting is the way it is done now.</p>
+<p>Of course, font variants can include ppem axis to choose from. But there should be a way to choose ppem-independent variant. This will be application’s choice to use ppem-independent variant if scenario is using fixed layout or optical zoom.</p>
+<p>Thanks,
+Sergey</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -483,15 +435,14 @@ Sergey
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">>All these scenarios do not change resolved font while ppem changes, which means choice is ppem-independent.
-
-All 'page scaling scenarios' mean choice is ppem-independent, all 'font sizing scenarios' are another thing. Zoom scales pages. Print scales pages. Graphic designers size fonts. Web users size fonts. 
-
-If one lumps them together as Serge does, and then says, "all sizes should be displayed as good as possible", well, that's where we've been. 
-
-What I did was make what would it look like if  "each size would be displayed as well as possible?" Then, I made a list of how to get that to a user. Then, I made a list of who's stopping it. Now, I'm writing a blog on why I think this sad state exists. 
-
-Cheers!</div>
+		<div class="commentbody"><blockquote>
+<p>All these scenarios do not change resolved font while ppem changes, which means choice is ppem-independent.</p>
+</blockquote>
+<p>All &lsquo;page scaling scenarios&rsquo; mean choice is ppem-independent, all &lsquo;font sizing scenarios&rsquo; are another thing. Zoom scales pages. Print scales pages. Graphic designers size fonts. Web users size fonts.</p>
+<p>If one lumps them together as Serge does, and then says, &ldquo;all sizes should be displayed as good as possible&rdquo;, well, that&rsquo;s where we&rsquo;ve been.</p>
+<p>What I did was make what would it look like if  &ldquo;each size would be displayed as well as possible?&rdquo; Then, I made a list of how to get that to a user. Then, I made a list of who&rsquo;s stopping it. Now, I&rsquo;m writing a blog on why I think this sad state exists.</p>
+<p>Cheers!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -512,15 +463,12 @@ Cheers!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I am not very enthusiastic about a GX or GSUB approach with all size/ppem-specific glyph variants inside the same font. I think it would make things more complicated and create problems, for example: How to handle vertical metrics? What about backwards-compatibility? File size? etc.
-
-It might be useful to make a parallel with interpolation technology. I find the Superpolator approach more powerful than MultipleMaster because it gives me more control on the topography of the variation space. I wish size/ppem-specific variations could follow a similar pattern.
-
-I like Karsten's ab123 procedure, but on b I would like to be able to specify a ppem-size instead of points. It should be possible to forget about points and paper altogether and deal only with serving ppem-specific designs for screen (step 1).
-
-Ideally, the infra-structure to package variations should be more generic than just a ppem axis and host other kinds of variations (there are many possibilities, specially if we finally embrace movement and color). The ppem axis should not expect proportional scaling of the design: higher ppem means only that glyphs get taller, not necessarily wider. And however sophisticated this system becomes, it should work with the lowest resolutions and plain b&w rasterization – screen resolution is increasing, but access to the web is not restricted to desktop computers.
-
-To put my ideas in context, here is an article about the <a href="http://www.hipertipo.org/pdfs/ElementarTYPO27.pdf">Elementar bitmap font system</a>, published in 2007 on TYPO magazine 27. Thanks to Pavel Zelenka for giving me permission to make it available on my website.</div>
+		<div class="commentbody"><p>I am not very enthusiastic about a GX or GSUB approach with all size/ppem-specific glyph variants inside the same font. I think it would make things more complicated and create problems, for example: How to handle vertical metrics? What about backwards-compatibility? File size? etc.</p>
+<p>It might be useful to make a parallel with interpolation technology. I find the Superpolator approach more powerful than MultipleMaster because it gives me more control on the topography of the variation space. I wish size/ppem-specific variations could follow a similar pattern.</p>
+<p>I like Karsten&rsquo;s ab123 procedure, but on b I would like to be able to specify a ppem-size instead of points. It should be possible to forget about points and paper altogether and deal only with serving ppem-specific designs for screen (step 1).</p>
+<p>Ideally, the infra-structure to package variations should be more generic than just a ppem axis and host other kinds of variations (there are many possibilities, specially if we finally embrace movement and color). The ppem axis should not expect proportional scaling of the design: higher ppem means only that glyphs get taller, not necessarily wider. And however sophisticated this system becomes, it should work with the lowest resolutions and plain b&amp;w rasterization – screen resolution is increasing, but access to the web is not restricted to desktop computers.</p>
+<p>To put my ideas in context, here is an article about the <!-- raw HTML omitted -->Elementar bitmap font system<!-- raw HTML omitted -->, published in 2007 on TYPO magazine 27. Thanks to Pavel Zelenka for giving me permission to make it available on my website.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -541,15 +489,12 @@ To put my ideas in context, here is an article about the <a href="http://www.hip
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I agree that trying to stuff many different sizes in the same font seems crazy.
-
-I wonder about the limitations of ppem specific sizes without also accounting for resolution. Do you think that the same pixel pattern is equally good for 24 ppem at 72 dpi and 144 dpi? I have suspected for a while that there ought to be some interplay with resolution.
-
-And what about the monitor type? Wouldn't your ideal pixel pattern differ between, say, the same LCD monitor in portrait and landscape modes? (I'm typing this on a 24" monitor currently in portrait mode with ClearType turned off.)
-
-Regards,
-
-T</div>
+		<div class="commentbody"><p>I agree that trying to stuff many different sizes in the same font seems crazy.</p>
+<p>I wonder about the limitations of ppem specific sizes without also accounting for resolution. Do you think that the same pixel pattern is equally good for 24 ppem at 72 dpi and 144 dpi? I have suspected for a while that there ought to be some interplay with resolution.</p>
+<p>And what about the monitor type? Wouldn&rsquo;t your ideal pixel pattern differ between, say, the same LCD monitor in portrait and landscape modes? (I&rsquo;m typing this on a 24&quot; monitor currently in portrait mode with ClearType turned off.)</p>
+<p>Regards,</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -570,21 +515,19 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">>I agree that trying to stuff many different sizes in the same font seems crazy.
-
-I think 64 is the max. Any more than that, yah, just crazy. 
-
->Do you think that the same pixel pattern is equally good for 24 ppem at 72 dpi and 144 dpi?
-
-yes, but that problem is nothing when compared to the reading comfort of millions of my fellow humans in the real world of resolution. 
-
->And what about the monitor type? 
-
-It's called the weight axis. 
-
-Cheers!
-
-
+		<div class="commentbody"><blockquote>
+<p>I agree that trying to stuff many different sizes in the same font seems crazy.</p>
+</blockquote>
+<p>I think 64 is the max. Any more than that, yah, just crazy.</p>
+<blockquote>
+<p>Do you think that the same pixel pattern is equally good for 24 ppem at 72 dpi and 144 dpi?</p>
+</blockquote>
+<p>yes, but that problem is nothing when compared to the reading comfort of millions of my fellow humans in the real world of resolution.</p>
+<blockquote>
+<p>And what about the monitor type?</p>
+</blockquote>
+<p>It&rsquo;s called the weight axis.</p>
+<p>Cheers!</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

@@ -71,42 +71,39 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">It’s from Minion Pro, dumped with TTX<strong>N</strong>:
-
-         <code>lookup frac_DFLT_dflt_2 {
-            sub [eight.numerator five.numerator four.numerator nine.numerator one.numerator
-                  seven.numerator six.numerator three.numerator two.numerator
-                  zero.numerator]
-               [space uni00A0]' ;
-                C sub space by space.frac;
-                C sub uni00A0 by uni00A0.frac;
-         } frac_DFLT_dflt_2;</code>
-
-"C sub"? (A working) TTXN would be cool, because when you have to fix a bug in the features of a font, you cannot really trust in FontLab, because it interprets the GSUB table likewise. After removing the GSUB tags, it should be possible to use the dumped table as feature file with makeotf (belongs to the AFDKO).
-
-TTXN does not seem to be able to store the classes, but puts the character lists directly into the features. That’s not a bug, but should be fixed likewise.
-
-And TTXN does sometimes not include, by which character/class something shall be replaced (End of code: "zero.numerator]' ;"):
-
-<code>lookup frac_DFLT_dflt_5 {
-            sub [cent.denominator comma.denominator dollar.denominator eight.denominator
-                  five.denominator fiveeighths four.denominator fraction hyphen.denominator
-                  nine.denominator one.denominator oneeighth onehalf onequarter onethird
-                  parenleft.denominator parenright.denominator period.denominator
-                  seven.denominator seveneighths six.denominator slash.frac
-                  three.denominator threeeighths threequarters two.denominator twothirds
-                  uni2215 zero.denominator]
-               [cent.numerator comma.numerator dollar.numerator eight.numerator
-                  five.numerator four.numerator hyphen.numerator nine.numerator
-                  one.numerator parenleft.numerator parenright.numerator period.numerator
-                  seven.numerator six.numerator three.numerator two.numerator
-                  zero.numerator]' ;</code></div>
+  <div class="post-content e-content" itemprop="articleBody"><p>It’s from Minion Pro, dumped with TTX<!-- raw HTML omitted -->N<!-- raw HTML omitted -->:</p>
+<pre><code>     &lt;code&gt;lookup frac_DFLT_dflt_2 {
+        sub [eight.numerator five.numerator four.numerator nine.numerator one.numerator
+              seven.numerator six.numerator three.numerator two.numerator
+              zero.numerator]
+           [space uni00A0]' ;
+            C sub space by space.frac;
+            C sub uni00A0 by uni00A0.frac;
+     } frac_DFLT_dflt_2;&lt;/code&gt;
+</code></pre>
+<p>&ldquo;C sub&rdquo;? (A working) TTXN would be cool, because when you have to fix a bug in the features of a font, you cannot really trust in FontLab, because it interprets the GSUB table likewise. After removing the GSUB tags, it should be possible to use the dumped table as feature file with makeotf (belongs to the AFDKO).</p>
+<p>TTXN does not seem to be able to store the classes, but puts the character lists directly into the features. That’s not a bug, but should be fixed likewise.</p>
+<p>And TTXN does sometimes not include, by which character/class something shall be replaced (End of code: &ldquo;zero.numerator]' ;&quot;):</p>
+<p><!-- raw HTML omitted -->lookup frac_DFLT_dflt_5 {
+sub [cent.denominator comma.denominator dollar.denominator eight.denominator
+five.denominator fiveeighths four.denominator fraction hyphen.denominator
+nine.denominator one.denominator oneeighth onehalf onequarter onethird
+parenleft.denominator parenright.denominator period.denominator
+seven.denominator seveneighths six.denominator slash.frac
+three.denominator threeeighths threequarters two.denominator twothirds
+uni2215 zero.denominator]
+[cent.numerator comma.numerator dollar.numerator eight.numerator
+five.numerator four.numerator hyphen.numerator nine.numerator
+one.numerator parenleft.numerator parenright.numerator period.numerator
+seven.numerator six.numerator three.numerator two.numerator
+zero.numerator]' ;<!-- raw HTML omitted --></p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Maybe you should add it to the bug tracker at SourceForge.
-
-http://sourceforge.net/tracker/?group_id=29196&atid=395372</div>
+		<div class="commentbody"><p>Maybe you should add it to the bug tracker at SourceForge.</p>
+<p><a href="http://sourceforge.net/tracker/?group_id=29196&amp;atid=395372">http://sourceforge.net/tracker/?group_id=29196&amp;atid=395372</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -127,9 +124,9 @@ http://sourceforge.net/tracker/?group_id=29196&atid=395372</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@ Andreas
-
-It’s not included in FontTools. TTXN is different from TTX. The options are the same, but it is a separate Python file. It seems to be developed by Adobe.</div>
+		<div class="commentbody"><p>@ Andreas</p>
+<p>It’s not included in FontTools. TTXN is different from TTX. The options are the same, but it is a separate Python file. It seems to be developed by Adobe.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -150,25 +147,17 @@ It’s not included in FontTools. TTXN is different from TTX. The options are th
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don’t know anything about Python, but I assume, that the problem with the "C sub …" is located at the following lines in TTXN.py:
-
-<code>ChainINDENT = INDENT + " C "</code>
-
-May it be, that not the character "C" was meant, but a control character?
-
-And the other problem may be located here, although there are more lines like that:
-
-<code>rule = "sub %s %s' %s by " % (backTxt, inputTxt, lookAheadTxt)</code>
-
-%s seems to be a placeholder for the variables (?) in the parentheses.
-
-In contradiction to other lines, in which anything is substituted there is no placeholder after the word by.
-
-I don’t want to try to correct anything in code, that I don’t understand. But I assume, it is not so difficult to fix these bugs. But maybe there are more bugs, which I have not yet discovered.
-
------------
-
-I wish, more of you would use the AFDKO instead of FontLab for generating the features. I mean, I am amateur, but there seem to be many professionals on the forum, that use FontLab for the OT features. But the AFDKO is really cool and as more people find those bugs, as easier it is, to improve the AFDKO.</div>
+		<div class="commentbody"><p>I don’t know anything about Python, but I assume, that the problem with the &ldquo;C sub …&rdquo; is located at the following lines in TTXN.py:</p>
+<p><!-- raw HTML omitted -->ChainINDENT = INDENT + &quot; C &ldquo;<!-- raw HTML omitted --></p>
+<p>May it be, that not the character &ldquo;C&rdquo; was meant, but a control character?</p>
+<p>And the other problem may be located here, although there are more lines like that:</p>
+<p><!-- raw HTML omitted -->rule = &ldquo;sub %s %s' %s by &quot; % (backTxt, inputTxt, lookAheadTxt)<!-- raw HTML omitted --></p>
+<p>%s seems to be a placeholder for the variables (?) in the parentheses.</p>
+<p>In contradiction to other lines, in which anything is substituted there is no placeholder after the word by.</p>
+<p>I don’t want to try to correct anything in code, that I don’t understand. But I assume, it is not so difficult to fix these bugs. But maybe there are more bugs, which I have not yet discovered.</p>
+<hr>
+<p>I wish, more of you would use the AFDKO instead of FontLab for generating the features. I mean, I am amateur, but there seem to be many professionals on the forum, that use FontLab for the OT features. But the AFDKO is really cool and as more people find those bugs, as easier it is, to improve the AFDKO.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -189,16 +178,13 @@ I wish, more of you would use the AFDKO instead of FontLab for generating the fe
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You can also generate the feature file with FontForge. PC users can use <a href="http://www.geocities.jp/meir000/fontforge"><strong>fontforge-mingw</strong></a>, a self contained  binary  (cf http://www.typophile.com/node/71038). Mac users can install FontForge with <a href="http://pdb.finkproject.org/pdb/browse.php?summary=fontforge"><strong>Fink</strong></a> (binary) or  Macports (requires compiling).
-
-On the mac I dot it with a script; doing the same on the PC is more tricky and I  won't have access to that machine before wednesday and I tried just once, to check.  I'll thus just say how to do it with the graphical interface. After opening the font.
-
-You click "Element > Font Info"
-[img:sites/default/files/old-images/fontinfo_6600.jpg]
-
-You then click "Lookups", <strong>right click</strong> on a feature and click on "Save Lookup..." to save the feature file for that lookup. You click on "Save Feature File..." to save the full feature file of that font.
-
-[img:sites/default/files/old-images/savefeatures_3773.jpg]</div>
+		<div class="commentbody"><p>You can also generate the feature file with FontForge. PC users can use <!-- raw HTML omitted --><!-- raw HTML omitted -->fontforge-mingw<!-- raw HTML omitted --><!-- raw HTML omitted -->, a self contained  binary  (cf <a href="http://www.typophile.com/node/71038)">http://www.typophile.com/node/71038)</a>. Mac users can install FontForge with <!-- raw HTML omitted --><!-- raw HTML omitted -->Fink<!-- raw HTML omitted --><!-- raw HTML omitted --> (binary) or  Macports (requires compiling).</p>
+<p>On the mac I dot it with a script; doing the same on the PC is more tricky and I  won&rsquo;t have access to that machine before wednesday and I tried just once, to check.  I&rsquo;ll thus just say how to do it with the graphical interface. After opening the font.</p>
+<p>You click &ldquo;Element &gt; Font Info&rdquo;
+[img:sites/default/files/old-images/fontinfo_6600.jpg]</p>
+<p>You then click &ldquo;Lookups&rdquo;, <!-- raw HTML omitted -->right click<!-- raw HTML omitted --> on a feature and click on &ldquo;Save Lookup&hellip;&rdquo; to save the feature file for that lookup. You click on &ldquo;Save Feature File&hellip;&rdquo; to save the full feature file of that font.</p>
+<p>[img:sites/default/files/old-images/savefeatures_3773.jpg]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -219,9 +205,9 @@ You then click "Lookups", <strong>right click</strong> on a feature and click on
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks, Michel!
-
-A few months ago, I already wanted to install FontForge. It is not yet installed. What is true for the AFDKO, is also true for FontForge. More people should try it. I will do.</div>
+		<div class="commentbody"><p>Thanks, Michel!</p>
+<p>A few months ago, I already wanted to install FontForge. It is not yet installed. What is true for the AFDKO, is also true for FontForge. More people should try it. I will do.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -242,17 +228,13 @@ A few months ago, I already wanted to install FontForge. It is not yet installed
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I think, I could make out, where the problem is, if I do the follwing:
-
-When I replace this
-
-rule = "sub %s %s' %s by " % (backTxt, inputTxt, lookAheadTxt)
-
-by this
-
-rule = "sub %s backTxt %s' inputTxt %s lookAheadTxt by " % (backTxt, inputTxt, lookAheadTxt)
-
-I probably can make out, which rule in the Python code is responsible for which decompiled sub rule.</div>
+		<div class="commentbody"><p>I think, I could make out, where the problem is, if I do the follwing:</p>
+<p>When I replace this</p>
+<p>rule = &ldquo;sub %s %s' %s by &quot; % (backTxt, inputTxt, lookAheadTxt)</p>
+<p>by this</p>
+<p>rule = &ldquo;sub %s backTxt %s' inputTxt %s lookAheadTxt by &quot; % (backTxt, inputTxt, lookAheadTxt)</p>
+<p>I probably can make out, which rule in the Python code is responsible for which decompiled sub rule.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -273,9 +255,9 @@ I probably can make out, which rule in the Python code is responsible for which 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>Thanks, Michel!</cite>
-
-Welcome. And I should try Volt. I would have if it had been available for OS X (or X Windows on Unix). For me, Microsoft Windows is the last resort.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Thanks, Michel!<!-- raw HTML omitted --></p>
+<p>Welcome. And I should try Volt. I would have if it had been available for OS X (or X Windows on Unix). For me, Microsoft Windows is the last resort.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -296,21 +278,12 @@ Welcome. And I should try Volt. I would have if it had been available for OS X (
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Arno,
-
-As was noted in the <a href="http://typophile.com/node/70841">Calibri kerning</a> thread and in <a href="http://www.typophile.com/node/71068#comment-414569">John Hudson's comment</a> in the <a href="http://www.typophile.com/node/71068">Checking Kerning Pairs in fonts</a> thread, ttx does not output all a kern subtable when it overflows.
-
-Here is a patch for the file <code>_k_e_r_n.py</code>. 
-<code>
-<p>34c34,35</p>
-<p>&lt; 				version, length = struct.unpack("&gt;HH", data[:4])</p>
-<p>---</p>
-<p>&gt; 				version, length, coverage, nPairs = struct.unpack("&gt;HHHH", data[:8])</p>
-<p>&gt; 				if ((self.version == 0.0) &amp; (length &lt; 14+6*nPairs)): length = 14+6*nPairs # Undocumented hack</p>
-</code>
-If I apply it, I get all kerning pairs of Calibri's <code>kern</code> table with ttx and ttxn. 
-
-I have no time to check if this is ok or not for all possible cases. If you want to have a look at that, that would be great.
+		<div class="commentbody"><p>Arno,</p>
+<p>As was noted in the <!-- raw HTML omitted -->Calibri kerning<!-- raw HTML omitted --> thread and in <!-- raw HTML omitted -->John Hudson&rsquo;s comment<!-- raw HTML omitted --> in the <!-- raw HTML omitted -->Checking Kerning Pairs in fonts<!-- raw HTML omitted --> thread, ttx does not output all a kern subtable when it overflows.</p>
+<p>Here is a patch for the file <!-- raw HTML omitted -->_k_e_r_n.py<!-- raw HTML omitted -->. 
+<!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>I have no time to check if this is ok or not for all possible cases. If you want to have a look at that, that would be great.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -332,34 +305,23 @@ I have no time to check if this is ok or not for all possible cases. If you want
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@ Michel
-
-<cite>34c34, 35</cite>
-
-Does this mean, that I shall replace line 34 by the other line and add a new line above the line, that is actually line 35?
-
-This
-
-<code>version, length = struct.unpack("&gt;HH", data[:4])
-length = int(length)</code>
-
-shall be replaced by?:
-
-<code>version, length, coverage, nPairs = struct.unpack("&gt;HHHH", data[:8])
-if ((self.version == 0.0) & (length &lt; 14+6*nPairs)): length = 14+6*nPairs # Undocumented hack
-length = int(length)</code>
-
-<cite>I have no time to check if this is ok or not for all possible cases. If you want to have a look at that, that would be great.</cite>
-
-I don’t know, how to check all possible cases. <a href="http://typophile.com/node/70841">The Calibri kerning thread</a> looks complicated. I feel, that I miss theory about these overfloating (?) tables and sub tables. I could compare dumps of some system fonts with the original and the unpached kern.py. Most of the new MS systems fonts are not installed here (except from Consolas), but I think, I have them somewhere.
-
-Edited
-
-I replaced it now in the way described in this post, but I get an error. Obviously I did replace the wrong code. I would try it again, if you explain a bit more precisely, what shall be replaced by what.
-
-And I found the Windows 7 system fonts. Calibri 5.62 is the latest version, that I have here.
-
-By the way, since this is another TTX bug, we maybe should ask a moderator to move the discussion.</div>
+		<div class="commentbody"><p>@ Michel</p>
+<p><!-- raw HTML omitted -->34c34, 35<!-- raw HTML omitted --></p>
+<p>Does this mean, that I shall replace line 34 by the other line and add a new line above the line, that is actually line 35?</p>
+<p>This</p>
+<p><!-- raw HTML omitted -->version, length = struct.unpack(&quot;&gt;HH&quot;, data[:4])
+length = int(length)<!-- raw HTML omitted --></p>
+<p>shall be replaced by?:</p>
+<p><!-- raw HTML omitted -->version, length, coverage, nPairs = struct.unpack(&quot;&gt;HHHH&quot;, data[:8])
+if ((self.version == 0.0) &amp; (length &lt; 14+6<em>nPairs)): length = 14+6</em>nPairs # Undocumented hack
+length = int(length)<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->I have no time to check if this is ok or not for all possible cases. If you want to have a look at that, that would be great.<!-- raw HTML omitted --></p>
+<p>I don’t know, how to check all possible cases. <!-- raw HTML omitted -->The Calibri kerning thread<!-- raw HTML omitted --> looks complicated. I feel, that I miss theory about these overfloating (?) tables and sub tables. I could compare dumps of some system fonts with the original and the unpached kern.py. Most of the new MS systems fonts are not installed here (except from Consolas), but I think, I have them somewhere.</p>
+<p>Edited</p>
+<p>I replaced it now in the way described in this post, but I get an error. Obviously I did replace the wrong code. I would try it again, if you explain a bit more precisely, what shall be replaced by what.</p>
+<p>And I found the Windows 7 system fonts. Calibri 5.62 is the latest version, that I have here.</p>
+<p>By the way, since this is another TTX bug, we maybe should ask a moderator to move the discussion.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -380,37 +342,28 @@ By the way, since this is another TTX bug, we maybe should ask a moderator to mo
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Okay, I tried it again and now it seems to work.
-
-I replaced
-
-<code>version, length = struct.unpack("&gt;HH", data[:4])
-length = int(length)</code>
-
-by
-
-<code>version, length, coverage, nPairs = struct.unpack("&gt;HHHH", data[:8])</code>
-<strong><code>length = int(length)</code></strong>
-<code>if ((self.version == 0.0) & (length &lt; 14+6*nPairs)): length = 14+6*nPairs # Undocumented hack</code>
-
-and get 26706 pairs.
-
-Did I replace it correctly this time?
-
-calibri.ttx: 26706
+		<div class="commentbody"><p>Okay, I tried it again and now it seems to work.</p>
+<p>I replaced</p>
+<p><!-- raw HTML omitted -->version, length = struct.unpack(&quot;&gt;HH&quot;, data[:4])
+length = int(length)<!-- raw HTML omitted --></p>
+<p>by</p>
+<p><!-- raw HTML omitted -->version, length, coverage, nPairs = struct.unpack(&quot;&gt;HHHH&quot;, data[:8])<!-- raw HTML omitted -->
+<!-- raw HTML omitted --><!-- raw HTML omitted -->length = int(length)<!-- raw HTML omitted --><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->if ((self.version == 0.0) &amp; (length &lt; 14+6<em>nPairs)): length = 14+6</em>nPairs # Undocumented hack<!-- raw HTML omitted --></p>
+<p>and get 26706 pairs.</p>
+<p>Did I replace it correctly this time?</p>
+<p>calibri.ttx: 26706
 cambriab.ttx: 31738
 cambriai.ttx: 36452
 cambriaz.ttx: 35714
 constan.ttx: 36740
 constanb.ttx: 36573
 constani.ttx: 38688
-constanz.ttx: 38417
-
-But this was probably not the check, for which you have asked (all possible cases).
-
-Edited
-
-Something very odd has just happened here: I had decompiled the kern tables of the fonts above only. And then I have merged them back (likewise with TTX). The checksums are the same as the ones of the original fonts. And the digital signatures are valid! That’s very odd!</div>
+constanz.ttx: 38417</p>
+<p>But this was probably not the check, for which you have asked (all possible cases).</p>
+<p>Edited</p>
+<p>Something very odd has just happened here: I had decompiled the kern tables of the fonts above only. And then I have merged them back (likewise with TTX). The checksums are the same as the ones of the original fonts. And the digital signatures are valid! That’s very odd!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -431,11 +384,11 @@ Something very odd has just happened here: I had decompiled the kern tables of t
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I was indeed replacing line 34 with two lines, 34 and 35, with the same indentation as old line 34, i.e. the <code>if</code> of line 35 is aligned with <code>version</code> of line 34 (which remains where it was). Here is how it looked on the screen with the proper indentation.
+		<div class="commentbody"><p>I was indeed replacing line 34 with two lines, 34 and 35, with the same indentation as old line 34, i.e. the <!-- raw HTML omitted -->if<!-- raw HTML omitted --> of line 35 is aligned with <!-- raw HTML omitted -->version<!-- raw HTML omitted --> of line 34 (which remains where it was). Here is how it looked on the screen with the proper indentation.
 [img:sites/default/files/old-images/diff_4804.jpg]
-I have an old version of Calibri with a different number of pairs. The one you get is the one John Hudson says there is. You thus got the right number. The funny thing is indeed that if you run ttx on the resulting file, it gives you back the big kerning table. You can see it with DTL OTMaster Light.
-
-What worries me is the specs, that I don't want to read, and I did not check either what struct.unpack actually does.</div>
+I have an old version of Calibri with a different number of pairs. The one you get is the one John Hudson says there is. You thus got the right number. The funny thing is indeed that if you run ttx on the resulting file, it gives you back the big kerning table. You can see it with DTL OTMaster Light.</p>
+<p>What worries me is the specs, that I don&rsquo;t want to read, and I did not check either what struct.unpack actually does.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -456,9 +409,9 @@ What worries me is the specs, that I don't want to read, and I did not check eit
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Sorry, it is not "overfloat" but "overflow". According to http://www.microsoft.com/typography/otspec/kern.htm, the kern table starts with two fields that are USHORT, the first containing a version number, the second the number of subtables. USHORT is a 16 bit unsigned short interger, and thus may be from 0 to 2**16-1, i.e. from 0 to  65535. Then follow the subtables, each starting with the fields version, length and coverage, which are also USHORT. The definition of the field "length" is "Length of the subtable, in bytes (including this header)." That means that the value of the length field may be from 0 to 65535, and thus the subtable may take at most 65535  bytes, else it "overflows". Of course, a subtable with 26706 kerning pairs, each taking 6 bytes, gives much more than the alloted 65535 bytes. It seems someone has done a "theological reinterpretation" of the specs. I'd like to see it in some "official" written text.
-
-Added: if in the spec they replaced "Length of the subtable, in bytes (including this header)." with "Length of the subtable modulo 65536, in bytes ...", with some explanations, I would like it better.</div>
+		<div class="commentbody"><p>Sorry, it is not &ldquo;overfloat&rdquo; but &ldquo;overflow&rdquo;. According to <a href="http://www.microsoft.com/typography/otspec/kern.htm">http://www.microsoft.com/typography/otspec/kern.htm</a>, the kern table starts with two fields that are USHORT, the first containing a version number, the second the number of subtables. USHORT is a 16 bit unsigned short interger, and thus may be from 0 to 2**16-1, i.e. from 0 to  65535. Then follow the subtables, each starting with the fields version, length and coverage, which are also USHORT. The definition of the field &ldquo;length&rdquo; is &ldquo;Length of the subtable, in bytes (including this header).&rdquo; That means that the value of the length field may be from 0 to 65535, and thus the subtable may take at most 65535  bytes, else it &ldquo;overflows&rdquo;. Of course, a subtable with 26706 kerning pairs, each taking 6 bytes, gives much more than the alloted 65535 bytes. It seems someone has done a &ldquo;theological reinterpretation&rdquo; of the specs. I&rsquo;d like to see it in some &ldquo;official&rdquo; written text.</p>
+<p>Added: if in the spec they replaced &ldquo;Length of the subtable, in bytes (including this header).&rdquo; with &ldquo;Length of the subtable modulo 65536, in bytes &hellip;&rdquo;, with some explanations, I would like it better.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -479,9 +432,9 @@ Added: if in the spec they replaced "Length of the subtable, in bytes (including
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>I was indeed replacing line 34 with two lines, 34 and 35, with the same indentation as old line 34, i.e. the if of line 35 is aligned with version of line 34 (which remains where it was). Here is how it looked on the screen with the proper indentation.</cite>
-
-That’s odd, because it did not work here. I will check that again.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->I was indeed replacing line 34 with two lines, 34 and 35, with the same indentation as old line 34, i.e. the if of line 35 is aligned with version of line 34 (which remains where it was). Here is how it looked on the screen with the proper indentation.<!-- raw HTML omitted --></p>
+<p>That’s odd, because it did not work here. I will check that again.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -502,11 +455,10 @@ That’s odd, because it did not work here. I will check that again.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@ Michel
-
-Quoting myself: <cite>I will check that again.</cite>
-
-I obviously made a mistake in my first attempt yesterday. The replacement, as it was explained by you, is working.</div>
+		<div class="commentbody"><p>@ Michel</p>
+<p>Quoting myself: <!-- raw HTML omitted -->I will check that again.<!-- raw HTML omitted --></p>
+<p>I obviously made a mistake in my first attempt yesterday. The replacement, as it was explained by you, is working.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -527,16 +479,10 @@ I obviously made a mistake in my first attempt yesterday. The replacement, as it
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><strong>Back to the bug in TTXN</strong>
-
-There is a bug in the lines above line 1235. At least two of the variables backTxt, inputTxt, lookAheadTxt are not correctly defined. And maybe the word "by" is missing.
-
-And the other bug is in in line 111 (ChainINDENT = INDENT + " C ").
-
-I am not competent to fix that. And it is so obviously, that there is a problem with the part of TTXN, which is responsible for the features, that I assume, there are more bugs.
-
-
-
+		<div class="commentbody"><p><!-- raw HTML omitted -->Back to the bug in TTXN<!-- raw HTML omitted --></p>
+<p>There is a bug in the lines above line 1235. At least two of the variables backTxt, inputTxt, lookAheadTxt are not correctly defined. And maybe the word &ldquo;by&rdquo; is missing.</p>
+<p>And the other bug is in in line 111 (ChainINDENT = INDENT + &quot; C &ldquo;).</p>
+<p>I am not competent to fix that. And it is so obviously, that there is a problem with the part of TTXN, which is responsible for the features, that I assume, there are more bugs.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -558,19 +504,14 @@ I am not competent to fix that. And it is so obviously, that there is a problem 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi Arno;
-
-I am not about to fix this particular problem, because ttxn is not meant for making a compile-able font - it is meant only to help compare different versions of basically the same font, and has output features that work against what you want. (see below). 
-
-You have lots of company in the desire for a tool that will decompile GPOS and GSUB tables to something directly usable. In the long run, I do plan to add this ability to 'spot'. In the short term - the next several months - the only path to what you want with the FDK tools is use the "spot -t GPOS=7" or "spot -t GSUB=7" commands, and then expect to do a lot of manual editing. 
-
-What 'ttxn' is about is producing a text dump of a font, that makes it easy to compare two different versions of a font. The idea is that you use ttxn to do a text dump of each of the two versions, and you use a text comparison tool, like the "Search for Differences.." in BBedit.It is useful only for relatively small differences, such as you get with most bug fixes. If you have just added a few glyphs, or corrected a few paths, or tweaked some kern values, or fixed some GPOS and GSUB differences, then ttxn is great for confirming that what you think you fixed did in fact change, and - just as important! -  that nothing else changed. 
-
-What makes ttxn more interesting than other tools which make text dump of fonts is that ttxn tries to remove all the things that make fonts look different inside, but have no functional consequences. For example, glyph order is normalized to alphabetic in all places where you see a list of glyphs. In the feature file, I tried to flatten all the different ways in which you can express a particular functional idea to the simplest common denominator. So, lookup order is important, but language system order or offset or whether coverage tables are shared aren't.
-
-In the case that you report, the "by <class list>" is missing from the end of the contextual rule,  and is instead replaced by a series of simple substitution rules, prefixed by "C", which comprise the set of simple substitutions which are applied to the contextual target string.The first 'C' rule is applied to the first glyph in the input string, the second to the second glyph in the input string, and so on. I did it this way just as a matter of expediency - it was easier, given the several different paths by which you end up with the secondary lookup tables - and I wasn't thinking about making a compile-able output.
-
-All that said, feel free to re-purpose the tool as you want - just give the variant a different name. If you are in doubt about just what is going to happen as a result of a given edit, just try and see. You can always check that you are getting what you want out of your fonts.</div>
+		<div class="commentbody"><p>Hi Arno;</p>
+<p>I am not about to fix this particular problem, because ttxn is not meant for making a compile-able font - it is meant only to help compare different versions of basically the same font, and has output features that work against what you want. (see below).</p>
+<p>You have lots of company in the desire for a tool that will decompile GPOS and GSUB tables to something directly usable. In the long run, I do plan to add this ability to &lsquo;spot&rsquo;. In the short term - the next several months - the only path to what you want with the FDK tools is use the &ldquo;spot -t GPOS=7&rdquo; or &ldquo;spot -t GSUB=7&rdquo; commands, and then expect to do a lot of manual editing.</p>
+<p>What &lsquo;ttxn&rsquo; is about is producing a text dump of a font, that makes it easy to compare two different versions of a font. The idea is that you use ttxn to do a text dump of each of the two versions, and you use a text comparison tool, like the &ldquo;Search for Differences..&rdquo; in BBedit.It is useful only for relatively small differences, such as you get with most bug fixes. If you have just added a few glyphs, or corrected a few paths, or tweaked some kern values, or fixed some GPOS and GSUB differences, then ttxn is great for confirming that what you think you fixed did in fact change, and - just as important! -  that nothing else changed.</p>
+<p>What makes ttxn more interesting than other tools which make text dump of fonts is that ttxn tries to remove all the things that make fonts look different inside, but have no functional consequences. For example, glyph order is normalized to alphabetic in all places where you see a list of glyphs. In the feature file, I tried to flatten all the different ways in which you can express a particular functional idea to the simplest common denominator. So, lookup order is important, but language system order or offset or whether coverage tables are shared aren&rsquo;t.</p>
+<p>In the case that you report, the &ldquo;by <!-- raw HTML omitted -->&rdquo; is missing from the end of the contextual rule,  and is instead replaced by a series of simple substitution rules, prefixed by &ldquo;C&rdquo;, which comprise the set of simple substitutions which are applied to the contextual target string.The first &lsquo;C&rsquo; rule is applied to the first glyph in the input string, the second to the second glyph in the input string, and so on. I did it this way just as a matter of expediency - it was easier, given the several different paths by which you end up with the secondary lookup tables - and I wasn&rsquo;t thinking about making a compile-able output.</p>
+<p>All that said, feel free to re-purpose the tool as you want - just give the variant a different name. If you are in doubt about just what is going to happen as a result of a given edit, just try and see. You can always check that you are getting what you want out of your fonts.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -591,17 +532,13 @@ All that said, feel free to re-purpose the tool as you want - just give the vari
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@ Read Roberts
-
-Thank you!
-
-<cite>All that said, feel free to re-purpose the tool as you want - just give the variant a different name.</cite>
-
-This would require, that I understand Python. I am probably not going to try re-purposing ttxn.
-
-What’s the best place for reporting bugs or proposing new functions of the AFDKO?
-
-When will the next version of the AFDKO be released?</div>
+		<div class="commentbody"><p>@ Read Roberts</p>
+<p>Thank you!</p>
+<p><!-- raw HTML omitted -->All that said, feel free to re-purpose the tool as you want - just give the variant a different name.<!-- raw HTML omitted --></p>
+<p>This would require, that I understand Python. I am probably not going to try re-purposing ttxn.</p>
+<p>What’s the best place for reporting bugs or proposing new functions of the AFDKO?</p>
+<p>When will the next version of the AFDKO be released?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -622,9 +559,9 @@ When will the next version of the AFDKO be released?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@ Michel
-
-I have exported the features of a font with Fontforge-mingw now, but I was searching for a tool, that rebuilds the feature file as close as possible to the original file with the syntax as it is required by the AFDKO and with classes outside the features – the same output, as you get it, if you export the features with FontLab, but without the FontLab bugs.</div>
+		<div class="commentbody"><p>@ Michel</p>
+<p>I have exported the features of a font with Fontforge-mingw now, but I was searching for a tool, that rebuilds the feature file as close as possible to the original file with the syntax as it is required by the AFDKO and with classes outside the features – the same output, as you get it, if you export the features with FontLab, but without the FontLab bugs.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -645,7 +582,7 @@ I have exported the features of a font with Fontforge-mingw now, but I was searc
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I have never "massaged" feature files exported by FontForge and I don't use FontLab (all I have is a demo version). As for using FontForge's fea output in AFDKO, I think that is what John Hudson wanted to do after this post: http://typophile.com/node/69658. From a subsequent message, I understand John had a bug in some .fea file and a little afterwards  was posted a message concerning a bug that had been corrected in makeotf http://typophile.com/node/70019. My guess is that the match is not perfect yet though these posts may not be related...</div>
+		<div class="commentbody">I have never &ldquo;massaged&rdquo; feature files exported by FontForge and I don&rsquo;t use FontLab (all I have is a demo version). As for using FontForge&rsquo;s fea output in AFDKO, I think that is what John Hudson wanted to do after this post: <a href="http://typophile.com/node/69658">http://typophile.com/node/69658</a>. From a subsequent message, I understand John had a bug in some .fea file and a little afterwards  was posted a message concerning a bug that had been corrected in makeotf <a href="http://typophile.com/node/70019">http://typophile.com/node/70019</a>. My guess is that the match is not perfect yet though these posts may not be related&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -666,9 +603,9 @@ I have exported the features of a font with Fontforge-mingw now, but I was searc
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Arno: <em>[...] a tool, that rebuilds the feature file as close as possible to the original file with the syntax as it is required by the AFDKO [...]</em>
-
-Perhaps the <em>Export...</em> function in OTM (Light) is useful?</div>
+		<div class="commentbody"><p>Arno: <!-- raw HTML omitted -->[&hellip;] a tool, that rebuilds the feature file as close as possible to the original file with the syntax as it is required by the AFDKO [&hellip;]<!-- raw HTML omitted --></p>
+<p>Perhaps the <!-- raw HTML omitted -->Export&hellip;<!-- raw HTML omitted --> function in OTM (Light) is useful?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -689,9 +626,9 @@ Perhaps the <em>Export...</em> function in OTM (Light) is useful?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Michel, to my my knowledge those two posts are not related.
-
-The feature syntax extracted from the FontForge source turned out to have a number of bugs (identified for me by Karsten Leucke), which caused makeotf to fail. When these were fixed, makeotf worked fine. The question I was left with was whether FontForge would compile the feature code with these syntax errors, but since I didn't need an answer to that question to complete my project, I didn't pursue it. The feature code was part of an open source FontForge file, so unless there were a disconnect between that source and the shipping version of that font, perhaps FontForge is more forgiving of syntax errors than makeotf.</div>
+		<div class="commentbody"><p>Michel, to my my knowledge those two posts are not related.</p>
+<p>The feature syntax extracted from the FontForge source turned out to have a number of bugs (identified for me by Karsten Leucke), which caused makeotf to fail. When these were fixed, makeotf worked fine. The question I was left with was whether FontForge would compile the feature code with these syntax errors, but since I didn&rsquo;t need an answer to that question to complete my project, I didn&rsquo;t pursue it. The feature code was part of an open source FontForge file, so unless there were a disconnect between that source and the shipping version of that font, perhaps FontForge is more forgiving of syntax errors than makeotf.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -712,9 +649,9 @@ The feature syntax extracted from the FontForge source turned out to have a numb
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@ Frank
-
-OTMaster is useful. But for me it is easier to fix the bugs in the feature file exported by FontLab. FontLab rebuilds the classes, OTMaster doesn’t. I loose the overview in feature files, that were exported by OTMaster. The problem with FontLab is, that the (de)compiler is old. (Which version of the AFDKO decompiler is built in FontLab? It is the AFDKO decompiler, isn’t it?)</div>
+		<div class="commentbody"><p>@ Frank</p>
+<p>OTMaster is useful. But for me it is easier to fix the bugs in the feature file exported by FontLab. FontLab rebuilds the classes, OTMaster doesn’t. I loose the overview in feature files, that were exported by OTMaster. The problem with FontLab is, that the (de)compiler is old. (Which version of the AFDKO decompiler is built in FontLab? It is the AFDKO decompiler, isn’t it?)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -735,9 +672,9 @@ OTMaster is useful. But for me it is easier to fix the bugs in the feature file 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@ John Hudson
-
-It is not clear what version of FontForge were you using, but there were indeed a number of bugs in feature file generation (and application) code that I reported and was fixed in the last release, not sure if those are the bugs you encountered, but if you can elaborate more, I can try reporting any remaining bugs.</div>
+		<div class="commentbody"><p>@ John Hudson</p>
+<p>It is not clear what version of FontForge were you using, but there were indeed a number of bugs in feature file generation (and application) code that I reported and was fixed in the last release, not sure if those are the bugs you encountered, but if you can elaborate more, I can try reporting any remaining bugs.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -758,27 +695,21 @@ It is not clear what version of FontForge were you using, but there were indeed 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Arno, 
-
-there is no "AFDKO decompiler". As Read Roberts (the principal developer of AFDKO) mentioned above, the ability to fully decompile binary OpenType Layout tables into feature definitions in AFDKO syntax isn't part of AFDKO. 
-
-Several products allow partial decompilation into syntax that is fully or mostly compatible with AFDKO: 
+		<div class="commentbody"><p>Arno,</p>
+<p>there is no &ldquo;AFDKO decompiler&rdquo;. As Read Roberts (the principal developer of AFDKO) mentioned above, the ability to fully decompile binary OpenType Layout tables into feature definitions in AFDKO syntax isn&rsquo;t part of AFDKO.</p>
+<p>Several products allow partial decompilation into syntax that is fully or mostly compatible with AFDKO: 
 — the Adobe FDK for OpenType itself (in the spot and ttxn tools, but the output is only partially compatible with the strict AFDKO syntax)
 — FontLab Studio 5 (but this is based on the AFDKO version 1.6 syntax, not the new 2.5 syntax, since FLS5 includes the AFDKO version 1.6 compiler)
 — FontForge (which uses syntax mostly compatible with AFDKO, but uses its own code to compile from the syntax into binary tables)
-— DTL OTMaster (which does decompile into AFDKO 2.5 syntax, but in a way that I find somewhat difficult to read)
-
-In addition, FontLab Studio 5 includes an AFDKO-to-VOLT syntax converter, but it’s not quite perfect. Also, the Font-TTF package written in Perl by Martin Hosken includes a ttf2volt decompiler (which also works on .otf fonts despite its name) and a volt2ttf compiler, which use the VOLT syntax, but also only have partial support. 
-
-So, there are two principal syntaxes for defining OpenType Layout features support: AFDKO and VOLT. There are two "full compilers", i.e. AFDKO and VOLT themselves. There are two "partial compilers" (FontForge for the AFDKO syntax, and volt2ttf for the VOLT syntax). And there are several partial decompilers, but none that would support the formats fully. There is even a partial AAT-to-AFDKO syntax decompiler (in FontLab Studio), but none that would do the reverse thing. 
-
-There is one partial AFDKO-to-VOLT converter (in FLS5), and there is no direct VOLT-to-AFDKO converter. Conversion can, however, be done using the binary tables as an intermediary (i.e. compile from one syntax, then decompile into another). But since all the decompilers are partial, the conversion is not hassle-free. 
-
-Of course, we at FontLab are working towards the goal of being able to complete these tasks better. I hope that Read Roberts can help us here by writing a fully-featured decompiler into the AFDKO syntax that would become part of the standard AFDKO distribution, and could be integrated into font development tools that incorporate the AFDKO libraries. 
-
-Best,
+— DTL OTMaster (which does decompile into AFDKO 2.5 syntax, but in a way that I find somewhat difficult to read)</p>
+<p>In addition, FontLab Studio 5 includes an AFDKO-to-VOLT syntax converter, but it’s not quite perfect. Also, the Font-TTF package written in Perl by Martin Hosken includes a ttf2volt decompiler (which also works on .otf fonts despite its name) and a volt2ttf compiler, which use the VOLT syntax, but also only have partial support.</p>
+<p>So, there are two principal syntaxes for defining OpenType Layout features support: AFDKO and VOLT. There are two &ldquo;full compilers&rdquo;, i.e. AFDKO and VOLT themselves. There are two &ldquo;partial compilers&rdquo; (FontForge for the AFDKO syntax, and volt2ttf for the VOLT syntax). And there are several partial decompilers, but none that would support the formats fully. There is even a partial AAT-to-AFDKO syntax decompiler (in FontLab Studio), but none that would do the reverse thing.</p>
+<p>There is one partial AFDKO-to-VOLT converter (in FLS5), and there is no direct VOLT-to-AFDKO converter. Conversion can, however, be done using the binary tables as an intermediary (i.e. compile from one syntax, then decompile into another). But since all the decompilers are partial, the conversion is not hassle-free.</p>
+<p>Of course, we at FontLab are working towards the goal of being able to complete these tasks better. I hope that Read Roberts can help us here by writing a fully-featured decompiler into the AFDKO syntax that would become part of the standard AFDKO distribution, and could be integrated into font development tools that incorporate the AFDKO libraries.</p>
+<p>Best,
 Adam Twardoch
-Fontlab Ltd.</div>
+Fontlab Ltd.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -799,26 +730,23 @@ Fontlab Ltd.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks, Adam!
-
-Do you have a list of problems with FontLab, if it tries to decompile fonts, that were built with the AFDKO 2.5? A way, how the user can identify problems, that are caused by the changes of the syntax? A comparison of input Makeotf and output FontLab?
-
-This is from NewFeatureSyntaxIn2.5.txt:
-
-# Examples of new feature file syntax for FDK 2.5
-# Oct 21 2008
-
-# languagesystem DFLT dflt;
-# stand-alone lookup: definded outside of a feature block
-# Names for stylistic set features
-# Multiple substitution
-# Reverse chaining substitution
-# Contextual chaining substitution with explicit lookup references
-# Named anchor and named value record
-# Cursive adjustment
-# Mark adjustments
-# Contextual chaining positioning 
-# GDEF table definition</div>
+		<div class="commentbody"><p>Thanks, Adam!</p>
+<p>Do you have a list of problems with FontLab, if it tries to decompile fonts, that were built with the AFDKO 2.5? A way, how the user can identify problems, that are caused by the changes of the syntax? A comparison of input Makeotf and output FontLab?</p>
+<p>This is from NewFeatureSyntaxIn2.5.txt:</p>
+<h1 id="examples-of-new-feature-file-syntax-for-fdk-25">Examples of new feature file syntax for FDK 2.5</h1>
+<h1 id="oct-21-2008">Oct 21 2008</h1>
+<h1 id="languagesystem-dflt-dflt">languagesystem DFLT dflt;</h1>
+<h1 id="stand-alone-lookup-definded-outside-of-a-feature-block">stand-alone lookup: definded outside of a feature block</h1>
+<h1 id="names-for-stylistic-set-features">Names for stylistic set features</h1>
+<h1 id="multiple-substitution">Multiple substitution</h1>
+<h1 id="reverse-chaining-substitution">Reverse chaining substitution</h1>
+<h1 id="contextual-chaining-substitution-with-explicit-lookup-references">Contextual chaining substitution with explicit lookup references</h1>
+<h1 id="named-anchor-and-named-value-record">Named anchor and named value record</h1>
+<h1 id="cursive-adjustment">Cursive adjustment</h1>
+<h1 id="mark-adjustments">Mark adjustments</h1>
+<h1 id="contextual-chaining-positioning">Contextual chaining positioning</h1>
+<h1 id="gdef-table-definition">GDEF table definition</h1>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -839,11 +767,10 @@ This is from NewFeatureSyntaxIn2.5.txt:
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@twardoch 
-
-<cite>There are two "partial compilers" (FontForge for the AFDKO syntax, and volt2ttf for the VOLT syntax).</cite>
-
-To the best of my knowledge, FontForge even supports the documented-but-not-yet-implemented parts of adobe's feature file syntax. I'd like to know about what is not implemented in FontForge to qualify it for a "partial compiler".</div>
+		<div class="commentbody"><p>@twardoch</p>
+<p><!-- raw HTML omitted -->There are two &ldquo;partial compilers&rdquo; (FontForge for the AFDKO syntax, and volt2ttf for the VOLT syntax).<!-- raw HTML omitted --></p>
+<p>To the best of my knowledge, FontForge even supports the documented-but-not-yet-implemented parts of adobe&rsquo;s feature file syntax. I&rsquo;d like to know about what is not implemented in FontForge to qualify it for a &ldquo;partial compiler&rdquo;.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -864,11 +791,10 @@ To the best of my knowledge, FontForge even supports the documented-but-not-yet-
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Khaled, 
-
-I think my point of being "partial" is that George does not claim to support the AFDKO syntax per se, but is using a syntax that is "almost identical". As far as I remember reading the docs. 
-
-I'm not saying it's a bad thing, it's just not AFDKO. </div>
+		<div class="commentbody"><p>Khaled,</p>
+<p>I think my point of being &ldquo;partial&rdquo; is that George does not claim to support the AFDKO syntax per se, but is using a syntax that is &ldquo;almost identical&rdquo;. As far as I remember reading the docs.</p>
+<p>I&rsquo;m not saying it&rsquo;s a bad thing, it&rsquo;s just not AFDKO.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -889,7 +815,7 @@ I'm not saying it's a bad thing, it's just not AFDKO. </div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">OK, it was a genuine question, since I intend to use feature files as an exchange format, but I don't have regular access to non-linux machines to actually test with AFDKO, so I was interested in knowing any "known" incompatibilities.</div>
+		<div class="commentbody">OK, it was a genuine question, since I intend to use feature files as an exchange format, but I don&rsquo;t have regular access to non-linux machines to actually test with AFDKO, so I was interested in knowing any &ldquo;known&rdquo; incompatibilities.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -910,14 +836,10 @@ I'm not saying it's a bad thing, it's just not AFDKO. </div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Here is a copy-paste from http://fontforge.sourceforge.net/featurefile.html. This is what George Williams says about it (or at least about the specs)
-
-<strong>Major differences between FontForge's and Adobe's interpretation of feature files</strong>
-
-Not really any, any more. Except that FontForge supports much of the syntax which adobe documents but does not support. Adobe continues to reserve the right to change the syntax of anything they do not currently support.
-
-In November 2008 Adobe made radical changes to the feature file format. This meant that my extensions were no longer needed. It also as an incompatible change from the earlier format. FontForge should (still) be able to parse files written in the earlier format, as well as files written in the new format. It will only produce files in the new format now (actually there is a compile time flag which will revert output to the old format, but I haven't tested it).
-
+		<div class="commentbody"><p>Here is a copy-paste from <a href="http://fontforge.sourceforge.net/featurefile.html">http://fontforge.sourceforge.net/featurefile.html</a>. This is what George Williams says about it (or at least about the specs)</p>
+<p><!-- raw HTML omitted -->Major differences between FontForge&rsquo;s and Adobe&rsquo;s interpretation of feature files<!-- raw HTML omitted --></p>
+<p>Not really any, any more. Except that FontForge supports much of the syntax which adobe documents but does not support. Adobe continues to reserve the right to change the syntax of anything they do not currently support.</p>
+<p>In November 2008 Adobe made radical changes to the feature file format. This meant that my extensions were no longer needed. It also as an incompatible change from the earlier format. FontForge should (still) be able to parse files written in the earlier format, as well as files written in the new format. It will only produce files in the new format now (actually there is a compile time flag which will revert output to the old format, but I haven&rsquo;t tested it).</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

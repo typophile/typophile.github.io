@@ -71,21 +71,21 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">So, as a sort of oddity I'm adding fists/manicules to my latest typeface and I figured arrows would be handy as well. Now, I have them mapped with the appropriate unicodes as far as possible. To make them more accessible I figured I would create a stylistic set so you can type >> to make an arrow. However, when I add the code and I click on compile OpenType program it tells me it has to abort because of errors.
-
-I must be doing something wrong. How do you usually map these kind of symbols to OT functions, or don't you?
-
-feature ss07 { # Stylistic Set 7
- # DEFAULT
-		sub > > by arrowright;
-		sub < < by arrowleft;
-		sub > > > by blackmaniculeright;
-		sub < < < by blackmaniculeleft;
-} ss07;</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>So, as a sort of oddity I&rsquo;m adding fists/manicules to my latest typeface and I figured arrows would be handy as well. Now, I have them mapped with the appropriate unicodes as far as possible. To make them more accessible I figured I would create a stylistic set so you can type &raquo; to make an arrow. However, when I add the code and I click on compile OpenType program it tells me it has to abort because of errors.</p>
+<p>I must be doing something wrong. How do you usually map these kind of symbols to OT functions, or don&rsquo;t you?</p>
+<p>feature ss07 { # Stylistic Set 7</p>
+<h1 id="default">DEFAULT</h1>
+<pre><code>	sub &gt; &gt; by arrowright;
+	sub &lt; &lt; by arrowleft;
+	sub &gt; &gt; &gt; by blackmaniculeright;
+	sub &lt; &lt; &lt; by blackmaniculeleft;
+</code></pre>
+<p>} ss07;</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You need to use unicode names: replace ">" by "greater" and "<" by "less"</div>
+		<div class="commentbody">You need to use unicode names: replace &ldquo;&gt;&rdquo; by &ldquo;greater&rdquo; and &ldquo;&lt;&rdquo; by &ldquo;less&rdquo;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -128,8 +128,8 @@ Also, do style sets support many-to-one? If not, you may need to put this in dis
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">https://www.microsoft.com/typography/otspec/features_pt.htm#ssxx
-"Each ssXX feature uses one-to-one (GSUB lookup type 1) substitutions."</div>
+		<div class="commentbody"><a href="https://www.microsoft.com/typography/otspec/features_pt.htm#ssxx">https://www.microsoft.com/typography/otspec/features_pt.htm#ssxx</a>
+&ldquo;Each ssXX feature uses one-to-one (GSUB lookup type 1) substitutions.&rdquo;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -171,7 +171,7 @@ Also, do style sets support many-to-one? If not, you may need to put this in dis
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">ONE glyph input -> ONE glyph output
+		<div class="commentbody">ONE glyph input -&gt; ONE glyph output
 BTW your font app will not allow you to do something like this in ssXX:
 sub \greater \greater by \arrowright;</div>
 	</div>
@@ -194,10 +194,8 @@ sub \greater \greater by \arrowright;</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><blockquote>ONE glyph input -> ONE glyph output</blockquote>
-I still don't understand what that might mean. I have a stylistic set where I replace I J with an IJ digraph and it works perfectly.
-
-By the way, should I be using the backslash in the features or was that just to denote the glyphs to be replaced?</div>
+		<div class="commentbody"><!-- raw HTML omitted -->
+<p>By the way, should I be using the backslash in the features or was that just to denote the glyphs to be replaced?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -218,15 +216,14 @@ By the way, should I be using the backslash in the features or was that just to 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, FontLab accepts
+		<div class="commentbody"><p>Yes, FontLab accepts
 sub \I \J by \IJ.alt ;
 in ssXX, but it is clearly against the Microsoft OTspec (see above). Most probably it is a bug.
-BTW FontForge crashes when such a stylistic set is invoked.
-
-"By the way, should I be using the backslash..."
-http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#2.d
- <\    backslash       Identifies CIDs. Distinguishes glyph names from an identical keyword>
-Looks like people usually don't use backslashes in front of glyph names.
+BTW FontForge crashes when such a stylistic set is invoked.</p>
+<p>&ldquo;By the way, should I be using the backslash&hellip;&rdquo;
+<a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#2.d">http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#2.d</a>
+&lt;\    backslash       Identifies CIDs. Distinguishes glyph names from an identical keyword&gt;
+Looks like people usually don&rsquo;t use backslashes in front of glyph names.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -269,11 +266,10 @@ Looks like people usually don't use backslashes in front of glyph names.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It seems unnecessarily cautious to use backslashes routinely. Especially given that there are no standard glyph names that are also OpenType feature keywords.  
-
-It is handy in the unlikely case that you need to name a glyph something like "sub" or "lookup", but if you do happen to use a keyword as a glyph name, the compiler will complain, letting you know to use a backslash (or a different name). 
-
-But, no need to do it all the time preemptively, unless you want to. </div>
+		<div class="commentbody"><p>It seems unnecessarily cautious to use backslashes routinely. Especially given that there are no standard glyph names that are also OpenType feature keywords.</p>
+<p>It is handy in the unlikely case that you need to name a glyph something like &ldquo;sub&rdquo; or &ldquo;lookup&rdquo;, but if you do happen to use a keyword as a glyph name, the compiler will complain, letting you know to use a backslash (or a different name).</p>
+<p>But, no need to do it all the time preemptively, unless you want to.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -294,7 +290,7 @@ But, no need to do it all the time preemptively, unless you want to. </div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Agreed with cerulean, stylistic sets are not supposed to contain ligatures. Also agreed that if you were going to do this as a ligation, 'dlig' would be appropriate.</div>
+		<div class="commentbody">Agreed with cerulean, stylistic sets are not supposed to contain ligatures. Also agreed that if you were going to do this as a ligation, &lsquo;dlig&rsquo; would be appropriate.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -315,7 +311,7 @@ But, no need to do it all the time preemptively, unless you want to. </div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">By the way, how do you handle the fact that some software just have no way to access the OT features in a certain way? There are some differences between the Typography panels from Photoshop, Illustrator and InDesign. In some cases you need stylistic sets while in other cases you can't access them. That's why I created a few extra stylistic sets so some of the rather standard OT functions can still be accessed in all software.</div>
+		<div class="commentbody">By the way, how do you handle the fact that some software just have no way to access the OT features in a certain way? There are some differences between the Typography panels from Photoshop, Illustrator and InDesign. In some cases you need stylistic sets while in other cases you can&rsquo;t access them. That&rsquo;s why I created a few extra stylistic sets so some of the rather standard OT functions can still be accessed in all software.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -336,11 +332,10 @@ But, no need to do it all the time preemptively, unless you want to. </div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It's a classic catch-22. The app makers (e.g., Adobe) need to support this stuff better, but they don't because they say users aren't asking for it. Users aren't asking for it because, since the apps don't support it, they don't know it exists. Given this situation, workarounds are understandable, but we would all be better off if the basic problem were resolved. 
-
-There's a petition effort going on right now to (hopefully) address this. You might be interested:
-
-http://ilovetypography.com/2014/10/25/why-a-better-opentype-user-interface-matters/</div>
+		<div class="commentbody"><p>It&rsquo;s a classic catch-22. The app makers (e.g., Adobe) need to support this stuff better, but they don&rsquo;t because they say users aren&rsquo;t asking for it. Users aren&rsquo;t asking for it because, since the apps don&rsquo;t support it, they don&rsquo;t know it exists. Given this situation, workarounds are understandable, but we would all be better off if the basic problem were resolved.</p>
+<p>There&rsquo;s a petition effort going on right now to (hopefully) address this. You might be interested:</p>
+<p><a href="http://ilovetypography.com/2014/10/25/why-a-better-opentype-user-interface-matters/">http://ilovetypography.com/2014/10/25/why-a-better-opentype-user-interface-matters/</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -361,9 +356,9 @@ http://ilovetypography.com/2014/10/25/why-a-better-opentype-user-interface-matte
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Oh I'm definitely interested.
-
-I agree with your statement, but I also wonder despite whether we're interested in it or not, why the typography panels need to be different anyway. InDesign's typography panel has just about everything. I think they more or less know users want more options, because in Photoshop CC there's finally access to OT functions, though the glyphs window is still not included. I just see no practical reason for making these panels different in all three programs. I guess they have been developed independently, but since a few years now they ought to be the same, based on InDesign's typography panel.</div>
+		<div class="commentbody"><p>Oh I&rsquo;m definitely interested.</p>
+<p>I agree with your statement, but I also wonder despite whether we&rsquo;re interested in it or not, why the typography panels need to be different anyway. InDesign&rsquo;s typography panel has just about everything. I think they more or less know users want more options, because in Photoshop CC there&rsquo;s finally access to OT functions, though the glyphs window is still not included. I just see no practical reason for making these panels different in all three programs. I guess they have been developed independently, but since a few years now they ought to be the same, based on InDesign&rsquo;s typography panel.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

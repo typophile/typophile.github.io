@@ -71,36 +71,28 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Dear forum,
-
-I'm getting a subtable overflow while trying to compile my features within FL Studio.
-Now I tried building the kern feature with FDK, but still I'm getting an overflow. No mixing up different scripts within the classes and also kerning should not be too much (3400 pairs, when expanded 152k).
-<em>GPOS feature 'kern' causes overflow of offset to a subtable (0x11a00)</em>
-
-Also there's quite a lot of this stuff:
-<em>Pair positioning has two different values in 'kern' feature; choosing the smaller absolute value: Q comma</em>
-which seem to be my exceptions.
-
-Any idea?
-
-Thank you,
-
-Chris</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Dear forum,</p>
+<p>I&rsquo;m getting a subtable overflow while trying to compile my features within FL Studio.
+Now I tried building the kern feature with FDK, but still I&rsquo;m getting an overflow. No mixing up different scripts within the classes and also kerning should not be too much (3400 pairs, when expanded 152k).
+<!-- raw HTML omitted -->GPOS feature &lsquo;kern&rsquo; causes overflow of offset to a subtable (0x11a00)<!-- raw HTML omitted --></p>
+<p>Also there&rsquo;s quite a lot of this stuff:
+<!-- raw HTML omitted -->Pair positioning has two different values in &lsquo;kern&rsquo; feature; choosing the smaller absolute value: Q comma<!-- raw HTML omitted -->
+which seem to be my exceptions.</p>
+<p>Any idea?</p>
+<p>Thank you,</p>
+<p>Chris</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">For exceptions use single kern pairs at the top of the kerning file.
-
-#exceptions
-pos Q by comma -20; 
-
-#you can use "enum" to work with classes for exceptions - enum spiltes the classes into singles during compilation
-
-enum pos @_kern_Q by @_kern_... -20;
-
-Be sure, no glyph is part of two or more classes!
-
---<a href="http://www.astype.de" target="_blank">astype.de</a>--</div>
+		<div class="commentbody"><p>For exceptions use single kern pairs at the top of the kerning file.</p>
+<p>#exceptions
+pos Q by comma -20;</p>
+<p>#you can use &ldquo;enum&rdquo; to work with classes for exceptions - enum spiltes the classes into singles during compilation</p>
+<p>enum pos @_kern_Q by @<em>kern</em>&hellip; -20;</p>
+<p>Be sure, no glyph is part of two or more classes!</p>
+<p>&ndash;<!-- raw HTML omitted -->astype.de<!-- raw HTML omitted -->&ndash;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -121,23 +113,19 @@ Be sure, no glyph is part of two or more classes!
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>pos Q by comma -20;</cite>
-
-Andreas, you were dreaming of substitution -- no 'by' in pos commands.&nbsp;&nbsp;;-)
-
-<cite>which seem to be my exceptions</cite>
-
-Looks like there is something wrong with classes: one glyph appearing in more than one leftside class, or in more than one rightside class. I think you should check your class definitions first.
-About 3400 kerning pairs <cite>may be</cite> (but not necessarily are) critical. If you generate fonts with AFDKO 2, you can also try to kick out lines with "subtable break" and add an explicit lookup definition with 'useExtension', so your kern feature looks like this (please exchange parentheses by braces):
-
-feature kern (
-&nbsp;&nbsp;&nbsp;&nbsp;lookup kern0 useExtension (
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos A B 12;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos B C 32;
-&nbsp;&nbsp;&nbsp;&nbsp;) kern0;
-) kern;
-
-But mind that FLS5 cannot compile this, and that such a kern feature will be interpreted only by a few OT-savvy applications like those of Creative Suite.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->pos Q by comma -20;<!-- raw HTML omitted --></p>
+<p>Andreas, you were dreaming of substitution &ndash; no &lsquo;by&rsquo; in pos commands.  ;-)</p>
+<p><!-- raw HTML omitted -->which seem to be my exceptions<!-- raw HTML omitted --></p>
+<p>Looks like there is something wrong with classes: one glyph appearing in more than one leftside class, or in more than one rightside class. I think you should check your class definitions first.
+About 3400 kerning pairs <!-- raw HTML omitted -->may be<!-- raw HTML omitted --> (but not necessarily are) critical. If you generate fonts with AFDKO 2, you can also try to kick out lines with &ldquo;subtable break&rdquo; and add an explicit lookup definition with &lsquo;useExtension&rsquo;, so your kern feature looks like this (please exchange parentheses by braces):</p>
+<p>feature kern (
+    lookup kern0 useExtension (
+        pos A B 12;
+        pos B C 32;
+    ) kern0;
+) kern;</p>
+<p>But mind that FLS5 cannot compile this, and that such a kern feature will be interpreted only by a few OT-savvy applications like those of Creative Suite.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -158,20 +146,15 @@ But mind that FLS5 cannot compile this, and that such a kern feature will be int
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">yes, I'm dreaming...
-
-#exceptions
-
-pos Q comma -20;
-
-enum pos @_kern_Q @_kern_comma -20;
+		<div class="commentbody"><p>yes, I&rsquo;m dreaming&hellip;</p>
+<p>#exceptions</p>
+<p>pos Q comma -20;</p>
+<p>enum pos @_kern_Q @_kern_comma -20;
 #or
-enum pos [Q Q.alt] [comma colon] -20; 
-
-and this works in Fontlab - but do it on the top of your kern list.
-
-
---<a href="http://www.astype.de" target="_blank">astype.de</a>--</div>
+enum pos [Q Q.alt] [comma colon] -20;</p>
+<p>and this works in Fontlab - but do it on the top of your kern list.</p>
+<p>&ndash;<!-- raw HTML omitted -->astype.de<!-- raw HTML omitted -->&ndash;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -192,18 +175,18 @@ and this works in Fontlab - but do it on the top of your kern list.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If you are having problems resolving class conflicts, here's what works for me.
-
-[img:sites/default/files/old-images/Kern1_5402.png]
-First, select "class kerning" in the metrics panel.
+		<div class="commentbody"><p>If you are having problems resolving class conflicts, here&rsquo;s what works for me.</p>
+<p>[img:sites/default/files/old-images/Kern1_5402.png]
+First, select &ldquo;class kerning&rdquo; in the metrics panel.
 .
 [img:sites/default/files/old-images/kern3_3773.png]
 This has several benefits, one of which is to highlight class conflicts in red.
-Here, v and c are the master characters in their classes, and y is included in the "v" class.
+Here, v and c are the master characters in their classes, and y is included in the &ldquo;v&rdquo; class.
 Therefore, when I attempt to apply a different kern value between y and c, FontLab marks it with a red number warning.
 .
 [img:sites/default/files/old-images/Picture3_3947.jpg]
-This value is also listed in red in the kern pair table at the right of the metrics window, enabling one to scroll throught the entire kern pairs in a font, looking for conflicts.</div>
+This value is also listed in red in the kern pair table at the right of the metrics window, enabling one to scroll throught the entire kern pairs in a font, looking for conflicts.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -225,8 +208,8 @@ This value is also listed in red in the kern pair table at the right of the metr
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Thank you all. 
-I usually check my classes via FL Studio's kerning assistance, which seems to work quite well(?).
-Unfortunately I have to generate via FontLab and cannot write all the kern-featurecode by hand ...</div>
+I usually check my classes via FL Studio&rsquo;s kerning assistance, which seems to work quite well(?).
+Unfortunately I have to generate via FontLab and cannot write all the kern-featurecode by hand &hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -247,9 +230,9 @@ Unfortunately I have to generate via FontLab and cannot write all the kern-featu
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for the info, all!
-
-ChrisL</div>
+		<div class="commentbody"><p>Thanks for the info, all!</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

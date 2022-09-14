@@ -71,54 +71,31 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Help needed: Opentype multiple characters substitution workaround ?!
-Hi everybody,
-
-I’m currently developing a revival of a cursive fat face, created by famous Bulgarian type designer Milka Peykova in the mid-70s. Her design was based on François Boltana’s Stilla, but feels a bit different (not to speak that it has complete Cyrillic character set, but no Latin, so it had to be ”interpolated/reimagined”). So as you all know the *F* *f* of Boltana’s script may cause some inconveniences, even in loose spacing, but Peykova’s design is much more tightly spaced. This creates a big disturbance in the font’s rhythm (ball terminal to next letter leaving a big hole...). So I had two choices, either to completely redesign the F,f (which didn’t wanted) or to rely heavily on f-ligatures (ff fi fl – being common and the uncommon fr ft fo fa fe fu fy …. etc.). 
-
-So to the problem… 
-
-After completing all the f-ligatures (plus all the Opentype coding) it all worked flawlessly until I faced another problem – (thus speaking a non-Latin language) I somehow “forgot” that combinations like ffo ffe ffu … etc. are possible. 
-So I created a f_component - being the first f in the ligature ff(sometnig), trying to achieve all the possible combinations trough coding – f_comp + (some already-made f-lifgature). 
-
-I know that the liga function allows substitution of the following:
-
-sub A B C by D 
+  <div class="post-content e-content" itemprop="articleBody"><p>Help needed: Opentype multiple characters substitution workaround ?!
+Hi everybody,</p>
+<p>I’m currently developing a revival of a cursive fat face, created by famous Bulgarian type designer Milka Peykova in the mid-70s. Her design was based on François Boltana’s Stilla, but feels a bit different (not to speak that it has complete Cyrillic character set, but no Latin, so it had to be ”interpolated/reimagined”). So as you all know the <em>F</em> <em>f</em> of Boltana’s script may cause some inconveniences, even in loose spacing, but Peykova’s design is much more tightly spaced. This creates a big disturbance in the font’s rhythm (ball terminal to next letter leaving a big hole&hellip;). So I had two choices, either to completely redesign the F,f (which didn’t wanted) or to rely heavily on f-ligatures (ff fi fl – being common and the uncommon fr ft fo fa fe fu fy …. etc.).</p>
+<p>So to the problem…</p>
+<p>After completing all the f-ligatures (plus all the Opentype coding) it all worked flawlessly until I faced another problem – (thus speaking a non-Latin language) I somehow “forgot” that combinations like ffo ffe ffu … etc. are possible. 
+So I created a f_component - being the first f in the ligature ff(sometnig), trying to achieve all the possible combinations trough coding – f_comp + (some already-made f-lifgature).</p>
+<p>I know that the liga function allows substitution of the following:</p>
+<p>sub A B C by D 
 or
-sub A by B C D
-
-but can somebody show me a workaround for the following
-
-sub A B C by D E
-...menaning…
-sub f f f by f_component f_e
-
-or do I have to make all the possible combinations again, thus creating many more new gliphs ?
-
-Thank you in advance!
+sub A by B C D</p>
+<p>but can somebody show me a workaround for the following</p>
+<p>sub A B C by D E
+&hellip;menaning…
+sub f f f by f_component f_e</p>
+<p>or do I have to make all the possible combinations again, thus creating many more new gliphs ?</p>
+<p>Thank you in advance!</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">OpenType does not support many to many substitution, but you can use contextual substitutions to achieve similar effect, something like:
-
-<pre>
-lookup f_1st {
-  sub f by f_component;
-} f_1st
-
-lookup f_2nd {
-  sub f by f_e;
-} f_2nd;
-
-feature calt { # or clig, support varies between engines
-  sub f' lookup f_1st
-      f' lookup f_2nd
-      f;
-} calt;
-</pre>
-
-Which substitutes "fff" by "f_component f_e f".</div>
+		<div class="commentbody"><p>OpenType does not support many to many substitution, but you can use contextual substitutions to achieve similar effect, something like:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Which substitutes &ldquo;fff&rdquo; by &ldquo;f_component f_e f&rdquo;.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -139,19 +116,14 @@ Which substitutes "fff" by "f_component f_e f".</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@Hosny Thank you! I'll try that out!
-
-I have a second question, currently I'm reading the following post [[http://typophile.com/node/6638]]about a similar problem.
-
-Could a ligature of ffe be achived in this way:
-if I have already build up a ligature of fe (f+e), culd it be that..
-
-feature clig { 
-sub f'fe by f_component; 
-} clig; 
-
-thus changing only the first f int the ffe to f_component?
-
+		<div class="commentbody"><p>@Hosny Thank you! I&rsquo;ll try that out!</p>
+<p>I have a second question, currently I&rsquo;m reading the following post [[http://typophile.com/node/6638]]about a similar problem.</p>
+<p>Could a ligature of ffe be achived in this way:
+if I have already build up a ligature of fe (f+e), culd it be that..</p>
+<p>feature clig { 
+sub f&rsquo;fe by f_component; 
+} clig;</p>
+<p>thus changing only the first f int the ffe to f_component?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

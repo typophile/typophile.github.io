@@ -71,38 +71,26 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi,
-
-I have some questions about Arabic font design. 
-
-Six months ago I was writing a documentation couple for my program, so I needed Arabic fonts. First I used B Nazanin and XB Niloofar, but then aimed that they don’t support almost all of features I needed. Then I search on net to find well-designed Arabic fonts. Else than Scheherazade, I found nothing free. so decide to create my own Arabic font with support of large Unicode range, Kerning, Mark positioning and Mark2Mark positioning. (when I didn’t know anything about amount of work!)
-
-After a few seconds I understood I have to do lot of work manually. There was over 1060 glyph to be positioned for ‘haraka’s, compared together for kerning, and many other things…  Trying to write automated algorithms for feature generation, I started learning FontLab’s macro structure. But there was no documentation and manual published :-{. Finally found unofficial documentation… I wrote macros for generating VOLT lookups of kerning, substitutions for detect and overcome overlaps, glyph forms, haraka placing, ligature creation, generate cursive attachment and many other things. After two boring weeks, now I have my own font, based on XB Niloofar of IRMUG. But it’s not beautiful (sample PDF of font attached) 
-
-
-I don’t know how you create your fonts, but I’m sure there is no sufficient tool for creating Arabic fonts. I use PIL, Python 3.1 VOLT and Fontlab with a complex couple of macros and programs written for integrating them. I feel I’m misguided… because I think it should not be such complex like this!
-
-Finally my questions:
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi,</p>
+<p>I have some questions about Arabic font design.</p>
+<p>Six months ago I was writing a documentation couple for my program, so I needed Arabic fonts. First I used B Nazanin and XB Niloofar, but then aimed that they don’t support almost all of features I needed. Then I search on net to find well-designed Arabic fonts. Else than Scheherazade, I found nothing free. so decide to create my own Arabic font with support of large Unicode range, Kerning, Mark positioning and Mark2Mark positioning. (when I didn’t know anything about amount of work!)</p>
+<p>After a few seconds I understood I have to do lot of work manually. There was over 1060 glyph to be positioned for ‘haraka’s, compared together for kerning, and many other things…  Trying to write automated algorithms for feature generation, I started learning FontLab’s macro structure. But there was no documentation and manual published :-{. Finally found unofficial documentation… I wrote macros for generating VOLT lookups of kerning, substitutions for detect and overcome overlaps, glyph forms, haraka placing, ligature creation, generate cursive attachment and many other things. After two boring weeks, now I have my own font, based on XB Niloofar of IRMUG. But it’s not beautiful (sample PDF of font attached)</p>
+<p>I don’t know how you create your fonts, but I’m sure there is no sufficient tool for creating Arabic fonts. I use PIL, Python 3.1 VOLT and Fontlab with a complex couple of macros and programs written for integrating them. I feel I’m misguided… because I think it should not be such complex like this!</p>
+<p>Finally my questions:
 1-Do you use your own programs or special tools of your company for font design?
-2-IF there is no any suitable tool for Arabic design, THEN why anybody don’t write one? I want such a program that could do all of these, automatically.
-
+2-IF there is no any suitable tool for Arabic design, THEN why anybody don’t write one? I want such a program that could do all of these, automatically.</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'd the same goal is yours, but I've taken a different approach. Instead of having thousands of glyphs, ligatures and kerning pairs, I opted to what can be called base-glyph-only-no-ligature approach.
-
-What I basically do is stripping diacritical dots and working on unique base glyphs, so all Baa-like letters are broken into a dotless Baa and diacritical dots, then all glyphs transformation and positioning rules are applied to the base glyph, simplifying the rules significantly, making it a lot simpler to do the adjustments by hand.
-
-Ligatures are in turn broken to their building blocks, all ligatures including mandatory ligatures like Lam-Alif, which are applied using contextual alternatives instead of ligature tables, this adds a bit to the complexity but it more extensible and maintainable on the long run, so I think. 
-
-The dots are then positioned using regular mark anchors, vowel marks are either positioned using mark or mkmk anchors (whether they are positioned over a bare glyph or over a dot).
-
-As a result, the font which covers almost all Unicode Arabic block (I'm still missing few base glyphs and diacritical marks) has only 338 unique glyphs (the missing ones are around 25 max.), with a very sophisticated set of alternating glyphs making it very aesthetically "authentic" Arabic font.
-
-As result, I find "stoke" tool more than enough and are very economic, as far as my approach goes. My initial glyph drawings were done on Inkscape, but all later edits are done in FontForge, which I use for all font related activities since it supports virtually every feature that I ever wanted, and whenever any automation is needed, I resort to its Python scripting capabilities.
-
-My work is under Open Font License, and is hosted on [[http://github.com/khaledhosny/bulaq-naskh|github]], feel free to have a look.</div>
+		<div class="commentbody"><p>I&rsquo;d the same goal is yours, but I&rsquo;ve taken a different approach. Instead of having thousands of glyphs, ligatures and kerning pairs, I opted to what can be called base-glyph-only-no-ligature approach.</p>
+<p>What I basically do is stripping diacritical dots and working on unique base glyphs, so all Baa-like letters are broken into a dotless Baa and diacritical dots, then all glyphs transformation and positioning rules are applied to the base glyph, simplifying the rules significantly, making it a lot simpler to do the adjustments by hand.</p>
+<p>Ligatures are in turn broken to their building blocks, all ligatures including mandatory ligatures like Lam-Alif, which are applied using contextual alternatives instead of ligature tables, this adds a bit to the complexity but it more extensible and maintainable on the long run, so I think.</p>
+<p>The dots are then positioned using regular mark anchors, vowel marks are either positioned using mark or mkmk anchors (whether they are positioned over a bare glyph or over a dot).</p>
+<p>As a result, the font which covers almost all Unicode Arabic block (I&rsquo;m still missing few base glyphs and diacritical marks) has only 338 unique glyphs (the missing ones are around 25 max.), with a very sophisticated set of alternating glyphs making it very aesthetically &ldquo;authentic&rdquo; Arabic font.</p>
+<p>As result, I find &ldquo;stoke&rdquo; tool more than enough and are very economic, as far as my approach goes. My initial glyph drawings were done on Inkscape, but all later edits are done in FontForge, which I use for all font related activities since it supports virtually every feature that I ever wanted, and whenever any automation is needed, I resort to its Python scripting capabilities.</p>
+<p>My work is under Open Font License, and is hosted on [[http://github.com/khaledhosny/bulaq-naskh|github]], feel free to have a look.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -123,9 +111,9 @@ My work is under Open Font License, and is hosted on [[http://github.com/khaledh
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Soroush, does your kerning algorythm base on something similar to a tresholded gaussian blur of a given radius? 
-
-PS: Khaled's approach seems the most effective way to manage the stuff. Anyway, the situation (the atomised environment) is crazy and doesn't welcome people to design. </div>
+		<div class="commentbody"><p>Soroush, does your kerning algorythm base on something similar to a tresholded gaussian blur of a given radius?</p>
+<p>PS: Khaled&rsquo;s approach seems the most effective way to manage the stuff. Anyway, the situation (the atomised environment) is crazy and doesn&rsquo;t welcome people to design.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -146,16 +134,14 @@ PS: Khaled's approach seems the most effective way to manage the stuff. Anyway, 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@ marcin:
-<em>does your kerning algorythm base on something similar to a tresholded gaussian blur of a given radius?</em>
-No, it's not . it simply expands glyph outline using Breadth-First-Search and colorize the weight of each pixel by distance of it from base shape. Then it recognize white spaces by computational geometric methods, and decrease distance of glyphs each step using a maximum overlap allowed value. 
-
-@ Khaled:
-I found your solution very clever, but do you think it should not be such complex in implementation? if automations (with any approach) came built-in, there will be more efficient ways to design, so I think. Special needs of complex scripts could be automated by a few simple rules or algorithms. but design tools don't support them, and scripting features are not enough.
-
-this makes me crazy.
-
-I'm going to design a font creation software with <strong>complete</strong> support of OTT generation. General focus will be on special needs of complex scripts. </div>
+		<div class="commentbody"><p>@ marcin:
+<!-- raw HTML omitted -->does your kerning algorythm base on something similar to a tresholded gaussian blur of a given radius?<!-- raw HTML omitted -->
+No, it&rsquo;s not . it simply expands glyph outline using Breadth-First-Search and colorize the weight of each pixel by distance of it from base shape. Then it recognize white spaces by computational geometric methods, and decrease distance of glyphs each step using a maximum overlap allowed value.</p>
+<p>@ Khaled:
+I found your solution very clever, but do you think it should not be such complex in implementation? if automations (with any approach) came built-in, there will be more efficient ways to design, so I think. Special needs of complex scripts could be automated by a few simple rules or algorithms. but design tools don&rsquo;t support them, and scripting features are not enough.</p>
+<p>this makes me crazy.</p>
+<p>I&rsquo;m going to design a font creation software with <!-- raw HTML omitted -->complete<!-- raw HTML omitted --> support of OTT generation. General focus will be on special needs of complex scripts.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -176,7 +162,7 @@ I'm going to design a font creation software with <strong>complete</strong> supp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Sorry Soroush, but I'm not sure what exactly the "special needs of complex scripts" you have in mind, I know many LGC fonts with thousands of kerning pairs, so it is hardly a complex script-only need. Actually the most irritating thing I've found about RTL kerning is that you can't use kerning classes; for some undocumented reason kerning classes can only move the second glyph in the kern pair on the X access, which rules out RTL scripts that need to move both sides of the kern pair. Some tools do hide this from the user by converting kern classes to kern pairs silently (I've been told Volt does this, but I never used it, actually). </div>
+		<div class="commentbody">Sorry Soroush, but I&rsquo;m not sure what exactly the &ldquo;special needs of complex scripts&rdquo; you have in mind, I know many LGC fonts with thousands of kerning pairs, so it is hardly a complex script-only need. Actually the most irritating thing I&rsquo;ve found about RTL kerning is that you can&rsquo;t use kerning classes; for some undocumented reason kerning classes can only move the second glyph in the kern pair on the X access, which rules out RTL scripts that need to move both sides of the kern pair. Some tools do hide this from the user by converting kern classes to kern pairs silently (I&rsquo;ve been told Volt does this, but I never used it, actually).</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -197,15 +183,12 @@ I'm going to design a font creation software with <strong>complete</strong> supp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@ Khaled:
-
-I mean mark to glyph, mark to mark positioning, glyph forms and cursive attachment, not only kerning. For example cursive attachment and substitutions of Initial, Medial and Final forms of glyphs, are very straightforward processes, but implementing them is critique and boring (at least for me). they could be automatically generated. also for mark positioning we could simply place two arbitrary above and below marks in order to tell to the program how to set offsets of 'mark' feature, instead of setting positions for each glyph by hand.
-
-I just want to say, there isn't any design tool that could do everything a font designer needed. FontLab don't generate all features and VOLT can't edit outlines, for this and some other reasons we have to use a wide range of softwares that they are not integrated with together... I want such a program that could design glyph outlines, generate all features of OpenType, and have some automated abilities, designed specially for specific scripts (like Arabic).
-
-<em>Actually the most irritating thing I've found about RTL kerning is that you can't use kerning classes</em>
-
-Why you need to use kerning classes? </div>
+		<div class="commentbody"><p>@ Khaled:</p>
+<p>I mean mark to glyph, mark to mark positioning, glyph forms and cursive attachment, not only kerning. For example cursive attachment and substitutions of Initial, Medial and Final forms of glyphs, are very straightforward processes, but implementing them is critique and boring (at least for me). they could be automatically generated. also for mark positioning we could simply place two arbitrary above and below marks in order to tell to the program how to set offsets of &lsquo;mark&rsquo; feature, instead of setting positions for each glyph by hand.</p>
+<p>I just want to say, there isn&rsquo;t any design tool that could do everything a font designer needed. FontLab don&rsquo;t generate all features and VOLT can&rsquo;t edit outlines, for this and some other reasons we have to use a wide range of softwares that they are not integrated with together&hellip; I want such a program that could design glyph outlines, generate all features of OpenType, and have some automated abilities, designed specially for specific scripts (like Arabic).</p>
+<p><!-- raw HTML omitted -->Actually the most irritating thing I&rsquo;ve found about RTL kerning is that you can&rsquo;t use kerning classes<!-- raw HTML omitted --></p>
+<p>Why you need to use kerning classes?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -226,13 +209,11 @@ Why you need to use kerning classes? </div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I use FontForge, it is an outline (and bitmap) font editor, has the most complete OpenType support I know of, and has very powerful scripting language, and above all is free open source software so one can study its code and even add features or fix bugs (which I did myself many times).
-
-I've sought about your idea for mark placement, and I think it is doable with a bit of python code in FontForge, but I don't see it doing much simplification (adding a mark attachment is a matter of few clicks), I don't see your method simplifying that, can you elaborate more?
-
-While ago, when I was cleaning and updating arabeyes fonts, I wrote scripts that would take a font file and insert (almost) all anchor points for vowel marks, it works by analysing the base glyph, finding highest and lowest points and inserting anchors above and below them by a predefined offset. It was greatly helpful, and cut the time of adding anchor points significantly, now only manual work was needed to fine tune the positions what was often not needed at all.
-
-I think, of we have some clear ideas, we can work something out. I'm interested in simplifying the work of creating new Arabic fonts, which have a steep learning curve thanks to the complexities of OpenType. I was thinking of some sort of a "template" that the font designer can fill with glyphs, position marks the way you suggest (simply copying  some mark and positioning it), then run a set of scripts that would put the font in a final, production ready form, what do you think?</div>
+		<div class="commentbody"><p>I use FontForge, it is an outline (and bitmap) font editor, has the most complete OpenType support I know of, and has very powerful scripting language, and above all is free open source software so one can study its code and even add features or fix bugs (which I did myself many times).</p>
+<p>I&rsquo;ve sought about your idea for mark placement, and I think it is doable with a bit of python code in FontForge, but I don&rsquo;t see it doing much simplification (adding a mark attachment is a matter of few clicks), I don&rsquo;t see your method simplifying that, can you elaborate more?</p>
+<p>While ago, when I was cleaning and updating arabeyes fonts, I wrote scripts that would take a font file and insert (almost) all anchor points for vowel marks, it works by analysing the base glyph, finding highest and lowest points and inserting anchors above and below them by a predefined offset. It was greatly helpful, and cut the time of adding anchor points significantly, now only manual work was needed to fine tune the positions what was often not needed at all.</p>
+<p>I think, of we have some clear ideas, we can work something out. I&rsquo;m interested in simplifying the work of creating new Arabic fonts, which have a steep learning curve thanks to the complexities of OpenType. I was thinking of some sort of a &ldquo;template&rdquo; that the font designer can fill with glyphs, position marks the way you suggest (simply copying  some mark and positioning it), then run a set of scripts that would put the font in a final, production ready form, what do you think?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -253,9 +234,9 @@ I think, of we have some clear ideas, we can work something out. I'm interested 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>Why you need to use kerning classes?</cite>
-
-It is very helpful for grouping similar glyphs together, it cuts down the number of kerning pairs significantly.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Why you need to use kerning classes?<!-- raw HTML omitted --></p>
+<p>It is very helpful for grouping similar glyphs together, it cuts down the number of kerning pairs significantly.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -276,20 +257,15 @@ It is very helpful for grouping similar glyphs together, it cuts down the number
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Positioning marks by a script will save time. I think the best method should be something like this:
- 
-<code>1- mark.position.x = glyph.width / 2
-2- mark.position.y = maximum([glyph.nodes.y]) + offset</code>
-
-But I think there would be some inelegance cases; for some glyphs it's not the best approach of mark placement. fine-tuning could be needed after applying script.
-
-Using a pre-designed template is a good idea, but it could be better. in fact you mean reduction amount of work by avoid repeating routine things. I think using a template will cause some problems. because designing methods and approaches of persons are different. It's difficult to find a template respecting all of ideas. considering work for changing template, whole amount of work will not so decrease. if we think more in details we'll conclude that 'templates' and 'algorithms' are exactly same ideas. but i think replacing visual aimed tools with old methods could help more about simplifying, with maintaining generality of design techniques.
-
-For example, I like to set marks by hand without involving technical parts of work. Imagine that you want to position marks (completely manual or after applying some algorithms). you should simply type a phrase or paragraph with marks (or use a typed one) and set each mark's positions by selecting and moving it around with mouse. so you can see result in a real paragraph of text and could recognize all of bugs like intersections, touching marks and etc. In this case, designer will never write scripts for placing marks, cursive attachment or kerning. all of features will generated directly at compile time. so designer could focus on his design, not technical details of implementation.
-
-<em>It cuts down the number of kerning pairs significantly.</em>
-
-What is the benefit of fewer pairs? As I know, using classes of glyphs will not help processing time or save memory. compilers simply replace members of each class with a set of glyphs, in lookups. so in fact, count of pairs will not decrease using classes.</div>
+		<div class="commentbody"><p>Positioning marks by a script will save time. I think the best method should be something like this:</p>
+<p><!-- raw HTML omitted -->1- mark.position.x = glyph.width / 2
+2- mark.position.y = maximum([glyph.nodes.y]) + offset<!-- raw HTML omitted --></p>
+<p>But I think there would be some inelegance cases; for some glyphs it&rsquo;s not the best approach of mark placement. fine-tuning could be needed after applying script.</p>
+<p>Using a pre-designed template is a good idea, but it could be better. in fact you mean reduction amount of work by avoid repeating routine things. I think using a template will cause some problems. because designing methods and approaches of persons are different. It&rsquo;s difficult to find a template respecting all of ideas. considering work for changing template, whole amount of work will not so decrease. if we think more in details we&rsquo;ll conclude that &lsquo;templates&rsquo; and &lsquo;algorithms&rsquo; are exactly same ideas. but i think replacing visual aimed tools with old methods could help more about simplifying, with maintaining generality of design techniques.</p>
+<p>For example, I like to set marks by hand without involving technical parts of work. Imagine that you want to position marks (completely manual or after applying some algorithms). you should simply type a phrase or paragraph with marks (or use a typed one) and set each mark&rsquo;s positions by selecting and moving it around with mouse. so you can see result in a real paragraph of text and could recognize all of bugs like intersections, touching marks and etc. In this case, designer will never write scripts for placing marks, cursive attachment or kerning. all of features will generated directly at compile time. so designer could focus on his design, not technical details of implementation.</p>
+<p><!-- raw HTML omitted -->It cuts down the number of kerning pairs significantly.<!-- raw HTML omitted --></p>
+<p>What is the benefit of fewer pairs? As I know, using classes of glyphs will not help processing time or save memory. compilers simply replace members of each class with a set of glyphs, in lookups. so in fact, count of pairs will not decrease using classes.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -310,18 +286,12 @@ What is the benefit of fewer pairs? As I know, using classes of glyphs will not 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>
-1- mark.position.x = glyph.width / 2
-2- mark.position.y = maximum([glyph.nodes.y]) + offset
-</cite>
-
-That is essentially what I was doing, but as you state there are special cases, but the effort needed to make it more intelligent (i.e. analyse the actual shape, have special rules for certain classes of glyphs etc.) seemed to much for little gain, but of course if we to build a general purpose solution, then more intelligence is needed.
-
-I know templates are kind of rigid, but judging by many Arabic fonts that I've seen, they are relatively simple, very few ligature, no fancy substitutions and so on, so such a solution can benefit a lot of potential font designers who are alienated by high entry level. But I can see the benefit of building more general tools, though I prefer to base on existing tools instead of reinventing the wheel. FontForge, for example, is a ten years old beast with more than half a million lines of code, we certainly don't wont to reinvent that.
-
-<cite>What is the benefit of fewer pairs? As I know, using classes of glyphs will not help processing time or save memory. compilers simply replace members of each class with a set of glyphs, in lookups. so in fact, count of pairs will not decrease using classes.</cite>
-
-The less number of pairs the either for font designer to make and maintain them.</div>
+		<div class="commentbody"><!-- raw HTML omitted -->
+<p>That is essentially what I was doing, but as you state there are special cases, but the effort needed to make it more intelligent (i.e. analyse the actual shape, have special rules for certain classes of glyphs etc.) seemed to much for little gain, but of course if we to build a general purpose solution, then more intelligence is needed.</p>
+<p>I know templates are kind of rigid, but judging by many Arabic fonts that I&rsquo;ve seen, they are relatively simple, very few ligature, no fancy substitutions and so on, so such a solution can benefit a lot of potential font designers who are alienated by high entry level. But I can see the benefit of building more general tools, though I prefer to base on existing tools instead of reinventing the wheel. FontForge, for example, is a ten years old beast with more than half a million lines of code, we certainly don&rsquo;t wont to reinvent that.</p>
+<p><!-- raw HTML omitted -->What is the benefit of fewer pairs? As I know, using classes of glyphs will not help processing time or save memory. compilers simply replace members of each class with a set of glyphs, in lookups. so in fact, count of pairs will not decrease using classes.<!-- raw HTML omitted --></p>
+<p>The less number of pairs the either for font designer to make and maintain them.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -342,9 +312,9 @@ The less number of pairs the either for font designer to make and maintain them.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'll try to read some parts of FontForge's source. but I'm not sure a 10 years old program could respond new operating systems and frameworks.
-
-Half millions line of code isn't a scary amount. necessary tools needed for this project are so improved since ten years ago. We don't have to handle all of protocols, file structure and base platforms. we could use FreeType (Font protocol decoder), NumPy (algebraic core), SciPy (for computational geometry library), PyQt (for GUI), OpenGL (integrated with Qt GUI) and so on. It's more easier than it looks.</div>
+		<div class="commentbody"><p>I&rsquo;ll try to read some parts of FontForge&rsquo;s source. but I&rsquo;m not sure a 10 years old program could respond new operating systems and frameworks.</p>
+<p>Half millions line of code isn&rsquo;t a scary amount. necessary tools needed for this project are so improved since ten years ago. We don&rsquo;t have to handle all of protocols, file structure and base platforms. we could use FreeType (Font protocol decoder), NumPy (algebraic core), SciPy (for computational geometry library), PyQt (for GUI), OpenGL (integrated with Qt GUI) and so on. It&rsquo;s more easier than it looks.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -365,8 +335,7 @@ Half millions line of code isn't a scary amount. necessary tools needed for this
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I am for reinventing the wheel. The new approach is needed - and this means a new software. If it would be a plug-in or an independent tool is secondary question. The most important deal is how to manage the extremely complex thing in an easy and flexible way. The challenge probably means forgetting of the most of traditional type tools' rules and rather scope on the task in the way known from parametric design in architecture: highly visual-oriented interface, asking for guidelines and returning propositions; making the dirty job in the background meanwhile.
-</div>
+		<div class="commentbody">I am for reinventing the wheel. The new approach is needed - and this means a new software. If it would be a plug-in or an independent tool is secondary question. The most important deal is how to manage the extremely complex thing in an easy and flexible way. The challenge probably means forgetting of the most of traditional type tools' rules and rather scope on the task in the way known from parametric design in architecture: highly visual-oriented interface, asking for guidelines and returning propositions; making the dirty job in the background meanwhile.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -387,13 +356,11 @@ Half millions line of code isn't a scary amount. necessary tools needed for this
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I think an independent tool would be more creative. and of course it should be integrated with current tools.
-
-Using the PyQt graphic client, mastering bezier or B-spline curves became easy to implement. The only matter is how to compile OpenType codes => we can use command-line executables of AFDK, or addtable of Microsoft after generating the .otf file. Before starting to code, I have to know more about OpenType technology. would they give us documentations of OpenType? or they are traditional secrets? I like to write my own decoder and generator for OpenType.
-
-The only hard-to-write part is finding some algorithms for curve operation like finding intersections of curves, getting intersection of counters, merging them etc. I'm still trying to find some efficient solutions. 
-
-At this early stage, the idea looks clear. I can't see any problem with details of implementation. could you see?</div>
+		<div class="commentbody"><p>I think an independent tool would be more creative. and of course it should be integrated with current tools.</p>
+<p>Using the PyQt graphic client, mastering bezier or B-spline curves became easy to implement. The only matter is how to compile OpenType codes =&gt; we can use command-line executables of AFDK, or addtable of Microsoft after generating the .otf file. Before starting to code, I have to know more about OpenType technology. would they give us documentations of OpenType? or they are traditional secrets? I like to write my own decoder and generator for OpenType.</p>
+<p>The only hard-to-write part is finding some algorithms for curve operation like finding intersections of curves, getting intersection of counters, merging them etc. I&rsquo;m still trying to find some efficient solutions.</p>
+<p>At this early stage, the idea looks clear. I can&rsquo;t see any problem with details of implementation. could you see?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -414,15 +381,12 @@ At this early stage, the idea looks clear. I can't see any problem with details 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>The devil is in the details.</cite>
-
-Having my hacker hat on, I'm all for new, fresh start, but now putting my font developer hat on, I'm more inclined to practical solutions that won't take years to implement and does not added more complexity to my existing work flow (i.e. learning a radically new tool).
-
-I'm not sure how you intend to use FreeType, but last time I checked it was a font rendering not editing library, so of little use here (if you want to edit the fonts you need to decode them yourself), FontForge already use FreeType for some TrueType hinting related stuff, but that is another issue.
-
-OpenType is now an ISO standard, also its documentation were always public, see [[http://www.microsoft.com/typography/otspec/|OpenType specification]] page, though I've seen many complaints about unclear or even self-contradictory parts. I believe other specifications (e.g TrueType font structure) are also available.
-
-However, I'm still more with building on existing stuff, this allows one to concentrate on the parts that matter and leave the heavy lifting to other tools (FontForge already provides a libfontforge, that Python bindings, for example, can be written for and then used without even using its GUI).</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->The devil is in the details.<!-- raw HTML omitted --></p>
+<p>Having my hacker hat on, I&rsquo;m all for new, fresh start, but now putting my font developer hat on, I&rsquo;m more inclined to practical solutions that won&rsquo;t take years to implement and does not added more complexity to my existing work flow (i.e. learning a radically new tool).</p>
+<p>I&rsquo;m not sure how you intend to use FreeType, but last time I checked it was a font rendering not editing library, so of little use here (if you want to edit the fonts you need to decode them yourself), FontForge already use FreeType for some TrueType hinting related stuff, but that is another issue.</p>
+<p>OpenType is now an ISO standard, also its documentation were always public, see [[http://www.microsoft.com/typography/otspec/|OpenType specification]] page, though I&rsquo;ve seen many complaints about unclear or even self-contradictory parts. I believe other specifications (e.g TrueType font structure) are also available.</p>
+<p>However, I&rsquo;m still more with building on existing stuff, this allows one to concentrate on the parts that matter and leave the heavy lifting to other tools (FontForge already provides a libfontforge, that Python bindings, for example, can be written for and then used without even using its GUI).</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -443,15 +407,12 @@ However, I'm still more with building on existing stuff, this allows one to conc
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>The Devil doesn't scare me</em>
-
-I started to learning FontLab when I didn't know anything about typography and learned it in 30 minutes. why you are worried about learning? learning a new stuff is very easy for a professional designer. If some new tools will be created for development, then they will be very similar to olders. in addition, adding some integration abilities could eliminate complexity of using a new tool.
-
-FreeType is a rendering engine, but as I know, it could decode font outline data into well-structured curve data. Though if it don't support decoding, I'm pretty sure there are other decoders available. if not, there is no way else than writing a decoder.
-
-<em>OpenType is now an ISO standard, also its documentation were always public...</em>
-
-I didn't mean specifications, I need to know the mathematics and data structures behind of OpenType Tables and want to know how to build a ttf or otf file from an OT script. and of course how to read data from font files.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->The Devil doesn&rsquo;t scare me<!-- raw HTML omitted --></p>
+<p>I started to learning FontLab when I didn&rsquo;t know anything about typography and learned it in 30 minutes. why you are worried about learning? learning a new stuff is very easy for a professional designer. If some new tools will be created for development, then they will be very similar to olders. in addition, adding some integration abilities could eliminate complexity of using a new tool.</p>
+<p>FreeType is a rendering engine, but as I know, it could decode font outline data into well-structured curve data. Though if it don&rsquo;t support decoding, I&rsquo;m pretty sure there are other decoders available. if not, there is no way else than writing a decoder.</p>
+<p><!-- raw HTML omitted -->OpenType is now an ISO standard, also its documentation were always public&hellip;<!-- raw HTML omitted --></p>
+<p>I didn&rsquo;t mean specifications, I need to know the mathematics and data structures behind of OpenType Tables and want to know how to build a ttf or otf file from an OT script. and of course how to read data from font files.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -472,9 +433,9 @@ I didn't mean specifications, I need to know the mathematics and data structures
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>I didn't mean specifications, I need to know the mathematics and data structures behind of OpenType Tables and want to know how to build a ttf or otf file from an OT script. and of course how to read data from font files.</cite>
-
-Sorry, but I never though about such low level stuff, but, as you seem to be familiar with Python, you can check TTX which is written entirely in Python, AFAIK, and can encode/decode most of OpenType and TrueType tables.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->I didn&rsquo;t mean specifications, I need to know the mathematics and data structures behind of OpenType Tables and want to know how to build a ttf or otf file from an OT script. and of course how to read data from font files.<!-- raw HTML omitted --></p>
+<p>Sorry, but I never though about such low level stuff, but, as you seem to be familiar with Python, you can check TTX which is written entirely in Python, AFAIK, and can encode/decode most of OpenType and TrueType tables.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

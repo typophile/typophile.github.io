@@ -71,22 +71,17 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">some friends of mine recommend me to ask this kind of question here
-
-I want to write a program which takes font name as the parameter and dumps every glyph in this font to a txt file
-
-like    
-
-bool dumpEveryGlyph(string fontName); 
-
-
-I am wondering if there is any API which can help me to do this? (.net API?  win32 API?)
-
-thanks very much </div>
+  <div class="post-content e-content" itemprop="articleBody"><p>some friends of mine recommend me to ask this kind of question here</p>
+<p>I want to write a program which takes font name as the parameter and dumps every glyph in this font to a txt file</p>
+<p>like</p>
+<p>bool dumpEveryGlyph(string fontName);</p>
+<p>I am wondering if there is any API which can help me to do this? (.net API?  win32 API?)</p>
+<p>thanks very much</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Here is a related thread: http://typophile.com/node/64147</div>
+		<div class="commentbody">Here is a related thread: <a href="http://typophile.com/node/64147">http://typophile.com/node/64147</a></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -128,11 +123,10 @@ thanks very much </div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Jens is correct. You cannot dump <em>glyphs</em> into a text file because a glyph means exactly nothing. It's the code points that count, because these form the link between the ASCII (or Unicode) character code you want to display and the actual piece of graphic (the glyph) that's going to be drawn. It's extremely important to understand these concepts correctly before you are going to pull off some low-level trick as you are attempting.
-
-(This bypasses any Opentype niceties, but then again it should. Opentype features have nothing to do with codepoints -- well, at least nothing you could 'dump into a txt file'.)
-
-There are Windows APIs -- you don't tell, which is a mortal sin, but I presume you <em>are</em> talking about a Windows program here -- that can return font information, but I cannot remember if I really ever bothered to get down with those. My own experimental program is firmly based on my grasp of the file format of Truetype and Opentype font files, so I can locate and extract the all-important <code>cmap</code> entry and work it out from there.</div>
+		<div class="commentbody"><p>Jens is correct. You cannot dump <!-- raw HTML omitted -->glyphs<!-- raw HTML omitted --> into a text file because a glyph means exactly nothing. It&rsquo;s the code points that count, because these form the link between the ASCII (or Unicode) character code you want to display and the actual piece of graphic (the glyph) that&rsquo;s going to be drawn. It&rsquo;s extremely important to understand these concepts correctly before you are going to pull off some low-level trick as you are attempting.</p>
+<p>(This bypasses any Opentype niceties, but then again it should. Opentype features have nothing to do with codepoints &ndash; well, at least nothing you could &lsquo;dump into a txt file&rsquo;.)</p>
+<p>There are Windows APIs &ndash; you don&rsquo;t tell, which is a mortal sin, but I presume you <!-- raw HTML omitted -->are<!-- raw HTML omitted --> talking about a Windows program here &ndash; that can return font information, but I cannot remember if I really ever bothered to get down with those. My own experimental program is firmly based on my grasp of the file format of Truetype and Opentype font files, so I can locate and extract the all-important <!-- raw HTML omitted -->cmap<!-- raw HTML omitted --> entry and work it out from there.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -153,46 +147,17 @@ There are Windows APIs -- you don't tell, which is a mortal sin, but I presume y
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I see the request is from mainland China, where the preferred encoding is neither UTF-8 nor UTF-16 but <a href="http://en.wikipedia.org/wiki/Guobiao_code">GB 18030</a> and where the "niceties" of unicode may not be the main concern.
-
-If you install ttx and apply <code>ttx -i -t cmap filename.extension</code> to your font file, giving the file <code>filename.ttx</code>, then the following Python code should give the desired text (on a single line) in <code>filename.txt</code>. Modifying the code to cut into lines, if needed, should be straightforward.
-
-<PRE>
-from xml.dom.minidom import *
-import sys, re
-
-f=open(sys.argv[1])
-r1=re.compile(r'(.+)\.ttx$', re.IGNORECASE)
-foutname=r1.match(sys.argv[1]).group(1)+".txt"
-fout=open(foutname,'w')
-
-doc=parse(f)
-
-encdng='gb18030'
-
-str=''
-cmaps=doc.getElementsByTagName('cmap_format_12')
-if not cmaps:
-  cmaps=doc.getElementsByTagName('cmap_format_4')
-maps=cmaps[0].getElementsByTagName('map')
-for map in maps:
-  code=int(map.getAttribute('code'),16)
-  if code > 0x20:
-    str=str+unichr(code)
-fout.write("%s\n" % (str.encode(encdng)))
-fout.close
-</PRE>
-Of course, 'gb18030' could be replaced by 'utf-8' or 'utf-16' or some other encoding. If you copy the lines above, save to some file, say <code>dmpcmap.py</code> and then execute
-<PRE>
-python dmpcmap.py filename.ttx
-</PRE>
-you get the text in <code>filename.txt</code>
-
-This was tested on a Mac with <code>python26 @2.6.7_1+ucs4</code> on the font ST Heiti
-
-Michel
-
-PS The code does not check the platform because on my Mac, there are fonts without a cmap for Windows and I wanted to get an output file. Also, the code is slow on large files.
+		<div class="commentbody"><p>I see the request is from mainland China, where the preferred encoding is neither UTF-8 nor UTF-16 but <!-- raw HTML omitted -->GB 18030<!-- raw HTML omitted --> and where the &ldquo;niceties&rdquo; of unicode may not be the main concern.</p>
+<p>If you install ttx and apply <!-- raw HTML omitted -->ttx -i -t cmap filename.extension<!-- raw HTML omitted --> to your font file, giving the file <!-- raw HTML omitted -->filename.ttx<!-- raw HTML omitted -->, then the following Python code should give the desired text (on a single line) in <!-- raw HTML omitted -->filename.txt<!-- raw HTML omitted -->. Modifying the code to cut into lines, if needed, should be straightforward.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Of course, &lsquo;gb18030&rsquo; could be replaced by &lsquo;utf-8&rsquo; or &lsquo;utf-16&rsquo; or some other encoding. If you copy the lines above, save to some file, say <!-- raw HTML omitted -->dmpcmap.py<!-- raw HTML omitted --> and then execute</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>you get the text in <!-- raw HTML omitted -->filename.txt<!-- raw HTML omitted --></p>
+<p>This was tested on a Mac with <!-- raw HTML omitted -->python26 @2.6.7_1+ucs4<!-- raw HTML omitted --> on the font ST Heiti</p>
+<p>Michel</p>
+<p>PS The code does not check the platform because on my Mac, there are fonts without a cmap for Windows and I wanted to get an output file. Also, the code is slow on large files.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

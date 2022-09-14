@@ -71,26 +71,27 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">So I see that a FL font object has a "classes" attribute that's a list of the classes in the font.
-
-1) Is there a way to filter this list to only see kerning classes?
-
-2) When I try to copy kerning classes via script, e.g. — 
-
-fl.font2.classes = fl.font1.classes
-
-This will copy the class members properly, but it loses the state of the left glyph / right glyph checkboxes in the class panel. Where does that data live?</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>So I see that a FL font object has a &ldquo;classes&rdquo; attribute that&rsquo;s a list of the classes in the font.</p>
+<ol>
+<li>
+<p>Is there a way to filter this list to only see kerning classes?</p>
+</li>
+<li>
+<p>When I try to copy kerning classes via script, e.g. — </p>
+</li>
+</ol>
+<p>fl.font2.classes = fl.font1.classes</p>
+<p>This will copy the class members properly, but it loses the state of the left glyph / right glyph checkboxes in the class panel. Where does that data live?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Filter for kerning classes by matching the first character of each class with an underscore:
-<pre>
-classes = fl.font.classes
-for c in range( len(classes) ):
-  class_text = classes[c]
-  if class_text[0] == "_":
-    print class_text
-</pre></div>
+		<div class="commentbody"><p>Filter for kerning classes by matching the first character of each class with an underscore:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<blockquote>
+</blockquote>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -111,7 +112,7 @@ for c in range( len(classes) ):
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You can also save a copy of your classes as a text file from the "Classes" menu.  In the upper left corner of the window is a tiny icon which when clicked reveals the option to "Save classes".  You can  either import this file completely as a replacement classes file, append some parts of it, or copy paste from a text editor the things you want.</div>
+		<div class="commentbody">You can also save a copy of your classes as a text file from the &ldquo;Classes&rdquo; menu.  In the upper left corner of the window is a tiny icon which when clicked reveals the option to &ldquo;Save classes&rdquo;.  You can  either import this file completely as a replacement classes file, append some parts of it, or copy paste from a text editor the things you want.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -132,19 +133,8 @@ for c in range( len(classes) ):
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The FontLab Font object offers the folowing methods to access class attributes:
-<dl>
-<dt><strong>SetClassFlags</strong>(int class_index, bool left, bool right)</dt> 
-<dd>allows to set 'left' and 'right' properties of the kerning class</dd>
-<dt><strong>SetClassFlags</strong>(int class_index, bool lsb, bool rsb, bool width)</dt>
-<dd>allows to set 'lsb', 'rsb' and 'width' properties of the metrics class</dd>
-<dt><strong>GetClassLeft</strong>(int class_index)</dt> 
-<dd>returns the 'left' property of the class</dd>
-<dt><strong>GetClassRight</strong>(int class_index)</dt>
-<dd>returns the 'right' property of the class</dd>
-<dt><strong>GetClassMetricsFlags</strong>(int class_index)</dt> 
-<dd>returns the tuple containing LSB, RSB and Width flags of the metrics class</dd>
-</dl></div>
+		<div class="commentbody">The FontLab Font object offers the folowing methods to access class attributes:</p>
+<!-- raw HTML omitted --></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -165,26 +155,12 @@ for c in range( len(classes) ):
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Eigi. Mission accomplished
-
-<pre>
-# copy kern class information from source
-kernClasses = []
-kernClassesToBooleans = {}
-for index, glyphClass in enumerate(sourceFLFont.classes):
-    if glyphClass.startswith("_"):
-        kernClasses.append(glyphClass)
-        kernClassesToBooleans[glyphClass] = (sourceFLFont.GetClassLeft(index), sourceFLFont.GetClassRight(index))
-
-# clear target; copy classes
-targetFLFont.classes = []
-targetFLFont.classes = kernClasses
-
-# copy booleans into target
-for index, kernClass in enumerate(targetFLFont.classes):
-    leftBool, rightBool = kernClassesToBooleans[kernClass]
-    targetFLFont.SetClassFlags(index, leftBool, rightBool)
-</pre></div>
+		<div class="commentbody"><p>Thanks Eigi. Mission accomplished</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<blockquote>
+</blockquote>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

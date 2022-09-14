@@ -71,24 +71,18 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Let me ask the question first and explain the context after that.
-
-<em>Is it possible to hint TTF in a way that would make a glyph render 1 pixel wider (at certain pixel size) than its unhinted version?</em>
-
-This is in the context of trying to reliably tell ClearType and Standard anti-aliasing apart in the confines of the HTML/CSS/JavaScript. 
-
-I figured out how to do it in Firefox and Chrome. In the IE I can detect CT in some cases, but not always and this relies on using Flash, which makes it am untidy hack. Here's a <a href="http://typophile.com/node/77635">thread</a> where it all started.
-
-One option that I'd like to explore is making a custom single-glyph TTF font and then hinting for ClearType so that the glyph would render with a different width depending on whether the CT is enabled. This difference can be detected by CSS and so I have my solution. 
-
-I have very rudimentary undertsanding of hinting, and I am looking for a simple "yes, possible" / "no, not possible" guidance. If it <em>is</em> possible, I will look into the hinting subject at detail and figure things out.
-
-Thanks
+  <div class="post-content e-content" itemprop="articleBody"><p>Let me ask the question first and explain the context after that.</p>
+<p><!-- raw HTML omitted -->Is it possible to hint TTF in a way that would make a glyph render 1 pixel wider (at certain pixel size) than its unhinted version?<!-- raw HTML omitted --></p>
+<p>This is in the context of trying to reliably tell ClearType and Standard anti-aliasing apart in the confines of the HTML/CSS/JavaScript.</p>
+<p>I figured out how to do it in Firefox and Chrome. In the IE I can detect CT in some cases, but not always and this relies on using Flash, which makes it am untidy hack. Here&rsquo;s a <!-- raw HTML omitted -->thread<!-- raw HTML omitted --> where it all started.</p>
+<p>One option that I&rsquo;d like to explore is making a custom single-glyph TTF font and then hinting for ClearType so that the glyph would render with a different width depending on whether the CT is enabled. This difference can be detected by CSS and so I have my solution.</p>
+<p>I have very rudimentary undertsanding of hinting, and I am looking for a simple &ldquo;yes, possible&rdquo; / &ldquo;no, not possible&rdquo; guidance. If it <!-- raw HTML omitted -->is<!-- raw HTML omitted --> possible, I will look into the hinting subject at detail and figure things out.</p>
+<p>Thanks</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It should be possible, by setting the stem's ppm2 value (the value at which it jumps from one to two pixels) to something very low. Although doing the opposite—hinting a glyph that renders 1 pixel wide at a certain size, but appears wider with ClearType enabled—might be an easier approach due to CT's natural tendency to add pixels to vertical stems.</div>
+		<div class="commentbody">It should be possible, by setting the stem&rsquo;s ppm2 value (the value at which it jumps from one to two pixels) to something very low. Although doing the opposite—hinting a glyph that renders 1 pixel wide at a certain size, but appears wider with ClearType enabled—might be an easier approach due to CT&rsquo;s natural tendency to add pixels to vertical stems.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -109,11 +103,10 @@ Thanks
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, you could do this. Since CT effectively ignores X hints, you could use an X delta hint to change the width of a stem or glyph (not sure which one you're trying to do), and the delta hint would be ignored by the CT rasterizer. In fact this would work with any X-hint, but a delta is probably the easiest way for you to do this. 
-
-For that matter, there are delta hints which are rasterizer-dependent, at least for the Win Rasterizers. For example, you could apply a delta to move a point a certain distance, but only if the current rasterizer was using "black and white" rendering. 
-
-Jason C</div>
+		<div class="commentbody"><p>Yes, you could do this. Since CT effectively ignores X hints, you could use an X delta hint to change the width of a stem or glyph (not sure which one you&rsquo;re trying to do), and the delta hint would be ignored by the CT rasterizer. In fact this would work with any X-hint, but a delta is probably the easiest way for you to do this.</p>
+<p>For that matter, there are delta hints which are rasterizer-dependent, at least for the Win Rasterizers. For example, you could apply a delta to move a point a certain distance, but only if the current rasterizer was using &ldquo;black and white&rdquo; rendering.</p>
+<p>Jason C</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -134,11 +127,10 @@ Jason C</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Justin, Jason, thank you for the answers. 
-
-I read there were conditional (CT) instructions, and it really helps to know more specific areas to look at. What I was not sure about was if a glyph was pre-allocated a fixed space on the rasterization surface and if the hinting program was not allowed to push the glyph outside of such space. It sounds like it's not the case, which is great. Hence the next question :) -
-
-Is there a good starting place for learning more about hinting? I know general idea behind the hinting, but I come from the computer programming background, so some sort of condensed crash course on hinting would be ideal.</div>
+		<div class="commentbody"><p>Justin, Jason, thank you for the answers.</p>
+<p>I read there were conditional (CT) instructions, and it really helps to know more specific areas to look at. What I was not sure about was if a glyph was pre-allocated a fixed space on the rasterization surface and if the hinting program was not allowed to push the glyph outside of such space. It sounds like it&rsquo;s not the case, which is great. Hence the next question :) -</p>
+<p>Is there a good starting place for learning more about hinting? I know general idea behind the hinting, but I come from the computer programming background, so some sort of condensed crash course on hinting would be ideal.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -159,7 +151,7 @@ Is there a good starting place for learning more about hinting? I know general i
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hang on, I don't think I was entirely clear on which width you're trying to manipulate. Do you mean the number of horizontal pixels used to fill the glyph, or the total number of pixels in the advance width of the glyph (including sidebearings)? The latter is more problematic, because ClearType in GDI typically renders glyphs using <a href="http://msdn.microsoft.com/en-us/library/aa480221.aspx#wp_topic6">"compatible widths"</a> that match the advance widths of black and white / grayscale rendering. While it's possible to <a href="http://www.microsoft.com/typography/cleartype/truetypecleartype.aspx#Toc227035734">query whether compatible widths or "natural widths" are being used</a> (and alter the hinting program accordingly), it's not possible to change the rendering mode from the within the font. So unless the GDI program has been set to use natural widths, the advance width of a ClearType-rendered glyph will always be the same as Standard smoothing.</div>
+		<div class="commentbody">Hang on, I don&rsquo;t think I was entirely clear on which width you&rsquo;re trying to manipulate. Do you mean the number of horizontal pixels used to fill the glyph, or the total number of pixels in the advance width of the glyph (including sidebearings)? The latter is more problematic, because ClearType in GDI typically renders glyphs using <!-- raw HTML omitted -->&ldquo;compatible widths&rdquo;<!-- raw HTML omitted --> that match the advance widths of black and white / grayscale rendering. While it&rsquo;s possible to <!-- raw HTML omitted -->query whether compatible widths or &ldquo;natural widths&rdquo; are being used<!-- raw HTML omitted --> (and alter the hinting program accordingly), it&rsquo;s not possible to change the rendering mode from the within the font. So unless the GDI program has been set to use natural widths, the advance width of a ClearType-rendered glyph will always be the same as Standard smoothing.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -180,11 +172,12 @@ Is there a good starting place for learning more about hinting? I know general i
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> <em>The latter is more problematic..</em>
-
-Hm. Say, we are in a compatible width mode, and the rasterizer is about to render a glyph. I am assuming that it allocates N pixels for the advance width of the glyph and - then what? - does it run the hinting program and then sort of squishes resulting curves into the allotted space? Does it have any threshold for how badly it can mangle the curves? 
-
-Or more generally - can you think of any condition under which the rasterizer would change the advance width <em>after</em> the hinting program is run?</div>
+		<div class="commentbody"><blockquote>
+<p><!-- raw HTML omitted -->The latter is more problematic..<!-- raw HTML omitted --></p>
+</blockquote>
+<p>Hm. Say, we are in a compatible width mode, and the rasterizer is about to render a glyph. I am assuming that it allocates N pixels for the advance width of the glyph and - then what? - does it run the hinting program and then sort of squishes resulting curves into the allotted space? Does it have any threshold for how badly it can mangle the curves?</p>
+<p>Or more generally - can you think of any condition under which the rasterizer would change the advance width <!-- raw HTML omitted -->after<!-- raw HTML omitted --> the hinting program is run?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -205,11 +198,12 @@ Or more generally - can you think of any condition under which the rasterizer wo
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">In the hinting process, the advance width and the em are rounded  before the hints are applied. Then the hints are based on the pre rounded solutions to em ht and set width. The instructions then can reference the rounded width to prevent the hints from smudging the glyph. The hints can also be used to change the widths and if they do, this is stored and may be referenced  in the horizontal device metrics table, per size. I don't know any thing that would change the width after the hinting, but if chaos is desired, as seems the case, it could be unwisely done. 
-
->For example, you could apply a delta to move a point a certain distance, but only if the current rasterizer was using "black and white" rendering.
-
-Simon says not on windows, the only place it'd matter. </div>
+		<div class="commentbody"><p>In the hinting process, the advance width and the em are rounded  before the hints are applied. Then the hints are based on the pre rounded solutions to em ht and set width. The instructions then can reference the rounded width to prevent the hints from smudging the glyph. The hints can also be used to change the widths and if they do, this is stored and may be referenced  in the horizontal device metrics table, per size. I don&rsquo;t know any thing that would change the width after the hinting, but if chaos is desired, as seems the case, it could be unwisely done.</p>
+<blockquote>
+<p>For example, you could apply a delta to move a point a certain distance, but only if the current rasterizer was using &ldquo;black and white&rdquo; rendering.</p>
+</blockquote>
+<p>Simon says not on windows, the only place it&rsquo;d matter.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -230,15 +224,16 @@ Simon says not on windows, the only place it'd matter. </div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">David, can you elaborate a bit on these two points?
-
-><em>The hints can also be used to change the widths and if they do, this is stored and may be referenced in the horizontal device metrics table, per size.</em>
-
-What should I be looking at in hinting instruction set here?
-
-><em>but if chaos is desired, as seems the case, it could be unwisely done.</em>
-
-I have a growing suspicion that it cannot be done. If I were implementing a compatible width mode in CT, I would've made damn sure the glyphs do not leak outside of their boundaries, because that would defeat the very purpose of the mode. Or in the worst case I would allow the glyph to spill out, but won't adjust the advance width (i.e. let the glyph overlap with the next one).</div>
+		<div class="commentbody"><p>David, can you elaborate a bit on these two points?</p>
+<blockquote>
+<p><!-- raw HTML omitted -->The hints can also be used to change the widths and if they do, this is stored and may be referenced in the horizontal device metrics table, per size.<!-- raw HTML omitted --></p>
+</blockquote>
+<p>What should I be looking at in hinting instruction set here?</p>
+<blockquote>
+<p><!-- raw HTML omitted -->but if chaos is desired, as seems the case, it could be unwisely done.<!-- raw HTML omitted --></p>
+</blockquote>
+<p>I have a growing suspicion that it cannot be done. If I were implementing a compatible width mode in CT, I would&rsquo;ve made damn sure the glyphs do not leak outside of their boundaries, because that would defeat the very purpose of the mode. Or in the worst case I would allow the glyph to spill out, but won&rsquo;t adjust the advance width (i.e. let the glyph overlap with the next one).</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -259,17 +254,14 @@ I have a growing suspicion that it cannot be done. If I were implementing a comp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Apankrat, 
-
-By refining this method:
-http://www.useragentman.com/blog/2009/11/29/how-to-detect-font-smoothing-using-javascript/
-you can render a commonly-known font's glyph (such as Arial's "o") into HTML canvas, and then use JavaScript to analyze the pixels. Check for color pixels, grayscale pixels, or just black-and-white, plus potentially lots of other things. Or calculate the rendering's checksum and compare it against a number of pre-populated checksums to get a very precise lookup of the user's viewing environment. 
-
-(You can even send it per <code>canvas.toDataURL("image/png");</code> back to the server as a PNG and have it analyzed there.)
-
-Or are you trying to do this in IE7/IE8?
-
-A.</div>
+		<div class="commentbody"><p>Apankrat,</p>
+<p>By refining this method:
+<a href="http://www.useragentman.com/blog/2009/11/29/how-to-detect-font-smoothing-using-javascript/">http://www.useragentman.com/blog/2009/11/29/how-to-detect-font-smoothing-using-javascript/</a>
+you can render a commonly-known font&rsquo;s glyph (such as Arial&rsquo;s &ldquo;o&rdquo;) into HTML canvas, and then use JavaScript to analyze the pixels. Check for color pixels, grayscale pixels, or just black-and-white, plus potentially lots of other things. Or calculate the rendering&rsquo;s checksum and compare it against a number of pre-populated checksums to get a very precise lookup of the user&rsquo;s viewing environment.</p>
+<p>(You can even send it per <!-- raw HTML omitted -->canvas.toDataURL(&ldquo;image/png&rdquo;);<!-- raw HTML omitted --> back to the server as a PNG and have it analyzed there.)</p>
+<p>Or are you trying to do this in IE7/IE8?</p>
+<p>A.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -290,9 +282,11 @@ A.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">><em>Or are you trying to do this is IE7/IE8?</em>
-
-That would appear to be the case. Presently, querying IE's <code>screen.fontSmoothingEnabled</code> property seems to be the only reliable method for detecting font smoothing in IE, but it doesn't distinguish between Standard and ClearType.</div>
+		<div class="commentbody"><blockquote>
+<p><!-- raw HTML omitted -->Or are you trying to do this is IE7/IE8?<!-- raw HTML omitted --></p>
+</blockquote>
+<p>That would appear to be the case. Presently, querying IE&rsquo;s <!-- raw HTML omitted -->screen.fontSmoothingEnabled<!-- raw HTML omitted --> property seems to be the only reliable method for detecting font smoothing in IE, but it doesn&rsquo;t distinguish between Standard and ClearType.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -313,13 +307,11 @@ That would appear to be the case. Presently, querying IE's <code>screen.fontSmoo
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Adam, thanks for the comment. Yes, IE is the issue (surprise). 
-
-The canvas option is where I started. Subpixel smoothing is trivial to recognize by looking for non-gray pixels when rendering a gray glyph. No canvas in IE though.
-
-As Justin mentioned, IE has a <em>fontSmoothingEnabled</em> variable, but it is set to <em>true</em> for both CT and Standard smoothing. I then tried few other things including VML and Flash. VML doesn't appear to have any CT support. Flash rendering is a viable option, but it uses system CT setting and not browser's -- and these can be different as you probably know.
-
-I am scraping the bottom of the barrel here with TTF hinting option. If anyone has any other crazy ideas, do tell them.</div>
+		<div class="commentbody"><p>Adam, thanks for the comment. Yes, IE is the issue (surprise).</p>
+<p>The canvas option is where I started. Subpixel smoothing is trivial to recognize by looking for non-gray pixels when rendering a gray glyph. No canvas in IE though.</p>
+<p>As Justin mentioned, IE has a <!-- raw HTML omitted -->fontSmoothingEnabled<!-- raw HTML omitted --> variable, but it is set to <!-- raw HTML omitted -->true<!-- raw HTML omitted --> for both CT and Standard smoothing. I then tried few other things including VML and Flash. VML doesn&rsquo;t appear to have any CT support. Flash rendering is a viable option, but it uses system CT setting and not browser&rsquo;s &ndash; and these can be different as you probably know.</p>
+<p>I am scraping the bottom of the barrel here with TTF hinting option. If anyone has any other crazy ideas, do tell them.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -340,7 +332,7 @@ I am scraping the bottom of the barrel here with TTF hinting option. If anyone h
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">TrueType's <a href="http://developer.apple.com/fonts/TTRefMan/RM05/Chap5.html#GETINFO">GETINFO</a> instruction can <a href="http://www.microsoft.com/typography/cleartype/truetypecleartype.aspx#Toc227035732">query for ClearType rendering</a>, but I have no idea what kind of voodoo it would take to pass a value returned by a TT program over to javascript, if it's possible at all.</div>
+		<div class="commentbody">TrueType&rsquo;s <!-- raw HTML omitted -->GETINFO<!-- raw HTML omitted --> instruction can <!-- raw HTML omitted -->query for ClearType rendering<!-- raw HTML omitted -->, but I have no idea what kind of voodoo it would take to pass a value returned by a TT program over to javascript, if it&rsquo;s possible at all.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -361,7 +353,7 @@ I am scraping the bottom of the barrel here with TTF hinting option. If anyone h
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">ActiveX controls can be queried through JavaScript. </div>
+		<div class="commentbody">ActiveX controls can be queried through JavaScript.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -382,7 +374,7 @@ I am scraping the bottom of the barrel here with TTF hinting option. If anyone h
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Actually... using the ability of the hinting program to query for ClearType rendering, combined with your initial idea of measuring the glyph width... that might lead to a solution. It would involve writing TT instructions that would run some kind of width-altering function <em>only if</em> the ClearType bit was set. But you'd need to get familiar with writing TT assembly code, or find somebody who is.</div>
+		<div class="commentbody">Actually&hellip; using the ability of the hinting program to query for ClearType rendering, combined with your initial idea of measuring the glyph width&hellip; that might lead to a solution. It would involve writing TT instructions that would run some kind of width-altering function <!-- raw HTML omitted -->only if<!-- raw HTML omitted --> the ClearType bit was set. But you&rsquo;d need to get familiar with writing TT assembly code, or find somebody who is.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -403,13 +395,11 @@ I am scraping the bottom of the barrel here with TTF hinting option. If anyone h
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Apankrat> Say, we are in a compatible width mode in CT
-
-I should point out, and this is my fault for not insisting MS do better documentation, that compatible mode CT is not there for developers to use on any font. It's strictly for MS and MS fonts that had a previous life with aliased metrics different from the metrics arrived at via CT rendering. Font developers are only to use natural mode, making compatible mode on non-MS fonts quite similar to using a light switch attached to a burnt out bulb. The documentation of this is terrible, as far as it's been explained to me, in that it implies otherwise.
-
-Also, the post above asks that hints change widths in CT mode, and this not possible as far as I know  for either the width of the glyph or the advance width.
-
- But what if the hints changed the height of a glyph when CT was on?</div>
+		<div class="commentbody"><p>Apankrat&gt; Say, we are in a compatible width mode in CT</p>
+<p>I should point out, and this is my fault for not insisting MS do better documentation, that compatible mode CT is not there for developers to use on any font. It&rsquo;s strictly for MS and MS fonts that had a previous life with aliased metrics different from the metrics arrived at via CT rendering. Font developers are only to use natural mode, making compatible mode on non-MS fonts quite similar to using a light switch attached to a burnt out bulb. The documentation of this is terrible, as far as it&rsquo;s been explained to me, in that it implies otherwise.</p>
+<p>Also, the post above asks that hints change widths in CT mode, and this not possible as far as I know  for either the width of the glyph or the advance width.</p>
+<p>But what if the hints changed the height of a glyph when CT was on?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -430,19 +420,14 @@ Also, the post above asks that hints change widths in CT mode, and this not poss
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@db
-
->But what if the hints changed the height of a glyph when CT was on?
-
-Does this already happen, to your knowledge? Measuring the height could work just as well. And if not, can it be forced with a font set up a certain way?
-
-@apankrat
-I understand your quest. My only problem is, if reliable detection can be acheived, then what? What remedy do you apply? Back to the system fonts in that environment?
-
-Rich
-
-
-
+		<div class="commentbody"><p>@db</p>
+<blockquote>
+<p>But what if the hints changed the height of a glyph when CT was on?</p>
+</blockquote>
+<p>Does this already happen, to your knowledge? Measuring the height could work just as well. And if not, can it be forced with a font set up a certain way?</p>
+<p>@apankrat
+I understand your quest. My only problem is, if reliable detection can be acheived, then what? What remedy do you apply? Back to the system fonts in that environment?</p>
+<p>Rich</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -485,9 +470,11 @@ Rich
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> But what if the hints changed the height of a glyph when CT was on?
-
-Worth a try I guess, but I doubt it's going to work. If the line-height is 15px and a glyph wants to be 16px, it will be clipped. I saw it happened to some auto-hinted fonts on FontSpring.</div>
+		<div class="commentbody"><blockquote>
+<p>But what if the hints changed the height of a glyph when CT was on?</p>
+</blockquote>
+<p>Worth a try I guess, but I doubt it&rsquo;s going to work. If the line-height is 15px and a glyph wants to be 16px, it will be clipped. I saw it happened to some auto-hinted fonts on FontSpring.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -508,9 +495,9 @@ Worth a try I guess, but I doubt it's going to work. If the line-height is 15px 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>I yearn for the days when +300 PPI monitors become the standard…</cite>
-
-Which will alleviate but not solve the problem: at smaller sizes, hinting affects even the output of a laser printer.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->I yearn for the days when +300 PPI monitors become the standard…<!-- raw HTML omitted --></p>
+<p>Which will alleviate but not solve the problem: at smaller sizes, hinting affects even the output of a laser printer.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -531,15 +518,12 @@ Which will alleviate but not solve the problem: at smaller sizes, hinting affect
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Posted elsewhere, taken from http://prometheus.med.utah.edu/~bwjones/2010/06/apple-retina-display/
-
-"So, if a normal human eye can discriminate two points separated by 1 arcminute/cycle at a distance of a foot, we should be able to discriminate two points 89 micrometers apart which would work out to about 287 pixels per inch.  Since the iPhone 4G display is comfortably higher than that measure at 326 pixels per inch, I’d find Apple’s claims stand up to what the human eye can perceive."
-
-Also see:
-
-Curcio, C. A., Sloan, K. R., Kalina, R. E. & Hendrickson, A. E. (1990). Human photoreceptor topography. Journal of Comparative Neurology. 292, 497-523.
-
-Long short, there’s only so much detail the human eye is physically capable of detecting based upon physiology. Sure, if we get in an look at the type 1cm away we'll see a difference, but at 12 inches, ~300 DIP is our threshold.</div>
+		<div class="commentbody"><p>Posted elsewhere, taken from <a href="http://prometheus.med.utah.edu/~bwjones/2010/06/apple-retina-display/">http://prometheus.med.utah.edu/~bwjones/2010/06/apple-retina-display/</a></p>
+<p>&ldquo;So, if a normal human eye can discriminate two points separated by 1 arcminute/cycle at a distance of a foot, we should be able to discriminate two points 89 micrometers apart which would work out to about 287 pixels per inch.  Since the iPhone 4G display is comfortably higher than that measure at 326 pixels per inch, I’d find Apple’s claims stand up to what the human eye can perceive.&rdquo;</p>
+<p>Also see:</p>
+<p>Curcio, C. A., Sloan, K. R., Kalina, R. E. &amp; Hendrickson, A. E. (1990). Human photoreceptor topography. Journal of Comparative Neurology. 292, 497-523.</p>
+<p>Long short, there’s only so much detail the human eye is physically capable of detecting based upon physiology. Sure, if we get in an look at the type 1cm away we&rsquo;ll see a difference, but at 12 inches, ~300 DIP is our threshold.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -560,17 +544,17 @@ Long short, there’s only so much detail the human eye is physically capable of
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">><em>The documentation of this is terrible...</em>
-
-I guess so, since <a href="http://www.microsoft.com/typography/cleartype/truetypecleartype.aspx#Toc227035732">the documentation</a> implies that compatible widths and natural widths are rasterization modes dependent on the rendering environment (ie. GDI, WPF), which would be dictated by OS and application developers rather than font developers. The only direct control over ClearType rendering afforded to font devs is setting the interpreter to "native" mode using the INSTCTRL selector flag 3.
-
-><em>Also, the post above asks that hints change widths in CT mode, and this not possible as far as I know for either the width of the glyph or the advance width.</em>
-
-Per the [terrible] documentation:
-
-<blockquote>...additional instructions that may improve the rendering of ClearType may also be surrounded by a conditional IF that is executed only if ClearType is enabled.</blockquote>
-
-If this is accurate, would it not then be possible for the "additional instructions" to alter the width of a glyph?</div>
+		<div class="commentbody"><blockquote>
+<p><!-- raw HTML omitted -->The documentation of this is terrible&hellip;<!-- raw HTML omitted --></p>
+</blockquote>
+<p>I guess so, since <!-- raw HTML omitted -->the documentation<!-- raw HTML omitted --> implies that compatible widths and natural widths are rasterization modes dependent on the rendering environment (ie. GDI, WPF), which would be dictated by OS and application developers rather than font developers. The only direct control over ClearType rendering afforded to font devs is setting the interpreter to &ldquo;native&rdquo; mode using the INSTCTRL selector flag 3.</p>
+<blockquote>
+<p><!-- raw HTML omitted -->Also, the post above asks that hints change widths in CT mode, and this not possible as far as I know for either the width of the glyph or the advance width.<!-- raw HTML omitted --></p>
+</blockquote>
+<p>Per the [terrible] documentation:</p>
+<!-- raw HTML omitted -->
+<p>If this is accurate, would it not then be possible for the &ldquo;additional instructions&rdquo; to alter the width of a glyph?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -591,13 +575,9 @@ If this is accurate, would it not then be possible for the "additional instructi
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@christopher
-
-<em>"Long short, there’s only so much detail the human eye is physically capable of detecting based upon physiology. Sure, if we get in an look at the type 1cm away we'll see a difference, but at 12 inches, ~300 DIP is our threshold."</em>
-
-Hadn't thought about this. Does cap out, doesn't it?
-
-
+		<div class="commentbody"><p>@christopher</p>
+<p><!-- raw HTML omitted -->&ldquo;Long short, there’s only so much detail the human eye is physically capable of detecting based upon physiology. Sure, if we get in an look at the type 1cm away we&rsquo;ll see a difference, but at 12 inches, ~300 DIP is our threshold.&quot;<!-- raw HTML omitted --></p>
+<p>Hadn&rsquo;t thought about this. Does cap out, doesn&rsquo;t it?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -619,14 +599,14 @@ Hadn't thought about this. Does cap out, doesn't it?
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">>...that compatible widths and natural widths are rasterization modes dependent on the rendering environment (ie. GDI, WPF),
-
-I think the dependency is on a document's contents first.
-
->If this is accurate, would it not then be possible for the "additional instructions" to alter the width of a glyph?
-
-Again, I'll say that CT does not use x direction hints, which width altering instructions among the ignored hints.
-
+		<div class="commentbody"><blockquote>
+<p>&hellip;that compatible widths and natural widths are rasterization modes dependent on the rendering environment (ie. GDI, WPF),</p>
+</blockquote>
+<p>I think the dependency is on a document&rsquo;s contents first.</p>
+<blockquote>
+<p>If this is accurate, would it not then be possible for the &ldquo;additional instructions&rdquo; to alter the width of a glyph?</p>
+</blockquote>
+<p>Again, I&rsquo;ll say that CT does not use x direction hints, which width altering instructions among the ignored hints.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -648,15 +628,15 @@ Again, I'll say that CT does not use x direction hints, which width altering ins
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">><em>I think the dependency is on a document's contents first.</em>
-
-I don't follow how the contents of a document would have any effect on compatible/natural widths. It was explained in <a href="http://www.typophile.com/node/62675#comment-373519">an older thread</a> that the widths mode is set by the application, not changeable by the font program.
-
-><em>Again, I'll say that CT does not use x direction hints, which width altering instructions among the ignored hints.</em>
-
-If that's always the case, then it should be easy enough to hint a glyph in such a way that its advance width is one value with Standard smoothing (which follows x-direction hints), and a different value with ClearType (since it ignores those hints). Problem solved. Except that GDI apps default to using compatible widths, making the advance widths identical between Standard and CT rendering. Thus, if the advance width of the glyph is altered through hinting, that altered width does in fact get carried over to ClearType when rendered using compatible widths.
-
-In any case, it's possible for a hinting program to query for ClearType rendering, and to query for compatible widths mode, and to limit the application of hints based on such conditions. That <em>may</em> provide enough flexibility to create a font that achieves the original goal, though not as easily as one might have hoped.
+		<div class="commentbody"><blockquote>
+<p><!-- raw HTML omitted -->I think the dependency is on a document&rsquo;s contents first.<!-- raw HTML omitted --></p>
+</blockquote>
+<p>I don&rsquo;t follow how the contents of a document would have any effect on compatible/natural widths. It was explained in <!-- raw HTML omitted -->an older thread<!-- raw HTML omitted --> that the widths mode is set by the application, not changeable by the font program.</p>
+<blockquote>
+<p><!-- raw HTML omitted -->Again, I&rsquo;ll say that CT does not use x direction hints, which width altering instructions among the ignored hints.<!-- raw HTML omitted --></p>
+</blockquote>
+<p>If that&rsquo;s always the case, then it should be easy enough to hint a glyph in such a way that its advance width is one value with Standard smoothing (which follows x-direction hints), and a different value with ClearType (since it ignores those hints). Problem solved. Except that GDI apps default to using compatible widths, making the advance widths identical between Standard and CT rendering. Thus, if the advance width of the glyph is altered through hinting, that altered width does in fact get carried over to ClearType when rendered using compatible widths.</p>
+<p>In any case, it&rsquo;s possible for a hinting program to query for ClearType rendering, and to query for compatible widths mode, and to limit the application of hints based on such conditions. That <!-- raw HTML omitted -->may<!-- raw HTML omitted --> provide enough flexibility to create a font that achieves the original goal, though not as easily as one might have hoped.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -699,12 +679,13 @@ In any case, it's possible for a hinting program to query for ClearType renderin
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> <em>@apankrat
-I understand your quest. My only problem is, if reliable detection can be acheived, then what? What remedy do you apply? Back to the system fonts in that environment?</em>
-
-Oh, my apologies, Rich. I thought I replied.
-
-Yes, the idea is to fallback to the system fonts. At least 25% of visitors I have to cater to are on XP, but designing around them is too limiting. Hence the trying to detect when I can have an expressive freedom and when I cannot :)</div>
+		<div class="commentbody"><blockquote>
+<p><!-- raw HTML omitted -->@apankrat
+I understand your quest. My only problem is, if reliable detection can be acheived, then what? What remedy do you apply? Back to the system fonts in that environment?<!-- raw HTML omitted --></p>
+</blockquote>
+<p>Oh, my apologies, Rich. I thought I replied.</p>
+<p>Yes, the idea is to fallback to the system fonts. At least 25% of visitors I have to cater to are on XP, but designing around them is too limiting. Hence the trying to detect when I can have an expressive freedom and when I cannot :)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -725,7 +706,7 @@ Yes, the idea is to fallback to the system fonts. At least 25% of visitors I hav
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Reviving this old thread: If telling Greyscale and Cleartype apart is the problem, why not just eliminate Greyscale with the GASP table? Or am I missing something here? And, btw: while I'm at it: I can see the script is up and running, but the statistics page is down. What are your numbers so far?</div>
+		<div class="commentbody">Reviving this old thread: If telling Greyscale and Cleartype apart is the problem, why not just eliminate Greyscale with the GASP table? Or am I missing something here? And, btw: while I&rsquo;m at it: I can see the script is up and running, but the statistics page is down. What are your numbers so far?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -746,9 +727,9 @@ Yes, the idea is to fallback to the system fonts. At least 25% of visitors I hav
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You are looking at it from the wrong end. It is a matter of trying to decide if to use specific given font (that cannot be changed) when showing a page to a specific user.
-
-With regards to the stats - haven't got a chance to put the page up yet. Let me see what I can do, perhaps by hand. By the way, the detection script also collects the availability information for a handful of fonts, websafe and others - another interesting statistic to look at.</div>
+		<div class="commentbody"><p>You are looking at it from the wrong end. It is a matter of trying to decide if to use specific given font (that cannot be changed) when showing a page to a specific user.</p>
+<p>With regards to the stats - haven&rsquo;t got a chance to put the page up yet. Let me see what I can do, perhaps by hand. By the way, the detection script also collects the availability information for a handful of fonts, websafe and others - another interesting statistic to look at.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -769,7 +750,7 @@ With regards to the stats - haven't got a chance to put the page up yet. Let me 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ah, sorry. I misread. Canvas doesn't work. I'd really like to see those numbers!</div>
+		<div class="commentbody">Ah, sorry. I misread. Canvas doesn&rsquo;t work. I&rsquo;d really like to see those numbers!</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

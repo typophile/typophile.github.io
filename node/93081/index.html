@@ -71,25 +71,21 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I’m preparing some fonts for web use, and I wonder if anyone can shed some light on the current browser support for Postscript based WOFF files, and how one should ideally set up the CSS.
-
-I have until now done the following:
-
-<code>@font-face {
-    font-family: 'MyWebfont';
-    src: url('webfont.eot');
-    src: url('webfont.eot?#iefix') format('embedded-opentype'),
-         url('webfont.woff') format('woff'),
-         url('webfont.ttf') format('truetype'),
-         url('webfont.svg#MyWebFont') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}</code>
-
-The WOFF is the only Postscript based font in the stack. Unfortunately this doesn’t seem to work in Chrome on Windows. 
-
-Am I doing something wrong?</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I’m preparing some fonts for web use, and I wonder if anyone can shed some light on the current browser support for Postscript based WOFF files, and how one should ideally set up the CSS.</p>
+<p>I have until now done the following:</p>
+<p><!-- raw HTML omitted -->@font-face {
+font-family: &lsquo;MyWebfont&rsquo;;
+src: url(&lsquo;webfont.eot&rsquo;);
+src: url(&lsquo;webfont.eot?#iefix&rsquo;) format(&lsquo;embedded-opentype&rsquo;),
+url(&lsquo;webfont.woff&rsquo;) format(&lsquo;woff&rsquo;),
+url(&lsquo;webfont.ttf&rsquo;) format(&lsquo;truetype&rsquo;),
+url(&lsquo;webfont.svg#MyWebFont&rsquo;) format(&lsquo;svg&rsquo;);
+font-weight: normal;
+font-style: normal;</p>
+<p>}<!-- raw HTML omitted --></p>
+<p>The WOFF is the only Postscript based font in the stack. Unfortunately this doesn’t seem to work in Chrome on Windows.</p>
+<p>Am I doing something wrong?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
@@ -135,9 +131,9 @@ Am I doing something wrong?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Because, as far as I know, the only up-to-date browser that does not support WOFF is Internet Explorer, and it needs EOT files. TTF is fallback for older browsers (Fontsquirrel provides a layer of security with its Web-only setting, and I don’t know any similar solution for OTF files), and SVG is for older mobile browsers. 
-
-How would you set it up?</div>
+		<div class="commentbody"><p>Because, as far as I know, the only up-to-date browser that does not support WOFF is Internet Explorer, and it needs EOT files. TTF is fallback for older browsers (Fontsquirrel provides a layer of security with its Web-only setting, and I don’t know any similar solution for OTF files), and SVG is for older mobile browsers.</p>
+<p>How would you set it up?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -179,23 +175,16 @@ How would you set it up?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don't think what you're trying to do is a good idea. (Or even necessary. So the font looks scratchy in some environments, so what?)
-In web design, everything is relative to the viewport of the device. There is no such thing as a "headline sized font". 
-
-But, since you're trying to do it:
+		<div class="commentbody"><p>I don&rsquo;t think what you&rsquo;re trying to do is a good idea. (Or even necessary. So the font looks scratchy in some environments, so what?)
+In web design, everything is relative to the viewport of the device. There is no such thing as a &ldquo;headline sized font&rdquo;.</p>
+<p>But, since you&rsquo;re trying to do it:
 If you are sure Chrome is NOT rendering the WOFF, have you figured out which font file Chrome IS rendering?
-According the spec, Chrome should be rendering the first format it finds that it supports - in this case WOFF. But you say it isn't doing that so I'm intrigued.
-First, how do you know for sure that it's skipping the WOFF? And what's the test environment or environments?  (Diagnosing stuff like this isn't simple.) Chrome version what, running on what?
-And if Chrome is not rendering the WOFF, is it rendering the TTF or is it rendering the SVG?
-
-I am assuming you think it's the TTF, because the SVG would render the font similarly to the OTF, I would imagine. (I stopped bothering with SVG fonts a long time ago so I haven't seen any to compare lately.)
-
-If you're stumped, I'll test the files independently for you. Let me know.
-
-Rich
-
-
-
+According the spec, Chrome should be rendering the first format it finds that it supports - in this case WOFF. But you say it isn&rsquo;t doing that so I&rsquo;m intrigued.
+First, how do you know for sure that it&rsquo;s skipping the WOFF? And what&rsquo;s the test environment or environments?  (Diagnosing stuff like this isn&rsquo;t simple.) Chrome version what, running on what?
+And if Chrome is not rendering the WOFF, is it rendering the TTF or is it rendering the SVG?</p>
+<p>I am assuming you think it&rsquo;s the TTF, because the SVG would render the font similarly to the OTF, I would imagine. (I stopped bothering with SVG fonts a long time ago so I haven&rsquo;t seen any to compare lately.)</p>
+<p>If you&rsquo;re stumped, I&rsquo;ll test the files independently for you. Let me know.</p>
+<p>Rich</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -217,18 +206,11 @@ Rich
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hmm. I think it was in fact a cache issue, and nothing else. I've tested it since, and it works fine.
-
-<em>I don't think what you're trying to do is a good idea. (Or even necessary. So the font looks scratchy in some environments, so what?) In web design, everything is relative to the viewport of the device. There is no such thing as a "headline sized font". </em>
-I don't agree with that. Don't go blind over hacks! Postscript has to be the future if you want a detail rich, Opentype savvy web. Truetype is too bloated in file size for large character sets and organic lettershapes. And off course it matters if the font looks scratchy! If you don't think so, you're surely come to the wrong corner of the web. And btw: There is such a thing as a "headline sized font". It’s fracking BIG.
-
-But, to pull us back on topic (sort of), I'm still looking for answers to my two other questions: 
-How does the downloading of font files work in web browser -- do they pull all or only one file? And how should one ideally set up the CSS for Postscript-based webfonts?
-
-
-
-
-
+		<div class="commentbody"><p>Hmm. I think it was in fact a cache issue, and nothing else. I&rsquo;ve tested it since, and it works fine.</p>
+<p><!-- raw HTML omitted -->I don&rsquo;t think what you&rsquo;re trying to do is a good idea. (Or even necessary. So the font looks scratchy in some environments, so what?) In web design, everything is relative to the viewport of the device. There is no such thing as a &ldquo;headline sized font&rdquo;. <!-- raw HTML omitted -->
+I don&rsquo;t agree with that. Don&rsquo;t go blind over hacks! Postscript has to be the future if you want a detail rich, Opentype savvy web. Truetype is too bloated in file size for large character sets and organic lettershapes. And off course it matters if the font looks scratchy! If you don&rsquo;t think so, you&rsquo;re surely come to the wrong corner of the web. And btw: There is such a thing as a &ldquo;headline sized font&rdquo;. It’s fracking BIG.</p>
+<p>But, to pull us back on topic (sort of), I&rsquo;m still looking for answers to my two other questions: 
+How does the downloading of font files work in web browser &ndash; do they pull all or only one file? And how should one ideally set up the CSS for Postscript-based webfonts?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -250,10 +232,10 @@ How does the downloading of font files work in web browser -- do they pull all o
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">That syntax you are using is already set up in a way, so unnecessary fonts are not downloaded. 
-The details of how the browsers should process the declaration can be found here: http://www.w3.org/TR/css3-fonts/#font-face-rule
-
-The syntax should also be fine for delivering the WOFF font as PostScript-flavoured. </div>
+		<div class="commentbody"><p>That syntax you are using is already set up in a way, so unnecessary fonts are not downloaded. 
+The details of how the browsers should process the declaration can be found here: <a href="http://www.w3.org/TR/css3-fonts/#font-face-rule">http://www.w3.org/TR/css3-fonts/#font-face-rule</a></p>
+<p>The syntax should also be fine for delivering the WOFF font as PostScript-flavoured.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -274,22 +256,18 @@ The syntax should also be fine for delivering the WOFF font as PostScript-flavou
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">>There is such a thing as a "headline sized font". It’s fracking BIG.
-
-In web design, you don't get to decide what's fracking BIG. The bigness and smallness of type is not under your control.  This is difficult to accept, I understand.
-
-You can fight against this lack of control using elaborate server-side user agent "sniffing" if that is available to you.
-For example, if you detect that the user agent is Safari running on an iPad, you will know the physical size of the viewport and you can "feed" a set of default sizes accordingly.
-But those settings are only a starting point. Your "design" is a recommendation that may have very, very limited influence.
-
-In web design, you've got a lot of partners. The user is one of them. And the user can effortlessly enlarge or reduce your carefully chosen "sizes" to suit their tastes. 
-
-Using CSS and HTML alone, the idea of being able to specify big type or small type has become so vague and unpredictable if not totally meaningless, it's counterproductive. 
-If you can't predict (or detect) the size of the viewport, you can't control the size of the type. And even if you do predict (or detect) the size of the viewport, your decision is easily overriden.
-
-So, good luck with setting the "size" of your web fonts. 
-
-BTW - I don't understand what you mean by "going blind over hacks".
+		<div class="commentbody"><blockquote>
+<p>There is such a thing as a &ldquo;headline sized font&rdquo;. It’s fracking BIG.</p>
+</blockquote>
+<p>In web design, you don&rsquo;t get to decide what&rsquo;s fracking BIG. The bigness and smallness of type is not under your control.  This is difficult to accept, I understand.</p>
+<p>You can fight against this lack of control using elaborate server-side user agent &ldquo;sniffing&rdquo; if that is available to you.
+For example, if you detect that the user agent is Safari running on an iPad, you will know the physical size of the viewport and you can &ldquo;feed&rdquo; a set of default sizes accordingly.
+But those settings are only a starting point. Your &ldquo;design&rdquo; is a recommendation that may have very, very limited influence.</p>
+<p>In web design, you&rsquo;ve got a lot of partners. The user is one of them. And the user can effortlessly enlarge or reduce your carefully chosen &ldquo;sizes&rdquo; to suit their tastes.</p>
+<p>Using CSS and HTML alone, the idea of being able to specify big type or small type has become so vague and unpredictable if not totally meaningless, it&rsquo;s counterproductive. 
+If you can&rsquo;t predict (or detect) the size of the viewport, you can&rsquo;t control the size of the type. And even if you do predict (or detect) the size of the viewport, your decision is easily overriden.</p>
+<p>So, good luck with setting the &ldquo;size&rdquo; of your web fonts.</p>
+<p>BTW - I don&rsquo;t understand what you mean by &ldquo;going blind over hacks&rdquo;.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -311,9 +289,8 @@ BTW - I don't understand what you mean by "going blind over hacks".
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Although things are certainly malleable, it's not so totally uncontrollable; just because some people (although not Frode) are control freaks doesn't mean anybody should strive to be a berserker hippie. For example, if you want a certain piece of text to end up very large, make it a large number of steps away from the smallest that has to be read: in the process of making the critical text large enough the user can't avoiding making the biggest size very large.
-
-hhp
+		<div class="commentbody"><p>Although things are certainly malleable, it&rsquo;s not so totally uncontrollable; just because some people (although not Frode) are control freaks doesn&rsquo;t mean anybody should strive to be a berserker hippie. For example, if you want a certain piece of text to end up very large, make it a large number of steps away from the smallest that has to be read: in the process of making the critical text large enough the user can&rsquo;t avoiding making the biggest size very large.</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -356,25 +333,24 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@hrant who said:
->it's not so totally uncontrollable
-
-@frodefrank who said:
->I’m not here to argue with you, Richard. I understand very well the nature of the web.
-
-I don't know if there's anything to argue.  There's no right or wrong here.
-It's more of a perceptual thing. Understanding and accepting are two different things.
-
-The way I see it, until the rise of small screens on smart phones and tablets, web design wasn't regarded as all that different from print design. It was print design that accomodated a few different paper sizes and made some allowances for low res. 
-Today, there are way too many canvas sizes for that thinking to continue.
-
-This is interesting:
-<em>For example, if you want a certain piece of text to end up very large, make it a large number of steps away from the smallest that has to be read: in the process of making the critical text large enough the user can't avoiding making the biggest size very large.</em>
-
-I don't think anyone's yet done decent research on size ranges. What the limits are. How big should text within an h1 tag be in relation to the text in the p tag, that kind of thing. And if the user goes large on the body text, will the h1 text become useless because you are only seeing a fragment of it?
-That kind of thing.  
-
-Later.....</div>
+		<div class="commentbody"><p>@hrant who said:</p>
+<blockquote>
+<p>it&rsquo;s not so totally uncontrollable</p>
+</blockquote>
+<p>@frodefrank who said:</p>
+<blockquote>
+<p>I’m not here to argue with you, Richard. I understand very well the nature of the web.</p>
+</blockquote>
+<p>I don&rsquo;t know if there&rsquo;s anything to argue.  There&rsquo;s no right or wrong here.
+It&rsquo;s more of a perceptual thing. Understanding and accepting are two different things.</p>
+<p>The way I see it, until the rise of small screens on smart phones and tablets, web design wasn&rsquo;t regarded as all that different from print design. It was print design that accomodated a few different paper sizes and made some allowances for low res. 
+Today, there are way too many canvas sizes for that thinking to continue.</p>
+<p>This is interesting:
+<!-- raw HTML omitted -->For example, if you want a certain piece of text to end up very large, make it a large number of steps away from the smallest that has to be read: in the process of making the critical text large enough the user can&rsquo;t avoiding making the biggest size very large.<!-- raw HTML omitted --></p>
+<p>I don&rsquo;t think anyone&rsquo;s yet done decent research on size ranges. What the limits are. How big should text within an h1 tag be in relation to the text in the p tag, that kind of thing. And if the user goes large on the body text, will the h1 text become useless because you are only seeing a fragment of it?
+That kind of thing.</p>
+<p>Later&hellip;..</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -395,11 +371,10 @@ Later.....</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If you want a lot of specifics, Zoe Mickley Gillenwater is an expert on - call it what you will - fluid, liquid, responsive - design and just gave a talk on it. There's a slide presentation that sums up the madness nicely.
-
-http://zomigi.com/blog/responsive-web-design-presentation/
-
-http://zomigi.com/downloads/CSS3-Media-Queries-Responsive-Design_STC-Summit_120523.pdf</div>
+		<div class="commentbody"><p>If you want a lot of specifics, Zoe Mickley Gillenwater is an expert on - call it what you will - fluid, liquid, responsive - design and just gave a talk on it. There&rsquo;s a slide presentation that sums up the madness nicely.</p>
+<p><a href="http://zomigi.com/blog/responsive-web-design-presentation/">http://zomigi.com/blog/responsive-web-design-presentation/</a></p>
+<p><a href="http://zomigi.com/downloads/CSS3-Media-Queries-Responsive-Design_STC-Summit_120523.pdf">http://zomigi.com/downloads/CSS3-Media-Queries-Responsive-Design_STC-Summit_120523.pdf</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

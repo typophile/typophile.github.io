@@ -72,24 +72,22 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody">hi there,
-i'm actually creatin a new font and i want to create ligatures in the font. but i've problems with it. i am able to create ligatures as new characters but they doesn't work in the preview panel, not as fontlab data and neither as opentype or truetype. can anyone help me, what's my problem.
+i&rsquo;m actually creatin a new font and i want to create ligatures in the font. but i&rsquo;ve problems with it. i am able to create ligatures as new characters but they doesn&rsquo;t work in the preview panel, not as fontlab data and neither as opentype or truetype. can anyone help me, what&rsquo;s my problem.
 thx</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Glyphs are just glyphs, you have to tell the font which substitutions to perform:
-In the OpenType panel, add a new feature (click the plus in the bottom left part of the panel) which creates a new empty feature (displayed in the top right part). There, enter something like:
-
-feature liga {
-&nbsp;&nbsp;&nbsp;sub f i by f_i;
-&nbsp;&nbsp;&nbsp;sub f l by f_l;
-&nbsp;&nbsp;&nbsp;[etc]
-} liga;
-
-which tells the OpenType interpreter to replace single "f" and "i" by the ligature glyph named "f_i" (or "fi" if you call it like that).
-You can add other substitution commands by the same scheme.
-
-Karsten</div>
+		<div class="commentbody"><p>Glyphs are just glyphs, you have to tell the font which substitutions to perform:
+In the OpenType panel, add a new feature (click the plus in the bottom left part of the panel) which creates a new empty feature (displayed in the top right part). There, enter something like:</p>
+<p>feature liga {
+   sub f i by f_i;
+   sub f l by f_l;
+   [etc]
+} liga;</p>
+<p>which tells the OpenType interpreter to replace single &ldquo;f&rdquo; and &ldquo;i&rdquo; by the ligature glyph named &ldquo;f_i&rdquo; (or &ldquo;fi&rdquo; if you call it like that).
+You can add other substitution commands by the same scheme.</p>
+<p>Karsten</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -110,9 +108,9 @@ Karsten</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Also, make sure that you have more than one feature; eg. kern, or it won't work when generated.
-
-Nick Cooke</div>
+		<div class="commentbody"><p>Also, make sure that you have more than one feature; eg. kern, or it won&rsquo;t work when generated.</p>
+<p>Nick Cooke</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -154,9 +152,9 @@ Nick Cooke</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>is it easily possible to have ligatures that involve three letters?</em>
-
-yes.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->is it easily possible to have ligatures that involve three letters?<!-- raw HTML omitted --></p>
+<p>yes.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -175,17 +173,14 @@ yes.</div>
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">three letter ligatures:
-
-i'd go like that with it?
-
-feature liga {
-   sub w w w by lig_www;
-} liga;
-
-(if the name of the glyph is lig_www)
-
-on another note: if i do a www-lig, wouldnt it be good to make it "www.", because then i can make sure that there's not a strange word in a language that has three w's following each other and getting replaced - also, makes kerning easier.</div>
+		<div class="commentbody"><p>three letter ligatures:</p>
+<p>i&rsquo;d go like that with it?</p>
+<p>feature liga {
+sub w w w by lig_www;
+} liga;</p>
+<p>(if the name of the glyph is lig_www)</p>
+<p>on another note: if i do a www-lig, wouldnt it be good to make it &ldquo;www.&rdquo;, because then i can make sure that there&rsquo;s not a strange word in a language that has three w&rsquo;s following each other and getting replaced - also, makes kerning easier.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -208,7 +203,7 @@ on another note: if i do a www-lig, wouldnt it be good to make it "www.", becaus
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">thx for your replies. i'll try it.</div>
+		<div class="commentbody">thx for your replies. i&rsquo;ll try it.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -229,18 +224,16 @@ on another note: if i do a www-lig, wouldnt it be good to make it "www.", becaus
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Since glyph names still matter, you better name the glyph "w_w_w" so e.g. Acrobat knows it is a ligature and must be decomposed to w w w if you copy/paste text from a PDF. So:
-&nbsp;&nbsp;&nbsp;sub w w w by w_w_w;
-
-Or, if you like:
-&nbsp;&nbsp;&nbsp;sub w w w period by w_w_w_period;
-
-Also, you can use contextual substitution:
-&nbsp;&nbsp;&nbsp;sub w' w' w' period by w_w_w;
+		<div class="commentbody"><p>Since glyph names still matter, you better name the glyph &ldquo;w_w_w&rdquo; so e.g. Acrobat knows it is a ligature and must be decomposed to w w w if you copy/paste text from a PDF. So:
+   sub w w w by w_w_w;</p>
+<p>Or, if you like:
+   sub w w w period by w_w_w_period;</p>
+<p>Also, you can use contextual substitution:
+   sub w' w' w' period by w_w_w;
 So w w w will be substituted only if period follows, but the period itself remains.
-(You could put w_w_w into your w kerning class. Might be that XPress7 ignores this then, I don't know, you have to try.)
-
-Karsten</div>
+(You could put w_w_w into your w kerning class. Might be that XPress7 ignores this then, I don&rsquo;t know, you have to try.)</p>
+<p>Karsten</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -261,16 +254,16 @@ Karsten</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> Or, if you like:
->   sub w w w period by w_w_w_period;
-> Also, you can use contextual substitution:
->   sub w’ w’ w’ period by w_w_w;
-> So w w w will be substituted only if period follows, 
-> but the period itself remains.
-
-But note that not all OpenType-savvy applications support contextual substitutions. The contextual ligature will work in InDesign, Illustrator, Photoshop, QuarkXPress 7 but will not work in Apple TextEdit, Keynote or Pages (under Mac OS X 10.4), while the plain ligature will work in all of the above. 
-
-Adam
+		<div class="commentbody"><blockquote>
+<p>Or, if you like:
+sub w w w period by w_w_w_period;
+Also, you can use contextual substitution:
+sub w’ w’ w’ period by w_w_w;
+So w w w will be substituted only if period follows, 
+but the period itself remains.</p>
+</blockquote>
+<p>But note that not all OpenType-savvy applications support contextual substitutions. The contextual ligature will work in InDesign, Illustrator, Photoshop, QuarkXPress 7 but will not work in Apple TextEdit, Keynote or Pages (under Mac OS X 10.4), while the plain ligature will work in all of the above.</p>
+<p>Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

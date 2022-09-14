@@ -71,25 +71,22 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hey all,
-
-I'm working on an on-page glyphet font generator in JavaScript,  and am making decent headway, except I've run into a problem with GSUB ligature substitution...
-
-If you load [[http://pomax.github.io/CFF-glyphlet-fonts]] in Firefox, you'll note that the "small" font, without GSUB table, renders the character "~" as a rectangle with a cutout. The second font has a GSUB table for the 'liga' feature with a lookup type 4 to turn the sequence "c,u,s,t,o,m" into "~", [[http://github.com/Pomax/CFF-glyphlet-fonts/blob/gh-pages/binaries/with%20GSUB/customfont.gsub.ttx#L271]], which works in Firefox, but not in Chrome or IE (of course IE doesn't like plain .otf, so the fonts are repackaged as uncompressed WOFF as well, as fallback option).
-
-I tried running the larger font through TTX, as well as tried loading it in FontForge, to see if those found any obvious errors, but neither seem to complain about the shape and content of the GSUB table, so I'm not sure if I've done something wrong definition wise, or whether there are specific values that a font with GSUB ligatures needs to set before it'll work in Chrome/IE. I know [[http://symbolset.com|Symbolset]] works in all three browsers, and relies on GSUB tables for the icon ligatures, so I tried to see whether they did something different from what I implemented, but I couldn't really find anything (the TTX xml for symbolset is also quite huge!)
-
-Does anyone here have experience with cff-opentype fonts for webfont purposes, with GSUB liga features, and might they be willing to have a quick look at what I might be doing wrong?
-
-- Mike "Pomax" Kamermans</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hey all,</p>
+<p>I&rsquo;m working on an on-page glyphet font generator in JavaScript,  and am making decent headway, except I&rsquo;ve run into a problem with GSUB ligature substitution&hellip;</p>
+<p>If you load [[http://pomax.github.io/CFF-glyphlet-fonts]] in Firefox, you&rsquo;ll note that the &ldquo;small&rdquo; font, without GSUB table, renders the character &ldquo;~&rdquo; as a rectangle with a cutout. The second font has a GSUB table for the &lsquo;liga&rsquo; feature with a lookup type 4 to turn the sequence &ldquo;c,u,s,t,o,m&rdquo; into &ldquo;~&rdquo;, [[http://github.com/Pomax/CFF-glyphlet-fonts/blob/gh-pages/binaries/with%20GSUB/customfont.gsub.ttx#L271]], which works in Firefox, but not in Chrome or IE (of course IE doesn&rsquo;t like plain .otf, so the fonts are repackaged as uncompressed WOFF as well, as fallback option).</p>
+<p>I tried running the larger font through TTX, as well as tried loading it in FontForge, to see if those found any obvious errors, but neither seem to complain about the shape and content of the GSUB table, so I&rsquo;m not sure if I&rsquo;ve done something wrong definition wise, or whether there are specific values that a font with GSUB ligatures needs to set before it&rsquo;ll work in Chrome/IE. I know [[http://symbolset.com|Symbolset]] works in all three browsers, and relies on GSUB tables for the icon ligatures, so I tried to see whether they did something different from what I implemented, but I couldn&rsquo;t really find anything (the TTX xml for symbolset is also quite huge!)</p>
+<p>Does anyone here have experience with cff-opentype fonts for webfont purposes, with GSUB liga features, and might they be willing to have a quick look at what I might be doing wrong?</p>
+<ul>
+<li>Mike &ldquo;Pomax&rdquo; Kamermans</li>
+</ul>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">As it turns out, only Firefox understands a font with only the DFLT script, and with the ReqFeatureIndex value set to zero, to indicate the feature at offset index 0 must always be turned on.
-
-Chrome and IE, unfortunately, don't understand this at all, and need to also see a "latn" script (or whichever block covers your ligature source glyphs) in order to be able to apply any feature. And then they must also be told to enable the "liga" opentype feature specifically, through CSS, despite the ReqFeatureIndex value in the default LangSys table indicating that this feature should always be turned on.
-
-I've implemented these workarounds, and http://pomax.github.io/CFF-glyphlet-fonts should now show the custom glyph in the "with GSUB" section in all major OS/browser combinations.</div>
+		<div class="commentbody"><p>As it turns out, only Firefox understands a font with only the DFLT script, and with the ReqFeatureIndex value set to zero, to indicate the feature at offset index 0 must always be turned on.</p>
+<p>Chrome and IE, unfortunately, don&rsquo;t understand this at all, and need to also see a &ldquo;latn&rdquo; script (or whichever block covers your ligature source glyphs) in order to be able to apply any feature. And then they must also be told to enable the &ldquo;liga&rdquo; opentype feature specifically, through CSS, despite the ReqFeatureIndex value in the default LangSys table indicating that this feature should always be turned on.</p>
+<p>I&rsquo;ve implemented these workarounds, and <a href="http://pomax.github.io/CFF-glyphlet-fonts">http://pomax.github.io/CFF-glyphlet-fonts</a> should now show the custom glyph in the &ldquo;with GSUB&rdquo; section in all major OS/browser combinations.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

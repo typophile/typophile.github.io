@@ -71,97 +71,69 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi all,
-
-I'm to write a script to use with RoboFab that will work like the fontlab function "Copy to composites" from the preview window when a glyph is used in other composites.
-
-[img:sites/default/files/old-images/Picture-1_3595.gif]
-
-This fiunction works fine but I was trying to produce something that would update all the metrics in composites in on go without having to go through each glyph.
-
-I thought something like this might work,
-<code>
-#---------------------------
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi all,</p>
+<p>I&rsquo;m to write a script to use with RoboFab that will work like the fontlab function &ldquo;Copy to composites&rdquo; from the preview window when a glyph is used in other composites.</p>
+<p>[img:sites/default/files/old-images/Picture-1_3595.gif]</p>
+<p>This fiunction works fine but I was trying to produce something that would update all the metrics in composites in on go without having to go through each glyph.</p>
+<p>I thought something like this might work,
+<!-- raw HTML omitted -->
+#&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
 #UPDATE COMPONENT METRICS
-#---------------------------
+#&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
 from robofab.world import CurrentFont
-f = CurrentFont()
-
-
-f['Itilde'].leftMargin = f['I'].leftMargin
-f['Imacron'].leftMargin = f['I'].leftMargin
-f['Ibreve'].leftMargin = f['I'].leftMargin
-f['Iacute'].leftMargin = f['I'].leftMargin
-f['Icircumflex'].leftMargin = f['I'].leftMargin
-f['Idieresis'].leftMargin = f['I'].leftMargin
-f['Igrave'].leftMargin = f['I'].leftMargin
-f['Idotaccent'].leftMargin = f['I'].leftMargin
-f['Itilde'].rightMargin = f['I'].rightMargin
-f['Imacron'].rightMargin = f['I'].rightMargin
-f['Ibreve'].rightMargin = f['I'].rightMargin
-f['Iacute'].rightMargin = f['I'].rightMargin
-f['Icircumflex'].rightMargin = f['I'].rightMargin
-f['Idieresis'].rightMargin = f['I'].rightMargin
-f['Igrave'].rightMargin = f['I'].rightMargin
-f['Idotaccent'].rightMargin = f['I'].rightMargin
-
-
-f.update()
-
-</code>
-
-This produces sidebearings including the added accents in the case of the Itilde, Imacron etc. 
-
-When using the Copy to Composites function in FL it produces the correct sidebearings with the accents, as can be seen with the measurement line.
-
-What I wanted is someway of applying the copy to composites function to all composites.
-
-
-
-
-
-
-
-
-
-[img:sites/default/files/old-images/Picture-2_4690.gif]</div>
+f = CurrentFont()</p>
+<p>f[&lsquo;Itilde&rsquo;].leftMargin = f[&lsquo;I&rsquo;].leftMargin
+f[&lsquo;Imacron&rsquo;].leftMargin = f[&lsquo;I&rsquo;].leftMargin
+f[&lsquo;Ibreve&rsquo;].leftMargin = f[&lsquo;I&rsquo;].leftMargin
+f[&lsquo;Iacute&rsquo;].leftMargin = f[&lsquo;I&rsquo;].leftMargin
+f[&lsquo;Icircumflex&rsquo;].leftMargin = f[&lsquo;I&rsquo;].leftMargin
+f[&lsquo;Idieresis&rsquo;].leftMargin = f[&lsquo;I&rsquo;].leftMargin
+f[&lsquo;Igrave&rsquo;].leftMargin = f[&lsquo;I&rsquo;].leftMargin
+f[&lsquo;Idotaccent&rsquo;].leftMargin = f[&lsquo;I&rsquo;].leftMargin
+f[&lsquo;Itilde&rsquo;].rightMargin = f[&lsquo;I&rsquo;].rightMargin
+f[&lsquo;Imacron&rsquo;].rightMargin = f[&lsquo;I&rsquo;].rightMargin
+f[&lsquo;Ibreve&rsquo;].rightMargin = f[&lsquo;I&rsquo;].rightMargin
+f[&lsquo;Iacute&rsquo;].rightMargin = f[&lsquo;I&rsquo;].rightMargin
+f[&lsquo;Icircumflex&rsquo;].rightMargin = f[&lsquo;I&rsquo;].rightMargin
+f[&lsquo;Idieresis&rsquo;].rightMargin = f[&lsquo;I&rsquo;].rightMargin
+f[&lsquo;Igrave&rsquo;].rightMargin = f[&lsquo;I&rsquo;].rightMargin
+f[&lsquo;Idotaccent&rsquo;].rightMargin = f[&lsquo;I&rsquo;].rightMargin</p>
+<p>f.update()</p>
+<!-- raw HTML omitted -->
+<p>This produces sidebearings including the added accents in the case of the Itilde, Imacron etc.</p>
+<p>When using the Copy to Composites function in FL it produces the correct sidebearings with the accents, as can be seen with the measurement line.</p>
+<p>What I wanted is someway of applying the copy to composites function to all composites.</p>
+<p>[img:sites/default/files/old-images/Picture-2_4690.gif]</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">A quicker way is to rebuild your accented glyphs with the f.generateGlyph() method since it will copy the metrics of the baseglyph. Just select the glyphs you want to update and run this script:
-
-<code>
-#FLM: Build accents
-
-from robofab.world import CurrentFont, CurrentGlyph
-from robofab.interface.all.dialogs import ProgressBar
-
-f = CurrentFont()
-
-
-def buildAccents(f, g):
---> f.generateGlyph(g.name, replace=True, printErrors=True)
---> g.update()
-
-
-if f:
---> if f.selection:
---> --> l = f.selection
---> else:
---> --> l = f.keys()
---> bar = ProgressBar('Building accents...', len(l))
---> for n in l:
---> --> g = f[n]
---> --> buildAccents(f, g)
---> --> bar.tick()
---> bar.close()
---> print "Accents for glyphs " + str(l) + " built"
---> f.update()
---> print ""
-</code>
-(replace the arrows with a tab to get proper Python syntax)
-
-:)</div>
+		<div class="commentbody"><p>A quicker way is to rebuild your accented glyphs with the f.generateGlyph() method since it will copy the metrics of the baseglyph. Just select the glyphs you want to update and run this script:</p>
+<!-- raw HTML omitted -->
+<p>from robofab.world import CurrentFont, CurrentGlyph
+from robofab.interface.all.dialogs import ProgressBar</p>
+<p>f = CurrentFont()</p>
+<p>def buildAccents(f, g):
+&ndash;&gt; f.generateGlyph(g.name, replace=True, printErrors=True)
+&ndash;&gt; g.update()</p>
+<p>if f:
+&ndash;&gt; if f.selection:
+&ndash;&gt; &ndash;&gt; l = f.selection
+&ndash;&gt; else:
+&ndash;&gt; &ndash;&gt; l = f.keys()
+&ndash;&gt; bar = ProgressBar(&lsquo;Building accents&hellip;&rsquo;, len(l))
+&ndash;&gt; for n in l:
+&ndash;&gt; &ndash;&gt; g = f[n]
+&ndash;&gt; &ndash;&gt; buildAccents(f, g)
+&ndash;&gt; &ndash;&gt; bar.tick()
+&ndash;&gt; bar.close()
+&ndash;&gt; print &ldquo;Accents for glyphs &quot; + str(l) + &quot; built&rdquo;
+&ndash;&gt; f.update()
+&ndash;&gt; print &quot;&quot;
+<!-- raw HTML omitted -->
+(replace the arrows with a tab to get proper Python syntax)</p>
+<p>:)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -182,9 +154,9 @@ if f:
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">but robofab's accent builder assumes the designer is using <a href="http://typophile.com/node/39404">anchors</a>, right?  
-
-;-)</div>
+		<div class="commentbody"><p>but robofab&rsquo;s accent builder assumes the designer is using <!-- raw HTML omitted -->anchors<!-- raw HTML omitted -->, right?</p>
+<p>;-)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -205,7 +177,7 @@ if f:
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, this RoboFab method requires the use of anchors. Which I think is almost vital if you're dealing with many accented glyphs.</div>
+		<div class="commentbody">Yes, this RoboFab method requires the use of anchors. Which I think is almost vital if you&rsquo;re dealing with many accented glyphs.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

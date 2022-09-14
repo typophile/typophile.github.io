@@ -71,54 +71,49 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I have this lookup for ordinals. It works OK for 1st, 2nd, 3rd, 4th, etc., and for Caps, 1ST, 2ND, 3RD, etc., but not for ordinals in French or Spanish, which use one or three ordinals e.g. 2º or 1ème.
-
-How can I change my code to cater for one or more alpha characters after the digits? One to three superscripts would be OK, but I think one or more would be more flexible. 
-
-feature Ordinals ordn {
-    lookup Ordinals;
+  <div class="post-content e-content" itemprop="articleBody"><p>I have this lookup for ordinals. It works OK for 1st, 2nd, 3rd, 4th, etc., and for Caps, 1ST, 2ND, 3RD, etc., but not for ordinals in French or Spanish, which use one or three ordinals e.g. 2º or 1ème.</p>
+<p>How can I change my code to cater for one or more alpha characters after the digits? One to three superscripts would be OK, but I think one or more would be more flexible.</p>
+<p>feature Ordinals ordn {
+lookup Ordinals;
 }
-    group @Digits [zero-nine];
-    group @Alphas [A-Z a-z];
-
-    lookup Ordinals{
-    context (@Digits) @Alphas @Alphas;
-    sub 0 Super;
-    sub 1 Super;
-}  lookup Super {
-    sub [A-Z] -> [uniEAA1 - uniEABA];
-    sub [a-z] -> [uniEAC1 - uniEADA];
-}
-
-I am using [[http://home.kabelfoon.nl/~slam/fonts/otcomp.html|OpenType Compiler]]. </div>
+group @Digits [zero-nine];
+group @Alphas [A-Z a-z];</p>
+<pre><code>lookup Ordinals{
+context (@Digits) @Alphas @Alphas;
+sub 0 Super;
+sub 1 Super;
+</code></pre>
+<p>}  lookup Super {
+sub [A-Z] -&gt; [uniEAA1 - uniEABA];
+sub [a-z] -&gt; [uniEAC1 - uniEADA];
+}</p>
+<p>I am using [[http://home.kabelfoon.nl/~slam/fonts/otcomp.html|OpenType Compiler]].</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I found my own solution with some help from the Serif™ forums.
-
-The following code does what is needed as long as the ordinal glyphs are included in the font and have the corresponding Postscript names.
-
-feature Ordinals ordn {
-    lookup Ordinals;
+		<div class="commentbody"><p>I found my own solution with some help from the Serif™ forums.</p>
+<p>The following code does what is needed as long as the ordinal glyphs are included in the font and have the corresponding Postscript names.</p>
+<p>feature Ordinals ordn {
+lookup Ordinals;
 }
-    group @Ordinals [zero-nine uniE2C0-uniE2C9 uniEAA1 - uniEABA uniEAC1 - uniEADA uniEB28 uniEB3A uniEB48 uniEB5A];
-    group @Alphas [A-Z a-z Egrave Uacute egrave uacute];
-
-    lookup Ordinals{
-    context (@Ordinals) @Alphas;
-    sub 0 Super;
-}  lookup Super {
-    sub [A-Z] -> [uniEAA1 - uniEABA];
-    sub [a-z] -> [uniEAC1 - uniEADA];
-    sub Egrave -> uniEB28;
-    sub Uacute -> uniEB3A;
-    sub egrave -> uniEB48;
-    sub uacute -> uniEB5A;
-}
-
-The @Ordinals group includes the digits, OldStyle figures, and the Superscripts, so any character in the @Alpha group following a digit or superscript in the @Ordinals group will use the "Super" lookup table, and will also be superscripted. As soon as a character not included in the @Alpha group is encountered, the superscripted text reverts to normal text.
-
-I used FontCreator 6.1 to create my fonts. I wrote a script to map the ordinals, copy the base glyphs, scale them, and embolden them. That removes much of the donkey work. I included capitals for using ordinals in All Caps or Small Caps text. </div>
+group @Ordinals [zero-nine uniE2C0-uniE2C9 uniEAA1 - uniEABA uniEAC1 - uniEADA uniEB28 uniEB3A uniEB48 uniEB5A];
+group @Alphas [A-Z a-z Egrave Uacute egrave uacute];</p>
+<pre><code>lookup Ordinals{
+context (@Ordinals) @Alphas;
+sub 0 Super;
+</code></pre>
+<p>}  lookup Super {
+sub [A-Z] -&gt; [uniEAA1 - uniEABA];
+sub [a-z] -&gt; [uniEAC1 - uniEADA];
+sub Egrave -&gt; uniEB28;
+sub Uacute -&gt; uniEB3A;
+sub egrave -&gt; uniEB48;
+sub uacute -&gt; uniEB5A;
+}</p>
+<p>The @Ordinals group includes the digits, OldStyle figures, and the Superscripts, so any character in the @Alpha group following a digit or superscript in the @Ordinals group will use the &ldquo;Super&rdquo; lookup table, and will also be superscripted. As soon as a character not included in the @Alpha group is encountered, the superscripted text reverts to normal text.</p>
+<p>I used FontCreator 6.1 to create my fonts. I wrote a script to map the ordinals, copy the base glyphs, scale them, and embolden them. That removes much of the donkey work. I included capitals for using ordinals in All Caps or Small Caps text.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -139,9 +134,9 @@ I used FontCreator 6.1 to create my fonts. I wrote a script to map the ordinals,
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">What a disappointing lack of response! Nearly two weeks, and no one has anything to say?  
-
-Is it a good solution or have I missed something that could improve it? </div>
+		<div class="commentbody"><p>What a disappointing lack of response! Nearly two weeks, and no one has anything to say?</p>
+<p>Is it a good solution or have I missed something that could improve it?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -163,7 +158,7 @@ Is it a good solution or have I missed something that could improve it? </div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Maybe you should post here:
-http://typophile.com/forum/6</div>
+<a href="http://typophile.com/forum/6">http://typophile.com/forum/6</a></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

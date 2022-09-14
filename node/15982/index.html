@@ -71,17 +71,16 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">As has been suggested by [[John Hudson]], it would be useful to provide an all-cap setting for [[Greek]] which removes all accents (which is standard practice). And he has suggested [[titl|Titling Alternates]] as the feature.
-
-It seems straightforward, except for the wrinkle of "double-glyph" characters such as "RoughAlpha-iota": I need three extra alternates to handle this situation, Alpha-Iota, Eta-Iota, and Omega-Iota, right?</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>As has been suggested by [[John Hudson]], it would be useful to provide an all-cap setting for [[Greek]] which removes all accents (which is standard practice). And he has suggested [[titl|Titling Alternates]] as the feature.</p>
+<p>It seems straightforward, except for the wrinkle of &ldquo;double-glyph&rdquo; characters such as &ldquo;RoughAlpha-iota&rdquo;: I need three extra alternates to handle this situation, Alpha-Iota, Eta-Iota, and Omega-Iota, right?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick, that wasn't what I suggested using the Titling Alternates for. For removing the accents from Greek all-caps settings, I use the COntextual Alternates (calt) feature, and map directly to the corresponding unaccented glyphs. The contextual substitution is a two-stage process:
-
-Where a tonos or oxia falls on the first vowel of a two-vowel combination that can be read as a diphthong, I change the second vowel to add a dialytika over it. Then I remove all accents except the dialytika. I do this for both all-caps and smallcaps.
-
-By using the Contextual Alternates feature, I ensure that this behaviour is active by default -- which it should be, as it is the grammatical norm --, but allow users to turn the accents back on if they want them by turning off the feature.</div>
+		<div class="commentbody"><p>Nick, that wasn&rsquo;t what I suggested using the Titling Alternates for. For removing the accents from Greek all-caps settings, I use the COntextual Alternates (calt) feature, and map directly to the corresponding unaccented glyphs. The contextual substitution is a two-stage process:</p>
+<p>Where a tonos or oxia falls on the first vowel of a two-vowel combination that can be read as a diphthong, I change the second vowel to add a dialytika over it. Then I remove all accents except the dialytika. I do this for both all-caps and smallcaps.</p>
+<p>By using the Contextual Alternates feature, I ensure that this behaviour is active by default &ndash; which it should be, as it is the grammatical norm &ndash;, but allow users to turn the accents back on if they want them by turning off the feature.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -102,9 +101,11 @@ By using the Contextual Alternates feature, I ensure that this behaviour is acti
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">>Where a tonos or oxia falls on the first vowel of a two-vowel combination that can be read as a diphthong, I change the second vowel to add a dialytika over it. Then I remove all accents except the dialytika.
-
-I'm afraid I don't understand that. Sorry for being a bit slow on the uptake, but could you spell it out a bit more? Thanks! </div>
+		<div class="commentbody"><blockquote>
+<p>Where a tonos or oxia falls on the first vowel of a two-vowel combination that can be read as a diphthong, I change the second vowel to add a dialytika over it. Then I remove all accents except the dialytika.</p>
+</blockquote>
+<p>I&rsquo;m afraid I don&rsquo;t understand that. Sorry for being a bit slow on the uptake, but could you spell it out a bit more? Thanks!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -125,43 +126,31 @@ I'm afraid I don't understand that. Sorry for being a bit slow on the uptake, bu
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Okay, you have a word like ρωμέικα. The Greek letter sequence ει is usually pronounced as a diphthong, but the presence of the tonos on the ε indicates that the two vowels are pronounced separately with the accent on the ε. The rule is that if the accent is on the whole diphthong then the tonos falls on the second vowel, so:
-
-ει = unaccented diphthong
+		<div class="commentbody"><p>Okay, you have a word like ρωμέικα. The Greek letter sequence ει is usually pronounced as a diphthong, but the presence of the tonos on the ε indicates that the two vowels are pronounced separately with the accent on the ε. The rule is that if the accent is on the whole diphthong then the tonos falls on the second vowel, so:</p>
+<p>ει = unaccented diphthong
 εί = accented diphthong
 έι = non-diphthong, accent on the ε
-εΐ = non-diphthong, accent on the ι
-
-If you want to set the word in all-caps, a simple case conversion will produce ΡΩΜΈΙΚΑ, which is incorrect because the accent mark should be dropped from the Έ in an all-caps setting. So you need to contextually swap the unaccent Ε glyph for Έ when preceded by another uppercase letter. In VOLT parlance:
-
-Epsilontonos -> Epsilon
-‹uppercase group› |
-
-However, this will result in ΡΩΜΕΙΚΑ, which is also incorrect because you have lost the indication that the E and Ι are to be separately pronounced, so <em>before</em> you perform the substitution of Ε for Έ you need to insert a dialytika over the Ι. For this, you used the tonos on the Έ as a context trigger:
-
-Iota -> Iotadieresis
-‹Epsilontonos› |
-
-This results in ΡΩΜΈΪΚΑ. <em>Now</em> you perform your second substitution to remove the tonos from Έ when preceded by another uppercase letter, and you are left with ΡΩΜΕΪΚΑ, which is correct.
-
-There are seven Greek diphthongs, and the above rules apply to all of them during case mapping (and also smallcaps): αι ει οι υι αυ ευ ου 
-
-So your first lookup goes like this:
-
-Iota -> Iotadieresis
-upsilon -> upsilondieresis
-‹uppercase with tonos/oxia group› |
-
-and your second one goes like this:
-
-Alphatonos -> Alpha
-Epsilontonos -> Epsilon
-Etatonos -> Eta
-%... etc. for all accents except dialytika
-‹uppercase group› |
-
-
-Perhaps someone else can express these lookups in FontLab/FDK syntax?</div>
+εΐ = non-diphthong, accent on the ι</p>
+<p>If you want to set the word in all-caps, a simple case conversion will produce ΡΩΜΈΙΚΑ, which is incorrect because the accent mark should be dropped from the Έ in an all-caps setting. So you need to contextually swap the unaccent Ε glyph for Έ when preceded by another uppercase letter. In VOLT parlance:</p>
+<p>Epsilontonos -&gt; Epsilon
+‹uppercase group› |</p>
+<p>However, this will result in ΡΩΜΕΙΚΑ, which is also incorrect because you have lost the indication that the E and Ι are to be separately pronounced, so <!-- raw HTML omitted -->before<!-- raw HTML omitted --> you perform the substitution of Ε for Έ you need to insert a dialytika over the Ι. For this, you used the tonos on the Έ as a context trigger:</p>
+<p>Iota -&gt; Iotadieresis
+‹Epsilontonos› |</p>
+<p>This results in ΡΩΜΈΪΚΑ. <!-- raw HTML omitted -->Now<!-- raw HTML omitted --> you perform your second substitution to remove the tonos from Έ when preceded by another uppercase letter, and you are left with ΡΩΜΕΪΚΑ, which is correct.</p>
+<p>There are seven Greek diphthongs, and the above rules apply to all of them during case mapping (and also smallcaps): αι ει οι υι αυ ευ ου</p>
+<p>So your first lookup goes like this:</p>
+<p>Iota -&gt; Iotadieresis
+upsilon -&gt; upsilondieresis
+‹uppercase with tonos/oxia group› |</p>
+<p>and your second one goes like this:</p>
+<p>Alphatonos -&gt; Alpha
+Epsilontonos -&gt; Epsilon
+Etatonos -&gt; Eta
+%&hellip; etc. for all accents except dialytika
+‹uppercase group› |</p>
+<p>Perhaps someone else can express these lookups in FontLab/FDK syntax?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -182,7 +171,7 @@ Perhaps someone else can express these lookups in FontLab/FDK syntax?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">One of our Greek colleagues was kind enough to point out that in the orthographies of some Greek dialects ηυ and ωυ are also diphthongs and would follow the same rules in casing as those I've described. Examples she gives include Ionic νηῦς, corresponding to the Attic ναῦς, and New Ionic ὡυτός corresponding to the Attic αὐτός.</div>
+		<div class="commentbody">One of our Greek colleagues was kind enough to point out that in the orthographies of some Greek dialects ηυ and ωυ are also diphthongs and would follow the same rules in casing as those I&rsquo;ve described. Examples she gives include Ionic νηῦς, corresponding to the Attic ναῦς, and New Ionic ὡυτός corresponding to the Attic αὐτός.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -203,7 +192,7 @@ Perhaps someone else can express these lookups in FontLab/FDK syntax?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks so much John, I think I should be able to figure this out in FontLab, but it will take me a few days as I haven't finished all my glyphs yet.</div>
+		<div class="commentbody">Thanks so much John, I think I should be able to figure this out in FontLab, but it will take me a few days as I haven&rsquo;t finished all my glyphs yet.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -224,14 +213,20 @@ Perhaps someone else can express these lookups in FontLab/FDK syntax?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">OK, I've studied this topic some more, and have a few questions for John, and Thomas.
-I haven't actually tried any implementation, so this is still theoretical.
-
-1. John, why handle Greek all-caps with the Contextual Alternates feature and not "Case"? Wouldn't Case perform the same function more logically? (As I understand it, the "case" feature is not activated during "shift+character" keystrokes, but only by "command-shift-k", or from a typographic menu.)
-
-2. John, as your second substitution removes the accents on caps following another cap, what happens to the initial capital letter of an all-caps word? Surely that should lose its accent(s) too, only being accented in titlecase setting?  
-
-3. Thomas: I've been looking at the "all caps" behavior of InDesign, applied to Polytonic Greek, and there are quite a few lower-case accented characters which it has no effect upon. What's the reason for that?</div>
+		<div class="commentbody"><p>OK, I&rsquo;ve studied this topic some more, and have a few questions for John, and Thomas.
+I haven&rsquo;t actually tried any implementation, so this is still theoretical.</p>
+<ol>
+<li>
+<p>John, why handle Greek all-caps with the Contextual Alternates feature and not &ldquo;Case&rdquo;? Wouldn&rsquo;t Case perform the same function more logically? (As I understand it, the &ldquo;case&rdquo; feature is not activated during &ldquo;shift+character&rdquo; keystrokes, but only by &ldquo;command-shift-k&rdquo;, or from a typographic menu.)</p>
+</li>
+<li>
+<p>John, as your second substitution removes the accents on caps following another cap, what happens to the initial capital letter of an all-caps word? Surely that should lose its accent(s) too, only being accented in titlecase setting?</p>
+</li>
+<li>
+<p>Thomas: I&rsquo;ve been looking at the &ldquo;all caps&rdquo; behavior of InDesign, applied to Polytonic Greek, and there are quite a few lower-case accented characters which it has no effect upon. What&rsquo;s the reason for that?</p>
+</li>
+</ol>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -252,11 +247,18 @@ I haven't actually tried any implementation, so this is still theoretical.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">1. I originally considered using 'case' for Greek all-caps, but after discussing it with Paul Nelson at MS I decided against it. The 'case' feature is intended for what are typographical niceties but optional, e.g. specially aligning punctuation. The 'case' feature is not widely implemented, and in Adobe's UI at least it is tied to a particular display function, not to the presence of strings of uppercase letters. You want the Greek capping behaviour to be on by default, and it is context specific, so 'calt' is both more desirable and more appropriate.
-
-2. Yes. You want the context to include before and after cap context.
-
-3. Thomas may have a more specific answer, but my guess is that polytonic Greek casing is not supported in InDesign yet. Which lowercase accented characters are not affected?</div>
+		<div class="commentbody"><ol>
+<li>
+<p>I originally considered using &lsquo;case&rsquo; for Greek all-caps, but after discussing it with Paul Nelson at MS I decided against it. The &lsquo;case&rsquo; feature is intended for what are typographical niceties but optional, e.g. specially aligning punctuation. The &lsquo;case&rsquo; feature is not widely implemented, and in Adobe&rsquo;s UI at least it is tied to a particular display function, not to the presence of strings of uppercase letters. You want the Greek capping behaviour to be on by default, and it is context specific, so &lsquo;calt&rsquo; is both more desirable and more appropriate.</p>
+</li>
+<li>
+<p>Yes. You want the context to include before and after cap context.</p>
+</li>
+<li>
+<p>Thomas may have a more specific answer, but my guess is that polytonic Greek casing is not supported in InDesign yet. Which lowercase accented characters are not affected?</p>
+</li>
+</ol>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -277,18 +279,12 @@ I haven't actually tried any implementation, so this is still theoretical.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>You want the Greek capping behaviour to be on by default, and it is context specific, so ‘calt’ is both more desirable and more appropriate.</em>
-
-Yes, I get it now.
-
-<em>...context to include before and after cap context.</em>
-
-OK, that's smart. I was originally thinking if it were being done with the "case" feature, it could just be a straight substitution: characters with accents replaced by corresponding accent-less glyphs. But with that behaviour in an always-on "calt" feature, you'd never be able to set a single accented cap for titlecase! 
-
-<em>Which lowercase accented characters are not affected? </em>
-
-I haven't checked them all methodically; while InDesign (in my set-up, at least) appears to capitalize nearly all of the Polytonic characters, it seems to have gaps, for instance vowels with perispomeni.
-
+		<div class="commentbody"><p><!-- raw HTML omitted -->You want the Greek capping behaviour to be on by default, and it is context specific, so ‘calt’ is both more desirable and more appropriate.<!-- raw HTML omitted --></p>
+<p>Yes, I get it now.</p>
+<p><!-- raw HTML omitted -->&hellip;context to include before and after cap context.<!-- raw HTML omitted --></p>
+<p>OK, that&rsquo;s smart. I was originally thinking if it were being done with the &ldquo;case&rdquo; feature, it could just be a straight substitution: characters with accents replaced by corresponding accent-less glyphs. But with that behaviour in an always-on &ldquo;calt&rdquo; feature, you&rsquo;d never be able to set a single accented cap for titlecase!</p>
+<p><!-- raw HTML omitted -->Which lowercase accented characters are not affected? <!-- raw HTML omitted --></p>
+<p>I haven&rsquo;t checked them all methodically; while InDesign (in my set-up, at least) appears to capitalize nearly all of the Polytonic characters, it seems to have gaps, for instance vowels with perispomeni.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -310,9 +306,9 @@ I haven't checked them all methodically; while InDesign (in my set-up, at least)
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>..vowels with perispomeni.</em>
-
-...and no breathing. Perhaps InD doesn't capitalize these because it recognizes that accented capitals should only appear at the begining of words (although it applies capitalization indiscriminately), and such characters would always have a breathing in that position?</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->..vowels with perispomeni.<!-- raw HTML omitted --></p>
+<p>&hellip;and no breathing. Perhaps InD doesn&rsquo;t capitalize these because it recognizes that accented capitals should only appear at the begining of words (although it applies capitalization indiscriminately), and such characters would always have a breathing in that position?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -333,9 +329,9 @@ I haven't checked them all methodically; while InDesign (in my set-up, at least)
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Just to clarify a little further, just in case anyone is confused, when I say that the context should include both preceding and following capitals, I mean two separate contexts, not a dual context. It should be obvious...
-
-Regarding the casing issue in InDesign, I'll investigate this. Most Greek casing is fairly straightforward: the only tricky bit is the lowercase diacritics for which there are no corresponding uppercase, e.g. iota with both accent and dialytika.</div>
+		<div class="commentbody"><p>Just to clarify a little further, just in case anyone is confused, when I say that the context should include both preceding and following capitals, I mean two separate contexts, not a dual context. It should be obvious&hellip;</p>
+<p>Regarding the casing issue in InDesign, I&rsquo;ll investigate this. Most Greek casing is fairly straightforward: the only tricky bit is the lowercase diacritics for which there are no corresponding uppercase, e.g. iota with both accent and dialytika.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -356,9 +352,9 @@ Regarding the casing issue in InDesign, I'll investigate this. Most Greek casing
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Okay, I've taken a look at what InDesign is doing. The lowercase letters that it is failing to case convert to uppercase are those for which there are no standard polytonic uppercase equivalents. These are diacritics that only have lowercase forms in the orthography. That said, though, I don't think what InDesign does in case mapping is ideal: these characters should not be left as lowercase, rather, they should be converted to appropriate unaccented uppercase characters. Of course, in the case of a character-level conversion, this process cannot be reversed, but that is often the way with special casing (the German eszett is another example of non-reversible case mapping). The attached image shows which Greek lowercase letters are converted by InDesign and which are not.
-
-[img:sites/default/files/old-images/IDGreekCasing.gif]</div>
+		<div class="commentbody"><p>Okay, I&rsquo;ve taken a look at what InDesign is doing. The lowercase letters that it is failing to case convert to uppercase are those for which there are no standard polytonic uppercase equivalents. These are diacritics that only have lowercase forms in the orthography. That said, though, I don&rsquo;t think what InDesign does in case mapping is ideal: these characters should not be left as lowercase, rather, they should be converted to appropriate unaccented uppercase characters. Of course, in the case of a character-level conversion, this process cannot be reversed, but that is often the way with special casing (the German eszett is another example of non-reversible case mapping). The attached image shows which Greek lowercase letters are converted by InDesign and which are not.</p>
+<p>[img:sites/default/files/old-images/IDGreekCasing.gif]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -379,11 +375,10 @@ Regarding the casing issue in InDesign, I'll investigate this. Most Greek casing
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>...these characters should not be left as lowercase, rather, they should be converted to appropriate unaccented uppercase characters.</em>
-
-This can't be done as a third lookup in the "calt" feature, because the obvious context triggers (preceded by or followed by an unaccented cap) would result in unwanted capitalizations in U&lc settings, in situations where the problem character follows an unaccented initial cap, or is the last letter in a word.
-
-Therefore, it looks like the "case" feature is the solution, so why not use it for the whole feature? </div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->&hellip;these characters should not be left as lowercase, rather, they should be converted to appropriate unaccented uppercase characters.<!-- raw HTML omitted --></p>
+<p>This can&rsquo;t be done as a third lookup in the &ldquo;calt&rdquo; feature, because the obvious context triggers (preceded by or followed by an unaccented cap) would result in unwanted capitalizations in U&amp;lc settings, in situations where the problem character follows an unaccented initial cap, or is the last letter in a word.</p>
+<p>Therefore, it looks like the &ldquo;case&rdquo; feature is the solution, so why not use it for the whole feature?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -404,15 +399,12 @@ Therefore, it looks like the "case" feature is the solution, so why not use it f
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'm not talking about glyph-level display conversions for casing, Nick. It is the application's job to look after case conversion at the character-level, whether actually affecting the backing text string or in a buffered display state. You shouldn't have to do any messing around in glyph lookups to achieve correct case mapping: this is all standard Unicode text processing stuff that applications are supposed to handle correctly. Unfortunately, a lot of applications support normal character casing, but do not support all or any of the Unicode Special Casing mappings. Greek has both conditional and unconditional special mappings, and applications need to handle these. You can review the special mappings for Greek characters in the <a href="http://www.unicode.org/Public/4.1.0/ucd/SpecialCasing.txt">SpecialCasing.txt</a> file that is part of the Unicode Standard.
-
-In the case of the lowercase alpha with perispomeni the Special Casing rule is
-
-1FB6; 1FB6; 0391 0342; 0391 0342; # GREEK SMALL LETTER ALPHA WITH PERISPOMENI
-
-which indicates that for uppercase and titlecase, the correct character mapping is to two characters: uppercase Alpha and the combining perispomeni character. This is actually a bit more complex a mapping than I was anticipating, and encourages me to view the Unicode polytonic encoding as a kind of compromise between the standard orthography (encoded as precomposed diacritics) and the occasional need to encode and display non-standard combinations. That is, it is not usual to have an uppercase Alpha with perispomeni since this is contrary to spelling rules according to the standardised polytonic system, therefore this diacritic is not encoded because there is little need for the typical font, text processing system, etc. to support it and to do so would be a burden. On the other hand, what should be the proper encoding and what should be the default behaviour <em>if</em> a user wishes to have this diacritic in a document. This is a matter of interest to me because my major polytonic clients are scholars who may be dealing with manuscript sources that pre-date the standardisation of the polytonic system or who may even have a need to encode scribal errors in ancient documents, so I need to implement robust glyph solutions for unusual things. The Unicode Standard indicates that the correct, unconditional mapping of the lowercase ᾶ is to the unaccented uppercase Α (U+0391) and the combining perispomeni character ͂ (U+0342). Presuming that the application gets this right, the question for font developers is how should this be handled at the glyph, and the options are the same as for any base + combining mark sequence. The sequence can be mapped to a precomposed glyph in the 'ccmp' feature, or it can be handled using dynamic mark positioning ('mark' feature). My general preference is mark positioning, because it is most flexible and does not require me to second-guess every possible combination that users may wish to encode and display. However, the case of Greek capitals is complicated by the fact that the mark is placed before, to the left of the letter rather than above it, and this requires not only positioning of the mark but also a lookup that contextually increases the advance width of the base letter to make room for the mark. This is doable, and still the best fallback solution for unanticipated sequences, but I think it would be a good idea to include precomposed glyphs to render uppercase diacritic sequences resulting from Unicode Special Casing rules, mapped in the 'ccmp' feature.
-
-Now Adobe have been cruising along for many years not including combining mark characters in their fonts -- except those I've made for them :) -- and not supporting either 'ccmp' or 'mark' in the primary versions of their applications (these features are supported in the Middle East versions). I can understand the lagging application support, even though it is regretable, but it seems to me particularly ill-planned not to support combining mark characters in their fonts <em>at least for those instances in which Unicode casing rules demand them.</em> In general, combining mark support has not been necessary for most the script and language combinations that comprise Adobe's historical font market, but as soon as you decide to support a language that had Special Casing rules that involve combining marks, you really should be including appropriate glyphs and cmap entries in your fonts. Even if InDesign is updated to support correct Special Casing for polytonic Greek, fonts like Garamond Premier Pro will still be unable to provide even crude support due to the absence of support for U+0342 and other combining mark accents.</div>
+		<div class="commentbody"><p>I&rsquo;m not talking about glyph-level display conversions for casing, Nick. It is the application&rsquo;s job to look after case conversion at the character-level, whether actually affecting the backing text string or in a buffered display state. You shouldn&rsquo;t have to do any messing around in glyph lookups to achieve correct case mapping: this is all standard Unicode text processing stuff that applications are supposed to handle correctly. Unfortunately, a lot of applications support normal character casing, but do not support all or any of the Unicode Special Casing mappings. Greek has both conditional and unconditional special mappings, and applications need to handle these. You can review the special mappings for Greek characters in the <!-- raw HTML omitted -->SpecialCasing.txt<!-- raw HTML omitted --> file that is part of the Unicode Standard.</p>
+<p>In the case of the lowercase alpha with perispomeni the Special Casing rule is</p>
+<p>1FB6; 1FB6; 0391 0342; 0391 0342; # GREEK SMALL LETTER ALPHA WITH PERISPOMENI</p>
+<p>which indicates that for uppercase and titlecase, the correct character mapping is to two characters: uppercase Alpha and the combining perispomeni character. This is actually a bit more complex a mapping than I was anticipating, and encourages me to view the Unicode polytonic encoding as a kind of compromise between the standard orthography (encoded as precomposed diacritics) and the occasional need to encode and display non-standard combinations. That is, it is not usual to have an uppercase Alpha with perispomeni since this is contrary to spelling rules according to the standardised polytonic system, therefore this diacritic is not encoded because there is little need for the typical font, text processing system, etc. to support it and to do so would be a burden. On the other hand, what should be the proper encoding and what should be the default behaviour <!-- raw HTML omitted -->if<!-- raw HTML omitted --> a user wishes to have this diacritic in a document. This is a matter of interest to me because my major polytonic clients are scholars who may be dealing with manuscript sources that pre-date the standardisation of the polytonic system or who may even have a need to encode scribal errors in ancient documents, so I need to implement robust glyph solutions for unusual things. The Unicode Standard indicates that the correct, unconditional mapping of the lowercase ᾶ is to the unaccented uppercase Α (U+0391) and the combining perispomeni character ͂ (U+0342). Presuming that the application gets this right, the question for font developers is how should this be handled at the glyph, and the options are the same as for any base + combining mark sequence. The sequence can be mapped to a precomposed glyph in the &lsquo;ccmp&rsquo; feature, or it can be handled using dynamic mark positioning (&lsquo;mark&rsquo; feature). My general preference is mark positioning, because it is most flexible and does not require me to second-guess every possible combination that users may wish to encode and display. However, the case of Greek capitals is complicated by the fact that the mark is placed before, to the left of the letter rather than above it, and this requires not only positioning of the mark but also a lookup that contextually increases the advance width of the base letter to make room for the mark. This is doable, and still the best fallback solution for unanticipated sequences, but I think it would be a good idea to include precomposed glyphs to render uppercase diacritic sequences resulting from Unicode Special Casing rules, mapped in the &lsquo;ccmp&rsquo; feature.</p>
+<p>Now Adobe have been cruising along for many years not including combining mark characters in their fonts &ndash; except those I&rsquo;ve made for them :) &ndash; and not supporting either &lsquo;ccmp&rsquo; or &lsquo;mark&rsquo; in the primary versions of their applications (these features are supported in the Middle East versions). I can understand the lagging application support, even though it is regretable, but it seems to me particularly ill-planned not to support combining mark characters in their fonts <!-- raw HTML omitted -->at least for those instances in which Unicode casing rules demand them.<!-- raw HTML omitted --> In general, combining mark support has not been necessary for most the script and language combinations that comprise Adobe&rsquo;s historical font market, but as soon as you decide to support a language that had Special Casing rules that involve combining marks, you really should be including appropriate glyphs and cmap entries in your fonts. Even if InDesign is updated to support correct Special Casing for polytonic Greek, fonts like Garamond Premier Pro will still be unable to provide even crude support due to the absence of support for U+0342 and other combining mark accents.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -433,21 +425,15 @@ Now Adobe have been cruising along for many years not including combining mark c
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>You shouldn’t have to do any messing around in glyph lookups to achieve correct case mapping </em>
-
-Think of it as an in-font "bug fix". What's the harm in that? 
-
-<em>Even if InDesign is updated to support correct Special Casing for polytonic Greek, fonts like Garamond Premier Pro will still be unable to provide even crude support due to the absence of support for U+0342 and other combining mark accents.</em>
-
-What I am proposing is to fix the "non all-capping" of those problem characters, in the "Case" feature of my polytonic fonts, so that All Caps is diacritically correct in InDesign -- at least for the standard range of polytonic accented characters. Of course, it's not ideal for Adobe or Microsoft to do that kind of hacking, but it's not inappropriate for an independent foundry. It provides a font feature not presently avaialable, and when the apps are updated to do a more comprehensive All Capping, my font will still work just as well (providing I get it right in the first place!).
-
-<em>You want the Greek capping behaviour to be on by default</em>
-
-I don't think I do. That's automatic grammar-correction; it means that if a writer makes a deliberate grammatical mistake, the software will correct his/her keystroke and substitute a different character to the one typed. Sure, it can be turned off by un-checking contextual alternates, but that's the kind of default software behavior I detest. Like when MS Entourage won't let me begin a sentence with a lower-case letter. 
-
-If you configure de-accenting of an all-cap setting as part of contextual alts, you're relying on "All Caps" formatting anyway, because the only other way to get an all-cap setting is to "hard-set" it, typing letter by letter using the shift key.
-
-The only difficulty I can think of: if capitalization of the problem characters were made a "case" feature, then all-cap text formatted in InDesign might lose such capitalization if exported into another app that didn't support the "case" feature, but would perhaps keep the rest of any all-cap formatting. </div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->You shouldn’t have to do any messing around in glyph lookups to achieve correct case mapping <!-- raw HTML omitted --></p>
+<p>Think of it as an in-font &ldquo;bug fix&rdquo;. What&rsquo;s the harm in that?</p>
+<p><!-- raw HTML omitted -->Even if InDesign is updated to support correct Special Casing for polytonic Greek, fonts like Garamond Premier Pro will still be unable to provide even crude support due to the absence of support for U+0342 and other combining mark accents.<!-- raw HTML omitted --></p>
+<p>What I am proposing is to fix the &ldquo;non all-capping&rdquo; of those problem characters, in the &ldquo;Case&rdquo; feature of my polytonic fonts, so that All Caps is diacritically correct in InDesign &ndash; at least for the standard range of polytonic accented characters. Of course, it&rsquo;s not ideal for Adobe or Microsoft to do that kind of hacking, but it&rsquo;s not inappropriate for an independent foundry. It provides a font feature not presently avaialable, and when the apps are updated to do a more comprehensive All Capping, my font will still work just as well (providing I get it right in the first place!).</p>
+<p><!-- raw HTML omitted -->You want the Greek capping behaviour to be on by default<!-- raw HTML omitted --></p>
+<p>I don&rsquo;t think I do. That&rsquo;s automatic grammar-correction; it means that if a writer makes a deliberate grammatical mistake, the software will correct his/her keystroke and substitute a different character to the one typed. Sure, it can be turned off by un-checking contextual alternates, but that&rsquo;s the kind of default software behavior I detest. Like when MS Entourage won&rsquo;t let me begin a sentence with a lower-case letter.</p>
+<p>If you configure de-accenting of an all-cap setting as part of contextual alts, you&rsquo;re relying on &ldquo;All Caps&rdquo; formatting anyway, because the only other way to get an all-cap setting is to &ldquo;hard-set&rdquo; it, typing letter by letter using the shift key.</p>
+<p>The only difficulty I can think of: if capitalization of the problem characters were made a &ldquo;case&rdquo; feature, then all-cap text formatted in InDesign might lose such capitalization if exported into another app that didn&rsquo;t support the &ldquo;case&rdquo; feature, but would perhaps keep the rest of any all-cap formatting.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -468,9 +454,9 @@ The only difficulty I can think of: if capitalization of the problem characters 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">What's the harm? Well, if an application is doing what it should, your lookups will simply be ignored, since character level case conversion will happen before any glyph processing, so the input glyphs for your 'bug fix' will have disappeared. But I think you are making a mistake in relying on 'case' feature implementation because there is going to be a world of difference between how Adobe are doing this -- the whole 'All Caps' display formatting of what remains lowercase text is bizarre -- and how other major app developers are likely to implement it. Adobe have hidden access to this feature, but have linked it to a formatting function, meaning that it cannot be applied to actual all caps text unless the user, counter-intuitively, selects that all caps text and says he wants it displayed as, um, all caps. Who is going to do that if the text is already in all caps? [For once in my life, I am tempted to use an interrobang.] I don't think the Adobe implementation of the 'case' feature is a very good one, and you shouldn't expect it to be followed by other app or system developers. A better one would apply the feature heuristically whenever sequences of uppercase characters occured, in which case you are back to a feature that is on by default, just like 'calt'. As I say, I originally thought of using 'case' for de-accenting Greek, but I switched to 'calt' on Paul Nelson's recommendation; when the people who will be implementing OpenType Layout for the world's most widely used software recommend something to me, I pay attention. Sometimes I disagree with the recommendation, and do my best to get it changed, but in this case the argument for 'calt' is very sound: it is the logical choice for what is, after all, a contextual alternates substitution.
-
-Consider: in the case of your 'bug fix' to provide upper case display for those lowercase Greek letters than require special casing, it would make sense for this to be done in the 'case' feature since the lookup is not contextual. It seems to me that if you want to do this -- and I'm not encouraging it -- you should follow the Unicode Special Casing rules for the results. So the lookup mapping for e.g. ᾶ should correspond to however you intend that a sequence of uppercase Alpha and the combining perispomeni character should be displayed. If this is as a single glyph, then this glyph should be included in the font and mapped from ᾶ in the 'case' feature lookup. Okay, so the 'case' feature is now providing special casing at the glyph level to make up for deficiencies in applications, and is producing accented capitals for corresponding lowercase diacritics: all the more reason for you to want the de-accenting of all caps to happen someplace other than in the 'case' feature, since you presumably want the presence/absence of accents to be controllable by the user independently of the apparent case conversion. This isn't possible if you are relying on the same feature for both.</div>
+		<div class="commentbody"><p>What&rsquo;s the harm? Well, if an application is doing what it should, your lookups will simply be ignored, since character level case conversion will happen before any glyph processing, so the input glyphs for your &lsquo;bug fix&rsquo; will have disappeared. But I think you are making a mistake in relying on &lsquo;case&rsquo; feature implementation because there is going to be a world of difference between how Adobe are doing this &ndash; the whole &lsquo;All Caps&rsquo; display formatting of what remains lowercase text is bizarre &ndash; and how other major app developers are likely to implement it. Adobe have hidden access to this feature, but have linked it to a formatting function, meaning that it cannot be applied to actual all caps text unless the user, counter-intuitively, selects that all caps text and says he wants it displayed as, um, all caps. Who is going to do that if the text is already in all caps? [For once in my life, I am tempted to use an interrobang.] I don&rsquo;t think the Adobe implementation of the &lsquo;case&rsquo; feature is a very good one, and you shouldn&rsquo;t expect it to be followed by other app or system developers. A better one would apply the feature heuristically whenever sequences of uppercase characters occured, in which case you are back to a feature that is on by default, just like &lsquo;calt&rsquo;. As I say, I originally thought of using &lsquo;case&rsquo; for de-accenting Greek, but I switched to &lsquo;calt&rsquo; on Paul Nelson&rsquo;s recommendation; when the people who will be implementing OpenType Layout for the world&rsquo;s most widely used software recommend something to me, I pay attention. Sometimes I disagree with the recommendation, and do my best to get it changed, but in this case the argument for &lsquo;calt&rsquo; is very sound: it is the logical choice for what is, after all, a contextual alternates substitution.</p>
+<p>Consider: in the case of your &lsquo;bug fix&rsquo; to provide upper case display for those lowercase Greek letters than require special casing, it would make sense for this to be done in the &lsquo;case&rsquo; feature since the lookup is not contextual. It seems to me that if you want to do this &ndash; and I&rsquo;m not encouraging it &ndash; you should follow the Unicode Special Casing rules for the results. So the lookup mapping for e.g. ᾶ should correspond to however you intend that a sequence of uppercase Alpha and the combining perispomeni character should be displayed. If this is as a single glyph, then this glyph should be included in the font and mapped from ᾶ in the &lsquo;case&rsquo; feature lookup. Okay, so the &lsquo;case&rsquo; feature is now providing special casing at the glyph level to make up for deficiencies in applications, and is producing accented capitals for corresponding lowercase diacritics: all the more reason for you to want the de-accenting of all caps to happen someplace other than in the &lsquo;case&rsquo; feature, since you presumably want the presence/absence of accents to be controllable by the user independently of the apparent case conversion. This isn&rsquo;t possible if you are relying on the same feature for both.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -491,9 +477,9 @@ Consider: in the case of your 'bug fix' to provide upper case display for those 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>Of course, it’s not ideal for Adobe or Microsoft to do that kind of hacking, but it’s not inappropriate for an independent foundry.</em>
-
-Considering that Special Casing rules are a part of the Unicode Standard that neither Microsoft or Adobe have managed to yet implement correctly, I'm not sure what they would consider 'ideal'. :)</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Of course, it’s not ideal for Adobe or Microsoft to do that kind of hacking, but it’s not inappropriate for an independent foundry.<!-- raw HTML omitted --></p>
+<p>Considering that Special Casing rules are a part of the Unicode Standard that neither Microsoft or Adobe have managed to yet implement correctly, I&rsquo;m not sure what they would consider &lsquo;ideal&rsquo;. :)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -514,31 +500,20 @@ Considering that Special Casing rules are a part of the Unicode Standard that ne
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>Of course, it’s not ideal for Adobe or Microsoft to do that kind of hacking, but it’s not inappropriate for an independent foundry.</em>
-
-What I meant was that it would be better for Adobe or Microsoft to add the functionality we're discussing by improving an application or operating system, rather than doing it through a font -- which is something an independent foundry can do, as we're always rolling with the elephant anyway.
-
-<em>Adobe have hidden access to this feature, but have linked it to a formatting function, meaning that it cannot be applied to actual all caps text unless the user, counter-intuitively, selects that all caps text and says he wants it displayed as, um, all caps. Who is going to do that if the text is already in all caps?</em>
-
-That's true for the non-alphabetic typographic features of "case", but not for the issue here. Applying "All Caps" to Greek capitals is redundant in practice; if the text is all-caps to begin with, it has been "hard-keyed" with the appropriate non-accented cap characters, so "All Caps" will only be applied to U&lc text.
-
-However, I take your general point about the lack of feature clarity. There is a similar situation in the InDesign UI concerning things like the small caps command, where there is no indication whether the result is true or faux.
-
-I can guess why this has been done -- to shorten the menu and make things more transparent for non-OT-savvy users. That can be a good UI principle, but IMHO it would be better here to have a dedicated OpenType menu palette which lists all the features in a font by name. After all, other palettes such as color aren't dumbed down, so why expert typography?
-
-<em>I don’t think the Adobe implementation of the ‘case’ feature is a very good one, and you shouldn’t expect it to be followed by other app or system developers.</em>
-
-Even though my font development is Mac and Adobe-centric (my graphic design background), your suggestion makes sense -- I am swayed by the lack of clarity surrounding Adobe's "case" command. Having said that, I am a lapsed Quark devotee, and am eagerly anticipating the XPress OpenType UI; but even if it is impeccable, I will still keep to using InDesign as the primary "application target" for my fonts.
-
-<em>...If this is as a single glyph, then this glyph should be included in the font and mapped ... in the ‘case’ feature lookup.</em>
-
-I'll just map the problem lc accented characters directly to their non-accented cap versions, that way I won't have to create another 21 pre-composed glyphs.
-
-***
-
-So: I'll implement Greek all-caps as a "calt" feature, and put the "bug-fix" in the "case" feature. I'll post my FontLab code once I have it figured out.
-
-Thanks, John.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Of course, it’s not ideal for Adobe or Microsoft to do that kind of hacking, but it’s not inappropriate for an independent foundry.<!-- raw HTML omitted --></p>
+<p>What I meant was that it would be better for Adobe or Microsoft to add the functionality we&rsquo;re discussing by improving an application or operating system, rather than doing it through a font &ndash; which is something an independent foundry can do, as we&rsquo;re always rolling with the elephant anyway.</p>
+<p><!-- raw HTML omitted -->Adobe have hidden access to this feature, but have linked it to a formatting function, meaning that it cannot be applied to actual all caps text unless the user, counter-intuitively, selects that all caps text and says he wants it displayed as, um, all caps. Who is going to do that if the text is already in all caps?<!-- raw HTML omitted --></p>
+<p>That&rsquo;s true for the non-alphabetic typographic features of &ldquo;case&rdquo;, but not for the issue here. Applying &ldquo;All Caps&rdquo; to Greek capitals is redundant in practice; if the text is all-caps to begin with, it has been &ldquo;hard-keyed&rdquo; with the appropriate non-accented cap characters, so &ldquo;All Caps&rdquo; will only be applied to U&amp;lc text.</p>
+<p>However, I take your general point about the lack of feature clarity. There is a similar situation in the InDesign UI concerning things like the small caps command, where there is no indication whether the result is true or faux.</p>
+<p>I can guess why this has been done &ndash; to shorten the menu and make things more transparent for non-OT-savvy users. That can be a good UI principle, but IMHO it would be better here to have a dedicated OpenType menu palette which lists all the features in a font by name. After all, other palettes such as color aren&rsquo;t dumbed down, so why expert typography?</p>
+<p><!-- raw HTML omitted -->I don’t think the Adobe implementation of the ‘case’ feature is a very good one, and you shouldn’t expect it to be followed by other app or system developers.<!-- raw HTML omitted --></p>
+<p>Even though my font development is Mac and Adobe-centric (my graphic design background), your suggestion makes sense &ndash; I am swayed by the lack of clarity surrounding Adobe&rsquo;s &ldquo;case&rdquo; command. Having said that, I am a lapsed Quark devotee, and am eagerly anticipating the XPress OpenType UI; but even if it is impeccable, I will still keep to using InDesign as the primary &ldquo;application target&rdquo; for my fonts.</p>
+<p><!-- raw HTML omitted -->&hellip;If this is as a single glyph, then this glyph should be included in the font and mapped &hellip; in the ‘case’ feature lookup.<!-- raw HTML omitted --></p>
+<p>I&rsquo;ll just map the problem lc accented characters directly to their non-accented cap versions, that way I won&rsquo;t have to create another 21 pre-composed glyphs.</p>
+<hr>
+<p>So: I&rsquo;ll implement Greek all-caps as a &ldquo;calt&rdquo; feature, and put the &ldquo;bug-fix&rdquo; in the &ldquo;case&rdquo; feature. I&rsquo;ll post my FontLab code once I have it figured out.</p>
+<p>Thanks, John.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -559,11 +534,10 @@ Thanks, John.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>I’ll just map the problem lc accented characters directly to their non-accented cap versions, that way I won’t have to create another 21 pre-composed glyphs.</em>
-
-The application is failing to correctly map some lowercase letters to uppercase letters with combining marks, as specified in the Unicode Standard Special Casing rules, so you are going to use glyph processing to map them, also incorrectly according to the standard, to unaccented uppercase glyphs and only when this bizarre lowercase-as-uppercase display function in InDesign is activated. If the user actually selects to change the text case, your lookup will have no effect.
-
-You can't correctly support polytonic Greek without also supporting combining mark characters. If InDesign were to implement Special Casing support, Adobe's own polytonic Greek fonts would be unable to display the results (you'd get .notdef glyphs for the missing combining mark accents). So the first thing you should do is include the combining mark characters for all Greek accents and breathing marks. Then you should add those additional precomposed glyphs (unless you want to use the dynamic mark positioning approach, in which case you'll have to abandone FontLab for OTL development), and add 'ccmp' feature mappings for the base + combining mark sequences to these precomposed glyphs (to support correct Unicode special casing when it occurs). That is the only correct way to support polytonic Greek casing in all its potentialities.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->I’ll just map the problem lc accented characters directly to their non-accented cap versions, that way I won’t have to create another 21 pre-composed glyphs.<!-- raw HTML omitted --></p>
+<p>The application is failing to correctly map some lowercase letters to uppercase letters with combining marks, as specified in the Unicode Standard Special Casing rules, so you are going to use glyph processing to map them, also incorrectly according to the standard, to unaccented uppercase glyphs and only when this bizarre lowercase-as-uppercase display function in InDesign is activated. If the user actually selects to change the text case, your lookup will have no effect.</p>
+<p>You can&rsquo;t correctly support polytonic Greek without also supporting combining mark characters. If InDesign were to implement Special Casing support, Adobe&rsquo;s own polytonic Greek fonts would be unable to display the results (you&rsquo;d get .notdef glyphs for the missing combining mark accents). So the first thing you should do is include the combining mark characters for all Greek accents and breathing marks. Then you should add those additional precomposed glyphs (unless you want to use the dynamic mark positioning approach, in which case you&rsquo;ll have to abandone FontLab for OTL development), and add &lsquo;ccmp&rsquo; feature mappings for the base + combining mark sequences to these precomposed glyphs (to support correct Unicode special casing when it occurs). That is the only correct way to support polytonic Greek casing in all its potentialities.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -584,21 +558,14 @@ You can't correctly support polytonic Greek without also supporting combining ma
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>That is the only correct way to support polytonic Greek casing in all its potentialities. </em>
-
-I would like to be able to do things correctly, but I am also practically inclined.
-I have as yet sold no Greek fonts and have no OEM contracts to design such; David Lemon of Adobe and Gerry Leonidas of Reading have persuaded me that there is a demand for Polytonic Greek, and despite my appraisal of the Greek market as commercially unpromising (a mere 25 million there, same size as Canada, plus assorted Greek scholars worldwide -- Cyrillic is a much larger market with less font complexity), I have plunged in and am attempting to do the right thing. But it keeps getting deeper and deeper!
-
-Being practically inclined, I prefer to work from a functioning model, rather than principle, which would require a greater commitment to being a programmer (VOLT, Python scripting) than I am presently comfortable with. I have based my Greek character set on Minion and Gentium.
-
-<em>You can’t correctly support polytonic Greek without also supporting combining mark characters.</em>
-
-Haven't I done that if I follow the Minion character set? 
-
-<em>...you should add those additional precomposed glyphs</em>
-
-So Greek all-caps would then work correctly in non-Adobe applications that don't use the "case" feature, such as perhaps the "Lower Case to Caps" command in MS Word? Does Word for Greek correctly implement this in Polytonic? I'm assuming it will, given your involvement with the ClearType project -- and the implication is that Adobe's Polytonic Greek fonts will have a ".notdef" glyph behaviour.
-
+		<div class="commentbody"><p><!-- raw HTML omitted -->That is the only correct way to support polytonic Greek casing in all its potentialities. <!-- raw HTML omitted --></p>
+<p>I would like to be able to do things correctly, but I am also practically inclined.
+I have as yet sold no Greek fonts and have no OEM contracts to design such; David Lemon of Adobe and Gerry Leonidas of Reading have persuaded me that there is a demand for Polytonic Greek, and despite my appraisal of the Greek market as commercially unpromising (a mere 25 million there, same size as Canada, plus assorted Greek scholars worldwide &ndash; Cyrillic is a much larger market with less font complexity), I have plunged in and am attempting to do the right thing. But it keeps getting deeper and deeper!</p>
+<p>Being practically inclined, I prefer to work from a functioning model, rather than principle, which would require a greater commitment to being a programmer (VOLT, Python scripting) than I am presently comfortable with. I have based my Greek character set on Minion and Gentium.</p>
+<p><!-- raw HTML omitted -->You can’t correctly support polytonic Greek without also supporting combining mark characters.<!-- raw HTML omitted --></p>
+<p>Haven&rsquo;t I done that if I follow the Minion character set?</p>
+<p><!-- raw HTML omitted -->&hellip;you should add those additional precomposed glyphs<!-- raw HTML omitted --></p>
+<p>So Greek all-caps would then work correctly in non-Adobe applications that don&rsquo;t use the &ldquo;case&rdquo; feature, such as perhaps the &ldquo;Lower Case to Caps&rdquo; command in MS Word? Does Word for Greek correctly implement this in Polytonic? I&rsquo;m assuming it will, given your involvement with the ClearType project &ndash; and the implication is that Adobe&rsquo;s Polytonic Greek fonts will have a &ldquo;.notdef&rdquo; glyph behaviour.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -620,35 +587,22 @@ So Greek all-caps would then work correctly in non-Adobe applications that don't
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>But it keeps getting deeper and deeper!</em>
-
-<a href="http://ptolemy.tlg.uci.edu/~opoudjis/unicode/unicode.html">Yes</a>. [This website is an incredibly good resource for understanding Greek text encoding and display issues.]
-
-<em>I have based my Greek character set on Minion and Gentium.</em>
-
-Then you should also limit yourself to what those fonts provide, which is support for standardised polytonic text. Anything beyond that is getting into things that are very unlikely to occur in the texts that most users will be working with, the sort of things that only my scholarly clients working with ancient manuscript sources are going to care about. If I were you, I would follow what Adobe has done with Garamond Premier Pro (not Minion Pro), and don't worry about trying to circumvent limitations in application casing support for characters that are not usually uppercased.
-
-'calt' feature support for de-accenting is a good idea, though, and something I would like to see standard in all polytonic Greek fonts.
-
-<em>Haven’t I done that if I follow the Minion character set?</em>
-
-No. None of the Adobe fonts support combining marks for Greek. This is why they will break if Adobe does Special Case conversion correctly or, indeed, if people start normalising Greek text with full decomposition, as Unicode recommends.
-
-<em>So Greek all-caps would then work correctly in non-Adobe applications that don’t use the “case” feature, such as perhaps the “Lower Case to Caps” command in MS Word?</em>
-
-Yes, if
-
-a) the application applies Unicode Special Casing rules to map the unicameral lowercase diacritics to sequences of unaccented caps + combining marks, and
-
-b) if the font used has glyphs mapped for those combining marks and some mechanism to display the results in an acceptable way.
-
-At the moment, Word (2003) is not correctly casing polytonic Greek at all. I am not beta testing Office 12, so do not know if this has been corrected or whether it now includes Special Casing support. It is the sort of thing that MS should be doing, and are capable of doing within their existing text processing architecture, I believe, based on what they are doing with complex character-level operations for other scripts.
-
-Gentium does support Greek combining mark characters (U+0300–U+0301, U+0304, U+0306, U+0313—U+0314, U+0342–U+0345), so I would recommend following Victor in this regard rather than Adobe. However, Gentium does not have 'calt' support for de-accenting, while I believe the final version of Garamond Premier Pro got this right (I don't have the release version, only an earlier beta in which this was not working correctly).
-
-Later this month, I'll have a test version of SBL Greek ready, and can send it to you. It is pretty thorough in its polytonic coverage, including archaic letters and ancient and mediaeval editorial marks. I will break my glyph list down into different priority levels and post that information.
-
-The MS CLearType fonts do not support polytonic, alas. There wasn't enough money in the phase one budget. I'm hoping this support will be added in a future update.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->But it keeps getting deeper and deeper!<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->Yes<!-- raw HTML omitted -->. [This website is an incredibly good resource for understanding Greek text encoding and display issues.]</p>
+<p><!-- raw HTML omitted -->I have based my Greek character set on Minion and Gentium.<!-- raw HTML omitted --></p>
+<p>Then you should also limit yourself to what those fonts provide, which is support for standardised polytonic text. Anything beyond that is getting into things that are very unlikely to occur in the texts that most users will be working with, the sort of things that only my scholarly clients working with ancient manuscript sources are going to care about. If I were you, I would follow what Adobe has done with Garamond Premier Pro (not Minion Pro), and don&rsquo;t worry about trying to circumvent limitations in application casing support for characters that are not usually uppercased.</p>
+<p>&lsquo;calt&rsquo; feature support for de-accenting is a good idea, though, and something I would like to see standard in all polytonic Greek fonts.</p>
+<p><!-- raw HTML omitted -->Haven’t I done that if I follow the Minion character set?<!-- raw HTML omitted --></p>
+<p>No. None of the Adobe fonts support combining marks for Greek. This is why they will break if Adobe does Special Case conversion correctly or, indeed, if people start normalising Greek text with full decomposition, as Unicode recommends.</p>
+<p><!-- raw HTML omitted -->So Greek all-caps would then work correctly in non-Adobe applications that don’t use the “case” feature, such as perhaps the “Lower Case to Caps” command in MS Word?<!-- raw HTML omitted --></p>
+<p>Yes, if</p>
+<p>a) the application applies Unicode Special Casing rules to map the unicameral lowercase diacritics to sequences of unaccented caps + combining marks, and</p>
+<p>b) if the font used has glyphs mapped for those combining marks and some mechanism to display the results in an acceptable way.</p>
+<p>At the moment, Word (2003) is not correctly casing polytonic Greek at all. I am not beta testing Office 12, so do not know if this has been corrected or whether it now includes Special Casing support. It is the sort of thing that MS should be doing, and are capable of doing within their existing text processing architecture, I believe, based on what they are doing with complex character-level operations for other scripts.</p>
+<p>Gentium does support Greek combining mark characters (U+0300–U+0301, U+0304, U+0306, U+0313—U+0314, U+0342–U+0345), so I would recommend following Victor in this regard rather than Adobe. However, Gentium does not have &lsquo;calt&rsquo; support for de-accenting, while I believe the final version of Garamond Premier Pro got this right (I don&rsquo;t have the release version, only an earlier beta in which this was not working correctly).</p>
+<p>Later this month, I&rsquo;ll have a test version of SBL Greek ready, and can send it to you. It is pretty thorough in its polytonic coverage, including archaic letters and ancient and mediaeval editorial marks. I will break my glyph list down into different priority levels and post that information.</p>
+<p>The MS CLearType fonts do not support polytonic, alas. There wasn&rsquo;t enough money in the phase one budget. I&rsquo;m hoping this support will be added in a future update.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -669,11 +623,10 @@ The MS CLearType fonts do not support polytonic, alas. There wasn't enough money
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>...and can send it to you </em>
-
-That would be much appreciated.
-
-In the meantime I'll figure out what the Font lab feature code is (with the extra 21 composite characters) and post it later on.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->&hellip;and can send it to you <!-- raw HTML omitted --></p>
+<p>That would be much appreciated.</p>
+<p>In the meantime I&rsquo;ll figure out what the Font lab feature code is (with the extra 21 composite characters) and post it later on.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -694,32 +647,24 @@ In the meantime I'll figure out what the Font lab feature code is (with the extr
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Based on the above discussion, I had a look at the substitution coding required for Polytonic, and it turned out to be more complicated than I had expected, requiring quite a bit of grammatical know-how to figure out what to do in multiple-vowel sequences.
-
-So I've decided to limit the Greek case feature to monotonic.
-Even there, I suspect that the feature is somewhat redundant, given the way monotonic is generally written.
-
-My FontLab code:
-
-CLASSES
-
-UCtonos: Alphatonos Epsilontonos Etatonos Iotatonos Upsilontonos Omicrontonos Omegatonos
-
-UCnotonos: Alpha Epsilon Eta Iota Upsilon Omicron Omega
-
-FEATURE CODE
+		<div class="commentbody"><p>Based on the above discussion, I had a look at the substitution coding required for Polytonic, and it turned out to be more complicated than I had expected, requiring quite a bit of grammatical know-how to figure out what to do in multiple-vowel sequences.</p>
+<p>So I&rsquo;ve decided to limit the Greek case feature to monotonic.
+Even there, I suspect that the feature is somewhat redundant, given the way monotonic is generally written.</p>
+<p>My FontLab code:</p>
+<p>CLASSES</p>
+<p>UCtonos: Alphatonos Epsilontonos Etatonos Iotatonos Upsilontonos Omicrontonos Omegatonos</p>
+<p>UCnotonos: Alpha Epsilon Eta Iota Upsilon Omicron Omega</p>
+<p>FEATURE CODE
 feature case {
-  sub Iota by iota;
-  sub @UCtonos iota' by Iotadieresis;
-  sub iota by Iota;
-  sub Upsilon by upsilon;
-  sub @UCtonos upsilon' by Upsilondieresis;
-  sub upsilon by Upsilon;
-  sub @UCtonos by @UCnotonos;
-} case;
-
-(This omits other parts of the case feature.)
-
+sub Iota by iota;
+sub @UCtonos iota' by Iotadieresis;
+sub iota by Iota;
+sub Upsilon by upsilon;
+sub @UCtonos upsilon' by Upsilondieresis;
+sub upsilon by Upsilon;
+sub @UCtonos by @UCnotonos;
+} case;</p>
+<p>(This omits other parts of the case feature.)</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -741,25 +686,25 @@ feature case {
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> <em>Okay, you have a word like ρωμέικα. [...]
-There are seven Greek diphthongs, and the above rules apply to all of them during case mapping (and also smallcaps): αι ει οι υι αυ ευ ου [...]
-Perhaps someone else can express these lookups in FontLab/FDK syntax?</em>
-
-Here it goes:
-
-<code>feature calt {
-# First substitution that transforms ΡΩΜΈΙΚΑ into ΡΩΜΈΪΚΑ
-## for diphthongs αι ει οι υι
-sub [Alphatonos Epsilontonos Omicrontonos Upsilontonos] Iota' by Iotadieresis;
-## for diphthongs αυ ευ ου
-sub [Alphatonos Epsilontonos Omicrontonos] Upsilon' by Upsilondieresis;</code>
-
-<code># Second substitution that transforms ΡΩΜΈΪΚΑ into ΡΩΜΕΪΚΑ
-## for diphthongs αι ει οι υι
-sub [Alphatonos Epsilontonos Omicrontonos Upsilontonos]' Iotadieresis by [Alpha Epsilon Omicron Upsilon];
-## for diphthongs αυ ευ ου
-sub [Alphatonos Epsilontonos Omicrontonos]' Upsilondieresis by [Alpha Epsilon Omicron];
-} calt;</code></div>
+		<div class="commentbody"><blockquote>
+<p><!-- raw HTML omitted -->Okay, you have a word like ρωμέικα. [&hellip;]
+There are seven Greek diphthongs, and the above rules apply to all of them during case mapping (and also smallcaps): αι ει οι υι αυ ευ ου [&hellip;]
+Perhaps someone else can express these lookups in FontLab/FDK syntax?<!-- raw HTML omitted --></p>
+</blockquote>
+<p>Here it goes:</p>
+<p><!-- raw HTML omitted -->feature calt {</p>
+<h1 id="first-substitution-that-transforms-ρωμέικα-into-ρωμέϊκα">First substitution that transforms ΡΩΜΈΙΚΑ into ΡΩΜΈΪΚΑ</h1>
+<h2 id="for-diphthongs-αι-ει-οι-υι">for diphthongs αι ει οι υι</h2>
+<p>sub [Alphatonos Epsilontonos Omicrontonos Upsilontonos] Iota' by Iotadieresis;</p>
+<h2 id="for-diphthongs-αυ-ευ-ου">for diphthongs αυ ευ ου</h2>
+<p>sub [Alphatonos Epsilontonos Omicrontonos] Upsilon' by Upsilondieresis;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted --># Second substitution that transforms ΡΩΜΈΪΚΑ into ΡΩΜΕΪΚΑ</p>
+<h2 id="for-diphthongs-αι-ει-οι-υι-1">for diphthongs αι ει οι υι</h2>
+<p>sub [Alphatonos Epsilontonos Omicrontonos Upsilontonos]' Iotadieresis by [Alpha Epsilon Omicron Upsilon];</p>
+<h2 id="for-diphthongs-αυ-ευ-ου-1">for diphthongs αυ ευ ου</h2>
+<p>sub [Alphatonos Epsilontonos Omicrontonos]' Upsilondieresis by [Alpha Epsilon Omicron];
+} calt;<!-- raw HTML omitted --></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -780,9 +725,9 @@ sub [Alphatonos Epsilontonos Omicrontonos]' Upsilondieresis by [Alpha Epsilon Om
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I just tried that in InDesign (CS1) and it didn't work.
-
-(I should add that my bit of code above works in case, but not in calt, with the same error as yours.)</div>
+		<div class="commentbody"><p>I just tried that in InDesign (CS1) and it didn&rsquo;t work.</p>
+<p>(I should add that my bit of code above works in case, but not in calt, with the same error as yours.)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -803,26 +748,21 @@ sub [Alphatonos Epsilontonos Omicrontonos]' Upsilondieresis by [Alpha Epsilon Om
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You're right Nick, that code is flawed, sorry about that.
-[Note to self: double-check before posting!!]
-
-The good news is, it can be fixed easily. We'll just have to put each pair of substitutions in a separate lookup (which makes perfect sense!!). So here's the CORRECT VERSION of the code (tried in FontLab and it works):
-
-<code>feature calt {</code>
-
-<code>lookup ONE {
+		<div class="commentbody"><p>You&rsquo;re right Nick, that code is flawed, sorry about that.
+[Note to self: double-check before posting!!]</p>
+<p>The good news is, it can be fixed easily. We&rsquo;ll just have to put each pair of substitutions in a separate lookup (which makes perfect sense!!). So here&rsquo;s the CORRECT VERSION of the code (tried in FontLab and it works):</p>
+<p><!-- raw HTML omitted -->feature calt {<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->lookup ONE {
 sub [Alphatonos Epsilontonos Omicrontonos Upsilontonos] Iota' by Iotadieresis;
 sub [Alphatonos Epsilontonos Omicrontonos] Upsilon' by Upsilondieresis;
-} ONE;</code>
-
-<code>lookup TWO {
+} ONE;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->lookup TWO {
 sub [Alphatonos Epsilontonos Omicrontonos Upsilontonos]' Iotadieresis by [Alpha Epsilon Omicron Upsilon];
 sub [Alphatonos Epsilontonos Omicrontonos]' Upsilondieresis by [Alpha Epsilon Omicron];
-} TWO;</code>
-
-<code>} calt;</code>
-
-It ought to work in InDesign now. Let us know. Thanks!</div>
+} TWO;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->} calt;<!-- raw HTML omitted --></p>
+<p>It ought to work in InDesign now. Let us know. Thanks!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -843,11 +783,11 @@ It ought to work in InDesign now. Let us know. Thanks!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Miguel,
-Aren't you up a bit early for the west coast?
-Perhaps you are up late, I should have said.
-
-ChrisL</div>
+		<div class="commentbody"><p>Miguel,
+Aren&rsquo;t you up a bit early for the west coast?
+Perhaps you are up late, I should have said.</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -868,27 +808,17 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>It ought to work in InDesign now.</em>
-
-Not yet.
-
-**
-
-There is another problematic "monotonic" character: upsilondieresistonos.
-
-So this line of code would need to be added:
-
-sub upsilondieresistonos by Upsilondieresis;
-
-
-
-CLASSES
+		<div class="commentbody"><p><!-- raw HTML omitted -->It ought to work in InDesign now.<!-- raw HTML omitted --></p>
+<p>Not yet.</p>
+<p>**</p>
+<p>There is another problematic &ldquo;monotonic&rdquo; character: upsilondieresistonos.</p>
+<p>So this line of code would need to be added:</p>
+<p>sub upsilondieresistonos by Upsilondieresis;</p>
+<p>CLASSES
 UCtonos: Alphatonos Epsilontonos Etatonos Iotatonos Upsilontonos Omicrontonos Omegatonos
-UCnotonos: Alpha Epsilon Eta Iota Upsilon Omicron Omega
-
-FEATURE CODE
-
-feature case {
+UCnotonos: Alpha Epsilon Eta Iota Upsilon Omicron Omega</p>
+<p>FEATURE CODE</p>
+<p>feature case {
 sub Iota by iota;
 sub @UCtonos iota’ by Iotadieresis;
 sub iota by Iota;
@@ -897,9 +827,9 @@ sub @UCtonos upsilon’ by Upsilondieresis;
 sub upsilon by Upsilon;
 sub @UCtonos by @UCnotonos;
 sub upsilondieresistonos by Upsilondieresis;
-} case;
-
-Yes, it should be in the "calt" feature, but this code works in "case" in InDesign, but not in "calt". Best I can do so far.</div>
+} case;</p>
+<p>Yes, it should be in the &ldquo;calt&rdquo; feature, but this code works in &ldquo;case&rdquo; in InDesign, but not in &ldquo;calt&rdquo;. Best I can do so far.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -920,25 +850,22 @@ Yes, it should be in the "calt" feature, but this code works in "case" in InDesi
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> <em>this code works in “case” in InDesign, but not in “calt”.</em>
-
-How are you ordering the features?
-Do you have "Contextual Alternates" turned on? (Sorry, just a sanity check)
-
-The only code I would put in 'case' is,
-
-<code>feature case {
+		<div class="commentbody"><blockquote>
+<p><!-- raw HTML omitted -->this code works in “case” in InDesign, but not in “calt”.<!-- raw HTML omitted --></p>
+</blockquote>
+<p>How are you ordering the features?
+Do you have &ldquo;Contextual Alternates&rdquo; turned on? (Sorry, just a sanity check)</p>
+<p>The only code I would put in &lsquo;case&rsquo; is,</p>
+<p><!-- raw HTML omitted -->feature case {
 sub iotadieresistonos by Iotadieresis;
 sub upsilondieresistonos by Upsilondieresis;
-} case;</code>
-
-as these are the 2 monotonic Greek characters that are not capitalized by InDesign, when one applies "All Caps".
-
-Then I would order the features like this:
-<code>case
-calt</code>
-
-BTW, your code is affecting more than the 7 diphthongs. Etatonos, Iotatonos and Omegatonos shouldn't be part of your classes, for example.</div>
+} case;<!-- raw HTML omitted --></p>
+<p>as these are the 2 monotonic Greek characters that are not capitalized by InDesign, when one applies &ldquo;All Caps&rdquo;.</p>
+<p>Then I would order the features like this:
+<!-- raw HTML omitted -->case
+calt<!-- raw HTML omitted --></p>
+<p>BTW, your code is affecting more than the 7 diphthongs. Etatonos, Iotatonos and Omegatonos shouldn&rsquo;t be part of your classes, for example.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -959,21 +886,20 @@ BTW, your code is affecting more than the 7 diphthongs. Etatonos, Iotatonos and 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> The only code I would put in ‘case’ is,
-> feature case {
-> sub iotadieresistonos by Iotadieresis;
-> sub upsilondieresistonos by Upsilondieresis;
-> } case;
-> as these are the 2 monotonic Greek characters 
-> that are not capitalized by InDesign, when one 
-> applies “All Caps”.
-
-Miguel, 
-
-this recommendation reads like you’re suggesting that OpenType features should be devised to acommodate for peculiarities of specific versions of specific applications. I would appreciate some clarification on this. 
-
-Regards,
-Adam
+		<div class="commentbody"><blockquote>
+<p>The only code I would put in ‘case’ is,
+feature case {
+sub iotadieresistonos by Iotadieresis;
+sub upsilondieresistonos by Upsilondieresis;
+} case;
+as these are the 2 monotonic Greek characters 
+that are not capitalized by InDesign, when one 
+applies “All Caps”.</p>
+</blockquote>
+<p>Miguel,</p>
+<p>this recommendation reads like you’re suggesting that OpenType features should be devised to acommodate for peculiarities of specific versions of specific applications. I would appreciate some clarification on this.</p>
+<p>Regards,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -995,35 +921,26 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This seems to be working OK now.
-
-CLASSES
-
-@UCtonos: 
-Alphatonos Epsilontonos Etatonos Iotatonos Upsilontonos Omicrontonos Omegatonos
-
-@UCnotonos: 
-Alpha Epsilon Eta Iota Upsilon Omicron Omega
-
-@GrCaps: 
-Alpha Beta Gamma uni0394 Delta Epsilon Zeta Eta Theta Iota Kappa Lambda Mu Nu Xi Omicron Pi Rho Sigma Tau Upsilon Phi Chi Psi Omega uni2126
-
-
-FEATURE CODE
-
-feature calt { 
-
-lookup ONE {
-sub [Alphatonos Epsilontonos Omicrontonos Omegatonos] Iota' by Iotadieresis;  
+		<div class="commentbody"><p>This seems to be working OK now.</p>
+<p>CLASSES</p>
+<p>@UCtonos: 
+Alphatonos Epsilontonos Etatonos Iotatonos Upsilontonos Omicrontonos Omegatonos</p>
+<p>@UCnotonos: 
+Alpha Epsilon Eta Iota Upsilon Omicron Omega</p>
+<p>@GrCaps: 
+Alpha Beta Gamma uni0394 Delta Epsilon Zeta Eta Theta Iota Kappa Lambda Mu Nu Xi Omicron Pi Rho Sigma Tau Upsilon Phi Chi Psi Omega uni2126</p>
+<p>FEATURE CODE</p>
+<p>feature calt {</p>
+<p>lookup ONE {
+sub [Alphatonos Epsilontonos Omicrontonos Omegatonos] Iota' by Iotadieresis;<br>
 sub [Alphatonos Epsilontonos Omicrontonos Omegatonos] Upsilon' by Upsilondieresis;
-} ONE;
-
-lookup TWO {
+} ONE;</p>
+<p>lookup TWO {
 sub @UCtonos' @GrCaps by @UCnotonos; 
 sub @GrCaps @UCtonos' by @UCnotonos;
-} TWO;
-
-} calt;</div>
+} TWO;</p>
+<p>} calt;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1044,17 +961,14 @@ sub @GrCaps @UCtonos' by @UCnotonos;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>I would appreciate some clarification on this.</em>
-
-You'd think that the way to solve it would be to put the two odd characters in "calt", not "case", like so:
-
-sub @GrCaps iotadieresistonos' by Iotadieresis;
-sub @GrCaps upsilondieresistonos' by Upsilondieresis;
-
-That works in FontLab preview, but not in InDesign.
-Must be some quirk of the casing mechanism.
-
-So unless someone can come up with a way of making it work in "calt", the best practice is to put the two characters "ignored" by InD casing into the Case feature.  </div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->I would appreciate some clarification on this.<!-- raw HTML omitted --></p>
+<p>You&rsquo;d think that the way to solve it would be to put the two odd characters in &ldquo;calt&rdquo;, not &ldquo;case&rdquo;, like so:</p>
+<p>sub @GrCaps iotadieresistonos' by Iotadieresis;
+sub @GrCaps upsilondieresistonos' by Upsilondieresis;</p>
+<p>That works in FontLab preview, but not in InDesign.
+Must be some quirk of the casing mechanism.</p>
+<p>So unless someone can come up with a way of making it work in &ldquo;calt&rdquo;, the best practice is to put the two characters &ldquo;ignored&rdquo; by InD casing into the Case feature.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1075,10 +989,12 @@ So unless someone can come up with a way of making it work in "calt", the best p
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> <em>this recommendation reads like you’re suggesting that OpenType features should be devised to acommodate for peculiarities of specific versions of specific applications. I would appreciate some clarification on this.</em>
-
-I'm simply trying to help Nick to achieve what he wants. It doesn't mean I recommend it.
-(If you play with Arno Pro in InDesign CS2, you'll see that nothing happens when you apply "All Caps" to ΐ [U+0390] or ΰ [U+03B0])</div>
+		<div class="commentbody"><blockquote>
+<p><!-- raw HTML omitted -->this recommendation reads like you’re suggesting that OpenType features should be devised to acommodate for peculiarities of specific versions of specific applications. I would appreciate some clarification on this.<!-- raw HTML omitted --></p>
+</blockquote>
+<p>I&rsquo;m simply trying to help Nick to achieve what he wants. It doesn&rsquo;t mean I recommend it.
+(If you play with Arno Pro in InDesign CS2, you&rsquo;ll see that nothing happens when you apply &ldquo;All Caps&rdquo; to ΐ [U+0390] or ΰ [U+03B0])</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

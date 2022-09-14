@@ -71,39 +71,18 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I’m looking for some help on reporting a crash bug in Mac OS X and/or Cambria. I don’t know whether it’s the font or the OS (CoreText) or both that are at fault here, and I have no idea where to report this problem other than here.
-
-Here are the steps to repeat the bug:
-<ol>
-<li>Open TextEdit (happens in other apps too).</li>
-<li>⌘T, change font to Cambria (I have v. 5.97 installed).</li>
-<li>Enter the following characters <em>in order</em>:
-  <ol>
-  <li>U+00F3 Latin small letter O with acute</li>
-  <li>U+0328 Combining ogonek</li>
-  </ol>
-</li>
-<li>???</li>
-<li>Crash!</li>
-</ol>
-
-The crash happens inside of CoreText. It blows up inside of TGlyphComposer::ComposeGlyphs() as can be seen from the top few calls on the stack dump.
-
-<code>
-0   com.apple.CoreText            	0x00007fff830b6c9d TGlyphComposer::ComposeGlyphs(long, TStackBuffer<unsigned short, 30ul> const&) + 1701
-1   com.apple.CoreText            	0x00007fff830b5e7c TCombiningEngine::ResolveCombiningMarks() + 602
-2   com.apple.CoreText            	0x00007fff8309e5d7 TTypesetterRunArray::DoAttachments(TLine&) const + 73
-3   com.apple.CoreText            	0x00007fff8309e4c4 TTypesetterRunArray::TTypesetterRunArray(__CFArray const*, __CFString const*, void const* (*)(__CTRun const*, __CFString const*, void*), void*) + 228
-4   com.apple.CoreText            	0x00007fff8309e2d9 CTTypesetterCreateWithRunArray + 97
-</code>
-
-This only seems to happen with Cambria, and not with any other fonts. That’s why I’m not sure whether it’s an OS problem or a font problem. If it’s an OS problem, I have no idea where to report it. I guess can probably look forward to not hearing about it for a year or two, then being forced to upgrade to 10.7 or something. But If it’s a font problem, then maybe someone here can help. In either case, Apple has something to fix since a badly behaved font should still not cause a crash.
-
-The workaround is fairly simple, just using the other possible combination of diacritic and base character: U+01EB Latin small letter O with ogonek + U+0301 Combining acute accent. It’s annoying to have to remember to enter things in one way and not another, and I am wary of other combinations of diacritics giving me problems...</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I’m looking for some help on reporting a crash bug in Mac OS X and/or Cambria. I don’t know whether it’s the font or the OS (CoreText) or both that are at fault here, and I have no idea where to report this problem other than here.</p>
+<p>Here are the steps to repeat the bug:</p>
+<!-- raw HTML omitted -->
+<p>The crash happens inside of CoreText. It blows up inside of TGlyphComposer::ComposeGlyphs() as can be seen from the top few calls on the stack dump.</p>
+<!-- raw HTML omitted -->
+<p>This only seems to happen with Cambria, and not with any other fonts. That’s why I’m not sure whether it’s an OS problem or a font problem. If it’s an OS problem, I have no idea where to report it. I guess can probably look forward to not hearing about it for a year or two, then being forced to upgrade to 10.7 or something. But If it’s a font problem, then maybe someone here can help. In either case, Apple has something to fix since a badly behaved font should still not cause a crash.</p>
+<p>The workaround is fairly simple, just using the other possible combination of diacritic and base character: U+01EB Latin small letter O with ogonek + U+0301 Combining acute accent. It’s annoying to have to remember to enter things in one way and not another, and I am wary of other combinations of diacritics giving me problems&hellip;</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">As far as I know, in order to report bugs for Apple software you need to register (for free) as an Apple developer (https://developer.apple.com/programs/register/) and filing a “radar” bug report (https://bugreport.apple.com/).</div>
+		<div class="commentbody">As far as I know, in order to report bugs for Apple software you need to register (for free) as an Apple developer (<a href="https://developer.apple.com/programs/register/">https://developer.apple.com/programs/register/</a>) and filing a “radar” bug report (<a href="https://bugreport.apple.com/)">https://bugreport.apple.com/)</a>.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -124,11 +103,10 @@ The workaround is fairly simple, just using the other possible combination of di
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This isn't a bug per se in the font, but I can take a guess as to why it occurs with Cambria but not with other fonts. In order to limit the size and complexity of GPOS mark positioning lookups, Cambria contextually decomposes diacritic glyphs when followed by combining marks, enabling mark-to-mark positioning to be useable for stacked marks above or below. This decomposition takes place in the GSUB 'ccmp' feature. So, for example, rather than having to provide GPOS mark positioning for /acutecomb/ to /adieresis/ and all other precomposed diacritic glyphs, the latter is decomposed to /a/dieresiscomb/ when followed by /acutecomb/ or any other combining mark glyph. For the sake of lookup simplicity, this decomposition applies to all precomposed diacritics regardless of whether the following mark is above or below. So what happens in the case you describe is that /oacute/ is being contextually decomposed to /o/acutecomb/, triggered by the following /ogonekcomb/. I presume this is causing some problem for Apple's CoreText engine.
-
-Further evidence to support my presumption could be found by testing another font that is built in the same way as Cambria, e.g. <a href="http://www.brill.nl/promotions/brill-fonts-end-user-license-agreement">Brill Roman</a>.
-
-[We've also identified and confirmed a bug with fonts that work in this way in Adobe's text handlers, although this doesn't result in a crash: the contextual lookups simply are not applied. Adobe have confirmed this is a bug, but were unable to get it fixed in time for the CS6 roll-out.]</div>
+		<div class="commentbody"><p>This isn&rsquo;t a bug per se in the font, but I can take a guess as to why it occurs with Cambria but not with other fonts. In order to limit the size and complexity of GPOS mark positioning lookups, Cambria contextually decomposes diacritic glyphs when followed by combining marks, enabling mark-to-mark positioning to be useable for stacked marks above or below. This decomposition takes place in the GSUB &lsquo;ccmp&rsquo; feature. So, for example, rather than having to provide GPOS mark positioning for /acutecomb/ to /adieresis/ and all other precomposed diacritic glyphs, the latter is decomposed to /a/dieresiscomb/ when followed by /acutecomb/ or any other combining mark glyph. For the sake of lookup simplicity, this decomposition applies to all precomposed diacritics regardless of whether the following mark is above or below. So what happens in the case you describe is that /oacute/ is being contextually decomposed to /o/acutecomb/, triggered by the following /ogonekcomb/. I presume this is causing some problem for Apple&rsquo;s CoreText engine.</p>
+<p>Further evidence to support my presumption could be found by testing another font that is built in the same way as Cambria, e.g. <!-- raw HTML omitted -->Brill Roman<!-- raw HTML omitted -->.</p>
+<p>[We&rsquo;ve also identified and confirmed a bug with fonts that work in this way in Adobe&rsquo;s text handlers, although this doesn&rsquo;t result in a crash: the contextual lookups simply are not applied. Adobe have confirmed this is a bug, but were unable to get it fixed in time for the CS6 roll-out.]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -149,9 +127,9 @@ Further evidence to support my presumption could be found by testing another fon
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for the detailed analysis! I verified that the same thing happens, in the exact same function, with Brill Roman.
-
-John, would you be willing to file report this bug to Apple? I am not enthusiastic about setting up a developer account just to file one bug.</div>
+		<div class="commentbody"><p>Thanks for the detailed analysis! I verified that the same thing happens, in the exact same function, with Brill Roman.</p>
+<p>John, would you be willing to file report this bug to Apple? I am not enthusiastic about setting up a developer account just to file one bug.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -172,7 +150,7 @@ John, would you be willing to file report this bug to Apple? I am not enthusiast
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'll bring this thread to someone's attention at Apple. I'm not a registered developer either, but have some friends there.</div>
+		<div class="commentbody">I&rsquo;ll bring this thread to someone&rsquo;s attention at Apple. I&rsquo;m not a registered developer either, but have some friends there.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -193,7 +171,7 @@ John, would you be willing to file report this bug to Apple? I am not enthusiast
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I've heard back from Apple. My contact thinks this bug has been fixed by some work they did on OpenType processing for the next OS; he tested that code with Cambria 5.97 and was unable to reproduce your crash behaviour.</div>
+		<div class="commentbody">I&rsquo;ve heard back from Apple. My contact thinks this bug has been fixed by some work they did on OpenType processing for the next OS; he tested that code with Cambria 5.97 and was unable to reproduce your crash behaviour.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

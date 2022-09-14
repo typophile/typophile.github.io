@@ -71,22 +71,20 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hello,
-
-I designed some alternate glyphs to lower case and small caps. Making the opentype feature to swap the regular lowercase to the alternate lowercase was easy. I then made the small caps opentype feature. But when I mix both features I don't get what I expect. The sc -e- is being swapped with its alternate glyphs but the A (which does not have alternate glyph in sc) also swap with the alternate lc -a-. The result is, I get a mix of small caps, alternate lc and alternate small caps.
-I do something wrong but cannot figure out. I guess I need to create an aalt feature for swapping the regular lowercase with the alternate ones (with 2 classes with the regular lc and another with the alternate lc) and I also need to create a second aalt feature with classes that include small caps in one class and alternate small class in another. But this doesn't seems to work either :(. Anyone might have some advice to resolve my problem ?
+  <div class="post-content e-content" itemprop="articleBody"><p>Hello,</p>
+<p>I designed some alternate glyphs to lower case and small caps. Making the opentype feature to swap the regular lowercase to the alternate lowercase was easy. I then made the small caps opentype feature. But when I mix both features I don&rsquo;t get what I expect. The sc -e- is being swapped with its alternate glyphs but the A (which does not have alternate glyph in sc) also swap with the alternate lc -a-. The result is, I get a mix of small caps, alternate lc and alternate small caps.
+I do something wrong but cannot figure out. I guess I need to create an aalt feature for swapping the regular lowercase with the alternate ones (with 2 classes with the regular lc and another with the alternate lc) and I also need to create a second aalt feature with classes that include small caps in one class and alternate small class in another. But this doesn&rsquo;t seems to work either :(. Anyone might have some advice to resolve my problem ?
 I made a pics to explain visually my problem.
-[img:sites/default/files/old-images/expli_5247.jpg]</div>
+[img:sites/default/files/old-images/expli_5247.jpg]</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Most likely, you've got your features defined in the wrong order.
-
-Also, I'm not clear on why you're using the 'aalt' feature here. I'd use a stylistic set (e.g. ss01). 'aalt' isn't normally a user selectable feature -- it's used  by things like the glyph palette for determining which alternates are available for a given glyph.
-
-Make sure your 'smcp' and 'c2sc' features are defined before your 'ss01' feature.
-
-André</div>
+		<div class="commentbody"><p>Most likely, you&rsquo;ve got your features defined in the wrong order.</p>
+<p>Also, I&rsquo;m not clear on why you&rsquo;re using the &lsquo;aalt&rsquo; feature here. I&rsquo;d use a stylistic set (e.g. ss01). &lsquo;aalt&rsquo; isn&rsquo;t normally a user selectable feature &ndash; it&rsquo;s used  by things like the glyph palette for determining which alternates are available for a given glyph.</p>
+<p>Make sure your &lsquo;smcp&rsquo; and &lsquo;c2sc&rsquo; features are defined before your &lsquo;ss01&rsquo; feature.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -107,7 +105,7 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">yes I figure out that I wasn't using the right feature. Salt all the way :)
+		<div class="commentbody">yes I figure out that I wasn&rsquo;t using the right feature. Salt all the way :)
 Changing the features order (and reorganising my classes) make it works fine . thanks for your help !</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -129,9 +127,9 @@ Changing the features order (and reorganising my classes) make it works fine . t
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I would still recommend using 'ss01' over 'salt'. The Adobe CS applications no longer allow the user to select 'salt'.
-
-André</div>
+		<div class="commentbody"><p>I would still recommend using &lsquo;ss01&rsquo; over &lsquo;salt&rsquo;. The Adobe CS applications no longer allow the user to select &lsquo;salt&rsquo;.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -174,9 +172,8 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">For the sake of consistency, have you considered including an alternate cap A (e.g. with round top) and cap E (flipped 3)?
-
-Also, it seems to me that with its accidental unicase, you typeface is telling you something…
+		<div class="commentbody"><p>For the sake of consistency, have you considered including an alternate cap A (e.g. with round top) and cap E (flipped 3)?</p>
+<p>Also, it seems to me that with its accidental unicase, you typeface is telling you something…</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -219,14 +216,11 @@ Also, it seems to me that with its accidental unicase, you typeface is telling y
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">http://www.typophile.com/node/17887#comment-109421
-
-Also, the ordering of the feature definitions in FontLab Studio's OpenType panel is important. If you place your "ss01" or "salt" above "smcp", then "ss01" or "salt" will take precedence when used together with "smcp". This means that first "a" will be replaced with an alternate "a", and then "smcp" may try to replace the alternate "a" with an appropriate alternate small-cap "a". If you place "smcp" first, then it will be applied first, so first "a" will be replaced with a small-cap "a", and then your "ss01" or "salt" might try to replace the small-cap "a" with an appropriate alternate small-cap "a". 
-
-Both ways are workable, but you need to write your feature definitions to take into account the order of the features in which they are applied in combination. 
-
-Best,
-Adam
+		<div class="commentbody"><p><a href="http://www.typophile.com/node/17887#comment-109421">http://www.typophile.com/node/17887#comment-109421</a></p>
+<p>Also, the ordering of the feature definitions in FontLab Studio&rsquo;s OpenType panel is important. If you place your &ldquo;ss01&rdquo; or &ldquo;salt&rdquo; above &ldquo;smcp&rdquo;, then &ldquo;ss01&rdquo; or &ldquo;salt&rdquo; will take precedence when used together with &ldquo;smcp&rdquo;. This means that first &ldquo;a&rdquo; will be replaced with an alternate &ldquo;a&rdquo;, and then &ldquo;smcp&rdquo; may try to replace the alternate &ldquo;a&rdquo; with an appropriate alternate small-cap &ldquo;a&rdquo;. If you place &ldquo;smcp&rdquo; first, then it will be applied first, so first &ldquo;a&rdquo; will be replaced with a small-cap &ldquo;a&rdquo;, and then your &ldquo;ss01&rdquo; or &ldquo;salt&rdquo; might try to replace the small-cap &ldquo;a&rdquo; with an appropriate alternate small-cap &ldquo;a&rdquo;.</p>
+<p>Both ways are workable, but you need to write your feature definitions to take into account the order of the features in which they are applied in combination.</p>
+<p>Best,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -248,18 +242,17 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> The Adobe CS applications no longer allow the user to select 'salt'.
-
-Illustrator does. It uses "salt". InDesign on the other hand uses "ss01"-"ss20". Both also use "swsh". 
-
-AFAIK, the most up-to-date version of the table that lists which OpenType Layout features are supported in various applications is: 
-http://www.typotheque.com/fonts/opentype_feature_support
-
-Another version of this table, along with a great introductory article for writing OpenType Layout feature definitions is at: 
-http://ilovetypography.com/OpenType/opentype-features.html
-
-Best,
-Adam</div>
+		<div class="commentbody"><blockquote>
+<p>The Adobe CS applications no longer allow the user to select &lsquo;salt&rsquo;.</p>
+</blockquote>
+<p>Illustrator does. It uses &ldquo;salt&rdquo;. InDesign on the other hand uses &ldquo;ss01&rdquo;-&ldquo;ss20&rdquo;. Both also use &ldquo;swsh&rdquo;.</p>
+<p>AFAIK, the most up-to-date version of the table that lists which OpenType Layout features are supported in various applications is: 
+<a href="http://www.typotheque.com/fonts/opentype_feature_support">http://www.typotheque.com/fonts/opentype_feature_support</a></p>
+<p>Another version of this table, along with a great introductory article for writing OpenType Layout feature definitions is at: 
+<a href="http://ilovetypography.com/OpenType/opentype-features.html">http://ilovetypography.com/OpenType/opentype-features.html</a></p>
+<p>Best,
+Adam</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

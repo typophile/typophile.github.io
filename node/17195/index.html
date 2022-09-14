@@ -71,61 +71,47 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hello everyone
-
-I am new to Typophile and this is my first post. I am glad to be here. I have an OpenType features related problem. I want to make the following substitutions:
-
-1 + 0 with a glyph called 1_0
+  <div class="post-content e-content" itemprop="articleBody"><p>Hello everyone</p>
+<p>I am new to Typophile and this is my first post. I am glad to be here. I have an OpenType features related problem. I want to make the following substitutions:</p>
+<p>1 + 0 with a glyph called 1_0
 1 + 0 + 0 with a glyph called 1_0_0 and
-1 + 0 + 0 + 0 with a glyph called 1_0_0_0
-
-(1 and 0 can be replaced by any digit - see code below)
-
-I work in Fontlab Studio 5 and I at first I wrote the following code:
-
-# glyph classes
-@digitsnozero=[one two three four five six seven eight nine];
+1 + 0 + 0 + 0 with a glyph called 1_0_0_0</p>
+<p>(1 and 0 can be replaced by any digit - see code below)</p>
+<p>I work in Fontlab Studio 5 and I at first I wrote the following code:</p>
+<h1 id="glyph-classes">glyph classes</h1>
+<p>@digitsnozero=[one two three four five six seven eight nine];
 @digits=[zero one two three four five six seven eight nine];
 @twodigits=[X X_X X_X_X X_L L L_X L_X_X L_X_X_X X_C];
 @threedigits=[C C_C C_C_C C_C_C_C D D_C D_C_C D_C_C_C D_C_C_C_C];
-@fourdigits=[M M_M M_M_M M_M_M_M];
-
-feature liga { 	
-# substitutions for two digits	
-sub @digitsnozero' @digits by @twodigits;	
-# substitutions for three digits
-sub @digitsnozero' [@digits @twodigits @threedigits] @digits by @threedigits;
-# substitutions for four digits
-sub [one two three four]' [@digits @twodigits @threedigits] 
+@fourdigits=[M M_M M_M_M M_M_M_M];</p>
+<p>feature liga {</p>
+<h1 id="substitutions-for-two-digits">substitutions for two digits</h1>
+<p>sub @digitsnozero' @digits by @twodigits;</p>
+<h1 id="substitutions-for-three-digits">substitutions for three digits</h1>
+<p>sub @digitsnozero' [@digits @twodigits @threedigits] @digits by @threedigits;</p>
+<h1 id="substitutions-for-four-digits">substitutions for four digits</h1>
+<p>sub [one two three four]' [@digits @twodigits @threedigits] 
 @digits @digits by @fourdigits;
-} liga;
-
-The problem is that when the first rule is activated the other two are ignored. As a result I only get the first substitution (1 + 0 -> 1_0)
-
-I solved the problem by putting each rule in a different feature (the first in onum, the second in smcp and the third in liga - it works).
-
-So now I have the following:
-
-feature onum {  
-# substitutions for two digits	
-sub @digitsnozero' @digits by @twodigits;
-} onum;
-
-feature smcp {
-# substitutions for three digits
-sub @digitsnozero' [@digits @twodigits @threedigits] @digits by @threedigits;
-} smcp;
-
-feature liga { 	
-# substitutions for four digits
-sub [one two three four]' [@digits @twodigits @threedigits] @digits @digits by @fourdigits;
-} liga;
-
-I read in the OpenType specification about the Chaining Context Substitution but I did not understand how am I supposed to do it.
-
-Can anyone tell me if I can put all the three rules in one feature (e.g. in a liga feature)? Can I do anything with 'lookup'?
-
-George Triantafyllakos - backpacker.gr</div>
+} liga;</p>
+<p>The problem is that when the first rule is activated the other two are ignored. As a result I only get the first substitution (1 + 0 -&gt; 1_0)</p>
+<p>I solved the problem by putting each rule in a different feature (the first in onum, the second in smcp and the third in liga - it works).</p>
+<p>So now I have the following:</p>
+<p>feature onum {</p>
+<h1 id="substitutions-for-two-digits-1">substitutions for two digits</h1>
+<p>sub @digitsnozero' @digits by @twodigits;
+} onum;</p>
+<p>feature smcp {</p>
+<h1 id="substitutions-for-three-digits-1">substitutions for three digits</h1>
+<p>sub @digitsnozero' [@digits @twodigits @threedigits] @digits by @threedigits;
+} smcp;</p>
+<p>feature liga {</p>
+<h1 id="substitutions-for-four-digits-1">substitutions for four digits</h1>
+<p>sub [one two three four]' [@digits @twodigits @threedigits] @digits @digits by @fourdigits;
+} liga;</p>
+<p>I read in the OpenType specification about the Chaining Context Substitution but I did not understand how am I supposed to do it.</p>
+<p>Can anyone tell me if I can put all the three rules in one feature (e.g. in a liga feature)? Can I do anything with &lsquo;lookup&rsquo;?</p>
+<p>George Triantafyllakos - backpacker.gr</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
@@ -148,13 +134,11 @@ George Triantafyllakos - backpacker.gr</div>
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Oh God! It worked ...
-
-I can't believe it was so easy!! (I thought I tried it but I didn't and I 've been trying for the last 6 hours for a solution)
-
-Mark, thank you very much!
-
-George Triantafyllakos - backpacker.gr</div>
+		<div class="commentbody"><p>Oh God! It worked &hellip;</p>
+<p>I can&rsquo;t believe it was so easy!! (I thought I tried it but I didn&rsquo;t and I &rsquo;ve been trying for the last 6 hours for a solution)</p>
+<p>Mark, thank you very much!</p>
+<p>George Triantafyllakos - backpacker.gr</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -198,7 +182,7 @@ George Triantafyllakos - backpacker.gr</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Big hint: With any many-to-one substitutions, the longest string should go first, which is why "ffi" and "ffl" are before "ff", "fi", and "fl". (Which is pretty much the opposite of what happens when you're typing. Which is why you should always write OT code while drunk.)</div>
+		<div class="commentbody">Big hint: With any many-to-one substitutions, the longest string should go first, which is why &ldquo;ffi&rdquo; and &ldquo;ffl&rdquo; are before &ldquo;ff&rdquo;, &ldquo;fi&rdquo;, and &ldquo;fl&rdquo;. (Which is pretty much the opposite of what happens when you&rsquo;re typing. Which is why you should always write OT code while drunk.)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -219,11 +203,10 @@ George Triantafyllakos - backpacker.gr</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"Which is why you should always write OT code while drunk"
-
-So that is your secret :-)
-
-ChrisL</div>
+		<div class="commentbody"><p>&ldquo;Which is why you should always write OT code while drunk&rdquo;</p>
+<p>So that is your secret :-)</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

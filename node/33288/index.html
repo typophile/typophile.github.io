@@ -71,11 +71,11 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">http://blogs.msdn.com/text/archive/2007/04/23/wpf-font-selection-model.aspx</div>
+  <div class="post-content e-content" itemprop="articleBody"><a href="http://blogs.msdn.com/text/archive/2007/04/23/wpf-font-selection-model.aspx">http://blogs.msdn.com/text/archive/2007/04/23/wpf-font-selection-model.aspx</a></div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"4. Guidelines for font manufacturers" doesn't contain anything that we don't already do...is hat a good thing?</div>
+		<div class="commentbody">&ldquo;4. Guidelines for font manufacturers&rdquo; doesn&rsquo;t contain anything that we don&rsquo;t already do&hellip;is hat a good thing?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -96,26 +96,29 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">John,
+		<div class="commentbody"><p>John,
 Thanks for posting the link to the white paper.
-I was asked a few questions offline on this, and I would like to share the answers with folks here.
-
-Question 1: Are 'name' table IDs 21 and 22 now "official"?
-- The new ‘name’ table IDs were agreed upon with our partners, and their meaning is now well defined. Font manufacturers are encouraged to test their fonts with WPF font model, and I recommend adding the new ‘name’ table IDs for non-WWS families to resolve potential ambiguities and to make sure localized names are available for international clients. Please note that WWS families don’t need the new ‘name’ table IDs, they should set the ‘OS/2’ fsSelection bit 8 instead.
-
-Question 2: Should Oblique font faces that set the new ‘OS/2’ fsSelection “Oblique” bit 9 also set the old “Italic” bit 0?
-- WPF font engine doesn’t depend on this decision, but I believe setting the old “Italic” bit is useful for compatibility with other platforms that don’t make distinction between Oblique and Italic font faces.
-
-In addition, there are concerns about changing the layout of a document when a new “Italic” face is added to a font family that already has “Regular” and “Oblique” variants, or a new native “Oblique” face is added to a font family.
-
-There are several things one can do to alleviate these concerns:
-
-1. WPF applications should use FontStyle = “Oblique” or FontStyle = “Italic” along with the appropriate FontFamily value (e.g. FontFamily=”My Font Family”) instead of specifying both family and face information in the FontFamily string (e.g. “My Font Family Italic” or “My Font Family Oblique”.) The former ensures that the application behavior will not be affected by Oblique faces that specify “Italic” in their subfamily string for compatibility with older platforms.
-
-2. Since adding, removing or modifying font faces on the system can generally change the layout of a document, applications or documents that would like to preserve the layout of a flow document are encouraged to embed relevant fonts, assuming the font licenses have appropriate permissions, of course. WPF has full support for font embedding for both fixed and flow documents.
-
-Thanks for the feedback, and best regards,
-Mikhail
+I was asked a few questions offline on this, and I would like to share the answers with folks here.</p>
+<p>Question 1: Are &lsquo;name&rsquo; table IDs 21 and 22 now &ldquo;official&rdquo;?</p>
+<ul>
+<li>The new ‘name’ table IDs were agreed upon with our partners, and their meaning is now well defined. Font manufacturers are encouraged to test their fonts with WPF font model, and I recommend adding the new ‘name’ table IDs for non-WWS families to resolve potential ambiguities and to make sure localized names are available for international clients. Please note that WWS families don’t need the new ‘name’ table IDs, they should set the ‘OS/2’ fsSelection bit 8 instead.</li>
+</ul>
+<p>Question 2: Should Oblique font faces that set the new ‘OS/2’ fsSelection “Oblique” bit 9 also set the old “Italic” bit 0?</p>
+<ul>
+<li>WPF font engine doesn’t depend on this decision, but I believe setting the old “Italic” bit is useful for compatibility with other platforms that don’t make distinction between Oblique and Italic font faces.</li>
+</ul>
+<p>In addition, there are concerns about changing the layout of a document when a new “Italic” face is added to a font family that already has “Regular” and “Oblique” variants, or a new native “Oblique” face is added to a font family.</p>
+<p>There are several things one can do to alleviate these concerns:</p>
+<ol>
+<li>
+<p>WPF applications should use FontStyle = “Oblique” or FontStyle = “Italic” along with the appropriate FontFamily value (e.g. FontFamily=”My Font Family”) instead of specifying both family and face information in the FontFamily string (e.g. “My Font Family Italic” or “My Font Family Oblique”.) The former ensures that the application behavior will not be affected by Oblique faces that specify “Italic” in their subfamily string for compatibility with older platforms.</p>
+</li>
+<li>
+<p>Since adding, removing or modifying font faces on the system can generally change the layout of a document, applications or documents that would like to preserve the layout of a flow document are encouraged to embed relevant fonts, assuming the font licenses have appropriate permissions, of course. WPF has full support for font embedding for both fixed and flow documents.</p>
+</li>
+</ol>
+<p>Thanks for the feedback, and best regards,
+Mikhail</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -137,9 +140,9 @@ Mikhail
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Mikhail and John!
-
-ChrisL</div>
+		<div class="commentbody"><p>Thanks Mikhail and John!</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -160,13 +163,9 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">David: <em>Guidelines for font manufacturers” doesn’t contain anything that we don’t already do...</em>
-
-Well, it contains two name table fields that didn't previously exist and which are not yet documented in the OT spec, so presumably you're not already using those. But if you are only building WWS families, you don't need these new fields.
-
-
-Mikhail, if I understand the documentation correctly, a WWS family member should have fsSelection bit 8 set (i.e. to 1) in the OS/2 table. But this is just an efficiency mechanism, yes? Because of course there are huge numbers of existing WWS fonts out there that do have this bit set. If I understand correctly, these fonts will be subject to WPF font differentiation, but fonts with the fsSelection bit 8 set will not be, since they will signal to WPF that they are WWS fonts. Is that right?
-
+		<div class="commentbody"><p>David: <!-- raw HTML omitted -->Guidelines for font manufacturers” doesn’t contain anything that we don’t already do&hellip;<!-- raw HTML omitted --></p>
+<p>Well, it contains two name table fields that didn&rsquo;t previously exist and which are not yet documented in the OT spec, so presumably you&rsquo;re not already using those. But if you are only building WWS families, you don&rsquo;t need these new fields.</p>
+<p>Mikhail, if I understand the documentation correctly, a WWS family member should have fsSelection bit 8 set (i.e. to 1) in the OS/2 table. But this is just an efficiency mechanism, yes? Because of course there are huge numbers of existing WWS fonts out there that do have this bit set. If I understand correctly, these fonts will be subject to WPF font differentiation, but fonts with the fsSelection bit 8 set will not be, since they will signal to WPF that they are WWS fonts. Is that right?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -186,17 +185,14 @@ Mikhail, if I understand the documentation correctly, a WWS family member should
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">John,
-yes, your understanding is correct. Setting the WWS flag will bypass the font differentiation algorithm, and WPF will trust 'name' table strings and 'OS/2' values from the font file without trying to adjust them for consistency.
-
-Before one ships a font with the WWS bit set, I recommend making sure names and style/weight/stretch values in the font are correct and consistent.
-
-We tested the WPF font selection algorithm with thousands of existing fonts, and it is amazing how many fonts out there have inconsistent values. In particular, discrepancies between 'OS/2' usWeightClass and preferred 'name' IDs 16/17 (or 1/2 if 16/17 are not present) are very common. The goal of the WPF font differentiation algorithm is to correct these discrepancies for existing fonts, so that they can participate in the new font selection model.
-
-I hope this clarifies why the new WWS bit is an "opt-in".
-
-Please let me know if you have further questions, and best regards,
-Mikhail</div>
+		<div class="commentbody"><p>John,
+yes, your understanding is correct. Setting the WWS flag will bypass the font differentiation algorithm, and WPF will trust &lsquo;name&rsquo; table strings and &lsquo;OS/2&rsquo; values from the font file without trying to adjust them for consistency.</p>
+<p>Before one ships a font with the WWS bit set, I recommend making sure names and style/weight/stretch values in the font are correct and consistent.</p>
+<p>We tested the WPF font selection algorithm with thousands of existing fonts, and it is amazing how many fonts out there have inconsistent values. In particular, discrepancies between &lsquo;OS/2&rsquo; usWeightClass and preferred &lsquo;name&rsquo; IDs 16/17 (or 1/2 if 16/17 are not present) are very common. The goal of the WPF font differentiation algorithm is to correct these discrepancies for existing fonts, so that they can participate in the new font selection model.</p>
+<p>I hope this clarifies why the new WWS bit is an &ldquo;opt-in&rdquo;.</p>
+<p>Please let me know if you have further questions, and best regards,
+Mikhail</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -219,30 +215,20 @@ Mikhail</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"Well, it contains two name table fields that didn’t previously exist and which are not yet documented in the OT spec, so presumably you’re not already using those"
-
-That is correct, thank you. The main object I have is that I do not define my fonts so they can be substituted for (even from within the family). The second concern I have is that my fonts never be confused with fonts that cannot be removed from the system. (as I continue to chase the need so many express every single day, and as was expressed at the last Typecon, Users Need Better Font Management Tools from the "Source of the Problem.")
-
-This document, beside ignoring the basics of reportage, (the "W's"?) says:
- "Fonts should set typographically appropriate and unambiguous stretch, weight and 
-style values in the ‘OS/2’ table." (meaning I hope, within a family)...
-"Fonts should support the same set of name table localization languages for all faces in 
-the same font family." like anything else is even intentionally possible?
-"Fonts are encouraged to include native bold and oblique faces to achieve better 
-appearance compared to the simulated bold and oblique." I'm all over this "duh" point.
-
-It's 2007 now: my publisher font menu (when I'm composing for print) starts with Arial Unicode, Batang, BatangChe, Dotum, FangSong, Guli, Gu l imChe (che(ck) it out, lol) Gungsuh, GungsuhChe, MalgunGothic, Meiro... it goes on like this for another 4-5 inches, before I reach a font name I can "use", Agency FB. This problem is partly solved if I compose for the web, i.e. all of the non-Latin (and all but 11) font families vanish from the menu. (one wonders if non-latin users are allowed to publish web documents with non-latin fonts, lol,) but thanks that one font menu filter!
-
-So while I appreciate the need to catch up for developers who might have thought it was a good idea to name or otherwise identify their fonts ambiguously or incorrectly design or not, members of a family, 1994 was the last year I thought this was a problem for users. (I mean really, John, if someone has taken the time to compose a document in NeueHelvetica, do they want it to be substituted by Arial!? EVER?) Since then, of course many new problems have arisen that don't seem to get any attention. 
-
-Font management, Size management, Quality management - ?
-
-Cheers,
-
-David Berlow
-
-
-
+		<div class="commentbody"><p>&ldquo;Well, it contains two name table fields that didn’t previously exist and which are not yet documented in the OT spec, so presumably you’re not already using those&rdquo;</p>
+<p>That is correct, thank you. The main object I have is that I do not define my fonts so they can be substituted for (even from within the family). The second concern I have is that my fonts never be confused with fonts that cannot be removed from the system. (as I continue to chase the need so many express every single day, and as was expressed at the last Typecon, Users Need Better Font Management Tools from the &ldquo;Source of the Problem.&quot;)</p>
+<p>This document, beside ignoring the basics of reportage, (the &ldquo;W&rsquo;s&rdquo;?) says:
+&ldquo;Fonts should set typographically appropriate and unambiguous stretch, weight and 
+style values in the ‘OS/2’ table.&rdquo; (meaning I hope, within a family)&hellip;
+&ldquo;Fonts should support the same set of name table localization languages for all faces in 
+the same font family.&rdquo; like anything else is even intentionally possible?
+&ldquo;Fonts are encouraged to include native bold and oblique faces to achieve better 
+appearance compared to the simulated bold and oblique.&rdquo; I&rsquo;m all over this &ldquo;duh&rdquo; point.</p>
+<p>It&rsquo;s 2007 now: my publisher font menu (when I&rsquo;m composing for print) starts with Arial Unicode, Batang, BatangChe, Dotum, FangSong, Guli, Gu l imChe (che(ck) it out, lol) Gungsuh, GungsuhChe, MalgunGothic, Meiro&hellip; it goes on like this for another 4-5 inches, before I reach a font name I can &ldquo;use&rdquo;, Agency FB. This problem is partly solved if I compose for the web, i.e. all of the non-Latin (and all but 11) font families vanish from the menu. (one wonders if non-latin users are allowed to publish web documents with non-latin fonts, lol,) but thanks that one font menu filter!</p>
+<p>So while I appreciate the need to catch up for developers who might have thought it was a good idea to name or otherwise identify their fonts ambiguously or incorrectly design or not, members of a family, 1994 was the last year I thought this was a problem for users. (I mean really, John, if someone has taken the time to compose a document in NeueHelvetica, do they want it to be substituted by Arial!? EVER?) Since then, of course many new problems have arisen that don&rsquo;t seem to get any attention.</p>
+<p>Font management, Size management, Quality management - ?</p>
+<p>Cheers,</p>
+<p>David Berlow</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -264,11 +250,13 @@ David Berlow
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Well, at a first sight, i found two mistakes in this white paper:
-1. there is no Franklin Gothic Demi 'Italic' (would not be 'Oblique' instead?)
-2. the typeface numbering system looks very alike the used from Adrian Frutiger on Univers, and there is no mention about...
-
-maybe i can find more mistakes when reading the document more carefully</div>
+		<div class="commentbody"><p>Well, at a first sight, i found two mistakes in this white paper:</p>
+<ol>
+<li>there is no Franklin Gothic Demi &lsquo;Italic&rsquo; (would not be &lsquo;Oblique&rsquo; instead?)</li>
+<li>the typeface numbering system looks very alike the used from Adrian Frutiger on Univers, and there is no mention about&hellip;</li>
+</ol>
+<p>maybe i can find more mistakes when reading the document more carefully</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -289,18 +277,18 @@ maybe i can find more mistakes when reading the document more carefully</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Paulo,
-thanks for your feedback.
-
-Please let me address your comments.
-
-1. If you look at a typical Windows Vista box, and navigate to the system fonts directory in Windows explorer, there will be a font named "Franklin Gothic Demi Italic". The file name is FRADMIT.TTF.
-2. The typeface numbering systems recognized by the WPF font selection model are indeed the ones used in Frutiger and Univers font families. The white paper provides appropriate links: [[http://www.linotype.com/6-1823-6/neuehelvetica.html]] and [[http://www.linotype.com/6-1805-6-15548/numeration.html]].
-
-Best regards,
+		<div class="commentbody"><p>Paulo,
+thanks for your feedback.</p>
+<p>Please let me address your comments.</p>
+<ol>
+<li>If you look at a typical Windows Vista box, and navigate to the system fonts directory in Windows explorer, there will be a font named &ldquo;Franklin Gothic Demi Italic&rdquo;. The file name is FRADMIT.TTF.</li>
+<li>The typeface numbering systems recognized by the WPF font selection model are indeed the ones used in Frutiger and Univers font families. The white paper provides appropriate links: [[http://www.linotype.com/6-1823-6/neuehelvetica.html]] and [[http://www.linotype.com/6-1805-6-15548/numeration.html]].</li>
+</ol>
+<p>Best regards,
 Mikhail Leonov
 Senior Software Design Engineer
-Microsoft</div>
+Microsoft</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

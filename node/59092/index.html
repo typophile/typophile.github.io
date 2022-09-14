@@ -71,38 +71,20 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi all,
-
-I'm working on a typeface with two versions of each character. I made two sets and called them @set1 and @set2. Every set has five characters after which I like to 'swap' to the other set. The characters are C E J S Z and c e j s z. 
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi all,</p>
+<p>I&rsquo;m working on a typeface with two versions of each character. I made two sets and called them @set1 and @set2. Every set has five characters after which I like to &lsquo;swap&rsquo; to the other set. The characters are C E J S Z and c e j s z. 
 For example. I like to go like this: ABCdeFGHIJklmnopqrsTUVWXYZabcDE etc
-I can't get the code working, can somebody help me?
-Thanks!
-
-Pieter</div>
+I can&rsquo;t get the code working, can somebody help me?
+Thanks!</p>
+<p>Pieter</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This is the feature I wrote:
-
-<code>
-feature liga {
-# Latin
-	sub C @set1' by @set2;
-	sub E @set1' by @set2;
-	sub J @set1' by @set2;
-	sub S @set1' by @set2;
-	sub Z @set1' by @set2;
-	sub c @set2' by @set1;
-	sub e @set2' by @set1;
-	sub j @set2' by @set1;
-	sub s @set2' by @set1;
-	sub z @set2' by @set1;
-	sub @set2 @set1' by @set2;
-	sub @set1 @set2' by @set1;
-} liga;
-</code>
-
-Pieter</div>
+		<div class="commentbody"><p>This is the feature I wrote:</p>
+<!-- raw HTML omitted -->
+<p>Pieter</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -123,7 +105,7 @@ Pieter</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You might need to show us what your classes are, but from the get go this doesn't look like it belongs in the liga feature, but rather calt.</div>
+		<div class="commentbody">You might need to show us what your classes are, but from the get go this doesn&rsquo;t look like it belongs in the liga feature, but rather calt.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -144,7 +126,7 @@ Pieter</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Are you saying you want to use those letters as a switch to change all the letters that appear after them? </div>
+		<div class="commentbody">Are you saying you want to use those letters as a switch to change all the letters that appear after them?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -165,18 +147,16 @@ Pieter</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@ Stephen: I know, but I choose the liga feature because it's on at default in a few programs.
-
-@ Jackson: Yes, that's what I like.
-
-classes:
-<code>
+		<div class="commentbody"><p>@ Stephen: I know, but I choose the liga feature because it&rsquo;s on at default in a few programs.</p>
+<p>@ Jackson: Yes, that&rsquo;s what I like.</p>
+<p>classes:
+<!-- raw HTML omitted -->
 @set1 = [A B C D E F G H I J K L M N O P Q R S T U V W X Y Z];
 @set2 = [a b c d e f g h i j k l m n o p q r s t u v w x y z];
-</code>
-
-Thanks!
-Pieter</div>
+<!-- raw HTML omitted --></p>
+<p>Thanks!
+Pieter</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -197,26 +177,21 @@ Pieter</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The main problem is that the trigger glyphs were in the classes you were switching. Try this:
-
-feature CALT {
-
-@set1 = [A B D F G H I K L M N O P Q R T U V W X Y];
+		<div class="commentbody"><p>The main problem is that the trigger glyphs were in the classes you were switching. Try this:</p>
+<p>feature CALT {</p>
+<p>@set1 = [A B D F G H I K L M N O P Q R T U V W X Y];
 @set2 = [a b d f g h i k l m n o p q r t u v w x y];
 @trip1 = [C E J S Z];
-@trip2 = [c e j s z];
-
-sub @trip1 @set1' by @set2;
+@trip2 = [c e j s z];</p>
+<p>sub @trip1 @set1' by @set2;
 sub @trip1 @set2 @set1' by @set2;
 sub @set2 @set2 @set1' by @set2;
-sub @set2 @set2 @trip1' by @trip2;
-
-sub @trip2 @set2' by @set1;
+sub @set2 @set2 @trip1' by @trip2;</p>
+<p>sub @trip2 @set2' by @set1;
 sub @trip2 @set1 @set2' by @set1;
 sub @set1 @set1 @set2' by @set1;
-sub @set1 @set1 @trip2' by @trip1;
-
-} CALT;
+sub @set1 @set1 @trip2' by @trip1;</p>
+<p>} CALT;</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -238,14 +213,12 @@ sub @set1 @set1 @trip2' by @trip1;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello Jackson,
-
-Thanks for the code, but unfortunately it's not working: ABCdefghijklmnopqrstuvwxyz
-It's not flipping back to @set1 anymore.
-
-This is what I like to happen: ABCdeFGHIJklmnopqrsTUVWXYZabcDEfghijKLMNOPQRSTuvwxyzAB etc
-
-Pieter</div>
+		<div class="commentbody"><p>Hello Jackson,</p>
+<p>Thanks for the code, but unfortunately it&rsquo;s not working: ABCdefghijklmnopqrstuvwxyz
+It&rsquo;s not flipping back to @set1 anymore.</p>
+<p>This is what I like to happen: ABCdeFGHIJklmnopqrsTUVWXYZabcDEfghijKLMNOPQRSTuvwxyzAB etc</p>
+<p>Pieter</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -266,29 +239,22 @@ Pieter</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">feature CALT {
-
-@set1 = [A B D F G H I K L M N O P Q R T U V W X Y];
-@set2 = [a b d f g h i k l m n o p q r t u v w x y];
-
-@trip1 = [C E J S Z];
-@trip2 = [c e j s z];
-
-sub @set1 @trip1 @set1' by @set2;
-sub @set2 @trip2 @set2' by @set1;
-
-sub @trip1 @trip1' by @trip2;
-sub @trip2 @trip2' by @trip1;
-
-sub @set2 @set1' by @set2;
-sub @set2 @trip1' by @trip2;
-
-sub @set1 @set2' by @set1;
-sub @set1 @trip2' by @trip1;
-
-} CALT;
-
-I should've paid more attention to your string...</div>
+		<div class="commentbody"><p>feature CALT {</p>
+<p>@set1 = [A B D F G H I K L M N O P Q R T U V W X Y];
+@set2 = [a b d f g h i k l m n o p q r t u v w x y];</p>
+<p>@trip1 = [C E J S Z];
+@trip2 = [c e j s z];</p>
+<p>sub @set1 @trip1 @set1' by @set2;
+sub @set2 @trip2 @set2' by @set1;</p>
+<p>sub @trip1 @trip1' by @trip2;
+sub @trip2 @trip2' by @trip1;</p>
+<p>sub @set2 @set1' by @set2;
+sub @set2 @trip1' by @trip2;</p>
+<p>sub @set1 @set2' by @set1;
+sub @set1 @trip2' by @trip1;</p>
+<p>} CALT;</p>
+<p>I should&rsquo;ve paid more attention to your string&hellip;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -309,31 +275,24 @@ I should've paid more attention to your string...</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Err.. needed one more thing: 
-
-feature CALT {
-
-@set1 = [A B D F G H I K L M N O P Q R T U V W X Y];
-@set2 = [a b d f g h i k l m n o p q r t u v w x y];
-
-@trip1 = [C E J S Z];
-@trip2 = [c e j s z];
-
-sub @set1 @trip1 @set1' by @set2;
-sub @set2 @trip2 @set2' by @set1;
-
-sub @trip1 @trip1' by @trip2;
-sub @trip2 @trip2' by @trip1;
-
-sub @set2 @set1' by @set2;
+		<div class="commentbody"><p>Err.. needed one more thing:</p>
+<p>feature CALT {</p>
+<p>@set1 = [A B D F G H I K L M N O P Q R T U V W X Y];
+@set2 = [a b d f g h i k l m n o p q r t u v w x y];</p>
+<p>@trip1 = [C E J S Z];
+@trip2 = [c e j s z];</p>
+<p>sub @set1 @trip1 @set1' by @set2;
+sub @set2 @trip2 @set2' by @set1;</p>
+<p>sub @trip1 @trip1' by @trip2;
+sub @trip2 @trip2' by @trip1;</p>
+<p>sub @set2 @set1' by @set2;
 sub @set2 @trip1' by @trip2;
-sub @trip1 @set1' by @set2;
-
-sub @set1 @set2' by @set1;
+sub @trip1 @set1' by @set2;</p>
+<p>sub @set1 @set2' by @set1;
 sub @set1 @trip2' by @trip1;
-sub @trip2 @set2' by @set1;
-
-} CALT;</div>
+sub @trip2 @set2' by @set1;</p>
+<p>} CALT;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -354,31 +313,24 @@ sub @trip2 @set2' by @set1;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Err.. needed one more thing: 
-
-feature CALT {
-
-@set1 = [A B D F G H I K L M N O P Q R T U V W X Y];
-@set2 = [a b d f g h i k l m n o p q r t u v w x y];
-
-@trip1 = [C E J S Z];
-@trip2 = [c e j s z];
-
-sub @set1 @trip1 @set1' by @set2;
-sub @set2 @trip2 @set2' by @set1;
-
-sub @trip1 @trip1' by @trip2;
-sub @trip2 @trip2' by @trip1;
-
-sub @set2 @set1' by @set2;
+		<div class="commentbody"><p>Err.. needed one more thing:</p>
+<p>feature CALT {</p>
+<p>@set1 = [A B D F G H I K L M N O P Q R T U V W X Y];
+@set2 = [a b d f g h i k l m n o p q r t u v w x y];</p>
+<p>@trip1 = [C E J S Z];
+@trip2 = [c e j s z];</p>
+<p>sub @set1 @trip1 @set1' by @set2;
+sub @set2 @trip2 @set2' by @set1;</p>
+<p>sub @trip1 @trip1' by @trip2;
+sub @trip2 @trip2' by @trip1;</p>
+<p>sub @set2 @set1' by @set2;
 sub @set2 @trip1' by @trip2;
-sub @trip1 @set1' by @set2;
-
-sub @set1 @set2' by @set1;
+sub @trip1 @set1' by @set2;</p>
+<p>sub @set1 @set2' by @set1;
 sub @set1 @trip2' by @trip1;
-sub @trip2 @set2' by @set1;
-
-} CALT;</div>
+sub @trip2 @set2' by @set1;</p>
+<p>} CALT;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -399,11 +351,10 @@ sub @trip2 @set2' by @set1;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"@ Stephen: I know, but I choose the liga feature because it’s on at default in a few programs."
-
-So is calt.
-
-T</div>
+		<div class="commentbody"><p>&ldquo;@ Stephen: I know, but I choose the liga feature because it’s on at default in a few programs.&rdquo;</p>
+<p>So is calt.</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -424,11 +375,10 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello Jackson,
-
-It's working! Thank you very much! You made me a happy man.
-
-Pieter</div>
+		<div class="commentbody"><p>Hello Jackson,</p>
+<p>It&rsquo;s working! Thank you very much! You made me a happy man.</p>
+<p>Pieter</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -449,11 +399,10 @@ Pieter</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello Thomas,
-
-I didn't know that. Thanks!
-
-Pieter</div>
+		<div class="commentbody"><p>Hello Thomas,</p>
+<p>I didn&rsquo;t know that. Thanks!</p>
+<p>Pieter</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -474,11 +423,10 @@ Pieter</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello Jackson,
-
-I like to thank you again! :) It's perfect!
-
-Pieter</div>
+		<div class="commentbody"><p>Hello Jackson,</p>
+<p>I like to thank you again! :) It&rsquo;s perfect!</p>
+<p>Pieter</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -500,7 +448,7 @@ Pieter</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">No problem, that was a fun distraction on a lazy working day. 
-I'm curious how this is going to translate into a design, look forward to seeing it.  </div>
+I&rsquo;m curious how this is going to translate into a design, look forward to seeing it.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -521,11 +469,10 @@ I'm curious how this is going to translate into a design, look forward to seeing
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello Jackson,
-
-I will show you later. It's for a client and I'm not allowed to show it before the official introduction.
-
-Pieter</div>
+		<div class="commentbody"><p>Hello Jackson,</p>
+<p>I will show you later. It&rsquo;s for a client and I&rsquo;m not allowed to show it before the official introduction.</p>
+<p>Pieter</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -567,7 +514,7 @@ Pieter</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">...
+		<div class="commentbody">&hellip;
 ChrisL</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

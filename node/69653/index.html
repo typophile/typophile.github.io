@@ -71,53 +71,49 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Here is a Python script that dumps to the output a utf-8 input file. The script works fine on Linux but if the input contains characters above U+FFFF it does not behave as expected on the Mac with whatever version of Python I use (I tried with Python 2.5, and 2.6 on OS X 10.5, and with Python 2.5, 2.6 and 3.1 on OS X 10.6).
-<!--break-->
-Here is the <code>dumpchars</code> script:
-<code>---
+  <div class="post-content e-content" itemprop="articleBody"><p>Here is a Python script that dumps to the output a utf-8 input file. The script works fine on Linux but if the input contains characters above U+FFFF it does not behave as expected on the Mac with whatever version of Python I use (I tried with Python 2.5, and 2.6 on OS X 10.5, and with Python 2.5, 2.6 and 3.1 on OS X 10.6).</p>
+<!-- raw HTML omitted -->
+<p>Here is the <!-- raw HTML omitted -->dumpchars<!-- raw HTML omitted --> script:
+<!-- raw HTML omitted -->&mdash;
 import sys, codecs, unicodedata
-infile=codecs.open(sys.argv&#91;1&#93;,"r","utf-8")
+infile=codecs.open(sys.argv[1],&ldquo;r&rdquo;,&ldquo;utf-8&rdquo;)
 text=infile.read(); infile.close()
-&nbsp;
+ 
 def dump(char):
-&nbsp;&nbsp; try:
-&nbsp; &nbsp; &nbsp; print('%04X %s' % (ord(char), unicodedata.name(char)))
-&nbsp;&nbsp; except:
-&nbsp; &nbsp; &nbsp; print('%04X' % (ord(char)))
-&nbsp;&nbsp;
+   try:
+      print('%04X %s' % (ord(char), unicodedata.name(char)))
+   except:
+      print('%04X' % (ord(char)))
+  
 for char in text:
-&nbsp;&nbsp; dump(char)
----</code>
-If, on Linux, (even on the <a href="http://laptop.org/en/laptop/index.shtml">OPLC</a>) I run <code>python dumpchars in.txt</code> on the file <code>in.txt</code> containing a line with the characters a, b and a CJK unified ideograph (that makes Typophile's editor crash, so I had to remove the following line)
-
-I get
-<code>
+   dump(char)
+&mdash;<!-- raw HTML omitted -->
+If, on Linux, (even on the <!-- raw HTML omitted -->OPLC<!-- raw HTML omitted -->) I run <!-- raw HTML omitted -->python dumpchars in.txt<!-- raw HTML omitted --> on the file <!-- raw HTML omitted -->in.txt<!-- raw HTML omitted --> containing a line with the characters a, b and a CJK unified ideograph (that makes Typophile&rsquo;s editor crash, so I had to remove the following line)</p>
+<p>I get
+<!-- raw HTML omitted -->
 0061 LATIN SMALL LETTER A
 0062 LATIN SMALL LETTER B
 230B7 CJK UNIFIED IDEOGRAPH-230B7
 000A
-</code>
+<!-- raw HTML omitted -->
 as expected. If I do the same on a Mac with any version of Python, from 2.5 to 3.1, I get this:
-<code>
+<!-- raw HTML omitted -->
 0061 LATIN SMALL LETTER A
 0062 LATIN SMALL LETTER B
 D84C
 DCB7
 000A
-</code>
-Characters above FFFF are not handled properly. I get that same output on a PC (I tried with python2.6)
-
-Does anyone know of a solution to this problem aside from always having to rely on a "Linux box" ? 
-
-Michel</div>
+<!-- raw HTML omitted -->
+Characters above FFFF are not handled properly. I get that same output on a PC (I tried with python2.6)</p>
+<p>Does anyone know of a solution to this problem aside from always having to rely on a &ldquo;Linux box&rdquo; ?</p>
+<p>Michel</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Michel, 
-
-unfortunately, by default Python is compiled in the UCS-2 version so it only supports Unicode BMP. It's possible to install Python from sources in the UCS-4 mode, but it means you need to do some compilation. It's also possible to install the UCS-4 version of Python from MacPorts (using Porticus). 
-
-Adam
+		<div class="commentbody"><p>Michel,</p>
+<p>unfortunately, by default Python is compiled in the UCS-2 version so it only supports Unicode BMP. It&rsquo;s possible to install Python from sources in the UCS-4 mode, but it means you need to do some compilation. It&rsquo;s also possible to install the UCS-4 version of Python from MacPorts (using Porticus).</p>
+<p>Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -139,13 +135,11 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Adam
-
- I now have a Macports version of python2.6 that works as I expected. 
-
-Thanks,
-
-Michel</div>
+		<div class="commentbody"><p>Adam</p>
+<p>I now have a Macports version of python2.6 that works as I expected.</p>
+<p>Thanks,</p>
+<p>Michel</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

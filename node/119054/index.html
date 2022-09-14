@@ -71,32 +71,22 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">To preface, this is my first post to the forum and I've done a fair amount of digging on the issue, but haven't found any solution to my question. Apologies in advance if it has been answered somewhere else. And I must say, that the community here has been extremely invaluable so far!
-
-I have designed Titling Alternates (labeled <code>titling</code> in OpenType Classes) for the Uppercase (<code>upcs</code> in OpenType Classes) glyphs in my font.
-
-For this, my feature is as follows:
-
-<code> feature titl { sub @upcs by @titling; } titl; </code>
-
-I want to also vertically position the quotes (<code>quotes</code> in OpenType Classes) to match the height of the Titling Alternates when that feature is activated. Normally, this is done by creating duplicate glyphs and adjusting them manually, then calling to that respective OpenType Class. However, I want to avoid creating the duplicate glyphs. To do this, I've created a new feature for <code>case</code> and used something like:
-
-<code>feature case { pos @quotes <0 -100 0 0>; } case;</code>
-
-This is working great, however I want to make everything accessible through the Titling Alternates Feature and it currently isn't since the quotes are set up in the <code>case</code> feature.
-
-My immediate solution was to simply do something like this...
-
-<code>feature titl {
-  sub @upcs by @titling;
-  pos @quotes <0 -100 0 0>;
-} titl; </code>
-
-...but for some reason, it's compiling a duplicate feature of <code>titl</code> in my OpenType Feature Preview. And upon exporting the font for testing, the quotes position feature isn't working.
-
-I'm a novice type designer and somewhat new to OpenType coding and syntax so I'm sure I'm doing something wrong. Any ideas on how to properly set this up so it's accessible in the Titling Alternates Feature?
-
-Thanks in advance!</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>To preface, this is my first post to the forum and I&rsquo;ve done a fair amount of digging on the issue, but haven&rsquo;t found any solution to my question. Apologies in advance if it has been answered somewhere else. And I must say, that the community here has been extremely invaluable so far!</p>
+<p>I have designed Titling Alternates (labeled <!-- raw HTML omitted -->titling<!-- raw HTML omitted --> in OpenType Classes) for the Uppercase (<!-- raw HTML omitted -->upcs<!-- raw HTML omitted --> in OpenType Classes) glyphs in my font.</p>
+<p>For this, my feature is as follows:</p>
+<p><!-- raw HTML omitted --> feature titl { sub @upcs by @titling; } titl; <!-- raw HTML omitted --></p>
+<p>I want to also vertically position the quotes (<!-- raw HTML omitted -->quotes<!-- raw HTML omitted --> in OpenType Classes) to match the height of the Titling Alternates when that feature is activated. Normally, this is done by creating duplicate glyphs and adjusting them manually, then calling to that respective OpenType Class. However, I want to avoid creating the duplicate glyphs. To do this, I&rsquo;ve created a new feature for <!-- raw HTML omitted -->case<!-- raw HTML omitted --> and used something like:</p>
+<p><!-- raw HTML omitted -->feature case { pos @quotes &lt;0 -100 0 0&gt;; } case;<!-- raw HTML omitted --></p>
+<p>This is working great, however I want to make everything accessible through the Titling Alternates Feature and it currently isn&rsquo;t since the quotes are set up in the <!-- raw HTML omitted -->case<!-- raw HTML omitted --> feature.</p>
+<p>My immediate solution was to simply do something like this&hellip;</p>
+<p><!-- raw HTML omitted -->feature titl {
+sub @upcs by @titling;
+pos @quotes &lt;0 -100 0 0&gt;;
+} titl; <!-- raw HTML omitted --></p>
+<p>&hellip;but for some reason, it&rsquo;s compiling a duplicate feature of <!-- raw HTML omitted -->titl<!-- raw HTML omitted --> in my OpenType Feature Preview. And upon exporting the font for testing, the quotes position feature isn&rsquo;t working.</p>
+<p>I&rsquo;m a novice type designer and somewhat new to OpenType coding and syntax so I&rsquo;m sure I&rsquo;m doing something wrong. Any ideas on how to properly set this up so it&rsquo;s accessible in the Titling Alternates Feature?</p>
+<p>Thanks in advance!</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
@@ -163,24 +153,21 @@ Thanks in advance!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4
-A feature file "rule" is a statement that specifies glyph substitution or glyph positioning. A feature block may contain glyph substitution rules [§5], glyph positioning rules [§6], or both.
-A lookup is a group of rules of the same type. See §4.e.
-
-lookup titl0 {
-     sub @upcs by @titling ;
-} titl0;
-
-lookup titl1 {
-    pos @quotes <0 -100 0 0>;
-} titl1;
-
-feature titl {
-  script DFLT;
-  language dflt ;
-      lookup titl0;
-      lookup titl1; 
-} titl;
+		<div class="commentbody"><p><a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4">http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4</a>
+A feature file &ldquo;rule&rdquo; is a statement that specifies glyph substitution or glyph positioning. A feature block may contain glyph substitution rules [§5], glyph positioning rules [§6], or both.
+A lookup is a group of rules of the same type. See §4.e.</p>
+<p>lookup titl0 {
+sub @upcs by @titling ;
+} titl0;</p>
+<p>lookup titl1 {
+pos @quotes &lt;0 -100 0 0&gt;;
+} titl1;</p>
+<p>feature titl {
+script DFLT;
+language dflt ;
+lookup titl0;
+lookup titl1; 
+} titl;</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -202,7 +189,7 @@ feature titl {
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">FontLab 5 uses an old version of AFDKO that only compiles kern feature GPOS. You would probably need to compile the feature code directly in the font with AFDKO, or use one of the newer font tools that use the more recent AFDKO code (DTL OTMaster, Glyphs, RoboFont). Note that I've never tried combining GSUB and GPOS lookups in a single feature using any of these tools; I do all of my OpenType Layout work in VOLT.</div>
+		<div class="commentbody">FontLab 5 uses an old version of AFDKO that only compiles kern feature GPOS. You would probably need to compile the feature code directly in the font with AFDKO, or use one of the newer font tools that use the more recent AFDKO code (DTL OTMaster, Glyphs, RoboFont). Note that I&rsquo;ve never tried combining GSUB and GPOS lookups in a single feature using any of these tools; I do all of my OpenType Layout work in VOLT.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -291,13 +278,11 @@ I would add the FontForge to your tools list.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I tried manually inserting the feature code Janek provided using RoboFont to test the idea, but it didn't seem to work as I had hoped (I'll caveat that by saying I'm probably doing something wrong).
-
-However, using FontLab 5, the feature (of combining GPOS and GSUB) works in the exported OTF as anticipated using ID CC, but the feature does not work in Illustrator CC (or CS6). The OTF is only utilizing the GSUB glyphs in AI.
-
-I understand that combining GPOS and GSUB into one feature is odd, but this is more of an experimental exercise. Right now, I'm happy with the results; however, I may just end up creating modified glyphs (repositioned), adding a class then using GSUB. This will probably produce the most predictable results among the design programs.
-
-Thank you all for the great feedback!</div>
+		<div class="commentbody"><p>I tried manually inserting the feature code Janek provided using RoboFont to test the idea, but it didn&rsquo;t seem to work as I had hoped (I&rsquo;ll caveat that by saying I&rsquo;m probably doing something wrong).</p>
+<p>However, using FontLab 5, the feature (of combining GPOS and GSUB) works in the exported OTF as anticipated using ID CC, but the feature does not work in Illustrator CC (or CS6). The OTF is only utilizing the GSUB glyphs in AI.</p>
+<p>I understand that combining GPOS and GSUB into one feature is odd, but this is more of an experimental exercise. Right now, I&rsquo;m happy with the results; however, I may just end up creating modified glyphs (repositioned), adding a class then using GSUB. This will probably produce the most predictable results among the design programs.</p>
+<p>Thank you all for the great feedback!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

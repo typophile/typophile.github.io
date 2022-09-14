@@ -71,20 +71,19 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I really like building fonts, especially with lots of glyphs, and last year I built what is best described as an "extreme" OpenType/CFF font that is useful for stress-testing applications and environments that consume fonts, to include font resource editing software.
-
-I upped the proverbial ante this past week by adding a third axis of extremeness to this font, and blogged about it (and also make it available for download). See: [[http://blogs.adobe.com/CCJKType/2012/01/extreme-otf.html|CJK Type Blog 01/26/2012 Post: An “Extreme” OpenType Font]]
-
-Dr. Ken Lunde
+  <div class="post-content e-content" itemprop="articleBody"><p>I really like building fonts, especially with lots of glyphs, and last year I built what is best described as an &ldquo;extreme&rdquo; OpenType/CFF font that is useful for stress-testing applications and environments that consume fonts, to include font resource editing software.</p>
+<p>I upped the proverbial ante this past week by adding a third axis of extremeness to this font, and blogged about it (and also make it available for download). See: [[http://blogs.adobe.com/CCJKType/2012/01/extreme-otf.html|CJK Type Blog 01/26/2012 Post: An “Extreme” OpenType Font]]</p>
+<p>Dr. Ken Lunde
 CJKV Type Development, Adobe Systems Incorporated
 San José, CA, USA, Earth
-lunde@adobe.com</div>
+<a href="mailto:lunde@adobe.com">lunde@adobe.com</a></p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ken, this is excellent! As a matter of fact, it made my own home grown OTF checker crash (and in the middle of charstring #167 at that -- I need to check for integer overflows, methinks), so it is indeed a good stress test.
-
-Are you aware of a similar font on which I could do tests for a CFF charstring parser?</div>
+		<div class="commentbody"><p>Ken, this is excellent! As a matter of fact, it made my own home grown OTF checker crash (and in the middle of charstring #167 at that &ndash; I need to check for integer overflows, methinks), so it is indeed a good stress test.</p>
+<p>Are you aware of a similar font on which I could do tests for a CFF charstring parser?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -105,9 +104,9 @@ Are you aware of a similar font on which I could do tests for a CFF charstring p
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I am glad to hear that this font could serve a useful purpose. For me, I dropped it into the OS (Mac OS X), and it is serving as a fallback font.
-
-About your request, I would need to know more about what limits you're looking to test. Charstring length?</div>
+		<div class="commentbody"><p>I am glad to hear that this font could serve a useful purpose. For me, I dropped it into the OS (Mac OS X), and it is serving as a fallback font.</p>
+<p>About your request, I would need to know more about what limits you&rsquo;re looking to test. Charstring length?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -128,14 +127,12 @@ About your request, I would need to know more about what limits you're looking t
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>I would need to know more about what limits you're looking to test. Charstring length?</cite>
-
-Uh, no (that maxes out at 64K - 1, IIRC). It wasn't a really well thought out question: after some more studying I don't think there is any requirement at all to be able to 'test charstrings'.
-Either a charstring is syntactically correct (i.e. leading to a valid stream of numbers and operators, where each operator clears the stack as per Spec.5177, and does not exceed the implementation limits in there), or it may be considered "malformed", and then there is probably something wrong with the charstring generator that was used.
-
-A charstring generator is what I'm attempting to code; and indeed, encoding of outlines is straightforward (all just syntax) but problems in the "semantics" of outlines are much harder to detect, avoid, and/or automatically solve: overlapping shapes (I don't think there is an actual <em>rule</em> against this, but I gather it's "seriously frowned upon"), renegade curves (where 3 or more curve data points are 0), and artefacts cause by rounding from floating point coordinates to the 1,000 Unit Fixed Square.
-
-A fun project, nevertheless.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->I would need to know more about what limits you&rsquo;re looking to test. Charstring length?<!-- raw HTML omitted --></p>
+<p>Uh, no (that maxes out at 64K - 1, IIRC). It wasn&rsquo;t a really well thought out question: after some more studying I don&rsquo;t think there is any requirement at all to be able to &lsquo;test charstrings&rsquo;.
+Either a charstring is syntactically correct (i.e. leading to a valid stream of numbers and operators, where each operator clears the stack as per Spec.5177, and does not exceed the implementation limits in there), or it may be considered &ldquo;malformed&rdquo;, and then there is probably something wrong with the charstring generator that was used.</p>
+<p>A charstring generator is what I&rsquo;m attempting to code; and indeed, encoding of outlines is straightforward (all just syntax) but problems in the &ldquo;semantics&rdquo; of outlines are much harder to detect, avoid, and/or automatically solve: overlapping shapes (I don&rsquo;t think there is an actual <!-- raw HTML omitted -->rule<!-- raw HTML omitted --> against this, but I gather it&rsquo;s &ldquo;seriously frowned upon&rdquo;), renegade curves (where 3 or more curve data points are 0), and artefacts cause by rounding from floating point coordinates to the 1,000 Unit Fixed Square.</p>
+<p>A fun project, nevertheless.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -156,35 +153,26 @@ A fun project, nevertheless.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Let me expand a bit on that for interested lurkers.
-
-The byte stream
-<code>00 00 01 80 00 0A</code>
-
-is <em>invalid</em> because <code>00</code> does not produce valid code. This one is better:
-<code>FF 00 01 80 00 0A</code>
-
-because the first 5 bytes translate in a floating point number: 1.5. The sixth byte translates into the opcode "callsubr", so this sequence correctly translates into
-<code>1.5 callsubr</code>
-
-... but a subr number must be an integer (it is a simple table based lookup). So this is still "wrong", but on a higher level. But even when we change this code into
-<code>F6 0A</code>
-
-which translates into
-<code>-1 callsubr</code>
-
-we cannot be sure if this is "correct". According to Adobe's Charstring Specification #5177, there is a limit of 10 nested callsubr calls, and there is no way we can check if this one is the eleventh without actually parsing the entire charstring.
-
-Still, these checks can be done by a fairly basic program. More insidious are syntactically correct constructs such as
-<code>10 0 10 vlineto</code>
-
-or indeed
-<code>10 0 -10 vlineto</code>
-
-(I'm <em>certain</em> that's not allowed), or self-crossing:
-<code>2 1 -1 -2 hlineto</code>
-
-... which is where the fun starts for me :)</div>
+		<div class="commentbody"><p>Let me expand a bit on that for interested lurkers.</p>
+<p>The byte stream
+<!-- raw HTML omitted -->00 00 01 80 00 0A<!-- raw HTML omitted --></p>
+<p>is <!-- raw HTML omitted -->invalid<!-- raw HTML omitted --> because <!-- raw HTML omitted -->00<!-- raw HTML omitted --> does not produce valid code. This one is better:
+<!-- raw HTML omitted -->FF 00 01 80 00 0A<!-- raw HTML omitted --></p>
+<p>because the first 5 bytes translate in a floating point number: 1.5. The sixth byte translates into the opcode &ldquo;callsubr&rdquo;, so this sequence correctly translates into
+<!-- raw HTML omitted -->1.5 callsubr<!-- raw HTML omitted --></p>
+<p>&hellip; but a subr number must be an integer (it is a simple table based lookup). So this is still &ldquo;wrong&rdquo;, but on a higher level. But even when we change this code into
+<!-- raw HTML omitted -->F6 0A<!-- raw HTML omitted --></p>
+<p>which translates into
+<!-- raw HTML omitted -->-1 callsubr<!-- raw HTML omitted --></p>
+<p>we cannot be sure if this is &ldquo;correct&rdquo;. According to Adobe&rsquo;s Charstring Specification #5177, there is a limit of 10 nested callsubr calls, and there is no way we can check if this one is the eleventh without actually parsing the entire charstring.</p>
+<p>Still, these checks can be done by a fairly basic program. More insidious are syntactically correct constructs such as
+<!-- raw HTML omitted -->10 0 10 vlineto<!-- raw HTML omitted --></p>
+<p>or indeed
+<!-- raw HTML omitted -->10 0 -10 vlineto<!-- raw HTML omitted --></p>
+<p>(I&rsquo;m <!-- raw HTML omitted -->certain<!-- raw HTML omitted --> that&rsquo;s not allowed), or self-crossing:
+<!-- raw HTML omitted -->2 1 -1 -2 hlineto<!-- raw HTML omitted --></p>
+<p>&hellip; which is where the fun starts for me :)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

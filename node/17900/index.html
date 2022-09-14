@@ -71,23 +71,21 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi,
-
-We're developing several unicode/opentype fonts for Native American languages that prefer to have the spacing modifiers associated with the previous base character. Some questions...
-
-1. Is a spacing modifier letter (U+02b0 to U+02ff) glyph generally interpreted to be a stand-alone character or a character to be linked/joined to the previous base character?
-2. In the languages we're working with, they use a U+02b7 for what is termed a 'rounded' sound and is always shown attached to the previous base character. Is there a different glyph that should be used in this case?
-
-This question is arising from a discussion with a software vendor that produces crossword puzzle applications. With the current version the spacing modifier letter appears as a distinct character in the puzzle and not as an element of a composite glyph as the language intends. What we're researching is whether this is normal behavior or something that can be 'adjusted' without impacting other languages.
-
-Thanks,
- </div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi,</p>
+<p>We&rsquo;re developing several unicode/opentype fonts for Native American languages that prefer to have the spacing modifiers associated with the previous base character. Some questions&hellip;</p>
+<ol>
+<li>Is a spacing modifier letter (U+02b0 to U+02ff) glyph generally interpreted to be a stand-alone character or a character to be linked/joined to the previous base character?</li>
+<li>In the languages we&rsquo;re working with, they use a U+02b7 for what is termed a &lsquo;rounded&rsquo; sound and is always shown attached to the previous base character. Is there a different glyph that should be used in this case?</li>
+</ol>
+<p>This question is arising from a discussion with a software vendor that produces crossword puzzle applications. With the current version the spacing modifier letter appears as a distinct character in the puzzle and not as an element of a composite glyph as the language intends. What we&rsquo;re researching is whether this is normal behavior or something that can be &lsquo;adjusted&rsquo; without impacting other languages.</p>
+<p>Thanks,</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">A spacing modifier letter usually follows a base letter. It is not usually 'attached' to it in a ligated way, but it is understood as forming a graphemic unit so, e.g. hyphenation should never occur between them. This suggests to me that you probably do want the base letter and modifier letter to sit in the same crossword puzzle cell. How to do it? That depends on how the crossword puzzle is being made. If the crossword software has a built in assumption of one character per cell, then you have a problem that cannot be resolved at the glyph level, because however you try to display the combination of base+modifier, whether as a single glyph or as two glyphs, the underlying text is always going to be two characters.
-
-An elegant way around this, since you are dealing with the makers of the software, would be to employ the Combining Grapheme Joiner control character (U+034F) between the base and modifier to indicate that they should be treated as a single unit. If the software seees the sequence character-CGJ-character it would interpret that to mean that this sequence should be displayed in a single cell.</div>
+		<div class="commentbody"><p>A spacing modifier letter usually follows a base letter. It is not usually &lsquo;attached&rsquo; to it in a ligated way, but it is understood as forming a graphemic unit so, e.g. hyphenation should never occur between them. This suggests to me that you probably do want the base letter and modifier letter to sit in the same crossword puzzle cell. How to do it? That depends on how the crossword puzzle is being made. If the crossword software has a built in assumption of one character per cell, then you have a problem that cannot be resolved at the glyph level, because however you try to display the combination of base+modifier, whether as a single glyph or as two glyphs, the underlying text is always going to be two characters.</p>
+<p>An elegant way around this, since you are dealing with the makers of the software, would be to employ the Combining Grapheme Joiner control character (U+034F) between the base and modifier to indicate that they should be treated as a single unit. If the software seees the sequence character-CGJ-character it would interpret that to mean that this sequence should be displayed in a single cell.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -108,11 +106,9 @@ An elegant way around this, since you are dealing with the makers of the softwar
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">John, that was great information! Do I also need to modify my unicode composite character, ccmp feature and name to include the Combining Grapheme Joiner (U+034F)? In other words, for the ccmp feature, do I insert it into the sub as in...
-
-sub K commaabovecmb uni034F uni02B7 by uni004B0313034F02B7;
-
-Thanks for the insight. This will be great news for the developer as we've been stumped how to handle this for not only this font/language but others.
+		<div class="commentbody"><p>John, that was great information! Do I also need to modify my unicode composite character, ccmp feature and name to include the Combining Grapheme Joiner (U+034F)? In other words, for the ccmp feature, do I insert it into the sub as in&hellip;</p>
+<p>sub K commaabovecmb uni034F uni02B7 by uni004B0313034F02B7;</p>
+<p>Thanks for the insight. This will be great news for the developer as we&rsquo;ve been stumped how to handle this for not only this font/language but others.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -134,16 +130,13 @@ Thanks for the insight. This will be great news for the developer as we've been 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">What I would probably do in this situation is to 
-
-a) classify CGJ as a 'mark' in the OT GDEF table (technically it is a combining mark anyway, although it is invisible;
-
-b) create a ccmp lookup that ignores marks, and simply map
-base modifier -> base_modifier
-
-This ensures that the ligature substitution happens regardless of whether the CGJ is present in the string.
-
-I know how to do this in VOLT, but I'm not sure how you set up separate lookups within a feature in FontLab/FDK syntax. Presumably you have some ccmp substitutions that involve 'mark' glyphs, so you would need separate lookups for those that include and those that exclude marks.</div>
+		<div class="commentbody"><p>What I would probably do in this situation is to</p>
+<p>a) classify CGJ as a &lsquo;mark&rsquo; in the OT GDEF table (technically it is a combining mark anyway, although it is invisible;</p>
+<p>b) create a ccmp lookup that ignores marks, and simply map
+base modifier -&gt; base_modifier</p>
+<p>This ensures that the ligature substitution happens regardless of whether the CGJ is present in the string.</p>
+<p>I know how to do this in VOLT, but I&rsquo;m not sure how you set up separate lookups within a feature in FontLab/FDK syntax. Presumably you have some ccmp substitutions that involve &lsquo;mark&rsquo; glyphs, so you would need separate lookups for those that include and those that exclude marks.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

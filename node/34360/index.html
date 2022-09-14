@@ -71,22 +71,18 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">when should one use '[[ccmp]]' and when should one use '[[mark]]'?
-
-i'm under the impression that 'ccmp' is better suited for precomposed glyphs that have their own Unicode slots and 'mark' better for things like composing things like accented IPA glyphs or other accented characters that do not have unique Unicode points. Is this a fair assumption, or is there more i need to take into consideration?</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>when should one use &lsquo;[[ccmp]]&rsquo; and when should one use &lsquo;[[mark]]&rsquo;?</p>
+<p>i&rsquo;m under the impression that &lsquo;ccmp&rsquo; is better suited for precomposed glyphs that have their own Unicode slots and &lsquo;mark&rsquo; better for things like composing things like accented IPA glyphs or other accented characters that do not have unique Unicode points. Is this a fair assumption, or is there more i need to take into consideration?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I have a feeling that the "right" answer is deep in the software issue.  From the OT features registry under ccmp:
-
-<cite>. . . The feature should be processed as the first feature processed . . . This allows the font vendor to do special handling of the mark combination when doing further processing without requiring larger contextual rules.</cite>
-
-Other issues might be what software supports `mark' vs `ccmp'. I have always used ccmp for glyphs that do not have a precomposed Unicode slot, primarily because Adam Twardoch used that when he wrote a bit on how to make us these characters & the associated code for an old "Fontlab tips" article.
-
-
-http://groups.msn.com/fontlab/tipsandtricks.msnw?action=get_message&mview=0&ID_Message=3403&LastModified=4675609910422321102
-
-You might even consider audience. Putting on my asbestos suit, I'd say   there is a certain group who will enter any character other that a-z by using the glyph pallet. And another group who, if the character is in Latin Extended A or B, will just enter the Unicode string</div>
+		<div class="commentbody"><p>I have a feeling that the &ldquo;right&rdquo; answer is deep in the software issue.  From the OT features registry under ccmp:</p>
+<p><!-- raw HTML omitted -->. . . The feature should be processed as the first feature processed . . . This allows the font vendor to do special handling of the mark combination when doing further processing without requiring larger contextual rules.<!-- raw HTML omitted --></p>
+<p>Other issues might be what software supports <code>mark' vs </code>ccmp'. I have always used ccmp for glyphs that do not have a precomposed Unicode slot, primarily because Adam Twardoch used that when he wrote a bit on how to make us these characters &amp; the associated code for an old &ldquo;Fontlab tips&rdquo; article.</p>
+<p><a href="http://groups.msn.com/fontlab/tipsandtricks.msnw?action=get_message&amp;mview=0&amp;ID_Message=3403&amp;LastModified=4675609910422321102">http://groups.msn.com/fontlab/tipsandtricks.msnw?action=get_message&amp;mview=0&amp;ID_Message=3403&amp;LastModified=4675609910422321102</a></p>
+<p>You might even consider audience. Putting on my asbestos suit, I&rsquo;d say   there is a certain group who will enter any character other that a-z by using the glyph pallet. And another group who, if the character is in Latin Extended A or B, will just enter the Unicode string</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -107,13 +103,11 @@ You might even consider audience. Putting on my asbestos suit, I'd say   there i
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">There are pros and cons to both approaches.
-
-If you use ccmp instead of mark positioning, then you need to include a precomposed glyph for every diacritic combination that you want to support. That may be a lot of glyphs, and you're left not supporting any combinations beyond that set. On the other hand, GSUB is faster to process than GPOS, so the font will be quicker, and although it is arduous to kern all those diacritic combinations -- especially exceptions to the class kerning -- it is relatively straightfoward to do so.
-
-If you use the mark feature instead of the ccmp feature, you get the benefit of much greater flexibility, being able to support arbitrary diacritic combinations. You also don't have to create all those precomposed glyphs. The biggest downside to mark positioning, I think, is trying to integrate it with kerning. Imagine: you have an uppercase T followed by an i with a dynamically positioned combining mark above; you have to specify the kerning contextually, with the combining mark(s) as context. Or a more complicated situation: you have two narrow letters, both of which have dynamically positioned combining marks above and the marks are wide enough to clash; you have to contextually increase the spacing of one of the letters in context of the other letter + the marks. I've done this for Arabic and Thai, and am in the process of doing it for Biblical Hebrew, and it's not fun. [In fact, there's probably only one aspect of OTL development that is less fun. I'll see if you can guess what it is.]
-
-Of course, you can employ a combination of ccmp and mark features. This gets you the pros and cons of both, but with some added work: you need to include mark positioning not only for the base glyphs but also for all the precomposed diacritics in the ccmp lookups, since the mark feature should support arbitrary sequences including those diacritics.</div>
+		<div class="commentbody"><p>There are pros and cons to both approaches.</p>
+<p>If you use ccmp instead of mark positioning, then you need to include a precomposed glyph for every diacritic combination that you want to support. That may be a lot of glyphs, and you&rsquo;re left not supporting any combinations beyond that set. On the other hand, GSUB is faster to process than GPOS, so the font will be quicker, and although it is arduous to kern all those diacritic combinations &ndash; especially exceptions to the class kerning &ndash; it is relatively straightfoward to do so.</p>
+<p>If you use the mark feature instead of the ccmp feature, you get the benefit of much greater flexibility, being able to support arbitrary diacritic combinations. You also don&rsquo;t have to create all those precomposed glyphs. The biggest downside to mark positioning, I think, is trying to integrate it with kerning. Imagine: you have an uppercase T followed by an i with a dynamically positioned combining mark above; you have to specify the kerning contextually, with the combining mark(s) as context. Or a more complicated situation: you have two narrow letters, both of which have dynamically positioned combining marks above and the marks are wide enough to clash; you have to contextually increase the spacing of one of the letters in context of the other letter + the marks. I&rsquo;ve done this for Arabic and Thai, and am in the process of doing it for Biblical Hebrew, and it&rsquo;s not fun. [In fact, there&rsquo;s probably only one aspect of OTL development that is less fun. I&rsquo;ll see if you can guess what it is.]</p>
+<p>Of course, you can employ a combination of ccmp and mark features. This gets you the pros and cons of both, but with some added work: you need to include mark positioning not only for the base glyphs but also for all the precomposed diacritics in the ccmp lookups, since the mark feature should support arbitrary sequences including those diacritics.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -134,9 +128,9 @@ Of course, you can employ a combination of ccmp and mark features. This gets you
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>you have to specify the kerning contextually, with the combining mark(s) as context.</em>
-
-are there any applications that currently support this?</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->you have to specify the kerning contextually, with the combining mark(s) as context.<!-- raw HTML omitted --></p>
+<p>are there any applications that currently support this?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -157,11 +151,10 @@ are there any applications that currently support this?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Do you mean applications for making fonts, or applications for setting text?
-
-You can program contextual kerning in VOLT. I'm not sure whether you can do so in FL/FDK; I suspect the syntax supports it, but I don't know whether it will compile.
-
-I have not tested contextual kerning for the Latin script in ID CS3, but that would be the most likely place it would work. I've use contextual kerning extensively in Arabic fonts, and this works in MS Office, OpenOffice, ID ME, etc.</div>
+		<div class="commentbody"><p>Do you mean applications for making fonts, or applications for setting text?</p>
+<p>You can program contextual kerning in VOLT. I&rsquo;m not sure whether you can do so in FL/FDK; I suspect the syntax supports it, but I don&rsquo;t know whether it will compile.</p>
+<p>I have not tested contextual kerning for the Latin script in ID CS3, but that would be the most likely place it would work. I&rsquo;ve use contextual kerning extensively in Arabic fonts, and this works in MS Office, OpenOffice, ID ME, etc.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -182,12 +175,9 @@ I have not tested contextual kerning for the Latin script in ID CS3, but that wo
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">My understanding is that the current FDK supports contextual kerning, although we haven't been using it in our own fonts, except for testing.
-
-Cheers,
-
-T
-
+		<div class="commentbody"><p>My understanding is that the current FDK supports contextual kerning, although we haven&rsquo;t been using it in our own fonts, except for testing.</p>
+<p>Cheers,</p>
+<p>T</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -230,13 +220,11 @@ T
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">FYI, note also that mark attachment works in Windows Uniscribe applications, and in InDesign CS3. It does not work AFAIK in OS X, and does not work in most other Adobe creative apps up to CS3 versions.
-
-'ccmp' is supported in Windows Uniscribe apps, and in InDesign CS3, but not in earlier versions of InDesign, nor by most Adobe creative apps. Not sure about Mac OS support of this feature.
-
-Cheers,
-
-T</div>
+		<div class="commentbody"><p>FYI, note also that mark attachment works in Windows Uniscribe applications, and in InDesign CS3. It does not work AFAIK in OS X, and does not work in most other Adobe creative apps up to CS3 versions.</p>
+<p>&lsquo;ccmp&rsquo; is supported in Windows Uniscribe apps, and in InDesign CS3, but not in earlier versions of InDesign, nor by most Adobe creative apps. Not sure about Mac OS support of this feature.</p>
+<p>Cheers,</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -257,11 +245,10 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This thread is a couple of years old, so I imagine support for "mark" feature is more extensive now.  Anyone care to update this list of which software supports which features?  
-
-I'm in the midst of creating a font to be used for IPA transcription by run-of-the-mill Linguistics students.  This means that all the diacritics need to be rendered correctly by such environments as MS Word 2003 running on Win XP.  Is "ccmp" with GSUB my only option here to align base glyphs of varying widths with diacrtics?  Descenders are also always an issue.
-
-I heard that Open Office is supposed to be supporting more font features with its next release sometime Fall of 09.  Anyone know if it will support base to mark features?   </div>
+		<div class="commentbody"><p>This thread is a couple of years old, so I imagine support for &ldquo;mark&rdquo; feature is more extensive now.  Anyone care to update this list of which software supports which features?</p>
+<p>I&rsquo;m in the midst of creating a font to be used for IPA transcription by run-of-the-mill Linguistics students.  This means that all the diacritics need to be rendered correctly by such environments as MS Word 2003 running on Win XP.  Is &ldquo;ccmp&rdquo; with GSUB my only option here to align base glyphs of varying widths with diacrtics?  Descenders are also always an issue.</p>
+<p>I heard that Open Office is supposed to be supporting more font features with its next release sometime Fall of 09.  Anyone know if it will support base to mark features?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -282,15 +269,12 @@ I heard that Open Office is supposed to be supporting more font features with it
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">CCMP Vs MARK
-
-
-CCMP = Compose DeCompose Feature. what ever is attached to CCMP will allways happen
-
-MARK is controled in the Diacritic Positioning windows in indesign
-when changed from normal to Opentype MARK Feature is activated
-
-in WORD MARK Feature is allways activated</div>
+		<div class="commentbody"><p>CCMP Vs MARK</p>
+<p>CCMP = Compose DeCompose Feature. what ever is attached to CCMP will allways happen</p>
+<p>MARK is controled in the Diacritic Positioning windows in indesign
+when changed from normal to Opentype MARK Feature is activated</p>
+<p>in WORD MARK Feature is allways activated</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -311,7 +295,7 @@ in WORD MARK Feature is allways activated</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I believe "mark" and "mkmk" are not yet supported by FontLab. I can't compile a font with these features (in FontLab Studio 5). Perhaps my ignorance? </div>
+		<div class="commentbody">I believe &ldquo;mark&rdquo; and &ldquo;mkmk&rdquo; are not yet supported by FontLab. I can&rsquo;t compile a font with these features (in FontLab Studio 5). Perhaps my ignorance?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -353,14 +337,13 @@ in WORD MARK Feature is allways activated</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Chares_e: I use MSVolt mainly
+		<div class="commentbody"><p>Chares_e: I use MSVolt mainly
 in hebrew fonts that i develop i use masiv Mark2Mark 
-attaching hebrew cantillation notes  to diacritics
-
-they are all attached to the <mark> event
-so ither there is no difference or volt automaticly somehow interpets this lookups to mkmk
-
-however, i do not C any differnce/</div>
+attaching hebrew cantillation notes  to diacritics</p>
+<p>they are all attached to the <!-- raw HTML omitted --> event
+so ither there is no difference or volt automaticly somehow interpets this lookups to mkmk</p>
+<p>however, i do not C any differnce/</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

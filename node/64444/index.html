@@ -71,37 +71,29 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I'm tying to make a small script with robafab far a multiple master Font.
-Basically my script will move a component inside a diacritic glyph.
-
-For intance moving the "acute" accent inside "oacute".
-This is the script:
-____________
-
-from robofab.world import CurrentFont
-f = CurrentFont()
-
-g = f["oacute"]
-g.components[1].move((-100,-100))
-____________
-
-The problem is:
-Since my font is a multiple master with two weight masters, when I run this script, it moves the accent in the both masters.
-
-Is there any way to move the accent only in one of the masters?
-
-
-Thanks in advanced.
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m tying to make a small script with robafab far a multiple master Font.
+Basically my script will move a component inside a diacritic glyph.</p>
+<p>For intance moving the &ldquo;acute&rdquo; accent inside &ldquo;oacute&rdquo;.
+This is the script:</p>
+<hr>
+<p>from robofab.world import CurrentFont
+f = CurrentFont()</p>
+<p>g = f[&ldquo;oacute&rdquo;]
+g.components[1].move((-100,-100))</p>
+<hr>
+<p>The problem is:
+Since my font is a multiple master with two weight masters, when I run this script, it moves the accent in the both masters.</p>
+<p>Is there any way to move the accent only in one of the masters?</p>
+<p>Thanks in advanced.</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">As far as I know, RoboFab is not able to deal with individual instances in a multiple master file. You might be able to achieve your goal by using FontLab’s native Python implementation instead.
-
-Otherwise, why not use anchors for placing accents? If done correctly it will save you the hassle of dealing with individual accented glyphs.
-
--Paul van der Laan
-www.type-invaders.com</div>
+		<div class="commentbody"><p>As far as I know, RoboFab is not able to deal with individual instances in a multiple master file. You might be able to achieve your goal by using FontLab’s native Python implementation instead.</p>
+<p>Otherwise, why not use anchors for placing accents? If done correctly it will save you the hassle of dealing with individual accented glyphs.</p>
+<p>-Paul van der Laan
+<a href="http://www.type-invaders.com">www.type-invaders.com</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -122,9 +114,8 @@ www.type-invaders.com</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes I think it is not possible to deal with individual instances with Robofab.
-
-I've never used ancors, but I check it out and it seems great. Thanks for the sugestion, this was something I didn't know.
+		<div class="commentbody"><p>Yes I think it is not possible to deal with individual instances with Robofab.</p>
+<p>I&rsquo;ve never used ancors, but I check it out and it seems great. Thanks for the sugestion, this was something I didn&rsquo;t know.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -146,49 +137,39 @@ I've never used ancors, but I check it out and it seems great. Thanks for the su
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello,
-
-Couple of years too late, but maybe can help someone.
-It is possible to move component inside MM font. I made those based on typical fontlab scripts. Karsten Lucke have some nice MM helpers.
-
-Here comes code, dont forget indetation in the "for loop" and if/else.
-
-PS. Does someone have a good method how to "append" a component inside MM fglyph?
-I've tried many methods, but so far no luck. 
+		<div class="commentbody"><p>Hello,</p>
+<p>Couple of years too late, but maybe can help someone.
+It is possible to move component inside MM font. I made those based on typical fontlab scripts. Karsten Lucke have some nice MM helpers.</p>
+<p>Here comes code, dont forget indetation in the &ldquo;for loop&rdquo; and if/else.</p>
+<p>PS. Does someone have a good method how to &ldquo;append&rdquo; a component inside MM fglyph?
+I&rsquo;ve tried many methods, but so far no luck. 
 Anton
-#--------------------------------------------------
-
-#FLM: Move MM compnt 1
-# made by AK 2010
-# to move component in single master
-
-from FL import *
+#&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</p>
+<p>#FLM: Move MM compnt 1</p>
+<h1 id="made-by-ak-2010">made by AK 2010</h1>
+<h1 id="to-move-component-in-single-master">to move component in single master</h1>
+<p>from FL import *
 from robofab.world import CurrentGlyph
-rfg = CurrentGlyph()
-
-g = fl.glyph
-m = fl.master
-
-# here specify amount and what to move
-xmov = -50
-# first identify FL component index! Name wont work.
-compnt = 14
-
-print "master:", m
-
-for n in g.components:
-   if n.index == compnt:
-       print "there is specific compnt to move"
-       n.deltas[m].x += xmov
-   else:
-       print "use compo tester to get to know:"
-	
-fl.UpdateGlyph()
-print "manipul in action"	
-
-'''	
-## 
-'''</div>
+rfg = CurrentGlyph()</p>
+<p>g = fl.glyph
+m = fl.master</p>
+<h1 id="here-specify-amount-and-what-to-move">here specify amount and what to move</h1>
+<p>xmov = -50</p>
+<h1 id="first-identify-fl-component-index-name-wont-work">first identify FL component index! Name wont work.</h1>
+<p>compnt = 14</p>
+<p>print &ldquo;master:&rdquo;, m</p>
+<p>for n in g.components:
+if n.index == compnt:
+print &ldquo;there is specific compnt to move&rdquo;
+n.deltas[m].x += xmov
+else:
+print &ldquo;use compo tester to get to know:&rdquo;</p>
+<p>fl.UpdateGlyph()
+print &ldquo;manipul in action&rdquo;</p>
+<p>'''</p>
+<h2 id="heading"></h2>
+<p>'''</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

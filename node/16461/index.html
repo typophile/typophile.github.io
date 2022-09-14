@@ -72,16 +72,15 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody">Hi,
-Some glyphs such as Unicode points 200C 200D 200E 200F 202C 202D 202E have some signs that shouldn't be visible in the text.
+Some glyphs such as Unicode points 200C 200D 200E 200F 202C 202D 202E have some signs that shouldn&rsquo;t be visible in the text.
 How can I make them invisible in font making?</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Make them zero width and don't put any outline in the glyph.
-
-That's assuming you need them at all. Some Unicode codepoints are really only needed by the application for its processing, and there's no real reason to put them in a font.
-
-T</div>
+		<div class="commentbody"><p>Make them zero width and don&rsquo;t put any outline in the glyph.</p>
+<p>That&rsquo;s assuming you need them at all. Some Unicode codepoints are really only needed by the application for its processing, and there&rsquo;s no real reason to put them in a font.</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -104,7 +103,7 @@ T</div>
 	<div class="card-body">
 		<div class="commentbody">Thanks Thomas,
 Actually I do need at least a couple of them inside the font 200C and 200D. They are placed on the keyboards of many languages of Arabic script and up to now, my solution was to remove the outlines in the glyphs.
-But recently I noticed that SIL International has produced a couple of wide range Arabic fonts with those outlines intact. But they don't show inside the text.
+But recently I noticed that SIL International has produced a couple of wide range Arabic fonts with those outlines intact. But they don&rsquo;t show inside the text.
 I was wondering how they do that.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -126,17 +125,12 @@ I was wondering how they do that.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Benham, 
-
-it's very simple: properly written Unicode applications don't just go ahead and blindly send all Unicode codepoints of the text into the font renderer. They know that certain Unicode codepoints have a special meaning and they don't request their rendering except in special contexts (when the user requests to visualize control characters). 
-
-So the font maps the Unicode codepoints to glyphs but the application normally does not request those Unicode codepoints (and therefore the glyphs) to be displayed. In some applications the user may turn on the display of control characters (e.g. by clicking on the paragraph symbol icon in Word). Then, the application should request for renderings of those glyphs. 
-
-The Unicode Standard defines which Unicode codepoints are normally non-printing. Unicode applications that are based on Microsoft Uniscribe obey that. The support for proper display of non-printing Unicode characters differs in other Unicode environments (Adobe CS2, Apple Cocoa/ATSUI, ICU/FreeType etc.) 
-
-Regards, 
-Adam
-
+		<div class="commentbody"><p>Benham,</p>
+<p>it&rsquo;s very simple: properly written Unicode applications don&rsquo;t just go ahead and blindly send all Unicode codepoints of the text into the font renderer. They know that certain Unicode codepoints have a special meaning and they don&rsquo;t request their rendering except in special contexts (when the user requests to visualize control characters).</p>
+<p>So the font maps the Unicode codepoints to glyphs but the application normally does not request those Unicode codepoints (and therefore the glyphs) to be displayed. In some applications the user may turn on the display of control characters (e.g. by clicking on the paragraph symbol icon in Word). Then, the application should request for renderings of those glyphs.</p>
+<p>The Unicode Standard defines which Unicode codepoints are normally non-printing. Unicode applications that are based on Microsoft Uniscribe obey that. The support for proper display of non-printing Unicode characters differs in other Unicode environments (Adobe CS2, Apple Cocoa/ATSUI, ICU/FreeType etc.)</p>
+<p>Regards, 
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -158,13 +152,11 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Further to what Adam has written.
-
-Well designed applications for complex script text processing will give users the option to display control characters. This can be very important for document editing, and saves the user from having to guess what kind of invisible control characters might be embedded and where. So I disagree with Tom's advice to make the glyphs for control characters blank. If you do this, applications such as the MS Office suite will be unable to display control characters for users who have selected this option. So you should use conventional symbols, on zero-widths of course, to indicate the control characters. There are two sets of conventions: the best established involves thin vertical lines indicating the position of the control character, topped by a mark that identifies the kind of control character. I use a slightly different and visually tidier convention of marks above the text string. I will try to find some references for these conventions or provide some illustrations.
-
-Glyph processing may involve control characters (Microsoft's OT font specs actually require this for some Indic scripts). So a layout engine should make the glyphs available during GSUB processing, and then remove them from the glyph string during final display, unless, of course, the user has elected to display control characters. This is what Microsoft's Uniscribe does.
-
-There is some disagreement between Microsoft and Adobe about whether control character glyphs should be used in glyph processing. Eric Muller at Adobe makes convincing arguments for why it should never be necessary. Microsoft have just gone ahead and done it. My money is on Microsoft winning this debate, which is why I recommend that makers of layout engines follow the Uniscribe approach.</div>
+		<div class="commentbody"><p>Further to what Adam has written.</p>
+<p>Well designed applications for complex script text processing will give users the option to display control characters. This can be very important for document editing, and saves the user from having to guess what kind of invisible control characters might be embedded and where. So I disagree with Tom&rsquo;s advice to make the glyphs for control characters blank. If you do this, applications such as the MS Office suite will be unable to display control characters for users who have selected this option. So you should use conventional symbols, on zero-widths of course, to indicate the control characters. There are two sets of conventions: the best established involves thin vertical lines indicating the position of the control character, topped by a mark that identifies the kind of control character. I use a slightly different and visually tidier convention of marks above the text string. I will try to find some references for these conventions or provide some illustrations.</p>
+<p>Glyph processing may involve control characters (Microsoft&rsquo;s OT font specs actually require this for some Indic scripts). So a layout engine should make the glyphs available during GSUB processing, and then remove them from the glyph string during final display, unless, of course, the user has elected to display control characters. This is what Microsoft&rsquo;s Uniscribe does.</p>
+<p>There is some disagreement between Microsoft and Adobe about whether control character glyphs should be used in glyph processing. Eric Muller at Adobe makes convincing arguments for why it should never be necessary. Microsoft have just gone ahead and done it. My money is on Microsoft winning this debate, which is why I recommend that makers of layout engines follow the Uniscribe approach.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -185,16 +177,16 @@ There is some disagreement between Microsoft and Adobe about whether control cha
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for infomative feedback.
+		<div class="commentbody"><p>Thanks for infomative feedback.
 You may remember that I am the one who is making Arabic script cross-platform fonts and I reported a while back a bug in Tiger which was desengaging AAT portion of my AAT/OT fonts. Now with OS 10.4.3 this bug is fixed, thanks mainly to you.
 From what I understand, this is essentially a text engine problem and nothing can be done at font level, particularly for a font dealing with different platforms and different text engines.
-Although your reasonning for keeping those outlines is very valid, but I think I'll go with Tom suggestion, at least for ZWJ and ZWNJ.
+Although your reasonning for keeping those outlines is very valid, but I think I&rsquo;ll go with Tom suggestion, at least for ZWJ and ZWNJ.
 These codepoints are extensively used in some Arabic script languages and unlike codes like paragraph sign, they are not intended for any page layout processing. One may argue that the wrong codes are being used for this purpose but the fact is that they are on the keyboards of some languages and in some languages like Kurdish, it is the most used code amongst all. I can not afford to face a visible vertical line once or twice in each and every word!
 I have no control over the design of applications on different platforms but I do have control over the outlines of my glyphs!
-I think I'll remove them for ZWJ and ZWNJ but I'll keep them on other 'directioality' codes. As you mentioned they are required by some applications such as Microsoft but they are not on the keyboards.
-
-But out of curosity,
-I opened an identical text with those codes both with my font and with SIL fonts on the same application (TextEdit for AAT and Mellel for OT on Mac), with both fonts having those outlines intact. SIL font didn't show them and mine did. There has to be some communication at font level that SIL font provides and mine doesn't.</div>
+I think I&rsquo;ll remove them for ZWJ and ZWNJ but I&rsquo;ll keep them on other &lsquo;directioality&rsquo; codes. As you mentioned they are required by some applications such as Microsoft but they are not on the keyboards.</p>
+<p>But out of curosity,
+I opened an identical text with those codes both with my font and with SIL fonts on the same application (TextEdit for AAT and Mellel for OT on Mac), with both fonts having those outlines intact. SIL font didn&rsquo;t show them and mine did. There has to be some communication at font level that SIL font provides and mine doesn&rsquo;t.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -215,9 +207,9 @@ I opened an identical text with those codes both with my font and with SIL fonts
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If I recall correctly, Mellel does not correctly handle display of control characters according to the Unicode properties, and paints these glyphs. So in this application Persian text and other languages that make frequent use of ZWJ or ZWNJ would indeed be a problem if the glyphs have a visible component. As I suggested earlier, I see this as an application bug, and I don't like trying to second guess such things when making fonts: I would rather follow a spec and established practice by the major technology supporter (in this case Microsoft), rather than trying to fix application and engine problems within the font.
-
-Which SIL font were you testing?</div>
+		<div class="commentbody"><p>If I recall correctly, Mellel does not correctly handle display of control characters according to the Unicode properties, and paints these glyphs. So in this application Persian text and other languages that make frequent use of ZWJ or ZWNJ would indeed be a problem if the glyphs have a visible component. As I suggested earlier, I see this as an application bug, and I don&rsquo;t like trying to second guess such things when making fonts: I would rather follow a spec and established practice by the major technology supporter (in this case Microsoft), rather than trying to fix application and engine problems within the font.</p>
+<p>Which SIL font were you testing?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -238,12 +230,11 @@ Which SIL font were you testing?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You are right. Mellel had this problem for a longtime. But with version 2.0 which was released a week or so ago, ZWJ and ZWNJ don't show anymore.
-My main problem is with Apple and its engine. In TextEdit or in Safari, it does show those lines. But AAT version of SIL fonts (they are not cross-platform) don't show them in TextEdit. I had no way of testing it in Safari.
-If Apple fixes this bug as well, I don't see any reason to remove the outlines. Unfortunately things move very slowly in rtl and particularly Arabic side and users (and myself) loose patience easily.
-
-The fonts I was testing are two outstanding fonts released by SIL in mid-Summer. Each in two version of OT and AAT: Lateef and Shahrzad. They are free download and you can get them here:
-http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&item_id=ArabicFonts
+		<div class="commentbody"><p>You are right. Mellel had this problem for a longtime. But with version 2.0 which was released a week or so ago, ZWJ and ZWNJ don&rsquo;t show anymore.
+My main problem is with Apple and its engine. In TextEdit or in Safari, it does show those lines. But AAT version of SIL fonts (they are not cross-platform) don&rsquo;t show them in TextEdit. I had no way of testing it in Safari.
+If Apple fixes this bug as well, I don&rsquo;t see any reason to remove the outlines. Unfortunately things move very slowly in rtl and particularly Arabic side and users (and myself) loose patience easily.</p>
+<p>The fonts I was testing are two outstanding fonts released by SIL in mid-Summer. Each in two version of OT and AAT: Lateef and Shahrzad. They are free download and you can get them here:
+<a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;item_id=ArabicFonts">http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;item_id=ArabicFonts</a></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -265,10 +256,8 @@ http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&item_id=ArabicFonts
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">My guess, based on your description, is that SIL have put some lookups in the AAT table to remove the ZWJ and ZWNJ glyph during display, presumably because they observed the same problem you have with the Apple layout engine. Apple continue to amaze me: they have been involved with Unicode since the very earliest years, and much earlier than Microsoft, and yet they lag so far behind in actual support.
-
-I'm glad to hear that Mellel has solved this problem in the new release. I'm very impressed with Mellel, and have been happy to recommend it to my Hebrew and Arabic users on the Mac.
-
+		<div class="commentbody"><p>My guess, based on your description, is that SIL have put some lookups in the AAT table to remove the ZWJ and ZWNJ glyph during display, presumably because they observed the same problem you have with the Apple layout engine. Apple continue to amaze me: they have been involved with Unicode since the very earliest years, and much earlier than Microsoft, and yet they lag so far behind in actual support.</p>
+<p>I&rsquo;m glad to hear that Mellel has solved this problem in the new release. I&rsquo;m very impressed with Mellel, and have been happy to recommend it to my Hebrew and Arabic users on the Mac.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -290,13 +279,13 @@ I'm glad to hear that Mellel has solved this problem in the new release. I'm ver
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> My guess, based on your description, is that SIL 
-> have put some lookups in the AAT table to remove 
-> the ZWJ and ZWNJ glyph during display
-
-You're right, John. ScheherazadeAAT includes lookups in the morx table that replace uni200C (ZERO WIDTH NON-JOINER) and uni200D (ZERO WIDTH JOINER) by uni200B (ZERO WIDTH SPACE). 
-
-Adam
+		<div class="commentbody"><blockquote>
+<p>My guess, based on your description, is that SIL 
+have put some lookups in the AAT table to remove 
+the ZWJ and ZWNJ glyph during display</p>
+</blockquote>
+<p>You&rsquo;re right, John. ScheherazadeAAT includes lookups in the morx table that replace uni200C (ZERO WIDTH NON-JOINER) and uni200D (ZERO WIDTH JOINER) by uni200B (ZERO WIDTH SPACE).</p>
+<p>Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -316,17 +305,14 @@ Adam
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I guess I can do that. It's somewhat more elegant than removing the outlines. 
-
-Persian and Kurdish (and other) keyboards should have had 200B instead of ZWNJ to begin with... or 202F which is even better because it doesn't break. I bet this was MS idea to use ZWNJ!
-
-ZWJ is different. It plays a very important role in producing a joining presentation form of an Arabic letter without (visually) being joint to anything. This has an important demonstrative role and also for creating acronyms. This is not as easily replaceable as ZWNJ which is essentially used as a special 'spacing' element.
-
-On the other hand, I'm somewhat uncomfortable with this practice of adaptation to Apple's shortcomings. Apple amazes me too. On one hand, they are more advanced in supporting Unicode than anybody else because they seem to supporting it at the core of their OS. Windows seems to have Unicode support as a layer on top of its OS.
-In Mac you can name a file or folder in Arabic or Persian or chinese or whatever. Try to do that in Windows! Never mind Windows, try to open one of Apple Japanese fonts with FontLab. It won't open. You have to change its Japanese name to a token English name to be able to open it.
-
-On the other hand, they still didn't fix their problem with ZWJ and likes. OS X system font for Arabic script is Geeza Pro. It doesn't have any of these glyphs. Geeza's back-up for these codes is system's Helvetica. You open Helvetica and you see all those outlines are removed!
-So it's not like they don't know about it. It's not their priority.</div>
+		<div class="commentbody"><p>I guess I can do that. It&rsquo;s somewhat more elegant than removing the outlines.</p>
+<p>Persian and Kurdish (and other) keyboards should have had 200B instead of ZWNJ to begin with&hellip; or 202F which is even better because it doesn&rsquo;t break. I bet this was MS idea to use ZWNJ!</p>
+<p>ZWJ is different. It plays a very important role in producing a joining presentation form of an Arabic letter without (visually) being joint to anything. This has an important demonstrative role and also for creating acronyms. This is not as easily replaceable as ZWNJ which is essentially used as a special &lsquo;spacing&rsquo; element.</p>
+<p>On the other hand, I&rsquo;m somewhat uncomfortable with this practice of adaptation to Apple&rsquo;s shortcomings. Apple amazes me too. On one hand, they are more advanced in supporting Unicode than anybody else because they seem to supporting it at the core of their OS. Windows seems to have Unicode support as a layer on top of its OS.
+In Mac you can name a file or folder in Arabic or Persian or chinese or whatever. Try to do that in Windows! Never mind Windows, try to open one of Apple Japanese fonts with FontLab. It won&rsquo;t open. You have to change its Japanese name to a token English name to be able to open it.</p>
+<p>On the other hand, they still didn&rsquo;t fix their problem with ZWJ and likes. OS X system font for Arabic script is Geeza Pro. It doesn&rsquo;t have any of these glyphs. Geeza&rsquo;s back-up for these codes is system&rsquo;s Helvetica. You open Helvetica and you see all those outlines are removed!
+So it&rsquo;s not like they don&rsquo;t know about it. It&rsquo;s not their priority.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -349,11 +335,10 @@ So it's not like they don't know about it. It's not their priority.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Resurrecting another ancient thread...
-
-I'm putting the 200B (zero width space) 200C (zero width joiner) and 200D (zero width non joiner) into my typeface to support Brahmi-based scripts, but I've also found that FL wants to assign glyph name 'zerowidthjoiner' to codepoint u+FEFF, not 200C. Should I simply duplicate the glyph under two codepoints?
-
-Also what is uni2060, 'wordjoiner'?</div>
+		<div class="commentbody"><p>Resurrecting another ancient thread&hellip;</p>
+<p>I&rsquo;m putting the 200B (zero width space) 200C (zero width joiner) and 200D (zero width non joiner) into my typeface to support Brahmi-based scripts, but I&rsquo;ve also found that FL wants to assign glyph name &lsquo;zerowidthjoiner&rsquo; to codepoint u+FEFF, not 200C. Should I simply duplicate the glyph under two codepoints?</p>
+<p>Also what is uni2060, &lsquo;wordjoiner&rsquo;?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -374,9 +359,9 @@ Also what is uni2060, 'wordjoiner'?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The U+FEFF mapping for 'zerowidthjoiner' is a mistake. You should edit the FontLab standard naming file to remove this entry. U+FEFF is a byte order mark, and does not require any glyph in a font.
-
-U+2060 is a non-spacing word joiner, which is supposed to have the effect of preventing a line break from occurring at that point. I've never had a call to include this in any fonts, and I believe it should work as an undisplayed control character.</div>
+		<div class="commentbody"><p>The U+FEFF mapping for &lsquo;zerowidthjoiner&rsquo; is a mistake. You should edit the FontLab standard naming file to remove this entry. U+FEFF is a byte order mark, and does not require any glyph in a font.</p>
+<p>U+2060 is a non-spacing word joiner, which is supposed to have the effect of preventing a line break from occurring at that point. I&rsquo;ve never had a call to include this in any fonts, and I believe it should work as an undisplayed control character.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -397,9 +382,8 @@ U+2060 is a non-spacing word joiner, which is supposed to have the effect of pre
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">BTW is there no longer a problem with zero-width glyphs? Or are they set to one unit?
-
-hhp
+		<div class="commentbody"><p>BTW is there no longer a problem with zero-width glyphs? Or are they set to one unit?</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -442,9 +426,8 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I remember clearly that in the past it was bad news (which was relevant to me because of Armenian's floating punctuation marks) but I'm assuming today's more advanced rendering engines are required to access the marks you're talking about in the first place = legacy systems confused by zero width would never have an opportunity to choke on those characters anyway.
-
-hhp
+		<div class="commentbody"><p>I remember clearly that in the past it was bad news (which was relevant to me because of Armenian&rsquo;s floating punctuation marks) but I&rsquo;m assuming today&rsquo;s more advanced rendering engines are required to access the marks you&rsquo;re talking about in the first place = legacy systems confused by zero width would never have an opportunity to choke on those characters anyway.</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -466,7 +449,7 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you, John. Are there any other 'control' marks I should be aware of for Thai and Burmese?</div>
+		<div class="commentbody">Thank you, John. Are there any other &lsquo;control&rsquo; marks I should be aware of for Thai and Burmese?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -487,16 +470,14 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">For the Paduma Burmese font, Microsoft spec'd
-
-U+200C ; zero-width non-joiner
+		<div class="commentbody"><p>For the Paduma Burmese font, Microsoft spec&rsquo;d</p>
+<p>U+200C ; zero-width non-joiner
 U+200D ; zero-width joiner
 U+034F ; combining grapheme joiner (zero-width, no visible glyph)
-U+2060 ; word joiner (so ignore my comment above about not being asked to include it in any fonts; I'd forgotten including it in Paduma)
-
-That should cover Thai too.
-
-Don't forget that any font with combining mark support should contain the U+25CC dotted circle, which is used as a generic mark base (and hence should have GPOS mark-to-base positioning defined).</div>
+U+2060 ; word joiner (so ignore my comment above about not being asked to include it in any fonts; I&rsquo;d forgotten including it in Paduma)</p>
+<p>That should cover Thai too.</p>
+<p>Don&rsquo;t forget that any font with combining mark support should contain the U+25CC dotted circle, which is used as a generic mark base (and hence should have GPOS mark-to-base positioning defined).</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -538,10 +519,10 @@ Don't forget that any font with combining mark support should contain the U+25CC
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">From <em>The Unicode Standard</em>, Section 16.2 on Layout Controls:
-<blockquote>In addition to its primary meaning of <em>byte order mark</em> (…), the code point U+FEFF possesses the semantics of ZERO WIDTH NO-BREAK SPACE, which matches that of <em>word joiner</em>. Until Unicode 3.2, U+FEFF was the only code point with word joining semantics, but because it is more commonly used as <em>byte order mark</em>, the use of U+2060 WORD JOINER to indicate word joining is strongly preferred for any new text.</blockquote>
-
-Few sentences earlier the author stresses not to confuse the <em>word joiner</em> with <em>zero width joiner</em>. Any chances that this very type of confusion lays at the root of FontLab’s messed up mapping?</div>
+		<div class="commentbody"><p>From <!-- raw HTML omitted -->The Unicode Standard<!-- raw HTML omitted -->, Section 16.2 on Layout Controls:</p>
+<!-- raw HTML omitted -->
+<p>Few sentences earlier the author stresses not to confuse the <!-- raw HTML omitted -->word joiner<!-- raw HTML omitted --> with <!-- raw HTML omitted -->zero width joiner<!-- raw HTML omitted -->. Any chances that this very type of confusion lays at the root of FontLab’s messed up mapping?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

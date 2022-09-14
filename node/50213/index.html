@@ -71,22 +71,19 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi,
-
-I'm trying to hint the space glyph in a TrueType font and I'm not sure if the result I get is a bug in FontLab, or if there's some other reason for this ...
-
-I'd like to round up the width to the full pixel. This works using the same instruction on all glyphs which contain outlines, but in the space character the width always rounds to the closest pixel edge, as indicated by the light blue line in the image - and not the right edge as I would expect it to.
-
-Any ideas?
-
-Thanks,
-Jens</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi,</p>
+<p>I&rsquo;m trying to hint the space glyph in a TrueType font and I&rsquo;m not sure if the result I get is a bug in FontLab, or if there&rsquo;s some other reason for this &hellip;</p>
+<p>I&rsquo;d like to round up the width to the full pixel. This works using the same instruction on all glyphs which contain outlines, but in the space character the width always rounds to the closest pixel edge, as indicated by the light blue line in the image - and not the right edge as I would expect it to.</p>
+<p>Any ideas?</p>
+<p>Thanks,
+Jens</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don't think the TrueType format supports hints on glyphs that have no contours (re-reading the OpenType spec for the 'glyf' table, I think it might be possible, but I don't know of any tools that support it).
-
-Try adding a single point to the glyph, if FontLab will allow it. This may produce some errors or warnings, but is legal per the OpenType specification and should allow hints to be stored for the glyph. That is assuming this operation is really necessary, which I'm a bit skeptical about, but you probably have a better sense of that than I do.</div>
+		<div class="commentbody"><p>I don&rsquo;t think the TrueType format supports hints on glyphs that have no contours (re-reading the OpenType spec for the &lsquo;glyf&rsquo; table, I think it might be possible, but I don&rsquo;t know of any tools that support it).</p>
+<p>Try adding a single point to the glyph, if FontLab will allow it. This may produce some errors or warnings, but is legal per the OpenType specification and should allow hints to be stored for the glyph. That is assuming this operation is really necessary, which I&rsquo;m a bit skeptical about, but you probably have a better sense of that than I do.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -107,17 +104,13 @@ Try adding a single point to the glyph, if FontLab will allow it. This may produ
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I know the pure TT hinting tools generally available do not allow hinting from origin to set width and I cannot tell you why.
-I don't know what the hints from FL will look like. If you can write the hints by hand, they'd say:
+		<div class="commentbody"><p>I know the pure TT hinting tools generally available do not allow hinting from origin to set width and I cannot tell you why.
+I don&rsquo;t know what the hints from FL will look like. If you can write the hints by hand, they&rsquo;d say:
 SRP0[], (Place number of origin point here)
-RUTG[flags], (Don't forget to set flag to round)
-MDRP[], (Place number of set width point here)
-
-You might also look into editing the horizontal device metrics table (hdmx), if you are targeting an application that uses it. 
-
-Cheers!
-
-
+RUTG[flags], (Don&rsquo;t forget to set flag to round)
+MDRP[], (Place number of set width point here)</p>
+<p>You might also look into editing the horizontal device metrics table (hdmx), if you are targeting an application that uses it.</p>
+<p>Cheers!</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -139,15 +132,12 @@ Cheers!
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks ...
-
-it seems the instructions on an empty glyph as shown in the FL screenshot don't end up in the generated font at all.
-
-Does ClearType use the hdmx table? I don't think so, because the C-fonts don't have it. I tried editing it anyway.
-
-The idea in hinting the space glyph was to make sure the text is never wider on screen than in print with a certain application.
-
-Jens</div>
+		<div class="commentbody"><p>Thanks &hellip;</p>
+<p>it seems the instructions on an empty glyph as shown in the FL screenshot don&rsquo;t end up in the generated font at all.</p>
+<p>Does ClearType use the hdmx table? I don&rsquo;t think so, because the C-fonts don&rsquo;t have it. I tried editing it anyway.</p>
+<p>The idea in hinting the space glyph was to make sure the text is never wider on screen than in print with a certain application.</p>
+<p>Jens</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -168,51 +158,38 @@ Jens</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don't think CT makes use of the 'hdmx' table as it is contrary to the mechanism of ClearType. Even if you were able to apply hints to such a glyph, I think you might run into some problems under ClearType.
-
-
-As I mentioned, I think it is technically *possible* to have hints on a glyph with zero contours; the 'glyf' table definition would appear to allow it:
-<code>
+		<div class="commentbody"><p>I don&rsquo;t think CT makes use of the &lsquo;hdmx&rsquo; table as it is contrary to the mechanism of ClearType. Even if you were able to apply hints to such a glyph, I think you might run into some problems under ClearType.</p>
+<p>As I mentioned, I think it is technically <em>possible</em> to have hints on a glyph with zero contours; the &lsquo;glyf&rsquo; table definition would appear to allow it:
+<!-- raw HTML omitted -->
 Type	Name	Description
 SHORT	numberOfContours	If the number of contours is greater than or equal to zero, this is a single glyph; if negative, this is a composite glyph.
 SHORT	xMin	Minimum x for coordinate data.
 SHORT	yMin	Minimum y for coordinate data.
 SHORT	xMax	Maximum x for coordinate data.
-SHORT	yMax	Maximum y for coordinate data.
-
-USHORT	endPtsOfContours[n]	Array of last points of each contour; n is the number of contours.
+SHORT	yMax	Maximum y for coordinate data.</p>
+<p>USHORT	endPtsOfContours[n]	Array of last points of each contour; n is the number of contours.
 USHORT	instructionLength	Total number of bytes for instructions.
 BYTE	instructions[n]	Array of instructions for each glyph; n is the number of instructions.
 BYTE	flags[n]	Array of flags for each coordinate in outline; n is the number of flags.
 BYTE or SHORT	xCoordinates[ ]	First coordinates relative to (0,0); others are relative to previous point.
-BYTE or SHORT	yCoordinates[ ]	First coordinates relative to (0,0); others are relative to previous point.</code>
-
-Such a glyph would/should look something like this:
-<code>
+BYTE or SHORT	yCoordinates[ ]	First coordinates relative to (0,0); others are relative to previous point.<!-- raw HTML omitted --></p>
+<p>Such a glyph would/should look something like this:
+<!-- raw HTML omitted -->
 0000 - numberOfContours, 0
 0000 - xMin
 0000 - yMin
 0000 - xMax
 0000 - yMax
----- - no entry for endPtsOfContours since 'numberOfContours' = 0
+&mdash;- - no entry for endPtsOfContours since &lsquo;numberOfContours&rsquo; = 0
 0004 - instructionLength, 4 bytes
 ii - instruction byte 0
 ii - instruction byte 1
 ii - instruction byte 2
 ii - instruction byte 3
----- - no flag or x/yCoordinates since there are no contours, no points</code>
-
-
-
-I think the trouble begins further upstream than this, though, because it seems most font tools implement a rule that when there are no contours, a blank 'loca' table entry will be made; thus no space is allocated in the 'glyf' table for any instructions.
-
-
-I have been meaning to experiment and try editing a 'loca' and 'glyf' table to insert instructions on a zero-contour glyph, to see if it would be interpreted correctly.
-
-
-
-Did you try adding a single point to the glyph, then adding hints? Not sure whether FontLab allows this and haven't had time to play with that yet...
-
+&mdash;- - no flag or x/yCoordinates since there are no contours, no points<!-- raw HTML omitted --></p>
+<p>I think the trouble begins further upstream than this, though, because it seems most font tools implement a rule that when there are no contours, a blank &lsquo;loca&rsquo; table entry will be made; thus no space is allocated in the &lsquo;glyf&rsquo; table for any instructions.</p>
+<p>I have been meaning to experiment and try editing a &lsquo;loca&rsquo; and &lsquo;glyf&rsquo; table to insert instructions on a zero-contour glyph, to see if it would be interpreted correctly.</p>
+<p>Did you try adding a single point to the glyph, then adding hints? Not sure whether FontLab allows this and haven&rsquo;t had time to play with that yet&hellip;</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -234,14 +211,11 @@ Did you try adding a single point to the glyph, then adding hints? Not sure whet
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"The idea in hinting the space glyph was to make sure the text is never wider on screen than in print with a certain application."
-If the application is using fractional metrics to approximate the appearance of print, this should not be a problem, should it?
-
-"Even if you were able to apply hints to such a glyph, I think you might run into some problems under ClearType."
-I'm not sure what you mean, unless it is that CT will ignore x hints that modify character widths, which is only a problem if you don't want it to, i.e. you are interested in the quality only on the screen. 
-
-Cheers!
-
+		<div class="commentbody"><p>&ldquo;The idea in hinting the space glyph was to make sure the text is never wider on screen than in print with a certain application.&rdquo;
+If the application is using fractional metrics to approximate the appearance of print, this should not be a problem, should it?</p>
+<p>&ldquo;Even if you were able to apply hints to such a glyph, I think you might run into some problems under ClearType.&rdquo;
+I&rsquo;m not sure what you mean, unless it is that CT will ignore x hints that modify character widths, which is only a problem if you don&rsquo;t want it to, i.e. you are interested in the quality only on the screen.</p>
+<p>Cheers!</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -263,18 +237,14 @@ Cheers!
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>“The idea in hinting the space glyph was to make sure the text is never wider on screen than in print with a certain application.”
-If the application is using fractional metrics to approximate the appearance of print, this should not be a problem, should it?</em>
-
-Sorry, I got confused ... I meant "to make sure the text is never <strong>wider in print</strong> than on screen".
-
-It looks like this application is using the system renderer on Windows, but the width of text on screen changes even with different zoom levels. So, fractional metrics in theory when ClearType is turned on, but the application seems to do some strange things.
-
-<em>Did you try adding a single point to the glyph, then adding hints? Not sure whether FontLab allows this and haven’t had time to play with that yet...</em>
-
-FontLab seems to leave out open contours when generating the font, even though it asks whether it should export them. So the space glyph with one point and some instructions has neither a point nor any instructions in the generated font ... just an empty glyph.
-
-Jens</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->“The idea in hinting the space glyph was to make sure the text is never wider on screen than in print with a certain application.”
+If the application is using fractional metrics to approximate the appearance of print, this should not be a problem, should it?<!-- raw HTML omitted --></p>
+<p>Sorry, I got confused &hellip; I meant &ldquo;to make sure the text is never <!-- raw HTML omitted -->wider in print<!-- raw HTML omitted --> than on screen&rdquo;.</p>
+<p>It looks like this application is using the system renderer on Windows, but the width of text on screen changes even with different zoom levels. So, fractional metrics in theory when ClearType is turned on, but the application seems to do some strange things.</p>
+<p><!-- raw HTML omitted -->Did you try adding a single point to the glyph, then adding hints? Not sure whether FontLab allows this and haven’t had time to play with that yet&hellip;<!-- raw HTML omitted --></p>
+<p>FontLab seems to leave out open contours when generating the font, even though it asks whether it should export them. So the space glyph with one point and some instructions has neither a point nor any instructions in the generated font &hellip; just an empty glyph.</p>
+<p>Jens</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -295,13 +265,13 @@ Jens</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">>FontLab seems to leave out open contours when generating the font, even though it asks whether it should export them. So the space glyph with one point and some instructions has neither a point nor any instructions in the generated font ... just an empty glyph.
-
-That is so irritating given the huge number of fonts that have been made with, duh, a single point in the space glyph which is obviously useful. It is interesting to note that the space glyph in Calibri is so tight that you can never be sure, on screen, if you have typed one space or two spaces. Whether that's a function of inept metrics or hinting, I don't know and haven't bothered to find out. 
-
-This is so typical of the trend today: build fonts with x thousand characters and xx thousand kern pairs, when you haven't yet mastered your problems below ASCII 128. 
-
-What do the DTL/URW IK-based tools do in this respect? And what do they do, for that matter, with the fractional handles that Fontlab can't deal with either? </div>
+		<div class="commentbody"><blockquote>
+<p>FontLab seems to leave out open contours when generating the font, even though it asks whether it should export them. So the space glyph with one point and some instructions has neither a point nor any instructions in the generated font &hellip; just an empty glyph.</p>
+</blockquote>
+<p>That is so irritating given the huge number of fonts that have been made with, duh, a single point in the space glyph which is obviously useful. It is interesting to note that the space glyph in Calibri is so tight that you can never be sure, on screen, if you have typed one space or two spaces. Whether that&rsquo;s a function of inept metrics or hinting, I don&rsquo;t know and haven&rsquo;t bothered to find out.</p>
+<p>This is so typical of the trend today: build fonts with x thousand characters and xx thousand kern pairs, when you haven&rsquo;t yet mastered your problems below ASCII 128.</p>
+<p>What do the DTL/URW IK-based tools do in this respect? And what do they do, for that matter, with the fractional handles that Fontlab can&rsquo;t deal with either?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

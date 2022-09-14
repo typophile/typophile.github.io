@@ -71,45 +71,37 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I have a problem that was alredy discussed in the typophile forum, but the answer I found didn't work in my case.
+  <div class="post-content e-content" itemprop="articleBody"><p>I have a problem that was alredy discussed in the typophile forum, but the answer I found didn&rsquo;t work in my case.
 It´s about using the calt feature to have different glyphs for each charakter. the code I used:
 feature calt {
 sub @default @default' by @alt1;
 sub @alt1 @default' by @alt2;
-sub @alt2 @default' by @alt3;
-
-sub @default space @default' by @alt1;
+sub @alt2 @default' by @alt3;</p>
+<p>sub @default space @default' by @alt1;
 sub @alt1 space @default' by @alt2;
 sub @alt2 space @default' by @alt3;
-} calt;
-
- typing f.e. "dog dog dog" gives me: d1 o2 g3 space d1 o2 g3 space d1 o2 g3 space. I would like it to work like this: d1 o2 g3 space4 d5 o1 g2 space3 d4 o5 g1
-I tried inserting the space character into all of the sets but that didn't work.
-
-How does it work?
-
-The second question I have: Now I created four opentype classes for EACH character. So I have four different glyphs for each charakter. BUT:  for example for the character "e", I' d prefer to have at least six alternatives. Is there a way to do  this without creating alternative glyphs for the whole set? 
-Thanks</div>
+} calt;</p>
+<p> typing f.e. &ldquo;dog dog dog&rdquo; gives me: d1 o2 g3 space d1 o2 g3 space d1 o2 g3 space. I would like it to work like this: d1 o2 g3 space4 d5 o1 g2 space3 d4 o5 g1
+I tried inserting the space character into all of the sets but that didn&rsquo;t work.</p>
+<p>How does it work?</p>
+<p>The second question I have: Now I created four opentype classes for EACH character. So I have four different glyphs for each charakter. BUT:  for example for the character &ldquo;e&rdquo;, I' d prefer to have at least six alternatives. Is there a way to do  this without creating alternative glyphs for the whole set? 
+Thanks</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Most software does not treat "space" as a glyph for the purposes of substitution.  If your text is "d o g space c a t", your software will probably treat that as two completely separate chunks: "d o g" and "c a t".  Substitution is performed on "d o g"; substitution is performed on "c a t"; but there is no rule that gets to see both the "g" of "d o g" and the "c" of "c a t".  Those two substitutions are performed completely independently.  The space between the words is handled by some other mechanism - deciding where to put the words on the page - and not as a glyph passed through the substitution rules.
-
-This kind of question comes up sometimes when people want to detect the start or end of a word; and the answer in that case is that instead of looking for a space, you need to look for the absence of a non-space.  A rule that matches any "c", preceded by an "ignore" rule that matches any "c" that has a letter before it, will end up matching "c" only at the start of a word.  There was some discussion of this recently <A HREF="http://tug.org/pipermail/xetex/2011-February/020033.html">on the XeTeX mailing list</A>.  Unfortunately, I don't think that that kind of solution will work for you because you want to not only match the start of the word, but also carry over state information from the previous word.  I'm not sure that what you want is possible.
-
-I suspect that you may be misusing the calt feature.  As I understand it, when you have multiple forms of a glyph, those are better placed in the "salt" (stylistic alternates) feature.  The calt feature is intended for substitutions that genuinely depend on context - such as "don't put two swash glyphs together in such a way that they collide."
-
-Rules in the salt feature should produce a list of possible substitutions for each character, with "sub from".  Then it is up to the software and/or the user to choose which substitution to use for each character.  I don't know how that choice is made - some sources I've seen imply that the list is presented to the user to choose from, and others say that the software makes a random choice.  There's some discussion of it in <A HREF="http://www.microsoft.com/typography/otspec/features_pt.htm#salt">this document from Microsoft</A>.
-
-The feature file might look like this:
-
-feature salt {
-  sub d from [d.1 d.2 d.3];
-  sub o from [o.1 o.2 o.3];
-  sub g from [g.1 g.2 g.3];
-}
-
-Then "d o g" might be transformed to "d3 o1 g2" or "d1 o3 g2" or any of the 25 other possibilities, with the decision either being random, cyclic, or somehow made by the user.</div>
+		<div class="commentbody"><p>Most software does not treat &ldquo;space&rdquo; as a glyph for the purposes of substitution.  If your text is &ldquo;d o g space c a t&rdquo;, your software will probably treat that as two completely separate chunks: &ldquo;d o g&rdquo; and &ldquo;c a t&rdquo;.  Substitution is performed on &ldquo;d o g&rdquo;; substitution is performed on &ldquo;c a t&rdquo;; but there is no rule that gets to see both the &ldquo;g&rdquo; of &ldquo;d o g&rdquo; and the &ldquo;c&rdquo; of &ldquo;c a t&rdquo;.  Those two substitutions are performed completely independently.  The space between the words is handled by some other mechanism - deciding where to put the words on the page - and not as a glyph passed through the substitution rules.</p>
+<p>This kind of question comes up sometimes when people want to detect the start or end of a word; and the answer in that case is that instead of looking for a space, you need to look for the absence of a non-space.  A rule that matches any &ldquo;c&rdquo;, preceded by an &ldquo;ignore&rdquo; rule that matches any &ldquo;c&rdquo; that has a letter before it, will end up matching &ldquo;c&rdquo; only at the start of a word.  There was some discussion of this recently <!-- raw HTML omitted -->on the XeTeX mailing list<!-- raw HTML omitted -->.  Unfortunately, I don&rsquo;t think that that kind of solution will work for you because you want to not only match the start of the word, but also carry over state information from the previous word.  I&rsquo;m not sure that what you want is possible.</p>
+<p>I suspect that you may be misusing the calt feature.  As I understand it, when you have multiple forms of a glyph, those are better placed in the &ldquo;salt&rdquo; (stylistic alternates) feature.  The calt feature is intended for substitutions that genuinely depend on context - such as &ldquo;don&rsquo;t put two swash glyphs together in such a way that they collide.&rdquo;</p>
+<p>Rules in the salt feature should produce a list of possible substitutions for each character, with &ldquo;sub from&rdquo;.  Then it is up to the software and/or the user to choose which substitution to use for each character.  I don&rsquo;t know how that choice is made - some sources I&rsquo;ve seen imply that the list is presented to the user to choose from, and others say that the software makes a random choice.  There&rsquo;s some discussion of it in <!-- raw HTML omitted -->this document from Microsoft<!-- raw HTML omitted -->.</p>
+<p>The feature file might look like this:</p>
+<p>feature salt {
+sub d from [d.1 d.2 d.3];
+sub o from [o.1 o.2 o.3];
+sub g from [g.1 g.2 g.3];
+}</p>
+<p>Then &ldquo;d o g&rdquo; might be transformed to &ldquo;d3 o1 g2&rdquo; or &ldquo;d1 o3 g2&rdquo; or any of the 25 other possibilities, with the decision either being random, cyclic, or somehow made by the user.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -130,12 +122,10 @@ Then "d o g" might be transformed to "d3 o1 g2" or "d1 o3 g2" or any of the 25 o
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You should make alternates for the space character, e.g. "space.1" etc.
-
-I don't think you need so many sets of alternates.
-I had put four sets of alternates in Duffy Script, for a pseudo-random effect (four sets of every character, including all punctuation, space, symbols), but subsequently reasoned that only two sets of alternates (the default and one other) might do the job, with appropriate coding, as explained in this document:
-
-http://fontshopblog.files.wordpress.com/2011/01/fontesque_display1.pdf
+		<div class="commentbody"><p>You should make alternates for the space character, e.g. &ldquo;space.1&rdquo; etc.</p>
+<p>I don&rsquo;t think you need so many sets of alternates.
+I had put four sets of alternates in Duffy Script, for a pseudo-random effect (four sets of every character, including all punctuation, space, symbols), but subsequently reasoned that only two sets of alternates (the default and one other) might do the job, with appropriate coding, as explained in this document:</p>
+<p><a href="http://fontshopblog.files.wordpress.com/2011/01/fontesque_display1.pdf">http://fontshopblog.files.wordpress.com/2011/01/fontesque_display1.pdf</a></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

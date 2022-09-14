@@ -71,130 +71,102 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi,
-I've been testing and googling for a while now, but I can't get this work.
-I'm working on an experimental type project. What I'm trying to do is to repeat a character in a random way
-
-I have following 5 characters: 
-<pre>
-zero, zero.001, zero.002, zero.003, zero.004, zero.005
-</pre>
-Currently I am using this code to repeat them, when they are typed after each other:
-<pre>
-lookup rotate {
- sub zero zero'  by zero.001 ;
- sub zero.001 zero' by zero.002 ;
- sub zero.002 zero' by zero.003 ;
- sub zero.003 zero' by zero.004 ;
- sub zero.004 zero' by zero.005 ;
- sub zero.005 zero' by zero ;
-}rotate;
-lookup rotate;
-</pre>
-I attached an image of how it looks like now (the worm poops are the character "zero, zero.001... zero.005"), but I would like to repeat them differently for the second, third and fourth loop, so that the repeat patter can not be recognized easily. 
-
-Can anyone help me with this?
-/Gerolin</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi,
+I&rsquo;ve been testing and googling for a while now, but I can&rsquo;t get this work.
+I&rsquo;m working on an experimental type project. What I&rsquo;m trying to do is to repeat a character in a random way</p>
+<p>I have following 5 characters:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Currently I am using this code to repeat them, when they are typed after each other:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>I attached an image of how it looks like now (the worm poops are the character &ldquo;zero, zero.001&hellip; zero.005&rdquo;), but I would like to repeat them differently for the second, third and fourth loop, so that the repeat patter can not be recognized easily.</p>
+<p>Can anyone help me with this?
+/Gerolin</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This should do it:
-
-<code>
-group @Group1 [zero];
-group @Group2 [zero.2];
-group @Group3 [zero.3];
-group @Group4 [zero.4];
-group @Group5 [zero.5];
-
-feature ContextualAlternates1 calt {
-  # Contextual Alternates
-  lookup Lookup1;
-  lookup Lookup2;
+		<div class="commentbody"><p>This should do it:</p>
+<!-- raw HTML omitted -->
+<p>feature ContextualAlternates1 calt {</p>
+<h1 id="contextual-alternates">Contextual Alternates</h1>
+<p>lookup Lookup1;
+lookup Lookup2;
+}</p>
+<p>lookup Lookup1 {</p>
+<h1 id="referenced-by-feature-contextualalternates1">Referenced by feature &ldquo;ContextualAlternates1&rdquo;</h1>
+<p>context (@Group1) @Group1;
+sub 0 Lookup3;
+context (@Group2) @Group1;
+sub 0 Lookup4;
+context (@Group3) @Group1;
+sub 0 Lookup5;
+context (@Group4) @Group1;
+sub 0 Lookup6;
+}</p>
+<p>lookup Lookup2 {</p>
+<h1 id="referenced-by-feature-contextualalternates1-1">Referenced by feature &ldquo;ContextualAlternates1&rdquo;</h1>
+<p>context (@Group5 @Group4) @Group1;
+sub 0 Lookup7;
+context (@Group2 @Group5) @Group2;
+sub 0 Lookup7;
+context (@Group4 @Group2) @Group3;
+sub 0 Lookup7;
+context (@Group1 @Group4) @Group4;
+sub 0 Lookup7;
+context (@Group5 @Group1) @Group5;
+sub 0 Lookup7;
+context (@Group3 @Group5) @Group1;
+sub 0 Lookup7;
+context (@Group2 @Group3) @Group2;
+sub 0 Lookup8;
+context (@Group1 @Group2) @Group3;
+sub 0 Lookup8;
+context (@Group4 @Group1) @Group4;
+sub 0 Lookup8;
+context (@Group3 @Group4) @Group4;
+sub 0 Lookup9;
+}</p>
+<p>lookup Lookup3 {</p>
+<h1 id="referenced-by-lookup-lookup1">Referenced by lookup &ldquo;Lookup1&rdquo;</h1>
+<p>sub zero -&gt; zero.2;
+}</p>
+<p>lookup Lookup4 {</p>
+<h1 id="referenced-by-lookup-lookup1-1">Referenced by lookup &ldquo;Lookup1&rdquo;</h1>
+<p>sub zero -&gt; zero.3;
+}</p>
+<p>lookup Lookup5 {</p>
+<h1 id="referenced-by-lookup-lookup1-2">Referenced by lookup &ldquo;Lookup1&rdquo;</h1>
+<p>sub zero -&gt; zero.4;
+}</p>
+<p>lookup Lookup6 {</p>
+<h1 id="referenced-by-lookup-lookup1-3">Referenced by lookup &ldquo;Lookup1&rdquo;</h1>
+<p>sub zero -&gt; zero.5;
+}</p>
+<p>lookup Lookup7 {</p>
+<h1 id="referenced-by-lookup-lookup2">Referenced by lookup &ldquo;Lookup2&rdquo;</h1>
+<p>sub zero -&gt; zero.2;
+sub zero.2 -&gt; zero.4;
+sub zero.3 -&gt; zero;
+sub zero.4 -&gt; zero.5;
+sub zero.5 -&gt; zero.3;
+}</p>
+<p>lookup Lookup8 {</p>
+<h1 id="referenced-by-lookup-lookup2-1">Referenced by lookup &ldquo;Lookup2&rdquo;</h1>
+<p>sub zero.2 -&gt; zero;
+sub zero.3 -&gt; zero.4;
+sub zero.4 -&gt; zero.3;
+}</p>
+<p>lookup Lookup9 {</p>
+<h1 id="referenced-by-lookup-lookup2-2">Referenced by lookup &ldquo;Lookup2&rdquo;</h1>
+<p>sub zero.4 -&gt; zero.5;
 }
-
-lookup Lookup1 {
-  # Referenced by feature "ContextualAlternates1"
-  context (@Group1) @Group1;
-  sub 0 Lookup3;
-  context (@Group2) @Group1;
-  sub 0 Lookup4;
-  context (@Group3) @Group1;
-  sub 0 Lookup5;
-  context (@Group4) @Group1;
-  sub 0 Lookup6;
-}
-
-lookup Lookup2 {
-  # Referenced by feature "ContextualAlternates1"
-  context (@Group5 @Group4) @Group1;
-  sub 0 Lookup7;
-  context (@Group2 @Group5) @Group2;
-  sub 0 Lookup7;
-  context (@Group4 @Group2) @Group3;
-  sub 0 Lookup7;
-  context (@Group1 @Group4) @Group4;
-  sub 0 Lookup7;
-  context (@Group5 @Group1) @Group5;
-  sub 0 Lookup7;
-  context (@Group3 @Group5) @Group1;
-  sub 0 Lookup7;
-  context (@Group2 @Group3) @Group2;
-  sub 0 Lookup8;
-  context (@Group1 @Group2) @Group3;
-  sub 0 Lookup8;
-  context (@Group4 @Group1) @Group4;
-  sub 0 Lookup8;
-  context (@Group3 @Group4) @Group4;
-  sub 0 Lookup9;
-}
-
-lookup Lookup3 {
-  # Referenced by lookup "Lookup1"
-  sub zero -> zero.2;
-}
-
-lookup Lookup4 {
-  # Referenced by lookup "Lookup1"
-  sub zero -> zero.3;
-}
-
-lookup Lookup5 {
-  # Referenced by lookup "Lookup1"
-  sub zero -> zero.4;
-}
-
-lookup Lookup6 {
-  # Referenced by lookup "Lookup1"
-  sub zero -> zero.5;
-}
-
-lookup Lookup7 {
-  # Referenced by lookup "Lookup2"
-  sub zero -> zero.2;
-  sub zero.2 -> zero.4;
-  sub zero.3 -> zero;
-  sub zero.4 -> zero.5;
-  sub zero.5 -> zero.3;
-}
-
-lookup Lookup8 {
-  # Referenced by lookup "Lookup2"
-  sub zero.2 -> zero;
-  sub zero.3 -> zero.4;
-  sub zero.4 -> zero.3;
-}
-
-lookup Lookup9 {
-  # Referenced by lookup "Lookup2"
-  sub zero.4 -> zero.5;
-}
-</code>
-
-[img:sites/default/files/old-images/fontwofftest_4242.png]
-
-I've provided some more information along with the FontCreator project file here:
-[[http://forum.high-logic.com/viewtopic.php?f=4&t=4797]]</div>
+<!-- raw HTML omitted --></p>
+<p>[img:sites/default/files/old-images/fontwofftest_4242.png]</p>
+<p>I&rsquo;ve provided some more information along with the FontCreator project file here:
+[[http://forum.high-logic.com/viewtopic.php?f=4&amp;t=4797]]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -215,9 +187,8 @@ I've provided some more information along with the FontCreator project file here
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you for saying "pseudo".
-
-hhp
+		<div class="commentbody"><p>Thank you for saying &ldquo;pseudo&rdquo;.</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -239,15 +210,13 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for your code, @erwindenissen. Unfortunately I have some troubles with it.
-I work with [[http://www.glyphsapp.com|Glyphs app]]  and somehow the code does not work.
-
-For example, I have never seen "->" in a code. 
-Is this: <pre>sub zero -> zero.2</pre> the same as this?: <pre>sub zero by zero.2; </pre>
-
-Can anyone figure out how the code would look like in Glyphs app?
-
-@hrant: your welcome. :-)</div>
+		<div class="commentbody"><p>Thanks for your code, @erwindenissen. Unfortunately I have some troubles with it.
+I work with [[http://www.glyphsapp.com|Glyphs app]]  and somehow the code does not work.</p>
+<p>For example, I have never seen &ldquo;-&gt;&rdquo; in a code. 
+Is this: <!-- raw HTML omitted -->sub zero -&gt; zero.2<!-- raw HTML omitted --> the same as this?: <!-- raw HTML omitted -->sub zero by zero.2; <!-- raw HTML omitted --></p>
+<p>Can anyone figure out how the code would look like in Glyphs app?</p>
+<p>@hrant: your welcome. :-)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -268,14 +237,12 @@ Can anyone figure out how the code would look like in Glyphs app?
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, I think that is very likely.
-
-To be sure, just open the font I made with [[http://www.high-logic.com/font-editor/fontcreator.html|FontCreator]] and see how it looks in your font editor.
-
-You can download the font from here:
-[[http://forum.high-logic.com/viewtopic.php?f=4&t=4797&p=20920#p20920|AlmostRandom]]
-
-Let us know your results.</div>
+		<div class="commentbody"><p>Yes, I think that is very likely.</p>
+<p>To be sure, just open the font I made with [[http://www.high-logic.com/font-editor/fontcreator.html|FontCreator]] and see how it looks in your font editor.</p>
+<p>You can download the font from here:
+[[http://forum.high-logic.com/viewtopic.php?f=4&amp;t=4797&amp;p=20920#p20920|AlmostRandom]]</p>
+<p>Let us know your results.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -297,46 +264,9 @@ Let us know your results.</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Unfortunately I can not open the .fcp file with Glyphs app. The coding seams to be a bit different in FontCreator.
-Can you explain a bit more in detail what happens in lookup1 and lookup2? I don't understand the function "context" and "sub 0". It seems like the problem is something with this part of the code:
-<pre>
-lookup Lookup1 {
-  # Referenced by feature "ContextualAlternates1"
-  context (@Group1) @Group1 ;
-  sub 0 Lookup3 ;
-  context (@Group2) @Group1 ;
-  sub 0 Lookup4 ;
-  context (@Group3) @Group1 ;
-  sub 0 Lookup5 ;
-  context (@Group4) @Group1 ;
-  sub 0 Lookup6 ;
-}Lookup1;
-
-lookup Lookup2 {
-  # Referenced by feature "ContextualAlternates1"
-  context (@Group5 @Group4) @Group1;
-  sub 0 Lookup7;
-  context (@Group2 @Group5) @Group2;
-  sub 0 Lookup7;
-  context (@Group4 @Group2) @Group3;
-  sub 0 Lookup7;
-  context (@Group1 @Group4) @Group4;
-  sub 0 Lookup7;
-  context (@Group5 @Group1) @Group5;
-  sub 0 Lookup7;
-  context (@Group3 @Group5) @Group1;
-  sub 0 Lookup7;
-  context (@Group2 @Group3) @Group2;
-  sub 0 Lookup8;
-  context (@Group1 @Group2) @Group3;
-  sub 0 Lookup8;
-  context (@Group4 @Group1) @Group4;
-  sub 0 Lookup8;
-  context (@Group3 @Group4) @Group4;
-  sub 0 Lookup9;
-}Lookup2;
-</pre>
-
-  </div>
+Can you explain a bit more in detail what happens in lookup1 and lookup2? I don&rsquo;t understand the function &ldquo;context&rdquo; and &ldquo;sub 0&rdquo;. It seems like the problem is something with this part of the code:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted --></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -357,9 +287,9 @@ lookup Lookup2 {
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Maybe I'm missing something, but would it not be simpler to say
-
-sub zero from zero-class</div>
+		<div class="commentbody"><p>Maybe I&rsquo;m missing something, but would it not be simpler to say</p>
+<p>sub zero from zero-class</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -380,14 +310,14 @@ sub zero from zero-class</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Maybe it is: 
-<pre> "sub zero by lookup 3" </pre>
-I don't really understand the logic behind the code, which makes it hard to find the mistake. 
-I've never seen a code with "context", and the "sub 0" is also weird:
-<pre>context (@Group1) @Group1 ;
-  sub 0 Lookup3 ;</pre>
-
-any hints?</div>
+		<div class="commentbody"><p>Maybe it is:</p>
+<!-- raw HTML omitted -->
+<p>I don&rsquo;t really understand the logic behind the code, which makes it hard to find the mistake. 
+I&rsquo;ve never seen a code with &ldquo;context&rdquo;, and the &ldquo;sub 0&rdquo; is also weird:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>any hints?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -408,68 +338,63 @@ any hints?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">[FontForge code, font from erwindenissen ]
-
-lookup caltContextualAlternatesinLatin {
-  lookupflag 0;
-    sub [\zero ] [\zero ]'  by [\zero.2 ];
-  subtable;
-    sub [\zero.2 ] [\zero ]'  by [\zero.3 ];
-  subtable;
-    sub [\zero.3 ] [\zero ]'  by [\zero.4 ];
-  subtable;
-    sub [\zero.4 ] [\zero ]'  by [\zero.5 ];
-} caltContextualAlternatesinLatin;
-
-lookup SingleSubstitutionlookup6 {
-  lookupflag 0;
-    sub \zero by \zero.2 ;
-    sub \zero.2 by \zero.4 ;
-    sub \zero.3 by \zero ;
-    sub \zero.4 by \zero.5 ;
-    sub \zero.5 by \zero.3 ;
-} SingleSubstitutionlookup6;
-
-lookup SingleSubstitutionlookup7 {
-  lookupflag 0;
-    sub \zero.2 by \zero ;
-    sub \zero.3 by \zero.4 ;
-    sub \zero.4 by \zero.3 ;
-} SingleSubstitutionlookup7;
-
-lookup sub_chain_caltlatn_0 {
-  lookupflag 0;
-    sub [\zero.4 ] [\zero.5 ] [\zero ]'lookup SingleSubstitutionlookup6  ;
-  subtable;
-    sub [\zero.5 ] [\zero.2 ] [\zero.2 ]'lookup SingleSubstitutionlookup6  ;
-  subtable;
-    sub [\zero.2 ] [\zero.4 ] [\zero.3 ]'lookup SingleSubstitutionlookup6  ;
-  subtable;
-    sub [\zero.4 ] [\zero ] [\zero.4 ]'lookup SingleSubstitutionlookup6  ;
-  subtable;
-    sub [\zero ] [\zero.5 ] [\zero.5 ]'lookup SingleSubstitutionlookup6  ;
-  subtable;
-    sub [\zero.5 ] [\zero.3 ] [\zero ]'lookup SingleSubstitutionlookup6  ;
-  subtable;
-    sub [\zero.3 ] [\zero.2 ] [\zero.2 ]'lookup SingleSubstitutionlookup7  ;
-  subtable;
-    sub [\zero.2 ] [\zero ] [\zero.3 ]'lookup SingleSubstitutionlookup7  ;
-  subtable;
-    sub [\zero ] [\zero.4 ] [\zero.4 ]'lookup SingleSubstitutionlookup7  ;
-  subtable;
-    sub [\zero.4 ] [\zero.3 ] [\zero.4 ]'  by [\zero.5 ];
-} sub_chain_caltlatn_0;
-
-feature calt {
-  script DFLT;
-     language dflt ;
-      lookup caltContextualAlternatesinLatin;
-      lookup sub_chain_caltlatn_0;
-  script latn;
-     language dflt ;
-      lookup caltContextualAlternatesinLatin;
-      lookup sub_chain_caltlatn_0;
-} calt;
+		<div class="commentbody"><p>[FontForge code, font from erwindenissen ]</p>
+<p>lookup caltContextualAlternatesinLatin {
+lookupflag 0;
+sub [\zero ] [\zero ]'  by [\zero.2 ];
+subtable;
+sub [\zero.2 ] [\zero ]'  by [\zero.3 ];
+subtable;
+sub [\zero.3 ] [\zero ]'  by [\zero.4 ];
+subtable;
+sub [\zero.4 ] [\zero ]'  by [\zero.5 ];
+} caltContextualAlternatesinLatin;</p>
+<p>lookup SingleSubstitutionlookup6 {
+lookupflag 0;
+sub \zero by \zero.2 ;
+sub \zero.2 by \zero.4 ;
+sub \zero.3 by \zero ;
+sub \zero.4 by \zero.5 ;
+sub \zero.5 by \zero.3 ;
+} SingleSubstitutionlookup6;</p>
+<p>lookup SingleSubstitutionlookup7 {
+lookupflag 0;
+sub \zero.2 by \zero ;
+sub \zero.3 by \zero.4 ;
+sub \zero.4 by \zero.3 ;
+} SingleSubstitutionlookup7;</p>
+<p>lookup sub_chain_caltlatn_0 {
+lookupflag 0;
+sub [\zero.4 ] [\zero.5 ] [\zero ]&lsquo;lookup SingleSubstitutionlookup6  ;
+subtable;
+sub [\zero.5 ] [\zero.2 ] [\zero.2 ]&lsquo;lookup SingleSubstitutionlookup6  ;
+subtable;
+sub [\zero.2 ] [\zero.4 ] [\zero.3 ]&lsquo;lookup SingleSubstitutionlookup6  ;
+subtable;
+sub [\zero.4 ] [\zero ] [\zero.4 ]&lsquo;lookup SingleSubstitutionlookup6  ;
+subtable;
+sub [\zero ] [\zero.5 ] [\zero.5 ]&lsquo;lookup SingleSubstitutionlookup6  ;
+subtable;
+sub [\zero.5 ] [\zero.3 ] [\zero ]&lsquo;lookup SingleSubstitutionlookup6  ;
+subtable;
+sub [\zero.3 ] [\zero.2 ] [\zero.2 ]&lsquo;lookup SingleSubstitutionlookup7  ;
+subtable;
+sub [\zero.2 ] [\zero ] [\zero.3 ]&lsquo;lookup SingleSubstitutionlookup7  ;
+subtable;
+sub [\zero ] [\zero.4 ] [\zero.4 ]&lsquo;lookup SingleSubstitutionlookup7  ;
+subtable;
+sub [\zero.4 ] [\zero.3 ] [\zero.4 ]&rsquo;  by [\zero.5 ];
+} sub_chain_caltlatn_0;</p>
+<p>feature calt {
+script DFLT;
+language dflt ;
+lookup caltContextualAlternatesinLatin;
+lookup sub_chain_caltlatn_0;
+script latn;
+language dflt ;
+lookup caltContextualAlternatesinLatin;
+lookup sub_chain_caltlatn_0;
+} calt;</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -491,73 +416,25 @@ feature calt {
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The following code works in FontForge and gives the same behaviour as the lookups in AlmostRandom.otf.
-
-<PRE>
-lookup contextofone {
-  lookupflag 0;
-    sub [\zero  ] [\zero]'  by [\zero.2] ;
-    sub [\zero.2] [\zero]'  by [\zero.3] ;
-    sub [\zero.3] [\zero]'  by [\zero.4] ;
-    sub [\zero.4] [\zero]'  by [\zero.5] ;
-} contextofone ;
-
-lookup contextoftwo {
-  lookupflag 0;
-    sub [\zero.4] [\zero.5] [\zero]'    by [\zero.2] ;
-    sub [\zero.5] [\zero.2] [\zero.2]'  by [\zero.4] ;
-    sub [\zero.2] [\zero.4] [\zero.3]'  by [\zero  ] ;
-    sub [\zero.4] [\zero  ] [\zero.4]'  by [\zero.5] ;
-    sub [\zero  ] [\zero.5] [\zero.5]'  by [\zero.3] ;
-    sub [\zero.5] [\zero.3] [\zero  ]'  by [\zero.2] ;
-    sub [\zero.3] [\zero.2] [\zero.2]'  by [\zero  ] ;
-    sub [\zero.2] [\zero  ] [\zero.3]'  by [\zero.4] ;
-    sub [\zero  ] [\zero.4] [\zero.4]'  by [\zero.3] ;
-} contextoftwo ;
-
-feature calt {
-  script DFLT;
-     language dflt ;
-      lookup contextofone;
-      lookup contextoftwo;
-
-  script latn;
-     language dflt ;
-      lookup contextofone;
-      lookup contextoftwo;
-} calt;
-</PRE>
-
-In the font AlmostRandom.otf, the zeros are numbered from 1 to 5; the default zero contains a 1; without any substitution lookups you would see zeros numbered as follows:
-
-<PRE>
-   111111111111111
-</PRE>
-
-With the first lookup, that uses a single character as left context, you get
-
-<PRE>
-   123451234512345
-</PRE>
-
-With the second lookup, that uses two characters as left context, you replace the first occurrence of 451 by 452 and advance the cursor to get
-
-<PRE>
-   1234522|34512345
-</PRE>
-
-and then 522 becomes 524 and so on.
-
-You end up with
-<PRE>
-   123452415321435
-</PRE>
-   
-and that sequence is then repeated indefinitely.
-
-For more details, cf http://typophile.com/node/19625
-
-Michel
+		<div class="commentbody"><p>The following code works in FontForge and gives the same behaviour as the lookups in AlmostRandom.otf.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>In the font AlmostRandom.otf, the zeros are numbered from 1 to 5; the default zero contains a 1; without any substitution lookups you would see zeros numbered as follows:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>With the first lookup, that uses a single character as left context, you get</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>With the second lookup, that uses two characters as left context, you replace the first occurrence of 451 by 452 and advance the cursor to get</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>and then 522 becomes 524 and so on.</p>
+<p>You end up with</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>and that sequence is then repeated indefinitely.</p>
+<p>For more details, cf <a href="http://typophile.com/node/19625">http://typophile.com/node/19625</a></p>
+<p>Michel</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -579,64 +456,57 @@ Michel
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks, @MichelBoyer. I finally understand the concept. 
-
-I have one more problem. I managed to randomize the zero's with 10 alternates and it works, as long as I type the zeros in one line. When I start a new row, it starts the repetition from 1 again.
-
-So in one row the pattern looks like this: 0,1,2,3,4,5,6,7,8,9,10 - 1,10,00,9,2,8,3,6,4,7,5 - 9,6,0,2,5,7,10,4,1,8,3
-
-But when I have a linebreak, it starts over again and makes this:
+		<div class="commentbody"><p>Thanks, @MichelBoyer. I finally understand the concept.</p>
+<p>I have one more problem. I managed to randomize the zero&rsquo;s with 10 alternates and it works, as long as I type the zeros in one line. When I start a new row, it starts the repetition from 1 again.</p>
+<p>So in one row the pattern looks like this: 0,1,2,3,4,5,6,7,8,9,10 - 1,10,00,9,2,8,3,6,4,7,5 - 9,6,0,2,5,7,10,4,1,8,3</p>
+<p>But when I have a linebreak, it starts over again and makes this:
 1,2,3,4,5,6,7,8,9,10 - 1,10,00,9,2,
-1,2,3,4,5,6,7,8,9,10 - 1,10,00,9,2,
-
-I would like it to be like this:
+1,2,3,4,5,6,7,8,9,10 - 1,10,00,9,2,</p>
+<p>I would like it to be like this:
 0,1,2,3,4,5,6,7,8,9,10 - 1,10,00,9,2,
-8,3,6,4,7,5 - 9,6,0,2,5,7,10,4,1,8,3 etc...
-
-This is what my code looks like with 10 additional alternates:
+8,3,6,4,7,5 - 9,6,0,2,5,7,10,4,1,8,3 etc&hellip;</p>
+<p>This is what my code looks like with 10 additional alternates:
 lookup calt_1 {
-  lookupflag 0;
- sub zero.00 zero.00' by zero.01 ;
- sub zero.01 zero.00' by zero.02 ;
- sub zero.02 zero.00' by zero.03 ;
- sub zero.03 zero.00' by zero.04 ;
- sub zero.04 zero.00' by zero.05 ;
- sub zero.05 zero.00' by zero.06 ;
- sub zero.06 zero.00' by zero.07 ;
- sub zero.07 zero.00' by zero.08 ;
- sub zero.08 zero.00' by zero.09 ;
- sub zero.09 zero.00' by zero.10 ;
-} calt_1;
-
-lookup calt_2 {
-  lookupflag 0;
-    sub zero.09 zero.10 zero.00'  by zero.01 ;
-    sub zero.10 zero.01 zero.01'  by zero.10 ;
-    sub zero.01 zero.10 zero.02'  by zero.00 ;
-    sub zero.10 zero.00 zero.03'  by zero.09 ;
-    sub zero.00 zero.09 zero.04'  by zero.02 ;
-    sub zero.09 zero.02 zero.05'  by zero.08 ;
-    sub zero.02 zero.08 zero.06'  by zero.03 ;
-    sub zero.08 zero.03 zero.07'  by zero.06 ;
-    sub zero.03 zero.06 zero.08'  by zero.04 ;
-    sub zero.06 zero.04 zero.09'  by zero.07 ;
-    sub zero.04 zero.07 zero.10'  by zero.05 ;
-
-    sub zero.07 zero.05 zero.00'  by zero.09 ;
-    sub zero.05 zero.09 zero.01'  by zero.06 ;
-    sub zero.09 zero.06 zero.02'  by zero.00 ;
-    sub zero.06 zero.00 zero.03'  by zero.02 ;
-    sub zero.00 zero.02 zero.04'  by zero.05 ;
-    sub zero.02 zero.05 zero.05'  by zero.07 ;
-    sub zero.05 zero.07 zero.06'  by zero.10 ;
-    sub zero.07 zero.10 zero.07'  by zero.04 ;
-    sub zero.10 zero.04 zero.08'  by zero.01 ;
-    sub zero.04 zero.01 zero.09'  by zero.08 ;
-    sub zero.01 zero.03 zero.10'  by zero.03 ;
-    
-} calt_2;
-
-any ideas?</div>
+lookupflag 0;
+sub zero.00 zero.00' by zero.01 ;
+sub zero.01 zero.00' by zero.02 ;
+sub zero.02 zero.00' by zero.03 ;
+sub zero.03 zero.00' by zero.04 ;
+sub zero.04 zero.00' by zero.05 ;
+sub zero.05 zero.00' by zero.06 ;
+sub zero.06 zero.00' by zero.07 ;
+sub zero.07 zero.00' by zero.08 ;
+sub zero.08 zero.00' by zero.09 ;
+sub zero.09 zero.00' by zero.10 ;
+} calt_1;</p>
+<p>lookup calt_2 {
+lookupflag 0;
+sub zero.09 zero.10 zero.00'  by zero.01 ;
+sub zero.10 zero.01 zero.01'  by zero.10 ;
+sub zero.01 zero.10 zero.02'  by zero.00 ;
+sub zero.10 zero.00 zero.03'  by zero.09 ;
+sub zero.00 zero.09 zero.04'  by zero.02 ;
+sub zero.09 zero.02 zero.05'  by zero.08 ;
+sub zero.02 zero.08 zero.06'  by zero.03 ;
+sub zero.08 zero.03 zero.07'  by zero.06 ;
+sub zero.03 zero.06 zero.08'  by zero.04 ;
+sub zero.06 zero.04 zero.09'  by zero.07 ;
+sub zero.04 zero.07 zero.10'  by zero.05 ;</p>
+<pre><code>sub zero.07 zero.05 zero.00'  by zero.09 ;
+sub zero.05 zero.09 zero.01'  by zero.06 ;
+sub zero.09 zero.06 zero.02'  by zero.00 ;
+sub zero.06 zero.00 zero.03'  by zero.02 ;
+sub zero.00 zero.02 zero.04'  by zero.05 ;
+sub zero.02 zero.05 zero.05'  by zero.07 ;
+sub zero.05 zero.07 zero.06'  by zero.10 ;
+sub zero.07 zero.10 zero.07'  by zero.04 ;
+sub zero.10 zero.04 zero.08'  by zero.01 ;
+sub zero.04 zero.01 zero.09'  by zero.08 ;
+sub zero.01 zero.03 zero.10'  by zero.03 ;
+</code></pre>
+<p>} calt_2;</p>
+<p>any ideas?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -657,9 +527,9 @@ any ideas?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If your aim is to fill a page with only variants of zero, I see no OTL solution because no contextuality is carried from one line to the next. When pseudo-randomness is used to mimic handwriting for instance, then it is possible to use some character further away in the current line as a "seed" for a "pseudo-random process" so as to avoid repetition. There is an example in Nick Shinn's thread http://typophile.com/node/46521. 
-
-Michel</div>
+		<div class="commentbody"><p>If your aim is to fill a page with only variants of zero, I see no OTL solution because no contextuality is carried from one line to the next. When pseudo-randomness is used to mimic handwriting for instance, then it is possible to use some character further away in the current line as a &ldquo;seed&rdquo; for a &ldquo;pseudo-random process&rdquo; so as to avoid repetition. There is an example in Nick Shinn&rsquo;s thread <a href="http://typophile.com/node/46521">http://typophile.com/node/46521</a>.</p>
+<p>Michel</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

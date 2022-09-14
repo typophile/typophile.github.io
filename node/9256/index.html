@@ -71,11 +71,11 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi there, I am trying to implement a generic MIF for my fonts which activates option 14/6 &#40;Typographical Extras/Periods to Ellipsis&#41;. I have written the below code which successfully changes the first full stop to an ellipsis, but I have no idea how to change the following two to DELs, can anyone help? &#40;It is originally based on the swash Eva example from Apple&#39;s documentation - I realise that it does more than it needs too at the moment, but I&#39;ll clean that up later.&#41; <BR> <BR><pre>Type	Contextual <BR>Name	Typographic Extras <BR>Namecode	14 <BR>Setting	Periods to Ellipsis <BR>Settingcode	6 <BR>Default	yes <BR>Orientation	HV <BR>Forward	yes <BR>Exclusive	no <BR> <BR>FS	32 <BR> <BR>	EOT	OOB	DEL	EOL	FS <BR>StartText	1	1	1	1	3 <BR>StartLine	1	1	1	1	3 <BR>Flush	1	1	2	1	2 <BR>Saw1	1	2	3	1	4 <BR>Saw2	1	2	5	1	6 <BR>Saw3	7	7	6	7	7 <BR> <BR>	GoTo	Mark?	Advance?	SubstMark	SubstCurrent <BR>1	StartText	no	yes	none	none <BR>2	Flush	no	yes	none	none <BR>3	Saw1	yes	yes	none	none <BR>4	Saw2	no	yes	none	none <BR>5	Saw2	no	yes	none	none <BR>6	Saw3	no	yes	none	none <BR>7	StartText	no	yes	Ellipsis	none <BR> <BR>Ellipsis <BR>	32	167</pre></div>
+  <div class="post-content e-content" itemprop="articleBody">Hi there, I am trying to implement a generic MIF for my fonts which activates option 14/6 (Typographical Extras/Periods to Ellipsis). I have written the below code which successfully changes the first full stop to an ellipsis, but I have no idea how to change the following two to DELs, can anyone help? (It is originally based on the swash Eva example from Apple's documentation - I realise that it does more than it needs too at the moment, but I'll clean that up later.) <!-- raw HTML omitted --> <!-- raw HTML omitted --><!-- raw HTML omitted -->Type	Contextual <!-- raw HTML omitted -->Name	Typographic Extras <!-- raw HTML omitted -->Namecode	14 <!-- raw HTML omitted -->Setting	Periods to Ellipsis <!-- raw HTML omitted -->Settingcode	6 <!-- raw HTML omitted -->Default	yes <!-- raw HTML omitted -->Orientation	HV <!-- raw HTML omitted -->Forward	yes <!-- raw HTML omitted -->Exclusive	no <!-- raw HTML omitted --> <!-- raw HTML omitted -->FS	32 <!-- raw HTML omitted --> <!-- raw HTML omitted -->	EOT	OOB	DEL	EOL	FS <!-- raw HTML omitted -->StartText	1	1	1	1	3 <!-- raw HTML omitted -->StartLine	1	1	1	1	3 <!-- raw HTML omitted -->Flush	1	1	2	1	2 <!-- raw HTML omitted -->Saw1	1	2	3	1	4 <!-- raw HTML omitted -->Saw2	1	2	5	1	6 <!-- raw HTML omitted -->Saw3	7	7	6	7	7 <!-- raw HTML omitted --> <!-- raw HTML omitted -->	GoTo	Mark?	Advance?	SubstMark	SubstCurrent <!-- raw HTML omitted -->1	StartText	no	yes	none	none <!-- raw HTML omitted -->2	Flush	no	yes	none	none <!-- raw HTML omitted -->3	Saw1	yes	yes	none	none <!-- raw HTML omitted -->4	Saw2	no	yes	none	none <!-- raw HTML omitted -->5	Saw2	no	yes	none	none <!-- raw HTML omitted -->6	Saw3	no	yes	none	none <!-- raw HTML omitted -->7	StartText	no	yes	Ellipsis	none <!-- raw HTML omitted --> <!-- raw HTML omitted -->Ellipsis <!-- raw HTML omitted -->	32	167<!-- raw HTML omitted --></div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Although they can be incredibly powerful, the contextual substitutions in MIF source files are extremely frustrating to write. It&#39;s one area where OpenType&#39;s approach is easier by many magnitudes. <BR> <BR>Fortunately, there&#39;s a much easier way to solve your particular problem -- just create a ligature of three periods in a row to an ellipsis character. For example: <BR> <BR><pre> <BR>Type           LigatureList <BR>Name           Typographical Extras <BR>Namecode       14 <BR>Setting        Periods to Ellipsis <BR>Settingcode    6 <BR>Default        no <BR>Orientation    H <BR>Forward        yes <BR>Exclusive      no <BR> <BR>List <BR>               ellipsis       period period period <BR></pre> <BR> <BR>Although it is not documented Apple&#39;s tutorials, you can mix contextual and noncontextual substitutions in any feature set &#40;in this case, Typographical Extras&#41;. <BR> <BR>Brent</div>
+		<div class="commentbody">Although they can be incredibly powerful, the contextual substitutions in MIF source files are extremely frustrating to write. It's one area where OpenType's approach is easier by many magnitudes. <!-- raw HTML omitted --> <!-- raw HTML omitted -->Fortunately, there's a much easier way to solve your particular problem &ndash; just create a ligature of three periods in a row to an ellipsis character. For example: <!-- raw HTML omitted --> <!-- raw HTML omitted --><!-- raw HTML omitted --> <!-- raw HTML omitted -->Type           LigatureList <!-- raw HTML omitted -->Name           Typographical Extras <!-- raw HTML omitted -->Namecode       14 <!-- raw HTML omitted -->Setting        Periods to Ellipsis <!-- raw HTML omitted -->Settingcode    6 <!-- raw HTML omitted -->Default        no <!-- raw HTML omitted -->Orientation    H <!-- raw HTML omitted -->Forward        yes <!-- raw HTML omitted -->Exclusive      no <!-- raw HTML omitted --> <!-- raw HTML omitted -->List <!-- raw HTML omitted -->               ellipsis       period period period <!-- raw HTML omitted --><!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->Although it is not documented Apple's tutorials, you can mix contextual and noncontextual substitutions in any feature set (in this case, Typographical Extras). <!-- raw HTML omitted --> <!-- raw HTML omitted -->Brent</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -96,7 +96,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">To be honest I had thought of that, but figured an ellipsis wasn&#39;t a true ligature so i shouldn&#39;t use the ligature feature to cheat my way out :-P <BR> <BR>Ahh well...</div>
+		<div class="commentbody">To be honest I had thought of that, but figured an ellipsis wasn't a true ligature so i shouldn't use the ligature feature to cheat my way out :-P <!-- raw HTML omitted --> <!-- raw HTML omitted -->Ahh well&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -117,7 +117,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It also breaks when encountering strings with more than three periods, turning every group of three into an ellipsis, rather than aborting the transformation like a proper contextual substitution would &#40;i.e. &#34;...&#34; would form an ellipsis, but neither &#34;....&#34; nor &#34;......&#34; would&#41;. <BR> <BR>So I shall use the LigatureList for now, but if anyone can solve this I&#39;d still like to hear about it.</div>
+		<div class="commentbody">It also breaks when encountering strings with more than three periods, turning every group of three into an ellipsis, rather than aborting the transformation like a proper contextual substitution would (i.e. &quot;&hellip;&quot; would form an ellipsis, but neither &quot;&hellip;.&quot; nor &quot;&hellip;&hellip;&quot; would). <!-- raw HTML omitted --> <!-- raw HTML omitted -->So I shall use the LigatureList for now, but if anyone can solve this I'd still like to hear about it.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -138,7 +138,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This may sound like a stupid question, but why bother replacing three periods with an elipsis? I don&#39;t see what the advantage would be since, presumably, it would look exactly like three periods.</div>
+		<div class="commentbody">This may sound like a stupid question, but why bother replacing three periods with an elipsis? I don't see what the advantage would be since, presumably, it would look exactly like three periods.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -159,7 +159,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">In most fonts an ellipsis isn&#39;t identical to three consecutive periods. <BR>And with reason, since that generally creates a large white gap in <BR>the texture of the page. <BR> <BR>hhp</div>
+		<div class="commentbody">In most fonts an ellipsis isn't identical to three consecutive periods. <!-- raw HTML omitted -->And with reason, since that generally creates a large white gap in <!-- raw HTML omitted -->the texture of the page. <!-- raw HTML omitted --> <!-- raw HTML omitted -->hhp</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -180,7 +180,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I&#39;ve always made them so they look the same as three periods, spacing-wise.  <BR> <BR>I&#39;ve just checked a bunch of different fonts at random. Of the ones I looked at &#40;including some from Microsoft, Apple, Font Bureau, House, FontShop, etc.&#41; about half do it the same way I do, i.e., exactly the same as three periods. All the others put <b>more</b> space between the dots in the elipsis. Some as much as twice the space. Interestingly, in Georgia the dots are slightly smaller than the period but spaced exaclty the same as three periods, with a little extra to make up for the smaller dots. I have found no fonts &#40;so far&#41; where the elipsis is more closely spaced than three periods.</div>
+		<div class="commentbody">I've always made them so they look the same as three periods, spacing-wise.  <!-- raw HTML omitted --> <!-- raw HTML omitted -->I've just checked a bunch of different fonts at random. Of the ones I looked at (including some from Microsoft, Apple, Font Bureau, House, FontShop, etc.) about half do it the same way I do, i.e., exactly the same as three periods. All the others put <!-- raw HTML omitted -->more<!-- raw HTML omitted --> space between the dots in the elipsis. Some as much as twice the space. Interestingly, in Georgia the dots are slightly smaller than the period but spaced exaclty the same as three periods, with a little extra to make up for the smaller dots. I have found no fonts (so far) where the elipsis is more closely spaced than three periods.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -201,7 +201,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Courier?  :-P <BR>Seriously: Maybe you&#39;re right. <BR> <BR>hhp</div>
+		<div class="commentbody">Courier?  :-P <!-- raw HTML omitted -->Seriously: Maybe you're right. <!-- raw HTML omitted --> <!-- raw HTML omitted -->hhp</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -222,7 +222,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Back when we were writing the <i>Glossary of Typesetting Terms</i> I researched this one a bit. Turns out that &#40;at that time&#41; the Associated Press style was to use three periods with no extra spacing. The <i>Chicago Manual</i> &#40;whatever edition&#41; calle for three periods with a 3-to-em space in between the periods -- of course, Chicago frequently got its &#34;to-em&#39;s&#34; a little off; this would give wider than nornal spacing within the ellipsis. <BR> <BR>I&#39;ve been known to argue both sides. Finally our company went with a normal &#40;usually justifying&#41; word space between the periods, on the grounds that the more word spaces you can get in a line, the tighter the line will usually set, and the more even the spacing generally. Not the best argument I&#39;ve ever offered . . . <BR> <BR>We&#39;ve programmed this &#34;ellipsis&#34; to prohibit a break within of course, and have a high penalty to break before. A four-dot ellipsis is really a sentence-ending period with a standard ellipsis following. One more reason to use the normal space. <BR> <BR>MLA style can vary from this, BTW. If it were me &amp; I were building a font with a single ellipsis character, I&#39;d make the space between the dots a bit less than the smallest justifying word space. If someone then decides to go the other route, they just don&#39;t use the ellipsis &#34;character.&#34; But if you make it a ligature and someone can&#39;t turn off that particular ligature without turning off all the ligatures, you do have a problem. <BR> <BR>FWIW, <BR> <BR>Charles</div>
+		<div class="commentbody">Back when we were writing the <!-- raw HTML omitted -->Glossary of Typesetting Terms<!-- raw HTML omitted --> I researched this one a bit. Turns out that (at that time) the Associated Press style was to use three periods with no extra spacing. The <!-- raw HTML omitted -->Chicago Manual<!-- raw HTML omitted --> (whatever edition) calle for three periods with a 3-to-em space in between the periods &ndash; of course, Chicago frequently got its &quot;to-em's&quot; a little off; this would give wider than nornal spacing within the ellipsis. <!-- raw HTML omitted --> <!-- raw HTML omitted -->I've been known to argue both sides. Finally our company went with a normal (usually justifying) word space between the periods, on the grounds that the more word spaces you can get in a line, the tighter the line will usually set, and the more even the spacing generally. Not the best argument I've ever offered . . . <!-- raw HTML omitted --> <!-- raw HTML omitted -->We've programmed this &quot;ellipsis&quot; to prohibit a break within of course, and have a high penalty to break before. A four-dot ellipsis is really a sentence-ending period with a standard ellipsis following. One more reason to use the normal space. <!-- raw HTML omitted --> <!-- raw HTML omitted -->MLA style can vary from this, BTW. If it were me &amp; I were building a font with a single ellipsis character, I'd make the space between the dots a bit less than the smallest justifying word space. If someone then decides to go the other route, they just don't use the ellipsis &quot;character.&quot; But if you make it a ligature and someone can't turn off that particular ligature without turning off all the ligatures, you do have a problem. <!-- raw HTML omitted --> <!-- raw HTML omitted -->FWIW, <!-- raw HTML omitted --> <!-- raw HTML omitted -->Charles</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -243,7 +243,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Sorry I&#39;m jumping into this discussion but it&#39;s so close to what I was looking for for so long. <BR>Can anybody show me how to write MIF contextual table for contextualization of Arabic letters? <BR>Arabic letters are substituted by their &#39;initial&#39;, &#39;medial&#39; and &#39;final&#39; forms depending on their location in the word and many of them are joining characters. ftxanalyzer does not generate Arabic contextualization scheme in MIF file and I don&#39;t know how to add it to MIF before compiling with ftxenhancer.</div>
+		<div class="commentbody">Sorry I'm jumping into this discussion but it's so close to what I was looking for for so long. <!-- raw HTML omitted -->Can anybody show me how to write MIF contextual table for contextualization of Arabic letters? <!-- raw HTML omitted -->Arabic letters are substituted by their 'initial', 'medial' and 'final' forms depending on their location in the word and many of them are joining characters. ftxanalyzer does not generate Arabic contextualization scheme in MIF file and I don't know how to add it to MIF before compiling with ftxenhancer.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

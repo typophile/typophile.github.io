@@ -71,36 +71,28 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Dear Typophiles,
-
-sorry for maybe asking a quite basic question, i just can't find a potent keyword that gets me to the for sure existing answers, so I'm asking for a link to other threads or a short explanation ... It should be simple, but it just does not work at the moment and I don't know what I am doing wrong. :(
-
-
-I try to to a "multi-step" one-after-another-replacement with opentype (fontlab 5):
-
-Let's say I have a glyph x.
+  <div class="post-content e-content" itemprop="articleBody"><p>Dear Typophiles,</p>
+<p>sorry for maybe asking a quite basic question, i just can&rsquo;t find a potent keyword that gets me to the for sure existing answers, so I&rsquo;m asking for a link to other threads or a short explanation &hellip; It should be simple, but it just does not work at the moment and I don&rsquo;t know what I am doing wrong. :(</p>
+<p>I try to to a &ldquo;multi-step&rdquo; one-after-another-replacement with opentype (fontlab 5):</p>
+<p>Let&rsquo;s say I have a glyph x.
 in calt-feature, i substitute x by x.alt
 after that, i want to check another condition, 
-and in case it applies, want to sub x.alt by x.alt2
-
-is this possible to do?
-
-
-To explain what i actually want to achieve with this:
+and in case it applies, want to sub x.alt by x.alt2</p>
+<p>is this possible to do?</p>
+<p>To explain what i actually want to achieve with this:
 i want to do a script font, that has three vertical levels of connectors to the glyph right before it. So i have 4 variations of each letter, i.e.   h h.low h.mid h.top 
-depentent on its predecessors "end", the basic "h" is replaced by its low mid or top connector variant so it fits seamlessly.
-after that, i want to check if the glyph is set at the end of a word (followed by a space for the beginning), and if so, the .low .mid or .top variant is replaced by a .low.end .mid.end or .top.end variant ...
-
-
-thanks for your help
-Sebastian</div>
+depentent on its predecessors &ldquo;end&rdquo;, the basic &ldquo;h&rdquo; is replaced by its low mid or top connector variant so it fits seamlessly.
+after that, i want to check if the glyph is set at the end of a word (followed by a space for the beginning), and if so, the .low .mid or .top variant is replaced by a .low.end .mid.end or .top.end variant &hellip;</p>
+<p>thanks for your help
+Sebastian</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Substitutions occur in sequence, in the order you wrote your lookups from the top to the bottom. So when you have your first lookup for changing x to x.alt1 , you have to pay attention for your second lookup whether the first condition has met, could be met or not. Whether for your second lookup you are dealing with x or x.alt1 or both, in order to change it to x.alt2
-So it is important to pay attention to the sequence of events and write the lookups accordingly.
-
-You are right. There are a lot of good discussions about this in here but I don't remember the topics off hand. Keep looking. You'll find them.</div>
+		<div class="commentbody"><p>Substitutions occur in sequence, in the order you wrote your lookups from the top to the bottom. So when you have your first lookup for changing x to x.alt1 , you have to pay attention for your second lookup whether the first condition has met, could be met or not. Whether for your second lookup you are dealing with x or x.alt1 or both, in order to change it to x.alt2
+So it is important to pay attention to the sequence of events and write the lookups accordingly.</p>
+<p>You are right. There are a lot of good discussions about this in here but I don&rsquo;t remember the topics off hand. Keep looking. You&rsquo;ll find them.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -121,13 +113,12 @@ You are right. There are a lot of good discussions about this in here but I don'
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">thanks for this.
-I have found a (maybe not very sophisticated) solution.
-
-To connect this thread to the font thread I have just created:
-http://typophile.com/node/56408
-
-maybe it's better to discuss there.</div>
+		<div class="commentbody"><p>thanks for this.
+I have found a (maybe not very sophisticated) solution.</p>
+<p>To connect this thread to the font thread I have just created:
+<a href="http://typophile.com/node/56408">http://typophile.com/node/56408</a></p>
+<p>maybe it&rsquo;s better to discuss there.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -148,21 +139,19 @@ maybe it's better to discuss there.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Sebastian, 
-
-After one lookup is processed, the application goes back to the beginning of the text string (or better: text run, i.e. the portion of the text string which has the same font, size, writing system/script, and directionality), and processes the next lookup. So your code should look like: 
-
-<code>feature calt { 
+		<div class="commentbody"><p>Sebastian,</p>
+<p>After one lookup is processed, the application goes back to the beginning of the text string (or better: text run, i.e. the portion of the text string which has the same font, size, writing system/script, and directionality), and processes the next lookup. So your code should look like:</p>
+<p><!-- raw HTML omitted -->feature calt { 
 lookup calt1 { 
 sub @condition1 x' by x.alt; 
 } calt;
 lookup calt2 { 
 sub @condition2 x.alt' by x.alt2; 
 } calt2
-} calt;</code>
-
-Cheers,
-Adam</div>
+} calt;<!-- raw HTML omitted --></p>
+<p>Cheers,
+Adam</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -183,9 +172,9 @@ Adam</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you Adam, now it's perfectly clear what it does :)
-
-(i should have known though ...)</div>
+		<div class="commentbody"><p>Thank you Adam, now it&rsquo;s perfectly clear what it does :)</p>
+<p>(i should have known though &hellip;)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -71,46 +71,37 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">When I was coding features for Frode (<strong><a href="http://typophile.com/node/71588">Automatic indexed numerals</a></strong>), I have noted, that they only work, if I put the substitution rules into lookups. In case of the ss01 feature, I need at least one lookup, because I wanted to make use of the same rules in the ss02 feature. But I absolutely don’t know, why it was required to create more than one lookup in the ss01 feature. And in case of the calt feature my consideration was, that I don’t need lookups at all. So I would like to know, why the ss01 and the calt feature don’t work without lookups and how I can determine, how many lookups I need and how many rules I can put into a lookup. With regard to the lookups the three feature files are the result of try and error, but this is not an effective working method, because it costs time and additionally I am not sure, whether my lookups are the best way with regard to the compilation or compression of the font (the aesthetic of the code).
-
-And another thing, that I don’t understand is, why I cannot call a lookup more than one time (where the one time is the definition itself) in a feature. With regard to that question have a view into <a href="http://typophile.com/files/2_Features%20%5Balternative%20ss01%20and%20ss02%5D.fea_.txt">2_Features [alternative ss01 and ss02].fea_.txt</a>.
-
-Here are all the three files (They work exactly as intended; tested in FLS.):
-		<ul>
-			<li><a href="http://typophile.com/files/1_Features%20%5Bss01%20and%20ss02%5D.fea_.txt">1_Features [ss01 and ss02].fea_.txt</a></li>
-			<li><a href="http://typophile.com/files/2_Features%20%5Balternative%20ss01%20and%20ss02%5D.fea_.txt">2_Features [alternative ss01 and ss02].fea_.txt</a></li>
-			<li><a href="http://typophile.com/files/3_Features%20%5Bcalt%5D%20%5Bbased%20on%201%5D.fea_.txt">3_Features [calt] [based on 1].fea_.txt</a></li>
-		</ul></div>
+  <div class="post-content e-content" itemprop="articleBody"><p>When I was coding features for Frode (<!-- raw HTML omitted --><!-- raw HTML omitted -->Automatic indexed numerals<!-- raw HTML omitted --><!-- raw HTML omitted -->), I have noted, that they only work, if I put the substitution rules into lookups. In case of the ss01 feature, I need at least one lookup, because I wanted to make use of the same rules in the ss02 feature. But I absolutely don’t know, why it was required to create more than one lookup in the ss01 feature. And in case of the calt feature my consideration was, that I don’t need lookups at all. So I would like to know, why the ss01 and the calt feature don’t work without lookups and how I can determine, how many lookups I need and how many rules I can put into a lookup. With regard to the lookups the three feature files are the result of try and error, but this is not an effective working method, because it costs time and additionally I am not sure, whether my lookups are the best way with regard to the compilation or compression of the font (the aesthetic of the code).</p>
+<p>And another thing, that I don’t understand is, why I cannot call a lookup more than one time (where the one time is the definition itself) in a feature. With regard to that question have a view into <!-- raw HTML omitted -->2_Features [alternative ss01 and ss02].fea_.txt<!-- raw HTML omitted -->.</p>
+<p>Here are all the three files (They work exactly as intended; tested in FLS.):
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted --><!-- raw HTML omitted -->1_Features [ss01 and ss02].fea_.txt<!-- raw HTML omitted --><!-- raw HTML omitted -->
+<!-- raw HTML omitted --><!-- raw HTML omitted -->2_Features [alternative ss01 and ss02].fea_.txt<!-- raw HTML omitted --><!-- raw HTML omitted -->
+<!-- raw HTML omitted --><!-- raw HTML omitted -->3_Features [calt] [based on 1].fea_.txt<!-- raw HTML omitted --><!-- raw HTML omitted -->
+<!-- raw HTML omitted --></p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Okay, I am simplifying my questions.
-
-Why is the lookup needed in the following code?:
-
-<code>feature calt {
+		<div class="commentbody"><p>Okay, I am simplifying my questions.</p>
+<p>Why is the lookup needed in the following code?:</p>
+<p><!-- raw HTML omitted -->feature calt {
 lookup alpha {
 sub bracketleft one one' bracketright by A;
 } alpha;
 sub one' A by A;
-} calt;</code>
-
-[11] is replaced by [AA] as intended.
-
-<code>feature calt {
+} calt;<!-- raw HTML omitted --></p>
+<p>[11] is replaced by [AA] as intended.</p>
+<p><!-- raw HTML omitted -->feature calt {
 #lookup alpha {
 sub bracketleft one one' bracketright by A;
 #} alpha;
 sub one' A by A;
-} calt;</code>
-
-But with the code above [11] results in [1A].
-
-Second question: Why can’t I call a lookup registered with the same languagesystem statement?
-
-I cannot code …
-
-<code>feature calt {
+} calt;<!-- raw HTML omitted --></p>
+<p>But with the code above [11] results in [1A].</p>
+<p>Second question: Why can’t I call a lookup registered with the same languagesystem statement?</p>
+<p>I cannot code …</p>
+<p><!-- raw HTML omitted -->feature calt {
 lookup alpha {
 sub bracketleft one' bracketright by A;
 sub bracketleft one one one' bracketright by A;
@@ -120,11 +111,9 @@ lookup beta {
 sub one' A by A;
 } beta;
 lookup beta;
-} calt;</code>
-
-… but I have to code
-
-<code>feature calt {
+} calt;<!-- raw HTML omitted --></p>
+<p>… but I have to code</p>
+<p><!-- raw HTML omitted -->feature calt {
 lookup alpha {
 sub bracketleft one' bracketright by A;
 sub bracketleft one one one' bracketright by A; #The first one will be substituted in lookup gamma, the second one in beta.
@@ -136,9 +125,9 @@ sub one' A by A;
 lookup gamma {
 sub one' A by A;
 } gamma;
-} calt;</code>
-
-How can I make out, that I manually have to add a lookup without testing?</div>
+} calt;<!-- raw HTML omitted --></p>
+<p>How can I make out, that I manually have to add a lookup without testing?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -159,61 +148,57 @@ How can I make out, that I manually have to add a lookup without testing?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Arno, 
-
-I think what you're really asking for is when to put substitutions into one lookup vs. separate lookups. After all, 
-
-<code>feature ss01 { 
+		<div class="commentbody"><p>Arno,</p>
+<p>I think what you&rsquo;re really asking for is when to put substitutions into one lookup vs. separate lookups. After all,</p>
+<p><!-- raw HTML omitted -->feature ss01 { 
 sub a by a.ss01; 
-} ss01;</code>
-
-really is equivalent to
-
-<code>feature ss01 { 
+} ss01;<!-- raw HTML omitted --></p>
+<p>really is equivalent to</p>
+<p><!-- raw HTML omitted -->feature ss01 { 
 lookup ss01_01 { 
 sub a by a.ss01; 
 } ss01_01;
-} ss01;</code>
-
-On the other hand, 
-
-<code>feature ss01 { 
+} ss01;<!-- raw HTML omitted --></p>
+<p>On the other hand,</p>
+<p><!-- raw HTML omitted -->feature ss01 { 
 lookup ss01_01 { 
 sub a by a.ss01; 
 } ss01_01;
 sub b by b.ss01; 
-} ss01;</code>
-
-is equivalent to: 
-
-<code>feature ss01 { 
+} ss01;<!-- raw HTML omitted --></p>
+<p>is equivalent to:</p>
+<p><!-- raw HTML omitted -->feature ss01 { 
 lookup ss01_01 { 
 sub a by a.ss01; 
 } ss01_01;
 lookup ss01_02 { 
 sub b by b.ss01; 
 } ss01_02;
-} ss01;</code>
-
-The statement <code>lookup</code> in the AFDKO syntax can be omitted for brevity — then all substitutions within one feature definition (or those before an explicit <code>lookup</code> opening or after an explicit closing of a lookup) are treated as one lookup. However, I recommend always at least thinking in terms of lookups, i.e. as if the <code>lookup</code> statements were always there. 
-
-> How can I make out, that I manually have to add a lookup without testing?
-
-That's very easy. 
-
-1. The OpenType Layout engine splits the line into "runs" of glyphs of the same font formatting (family, style, size, color etc.), script (writing system) and directionality (LTR, RTL). For continuous Latin-script text set in the same font, one line is one run. 
-
-2. Within each run of glyphs, all lookups associated with the features that are being applied to the run, are executed in the order defined within the font (the ordering of the lookups, or in the AFDKO syntax, the order of the feature definitions and the lookup definitions within them). 
-
-3. Each lookup is executed in one pass through the current run of glyphs. 
-
-4. Each pass proceeds through the run glyph by glyph. The substitutions defined in the lookup are searched for the "best match" for the current glyph, and if found, that best match is executed. This modifies the run and proceeds to the next unprocessed glyph. If no best match is found, it proceeds to the next glyph (without modifying the run).  
-
-5. After one lookup has been executed, the next lookup is executed in the next pass on the *output* run of the previous lookup. 
-
-So if you have the code
-
-<code>feature calt { 
+} ss01;<!-- raw HTML omitted --></p>
+<p>The statement <!-- raw HTML omitted -->lookup<!-- raw HTML omitted --> in the AFDKO syntax can be omitted for brevity — then all substitutions within one feature definition (or those before an explicit <!-- raw HTML omitted -->lookup<!-- raw HTML omitted --> opening or after an explicit closing of a lookup) are treated as one lookup. However, I recommend always at least thinking in terms of lookups, i.e. as if the <!-- raw HTML omitted -->lookup<!-- raw HTML omitted --> statements were always there.</p>
+<blockquote>
+<p>How can I make out, that I manually have to add a lookup without testing?</p>
+</blockquote>
+<p>That&rsquo;s very easy.</p>
+<ol>
+<li>
+<p>The OpenType Layout engine splits the line into &ldquo;runs&rdquo; of glyphs of the same font formatting (family, style, size, color etc.), script (writing system) and directionality (LTR, RTL). For continuous Latin-script text set in the same font, one line is one run.</p>
+</li>
+<li>
+<p>Within each run of glyphs, all lookups associated with the features that are being applied to the run, are executed in the order defined within the font (the ordering of the lookups, or in the AFDKO syntax, the order of the feature definitions and the lookup definitions within them).</p>
+</li>
+<li>
+<p>Each lookup is executed in one pass through the current run of glyphs.</p>
+</li>
+<li>
+<p>Each pass proceeds through the run glyph by glyph. The substitutions defined in the lookup are searched for the &ldquo;best match&rdquo; for the current glyph, and if found, that best match is executed. This modifies the run and proceeds to the next unprocessed glyph. If no best match is found, it proceeds to the next glyph (without modifying the run).</p>
+</li>
+<li>
+<p>After one lookup has been executed, the next lookup is executed in the next pass on the <em>output</em> run of the previous lookup.</p>
+</li>
+</ol>
+<p>So if you have the code</p>
+<p><!-- raw HTML omitted -->feature calt { 
 lookup calt_01 { 
 sub A by B;
 sub B by C; 
@@ -222,26 +207,17 @@ sub C by D;
 lookup calt_02 { 
 sub B by E; 
 } calt_02;
-} calt;</code>
-
-and you have the glyph run
-
-<code>A B A B A B A B</code>
-
-and the <code>calt</code> feature is being applied, then first the <code>calt_01</code> lookup is executed on the input glyph run, so the output glyph run is: 
-
-<code>B C B C B C B C</code>
-
-and then that output glyph run becomes the input glyph run of the <code>calt_02</code> lookup, which is executed and the final output glyph run is: 
-
-<code>E C E C E C E C</code>
-
-In short: <strong>Each lookup is one “pass” through the text. Within one lookup, the “best match” is found for each glyph, and then the next glyph is processed, until the end of the text. The next lookup is executed on the text that comes out of the previous lookup</strong>. 
-
-To make a very rough analogy, substitutions within one lookup are mutually exclusive when stepping through each glyph, while substitutions in separate lookups are executed one after another so that the next lookup takes notion of the modifications done by the previous one. 
-
-I hope this helps,
-Adam
+} calt;<!-- raw HTML omitted --></p>
+<p>and you have the glyph run</p>
+<p><!-- raw HTML omitted -->A B A B A B A B<!-- raw HTML omitted --></p>
+<p>and the <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> feature is being applied, then first the <!-- raw HTML omitted -->calt_01<!-- raw HTML omitted --> lookup is executed on the input glyph run, so the output glyph run is:</p>
+<p><!-- raw HTML omitted -->B C B C B C B C<!-- raw HTML omitted --></p>
+<p>and then that output glyph run becomes the input glyph run of the <!-- raw HTML omitted -->calt_02<!-- raw HTML omitted --> lookup, which is executed and the final output glyph run is:</p>
+<p><!-- raw HTML omitted -->E C E C E C E C<!-- raw HTML omitted --></p>
+<p>In short: <!-- raw HTML omitted -->Each lookup is one “pass” through the text. Within one lookup, the “best match” is found for each glyph, and then the next glyph is processed, until the end of the text. The next lookup is executed on the text that comes out of the previous lookup<!-- raw HTML omitted -->.</p>
+<p>To make a very rough analogy, substitutions within one lookup are mutually exclusive when stepping through each glyph, while substitutions in separate lookups are executed one after another so that the next lookup takes notion of the modifications done by the previous one.</p>
+<p>I hope this helps,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -263,70 +239,65 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><code>> feature calt {
-> sub bracketleft one one' bracketright by A;
-> sub one' A by A;
-> } calt;</code>
-
-> But with the code above [11] results in [1A].
-
-There is one lookup defined in your <code>calt</code> feature (implicitly). Your feature definition is equivalent to: 
-
-<code>feature calt {
+		<div class="commentbody"><p><!-- raw HTML omitted -->&gt; feature calt {</p>
+<blockquote>
+<p>sub bracketleft one one' bracketright by A;
+sub one' A by A;
+} calt;<!-- raw HTML omitted --></p>
+</blockquote>
+<blockquote>
+<p>But with the code above [11] results in [1A].</p>
+</blockquote>
+<p>There is one lookup defined in your <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> feature (implicitly). Your feature definition is equivalent to:</p>
+<p><!-- raw HTML omitted -->feature calt {
 lookup delta { 
 sub bracketleft one one' bracketright by A;
 sub one' A by A;
 } delta;
-} calt;</code>
-
-You have the input glyph run <code>[11]</code>.
-
-The lookup <code>delta</code> steps through the glyphs one by one: 
-
-1. First, the glyph <code>[</code> is "current". The lookup is searched for the best match, and finds none. 
-
-2. Then, the first glyph <code>1</code> is current. The lookup is searched for the best match, and finds none. 
-
-3. Then, the second glyph <code>1</code> is current. The lookup is searched for the best match, and finds the match in the rule <code>sub bracketleft one one' bracketright by A;</code>, so it executes it. The current glyph is substituted by <code>A</code>. 
-
-4. Finally, the glyph <code>]</code> is current, and no match is found. 
-
-So the output run is <code>[1A]</code>. 
-
-The code
-
-<code>> feature calt {
-> lookup alpha {
-> sub bracketleft one one' bracketright by A;
-> } alpha;
-> sub one' A by A;
-> } calt;</code>
-
-defines two lookups, so it's equivalent to
-
-<code>feature calt {
+} calt;<!-- raw HTML omitted --></p>
+<p>You have the input glyph run <!-- raw HTML omitted -->[11]<!-- raw HTML omitted -->.</p>
+<p>The lookup <!-- raw HTML omitted -->delta<!-- raw HTML omitted --> steps through the glyphs one by one:</p>
+<ol>
+<li>
+<p>First, the glyph <!-- raw HTML omitted -->[<!-- raw HTML omitted --> is &ldquo;current&rdquo;. The lookup is searched for the best match, and finds none.</p>
+</li>
+<li>
+<p>Then, the first glyph <!-- raw HTML omitted -->1<!-- raw HTML omitted --> is current. The lookup is searched for the best match, and finds none.</p>
+</li>
+<li>
+<p>Then, the second glyph <!-- raw HTML omitted -->1<!-- raw HTML omitted --> is current. The lookup is searched for the best match, and finds the match in the rule <!-- raw HTML omitted -->sub bracketleft one one' bracketright by A;<!-- raw HTML omitted -->, so it executes it. The current glyph is substituted by <!-- raw HTML omitted -->A<!-- raw HTML omitted -->.</p>
+</li>
+<li>
+<p>Finally, the glyph <!-- raw HTML omitted -->]<!-- raw HTML omitted --> is current, and no match is found.</p>
+</li>
+</ol>
+<p>So the output run is <!-- raw HTML omitted -->[1A]<!-- raw HTML omitted -->.</p>
+<p>The code</p>
+<p><!-- raw HTML omitted -->&gt; feature calt {</p>
+<blockquote>
+<p>lookup alpha {
+sub bracketleft one one' bracketright by A;
+} alpha;
+sub one' A by A;
+} calt;<!-- raw HTML omitted --></p>
+</blockquote>
+<p>defines two lookups, so it&rsquo;s equivalent to</p>
+<p><!-- raw HTML omitted -->feature calt {
 lookup alpha {
 sub bracketleft one one' bracketright by A;
 } alpha;
 lookup beta { 
 sub one' A by A;
 } beta;
-} calt;</code>
-
-You have the text run <code>[11]</code>. 
-
-First the lookup <code>alpha</code> is executed, and after skipping the first two glyphs, the second <code>1</code> gets a match for the rule <code>sub bracketleft one one' bracketright by A;</code>, so it's executed. At the end of the lookup execution, the output run is <code>[1A]</code>. 
-
-Then the lookup <code>beta</code> is executed on the <strong>output run</strong> of the previous lookup, i.e. on the glyph run <code>[1A]</code>. After skipping the glyph <code>[</code>, the glyph <code>1</code> hits a match for the rule <code>sub one' A by A;</code>, so the rule is executed, and the glyph gets substituted by <code>A</code>. So the final output run is <code>[AA]</code>. 
-
-Very simple and logical. But only if you remember that the <code>lookup</code> statement in the AFDKO syntax is always implied if it is not defined. In fact, I recommend using it explicitly, especially in contextual substitutions, to keep track what's going on. 
-
-It's kind of similar to our previous discussion about languagesystems, when I recommended to always spell out <code>script latn</code>, <code>language dflt</code> and <code>include_dflt</code> in feature definitions that define different behaviors for different languagesystems, rather than relying on the implied use of those statements. 
-
-The general rule is: the implicit definitions are useful for simple situations, when you mean to say "all languagesystems" (in case of languagesystems) or "one lookup" (in case of lookup definitions within feature definitions). But mixing explicit and implicit definitions is a road to hell when it comes to debugging, so it's always better to spell everything out explicitly if your code becomes more complex. 
-
-Best,
-Adam
+} calt;<!-- raw HTML omitted --></p>
+<p>You have the text run <!-- raw HTML omitted -->[11]<!-- raw HTML omitted -->.</p>
+<p>First the lookup <!-- raw HTML omitted -->alpha<!-- raw HTML omitted --> is executed, and after skipping the first two glyphs, the second <!-- raw HTML omitted -->1<!-- raw HTML omitted --> gets a match for the rule <!-- raw HTML omitted -->sub bracketleft one one' bracketright by A;<!-- raw HTML omitted -->, so it&rsquo;s executed. At the end of the lookup execution, the output run is <!-- raw HTML omitted -->[1A]<!-- raw HTML omitted -->.</p>
+<p>Then the lookup <!-- raw HTML omitted -->beta<!-- raw HTML omitted --> is executed on the <!-- raw HTML omitted -->output run<!-- raw HTML omitted --> of the previous lookup, i.e. on the glyph run <!-- raw HTML omitted -->[1A]<!-- raw HTML omitted -->. After skipping the glyph <!-- raw HTML omitted -->[<!-- raw HTML omitted -->, the glyph <!-- raw HTML omitted -->1<!-- raw HTML omitted --> hits a match for the rule <!-- raw HTML omitted -->sub one' A by A;<!-- raw HTML omitted -->, so the rule is executed, and the glyph gets substituted by <!-- raw HTML omitted -->A<!-- raw HTML omitted -->. So the final output run is <!-- raw HTML omitted -->[AA]<!-- raw HTML omitted -->.</p>
+<p>Very simple and logical. But only if you remember that the <!-- raw HTML omitted -->lookup<!-- raw HTML omitted --> statement in the AFDKO syntax is always implied if it is not defined. In fact, I recommend using it explicitly, especially in contextual substitutions, to keep track what&rsquo;s going on.</p>
+<p>It&rsquo;s kind of similar to our previous discussion about languagesystems, when I recommended to always spell out <!-- raw HTML omitted -->script latn<!-- raw HTML omitted -->, <!-- raw HTML omitted -->language dflt<!-- raw HTML omitted --> and <!-- raw HTML omitted -->include_dflt<!-- raw HTML omitted --> in feature definitions that define different behaviors for different languagesystems, rather than relying on the implied use of those statements.</p>
+<p>The general rule is: the implicit definitions are useful for simple situations, when you mean to say &ldquo;all languagesystems&rdquo; (in case of languagesystems) or &ldquo;one lookup&rdquo; (in case of lookup definitions within feature definitions). But mixing explicit and implicit definitions is a road to hell when it comes to debugging, so it&rsquo;s always better to spell everything out explicitly if your code becomes more complex.</p>
+<p>Best,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -348,74 +319,58 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">To answer your original question: 
-
-In AFDKO 1.6 (and 2.5) syntax, which works in FLS5, you can write: 
-
-<code>feature ss01 { 
+		<div class="commentbody"><p>To answer your original question:</p>
+<p>In AFDKO 1.6 (and 2.5) syntax, which works in FLS5, you can write:</p>
+<p><!-- raw HTML omitted -->feature ss01 { 
 lookup ss01a { 
 sub a by a.ss01; 
 } ss01a; 
-} ss01;</code>
-
-<code>feature ss02 { 
+} ss01;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature ss02 { 
 lookup ss02b { 
 sub b by b.ss02; 
 } ss02b; 
-} ss02;</code>
-
-<code>feature salt { 
+} ss02;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature salt { 
 lookup ss01a; 
 lookup ss02b;
-} salt;</code>
-
-but you cannot write
-
-<code>feature ss01 { 
+} salt;<!-- raw HTML omitted --></p>
+<p>but you cannot write</p>
+<p><!-- raw HTML omitted -->feature ss01 { 
 lookup ss01a; 
-} ss01;</code>
-
-<code>feature ss02 { 
+} ss01;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature ss02 { 
 lookup ss02b;
-} ss02;</code>
-
-<code>feature salt { 
+} ss02;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature salt { 
 lookup ss01a { 
 sub a by a.ss01; 
 } ss01a; 
 lookup ss02b { 
 sub b by b.ss02; 
 } ss02b; 
-} salt;</code>
-
-i.e. at the first occurance of a lookup, you need to <strong>define and use it</strong>, and in later occurances, you can just <strong>use</strong> it by referring to it by its name. But you cannot just "use" a lookup before defining it. 
-
-In AFDKO 2.5 syntax (but not in 1.6), which will work in FOG5 and FLS6 but not in FLS5, you can also write: 
-
-<code>lookup ss01a { 
+} salt;<!-- raw HTML omitted --></p>
+<p>i.e. at the first occurance of a lookup, you need to <!-- raw HTML omitted -->define and use it<!-- raw HTML omitted -->, and in later occurances, you can just <!-- raw HTML omitted -->use<!-- raw HTML omitted --> it by referring to it by its name. But you cannot just &ldquo;use&rdquo; a lookup before defining it.</p>
+<p>In AFDKO 2.5 syntax (but not in 1.6), which will work in FOG5 and FLS6 but not in FLS5, you can also write:</p>
+<p><!-- raw HTML omitted -->lookup ss01a { 
 sub a by a.ss01; 
-} ss01a;</code>
-
-<code>lookup ss02b { 
+} ss01a;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->lookup ss02b { 
 sub b by b.ss02; 
-} ss02b;</code>
-
-<code>feature ss01 { 
+} ss02b;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature ss01 { 
 lookup ss01a; 
-} ss01;</code>
-
-<code>feature ss02 { 
+} ss01;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature ss02 { 
 lookup ss02b;
-} ss02;</code>
-
-<code>feature salt { 
+} ss02;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature salt { 
 lookup ss01a; 
 lookup ss02b;
-} salt;</code>
-
-so you "just define" the lookups first — outside of any feature definitions —, and then you "just use" them within the feature definitions. Using this form, you don't have to worry about the ordering of your feature definitions — because the <strong>ordering of the lookups</strong> is always the only thing that matters. 
-
-In the AFDKO 1.6 syntax, the ordering of lookups was implied by the ordering of the feature definitions, but in some cases it was impractical: imagine that you have three lookups: <code>alpha</code>, <code>beta</code> and <code>gamma</code>, and that the lookups <code>alpha</code> and <code>gamma</code> are associated with the <code>smcp</code> feature, while the lookup <code>beta</code> is associated with the <code>ss01</code> feature. When only <code>smcp</code> is applied, then the lookups <code>alpha</code> and <code>gamma</code> should be executed, when only <code>ss01</code> is applied, then the lookup <code>beta</code> should be executed, but if both features are applied at the same time, the lookups should be executed in the order <code>alpha</code> (that is associated with the <code>smcp</code> feature), then <code>beta</code> (that is associated with the <code>ss01</code> feature), and then <code>gamma</code> (that is associated with the <code>smcp</code> feature). With the AFDKO 1.6 syntax, where you can only define lookups inside of feature definitions, it was impossible to order the feature definitions in such a way that could achieve such a goal. This is why I asked Adobe to allow lookup definitions to be written outside of feature definitions in AFDKO 2, and they so did — which is handy. </div>
+} salt;<!-- raw HTML omitted --></p>
+<p>so you &ldquo;just define&rdquo; the lookups first — outside of any feature definitions —, and then you &ldquo;just use&rdquo; them within the feature definitions. Using this form, you don&rsquo;t have to worry about the ordering of your feature definitions — because the <!-- raw HTML omitted -->ordering of the lookups<!-- raw HTML omitted --> is always the only thing that matters.</p>
+<p>In the AFDKO 1.6 syntax, the ordering of lookups was implied by the ordering of the feature definitions, but in some cases it was impractical: imagine that you have three lookups: <!-- raw HTML omitted -->alpha<!-- raw HTML omitted -->, <!-- raw HTML omitted -->beta<!-- raw HTML omitted --> and <!-- raw HTML omitted -->gamma<!-- raw HTML omitted -->, and that the lookups <!-- raw HTML omitted -->alpha<!-- raw HTML omitted --> and <!-- raw HTML omitted -->gamma<!-- raw HTML omitted --> are associated with the <!-- raw HTML omitted -->smcp<!-- raw HTML omitted --> feature, while the lookup <!-- raw HTML omitted -->beta<!-- raw HTML omitted --> is associated with the <!-- raw HTML omitted -->ss01<!-- raw HTML omitted --> feature. When only <!-- raw HTML omitted -->smcp<!-- raw HTML omitted --> is applied, then the lookups <!-- raw HTML omitted -->alpha<!-- raw HTML omitted --> and <!-- raw HTML omitted -->gamma<!-- raw HTML omitted --> should be executed, when only <!-- raw HTML omitted -->ss01<!-- raw HTML omitted --> is applied, then the lookup <!-- raw HTML omitted -->beta<!-- raw HTML omitted --> should be executed, but if both features are applied at the same time, the lookups should be executed in the order <!-- raw HTML omitted -->alpha<!-- raw HTML omitted --> (that is associated with the <!-- raw HTML omitted -->smcp<!-- raw HTML omitted --> feature), then <!-- raw HTML omitted -->beta<!-- raw HTML omitted --> (that is associated with the <!-- raw HTML omitted -->ss01<!-- raw HTML omitted --> feature), and then <!-- raw HTML omitted -->gamma<!-- raw HTML omitted --> (that is associated with the <!-- raw HTML omitted -->smcp<!-- raw HTML omitted --> feature). With the AFDKO 1.6 syntax, where you can only define lookups inside of feature definitions, it was impossible to order the feature definitions in such a way that could achieve such a goal. This is why I asked Adobe to allow lookup definitions to be written outside of feature definitions in AFDKO 2, and they so did — which is handy.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -436,79 +391,61 @@ In the AFDKO 1.6 syntax, the ordering of lookups was implied by the ordering of 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If you're paying close attention, you might ask why I wrote
-
-<code># Variant 1</code>
-
-<code>feature ss01 { 
+		<div class="commentbody"><p>If you&rsquo;re paying close attention, you might ask why I wrote</p>
+<p><!-- raw HTML omitted --># Variant 1<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature ss01 { 
 lookup ss01a { 
 sub a by a.ss01; 
 } ss01a; 
-} ss01;</code>
-
-<code>feature ss02 { 
+} ss01;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature ss02 { 
 lookup ss02b { 
 sub b by b.ss02; 
 } ss02b; 
-} ss02;</code>
-
-<code>feature salt { 
+} ss02;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature salt { 
 lookup ss01a; 
 lookup ss02b;
-} salt;</code>
-
-when I could have just written: 
-
-<code># Variant 2</code>
-
-<code>feature ss01 { 
+} salt;<!-- raw HTML omitted --></p>
+<p>when I could have just written:</p>
+<p><!-- raw HTML omitted --># Variant 2<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature ss01 { 
 lookup ss01a { 
 sub a by a.ss01; 
 } ss01a; 
-} ss01;</code>
-
-<code>feature ss02 { 
+} ss01;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature ss02 { 
 lookup ss02b { 
 sub b by b.ss02; 
 } ss02b; 
-} ss02;</code>
-
-<code>feature salt { 
+} ss02;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature salt { 
 sub a by a.ss01; 
 sub b by b.ss02; 
-} salt;</code>
-
-which would be equivalent to
-
-<code># Variant 2 explicit</code>
-
-<code>feature ss01 { 
+} salt;<!-- raw HTML omitted --></p>
+<p>which would be equivalent to</p>
+<p><!-- raw HTML omitted --># Variant 2 explicit<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature ss01 { 
 lookup ss01a { 
 sub a by a.ss01; 
 } ss01a; 
-} ss01;</code>
-
-<code>feature ss02 { 
+} ss01;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature ss02 { 
 lookup ss02b { 
 sub b by b.ss02; 
 } ss02b; 
-} ss02;</code>
-
-<code>feature salt { 
+} ss02;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature salt { 
 lookup saltab {
 sub a by a.ss01; 
 sub b by b.ss02; 
 } saltab; 
-} salt;</code>
-
-In other words: why did I choose to use two lookups in <code>salt</code> (in Variant 1), when the output run of the first lookup is not related to the input run of the second lookup. Indeed, I could have used Variant 2. 
-
-Basically, Variant 1 means that I save a little bit of space in the font (because I only define two lookups instead of three), but it means that I lose a tiny bit of performance, because the <code>salt</code> feature executes two lookups one after another, rather than just one. On the other hand, Variant 2 menas that I speed up the performance a tiny bit, but I lose a few bytes of space in the font size. 
-
-The differences are so minute that I wouldn't worry. It's just a matter of code optimization vs. code brevity. If I want code that is simpler to read and edit, I choose Variant 1. If I want perfect speed optimization, I choose Variant 2. 
-
-Hope this helps,
-Adam
+} salt;<!-- raw HTML omitted --></p>
+<p>In other words: why did I choose to use two lookups in <!-- raw HTML omitted -->salt<!-- raw HTML omitted --> (in Variant 1), when the output run of the first lookup is not related to the input run of the second lookup. Indeed, I could have used Variant 2.</p>
+<p>Basically, Variant 1 means that I save a little bit of space in the font (because I only define two lookups instead of three), but it means that I lose a tiny bit of performance, because the <!-- raw HTML omitted -->salt<!-- raw HTML omitted --> feature executes two lookups one after another, rather than just one. On the other hand, Variant 2 menas that I speed up the performance a tiny bit, but I lose a few bytes of space in the font size.</p>
+<p>The differences are so minute that I wouldn&rsquo;t worry. It&rsquo;s just a matter of code optimization vs. code brevity. If I want code that is simpler to read and edit, I choose Variant 1. If I want perfect speed optimization, I choose Variant 2.</p>
+<p>Hope this helps,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -530,11 +467,10 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Arno, 
-
-I should bill you for 1 hour of work now :)
-
-A.</div>
+		<div class="commentbody"><p>Arno,</p>
+<p>I should bill you for 1 hour of work now :)</p>
+<p>A.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -576,9 +512,9 @@ A.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you, Adam! I want to avoid questions, that you (or anybody else) have not already answered. So I need a bit time for translating your text to German, understanding and checking, whether your explanations are satisfying explanations for the whole behavior of the code with regard to the number and the content of lookups. (There is something in the behavior of the lookups in comparison to to the absence of explicit lookups), which is still enigmatic for me. But I want to try making out, whether I can enlighten that by myself first.
-
-With regard to the need, to define a lookup, before it is called: That is clear. But in case of my code it was defined (and implicit called) in the feature, but could not be explicit called one more time. But Maybe I can also enlighten that or you have explained it and I did not see it.</div>
+		<div class="commentbody"><p>Thank you, Adam! I want to avoid questions, that you (or anybody else) have not already answered. So I need a bit time for translating your text to German, understanding and checking, whether your explanations are satisfying explanations for the whole behavior of the code with regard to the number and the content of lookups. (There is something in the behavior of the lookups in comparison to to the absence of explicit lookups), which is still enigmatic for me. But I want to try making out, whether I can enlighten that by myself first.</p>
+<p>With regard to the need, to define a lookup, before it is called: That is clear. But in case of my code it was defined (and implicit called) in the feature, but could not be explicit called one more time. But Maybe I can also enlighten that or you have explained it and I did not see it.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -599,24 +535,19 @@ With regard to the need, to define a lookup, before it is called: That is clear.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@ Adam
-
-Well, the principle seems to be indeed simple, but it can be hard, not to loose the overview. In case of the lookups "Index 1" and "Index 2" from <strong><a href="http://typophile.com/files/3_Features%20%5Bcalt%5D%20%5Bbased%20on%201%5D.fea_.txt">the calt feature</a>,</strong> that I have coded for Frode, the comprehension was much harder. I really had to comprehend step by step, why the one and only rule of lookup Index 2 cannot be put into the end of lookup Index 1, although the last rule of lookup Index 1 can be put in the begin of lookup Index 2.
-
-(Notice to myself: Check, if only lines can be commented in code [with the number sign] or also whole blocks with begin and end markers.)
-
-I think, that I meanwhile understand the very most of your explanations and extra information except from the problem, about which I was talking in the second paragraph of my previous message.
-
-The first call of the lookup beta is the definition of the lookup beta and it cannot be called more than one time with the same languagesystem statement.
-
-<code>feature calt {
+		<div class="commentbody"><p>@ Adam</p>
+<p>Well, the principle seems to be indeed simple, but it can be hard, not to loose the overview. In case of the lookups &ldquo;Index 1&rdquo; and &ldquo;Index 2&rdquo; from <!-- raw HTML omitted --><!-- raw HTML omitted -->the calt feature<!-- raw HTML omitted -->,<!-- raw HTML omitted --> that I have coded for Frode, the comprehension was much harder. I really had to comprehend step by step, why the one and only rule of lookup Index 2 cannot be put into the end of lookup Index 1, although the last rule of lookup Index 1 can be put in the begin of lookup Index 2.</p>
+<p>(Notice to myself: Check, if only lines can be commented in code [with the number sign] or also whole blocks with begin and end markers.)</p>
+<p>I think, that I meanwhile understand the very most of your explanations and extra information except from the problem, about which I was talking in the second paragraph of my previous message.</p>
+<p>The first call of the lookup beta is the definition of the lookup beta and it cannot be called more than one time with the same languagesystem statement.</p>
+<p><!-- raw HTML omitted -->feature calt {
 lookup beta { #Definition of lookup beta AND call of lookup beta.
 sub one' A by A;
 } beta;
 lookup beta; #unsuccessful call of lookup beta, that was defined above.
-} calt;</code>
-
-The substitution is not well chosen, but that is unimportant in this context. There are cases, in which it would be useful to call a lookup a second time in the same feature and under the same languagesystem statement without defining it a second time. Not only with regard to the comprehension of the own code, but probably also with regard to the file size.</div>
+} calt;<!-- raw HTML omitted --></p>
+<p>The substitution is not well chosen, but that is unimportant in this context. There are cases, in which it would be useful to call a lookup a second time in the same feature and under the same languagesystem statement without defining it a second time. Not only with regard to the comprehension of the own code, but probably also with regard to the file size.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

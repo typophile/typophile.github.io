@@ -71,31 +71,26 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I have 3 ligatures: FU, TU and UT. The latter being more important than the rest.
-
-<strong>Current situation:</strong>[img:sites/default/files/old-images/Current_situation_5569.JPG]
-<strong>Desired result:</strong>[img:sites/default/files/old-images/Desired_result_5447.JPG]
-<strong>The code (take note of the sequence):</strong>[img:sites/default/files/old-images/The_code_3944.JPG]
-
-What am I doing wrong?</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I have 3 ligatures: FU, TU and UT. The latter being more important than the rest.</p>
+<p><!-- raw HTML omitted -->Current situation:<!-- raw HTML omitted -->[img:sites/default/files/old-images/Current_situation_5569.JPG]
+<!-- raw HTML omitted -->Desired result:<!-- raw HTML omitted -->[img:sites/default/files/old-images/Desired_result_5447.JPG]
+<!-- raw HTML omitted -->The code (take note of the sequence):<!-- raw HTML omitted -->[img:sites/default/files/old-images/The_code_3944.JPG]</p>
+<p>What am I doing wrong?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'm not sure why this isn't working given the order of your substitutions, but if you want to guarantee that U_T takes priority over T_U, you could always explicitly place the two in separate lookups, e.g.
-
-feature dlig {
-
-    lookup HigherPriority {
+		<div class="commentbody"><p>I&rsquo;m not sure why this isn&rsquo;t working given the order of your substitutions, but if you want to guarantee that U_T takes priority over T_U, you could always explicitly place the two in separate lookups, e.g.</p>
+<p>feature dlig {</p>
+<p>    lookup HigherPriority {
         sub U T by U_T;
-    } HigherPriority;
-
-    lookup LowerPriority {
+    } HigherPriority;</p>
+<p>    lookup LowerPriority {
         sub T U by T_U;
-    } LowerPriority;
-
-} dlig;
-
-André</div>
+    } LowerPriority;</p>
+<p>} dlig;</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -116,10 +111,9 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Here's the thing that I couldn't figure out: what are lookups inside features?
-
-It's interesting that if I disable FU, the UT ligature gets the priority. 
-What's more interesting is that if I disable TU instead, nothing changes...
+		<div class="commentbody"><p>Here&rsquo;s the thing that I couldn&rsquo;t figure out: what are lookups inside features?</p>
+<p>It&rsquo;s interesting that if I disable FU, the UT ligature gets the priority. 
+What&rsquo;s more interesting is that if I disable TU instead, nothing changes&hellip;</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -141,16 +135,11 @@ What's more interesting is that if I disable TU instead, nothing changes...
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">GSUB lookups are sets of substitutions of the same type which are invoked when a particular feature is activated. All of the substitutions in a particular lookup will be applied before any substitutions in subsequent lookups. Each opentype feature is associated with one or more lookups.
-
-You don't need to explicitly declare lookups within your feature blocks since FontLab will automatically group your substitutions into lookups of the appropriate type (in this case it should combine all of your substitutions into a single lookup since they are all type 4 GSUB substitutions, i.e. ligature replacement rules).
-
-However, sometimes it is advantageous to declare lookups yourself, and this might be one of those cases. You don't have to name your lookups like I have done above, but doing so allows you to refer to them in other feature blocks if needed.
-
-see http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.e for more details.
-
-André
-
+		<div class="commentbody"><p>GSUB lookups are sets of substitutions of the same type which are invoked when a particular feature is activated. All of the substitutions in a particular lookup will be applied before any substitutions in subsequent lookups. Each opentype feature is associated with one or more lookups.</p>
+<p>You don&rsquo;t need to explicitly declare lookups within your feature blocks since FontLab will automatically group your substitutions into lookups of the appropriate type (in this case it should combine all of your substitutions into a single lookup since they are all type 4 GSUB substitutions, i.e. ligature replacement rules).</p>
+<p>However, sometimes it is advantageous to declare lookups yourself, and this might be one of those cases. You don&rsquo;t have to name your lookups like I have done above, but doing so allows you to refer to them in other feature blocks if needed.</p>
+<p>see <a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.e">http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.e</a> for more details.</p>
+<p>André</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -172,13 +161,13 @@ André
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The f_U comes in first because of what André said. The GSUB looks for the first applicable sub in the text chain, so F U even though its further down the feature code list is the first instance of a substitution. If you have conflicting usages like this with ligature sets a simpler solution might be to create a longer ligature and put that before the others in code. 
+		<div class="commentbody"><p>The f_U comes in first because of what André said. The GSUB looks for the first applicable sub in the text chain, so F U even though its further down the feature code list is the first instance of a substitution. If you have conflicting usages like this with ligature sets a simpler solution might be to create a longer ligature and put that before the others in code. 
 So like:
 sub F U T U by F_U_T_U;
-sub F_U by F_U; 
-
-You could break it up however works best for you, but a longer ligature ahead of the rest should repair any conflicts.
-Stephen</div>
+sub F_U by F_U;</p>
+<p>You could break it up however works best for you, but a longer ligature ahead of the rest should repair any conflicts.
+Stephen</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -199,141 +188,133 @@ Stephen</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Minerva,
-
-Lookups are little procedures that are defined as a list, and then features refer to certain lookups. Multiple features can refer to the same lookup, and one feature can refer to multiple lookups. Lookups are always processed in the order they are defined.
-
-Each lookup processes a glyph run from the beginning (for simplicity, let’s assume that a glyph run is a line of text). Within one lookup, the OpenType Layout engine looks for <strong>one best</strong> (longest) match, executes it and it proceeds to the next glyph and looks for the best match again — until the end of the glyph run. Then the next lookup is processed, with the resulting glyph run from the previous lookup as input.
-
-Features always refer to lookups. In the AFDKO syntax, there is a simplification that allows you to write:
-
-<code>feature dlig {
-  # (all other substitutions)
-  sub U T by U_T;
-  sub F U by F_U;
-  sub T U by T_U;
-  # (all other substitutions)
-} dlig;</code>
-
-but what it actually means is:
-
-<code>feature dlig {
-  lookup dlig1 {
-    # (all other substitutions)
-    sub U T by U_T;
-    sub F U by F_U;
-    sub T U by T_U;
-    # (all other substitutions)
-  } dlig1;
-} dlig;</code>
-
-or, more precisely (using AFDKO 2.5 syntax which is not implemented in FontLab Studio 5.0 but is implemented in Fontographer 5 and in the upcoming FontLab Studio 5.1):
-
-<code>lookup dlig1 {
-  # (all other substitutions)
-  sub U T by U_T;
-  sub F U by F_U;
-  sub T U by T_U;
-  # (all other substitutions)
-} dlig1;</code>
-
-<code>feature dlig {
-  lookup dlig1;
-} dlig;</code>
-
-The simplified AFDKO syntax blurs that reality, but it’s good to remember that that’s how it works: lookups are defined separately from features, and features refer to lookups. In other words, lookups define what happens with different portions of the glyph run and in which order, and features define when it should happen (i.e. under which circumstances, e.g. when the user expresses a certain typographic preference). Yet another method of looking at this would be to say that features provide the “user interface” to the OpenType Layout mechanism in the font, and lookups provide the “implementation”.
-
-So, if you have the glyph run <code>/F/U/T/U/R/E</code> and your “<code>dlig</code>” feature refers to just one lookup (as shown above), the OpenType Layout engine proceeds like this:
-
-1. Start processing lookup “<code>dlig1</code>” referred by feature “<code>dlig</code>” with input glyph run <code>/F/U/T/U/R/E</code>:
-<code>/F/U/T/U/R/E</code> — no match
-<code>/F/U/T/U/R</code> — no match
-<code>/F/U/T/U</code> — no match
-<code>/F/U/T</code> — no match
-<code>/F/U</code> — match! substitute <code>/F/U</code> by <code>/F_U</code>, and proceed to the next unprocessed glyph
-<code>/T/U/R/E</code> — no match
-<code>/T/U/R</code> — no match
-<code>/T/U</code> — match! substitute <code>/T/U</code> by <code>/T_U</code>, and proceed to the next unprocessed glyph
-<code>/R/E</code> — no match
-<code>/R</code> — no match, proceed to the next unprocessed glyph
-<code>/E</code> — no match, end processing lookup
-
-2. End processing lookup “<code>dlig1</code>”, resulting glyph run is <code>/F_U/T_U/R/E</code>
-
-3. Start processing further active lookups with the resulting glyph run (there is none, but there would be if e.g. “<code>lnum</code>” were active as well).
-
-4. End processing: resulting glyph run is <code>/F_U/T_U/R/E</code>.
-
-If you want some substitutions happen earlier, you need to define it in a separate lookup earlier in the feature definition code — either by using the AFDKO keyword “<code>lookup</code>” or by defining it in a separate feature that is placed earlier.
-
-If you write your code as:
-
-<code>feature dlig {
-  lookup dlig1 {
-    sub U T by U_T;
-  } dlig1;
-  lookup dlig2 {
-    # (all other substitutions)
-    sub F U by F_U;
-    sub T U by T_U;
-    # (all other substitutions)
-  } dlig2;
-} dlig;</code>
-
-or (using AFDKO 2.5 syntax) as:
-
-<code>lookup dlig1 {
-  sub U T by U_T;
+		<div class="commentbody"><p>Minerva,</p>
+<p>Lookups are little procedures that are defined as a list, and then features refer to certain lookups. Multiple features can refer to the same lookup, and one feature can refer to multiple lookups. Lookups are always processed in the order they are defined.</p>
+<p>Each lookup processes a glyph run from the beginning (for simplicity, let’s assume that a glyph run is a line of text). Within one lookup, the OpenType Layout engine looks for <!-- raw HTML omitted -->one best<!-- raw HTML omitted --> (longest) match, executes it and it proceeds to the next glyph and looks for the best match again — until the end of the glyph run. Then the next lookup is processed, with the resulting glyph run from the previous lookup as input.</p>
+<p>Features always refer to lookups. In the AFDKO syntax, there is a simplification that allows you to write:</p>
+<p><!-- raw HTML omitted -->feature dlig {</p>
+<h1 id="all-other-substitutions">(all other substitutions)</h1>
+<p>sub U T by U_T;
+sub F U by F_U;
+sub T U by T_U;</p>
+<h1 id="all-other-substitutions-1">(all other substitutions)</h1>
+<p>} dlig;<!-- raw HTML omitted --></p>
+<p>but what it actually means is:</p>
+<p><!-- raw HTML omitted -->feature dlig {
+lookup dlig1 {
+# (all other substitutions)
+sub U T by U_T;
+sub F U by F_U;
+sub T U by T_U;
+# (all other substitutions)
+} dlig1;
+} dlig;<!-- raw HTML omitted --></p>
+<p>or, more precisely (using AFDKO 2.5 syntax which is not implemented in FontLab Studio 5.0 but is implemented in Fontographer 5 and in the upcoming FontLab Studio 5.1):</p>
+<p><!-- raw HTML omitted -->lookup dlig1 {</p>
+<h1 id="all-other-substitutions-2">(all other substitutions)</h1>
+<p>sub U T by U_T;
+sub F U by F_U;
+sub T U by T_U;</p>
+<h1 id="all-other-substitutions-3">(all other substitutions)</h1>
+<p>} dlig1;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature dlig {
+lookup dlig1;
+} dlig;<!-- raw HTML omitted --></p>
+<p>The simplified AFDKO syntax blurs that reality, but it’s good to remember that that’s how it works: lookups are defined separately from features, and features refer to lookups. In other words, lookups define what happens with different portions of the glyph run and in which order, and features define when it should happen (i.e. under which circumstances, e.g. when the user expresses a certain typographic preference). Yet another method of looking at this would be to say that features provide the “user interface” to the OpenType Layout mechanism in the font, and lookups provide the “implementation”.</p>
+<p>So, if you have the glyph run <!-- raw HTML omitted -->/F/U/T/U/R/E<!-- raw HTML omitted --> and your “<!-- raw HTML omitted -->dlig<!-- raw HTML omitted -->” feature refers to just one lookup (as shown above), the OpenType Layout engine proceeds like this:</p>
+<ol>
+<li>
+<p>Start processing lookup “<!-- raw HTML omitted -->dlig1<!-- raw HTML omitted -->” referred by feature “<!-- raw HTML omitted -->dlig<!-- raw HTML omitted -->” with input glyph run <!-- raw HTML omitted -->/F/U/T/U/R/E<!-- raw HTML omitted -->:
+<!-- raw HTML omitted -->/F/U/T/U/R/E<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/F/U/T/U/R<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/F/U/T/U<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/F/U/T<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/F/U<!-- raw HTML omitted --> — match! substitute <!-- raw HTML omitted -->/F/U<!-- raw HTML omitted --> by <!-- raw HTML omitted -->/F_U<!-- raw HTML omitted -->, and proceed to the next unprocessed glyph
+<!-- raw HTML omitted -->/T/U/R/E<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/T/U/R<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/T/U<!-- raw HTML omitted --> — match! substitute <!-- raw HTML omitted -->/T/U<!-- raw HTML omitted --> by <!-- raw HTML omitted -->/T_U<!-- raw HTML omitted -->, and proceed to the next unprocessed glyph
+<!-- raw HTML omitted -->/R/E<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/R<!-- raw HTML omitted --> — no match, proceed to the next unprocessed glyph
+<!-- raw HTML omitted -->/E<!-- raw HTML omitted --> — no match, end processing lookup</p>
+</li>
+<li>
+<p>End processing lookup “<!-- raw HTML omitted -->dlig1<!-- raw HTML omitted -->”, resulting glyph run is <!-- raw HTML omitted -->/F_U/T_U/R/E<!-- raw HTML omitted --></p>
+</li>
+<li>
+<p>Start processing further active lookups with the resulting glyph run (there is none, but there would be if e.g. “<!-- raw HTML omitted -->lnum<!-- raw HTML omitted -->” were active as well).</p>
+</li>
+<li>
+<p>End processing: resulting glyph run is <!-- raw HTML omitted -->/F_U/T_U/R/E<!-- raw HTML omitted -->.</p>
+</li>
+</ol>
+<p>If you want some substitutions happen earlier, you need to define it in a separate lookup earlier in the feature definition code — either by using the AFDKO keyword “<!-- raw HTML omitted -->lookup<!-- raw HTML omitted -->” or by defining it in a separate feature that is placed earlier.</p>
+<p>If you write your code as:</p>
+<p><!-- raw HTML omitted -->feature dlig {
+lookup dlig1 {
+sub U T by U_T;
 } dlig1;
 lookup dlig2 {
-  # (all other substitutions)
-  sub F U by F_U;
-  sub T U by T_U;
-  # (all other substitutions)
-} dlig2;</code>
-
-<code>feature dlig {
-  lookup dlig1;
-  lookup dlig2;
-} dlig;</code>
-
-then your input glyph run <code>/F/U/T/U/R/E</code> will be processed as follows:
-
-1. Start processing lookup “<code>dlig1</code>” referred by the “<code>dlig</code>” feature with input glyph run <code>/F/U/T/U/R/E</code>:
-<code>/F/U/T/U/R/E</code> — no match
-<code>/F/U/T/U/R</code> — no match
-<code>/F/U/T/U</code> — no match
-<code>/F/U/T</code> — no match
-<code>/F/U</code> — no match
-<code>/F</code> — no match, proceed to the next unprocessed glyph
-<code>/U/T/U/R/E</code> — no match
-<code>/U/T/U/R</code> — no match
-<code>/U/T/U</code> — no match
-<code>/U/T</code> — match! substitute <code>/U/T</code> by <code>/U_T</code> and proceed to the next unprocessed glyph
-<code>/U/R/E</code> — no match
-<code>/U/R</code> — no match
-<code>/U</code> — no match, proceed to the next unprocessed glyph
-<code>/R/E</code> — no match
-<code>/R</code> — no match, proceed to the next unprocessed glyph
-<code>/E</code> — no match, end processing lookup
-
-2. End processing lookup “<code>dlig1</code>”, resulting glyph run is <code>/F/U_T/U/R/E</code>
-
-3. Start processing lookup “<code>dlig2</code>” referred by the “<code>dlig</code>” feature with input glyph run <code>/F/U_T/U/R/E</code>:
-<code>/F/U_T/U/R/E</code> — no match
-<code>/F/U_T/U/R</code> — no match
-<code>/F/U_T/U</code> — no match
-<code>/F/U_T</code> — no match
-<code>/F</code> — no match, proceed to the next unprocessed glyph
-<code>/U_T/U/R/E</code> — no match
-<code>/U_T/U/R</code> — no match...
-
-4. Etc. until all active lookups have been processed on the glyph run.
-
-I hope you get the idea.
-
-Best,
-Adam
+# (all other substitutions)
+sub F U by F_U;
+sub T U by T_U;
+# (all other substitutions)
+} dlig2;
+} dlig;<!-- raw HTML omitted --></p>
+<p>or (using AFDKO 2.5 syntax) as:</p>
+<p><!-- raw HTML omitted -->lookup dlig1 {
+sub U T by U_T;
+} dlig1;
+lookup dlig2 {</p>
+<h1 id="all-other-substitutions-4">(all other substitutions)</h1>
+<p>sub F U by F_U;
+sub T U by T_U;</p>
+<h1 id="all-other-substitutions-5">(all other substitutions)</h1>
+<p>} dlig2;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature dlig {
+lookup dlig1;
+lookup dlig2;
+} dlig;<!-- raw HTML omitted --></p>
+<p>then your input glyph run <!-- raw HTML omitted -->/F/U/T/U/R/E<!-- raw HTML omitted --> will be processed as follows:</p>
+<ol>
+<li>
+<p>Start processing lookup “<!-- raw HTML omitted -->dlig1<!-- raw HTML omitted -->” referred by the “<!-- raw HTML omitted -->dlig<!-- raw HTML omitted -->” feature with input glyph run <!-- raw HTML omitted -->/F/U/T/U/R/E<!-- raw HTML omitted -->:
+<!-- raw HTML omitted -->/F/U/T/U/R/E<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/F/U/T/U/R<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/F/U/T/U<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/F/U/T<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/F/U<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/F<!-- raw HTML omitted --> — no match, proceed to the next unprocessed glyph
+<!-- raw HTML omitted -->/U/T/U/R/E<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/U/T/U/R<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/U/T/U<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/U/T<!-- raw HTML omitted --> — match! substitute <!-- raw HTML omitted -->/U/T<!-- raw HTML omitted --> by <!-- raw HTML omitted -->/U_T<!-- raw HTML omitted --> and proceed to the next unprocessed glyph
+<!-- raw HTML omitted -->/U/R/E<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/U/R<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/U<!-- raw HTML omitted --> — no match, proceed to the next unprocessed glyph
+<!-- raw HTML omitted -->/R/E<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/R<!-- raw HTML omitted --> — no match, proceed to the next unprocessed glyph
+<!-- raw HTML omitted -->/E<!-- raw HTML omitted --> — no match, end processing lookup</p>
+</li>
+<li>
+<p>End processing lookup “<!-- raw HTML omitted -->dlig1<!-- raw HTML omitted -->”, resulting glyph run is <!-- raw HTML omitted -->/F/U_T/U/R/E<!-- raw HTML omitted --></p>
+</li>
+<li>
+<p>Start processing lookup “<!-- raw HTML omitted -->dlig2<!-- raw HTML omitted -->” referred by the “<!-- raw HTML omitted -->dlig<!-- raw HTML omitted -->” feature with input glyph run <!-- raw HTML omitted -->/F/U_T/U/R/E<!-- raw HTML omitted -->:
+<!-- raw HTML omitted -->/F/U_T/U/R/E<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/F/U_T/U/R<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/F/U_T/U<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/F/U_T<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/F<!-- raw HTML omitted --> — no match, proceed to the next unprocessed glyph
+<!-- raw HTML omitted -->/U_T/U/R/E<!-- raw HTML omitted --> — no match
+<!-- raw HTML omitted -->/U_T/U/R<!-- raw HTML omitted --> — no match&hellip;</p>
+</li>
+<li>
+<p>Etc. until all active lookups have been processed on the glyph run.</p>
+</li>
+</ol>
+<p>I hope you get the idea.</p>
+<p>Best,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -376,12 +357,11 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">So I fixed the UT problem with a help of lookups, but the war's not over.
-The only thing "ignore" function seems to be ignoring is me...
-
-
-[img:sites/default/files/old-images/Singing_6541.JPG]
-[img:sites/default/files/old-images/singing_code_3701.JPG]</div>
+		<div class="commentbody"><p>So I fixed the UT problem with a help of lookups, but the war&rsquo;s not over.
+The only thing &ldquo;ignore&rdquo; function seems to be ignoring is me&hellip;</p>
+<p>[img:sites/default/files/old-images/Singing_6541.JPG]
+[img:sites/default/files/old-images/singing_code_3701.JPG]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -424,14 +404,13 @@ The only thing "ignore" function seems to be ignoring is me...
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Try the following:
-
-feature test {
+		<div class="commentbody"><p>Try the following:</p>
+<p>feature test {
     ignore sub n' g' exclam;
     sub n' g' by n_g;
-} test;
-
-André</div>
+} test;</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -473,11 +452,10 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, apostrophes are the key here. The reason for this is that <code> sub n g by n_g </code> will be interpreted as a simple ligature substitution rule and will therefore be assigned to a type 4 GSUB lookup. However, your previous line <code> ignore sub n' g' exclam </code> specifies a contextual exception which is only appropriate for type 6 GSUB lookups. This means they end up in separate lookups in which case your ignore line won't have any effect.
-
-By adding the apostrophes to the substitution rule, you force it to be interpreted as a contextual rule (even though no context is provided) which will allow the compiler to place these within a single type 6 lookup.
-
-André</div>
+		<div class="commentbody"><p>Yes, apostrophes are the key here. The reason for this is that <!-- raw HTML omitted --> sub n g by n_g <!-- raw HTML omitted --> will be interpreted as a simple ligature substitution rule and will therefore be assigned to a type 4 GSUB lookup. However, your previous line <!-- raw HTML omitted --> ignore sub n' g' exclam <!-- raw HTML omitted --> specifies a contextual exception which is only appropriate for type 6 GSUB lookups. This means they end up in separate lookups in which case your ignore line won&rsquo;t have any effect.</p>
+<p>By adding the apostrophes to the substitution rule, you force it to be interpreted as a contextual rule (even though no context is provided) which will allow the compiler to place these within a single type 6 lookup.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -498,7 +476,7 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It's strange that apostrophes aren't mentioned in the manual.</div>
+		<div class="commentbody">It&rsquo;s strange that apostrophes aren&rsquo;t mentioned in the manual.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -519,10 +497,8 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You can see them on Adobe's site:
-
-http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f.ii
-
+		<div class="commentbody"><p>You can see them on Adobe&rsquo;s site:</p>
+<p><a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f.ii">http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f.ii</a></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

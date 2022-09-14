@@ -71,25 +71,21 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I open InDesign CS2 and InDesign CS3 an choose the font Windings.
+  <div class="post-content e-content" itemprop="articleBody"><p>I open InDesign CS2 and InDesign CS3 an choose the font Windings.
 In CS2 the right pointing arrow shows up as F8FF in the glyph palette.
 In CS3 it shows up at F0F0. 
-Each programm only accepts one code (even with hex input or PopChar), but not the other. 
-
-What's going on?
-
-
+Each programm only accepts one code (even with hex input or PopChar), but not the other.</p>
+<p>What&rsquo;s going on?</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">That's not exactly a "Unicode" issue (as in standardisation).
-Both codepoints you stated are from the Private Use Area.
-
-To my best knowledge, Windings is actually 8-bit "Symbol" encoded.
-I suspect, InDesign maps "symbol"-encoded fonts to the PUA internally -- it might be, that CS2 and CS3 versions use different mappings (which they can. That's the catch [and the benefit] of the PUA, it's not standardised, codepoint meanings are left to the user/application).
-
-That said, I have never used InDesign and might have no clue...</div>
+		<div class="commentbody"><p>That&rsquo;s not exactly a &ldquo;Unicode&rdquo; issue (as in standardisation).
+Both codepoints you stated are from the Private Use Area.</p>
+<p>To my best knowledge, Windings is actually 8-bit &ldquo;Symbol&rdquo; encoded.
+I suspect, InDesign maps &ldquo;symbol&rdquo;-encoded fonts to the PUA internally &ndash; it might be, that CS2 and CS3 versions use different mappings (which they can. That&rsquo;s the catch [and the benefit] of the PUA, it&rsquo;s not standardised, codepoint meanings are left to the user/application).</p>
+<p>That said, I have never used InDesign and might have no clue&hellip;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -111,7 +107,7 @@ That said, I have never used InDesign and might have no clue...</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">I checked the font in FontLab and it already has PUA values assigned. (Those are the ones CS3 uses.)
-But I am confused that CS2 would completely remap the values and also refuses to accept the "right" PUA values. </div>
+But I am confused that CS2 would completely remap the values and also refuses to accept the &ldquo;right&rdquo; PUA values.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -132,9 +128,9 @@ But I am confused that CS2 would completely remap the values and also refuses to
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The thing is that Wingdings uses a "Symbol" (3.0) cmap rather than a "Unicode" (3.1) cmap, so applications and operating systems need to deal with them in a special way. Microsoft Windows maps the 256 Symbol codes to U+F000-U+F0FF. My guess is that the InDesign CS2 (and previous) method was not really compatible with what Windows does (which is not to say that it was wrong, it was just different) but Adobe at some point decided to match the Windows behavior. 
-
-A.</div>
+		<div class="commentbody"><p>The thing is that Wingdings uses a &ldquo;Symbol&rdquo; (3.0) cmap rather than a &ldquo;Unicode&rdquo; (3.1) cmap, so applications and operating systems need to deal with them in a special way. Microsoft Windows maps the 256 Symbol codes to U+F000-U+F0FF. My guess is that the InDesign CS2 (and previous) method was not really compatible with what Windows does (which is not to say that it was wrong, it was just different) but Adobe at some point decided to match the Windows behavior.</p>
+<p>A.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -155,11 +151,9 @@ A.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This is a known issue documented here
-http://www.adobe.com/go/kb402745
-
-CS2 uses the Unicode cmap table synthesized by the OS.
-
+		<div class="commentbody"><p>This is a known issue documented here
+<a href="http://www.adobe.com/go/kb402745">http://www.adobe.com/go/kb402745</a></p>
+<p>CS2 uses the Unicode cmap table synthesized by the OS.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -181,11 +175,10 @@ CS2 uses the Unicode cmap table synthesized by the OS.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks! I used to tell people: a unicode value is a unicode value, no matter what.
-So I was a little bit shocked, seeing different value in two version of the same application. Now I at least understand what's going on.
-
-Ralf
- </div>
+		<div class="commentbody"><p>Thanks! I used to tell people: a unicode value is a unicode value, no matter what.
+So I was a little bit shocked, seeing different value in two version of the same application. Now I at least understand what&rsquo;s going on.</p>
+<p>Ralf</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -206,13 +199,10 @@ Ralf
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ralf, 
-
-in a sense, the 3.0 Symbol cmap behavior is similar to the way applications and the OS treat Type 1 fonts -- they synthesize Unicode values from glyphnames. Different operating systems have different lists of "known" glyphnames. For example, Adobe applications and the Windows font driver "know" the glyphnames "Ncommaaccent", "Ncedilla" and "uni0145", and synthesize the codepoint U+0145 for each of them. But Mac OS X 10.4 and earlier does not understand the glyphname "Ncommaaccent" so it fails to synthesize a codepoint if it finds such a glyph -- but it does know "Ncedilla" and "uni0145". 
-
-Also, most OpenType fonts have two Unicode cmaps: 0.1 ("Apple" Unicode) and 3.1 ("Microsoft" Unicode). Windows always looks at the 3.1 cmap while Mac OS X looks at the 0.1 cmap first, and if it does not fine one, at the 3.1 cmap. Font creation software would normally make sure that both cmaps have the same contents -- but it does not come naturally. Once can imagine fonts that (for whatever reasons) need to present different glyphs to Mac OS X and Windows, and then the font developer could make the cmaps different. In fact, I have made such fonts for a client. 
-
-A.
+		<div class="commentbody"><p>Ralf,</p>
+<p>in a sense, the 3.0 Symbol cmap behavior is similar to the way applications and the OS treat Type 1 fonts &ndash; they synthesize Unicode values from glyphnames. Different operating systems have different lists of &ldquo;known&rdquo; glyphnames. For example, Adobe applications and the Windows font driver &ldquo;know&rdquo; the glyphnames &ldquo;Ncommaaccent&rdquo;, &ldquo;Ncedilla&rdquo; and &ldquo;uni0145&rdquo;, and synthesize the codepoint U+0145 for each of them. But Mac OS X 10.4 and earlier does not understand the glyphname &ldquo;Ncommaaccent&rdquo; so it fails to synthesize a codepoint if it finds such a glyph &ndash; but it does know &ldquo;Ncedilla&rdquo; and &ldquo;uni0145&rdquo;.</p>
+<p>Also, most OpenType fonts have two Unicode cmaps: 0.1 (&ldquo;Apple&rdquo; Unicode) and 3.1 (&ldquo;Microsoft&rdquo; Unicode). Windows always looks at the 3.1 cmap while Mac OS X looks at the 0.1 cmap first, and if it does not fine one, at the 3.1 cmap. Font creation software would normally make sure that both cmaps have the same contents &ndash; but it does not come naturally. Once can imagine fonts that (for whatever reasons) need to present different glyphs to Mac OS X and Windows, and then the font developer could make the cmaps different. In fact, I have made such fonts for a client.</p>
+<p>A.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -234,9 +224,9 @@ A.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>I used to tell people: a unicode value is a unicode value, no matter what.</em>
-
-And you still should tell them that. But the Wingdings font isn't Unicode encoded, and PUA codepoints are, by definition, not standardised.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->I used to tell people: a unicode value is a unicode value, no matter what.<!-- raw HTML omitted --></p>
+<p>And you still should tell them that. But the Wingdings font isn&rsquo;t Unicode encoded, and PUA codepoints are, by definition, not standardised.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -71,46 +71,33 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hello, 
-
-I use the "calt" function for character substitution, and I have a lot of similar glyph lists which are sometimes hard do maintain.
-
-For example, I have:
+  <div class="post-content e-content" itemprop="articleBody"><p>Hello,</p>
+<p>I use the &ldquo;calt&rdquo; function for character substitution, and I have a lot of similar glyph lists which are sometimes hard do maintain.</p>
+<p>For example, I have:
 sub m' [s a c e o] by m.alt;
 sub n' [s a c e o] by n.alt;
 sub x' [s a c e o] by x.alt;
-etc.
-
-My question is can I define a glyph list that I can use for every instance?
-
-Can I say:
-
-my list_s = [s a c e o];
+etc.</p>
+<p>My question is can I define a glyph list that I can use for every instance?</p>
+<p>Can I say:</p>
+<p>my list_s = [s a c e o];
 sub m' [list_s] by m.alt;
 sub n' [list_s] by m.alt;
-sub x' [list_s] by m.alt;
-
-So I if I want to add a character to that list I have to do it in one place, instead of, say 10 
+sub x' [list_s] by m.alt;</p>
+<p>So I if I want to add a character to that list I have to do it in one place, instead of, say 10</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It sounds like you want to replace inline classes (glyph lists) with predefined classes. Your pseudo-code is already close, just ditch the 'my' and use the prefix '@'...
-<pre>
-@list_s = [s a c e o];
-sub m' @s by m.alt;
-# etc.
-</pre>
-
-In order for the class to work across features (not just for <code>calt</code>), the definition should be made globally, i.e. in the lower section of FontLab's OpenType panel, or in the Classes panel, or somewhere near the top of an external features file.
-
-It's also possible to nest classes, so if you needed to add an additional glyph to the predefined class for a particular rule, you could do something like...
-
-<pre>
-sub m' [@s u] by m.alt;
-</pre>
-
-...which would include 'u' in the class for just that rule.</div>
+		<div class="commentbody"><p>It sounds like you want to replace inline classes (glyph lists) with predefined classes. Your pseudo-code is already close, just ditch the &lsquo;my&rsquo; and use the prefix &lsquo;@&rsquo;&hellip;</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>In order for the class to work across features (not just for <!-- raw HTML omitted -->calt<!-- raw HTML omitted -->), the definition should be made globally, i.e. in the lower section of FontLab&rsquo;s OpenType panel, or in the Classes panel, or somewhere near the top of an external features file.</p>
+<p>It&rsquo;s also possible to nest classes, so if you needed to add an additional glyph to the predefined class for a particular rule, you could do something like&hellip;</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>&hellip;which would include &lsquo;u&rsquo; in the class for just that rule.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -131,17 +118,15 @@ sub m' [@s u] by m.alt;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You can simplify the feature code more by intesive use of classes:
-
-<code><pre>
+		<div class="commentbody"><p>You can simplify the feature code more by intesive use of classes:</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->
 feature xxxx {
-  @source  = [m n x];
-  @target  = [m.alt m.alt m.alt];
-  @context = [s a c e o];
-
-  sub @source' @context by @target;
+@source  = [m n x];
+@target  = [m.alt m.alt m.alt];
+@context = [s a c e o];</p>
+<p>sub @source' @context by @target;
 } xxxx;
-</pre></code>
+<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -163,9 +148,9 @@ feature xxxx {
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks both of you.
-
-And what programming language is this using? Is there a comprehensive manual?</div>
+		<div class="commentbody"><p>Thanks both of you.</p>
+<p>And what programming language is this using? Is there a comprehensive manual?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -186,37 +171,28 @@ And what programming language is this using? Is there a comprehensive manual?</d
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"> AFDKO syntax is described at
-
-http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html
-
-I'd actually recommend you *not* think of this as a programming language, per se, but rather simply as the syntax for specifying the structure of OpenType tables. When I first started coding OpenType features I ran into a bunch of problems which were caused by viewing it as a programming language and assuming that lookups behave similar to functions, which is in various respects a poor analogy.
-
-For example, consider the following hypothetical piece of code:
-
-lookup A {
+		<div class="commentbody"><p>AFDKO syntax is described at</p>
+<p><a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html">http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html</a></p>
+<p>I&rsquo;d actually recommend you <em>not</em> think of this as a programming language, per se, but rather simply as the syntax for specifying the structure of OpenType tables. When I first started coding OpenType features I ran into a bunch of problems which were caused by viewing it as a programming language and assuming that lookups behave similar to functions, which is in various respects a poor analogy.</p>
+<p>For example, consider the following hypothetical piece of code:</p>
+<p>lookup A {
     DoSomeStuff;
-} A;
-
-lookup B {
+} A;</p>
+<p>lookup B {
     DoSomeOtherStuff;
-} B;
-
-feature xxxx {
+} B;</p>
+<p>feature xxxx {
     lookup A;
     lookup B;
-} xxxx;
-
-feature yyyy {
+} xxxx;</p>
+<p>feature yyyy {
     lookup B;
     lookup A;
-} yyyy;
-
-In this example, feature xxxx and yyyy *must* behave identically because lookups, unlike functions, are not called. Rather, they exist within the GSUB table in a particular order and will either be processed by the application or not. This order is determined by the order in which lookups are declared rather than the order which they are referred to in the features. Thus, B will operate on the output of A even in feature yyyy where they are mentioned in reverse order.
-
-Programs operate over data. OpenType tables, on the other hand, are static data which is processed by a text engine.
-
-André</div>
+} yyyy;</p>
+<p>In this example, feature xxxx and yyyy <em>must</em> behave identically because lookups, unlike functions, are not called. Rather, they exist within the GSUB table in a particular order and will either be processed by the application or not. This order is determined by the order in which lookups are declared rather than the order which they are referred to in the features. Thus, B will operate on the output of A even in feature yyyy where they are mentioned in reverse order.</p>
+<p>Programs operate over data. OpenType tables, on the other hand, are static data which is processed by a text engine.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -237,7 +213,7 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@AlexanderKatt - Think <code>yacc</code> and you're close.</div>
+		<div class="commentbody">@AlexanderKatt - Think <!-- raw HTML omitted -->yacc<!-- raw HTML omitted --> and you&rsquo;re close.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

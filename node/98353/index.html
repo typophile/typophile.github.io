@@ -71,42 +71,30 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">hello...
-
-I'm attempting to make a font with some OpenType features for the first time, using Fontlab, and, guess what - it's slightly confusing...
-
-what I'd like OpenType to do is:
-for lots of specific character pairs, substitute pairs of alternate characters
-
-so, for example, if someone types 'AB' I'd like OpenType to substitute glyph A_2 followed by glyph B_2...
-
-I was kind of thinking I could do this with a contextual alternate feature like
-
-<code>sub A' B' by A_2 B_2;</code>
-
-but that doesn't seem to compile
-
-<code>sub A B' by B_2;</code>
-
-compiles OK, but doesn't really do what I want...
-
-does what I'm trying to do make any sense? is it possible?
-
-would a better way be to make all my desired glyph combinations as ligature glyphs? (and also make all the individual alternate glyphs separately available)
-
-any help would be great</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>hello&hellip;</p>
+<p>I&rsquo;m attempting to make a font with some OpenType features for the first time, using Fontlab, and, guess what - it&rsquo;s slightly confusing&hellip;</p>
+<p>what I&rsquo;d like OpenType to do is:
+for lots of specific character pairs, substitute pairs of alternate characters</p>
+<p>so, for example, if someone types &lsquo;AB&rsquo; I&rsquo;d like OpenType to substitute glyph A_2 followed by glyph B_2&hellip;</p>
+<p>I was kind of thinking I could do this with a contextual alternate feature like</p>
+<p><!-- raw HTML omitted -->sub A' B' by A_2 B_2;<!-- raw HTML omitted --></p>
+<p>but that doesn&rsquo;t seem to compile</p>
+<p><!-- raw HTML omitted -->sub A B' by B_2;<!-- raw HTML omitted --></p>
+<p>compiles OK, but doesn&rsquo;t really do what I want&hellip;</p>
+<p>does what I&rsquo;m trying to do make any sense? is it possible?</p>
+<p>would a better way be to make all my desired glyph combinations as ligature glyphs? (and also make all the individual alternate glyphs separately available)</p>
+<p>any help would be great</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">OpenType doesn't support many-to-many substitutions. So you need to do this as two steps:
-
-A -> A.2
-when followed by B
-
-then
-
-B -> B.2
-when preceded by A.2</div>
+		<div class="commentbody"><p>OpenType doesn&rsquo;t support many-to-many substitutions. So you need to do this as two steps:</p>
+<p>A -&gt; A.2
+when followed by B</p>
+<p>then</p>
+<p>B -&gt; B.2
+when preceded by A.2</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -127,11 +115,11 @@ when preceded by A.2</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">In the AFDKO/FontLab syntax, that would translate to:
-<pre>sub A' B by A.2;
-sub A.2 B' by B.2;</pre>
-
-For glyph names, underscores are customarily used to indicate ligatures between two characters, and periods to precede suffixes. Suffixes might also be more descriptive if you have different kinds of alternates– i.e. <code>.alt[x]</code> for general alternates, <code>.swsh[x]</code> for swashes, (where <code>[x]</code> is a numeric index), <code>.smcp</code> for small caps, etc.</div>
+		<div class="commentbody"><p>In the AFDKO/FontLab syntax, that would translate to:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>For glyph names, underscores are customarily used to indicate ligatures between two characters, and periods to precede suffixes. Suffixes might also be more descriptive if you have different kinds of alternates– i.e. <!-- raw HTML omitted -->.alt[x]<!-- raw HTML omitted --> for general alternates, <!-- raw HTML omitted -->.swsh[x]<!-- raw HTML omitted --> for swashes, (where <!-- raw HTML omitted -->[x]<!-- raw HTML omitted --> is a numeric index), <!-- raw HTML omitted -->.smcp<!-- raw HTML omitted --> for small caps, etc.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -152,12 +140,10 @@ For glyph names, underscores are customarily used to indicate ligatures between 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><blockquote> OpenType doesn't support many-to-many substitutions.</blockquote>
-
-Actually it seems to me that OpenType *does* permit m2m substitutions (using GSUB type 5 or 6 lookups) but none of the common tools (VOLT and AFDKO) provide a way to express these such rules.
-
-So I've often wondered if rendering engines actually support m2m lookups or not?  
- </div>
+		<div class="commentbody"><!-- raw HTML omitted -->
+<p>Actually it seems to me that OpenType <em>does</em> permit m2m substitutions (using GSUB type 5 or 6 lookups) but none of the common tools (VOLT and AFDKO) provide a way to express these such rules.</p>
+<p>So I&rsquo;ve often wondered if rendering engines actually support m2m lookups or not?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -176,8 +162,7 @@ So I've often wondered if rendering engines actually support m2m lookups or not?
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><blockquote>I've often wondered if rendering engines actually support m2m lookups or not?</blockquote>
-I should <em>really</em> double-check this, but I think InDesign does. I constructed a many-to-many translation with a TTX dump as intermediary.</div>
+		<div class="commentbody"><!-- raw HTML omitted --></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -200,11 +185,10 @@ I should <em>really</em> double-check this, but I think InDesign does. I constru
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>For glyph names, underscores are customarily used to indicate ligatures between two characters</cite>
-
-More than custom. IIRC, when generating a PDF, that's what the Adobe engine will assume & make happen. So, if you have a glyph named A_B in your font, that glyph will become the two characters A & B in a PDF text stream. (Or, I may not RC...)
-
-A period is what you want; everything after the period is dropped. So, "A.(anything)" remains "A".</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->For glyph names, underscores are customarily used to indicate ligatures between two characters<!-- raw HTML omitted --></p>
+<p>More than custom. IIRC, when generating a PDF, that&rsquo;s what the Adobe engine will assume &amp; make happen. So, if you have a glyph named A_B in your font, that glyph will become the two characters A &amp; B in a PDF text stream. (Or, I may not RC&hellip;)</p>
+<p>A period is what you want; everything after the period is dropped. So, &ldquo;A.(anything)&rdquo; remains &ldquo;A&rdquo;.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -225,7 +209,7 @@ A period is what you want; everything after the period is dropped. So, "A.(anyth
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for elaborating, Charles. That's my understanding as well, but was trying to stay succinct with the naming advice. No doubt the topic has been [[http://typophile.com/node/33330#comment-200526|discussed here before at some point]].</div>
+		<div class="commentbody">Thanks for elaborating, Charles. That&rsquo;s my understanding as well, but was trying to stay succinct with the naming advice. No doubt the topic has been [[http://typophile.com/node/33330#comment-200526|discussed here before at some point]].</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -246,11 +230,10 @@ A period is what you want; everything after the period is dropped. So, "A.(anyth
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Publisher A decides to take a book out of print, and sell the rights to publisher B. They supply PDF files, without fonts, of course. Publisher B has to take the text stream & use it for the resetting. 
-
-And you're trying to be succinct? I've been involved in a few projects where recovering the text was, shall we say (amongst other choice words), expensive. 
-
-Or did you mean you wouldn't write the code that way, it was just for this example? Don't scare old people like me. Use a period, even in examples.</div>
+		<div class="commentbody"><p>Publisher A decides to take a book out of print, and sell the rights to publisher B. They supply PDF files, without fonts, of course. Publisher B has to take the text stream &amp; use it for the resetting.</p>
+<p>And you&rsquo;re trying to be succinct? I&rsquo;ve been involved in a few projects where recovering the text was, shall we say (amongst other choice words), expensive.</p>
+<p>Or did you mean you wouldn&rsquo;t write the code that way, it was just for this example? Don&rsquo;t scare old people like me. Use a period, even in examples.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -271,7 +254,7 @@ Or did you mean you wouldn't write the code that way, it was just for this examp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Charles, perhaps I was not clear. I did use a period in my example code, then <em>succinctly</em> advised the original poster to use periods instead of underscores for suffixes, without fully elaborating on the matter. You explained the technical reasons behind this practice, so I thanked you for taking the time to do so (whereas, in my succinctness, I had not) and linked to a more detailed discussion on the topic. So I'm pretty sure we're in agreement.</div>
+		<div class="commentbody">Charles, perhaps I was not clear. I did use a period in my example code, then <!-- raw HTML omitted -->succinctly<!-- raw HTML omitted --> advised the original poster to use periods instead of underscores for suffixes, without fully elaborating on the matter. You explained the technical reasons behind this practice, so I thanked you for taking the time to do so (whereas, in my succinctness, I had not) and linked to a more detailed discussion on the topic. So I&rsquo;m pretty sure we&rsquo;re in agreement.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -292,7 +275,7 @@ Or did you mean you wouldn't write the code that way, it was just for this examp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">thanks everyone for your replies and the ensuing discussion... I've realised there was some illogic in what I was trying to do and, in figuring that out, and considering your contributions, I am now somewhat wiser!</div>
+		<div class="commentbody">thanks everyone for your replies and the ensuing discussion&hellip; I&rsquo;ve realised there was some illogic in what I was trying to do and, in figuring that out, and considering your contributions, I am now somewhat wiser!</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

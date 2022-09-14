@@ -71,30 +71,24 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Working in FontLab, Windows.
-
-We took multiple Type1 fonts and created a single family, generating as OTF for use in InDesign (mostly). There were 2 Greek Type1 fonts that were included into this single family. The width of the space in the Greek and Latin Type1 fonts were different, the Greek being larger to make flowing Greek more readable. We encoded the space from the Greek fonts to the PUA and used a simple calt feature to say that when the language is Greek and a Greek character is set, use the alternate space. Like so:
-
-<code>feature calt {
-  script grek;
-  	sub @caltgrek space ' by space.grek;
-  	sub @caltgrek semicolon ' by uni037E;
-} calt;</code>
-
-where @caltgrek contains all the Greek characters after which we want to make a substitution.
-
-What has happened now (and existed with the Type1 fonts if the font changes were just so) is that mixed Greek and English type looks unevently spaced when there is, for instacnce, an English word followed by a Greek word followed by an English word. The space before the Greek does NOT get swapped out but the space AFTER the Greek DOES get swapped out.
-
-We've changed the calt feature to what is below, so that the space only gets swapped out when there is a Greek character on both sides of the space. This seems to work but I was hoping some of you could weigh in on the idea as my experiance with all of this is limited.
-
-<code>feature calt {
-  script grek;
-  	sub @caltgrek space ' @caltgrek by space.grek;
-  	sub @caltgrek semicolon ' @caltgrek by uni037E;
-} calt;</code>
-
-Many, many thanks,
-Ken</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Working in FontLab, Windows.</p>
+<p>We took multiple Type1 fonts and created a single family, generating as OTF for use in InDesign (mostly). There were 2 Greek Type1 fonts that were included into this single family. The width of the space in the Greek and Latin Type1 fonts were different, the Greek being larger to make flowing Greek more readable. We encoded the space from the Greek fonts to the PUA and used a simple calt feature to say that when the language is Greek and a Greek character is set, use the alternate space. Like so:</p>
+<p><!-- raw HTML omitted -->feature calt {
+script grek;
+sub @caltgrek space ' by space.grek;
+sub @caltgrek semicolon ' by uni037E;
+} calt;<!-- raw HTML omitted --></p>
+<p>where @caltgrek contains all the Greek characters after which we want to make a substitution.</p>
+<p>What has happened now (and existed with the Type1 fonts if the font changes were just so) is that mixed Greek and English type looks unevently spaced when there is, for instacnce, an English word followed by a Greek word followed by an English word. The space before the Greek does NOT get swapped out but the space AFTER the Greek DOES get swapped out.</p>
+<p>We&rsquo;ve changed the calt feature to what is below, so that the space only gets swapped out when there is a Greek character on both sides of the space. This seems to work but I was hoping some of you could weigh in on the idea as my experiance with all of this is limited.</p>
+<p><!-- raw HTML omitted -->feature calt {
+script grek;
+sub @caltgrek space ' @caltgrek by space.grek;
+sub @caltgrek semicolon ' @caltgrek by uni037E;
+} calt;<!-- raw HTML omitted --></p>
+<p>Many, many thanks,
+Ken</p>
+</div>
 
   
 </article>

@@ -71,34 +71,27 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I was looking at the Charis font, and in the features, found
-
-feature rlig { # Required Ligatures
- # from AAT 'morx'; type 1, sel: 0, cvrg: 20000002
- # Latin
-lookup rlig35 {
-    sub equal uni0338 by notequal;
-    sub A acutecomb by Aacute;
-    sub A gravecomb by Agrave;
-    sub A uni030F by uni0200;
-    sub A uni0302 by Acircumflex;
-    sub A uni0311 by uni0202;
-
-etc. . .
-
-Is this considered appropriate for rlig, or should it really be in a ccmp feature? Does anyone care? (Hey, at least I didn't ask "What does it all mean?")
-
-BTW, does anyone know of a discussion forum for working on Charis?
-
-TIA,
-
-Charles</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I was looking at the Charis font, and in the features, found</p>
+<p>feature rlig { # Required Ligatures</p>
+<h1 id="from-aat-morx-type-1-sel-0-cvrg-20000002">from AAT &lsquo;morx&rsquo;; type 1, sel: 0, cvrg: 20000002</h1>
+<h1 id="latin">Latin</h1>
+<p>lookup rlig35 {
+sub equal uni0338 by notequal;
+sub A acutecomb by Aacute;
+sub A gravecomb by Agrave;
+sub A uni030F by uni0200;
+sub A uni0302 by Acircumflex;
+sub A uni0311 by uni0202;</p>
+<p>etc. . .</p>
+<p>Is this considered appropriate for rlig, or should it really be in a ccmp feature? Does anyone care? (Hey, at least I didn&rsquo;t ask &ldquo;What does it all mean?&quot;)</p>
+<p>BTW, does anyone know of a discussion forum for working on Charis?</p>
+<p>TIA,</p>
+<p>Charles</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I would say these definitely belong in ccmp, rather than rlig. I can imagine that SIL might have decided to put them in rlig for compatibility reasons with some software that didn't support ccmp but did support rlig (I'm not sure what software that would have been).
-
-</div>
+		<div class="commentbody">I would say these definitely belong in ccmp, rather than rlig. I can imagine that SIL might have decided to put them in rlig for compatibility reasons with some software that didn&rsquo;t support ccmp but did support rlig (I&rsquo;m not sure what software that would have been).</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -119,20 +112,16 @@ Charles</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">John, 
-
-The comment line
-<code># from AAT ’morx’; type 1, sel: 0, cvrg: 20000002</code>
-reveals that the OpenType Layout feature definition was not taken directly from the OpenType Layout tables but instead, was converted from the AAT "morx" table. For this conversion, FontLab Studio is mapping some morx functions into OTL features with the approximately same functionality, which in this case happens to be "rlig". This conversion never is perfect or accurate, since AAT and OpenType Layout use entirely different models. 
-
-We do have the AAT -> OTL conversion practically just for the handful of developers who would like to develop AAT tables and then semi-automatically create matching OTL tables. However, since Mac OS X 10.4 added OpenType Layout support, the necessity of creating AAT tables is of less and less importance. It only makes sense now for complex script fonts, as long as Apple does not implement all the major complex scripts in OpenType Layout. In Mac OS X 10.5, basic support for Arabic has been added and I hope that in 10.6, more will be done (but I don't know anything specific). 
-
-Charles, 
-
-Some fonts made by SIL contain both OTL and AAT code. To just get the OTL code, disable "Interpret GX/AAT mort & morx tables" in FLS Preferences, and re-open the font again. 
-
-Cheers,
-Adam</div>
+		<div class="commentbody"><p>John,</p>
+<p>The comment line
+<!-- raw HTML omitted --># from AAT ’morx’; type 1, sel: 0, cvrg: 20000002<!-- raw HTML omitted -->
+reveals that the OpenType Layout feature definition was not taken directly from the OpenType Layout tables but instead, was converted from the AAT &ldquo;morx&rdquo; table. For this conversion, FontLab Studio is mapping some morx functions into OTL features with the approximately same functionality, which in this case happens to be &ldquo;rlig&rdquo;. This conversion never is perfect or accurate, since AAT and OpenType Layout use entirely different models.</p>
+<p>We do have the AAT -&gt; OTL conversion practically just for the handful of developers who would like to develop AAT tables and then semi-automatically create matching OTL tables. However, since Mac OS X 10.4 added OpenType Layout support, the necessity of creating AAT tables is of less and less importance. It only makes sense now for complex script fonts, as long as Apple does not implement all the major complex scripts in OpenType Layout. In Mac OS X 10.5, basic support for Arabic has been added and I hope that in 10.6, more will be done (but I don&rsquo;t know anything specific).</p>
+<p>Charles,</p>
+<p>Some fonts made by SIL contain both OTL and AAT code. To just get the OTL code, disable &ldquo;Interpret GX/AAT mort &amp; morx tables&rdquo; in FLS Preferences, and re-open the font again.</p>
+<p>Cheers,
+Adam</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -153,19 +142,14 @@ Adam</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks, Adam. I made the change and the features file (as seen by FontStudio) is much better.
-
-Perhaps there is another switch that I need to change? With neither setting did the lookups come through, so of course the features won't compile.
-
-I am trying to get Charis in shape to use for bookwork when the general topic is linguistics. I have made up a fair number of extra glyphs in Minion, but there are several problems, including (1) There are some glyphs I do not have the skill to draw well, (2) The final fonts cannot in any case be released to a customer for "repurposing," and (3) certain ideosyncrocies of Minion, such as the differing accents on caps from lower case -- make some people prefer a more regularized font.
-
-With kerning and old-style numbers, Charis should function well for linguistics. I notice SIL has just released a version with small capitals.
-
-If I have to start over with the OT features I will, but it seems a shame to not incorporate what has already been done.
-
-Thanks again,
-
-Charles</div>
+		<div class="commentbody"><p>Thanks, Adam. I made the change and the features file (as seen by FontStudio) is much better.</p>
+<p>Perhaps there is another switch that I need to change? With neither setting did the lookups come through, so of course the features won&rsquo;t compile.</p>
+<p>I am trying to get Charis in shape to use for bookwork when the general topic is linguistics. I have made up a fair number of extra glyphs in Minion, but there are several problems, including (1) There are some glyphs I do not have the skill to draw well, (2) The final fonts cannot in any case be released to a customer for &ldquo;repurposing,&rdquo; and (3) certain ideosyncrocies of Minion, such as the differing accents on caps from lower case &ndash; make some people prefer a more regularized font.</p>
+<p>With kerning and old-style numbers, Charis should function well for linguistics. I notice SIL has just released a version with small capitals.</p>
+<p>If I have to start over with the OT features I will, but it seems a shame to not incorporate what has already been done.</p>
+<p>Thanks again,</p>
+<p>Charles</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -186,12 +170,11 @@ Charles</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Charles, 
-
-perhaps you can ask SIL to send you the source files, including the source files for the OpenType Layout tables? Working with original files is usually less problematic than decompiling and recompiling feature definitions. 
-
-Cheers,
-Adam</div>
+		<div class="commentbody"><p>Charles,</p>
+<p>perhaps you can ask SIL to send you the source files, including the source files for the OpenType Layout tables? Working with original files is usually less problematic than decompiling and recompiling feature definitions.</p>
+<p>Cheers,
+Adam</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -213,7 +196,7 @@ Adam</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Hi..Al;
- I interested to learn AAT feature (like AAT mort & morx tables) but How? which program do you used? can you send me a program name? I try to download AAT tools but it is not work in snowleopard. can you let me know?
+I interested to learn AAT feature (like AAT mort &amp; morx tables) but How? which program do you used? can you send me a program name? I try to download AAT tools but it is not work in snowleopard. can you let me know?
 Thank in advance;
 MK</div>
 	</div>
@@ -236,8 +219,7 @@ MK</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">.
-</div>
+		<div class="commentbody">.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -258,9 +240,8 @@ MK</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>...certain ideosyncrocies of Minion, such as the differing accents on caps from lower case</em>
-
-That's not an idiosyncracy, but a common practice in the better class of fonts.
+		<div class="commentbody"><p><!-- raw HTML omitted -->&hellip;certain ideosyncrocies of Minion, such as the differing accents on caps from lower case<!-- raw HTML omitted --></p>
+<p>That&rsquo;s not an idiosyncracy, but a common practice in the better class of fonts.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -282,7 +263,7 @@ That's not an idiosyncracy, but a common practice in the better class of fonts.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'd love to hear you elaborate on that, Nick!</div>
+		<div class="commentbody">I&rsquo;d love to hear you elaborate on that, Nick!</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -303,13 +284,12 @@ That's not an idiosyncracy, but a common practice in the better class of fonts.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">[img:sites/default/files/old-images/Elephant_3948.png]
+		<div class="commentbody"><p>[img:sites/default/files/old-images/Elephant_3948.png]
 Scala, by Martin Majoor
 Georgia, by Matthew Carter
 Gentium, by Victor Gaultney
-and my Scotch Modern.
-
-It minimizes interference between cap accents and descenders.
+and my Scotch Modern.</p>
+<p>It minimizes interference between cap accents and descenders.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -353,9 +333,9 @@ It minimizes interference between cap accents and descenders.
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">nobody can answer?
-quote--------------------
+quote&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;
 Hi..Al;
-I interested to learn AAT feature (like AAT mort & morx tables) but How? which program do you used? can you send me a program name? I try to download AAT tools but it is not work in snowleopard. can you let me know?
+I interested to learn AAT feature (like AAT mort &amp; morx tables) but How? which program do you used? can you send me a program name? I try to download AAT tools but it is not work in snowleopard. can you let me know?
 Thank in advance;
 MK</div>
 	</div>
@@ -378,7 +358,7 @@ MK</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The Apple Font Tools (http://developer.apple.com/fonts/download/) work fine here on my Snow Leopard. ftxenhancer, ftxanalyzer and ftxdumperfuser will be your friends. FontLab Studio is able to convert "morx" into some OpenType Layout features, but not the other way around -- yet it's still useful for testing purposes. </div>
+		<div class="commentbody">The Apple Font Tools (<a href="http://developer.apple.com/fonts/download/">http://developer.apple.com/fonts/download/</a>) work fine here on my Snow Leopard. ftxenhancer, ftxanalyzer and ftxdumperfuser will be your friends. FontLab Studio is able to convert &ldquo;morx&rdquo; into some OpenType Layout features, but not the other way around &ndash; yet it&rsquo;s still useful for testing purposes.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -71,23 +71,19 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Anyone making these? Aware of any apps supporting the feature?
-
-Cheers, Si</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Anyone making these? Aware of any apps supporting the feature?</p>
+<p>Cheers, Si</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Good questions. 
-
-Does InDesign’s Story > Optical Margin Alignment respect {opbd} if present? Or does it only work off an internal algorithm (presumably related to the optical kerning algorithm)?
-
-Do any of the common tools know how to compile {opbd} and related tables?
-
-I, for one, am a little unclear how you’d write such a feature. I suppose the syntax depends upon the tool doing the compiling. 
-
-The related {lfbd} and {rtbd} seem a little more straightforward: for a target glyph you provide two GPOS values. Presumably, for {lfbd} the XPlacement and the XAdvance adjustments would be equal; and for {rtbd} the XPlacement adjustment would always be zero, with adjustment only to XAdvance (i.e., the right sidebearing). So, practically speaking, the compilation of these feature could probably be extrapolated from a single provided value in each case. 
-
-But do GPOS values get written into {opbd}, or is it just a coverage table that calls either {lfbd} or {rtbd}?</div>
+		<div class="commentbody"><p>Good questions.</p>
+<p>Does InDesign’s Story &gt; Optical Margin Alignment respect {opbd} if present? Or does it only work off an internal algorithm (presumably related to the optical kerning algorithm)?</p>
+<p>Do any of the common tools know how to compile {opbd} and related tables?</p>
+<p>I, for one, am a little unclear how you’d write such a feature. I suppose the syntax depends upon the tool doing the compiling.</p>
+<p>The related {lfbd} and {rtbd} seem a little more straightforward: for a target glyph you provide two GPOS values. Presumably, for {lfbd} the XPlacement and the XAdvance adjustments would be equal; and for {rtbd} the XPlacement adjustment would always be zero, with adjustment only to XAdvance (i.e., the right sidebearing). So, practically speaking, the compilation of these feature could probably be extrapolated from a single provided value in each case.</p>
+<p>But do GPOS values get written into {opbd}, or is it just a coverage table that calls either {lfbd} or {rtbd}?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -108,10 +104,8 @@ But do GPOS values get written into {opbd}, or is it just a coverage table that 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Kent, we ran into the same questions. On paper "opbd" might help us with some specific UI challenges, so we're investigating further. Hopefully will be able to report back on our findings.
-
-Si
-
+		<div class="commentbody"><p>Thanks Kent, we ran into the same questions. On paper &ldquo;opbd&rdquo; might help us with some specific UI challenges, so we&rsquo;re investigating further. Hopefully will be able to report back on our findings.</p>
+<p>Si</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -154,7 +148,7 @@ Si
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">We considered this for both the ClearType Collection fonts and for Gabriola, but in both instances we ended up not pursuing it for a variety of reasons. The lack of any existing application support would mean that testing would be problematic (InDesign's optical margin alignments does not use this feature; as I recall it is based on one of the Hz algorithms that Adobe bought from URW), and none of the existing GPOS development tools provided for multiple-line, left- and right-aligned proofing, which is what one would need in order to be able to make the necessary judgements. As Kent's message indicates, the feature descriptions are somewhat confused with regard to {opbd}. My own feeling is that there is no reason for that feature to exist at all: what you need is the left and right GPOS features with single adjustments to width and positioning, and then application of these would be an app level layout function. There isn't any need for the intermediary {opbd} feature, and I would favour dumping it from the spec and rewording the description for the {lfbd} and {rtbg} features to specify that a) applications are responsible for working with layout engines to determine left and right line termini and applying the appropriate GPOS feature, and b) that if appropriate apps should provide a unified UI for turning on and off both features together (this would be akin to InDesign bundling multiple ligature features under a single UI). In CSS, it would make sense to have a single high-level tag for optical margins, although lower-level OTL tag use would permit left- or right-only margin alignment.</div>
+		<div class="commentbody">We considered this for both the ClearType Collection fonts and for Gabriola, but in both instances we ended up not pursuing it for a variety of reasons. The lack of any existing application support would mean that testing would be problematic (InDesign&rsquo;s optical margin alignments does not use this feature; as I recall it is based on one of the Hz algorithms that Adobe bought from URW), and none of the existing GPOS development tools provided for multiple-line, left- and right-aligned proofing, which is what one would need in order to be able to make the necessary judgements. As Kent&rsquo;s message indicates, the feature descriptions are somewhat confused with regard to {opbd}. My own feeling is that there is no reason for that feature to exist at all: what you need is the left and right GPOS features with single adjustments to width and positioning, and then application of these would be an app level layout function. There isn&rsquo;t any need for the intermediary {opbd} feature, and I would favour dumping it from the spec and rewording the description for the {lfbd} and {rtbg} features to specify that a) applications are responsible for working with layout engines to determine left and right line termini and applying the appropriate GPOS feature, and b) that if appropriate apps should provide a unified UI for turning on and off both features together (this would be akin to InDesign bundling multiple ligature features under a single UI). In CSS, it would make sense to have a single high-level tag for optical margins, although lower-level OTL tag use would permit left- or right-only margin alignment.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -175,9 +169,9 @@ Si
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I agree that {opbd} could probably be dumped from the spec. Seems completely unnecessary.
-
-The UI could present a single toggle for turning “Optical Bounds” on or off. Then it seems to me that it would be the responsibility of the app to coordinate with the text-align attribute assigned in order to determine whether to call {lfbd}, {rtbd}, or both.</div>
+		<div class="commentbody"><p>I agree that {opbd} could probably be dumped from the spec. Seems completely unnecessary.</p>
+<p>The UI could present a single toggle for turning “Optical Bounds” on or off. Then it seems to me that it would be the responsibility of the app to coordinate with the text-align attribute assigned in order to determine whether to call {lfbd}, {rtbd}, or both.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

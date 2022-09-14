@@ -71,59 +71,44 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">hey guys am a newbie in fontlab could you help me how to select a unicode range using macro?
-like the "select alphanumeric", I can't figure out how it selects by unicode range.
-here is the select alphanumeric codes:
-
-fl.Unselect()
-
-for i in range(0x41, 0x5b):
-  fl.Select(Uni(i))
-
-for i in range(0x61, 0x7b):
-  fl.Select(Uni(i))
-
-for i in range(0x30, 0x3A):
-  fl.Select(Uni(i))
-
-fl.iglyph = 20
-
-
-now how do I change this to select unicode range from Amacron to Gdotaccent?
+  <div class="post-content e-content" itemprop="articleBody"><p>hey guys am a newbie in fontlab could you help me how to select a unicode range using macro?
+like the &ldquo;select alphanumeric&rdquo;, I can&rsquo;t figure out how it selects by unicode range.
+here is the select alphanumeric codes:</p>
+<p>fl.Unselect()</p>
+<p>for i in range(0x41, 0x5b):
+fl.Select(Uni(i))</p>
+<p>for i in range(0x61, 0x7b):
+fl.Select(Uni(i))</p>
+<p>for i in range(0x30, 0x3A):
+fl.Select(Uni(i))</p>
+<p>fl.iglyph = 20</p>
+<p>now how do I change this to select unicode range from Amacron to Gdotaccent?</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"> Here are a few lines from <a href="http://www.unicode.org/Public/UNIDATA/NamesList.txt" target=_blank>Unicode's name list</a> 
-<code>
+		<div class="commentbody"><p>Here are a few lines from <!-- raw HTML omitted -->Unicode&rsquo;s name list<!-- raw HTML omitted --> 
+<!-- raw HTML omitted -->
 Code    Name
-0030	DIGIT ZERO  ...
-0039	DIGIT NINE<br>
-
-0041	LATIN CAPITAL LETTER A ...
-005A	LATIN CAPITAL LETTER Z
-
-0061	LATIN SMALL LETTER A ...
+0030	DIGIT ZERO  &hellip;
+0039	DIGIT NINE<!-- raw HTML omitted --></p>
+<p>0041	LATIN CAPITAL LETTER A &hellip;
+005A	LATIN CAPITAL LETTER Z</p>
+<p>0061	LATIN SMALL LETTER A &hellip;
 007A	LATIN SMALL LETTER Z
-</code>
-
-That means that 'LATIN SMALL LETTER A' is <code>Uni(0x0061)</code> or equivalently <code>Uni(0x61)</code> etc. since we may always remove zeros between <code>0x</code> and the first non zero digit. Thus<br>
-
-<code>range(0x0030,0x0039+1)</code> gives  0123456789
-<code>range(0x0041,0x005A+1)</code> gives  ABCDEFGHIJKLMNOPQRSTUVWXYZ
-<code>range(0x0061,0x007A+1)</code> gives  abcdefghijklmnopqrstuvwxyz
-
-Your code above does not select all alphanumerical characters;  it selects digits, capitals letters and small letters of only the English alphabet. It could have been written 
-<code>
+<!-- raw HTML omitted --></p>
+<p>That means that &lsquo;LATIN SMALL LETTER A&rsquo; is <!-- raw HTML omitted -->Uni(0x0061)<!-- raw HTML omitted --> or equivalently <!-- raw HTML omitted -->Uni(0x61)<!-- raw HTML omitted --> etc. since we may always remove zeros between <!-- raw HTML omitted -->0x<!-- raw HTML omitted --> and the first non zero digit. Thus<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->range(0x0030,0x0039+1)<!-- raw HTML omitted --> gives  0123456789
+<!-- raw HTML omitted -->range(0x0041,0x005A+1)<!-- raw HTML omitted --> gives  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+<!-- raw HTML omitted -->range(0x0061,0x007A+1)<!-- raw HTML omitted --> gives  abcdefghijklmnopqrstuvwxyz</p>
+<p>Your code above does not select all alphanumerical characters;  it selects digits, capitals letters and small letters of only the English alphabet. It could have been written 
+<!-- raw HTML omitted -->
 fl.Unselect()
 for i in range(0x0030,0x0039+1) + range(0x0041,0x005A+1) + range(0x0061,0x007A+1):
-&nbsp;&nbsp; fl.Select(Uni(i))</br>
-</code>
-
-From Adobe's file http://www.adobe.com/devnet/opentype/archives/glyphlist.txt <code>Amacron</code> is <code>0100</code> and <code>Gdotaccent</code> is <code>0120</code>; <code>range(0x0100,0x0120+1)</code> is used to select that range.
-
-Michel
-
+   fl.Select(Uni(i))<!-- raw HTML omitted -->
+<!-- raw HTML omitted --></p>
+<p>From Adobe&rsquo;s file <a href="http://www.adobe.com/devnet/opentype/archives/glyphlist.txt">http://www.adobe.com/devnet/opentype/archives/glyphlist.txt</a> <!-- raw HTML omitted -->Amacron<!-- raw HTML omitted --> is <!-- raw HTML omitted -->0100<!-- raw HTML omitted --> and <!-- raw HTML omitted -->Gdotaccent<!-- raw HTML omitted --> is <!-- raw HTML omitted -->0120<!-- raw HTML omitted -->; <!-- raw HTML omitted -->range(0x0100,0x0120+1)<!-- raw HTML omitted --> is used to select that range.</p>
+<p>Michel</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

@@ -71,11 +71,10 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I try to create locl feature for Serbian and Bulgarian letters. But while working in FontLab, they don’t work both in Illustrator and InDesign (CS4). My initial feature code:
-
-feature locl { # Localized Forms
-# Latin
-language MOL exclude_dflt; # Moldavian
+  <div class="post-content e-content" itemprop="articleBody"><p>I try to create locl feature for Serbian and Bulgarian letters. But while working in FontLab, they don’t work both in Illustrator and InDesign (CS4). My initial feature code:</p>
+<p>feature locl { # Localized Forms</p>
+<h1 id="latin">Latin</h1>
+<p>language MOL exclude_dflt; # Moldavian
 sub Scedilla by uni0218;
 sub scedilla by uni0219;
 language ROM exclude_dflt; # Romanian
@@ -86,14 +85,12 @@ language BUL  exclude_dflt; # Bulgarian
 sub @russ by @bulg;
 language SRB  exclude_dflt; # Serbian
 sub afii10066 by b.serb;
-} locl;
- 
-It works for Moldavian and Romanian, but doesn’t work for Bulgarian and Serbian. 
-Then I used lookups:
-
-feature locl { # Localized Forms
-# Latin
-lookup locl1 {
+} locl;</p>
+<p>It works for Moldavian and Romanian, but doesn’t work for Bulgarian and Serbian. 
+Then I used lookups:</p>
+<p>feature locl { # Localized Forms</p>
+<h1 id="latin-1">Latin</h1>
+<p>lookup locl1 {
 sub Scedilla by uni0218;
 sub scedilla by uni0219;
 } locl1;
@@ -111,21 +108,17 @@ language BUL; # Bulgarian
 lookup locl2;
 language SRB; # Serbian
 lookup locl3;
-} locl;
-
-In this case Cyrillic local features (Bulgarian and Serbian at the same time) works only if I change language to any “Latin” language. In “Cyrillic” languages locl features don’t work.
-
-Any help would be appreciated.
-
+} locl;</p>
+<p>In this case Cyrillic local features (Bulgarian and Serbian at the same time) works only if I change language to any “Latin” language. In “Cyrillic” languages locl features don’t work.</p>
+<p>Any help would be appreciated.</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I see that in CS3 and CS5 the same bug
-
-
----------------------------------------------------
-"Quousque tandem abutere, Adobe, patientia nostri?"</div>
+		<div class="commentbody"><p>I see that in CS3 and CS5 the same bug</p>
+<hr>
+<p>&ldquo;Quousque tandem abutere, Adobe, patientia nostri?&rdquo;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -167,39 +160,34 @@ Any help would be appreciated.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Your code has several problems.
-The language tag for Bulgarian is BGR, not BUL. See http://www.microsoft.com/typography/otspec/languagetags.htm
-The <code>languagesystem</code> declarations are missing.
-<code>script latn;</code> is also missing.
-
-Here's the correct code (not tested)
-<code>languagesystem latn dflt;
-	languagesystem latn MOL;
-	languagesystem latn ROM;
-
-languagesystem cyrl dflt;
-	languagesystem cyrl BGR;
-	languagesystem cyrl SRB;
-
-feature locl {
-
-script latn;
-	language MOL exclude_dflt;
-		sub Scedilla by uni0218;
-		sub scedilla by uni0219;
-
-	language ROM exclude_dflt;
-		sub Scedilla by uni0218;
-		sub scedilla by uni0219;
-
-script cyrl;
-	language BGR exclude_dflt;
-		sub @russ by @bulg;
-
-	language SRB exclude_dflt;
-		sub afii10066 by b.serb;
-
-} locl;</code></div>
+		<div class="commentbody"><p>Your code has several problems.
+The language tag for Bulgarian is BGR, not BUL. See <a href="http://www.microsoft.com/typography/otspec/languagetags.htm">http://www.microsoft.com/typography/otspec/languagetags.htm</a>
+The <!-- raw HTML omitted -->languagesystem<!-- raw HTML omitted --> declarations are missing.
+<!-- raw HTML omitted -->script latn;<!-- raw HTML omitted --> is also missing.</p>
+<p>Here&rsquo;s the correct code (not tested)
+<!-- raw HTML omitted -->languagesystem latn dflt;
+languagesystem latn MOL;
+languagesystem latn ROM;</p>
+<p>languagesystem cyrl dflt;
+languagesystem cyrl BGR;
+languagesystem cyrl SRB;</p>
+<p>feature locl {</p>
+<p>script latn;
+language MOL exclude_dflt;
+sub Scedilla by uni0218;
+sub scedilla by uni0219;</p>
+<pre><code>language ROM exclude_dflt;
+	sub Scedilla by uni0218;
+	sub scedilla by uni0219;
+</code></pre>
+<p>script cyrl;
+language BGR exclude_dflt;
+sub @russ by @bulg;</p>
+<pre><code>language SRB exclude_dflt;
+	sub afii10066 by b.serb;
+</code></pre>
+<p>} locl;<!-- raw HTML omitted --></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

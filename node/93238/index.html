@@ -72,33 +72,29 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody">[img:sites/default/files/old-images/Screenshot_6318.PNG]
-So the code sequence for dlig's goes like this:
-<code>
+So the code sequence for dlig&rsquo;s goes like this:
+<!-- raw HTML omitted -->
 sub A A by A_A;
 sub K A by K_A;
 sub R A by R_A;
-</code>
+<!-- raw HTML omitted -->
 I understand why K_A gets priority over A_A, but why A_A gets priority over R_A? 
 Or vice-versa.</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The opentype implementation can sometimes sort ligature ordering in rather arcane ways (see the comments on ligatures at http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.e).
-
-If you want complete control over how your ligatures are prioritized, you should include explicit lookup declarations in your code. For example, if you want your RA ligature to take priority over other ligatures, include the following:
-
-feature dlig {
-
-lookup HighestPriority { # This lookup will be applied to the text run first.
+		<div class="commentbody"><p>The opentype implementation can sometimes sort ligature ordering in rather arcane ways (see the comments on ligatures at <a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.e)">http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.e)</a>.</p>
+<p>If you want complete control over how your ligatures are prioritized, you should include explicit lookup declarations in your code. For example, if you want your RA ligature to take priority over other ligatures, include the following:</p>
+<p>feature dlig {</p>
+<p>lookup HighestPriority { # This lookup will be applied to the text run first.
 sub R A by R_A;
-} HighestPriority;
-
-lookup LowerPriority { # These substitutions will be applied after R_A substitutions.
+} HighestPriority;</p>
+<p>lookup LowerPriority { # These substitutions will be applied after R_A substitutions.
 sub A A by A_A;
 sub K A by K_A;
-} LowerPriority;
-
-} dlig;</div>
+} LowerPriority;</p>
+<p>} dlig;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -71,29 +71,26 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I am trying to get the opentype features sups, sinf, numr and dnom (superscript, etc.) to work.
-
-The glyphs 0-9 look exactly the same, so my idea was to use a sub- and a pos-command:
-- first substitute the original big numerals with smaller variants
-- then reposition them vertically, depending on whether they are superscripts, inferiors, numerators or demoninators
-
-
-But Adobes Garamond Pro is using 4 instances of the small variants, each of them identical, but with a different position, and doing everything via substitution. Is this the "official" way to implement the features? What is the advantage?
-
-Thanks for your help
-sebilar</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I am trying to get the opentype features sups, sinf, numr and dnom (superscript, etc.) to work.</p>
+<p>The glyphs 0-9 look exactly the same, so my idea was to use a sub- and a pos-command:</p>
+<ul>
+<li>first substitute the original big numerals with smaller variants</li>
+<li>then reposition them vertically, depending on whether they are superscripts, inferiors, numerators or demoninators</li>
+</ul>
+<p>But Adobes Garamond Pro is using 4 instances of the small variants, each of them identical, but with a different position, and doing everything via substitution. Is this the &ldquo;official&rdquo; way to implement the features? What is the advantage?</p>
+<p>Thanks for your help
+sebilar</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">An entire thread about this is at <a href="http://typophile.com/node/16879">http://typophile.com/node/16879</a>.  ;-)
-
-There is no "correct" way. It depends. 
-If you would like to kern "sups" or "numr" or "sinf" numerals with preceding glyphs, it would be better to use 4 instances of the smaller numerals together with sustitution commands. (Kerning values for superiors are not necessarily good for inferiors too.)
-If you don't intend to kern them, you may use sub+pos. This helps keep the character set a bit smaller. However, pos and sub in the same feature can be implemented only with VOLT so far, not with ADFDK and thus not FontLab Studio.
-
-Provided that this is the way MS and Adobe want to go in future, then it may be wise also to include a "subs" feature with the same sub/pos  commands as "sinf". 
-
-Karsten</div>
+		<div class="commentbody"><p>An entire thread about this is at <!-- raw HTML omitted --><a href="http://typophile.com/node/16879">http://typophile.com/node/16879</a><!-- raw HTML omitted -->.  ;-)</p>
+<p>There is no &ldquo;correct&rdquo; way. It depends. 
+If you would like to kern &ldquo;sups&rdquo; or &ldquo;numr&rdquo; or &ldquo;sinf&rdquo; numerals with preceding glyphs, it would be better to use 4 instances of the smaller numerals together with sustitution commands. (Kerning values for superiors are not necessarily good for inferiors too.)
+If you don&rsquo;t intend to kern them, you may use sub+pos. This helps keep the character set a bit smaller. However, pos and sub in the same feature can be implemented only with VOLT so far, not with ADFDK and thus not FontLab Studio.</p>
+<p>Provided that this is the way MS and Adobe want to go in future, then it may be wise also to include a &ldquo;subs&rdquo; feature with the same sub/pos  commands as &ldquo;sinf&rdquo;.</p>
+<p>Karsten</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -114,9 +111,9 @@ Karsten</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The link Karsten points to above is chok full of good opentype info for many reasons.
-
-ChrisL</div>
+		<div class="commentbody"><p>The link Karsten points to above is chok full of good opentype info for many reasons.</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -137,9 +134,9 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The benefit of using separate glyphs for each feature, rather than one set of glyphs and a GPOS vertical position adjustment, is that in the latter case you cannot reliably kern to adjacent glyphs. Consider, if you have an uppercase T followed by a subscript 3, for whatever reason. You probably want to slightly kern that subscript number closer to the T, but if you then use the same glyph in a superscript position the same kern data will cause it to collide with the top bar of the T. Since kerning is simply a horiztonal relationship between two glyph IDs without any knowledge of their relative vertical alignment, there is no way around this via the kern feature.
-
-Now, it may be possible to include pair adjustment GPOS lookups within the specific script style feature. So, for instance, you might have a lookup that kerns the script style 3 to the T <em>in the subs feature.</em> In theory, this would work. But it is simpler, and also faster in terms of processing, to add the extra glyphs and do it the way Adobe and others have. Glyph space in fonts is pretty cheap, especially if you use composites or subroutinisation, whereas every additional lookup in a font slows down processing and layout, and GPOS lookups are slower than GSUB.</div>
+		<div class="commentbody"><p>The benefit of using separate glyphs for each feature, rather than one set of glyphs and a GPOS vertical position adjustment, is that in the latter case you cannot reliably kern to adjacent glyphs. Consider, if you have an uppercase T followed by a subscript 3, for whatever reason. You probably want to slightly kern that subscript number closer to the T, but if you then use the same glyph in a superscript position the same kern data will cause it to collide with the top bar of the T. Since kerning is simply a horiztonal relationship between two glyph IDs without any knowledge of their relative vertical alignment, there is no way around this via the kern feature.</p>
+<p>Now, it may be possible to include pair adjustment GPOS lookups within the specific script style feature. So, for instance, you might have a lookup that kerns the script style 3 to the T <!-- raw HTML omitted -->in the subs feature.<!-- raw HTML omitted --> In theory, this would work. But it is simpler, and also faster in terms of processing, to add the extra glyphs and do it the way Adobe and others have. Glyph space in fonts is pretty cheap, especially if you use composites or subroutinisation, whereas every additional lookup in a font slows down processing and layout, and GPOS lookups are slower than GSUB.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -160,18 +157,17 @@ Now, it may be possible to include pair adjustment GPOS lookups within the speci
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> However, pos and sub in the same feature can be implemented only with VOLT so far
-
-It seems to work... somehow.
+		<div class="commentbody"><blockquote>
+<p>However, pos and sub in the same feature can be implemented only with VOLT so far</p>
+</blockquote>
+<p>It seems to work&hellip; somehow.
 Fontlab 5 turns crazy when compiling the feature with pos and sub (it shows the feature twice in the OT-preview-Menu and only works if both are activated).
-When exporting (Opentype PS), the feature works fine in InDesign CS2 (I haven't tested anything else yet).
-
-But John Hudson is right: Kerning is easier the other way round. I was just hoping to reduce glyph-count.
-
-So for now: march back... after some break, as I start to hate figures already: Somehow, the whole oldstyle/lining-, tabular/proportional-features are still frustrating and confusing to me. Is there no guide I haven't found yet that describes how to do them? They work in Fontlab, but do not in ID CS2 (only confusing results).
-
-Thanks for the help (and the link)
-Sebilar</div>
+When exporting (Opentype PS), the feature works fine in InDesign CS2 (I haven&rsquo;t tested anything else yet).</p>
+<p>But John Hudson is right: Kerning is easier the other way round. I was just hoping to reduce glyph-count.</p>
+<p>So for now: march back&hellip; after some break, as I start to hate figures already: Somehow, the whole oldstyle/lining-, tabular/proportional-features are still frustrating and confusing to me. Is there no guide I haven&rsquo;t found yet that describes how to do them? They work in Fontlab, but do not in ID CS2 (only confusing results).</p>
+<p>Thanks for the help (and the link)
+Sebilar</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

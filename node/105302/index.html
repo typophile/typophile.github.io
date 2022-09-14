@@ -71,35 +71,29 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi guys,
-
-I'm creating a sans-serif font but as alternates the I and J have little serifs, and I want to carry over the alternates to the small caps. I'm getting a little stuck on the scripting. (Massive newbie on the scripting btw). 
-
-So when Small Caps are on with alternates the small cap serif I will be displayed instead of tthe small cap I.
-
-Is this possible?
-
-Thanks in advance.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi guys,</p>
+<p>I&rsquo;m creating a sans-serif font but as alternates the I and J have little serifs, and I want to carry over the alternates to the small caps. I&rsquo;m getting a little stuck on the scripting. (Massive newbie on the scripting btw).</p>
+<p>So when Small Caps are on with alternates the small cap serif I will be displayed instead of tthe small cap I.</p>
+<p>Is this possible?</p>
+<p>Thanks in advance.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, it's trivially possible.
-
-feature c2sc {
-    sub [...I J...] by [...I.sc J.sc...];
-} c2sc;
-
-feature salt { # placed in 'salt' for access in Illustrator
+		<div class="commentbody"><p>Yes, it&rsquo;s trivially possible.</p>
+<p>feature c2sc {
+    sub [&hellip;I J&hellip;] by [&hellip;I.sc J.sc&hellip;];
+} c2sc;</p>
+<p>feature salt { # placed in &lsquo;salt&rsquo; for access in Illustrator
     lookup alternates {
         sub [I J I.sc J.sc] by [I.alt J.alt I.sc.alt J.sc.alt];
     } alternates;
-} salt
-
-feature ss01 { # duplicated as a stylistic set for access in InDesign
+} salt</p>
+<p>feature ss01 { # duplicated as a stylistic set for access in InDesign
     lookup alternates;
-} ss01;
-
-André</div>
+} ss01;</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -120,7 +114,7 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Features are applied in order. So if your small caps feature comes first, make sure your stylistic alternate code changes both caps and small caps to the alternates. And if your alternate features comes first, make sure your small caps code "small-capifies" both the standard and the alternate letters.</div>
+		<div class="commentbody">Features are applied in order. So if your small caps feature comes first, make sure your stylistic alternate code changes both caps and small caps to the alternates. And if your alternate features comes first, make sure your small caps code &ldquo;small-capifies&rdquo; both the standard and the alternate letters.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -141,18 +135,16 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you both agisaak and eliason!!
-
-feature salt {
+		<div class="commentbody"><p>Thank you both agisaak and eliason!!</p>
+<p>feature salt {
 lookup alternates {
-        sub [I.sc J.sc Igrave.sc Iacute.sc Icircumflex.sc Idieresis.sc] by [I.salt.sc J.salt.sc Igrave.salt.sc Iacute.salt.sc Icircumflex.salt.sc Idieresis.salt.sc];
-    } alternates;
-...
-}salt;
-
-which sits after the smcp feature.
-
-Legends!</div>
+sub [I.sc J.sc Igrave.sc Iacute.sc Icircumflex.sc Idieresis.sc] by [I.salt.sc J.salt.sc Igrave.salt.sc Iacute.salt.sc Icircumflex.salt.sc Idieresis.salt.sc];
+} alternates;
+&hellip;
+}salt;</p>
+<p>which sits after the smcp feature.</p>
+<p>Legends!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

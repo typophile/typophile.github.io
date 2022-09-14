@@ -71,39 +71,31 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi,
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi,
 First, I’m kind of new to this.
-I’m about to create a Script font and I have some problems with the lower “r” and the other lower glyphs connected to it.
-
-Am I supposed to do a ligature for every lower letter connected to the lower “r”? That sounds weird.
-When I look at my script fonts installed on my computer there are no big amount of ligatures.
-
-There must be some other solution to it. 
-When I look at fonts on MyFonts, like Ciao Bella, there are no ligatures for the lower r but when I write it in the “Sample text” field there is a more accurate connection between the lower “o” and the lower “r” and the “e” and the “r” and so on.
-
-Any smart and simple solution to this?
-Please help me.
-
-Thank you.
-Andreas 
+I’m about to create a Script font and I have some problems with the lower “r” and the other lower glyphs connected to it.</p>
+<p>Am I supposed to do a ligature for every lower letter connected to the lower “r”? That sounds weird.
+When I look at my script fonts installed on my computer there are no big amount of ligatures.</p>
+<p>There must be some other solution to it. 
+When I look at fonts on MyFonts, like Ciao Bella, there are no ligatures for the lower r but when I write it in the “Sample text” field there is a more accurate connection between the lower “o” and the lower “r” and the “e” and the “r” and so on.</p>
+<p>Any smart and simple solution to this?
+Please help me.</p>
+<p>Thank you.
+Andreas</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Right, you definitely don't want to make a font with ligatures for every combination of characters. Not only would the font be huge, there are usually more than two characters in a row that may need the same special treatment. 
-
-The trick is to write a contextual alternates (<code>"calt"</code>) feature. There's more than one way to do it, so you need to plan it out first and then implement it in feature code. One way to do it goes something like this:
-
-The default \r will be designed to accept the usual connecting stroke coming from the glyph that precedes it. In the absence of such a glyph, you need to substitute an alternate \r that doesn't connect. The code would look something like this:
-
-<code>feature calt {
+		<div class="commentbody"><p>Right, you definitely don&rsquo;t want to make a font with ligatures for every combination of characters. Not only would the font be huge, there are usually more than two characters in a row that may need the same special treatment.</p>
+<p>The trick is to write a contextual alternates (<!-- raw HTML omitted -->&ldquo;calt&rdquo;<!-- raw HTML omitted -->) feature. There&rsquo;s more than one way to do it, so you need to plan it out first and then implement it in feature code. One way to do it goes something like this:</p>
+<p>The default \r will be designed to accept the usual connecting stroke coming from the glyph that precedes it. In the absence of such a glyph, you need to substitute an alternate \r that doesn&rsquo;t connect. The code would look something like this:</p>
+<p><!-- raw HTML omitted -->feature calt {
 ignore sub @glyphsthatconnectontheright r' ;
 sub r' by r.alt ;
-} calt ;</code>
-
-where \r.alt is the non-connecting version of the \r. The <code>ignore</code> line basically says, "if the \r follows a glyph that connects, skip the next part". If it's some other glyph, then it will substitute the alternate \r. (The apostrophe marks the glyph that you want to potentially substitute.)
-
-That's the basic idea. There are other approaches. You could for instance make the default \r one that <i>doesn't</i> connect and substitute a connecting alternate when it follows glyphs that connect. Or, your connection scheme may be more complex to get a more natural appearance (more than one possible connecting stroke, for instance, low, medium, high, none).</div>
+} calt ;<!-- raw HTML omitted --></p>
+<p>where \r.alt is the non-connecting version of the \r. The <!-- raw HTML omitted -->ignore<!-- raw HTML omitted --> line basically says, &ldquo;if the \r follows a glyph that connects, skip the next part&rdquo;. If it&rsquo;s some other glyph, then it will substitute the alternate \r. (The apostrophe marks the glyph that you want to potentially substitute.)</p>
+<p>That&rsquo;s the basic idea. There are other approaches. You could for instance make the default \r one that <!-- raw HTML omitted -->doesn&rsquo;t<!-- raw HTML omitted --> connect and substitute a connecting alternate when it follows glyphs that connect. Or, your connection scheme may be more complex to get a more natural appearance (more than one possible connecting stroke, for instance, low, medium, high, none).</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

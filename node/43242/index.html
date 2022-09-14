@@ -71,17 +71,16 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi all,
-
-My question is: what OT tag to use, when creating alternate numbers? I mean, I guess I can use Old Style Figures (although I don't know it's abbreviation, but some reading probably will help), but I'm not sure if it's correct. The font in question is the New Deco I was talking about previously, and it will consist of filled glyphs as well as stenciled ones, that's why I need to define the alternate numbers. Any help will be appreciated and I really hope you guys understand what I mean.
-
-Thank you.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi all,</p>
+<p>My question is: what OT tag to use, when creating alternate numbers? I mean, I guess I can use Old Style Figures (although I don&rsquo;t know it&rsquo;s abbreviation, but some reading probably will help), but I&rsquo;m not sure if it&rsquo;s correct. The font in question is the New Deco I was talking about previously, and it will consist of filled glyphs as well as stenciled ones, that&rsquo;s why I need to define the alternate numbers. Any help will be appreciated and I really hope you guys understand what I mean.</p>
+<p>Thank you.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If the alternatives are *not* Oldstyle Figures, Tabular Figures, ... but merely stylistic variations of the original figures, I would assign them to a stylistic set (SS01 to SS20).
-
-If you assign them to a tag a user would expect something different, you "dissappoint" him if he chooses the feature and does not get what he wanted, but something different you placed there due to lack of an other feature which could be more fitting.</div>
+		<div class="commentbody"><p>If the alternatives are <em>not</em> Oldstyle Figures, Tabular Figures, &hellip; but merely stylistic variations of the original figures, I would assign them to a stylistic set (SS01 to SS20).</p>
+<p>If you assign them to a tag a user would expect something different, you &ldquo;dissappoint&rdquo; him if he chooses the feature and does not get what he wanted, but something different you placed there due to lack of an other feature which could be more fitting.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -102,34 +101,27 @@ If you assign them to a tag a user would expect something different, you "dissap
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you for your help. The problem that occurs is that I named those alternate numbers as follows:
-
-one.ss01
+		<div class="commentbody"><p>Thank you for your help. The problem that occurs is that I named those alternate numbers as follows:</p>
+<p>one.ss01
 two.ss01
-three.ss01
-
-and so on
-
-the ss01 feature looks like this:
-
-
-feature ss01{
-  sub one by one.ss01;
-  sub two by two.ss01;
-  sub three by three.ss01;
-  sub four by four.ss01;
-  sub five by five.ss01;
-  sub six by six.ss01;
-  sub seven by seven.ss01;
-  sub eight by eight.ss01;
-  sub nine by nine.ss01;
-} ss01;
-
-But I keep on getting this message:
-
-ERROR: There was a problem while compiling OpenType font. Final .otf font is not saved. Please, check OpenType features definition for errors
-
-What's wrong?</div>
+three.ss01</p>
+<p>and so on</p>
+<p>the ss01 feature looks like this:</p>
+<p>feature ss01{
+sub one by one.ss01;
+sub two by two.ss01;
+sub three by three.ss01;
+sub four by four.ss01;
+sub five by five.ss01;
+sub six by six.ss01;
+sub seven by seven.ss01;
+sub eight by eight.ss01;
+sub nine by nine.ss01;
+} ss01;</p>
+<p>But I keep on getting this message:</p>
+<p>ERROR: There was a problem while compiling OpenType font. Final .otf font is not saved. Please, check OpenType features definition for errors</p>
+<p>What&rsquo;s wrong?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -150,17 +142,12 @@ What's wrong?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It *might* be that in the first line a space is missing:
-
-feature ss01{
-
-
-maybe should be
-
-feature ss01 {
-
-
-Does this solve the problem?</div>
+		<div class="commentbody"><p>It <em>might</em> be that in the first line a space is missing:</p>
+<p>feature ss01{</p>
+<p>maybe should be</p>
+<p>feature ss01 {</p>
+<p>Does this solve the problem?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -181,23 +168,19 @@ Does this solve the problem?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">No, it's not a space problem. Save your features from the OpenType panel into a .fea file, open it in the text editor, clean up any empty lines, and open it back in the OpenType panel. 
-
-Also, I'd recommend doing it as follows: 
-
-<code>feature ss01 {
+		<div class="commentbody"><p>No, it&rsquo;s not a space problem. Save your features from the OpenType panel into a .fea file, open it in the text editor, clean up any empty lines, and open it back in the OpenType panel.</p>
+<p>Also, I&rsquo;d recommend doing it as follows:</p>
+<p><!-- raw HTML omitted -->feature ss01 {
 lookup ss01digits {
 sub [one two three four five six seven eight nine zero] by [one.ss01 two.ss01 three.ss01 four.ss01 five.ss01 six.ss01 seven.ss01 eight.ss01 nine.ss01 zero.ss01];
 } ss01digits;
-} ss01;</code>
-
-<code>feature salt {
+} ss01;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature salt {
 lookup ss01digits;
-} salt;</code>
-
-In other words, if your font has a ss01 feature, it should also have a salt feature because different apps expose different features (e.g. InDesign has ss01 but no salt while Illustrator has no ss01 but it has salt). 
-
-Adam</div>
+} salt;<!-- raw HTML omitted --></p>
+<p>In other words, if your font has a ss01 feature, it should also have a salt feature because different apps expose different features (e.g. InDesign has ss01 but no salt while Illustrator has no ss01 but it has salt).</p>
+<p>Adam</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

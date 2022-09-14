@@ -71,25 +71,20 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">OK, so I have a font with all the lc and uc, lining numerals and old-style numerals designed. Lining numerals have their usual names, and I named the old-styles so that they have the ".onum" suffix (e.g. "one.onum"). 
-
-How do I go about implementing an open type feature for the old style numerals?  I'd assume that I go to the open type panel, hit "+", and the new "xxxx" feature appears. But what next? When I try renaming the "xxxx" feature so that it says:
-
-feature onum {
-  sub by ;
-} onum;
-
-I get compile errors. Where & how do I add the numbers? I was checking the FL manual, but I'm not getting far with it. Can somebody point me to any resoruce or explain how adding an OT feature such as old-style numerals works in a nutshell?
-
-I'm using FL 4.6 on a Mac 
-Thanks
-
+  <div class="post-content e-content" itemprop="articleBody"><p>OK, so I have a font with all the lc and uc, lining numerals and old-style numerals designed. Lining numerals have their usual names, and I named the old-styles so that they have the &ldquo;.onum&rdquo; suffix (e.g. &ldquo;one.onum&rdquo;).</p>
+<p>How do I go about implementing an open type feature for the old style numerals?  I&rsquo;d assume that I go to the open type panel, hit &ldquo;+&rdquo;, and the new &ldquo;xxxx&rdquo; feature appears. But what next? When I try renaming the &ldquo;xxxx&rdquo; feature so that it says:</p>
+<p>feature onum {
+sub by ;
+} onum;</p>
+<p>I get compile errors. Where &amp; how do I add the numbers? I was checking the FL manual, but I&rsquo;m not getting far with it. Can somebody point me to any resoruce or explain how adding an OT feature such as old-style numerals works in a nutshell?</p>
+<p>I&rsquo;m using FL 4.6 on a Mac 
+Thanks</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Have a look at Minion Pro's feature file
-http://www.adobeforums.com/cgi-bin/webx?50@@.3bb58628</div>
+		<div class="commentbody">Have a look at Minion Pro&rsquo;s feature file
+<a href="http://www.adobeforums.com/cgi-bin/webx?50@@.3bb58628">http://www.adobeforums.com/cgi-bin/webx?50@@.3bb58628</a></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -110,18 +105,15 @@ http://www.adobeforums.com/cgi-bin/webx?50@@.3bb58628</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The code that is inserted into the OpenType panel when you hit the "+" button is a stub--it's incomplete and you are expected to complete it. You got halfway there by changing "xxxx" to "onum," but you've got to finish the job. "sub by ;" needs to say something like "sub one by one.onum ;". This is what is called a one-to-one substitution in OpenType feature speak. What it means is that the normal "one" will be substituted by "one.onum" when the user asks for old style numerals. You have to add a line like this for every number. It should look something like this:
-
-<code>feature onum {
+		<div class="commentbody"><p>The code that is inserted into the OpenType panel when you hit the &ldquo;+&rdquo; button is a stub&ndash;it&rsquo;s incomplete and you are expected to complete it. You got halfway there by changing &ldquo;xxxx&rdquo; to &ldquo;onum,&rdquo; but you&rsquo;ve got to finish the job. &ldquo;sub by ;&rdquo; needs to say something like &ldquo;sub one by one.onum ;&rdquo;. This is what is called a one-to-one substitution in OpenType feature speak. What it means is that the normal &ldquo;one&rdquo; will be substituted by &ldquo;one.onum&rdquo; when the user asks for old style numerals. You have to add a line like this for every number. It should look something like this:</p>
+<p><!-- raw HTML omitted -->feature onum {
 sub one by one.onum ;
 sub two by two.onum ;
-sub three by three.onum ;</code>
-
-and so on, finishing up with:
-
-<code>} onum;</code>
-
-It can get more complicated than this--for instance if you have both proportional and tabular figures--but that's basically it. (It's all covered in the manual, by the way.)</div>
+sub three by three.onum ;<!-- raw HTML omitted --></p>
+<p>and so on, finishing up with:</p>
+<p><!-- raw HTML omitted -->} onum;<!-- raw HTML omitted --></p>
+<p>It can get more complicated than this&ndash;for instance if you have both proportional and tabular figures&ndash;but that&rsquo;s basically it. (It&rsquo;s all covered in the manual, by the way.)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -142,9 +134,9 @@ It can get more complicated than this--for instance if you have both proportiona
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Or make a class for num and a class for onum and sub the class.
-
-ChrisL</div>
+		<div class="commentbody"><p>Or make a class for num and a class for onum and sub the class.</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -165,13 +157,10 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Here is the code:
-
-feature onum { # Old style numerals
-  sub @num by @onum;
-} onum;
-
-
+		<div class="commentbody"><p>Here is the code:</p>
+<p>feature onum { # Old style numerals
+sub @num by @onum;
+} onum;</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -193,17 +182,11 @@ feature onum { # Old style numerals
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks a lot everyone. Figured it out. I would have had it earlier if I had only scrutinized the manual :).
-
-And subing classes seems like THE way to go.
-
-I posted Kaled Sans for the cirtique over <a href="http://typophile.com/node/19445">in the neighborhood</a>. You can see my old style's feature at work <a href="http://ebukva.cidamon.com/type/Picture4.png">in this image</a>.
-
-Now, one more question: Are there advantages to doing the kerning as an OT feature as opposed to the kerning table in metrics? Since I'm jsut starting to kern, should I just go for the OT kern feature?
-
-Emir
-
- 
+		<div class="commentbody"><p>Thanks a lot everyone. Figured it out. I would have had it earlier if I had only scrutinized the manual :).</p>
+<p>And subing classes seems like THE way to go.</p>
+<p>I posted Kaled Sans for the cirtique over <!-- raw HTML omitted -->in the neighborhood<!-- raw HTML omitted -->. You can see my old style&rsquo;s feature at work <!-- raw HTML omitted -->in this image<!-- raw HTML omitted -->.</p>
+<p>Now, one more question: Are there advantages to doing the kerning as an OT feature as opposed to the kerning table in metrics? Since I&rsquo;m jsut starting to kern, should I just go for the OT kern feature?</p>
+<p>Emir</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -225,9 +208,9 @@ Emir
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">That depends. The spec for PostScript-flavored OT (CFF) fonts says that a kerning table is not supported, meaning you must use class kerning. TrueType-flavored OT (TTF) fonts may have either or both. In fact, FontLab will let you include either or both in both flavors of OT fonts.
-
-That said, class kerning is the way to go. It takes a bit more planning, but it's more efficient and thorough.</div>
+		<div class="commentbody"><p>That depends. The spec for PostScript-flavored OT (CFF) fonts says that a kerning table is not supported, meaning you must use class kerning. TrueType-flavored OT (TTF) fonts may have either or both. In fact, FontLab will let you include either or both in both flavors of OT fonts.</p>
+<p>That said, class kerning is the way to go. It takes a bit more planning, but it&rsquo;s more efficient and thorough.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -249,7 +232,7 @@ That said, class kerning is the way to go. It takes a bit more planning, but it'
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">It seems there was another aspect to your question:
-For direct visual control, you should use the Metrics Window for kerning. This also allows you to use classes. Then -- whether you used classes or not -- you go to the Metrics Assistance panel and hit the "update kern feature" button which generates a kern feature for you.
+For direct visual control, you should use the Metrics Window for kerning. This also allows you to use classes. Then &ndash; whether you used classes or not &ndash; you go to the Metrics Assistance panel and hit the &ldquo;update kern feature&rdquo; button which generates a kern feature for you.
 This way, your plain kerning table and the kern feature are (or at least: could be) equivalent for one is generated from the other.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -271,9 +254,9 @@ This way, your plain kerning table and the kern feature are (or at least: could 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I think you need both because some apps don't read the opentype kern feature and need the table. That is why I think Karsten's solution is best.  It gives you both and they are the same.  Also, you can see it well in the metrics window as you do it.
-
-ChrisL</div>
+		<div class="commentbody"><p>I think you need both because some apps don&rsquo;t read the opentype kern feature and need the table. That is why I think Karsten&rsquo;s solution is best.  It gives you both and they are the same.  Also, you can see it well in the metrics window as you do it.</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -294,9 +277,9 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Here's the deal, though: With CFF fonts, the old-style kern table will never get used. OT-savvy apps will use the kern feature; non-OT-savvy apps get a synthesized kern table based on the kern feature. So, even though you <em>can</em> include a kern table in an OT CFF font using FontLab, it will simply be taking up space.
-
-Incidentally, there was recently a discussion about this on the OpenType list. Adam Twardoch was advocating that kern tables should be supported in OT CFF fonts just as they are in OT TTF fonts. Judging from the discussion, it doesn't sound like it will likely happen.</div>
+		<div class="commentbody"><p>Here&rsquo;s the deal, though: With CFF fonts, the old-style kern table will never get used. OT-savvy apps will use the kern feature; non-OT-savvy apps get a synthesized kern table based on the kern feature. So, even though you <!-- raw HTML omitted -->can<!-- raw HTML omitted --> include a kern table in an OT CFF font using FontLab, it will simply be taking up space.</p>
+<p>Incidentally, there was recently a discussion about this on the OpenType list. Adam Twardoch was advocating that kern tables should be supported in OT CFF fonts just as they are in OT TTF fonts. Judging from the discussion, it doesn&rsquo;t sound like it will likely happen.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -317,11 +300,10 @@ Incidentally, there was recently a discussion about this on the OpenType list. A
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>Here’s the deal, though: With CFF fonts, the old-style kern table will never get used. OT-savvy apps will use the kern feature; non-OT-savvy apps get a synthesized kern table based on the kern feature.</cite>
-
-Oh yes, I only addressed one question, how to get consistent results among kern table & kern feature.
-
-You are right, according to the current specs, only the kern feature should be present in PS-flavored OTFs. Personally, I stick to this. Too much redundant information in OTFs already ... (Also, in an earlier test I had the impression that some application ignored kerning completely if both table and feature were present, but forgot the details and cannot -- nor do I want to -- reproduce this.)</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Here’s the deal, though: With CFF fonts, the old-style kern table will never get used. OT-savvy apps will use the kern feature; non-OT-savvy apps get a synthesized kern table based on the kern feature.<!-- raw HTML omitted --></p>
+<p>Oh yes, I only addressed one question, how to get consistent results among kern table &amp; kern feature.</p>
+<p>You are right, according to the current specs, only the kern feature should be present in PS-flavored OTFs. Personally, I stick to this. Too much redundant information in OTFs already &hellip; (Also, in an earlier test I had the impression that some application ignored kerning completely if both table and feature were present, but forgot the details and cannot &ndash; nor do I want to &ndash; reproduce this.)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

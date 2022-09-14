@@ -71,39 +71,31 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hello everybody,
-I'm trying to make a monospaced version of my recently released font <a href="http://new.myfonts.com/fonts/v-design/orca-pro/">Orca Pro</a> and I don't how to correctly set widths and sidebearings.
-
-Let's say I want to set all glyphs to be 600 units wide, but so that they keep their relative sidebearings from the original font (e.g. the left sidebearing of letter "L" would be quite bigger than the right one).
-
-There are just few options how to set set width in Fontlab:
-- center glyph
-- align to left or right sidebearing
-- keep as it is
-
-Unfortunatelly none of these options works for me, unless I make it manually glyph by glyph, which would be horribly tedious work.
-
-Any help would be really appreciated.
-
-Many thanks,
-
-Vit</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hello everybody,
+I&rsquo;m trying to make a monospaced version of my recently released font <!-- raw HTML omitted -->Orca Pro<!-- raw HTML omitted --> and I don&rsquo;t how to correctly set widths and sidebearings.</p>
+<p>Let&rsquo;s say I want to set all glyphs to be 600 units wide, but so that they keep their relative sidebearings from the original font (e.g. the left sidebearing of letter &ldquo;L&rdquo; would be quite bigger than the right one).</p>
+<p>There are just few options how to set set width in Fontlab:</p>
+<ul>
+<li>center glyph</li>
+<li>align to left or right sidebearing</li>
+<li>keep as it is</li>
+</ul>
+<p>Unfortunatelly none of these options works for me, unless I make it manually glyph by glyph, which would be horribly tedious work.</p>
+<p>Any help would be really appreciated.</p>
+<p>Many thanks,</p>
+<p>Vit</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Set all glyphs to 600 (or whatever). 
-
-Example; for similar values of straight and curved sides: Select and centre glyphs H, O.
-
-Create metrics classes for left straight sides of H: B, D, E, F, I K, L, M, N, P, R
-
-Right straight sides of H: I, M, N.
-
-Left curved sides of O: C, G, Q
-
-Right curved sides of O: D, Q
-
-Do this for all glyphs with similar values, then you only have to alter the value of the base glyph to apply it to the others, plus some manual adjustment.</div>
+		<div class="commentbody"><p>Set all glyphs to 600 (or whatever).</p>
+<p>Example; for similar values of straight and curved sides: Select and centre glyphs H, O.</p>
+<p>Create metrics classes for left straight sides of H: B, D, E, F, I K, L, M, N, P, R</p>
+<p>Right straight sides of H: I, M, N.</p>
+<p>Left curved sides of O: C, G, Q</p>
+<p>Right curved sides of O: D, Q</p>
+<p>Do this for all glyphs with similar values, then you only have to alter the value of the base glyph to apply it to the others, plus some manual adjustment.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -124,18 +116,15 @@ Do this for all glyphs with similar values, then you only have to alter the valu
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Nick,
-this would certainly help, but it is not as handy as I was wondering.
-
-There are going to be 8 fonts and quite a lot of glyphs, many of them non-standard (like &amp;, numerals, some lowercase letters etc.) and it would still be quite tedious work. 
-
-In fact the issue is pretty simple: 
+		<div class="commentbody"><p>Thanks Nick,
+this would certainly help, but it is not as handy as I was wondering.</p>
+<p>There are going to be 8 fonts and quite a lot of glyphs, many of them non-standard (like &amp;, numerals, some lowercase letters etc.) and it would still be quite tedious work.</p>
+<p>In fact the issue is pretty simple: 
 desired width - original width : 2 
-(and then add this value to both left and right sidebearing)
-
-I have been wondering whether there could be some macro script or perhaps some trick using action-set or so?
-
-Vit</div>
+(and then add this value to both left and right sidebearing)</p>
+<p>I have been wondering whether there could be some macro script or perhaps some trick using action-set or so?</p>
+<p>Vit</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -156,7 +145,7 @@ Vit</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Optically centering something like an L is not a math thing. You can't solve it like that, and yes this is going to be a quite tedious. Type design is a quite tedious. Poor type design is easy.</div>
+		<div class="commentbody">Optically centering something like an L is not a math thing. You can&rsquo;t solve it like that, and yes this is going to be a quite tedious. Type design is a quite tedious. Poor type design is easy.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -177,22 +166,12 @@ Vit</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>I have been wondering whether there could be some macro script or perhaps some trick using action-set or so?</cite>
-
-Yes, you can reset the widths mechanically…
-
-<pre>
-from robofab.world import CurrentFont
-font = CurrentFont()
-targetWidth = 600
-for glyph in font:
-    widthDelta = targetWidth - glyph.width
-    glyph.leftMargin += int(widthDelta/2)
-    glyph.width = targetWidth
-    glyph.update()
-</pre>
-
-…but what you'll find is that the contours of many glyphs, especially the widest and narrowest ones, will want to be adjusted to fit the width properly.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->I have been wondering whether there could be some macro script or perhaps some trick using action-set or so?<!-- raw HTML omitted --></p>
+<p>Yes, you can reset the widths mechanically…</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>…but what you&rsquo;ll find is that the contours of many glyphs, especially the widest and narrowest ones, will want to be adjusted to fit the width properly.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -213,13 +192,11 @@ for glyph in font:
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>…which would be horribly tedious work...</em>
-
-The problem is that the optical center is, arguably, more important in monospaced fonts, and it's the spacing element least amenable to automation. So IMO you're stuck with the tedium.
-
-Also, you may want to consider redrawing some of the glyphs for monospace function ("adjusted" as Matthew says).
-
-On the bright side, no kerning!</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->…which would be horribly tedious work&hellip;<!-- raw HTML omitted --></p>
+<p>The problem is that the optical center is, arguably, more important in monospaced fonts, and it&rsquo;s the spacing element least amenable to automation. So IMO you&rsquo;re stuck with the tedium.</p>
+<p>Also, you may want to consider redrawing some of the glyphs for monospace function (&ldquo;adjusted&rdquo; as Matthew says).</p>
+<p>On the bright side, no kerning!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -240,15 +217,12 @@ On the bright side, no kerning!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">What I said before is wrong; this is a monospaced font so that method doesn't apply.
-
-Just centre the symmetric glyphs as a start and do the rest by eye.
-
-Enter these in the metrics window after centering symmetric glyphs.
-
-HAHBHCHDHEHFHGHHHIHJHKHLHMHNHOHPHQHRHSHTHUHVHWHXHYHZH
-
-OAOBOCODOEOFOGOHOIOJOKOLOMONOOOPOQOROSOTOUOVOWOXOYOZO</div>
+		<div class="commentbody"><p>What I said before is wrong; this is a monospaced font so that method doesn&rsquo;t apply.</p>
+<p>Just centre the symmetric glyphs as a start and do the rest by eye.</p>
+<p>Enter these in the metrics window after centering symmetric glyphs.</p>
+<p>HAHBHCHDHEHFHGHHHIHJHKHLHMHNHOHPHQHRHSHTHUHVHWHXHYHZH</p>
+<p>OAOBOCODOEOFOGOHOIOJOKOLOMONOOOPOQOROSOTOUOVOWOXOYOZO</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -269,18 +243,13 @@ OAOBOCODOEOFOGOHOIOJOKOLOMONOOOPOQOROSOTOUOVOWOXOYOZO</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you all!
-I definitelly agree with you: type design is tedious work and I know there are no miraculous tricks. I have been working on the source font <a href="http://new.myfonts.com/fonts/v-design/orca-pro/">Orca Pro</a> over 2 years and it was never ending story. You can always find a new kerning pair to add or a detail to fix.
-
-As well I know I need to completely redraw a lot of glyphs (like M W m w @) and fine tune position of some extreme letters like L J P...
-
-However as for the metric itself I belive this macro Butterick mentioned could do maybe 70-80% of the raw work. 
-
-<strong>Butterick:</strong> I'm not very experienced with Python macros - should I save the script you posted as a PY file, install Robofab.World and it should work then?
-________
-
-Anyway this is my first post on Typophile and I am very glad there are so many people interested and willing to hlep - thank you! May I ask for your opinion about <a href="http://new.myfonts.com/fonts/v-design/orca-pro/">Orca</a>? This is my very first release and I'm pretty excited how pleople will react!
-
+		<div class="commentbody"><p>Thank you all!
+I definitelly agree with you: type design is tedious work and I know there are no miraculous tricks. I have been working on the source font <!-- raw HTML omitted -->Orca Pro<!-- raw HTML omitted --> over 2 years and it was never ending story. You can always find a new kerning pair to add or a detail to fix.</p>
+<p>As well I know I need to completely redraw a lot of glyphs (like M W m w @) and fine tune position of some extreme letters like L J P&hellip;</p>
+<p>However as for the metric itself I belive this macro Butterick mentioned could do maybe 70-80% of the raw work.</p>
+<p><!-- raw HTML omitted -->Butterick:<!-- raw HTML omitted --> I&rsquo;m not very experienced with Python macros - should I save the script you posted as a PY file, install Robofab.World and it should work then?</p>
+<hr>
+<p>Anyway this is my first post on Typophile and I am very glad there are so many people interested and willing to hlep - thank you! May I ask for your opinion about <!-- raw HTML omitted -->Orca<!-- raw HTML omitted -->? This is my very first release and I&rsquo;m pretty excited how pleople will react!</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -302,12 +271,11 @@ Anyway this is my first post on Typophile and I am very glad there are so many p
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@frode frank:
-<cite>Optically centering something like an L is not a math thing.</cite>
-
-Yes, but the way I understand the original post, he already knows this. But he has painstakingly optically centered each glyph in the proportionally-spaced version of the font.
-
-What he is asking is if he can keep the hard work he has done for that font, and copy it over to the monospaced version.</div>
+		<div class="commentbody"><p>@frode frank:
+<!-- raw HTML omitted -->Optically centering something like an L is not a math thing.<!-- raw HTML omitted --></p>
+<p>Yes, but the way I understand the original post, he already knows this. But he has painstakingly optically centered each glyph in the proportionally-spaced version of the font.</p>
+<p>What he is asking is if he can keep the hard work he has done for that font, and copy it over to the monospaced version.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -349,16 +317,16 @@ What he is asking is if he can keep the hard work he has done for that font, and
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>What he is asking is if he can keep the hard work he has done for that font, and copy it over to the monospaced version.</em>
-
-The spacing paradigm for proportional and monowidth is not the same.
-Optical centering plays a larger role in monospace.
-
-In theory, there are (at least) three letter spacing parameters:
-
-1. Proximity distances, e.g. to avoid extremity collisions
-2. Counter space, i.e. the white space between glyphs
-3. Optical centre</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->What he is asking is if he can keep the hard work he has done for that font, and copy it over to the monospaced version.<!-- raw HTML omitted --></p>
+<p>The spacing paradigm for proportional and monowidth is not the same.
+Optical centering plays a larger role in monospace.</p>
+<p>In theory, there are (at least) three letter spacing parameters:</p>
+<ol>
+<li>Proximity distances, e.g. to avoid extremity collisions</li>
+<li>Counter space, i.e. the white space between glyphs</li>
+<li>Optical centre</li>
+</ol>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -379,13 +347,10 @@ In theory, there are (at least) three letter spacing parameters:
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Butterick: Voila - I have just installed Robofab and the script seems to work :)
-However it does not work with composites and hints properly - do you thin there is some way to do it?
-
-If not, I could try to decompose everthing, run the script and save it, and then I could try to copy and "paste special" sidebearings values to the original font - it could work.
-
-Anyway it could be great and quite simple to have it implemented in the new FontLab version - does anyone know if there is some "wishlist" for upcomming release?
-
+		<div class="commentbody"><p>Butterick: Voila - I have just installed Robofab and the script seems to work :)
+However it does not work with composites and hints properly - do you thin there is some way to do it?</p>
+<p>If not, I could try to decompose everthing, run the script and save it, and then I could try to copy and &ldquo;paste special&rdquo; sidebearings values to the original font - it could work.</p>
+<p>Anyway it could be great and quite simple to have it implemented in the new FontLab version - does anyone know if there is some &ldquo;wishlist&rdquo; for upcomming release?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -407,13 +372,11 @@ Anyway it could be great and quite simple to have it implemented in the new Font
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The thing is setting proportional shapes into a standard width and making sure they are optically centered isn't going to give a great result. The reason is that to make it work you will end up with a hideously widely spaced font. Instead, you probably want to squash that w and extend that i rather than leaving the i floating in whatever space is wide enough to fit everything.
-
-I suggest that you begin with your n & o and at slightly wider glyphs like d b p q and find your base width from these. You can probably live with adding a bit of extra space around the o and leave it alone for now. Next begin adjusting shapes so they fill this new space evenly. You may need to expand your s and maybe your a. Compress your m.  And so on. 
-
-This will be fairly intensive design work for certain glyphs - but that's how you make a real monospace.
-
-Best wishes!</div>
+		<div class="commentbody"><p>The thing is setting proportional shapes into a standard width and making sure they are optically centered isn&rsquo;t going to give a great result. The reason is that to make it work you will end up with a hideously widely spaced font. Instead, you probably want to squash that w and extend that i rather than leaving the i floating in whatever space is wide enough to fit everything.</p>
+<p>I suggest that you begin with your n &amp; o and at slightly wider glyphs like d b p q and find your base width from these. You can probably live with adding a bit of extra space around the o and leave it alone for now. Next begin adjusting shapes so they fill this new space evenly. You may need to expand your s and maybe your a. Compress your m.  And so on.</p>
+<p>This will be fairly intensive design work for certain glyphs - but that&rsquo;s how you make a real monospace.</p>
+<p>Best wishes!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -434,7 +397,7 @@ Best wishes!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you all - let's start :)</div>
+		<div class="commentbody">Thank you all - let&rsquo;s start :)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

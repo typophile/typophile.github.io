@@ -71,17 +71,18 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">	I'm doing some fixes on few OT fonts for a client, only one of which I did any previous work on. the others all work fine and only need a few cosmetic fixes. This one however, they say they can't access alternates. The feature code in this one I noticed is quite simple. In Calt feature it basically substitutes an alternate every time 2 characters are typed in a row. So you'd get c o o.alt l for "cool".
-	The font works perfectly on my computer and I'm still trying to troubleshoot. Here's what I've found out so far:
-Client has Mac OSX 10.1.1  InDesign CS2 and uses Suitcase 11.02 for a font manager. My tests were on ID CS3   OSX 10.4.8  I use Font Explorer.
-One thing I thought might be up is a conflict with Stylistic sets. In InDesign I tried selecting both Stylistic sets and Contextual Subs at the same time. The Stylistic sets (and SALT) are all set up the same as CALT feature. This caused the substitution to go wacky and my default A would not come in as she described. She checked and said they weren't both selected and it happened no matter what was off or on.
-	Any ideas where to go with this next? I wondered about simply deleting the SALT and SSxx features and see if that might cure it. but that doesn't seem very clear to me.
-
-Stephen </div>
+  <div class="post-content e-content" itemprop="articleBody"><pre><code>I'm doing some fixes on few OT fonts for a client, only one of which I did any previous work on. the others all work fine and only need a few cosmetic fixes. This one however, they say they can't access alternates. The feature code in this one I noticed is quite simple. In Calt feature it basically substitutes an alternate every time 2 characters are typed in a row. So you'd get c o o.alt l for &quot;cool&quot;.
+The font works perfectly on my computer and I'm still trying to troubleshoot. Here's what I've found out so far:
+</code></pre>
+<p>Client has Mac OSX 10.1.1  InDesign CS2 and uses Suitcase 11.02 for a font manager. My tests were on ID CS3   OSX 10.4.8  I use Font Explorer.
+One thing I thought might be up is a conflict with Stylistic sets. In InDesign I tried selecting both Stylistic sets and Contextual Subs at the same time. The Stylistic sets (and SALT) are all set up the same as CALT feature. This caused the substitution to go wacky and my default A would not come in as she described. She checked and said they weren&rsquo;t both selected and it happened no matter what was off or on.
+Any ideas where to go with this next? I wondered about simply deleting the SALT and SSxx features and see if that might cure it. but that doesn&rsquo;t seem very clear to me.</p>
+<p>Stephen</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Not quite sure if this is what you did, but you shouldn't use contextual substitutions in the <code>salt</code> feature. You should only use simple substitutions (<code>sub x by x.alt ;</code> or <code>sub x from [x.alt1 x.alt2 x.alt3] ;</code>, for example). No idea whether this is what's causing the problem.</div>
+		<div class="commentbody">Not quite sure if this is what you did, but you shouldn&rsquo;t use contextual substitutions in the <!-- raw HTML omitted -->salt<!-- raw HTML omitted --> feature. You should only use simple substitutions (<!-- raw HTML omitted -->sub x by x.alt ;<!-- raw HTML omitted --> or <!-- raw HTML omitted -->sub x from [x.alt1 x.alt2 x.alt3] ;<!-- raw HTML omitted -->, for example). No idea whether this is what&rsquo;s causing the problem.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -103,7 +104,7 @@ Stephen </div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Sorry Mark, 
-SALT was simple one to one, not contextual. I didn't actually write the code for it, but it seems fine and works properly on my computer, just not on their CS2 for some reason. I keep wondering if ID CS2 either handles type differently or if there is something different with preferences or such that is doing it to them. I think InDesign doesn't use SALT though anyway, but who knows what the glitch here is.
+SALT was simple one to one, not contextual. I didn&rsquo;t actually write the code for it, but it seems fine and works properly on my computer, just not on their CS2 for some reason. I keep wondering if ID CS2 either handles type differently or if there is something different with preferences or such that is doing it to them. I think InDesign doesn&rsquo;t use SALT though anyway, but who knows what the glitch here is.
 Stephen</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -125,9 +126,9 @@ Stephen</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I do recall reading about a change that occurred in CS3 where an old model for scripted substitutions was dumped in favor of another. Fonts made with the new version (5) of fontlab contain code that should work in both cs 2 & 3. The two places I recall bumping into something like this were in the fontlab 5 PDF guide and maybe also in a PDF available from Thomas Phinney's blog. I will see if I can dig these citations up. Hopefully they are relevant. 
-
-In the meantime why not post the code so we can see what you are really dealing with?</div>
+		<div class="commentbody"><p>I do recall reading about a change that occurred in CS3 where an old model for scripted substitutions was dumped in favor of another. Fonts made with the new version (5) of fontlab contain code that should work in both cs 2 &amp; 3. The two places I recall bumping into something like this were in the fontlab 5 PDF guide and maybe also in a PDF available from Thomas Phinney&rsquo;s blog. I will see if I can dig these citations up. Hopefully they are relevant.</p>
+<p>In the meantime why not post the code so we can see what you are really dealing with?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -148,35 +149,32 @@ In the meantime why not post the code so we can see what you are really dealing 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">feature calt {
-  sub @upper @upper' by @calt1;
-  sub @lower @lower' by @calt2;
-  # 
-  sub [@upper @lower] space @upper' by @calt1;
-  sub [@lower @upper] space @lower' by @calt2;
-  #
-  
-} calt;
-
-* @calt1 is the uppercase alts    @calt2 is lowercase alts
-
-feature ss01 {
-  sub [A B C D E F G H I J K L M N O P Q R S T U V W X Y Z] by @calt1;
+		<div class="commentbody"><p>feature calt {
+sub @upper @upper' by @calt1;
+sub @lower @lower' by @calt2;</p>
+<h1 id="heading"></h1>
+<p>sub [@upper @lower] space @upper' by @calt1;
+sub [@lower @upper] space @lower' by @calt2;</p>
+<h1 id="heading-1"></h1>
+<p>} calt;</p>
+<ul>
+<li>@calt1 is the uppercase alts    @calt2 is lowercase alts</li>
+</ul>
+<p>feature ss01 {
+sub [A B C D E F G H I J K L M N O P Q R S T U V W X Y Z] by @calt1;
 } ss01;
 feature ss02 {
-  sub [a b c d e f g h i j k l m n o p q r s t u v w x y z] by @calt2;
-} ss02;
-
-feature salt {
-  sub [A B C D E F G H I J K L M N O P Q R S T U V W X Y Z] by @calt1;
-  sub [a b c d e f g h i j k l m n o p q r s t u v w x y z] by @calt2;
-} salt;
-
-feature c2sc {
-  sub [A B C D E F G H I J K L M N O P Q R S T U V W X Y Z] by [a.smcp b.smcp c.smcp d.smcp e.smcp f.smcp g.smcp h.smcp i.smcp j.smcp k.smcp l.smcp m.smcp n.smcp o.smcp p.smcp q.smcp r.smcp s.smcp t.smcp u.smcp v.smcp w.smcp x.smcp y.smcp z.smcp];
-} c2sc;
-
-Its their proprietary font and doesn't have diacritics and such.</div>
+sub [a b c d e f g h i j k l m n o p q r s t u v w x y z] by @calt2;
+} ss02;</p>
+<p>feature salt {
+sub [A B C D E F G H I J K L M N O P Q R S T U V W X Y Z] by @calt1;
+sub [a b c d e f g h i j k l m n o p q r s t u v w x y z] by @calt2;
+} salt;</p>
+<p>feature c2sc {
+sub [A B C D E F G H I J K L M N O P Q R S T U V W X Y Z] by [a.smcp b.smcp c.smcp d.smcp e.smcp f.smcp g.smcp h.smcp i.smcp j.smcp k.smcp l.smcp m.smcp n.smcp o.smcp p.smcp q.smcp r.smcp s.smcp t.smcp u.smcp v.smcp w.smcp x.smcp y.smcp z.smcp];
+} c2sc;</p>
+<p>Its their proprietary font and doesn&rsquo;t have diacritics and such.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -197,28 +195,23 @@ Its their proprietary font and doesn't have diacritics and such.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Here is the text I was thinking of from the Fontlab User Guide:
-
-<cite><strong>Contextual substitutions in invalid legacy format</strong></cite>
-
-<cite>Due to a misunderstanding between Adobe and Microsoft, early versions of
+		<div class="commentbody"><p>Here is the text I was thinking of from the Fontlab User Guide:</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->Contextual substitutions in invalid legacy format<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->Due to a misunderstanding between Adobe and Microsoft, early versions of
 Adobe InDesign (1.0, 1.5 and 2.0) contained a bug in the interpretation of
 contextual substitutions (for features such as calt or clig) so only “invalid”
 contextual substitutions work in these early versions . In Microsoft
 applications, only “valid” contextual substitutions work. InDesign CS and
 CS2 have a special routine so both “invalid” and “valid” contextual
-substitutions work.</cite>
-
-<cite>If you enable this option, FontLab Studio will generate a font with “invalid”
+substitutions work.<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->If you enable this option, FontLab Studio will generate a font with “invalid”
 contextual features that will work correctly in InDesign 1.0, 1.5 and 2.0 as
 well as InDesign CS and CS2, but these contextual features will not work in
-OpenType-savvy applications from Microsoft or other vendors.</cite>
-
-<cite>If disabled, “valid” contextual OpenType features will be generated that
+OpenType-savvy applications from Microsoft or other vendors.<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->If disabled, “valid” contextual OpenType features will be generated that
 will work in InDesign CS and CS2 and all other applications, but not in
-InDesign 1.0, 1.5, 2.0. It is recommended to keep this setting disabled.</cite>
-
-Does this help?
+InDesign 1.0, 1.5, 2.0. It is recommended to keep this setting disabled.<!-- raw HTML omitted --></p>
+<p>Does this help?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -240,7 +233,7 @@ Does this help?
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Eben, I don't think that has to do with the problem. Even if the font was coming out of FontLab with the “invalid” format, it would still work correctly in InDesign CS2, which is one of the apps mentioned by Stephen.</div>
+		<div class="commentbody">Eben, I don&rsquo;t think that has to do with the problem. Even if the font was coming out of FontLab with the “invalid” format, it would still work correctly in InDesign CS2, which is one of the apps mentioned by Stephen.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -262,7 +255,7 @@ Does this help?
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Not sure Eben.
-She's using InDesign CS2, so sounds like it should work. I'm not exactly sure what they mean by "invalid", but it seems like the code is correct. It works in InDesign CS3 okay.  
+She&rsquo;s using InDesign CS2, so sounds like it should work. I&rsquo;m not exactly sure what they mean by &ldquo;invalid&rdquo;, but it seems like the code is correct. It works in InDesign CS3 okay.<br>
 I looked for that option in preferences. If only I knew what I was doing???
 [img:sites/default/files/old-images/preference_3855.jpg]</div>
 	</div>
@@ -285,7 +278,7 @@ I looked for that option in preferences. If only I knew what I was doing???
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Is that the order in which the features are in the font? I'd put 'calt' after all the other features, otherwise you might experience undesirable interaction between them.</div>
+		<div class="commentbody">Is that the order in which the features are in the font? I&rsquo;d put &lsquo;calt&rsquo; after all the other features, otherwise you might experience undesirable interaction between them.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -334,29 +327,20 @@ calt</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>I looked for that option in preferences. If only I knew what I was doing???</cite>
-
-The option which you marked red in your screenshot should be off, yes.
-
-If I understand your feature order (post of 23.Jan.2008 7.40pm) and the feature code (post of 23.Jan.2008 5.56pm), then if a user switches on 'ss01'/'ss02', then <em>all</em> 'normal' glyphs will be replaced by alternates, since substitution in these features is non-contextual. And once that happened, your 'calt' will not show any effect, of course.
-One possible solution is using contextual substitution in 'ss01' and 'ss02' too. Then, if both 'ss01'/'ss02' and 'calt' are on, there's nothing left for 'calt' since there's no match for the context any more.
-
-You write that 
-
-<cite>The Stylistic sets (and SALT) are all set up the same as CALT feature.</cite>
-
-but your code does not reflect this. 'ss01' is not contextual, 'calt' is. (I think that 'salt' doesn't matter here since it is not addressed by InDesign.)
-Also you may check if the code
-
-&nbsp;&nbsp;&nbsp;&nbsp;<code>sub @upper @upper’ by @calt1;</code>
-
-<em>really</em> does what you want. In your description you say 
-
-<cite>In Calt feature it basically substitutes an alternate every time 2 characters are typed in a row. So you'd get c o o.alt l for "cool".</cite>
-
-but what the feature does is substitute every second uppercase or lowercase by its alternate form, so if you type "cool" what you get is c o.alt o l.alt.
-
-Karsten</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->I looked for that option in preferences. If only I knew what I was doing???<!-- raw HTML omitted --></p>
+<p>The option which you marked red in your screenshot should be off, yes.</p>
+<p>If I understand your feature order (post of 23.Jan.2008 7.40pm) and the feature code (post of 23.Jan.2008 5.56pm), then if a user switches on &lsquo;ss01&rsquo;/&lsquo;ss02&rsquo;, then <!-- raw HTML omitted -->all<!-- raw HTML omitted --> &lsquo;normal&rsquo; glyphs will be replaced by alternates, since substitution in these features is non-contextual. And once that happened, your &lsquo;calt&rsquo; will not show any effect, of course.
+One possible solution is using contextual substitution in &lsquo;ss01&rsquo; and &lsquo;ss02&rsquo; too. Then, if both &lsquo;ss01&rsquo;/&lsquo;ss02&rsquo; and &lsquo;calt&rsquo; are on, there&rsquo;s nothing left for &lsquo;calt&rsquo; since there&rsquo;s no match for the context any more.</p>
+<p>You write that</p>
+<p><!-- raw HTML omitted -->The Stylistic sets (and SALT) are all set up the same as CALT feature.<!-- raw HTML omitted --></p>
+<p>but your code does not reflect this. &lsquo;ss01&rsquo; is not contextual, &lsquo;calt&rsquo; is. (I think that &lsquo;salt&rsquo; doesn&rsquo;t matter here since it is not addressed by InDesign.)
+Also you may check if the code</p>
+<p>    <!-- raw HTML omitted -->sub @upper @upper’ by @calt1;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->really<!-- raw HTML omitted --> does what you want. In your description you say</p>
+<p><!-- raw HTML omitted -->In Calt feature it basically substitutes an alternate every time 2 characters are typed in a row. So you&rsquo;d get c o o.alt l for &ldquo;cool&rdquo;.<!-- raw HTML omitted --></p>
+<p>but what the feature does is substitute every second uppercase or lowercase by its alternate form, so if you type &ldquo;cool&rdquo; what you get is c o.alt o l.alt.</p>
+<p>Karsten</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -377,10 +361,10 @@ Karsten</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Your right Karsten.
-I probably need to be a bit more accurate in my description here. Still the code seems to at least work on my computer and not on theirs. I wonder if their system software ( OSX 10.1.1 ) might be part of their problem. I'm thinking of taking out the stylistic sets feature and seeing if that might help. Its kind of an odd arrangement because I'm not the designer of this font but agreed to do fixes as a favor to a friend. I'm hoping I can get this resolved soon.
-
-Stephen</div>
+		<div class="commentbody"><p>Your right Karsten.
+I probably need to be a bit more accurate in my description here. Still the code seems to at least work on my computer and not on theirs. I wonder if their system software ( OSX 10.1.1 ) might be part of their problem. I&rsquo;m thinking of taking out the stylistic sets feature and seeing if that might help. Its kind of an odd arrangement because I&rsquo;m not the designer of this font but agreed to do fixes as a favor to a friend. I&rsquo;m hoping I can get this resolved soon.</p>
+<p>Stephen</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

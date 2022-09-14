@@ -71,30 +71,22 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Is it possible to have ligatures that work only in selected style sets?
-
-I have a script font that has a style set with an alternate r, but certain combinations need to be ligated - wr and cr in the example below. I only want the alternate style ligatures to appear in the style set. Can this be done?
-
-[img:sites/default/files/old-images/Ssligs_6659.jpg]
-
-The way wr and cr should appear is the bottom image.
-
-
-Thanks.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Is it possible to have ligatures that work only in selected style sets?</p>
+<p>I have a script font that has a style set with an alternate r, but certain combinations need to be ligated - wr and cr in the example below. I only want the alternate style ligatures to appear in the style set. Can this be done?</p>
+<p>[img:sites/default/files/old-images/Ssligs_6659.jpg]</p>
+<p>The way wr and cr should appear is the bottom image.</p>
+<p>Thanks.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Sure it can be done.
-
-in ss01:
-
-sub r by r.ss01;
-
-in liga:
-
-sub c r.ss01 by c_r.ss01;
-
-The order of features is important. This only works if ss01 comes before liga, as it is in your screenshot.</div>
+		<div class="commentbody"><p>Sure it can be done.</p>
+<p>in ss01:</p>
+<p>sub r by r.ss01;</p>
+<p>in liga:</p>
+<p>sub c r.ss01 by c_r.ss01;</p>
+<p>The order of features is important. This only works if ss01 comes before liga, as it is in your screenshot.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -115,9 +107,9 @@ The order of features is important. This only works if ss01 comes before liga, a
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">That's done the trick!
-
-Vielen dank für ihre hilfe Jens.</div>
+		<div class="commentbody"><p>That&rsquo;s done the trick!</p>
+<p>Vielen dank für ihre hilfe Jens.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -138,7 +130,7 @@ Vielen dank für ihre hilfe Jens.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Now all ligatures work except rr. Could it be because it is two r's? It follows the same method as all the other ligs. </div>
+		<div class="commentbody">Now all ligatures work except rr. Could it be because it is two r&rsquo;s? It follows the same method as all the other ligs.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -159,11 +151,10 @@ Vielen dank für ihre hilfe Jens.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If you followed Jens' logic, then your <em>ss01</em> feature already has replaced <em>all</em> "r"s by "r.ss01"s. This means that
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>sub r r.ss01 by r_r.ss01;</em>
-would not work because there is no "r" left in the glyph string handed over to the <em>ss01</em> feature. Instead you need to replace two consecutive "r.ss01"s
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>sub r.ss01 r.ss01 by r_r.ss01;</em>
-</div>
+		<div class="commentbody">If you followed Jens' logic, then your <!-- raw HTML omitted -->ss01<!-- raw HTML omitted --> feature already has replaced <!-- raw HTML omitted -->all<!-- raw HTML omitted --> &ldquo;r&quot;s by &ldquo;r.ss01&quot;s. This means that
+     <!-- raw HTML omitted -->sub r r.ss01 by r_r.ss01;<!-- raw HTML omitted -->
+would not work because there is no &ldquo;r&rdquo; left in the glyph string handed over to the <!-- raw HTML omitted -->ss01<!-- raw HTML omitted --> feature. Instead you need to replace two consecutive &ldquo;r.ss01&quot;s
+     <!-- raw HTML omitted -->sub r.ss01 r.ss01 by r_r.ss01;<!-- raw HTML omitted --></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -205,17 +196,12 @@ would not work because there is no "r" left in the glyph string handed over to t
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Now that Nick's problem is resolved, I have a question: What is the argument against just putting the whole thing in a stylistic set? Ordering within the set would be important, but after substituting the individual glyphs, why not just go ahead and substitute the ligatures right there?
-
-If you remember Wilson Greek, it came with an extensive set of ligatures -- I suppose you would call them historical ligatures. I built several stylistic sets, beginning with the most commonly seen ligatures (in, say, ss05), and making new sets with an ever-increasing number included. The thinking was that most authors wouldn't want all the ligatures; some are pretty obtuse.
-
-It worked fine. I'll allow this is only for our in-house composition & not a for-sale font that has to work on numerous applications programs. Was that the only reason to involve the liga feature?
-
-* * *
-
-Example from the Wilson Greek
-
-feature ss10 {
+		<div class="commentbody"><p>Now that Nick&rsquo;s problem is resolved, I have a question: What is the argument against just putting the whole thing in a stylistic set? Ordering within the set would be important, but after substituting the individual glyphs, why not just go ahead and substitute the ligatures right there?</p>
+<p>If you remember Wilson Greek, it came with an extensive set of ligatures &ndash; I suppose you would call them historical ligatures. I built several stylistic sets, beginning with the most commonly seen ligatures (in, say, ss05), and making new sets with an ever-increasing number included. The thinking was that most authors wouldn&rsquo;t want all the ligatures; some are pretty obtuse.</p>
+<p>It worked fine. I&rsquo;ll allow this is only for our in-house composition &amp; not a for-sale font that has to work on numerous applications programs. Was that the only reason to involve the liga feature?</p>
+<hr>
+<p>Example from the Wilson Greek</p>
+<p>feature ss10 {
 sub alpha' iota' @ENDS by alpha_iota.terminal;
 sub alpha' uni1F77' @ENDS by alpha_uni1F77.terminal;
 sub alpha' sigma' @ENDS by alpha_sigmafinal;
@@ -242,7 +228,8 @@ sub alpha uni1F50 by alpha_uni1F50;
 sub alpha uni1F51 by alpha_uni1F51;
 sub alpha uni1F54 by alpha_uni1F54;
 sub alpha uni1F56 by alpha_uni1F56;
-} ss10;</div>
+} ss10;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

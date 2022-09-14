@@ -71,24 +71,20 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi there
-
-I'm writing a script for optimizing my kerning algorithm. so I need to get bitmap outputs of glyphs in FontLab. I tried to render it using PIL but FontLab scripting features didn't tell me position of all nodes -> using postscript curves, there is no data about control points (handles) of nodes in the 'nodes' list of a glyph. So images that the script generates are not precise enough to expand kerning scale.
-
-Is there a way to get such image directly? fore example to get an image of a certain glyph in a given em. I know FontLab uses FreeType to render glyph shapes. I have installed sip library. so could I use some API of FontLab to accomplish?</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi there</p>
+<p>I&rsquo;m writing a script for optimizing my kerning algorithm. so I need to get bitmap outputs of glyphs in FontLab. I tried to render it using PIL but FontLab scripting features didn&rsquo;t tell me position of all nodes -&gt; using postscript curves, there is no data about control points (handles) of nodes in the &lsquo;nodes&rsquo; list of a glyph. So images that the script generates are not precise enough to expand kerning scale.</p>
+<p>Is there a way to get such image directly? fore example to get an image of a certain glyph in a given em. I know FontLab uses FreeType to render glyph shapes. I have installed sip library. so could I use some API of FontLab to accomplish?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>ontLab scripting features didn't tell me position of all nodes -> using postscript curves, there is no data about control points (handles) of nodes in the 'nodes' list of a glyph</em>
-
-No, you have to iterate through each node’s <code>points</code> list to get all the point positions.
-
-Check out the FontLab Python documentation if you haven’t already: http://www.e-font.de/flpydoc/
-
-There is <code>Glyph.Rasterize()</code>, but I'm not sure you can control the ppm size.
-
-Hope this helps,
-Jens</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->ontLab scripting features didn&rsquo;t tell me position of all nodes -&gt; using postscript curves, there is no data about control points (handles) of nodes in the &lsquo;nodes&rsquo; list of a glyph<!-- raw HTML omitted --></p>
+<p>No, you have to iterate through each node’s <!-- raw HTML omitted -->points<!-- raw HTML omitted --> list to get all the point positions.</p>
+<p>Check out the FontLab Python documentation if you haven’t already: <a href="http://www.e-font.de/flpydoc/">http://www.e-font.de/flpydoc/</a></p>
+<p>There is <!-- raw HTML omitted -->Glyph.Rasterize()<!-- raw HTML omitted -->, but I&rsquo;m not sure you can control the ppm size.</p>
+<p>Hope this helps,
+Jens</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -130,13 +126,11 @@ Jens</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Soroush, 
-
-you should find this interesting: 
-http://forum.fontlab.com/python-scripting/pilrasterizeglyphstofolderttgpy-t7720.0.html
-
-Best,
-Adam
+		<div class="commentbody"><p>Soroush,</p>
+<p>you should find this interesting: 
+<a href="http://forum.fontlab.com/python-scripting/pilrasterizeglyphstofolderttgpy-t7720.0.html">http://forum.fontlab.com/python-scripting/pilrasterizeglyphstofolderttgpy-t7720.0.html</a></p>
+<p>Best,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -158,15 +152,11 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">twardoch,
-
-Of course it will be easier than generating image from curves, but I can't use <code>Rasterize()</code>. I just call <code>Rasterize()</code> for generating bacground image :-/ Trying to write some <code>FLtoPIL</code>, I used <code>Glyph.image</code> but it just gives me a binary image that the glyph is tightly bounded into it. So baseline and metrics of a glyph are missed in the final output:
-
-
-
-[img:sites/default/files/old-images/W_4049.jpeg],[img:sites/default/files/old-images/e_5008.jpeg]
-
-I need an image with applied metrics of glyph (left,right,ascender,descender). but can't calculate scale of image to generate such an output...</div>
+		<div class="commentbody"><p>twardoch,</p>
+<p>Of course it will be easier than generating image from curves, but I can&rsquo;t use <!-- raw HTML omitted -->Rasterize()<!-- raw HTML omitted -->. I just call <!-- raw HTML omitted -->Rasterize()<!-- raw HTML omitted --> for generating bacground image :-/ Trying to write some <!-- raw HTML omitted -->FLtoPIL<!-- raw HTML omitted -->, I used <!-- raw HTML omitted -->Glyph.image<!-- raw HTML omitted --> but it just gives me a binary image that the glyph is tightly bounded into it. So baseline and metrics of a glyph are missed in the final output:</p>
+<p>[img:sites/default/files/old-images/W_4049.jpeg],[img:sites/default/files/old-images/e_5008.jpeg]</p>
+<p>I need an image with applied metrics of glyph (left,right,ascender,descender). but can&rsquo;t calculate scale of image to generate such an output&hellip;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -187,18 +177,13 @@ I need an image with applied metrics of glyph (left,right,ascender,descender). b
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You need to calculate the offsets yourself, based on the original glyph's bounding box. I'm not sure how you'd expect it to work directly, i.e. how e.g. you'd expect the baseline to be "stored" in the image for a letter such as "p"? 
-
-When you're generating a background image in FontLab Studio, the image is rendered at the ppem size determined by FL.Options().BitmapSize. If you set BitmapSize to 1000 then one pixel in your image will correspond to one font unit in a 1000 UPM font (Font().upm). If you set BitmapSize to 200, then one pixel will correspond to 5 font units in such a font. So there you have the scaling factor you need. 
-
-By calling Glyph().GetBoundingRect(), you'll get the actual position of the glyph drawing within the design space (in font units). By querying for Glyph().width, you get the advance width. From the difference of GetBoundingRect().ll.x and .ur.x, and Glyph().width, you'll easily get the sidebearings, and from .ll.y, you'll get the position relative to the baseline. All in font units, but you can then convert them to pixel dimensions by comparing Font().upm and Options().BitmapSize. 
-
-As for the maximal y dimension to which you should crop your images, there are various scenarios possible. You could crop to the height of the font's bounding box -- which you'd need to calculate yourself by iterating for Glyph().GetBoundingRect() for all glyphs and choosing the maximal value -- or you could crop e.g. to one of the vertical dimensions (such as OS/2.WinAscent and OS/2.WinDescent, but then you're risking that some of your glyphs may be cropped too much. 
-
-It all depends on what you really need this information for. 
-
-Best,
-Adam
+		<div class="commentbody"><p>You need to calculate the offsets yourself, based on the original glyph&rsquo;s bounding box. I&rsquo;m not sure how you&rsquo;d expect it to work directly, i.e. how e.g. you&rsquo;d expect the baseline to be &ldquo;stored&rdquo; in the image for a letter such as &ldquo;p&rdquo;?</p>
+<p>When you&rsquo;re generating a background image in FontLab Studio, the image is rendered at the ppem size determined by FL.Options().BitmapSize. If you set BitmapSize to 1000 then one pixel in your image will correspond to one font unit in a 1000 UPM font (Font().upm). If you set BitmapSize to 200, then one pixel will correspond to 5 font units in such a font. So there you have the scaling factor you need.</p>
+<p>By calling Glyph().GetBoundingRect(), you&rsquo;ll get the actual position of the glyph drawing within the design space (in font units). By querying for Glyph().width, you get the advance width. From the difference of GetBoundingRect().ll.x and .ur.x, and Glyph().width, you&rsquo;ll easily get the sidebearings, and from .ll.y, you&rsquo;ll get the position relative to the baseline. All in font units, but you can then convert them to pixel dimensions by comparing Font().upm and Options().BitmapSize.</p>
+<p>As for the maximal y dimension to which you should crop your images, there are various scenarios possible. You could crop to the height of the font&rsquo;s bounding box &ndash; which you&rsquo;d need to calculate yourself by iterating for Glyph().GetBoundingRect() for all glyphs and choosing the maximal value &ndash; or you could crop e.g. to one of the vertical dimensions (such as OS/2.WinAscent and OS/2.WinDescent, but then you&rsquo;re risking that some of your glyphs may be cropped too much.</p>
+<p>It all depends on what you really need this information for.</p>
+<p>Best,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -243,7 +228,7 @@ Thanks :)</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Good :) </div>
+		<div class="commentbody">Good :)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

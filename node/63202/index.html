@@ -71,41 +71,34 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hey there. I received a question about one of my fonts that I do not understand and hope someone here can help. This is the email I got:
-
-Hello Michael,
-First, I'd like to thank you very much for the great typefaces you
-continue to share. It really is appreciated. Second, I'd like to let
+  <div class="post-content e-content" itemprop="articleBody"><p>Hey there. I received a question about one of my fonts that I do not understand and hope someone here can help. This is the email I got:</p>
+<p>Hello Michael,
+First, I&rsquo;d like to thank you very much for the great typefaces you
+continue to share. It really is appreciated. Second, I&rsquo;d like to let
 you know about a problem I have encountered using 3Dumb, I believe it
 relates to a Windows bug, that is having trouble reading the data in
 your font file. I am trying to embed 3Dumb onto a site using CSS, the
 technique works fine in the Safari browser, and Firefox on Mac, but in
-Firefox on Windows, and IE the font isn't rendered.
-
-Here is my test case:
-http://christophermeyers.name/fonttest/
-
-After reading this:
-
-https://bugzilla.mozilla.org/show_bug.cgi?query_format=specific&order=relevance+desc&bug_status=__open__&id=517770
+Firefox on Windows, and IE the font isn&rsquo;t rendered.</p>
+<p>Here is my test case:
+<a href="http://christophermeyers.name/fonttest/">http://christophermeyers.name/fonttest/</a></p>
+<p>After reading this:</p>
+<p><a href="https://bugzilla.mozilla.org/show_bug.cgi?query_format=specific&amp;order=relevance+desc&amp;bug_status=__open__&amp;id=517770">https://bugzilla.mozilla.org/show_bug.cgi?query_format=specific&amp;order=relevance+desc&amp;bug_status=__open__&amp;id=517770</a>
 my best guess is it has to do with the use of a numerical value in the
-name table.
-
-If you have any thoughts on this or would be able to re-release that
+name table.</p>
+<p>If you have any thoughts on this or would be able to re-release that
 font using a different value in the name table, I would greatly
-appreciate it.
-
-Any idea what he is talking about or how to fix this? I use FontLab Studio.
-
-Thanks.</div>
+appreciate it.</p>
+<p>Any idea what he is talking about or how to fix this? I use FontLab Studio.</p>
+<p>Thanks.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Tired late night thoughts:
-
-Open FLS5's <em>FontInfo</em>, go through all pages, and whenever the name "3Dumb" appears, exchange it by "ThreeDumb". (Especially in the font name fields on the first <em>FontInfo > Names and Copyright</em> page.)
-
-Perhaps you also need to change <em>FontInfo > Names and Copyright > Embedding</em> to "Embedding/Everything is allowed". Don't remember, but perhaps the font's current setting does not allow use with @font-face in Windows.</div>
+		<div class="commentbody"><p>Tired late night thoughts:</p>
+<p>Open FLS5&rsquo;s <!-- raw HTML omitted -->FontInfo<!-- raw HTML omitted -->, go through all pages, and whenever the name &ldquo;3Dumb&rdquo; appears, exchange it by &ldquo;ThreeDumb&rdquo;. (Especially in the font name fields on the first <!-- raw HTML omitted -->FontInfo &gt; Names and Copyright<!-- raw HTML omitted --> page.)</p>
+<p>Perhaps you also need to change <!-- raw HTML omitted -->FontInfo &gt; Names and Copyright &gt; Embedding<!-- raw HTML omitted --> to &ldquo;Embedding/Everything is allowed&rdquo;. Don&rsquo;t remember, but perhaps the font&rsquo;s current setting does not allow use with @font-face in Windows.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -126,9 +119,9 @@ Perhaps you also need to change <em>FontInfo > Names and Copyright > Embedding</
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Maybe I'm missing something here. But as far as I understand, the font should not work with @font-face in IE. IE only uses EOT fonts with the @font-face call, and from the email I assume the user only has the OTF (or ttf) version of the font? 
-
-Jason C</div>
+		<div class="commentbody"><p>Maybe I&rsquo;m missing something here. But as far as I understand, the font should not work with @font-face in IE. IE only uses EOT fonts with the @font-face call, and from the email I assume the user only has the OTF (or ttf) version of the font?</p>
+<p>Jason C</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -191,19 +184,19 @@ Jason C</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The problem is in the family/full names of your font, the family name is '3Dumb' with a capitalized 'D' and the fullname is '3dumb' with a lowercase 'd'.  Believe it or not, this is enough to cause the t2embed library used to load fonts on Windows to burp.  Firefox 3.5, Safari and IE all use this library but Safari falls back to rewriting the name table and using a low-level font loading API when the load using the t2embed library fails.  Similar logic has been added for Firefox 3.6.
-
-To avoid problems with the t2embed library on Windows:
-
-1. Make sure the fullname includes a precise match of the family name (e.g. family = "Bountiful Bongo", fullname = "Bountiful Bongo Bold" and not fullname = "bountiful bongo bold" or fullname = "BountifulBongo Bold").
-
-2. Make sure no name table record (including the license record) is longer than 2500 characters.  Yes, this officially sucks...
-
-For your font, the simple solution is rename '3dumb' to '3Dumb' in your name table records and everything should be groovy.
-
-John Daggett
-Mozilla Japan
-
+		<div class="commentbody"><p>The problem is in the family/full names of your font, the family name is &lsquo;3Dumb&rsquo; with a capitalized &lsquo;D&rsquo; and the fullname is &lsquo;3dumb&rsquo; with a lowercase &rsquo;d'.  Believe it or not, this is enough to cause the t2embed library used to load fonts on Windows to burp.  Firefox 3.5, Safari and IE all use this library but Safari falls back to rewriting the name table and using a low-level font loading API when the load using the t2embed library fails.  Similar logic has been added for Firefox 3.6.</p>
+<p>To avoid problems with the t2embed library on Windows:</p>
+<ol>
+<li>
+<p>Make sure the fullname includes a precise match of the family name (e.g. family = &ldquo;Bountiful Bongo&rdquo;, fullname = &ldquo;Bountiful Bongo Bold&rdquo; and not fullname = &ldquo;bountiful bongo bold&rdquo; or fullname = &ldquo;BountifulBongo Bold&rdquo;).</p>
+</li>
+<li>
+<p>Make sure no name table record (including the license record) is longer than 2500 characters.  Yes, this officially sucks&hellip;</p>
+</li>
+</ol>
+<p>For your font, the simple solution is rename &lsquo;3dumb&rsquo; to &lsquo;3Dumb&rsquo; in your name table records and everything should be groovy.</p>
+<p>John Daggett
+Mozilla Japan</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

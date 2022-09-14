@@ -71,46 +71,40 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi Guys,
-
-I've looked over the great posts that are here for this and I think I've settled on the code below, which I grabbed from the Adobe Caslon Pro font. It's nice and compact and should suit out needs just right.
-
-It all seems to be working fine but I'm not completely clear as to how the single quote works and I don't want to end up in a "A little knowedge is a dangerous thing" situation. An Adobe page states that the single quote "Marks a glyph or glyph class for contextual substitution or positioning" but I'm still lost.
-
-Thanks for any help you can offer my feeble mind.
-
-All Best,
-Ken
-
-
-<code>@frac1regfigs=zero one two three four five six seven eight nine
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi Guys,</p>
+<p>I&rsquo;ve looked over the great posts that are here for this and I think I&rsquo;ve settled on the code below, which I grabbed from the Adobe Caslon Pro font. It&rsquo;s nice and compact and should suit out needs just right.</p>
+<p>It all seems to be working fine but I&rsquo;m not completely clear as to how the single quote works and I don&rsquo;t want to end up in a &ldquo;A little knowedge is a dangerous thing&rdquo; situation. An Adobe page states that the single quote &ldquo;Marks a glyph or glyph class for contextual substitution or positioning&rdquo; but I&rsquo;m still lost.</p>
+<p>Thanks for any help you can offer my feeble mind.</p>
+<p>All Best,
+Ken</p>
+<p><!-- raw HTML omitted -->@frac1regfigs=zero one two three four five six seven eight nine
 @frac2numr=zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr
 @frac3dnom=zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom
-@frac4fracsdnom=perthousand slash percent onehalf onethird onequarter twothirds threequarters threeeighths seveneighths one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom</code>
-
-<code>feature frac {
+@frac4fracsdnom=perthousand slash percent onehalf onethird onequarter twothirds threequarters threeeighths seveneighths one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature frac {
 lookup frac01 {
 #all to numerators
 sub @frac1regfigs by @frac2numr;
 } frac01;
 lookup frac02 {
-	#change numerators to denominators contextually
-	sub zero.numr' @SLASH' zero.numr' zero.numr' by perthousand;
-	sub zero.numr' @SLASH' zero.numr' by percent;
-	sub one.numr' slash' two.numr' by onehalf;
-	sub one.numr' slash' three.numr' by onethird;
-	sub one.numr' slash' four.numr' by onequarter;
-	sub two.numr' slash' three.numr' by twothirds;
-	sub three.numr' slash' four.numr' by threequarters;
-	sub three.numr' slash' eight.numr' by threeeighths;
-	sub seven.numr' slash' eight.numr' by seveneighths;
-	sub @frac4fracsdnom @frac2numr' by @frac3dnom;
+#change numerators to denominators contextually
+sub zero.numr' @SLASH' zero.numr' zero.numr' by perthousand;
+sub zero.numr' @SLASH' zero.numr' by percent;
+sub one.numr' slash' two.numr' by onehalf;
+sub one.numr' slash' three.numr' by onethird;
+sub one.numr' slash' four.numr' by onequarter;
+sub two.numr' slash' three.numr' by twothirds;
+sub three.numr' slash' four.numr' by threequarters;
+sub three.numr' slash' eight.numr' by threeeighths;
+sub seven.numr' slash' eight.numr' by seveneighths;
+sub @frac4fracsdnom @frac2numr' by @frac3dnom;
 } frac02;
 lookup frac03 {
-	#change the slash
-	sub slash by fraction;
+#change the slash
+sub slash by fraction;
 } frac03;
-} frac;</code></div>
+} frac;<!-- raw HTML omitted --></p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
@@ -135,9 +129,9 @@ lookup frac03 {
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don't think you should put single quote at all. Single quote identifies the glyph in the contextual chain, that needs to be substituted in that context. The other glyphs without single quote in that context remain intact. If you don't put anything, the substitution will apply to all glyphs in the context.
-In this case, since all two or three or four or whatever number of glyphs in the contextual chain will be removed and replaced by a single glyph, you don't need to use the single quote. I'm actually surprised that it did work for you. But it should be more work for CPU I guess.
-I'm interested to know more from experts on this too.</div>
+		<div class="commentbody">I don&rsquo;t think you should put single quote at all. Single quote identifies the glyph in the contextual chain, that needs to be substituted in that context. The other glyphs without single quote in that context remain intact. If you don&rsquo;t put anything, the substitution will apply to all glyphs in the context.
+In this case, since all two or three or four or whatever number of glyphs in the contextual chain will be removed and replaced by a single glyph, you don&rsquo;t need to use the single quote. I&rsquo;m actually surprised that it did work for you. But it should be more work for CPU I guess.
+I&rsquo;m interested to know more from experts on this too.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -158,13 +152,11 @@ I'm interested to know more from experts on this too.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Well, he definitely needs the single quote in the line
-
-<code> sub @frac4fracsdnom @frac2numr' by @frac3dnom;</code>
-
-If he removes the other single quotes the code will likely not compile since then you will have a single lookup containing two different types of rules. He would need to split <code> frac02 </code> into two separate lookups.
-
-André</div>
+		<div class="commentbody"><p>Well, he definitely needs the single quote in the line</p>
+<p><!-- raw HTML omitted --> sub @frac4fracsdnom @frac2numr' by @frac3dnom;<!-- raw HTML omitted --></p>
+<p>If he removes the other single quotes the code will likely not compile since then you will have a single lookup containing two different types of rules. He would need to split <!-- raw HTML omitted --> frac02 <!-- raw HTML omitted --> into two separate lookups.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -185,15 +177,12 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ah-ha! I thought that was how it worked. The glyphs (or classes) that have the single quote will be substituted. Right?
-
-And yes, Adnre is right, that line needs to leave the @frac4fracsdnom  alone. The other lines all have it to remain within the same lookup. I assumed for efficency?
-
-Any other info will be more than welcomed.
-
-Thanks a bunch guys!
-
-Ken</div>
+		<div class="commentbody"><p>Ah-ha! I thought that was how it worked. The glyphs (or classes) that have the single quote will be substituted. Right?</p>
+<p>And yes, Adnre is right, that line needs to leave the @frac4fracsdnom  alone. The other lines all have it to remain within the same lookup. I assumed for efficency?</p>
+<p>Any other info will be more than welcomed.</p>
+<p>Thanks a bunch guys!</p>
+<p>Ken</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -214,24 +203,20 @@ Ken</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, when you have something <code> sub @A @B' @C by @D </code>, the apostrophe is needed to distinguish the substitution target from the substitution context.
-
-In the example you give, I can see no reason why it would have to be a single lookup. You could break it up into
-
-<code>lookup frac1A { </code>
-<code>  sub zero.numr slash zero.numr zero.numr by perthousand; </code>
-<code>  sub zero.numr slash zero.numr by percent; </code>
-<code>  sub one.numr slash two.numr by onehalf; </code>
-<code>  # etc. </code>
-<code>} frac1A; </code>
-
-<code>lookup frac1B { </code>
-<code>  sub @frac4fracsdnom @frac2numr' by @frac3dnom; </code>
-<code>} frac1B; </code>
-
-In this case, the apostrophes can be omitted in the first lookup. They are only needed when the final line is included since you can't include both ligature and contextual substitutions in the same lookup. The apostrphes force the ligature rules to be interpreted as contextual substitutions which happen to have the same effect as ligature substitutions.
-
-André</div>
+		<div class="commentbody"><p>Yes, when you have something <!-- raw HTML omitted --> sub @A @B' @C by @D <!-- raw HTML omitted -->, the apostrophe is needed to distinguish the substitution target from the substitution context.</p>
+<p>In the example you give, I can see no reason why it would have to be a single lookup. You could break it up into</p>
+<p><!-- raw HTML omitted -->lookup frac1A { <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->  sub zero.numr slash zero.numr zero.numr by perthousand; <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->  sub zero.numr slash zero.numr by percent; <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->  sub one.numr slash two.numr by onehalf; <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->  # etc. <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->} frac1A; <!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->lookup frac1B { <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->  sub @frac4fracsdnom @frac2numr' by @frac3dnom; <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->} frac1B; <!-- raw HTML omitted --></p>
+<p>In this case, the apostrophes can be omitted in the first lookup. They are only needed when the final line is included since you can&rsquo;t include both ligature and contextual substitutions in the same lookup. The apostrphes force the ligature rules to be interpreted as contextual substitutions which happen to have the same effect as ligature substitutions.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -252,14 +237,12 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">André, while I have your "ear."
-
-Regarding the line sub @frac4fracsdnom @frac2numr' by @frac3dnom;: The first line of the feature changes everything to numerators, it then does the fractions that are built as glyphs. However, there is nothing in the line I mentioned above to indicate which side of the slash the numerators (class @frac2numr) are being "searched." I was assuming that because there is a dnom feature (as describded here: http://www.microsoft.com/typography/otspec/features_fj.htm) the frac feature is matching the glyphs in the @frac3dnom to the denom feature and knows to substitute only to the right of the slash. Am I correct?
-
-Font work like this isn't my main function here, so commenting this code with what is happening will be immensly helpful when I come back into it later. Not sure where I'd be without this forum!
-
-Thanks very much again for your time,
-Ken</div>
+		<div class="commentbody"><p>André, while I have your &ldquo;ear.&rdquo;</p>
+<p>Regarding the line sub @frac4fracsdnom @frac2numr' by @frac3dnom;: The first line of the feature changes everything to numerators, it then does the fractions that are built as glyphs. However, there is nothing in the line I mentioned above to indicate which side of the slash the numerators (class @frac2numr) are being &ldquo;searched.&rdquo; I was assuming that because there is a dnom feature (as describded here: <a href="http://www.microsoft.com/typography/otspec/features_fj.htm">http://www.microsoft.com/typography/otspec/features_fj.htm</a>) the frac feature is matching the glyphs in the @frac3dnom to the denom feature and knows to substitute only to the right of the slash. Am I correct?</p>
+<p>Font work like this isn&rsquo;t my main function here, so commenting this code with what is happening will be immensly helpful when I come back into it later. Not sure where I&rsquo;d be without this forum!</p>
+<p>Thanks very much again for your time,
+Ken</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -280,9 +263,9 @@ Ken</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I’ve been using this technique for several years (although without quite so many lookups):
-
-http://talleming.com/2008/04/16/fraction-fever/</div>
+		<div class="commentbody"><p>I’ve been using this technique for several years (although without quite so many lookups):</p>
+<p><a href="http://talleming.com/2008/04/16/fraction-fever/">http://talleming.com/2008/04/16/fraction-fever/</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -303,7 +286,7 @@ http://talleming.com/2008/04/16/fraction-fever/</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">why not this one? http://talleming.com/2009/10/01/fraction-fever-2/</div>
+		<div class="commentbody">why not this one? <a href="http://talleming.com/2009/10/01/fraction-fever-2/">http://talleming.com/2009/10/01/fraction-fever-2/</a></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -345,11 +328,10 @@ http://talleming.com/2008/04/16/fraction-fever/</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ken,
-
-The line <code> sub @frac4fracsdnom @frac2numr' by @frac3dnom; </code> specifies that your fraction numerators will be replaced by denominators *only* when they follow elements in the class @frac4fracsdnom. Since this class includes the slash along with 'slash-containing' glyphs, that's what determines that numerators will only be changed to a denominator following the slash. The dnom feature, whether implemented or not, doesn't play a role in this.
-
-André</div>
+		<div class="commentbody"><p>Ken,</p>
+<p>The line <!-- raw HTML omitted --> sub @frac4fracsdnom @frac2numr' by @frac3dnom; <!-- raw HTML omitted --> specifies that your fraction numerators will be replaced by denominators <em>only</em> when they follow elements in the class @frac4fracsdnom. Since this class includes the slash along with &lsquo;slash-containing&rsquo; glyphs, that&rsquo;s what determines that numerators will only be changed to a denominator following the slash. The dnom feature, whether implemented or not, doesn&rsquo;t play a role in this.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

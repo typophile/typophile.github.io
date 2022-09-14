@@ -71,44 +71,32 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Calling all techheads ;)
-
-I am currently updating all my font files - to get rid of a typo in the embedded license text, really...
-At the same time I thought it sensible to include additional support for the infamous Romanian sScedilla/sScommaaccent problem. All my fonts have both glyphs present, but as I understand they might still display inconsistently because of differing application/text/encoding support on the user side. (I also intend to duplicate the tTcommaaccent into the currently empty tTcedilla/U021AB spots - also to make the fonts more compatible)
-
-I have read MANY threads on this forum and elsewhere, but have not found any updated and general solutions - just a lot of specific samples.
-
-So, in an effort to make an easy and general solution to the Romanian sScedilla/sScommaaccent problem: will this short feature code work as intended? (I'm using FontLab Studio 5.0.4 for Mac)
-
-General definition in the lower right part of the OpenType panel:
----
-languagesystem latn dflt;
+  <div class="post-content e-content" itemprop="articleBody"><p>Calling all techheads ;)</p>
+<p>I am currently updating all my font files - to get rid of a typo in the embedded license text, really&hellip;
+At the same time I thought it sensible to include additional support for the infamous Romanian sScedilla/sScommaaccent problem. All my fonts have both glyphs present, but as I understand they might still display inconsistently because of differing application/text/encoding support on the user side. (I also intend to duplicate the tTcommaaccent into the currently empty tTcedilla/U021AB spots - also to make the fonts more compatible)</p>
+<p>I have read MANY threads on this forum and elsewhere, but have not found any updated and general solutions - just a lot of specific samples.</p>
+<p>So, in an effort to make an easy and general solution to the Romanian sScedilla/sScommaaccent problem: will this short feature code work as intended? (I&rsquo;m using FontLab Studio 5.0.4 for Mac)</p>
+<h2 id="general-definition-in-the-lower-right-part-of-the-opentype-panel">General definition in the lower right part of the OpenType panel:</h2>
+<h2 id="languagesystem-latn-rom">languagesystem latn dflt;
 languagesystem latn MOL;
-languagesystem latn ROM;
----
-
-locl feature:
----
-feature locl { # Localized Forms
- # Latin
- language MOL  exclude_dflt; # Moldavian
-    sub [Scedilla scedilla] by [Scommaaccent scommaaccent];
- language ROM  exclude_dflt; # Romanian
-    sub [Scedilla scedilla] by [Scommaaccent scommaaccent];
-} locl;
----
-
-I wonder if just including these two snippets will make it work? I do not want to have to include any language specific lines into all the other opentype features the fonts may have...
-
-Thankful for any clarifications :)
-
-Roger
-
-PS! From what I had gathered I should start the general definition with "languagesystem DFLT dflt;",but this generates an error in FontLab Studio when compiling "Use of DFLT tag has been deprecated. It will work, but please use 'dflt' instead" so I removed it again...</div>
+languagesystem latn ROM;</h2>
+<h2 id="locl-feature">locl feature:</h2>
+<p>feature locl { # Localized Forms</p>
+<h1 id="latin">Latin</h1>
+<h2 id="-locl">language MOL  exclude_dflt; # Moldavian
+sub [Scedilla scedilla] by [Scommaaccent scommaaccent];
+language ROM  exclude_dflt; # Romanian
+sub [Scedilla scedilla] by [Scommaaccent scommaaccent];
+} locl;</h2>
+<p>I wonder if just including these two snippets will make it work? I do not want to have to include any language specific lines into all the other opentype features the fonts may have&hellip;</p>
+<p>Thankful for any clarifications :)</p>
+<p>Roger</p>
+<p>PS! From what I had gathered I should start the general definition with &ldquo;languagesystem DFLT dflt;&quot;,but this generates an error in FontLab Studio when compiling &ldquo;Use of DFLT tag has been deprecated. It will work, but please use &lsquo;dflt&rsquo; instead&rdquo; so I removed it again&hellip;</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Starting with the P.S., Adam Twardoch has a <a href="http://www.silesian.com/software/FixDFLTScriptTagSL.zip">nice script</a> for this. So you can ignore the error message but need to run the .otf(s) through the script. He gave an explanation on Typophile but I cannot find the discussion.</div>
+		<div class="commentbody">Starting with the P.S., Adam Twardoch has a <!-- raw HTML omitted -->nice script<!-- raw HTML omitted --> for this. So you can ignore the error message but need to run the .otf(s) through the script. He gave an explanation on Typophile but I cannot find the discussion.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -129,15 +117,12 @@ PS! From what I had gathered I should start the general definition with "languag
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>So you can ignore the error message but need to run the .otf(s) through the script.</em> 
-
-Why doesn't Fontlab work properly?
-Running a script is not what I'd call a bug fix.
-Or why doesn't the OS take care of this issue?
-
-Surely all I should need to do as the type designer is create the appropriate glyph, with the appropriate Unicode number.
-I mean, why does all this other technical stuff get downloaded onto me?
-
+		<div class="commentbody"><p><!-- raw HTML omitted -->So you can ignore the error message but need to run the .otf(s) through the script.<!-- raw HTML omitted --></p>
+<p>Why doesn&rsquo;t Fontlab work properly?
+Running a script is not what I&rsquo;d call a bug fix.
+Or why doesn&rsquo;t the OS take care of this issue?</p>
+<p>Surely all I should need to do as the type designer is create the appropriate glyph, with the appropriate Unicode number.
+I mean, why does all this other technical stuff get downloaded onto me?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -159,7 +144,7 @@ I mean, why does all this other technical stuff get downloaded onto me?
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello Nick, my comment relates only to the P.S. about the 'languagesystem DFLT dflt;' statement. FLS5's old FDK 1.6 does not know about the rather new 'DFLT' script tag but (fortunately) creates a empty entry which Adam's script can replace by the missing 'DFLT'.</div>
+		<div class="commentbody">Hello Nick, my comment relates only to the P.S. about the &lsquo;languagesystem DFLT dflt;&rsquo; statement. FLS5&rsquo;s old FDK 1.6 does not know about the rather new &lsquo;DFLT&rsquo; script tag but (fortunately) creates a empty entry which Adam&rsquo;s script can replace by the missing &lsquo;DFLT&rsquo;.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -181,8 +166,8 @@ I mean, why does all this other technical stuff get downloaded onto me?
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Hi Karsten.
-Sorry, I don't understand.
-If I make the appropriate entries in the "locl" feature, and generate the font in FL5, and get the error message, does that mean the feature won't work in Romania?</div>
+Sorry, I don&rsquo;t understand.
+If I make the appropriate entries in the &ldquo;locl&rdquo; feature, and generate the font in FL5, and get the error message, does that mean the feature won&rsquo;t work in Romania?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -204,8 +189,7 @@ If I make the appropriate entries in the "locl" feature, and generate the font i
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">The question about locl feature entries and Romanian is one issue that I did not address.
-The P.S. question about the 'languagesystem DFLT dflt;' statement and FLS5's error message is another issue. If the feature text contains this statement and the error message pops up, then FDK 1.6 did a mistake and added a entry for a script '&nbsp;&nbsp;&nbsp;&nbsp;' rather than, as it should, for a script 'DFLT' which is Adobe's tag for a default script (i.e. the script is not explicitly Latin, Greek, Cyrillic, etc but anything). Remember that in a layout table, you have, first, a list of scripts that are explicitly addressed by the table, each of which scripts refers to a list of languages, each of which refers to some features associated with it; second, a list of features each of which refers to lookups associated with it; and third, a list of lookups which refer to subtables that define pieces of layout behavior (substitution or positioning). So by analyzing the input text and user settings, an application can find out which lookups it shall apply to the text. It is explained in detail <a href="http://www.microsoft.com/typography/otspec/chapter2.htm" target="_blank">here</a> in the chapter "Table Organization". The entry for a script '&nbsp;&nbsp;&nbsp;&nbsp;' may not harm but is unnecessary, and is either better corrected with Adam's macro, or the ’languagesystem DFLT dflt;’ statement omitted right away.
-</div>
+The P.S. question about the &lsquo;languagesystem DFLT dflt;&rsquo; statement and FLS5&rsquo;s error message is another issue. If the feature text contains this statement and the error message pops up, then FDK 1.6 did a mistake and added a entry for a script &lsquo;    &rsquo; rather than, as it should, for a script &lsquo;DFLT&rsquo; which is Adobe&rsquo;s tag for a default script (i.e. the script is not explicitly Latin, Greek, Cyrillic, etc but anything). Remember that in a layout table, you have, first, a list of scripts that are explicitly addressed by the table, each of which scripts refers to a list of languages, each of which refers to some features associated with it; second, a list of features each of which refers to lookups associated with it; and third, a list of lookups which refer to subtables that define pieces of layout behavior (substitution or positioning). So by analyzing the input text and user settings, an application can find out which lookups it shall apply to the text. It is explained in detail <!-- raw HTML omitted -->here<!-- raw HTML omitted --> in the chapter &ldquo;Table Organization&rdquo;. The entry for a script &lsquo;    &rsquo; may not harm but is unnecessary, and is either better corrected with Adam&rsquo;s macro, or the ’languagesystem DFLT dflt;’ statement omitted right away.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -226,13 +210,12 @@ The P.S. question about the 'languagesystem DFLT dflt;' statement and FLS5's err
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi Karsten, thanks for the explanations.
-
-So you're saying I can (safely) omit "languagesystem DFLT dflt;"?
-My fonts are not overly complicated, and I just want a quick and easy way to support the Romanian conundrum...
-
-I guess it should be included in complex language coded fonts (as a catch-all?) but I specifically ONLY want to solve the ROM (and MOL) situation, which is specific for just "latn ROM" (and latn MOL)...
-Or wouldn't the feature work if I omit "languagesystem DFLT dflt;"?</div>
+		<div class="commentbody"><p>Hi Karsten, thanks for the explanations.</p>
+<p>So you&rsquo;re saying I can (safely) omit &ldquo;languagesystem DFLT dflt;&rdquo;?
+My fonts are not overly complicated, and I just want a quick and easy way to support the Romanian conundrum&hellip;</p>
+<p>I guess it should be included in complex language coded fonts (as a catch-all?) but I specifically ONLY want to solve the ROM (and MOL) situation, which is specific for just &ldquo;latn ROM&rdquo; (and latn MOL)&hellip;
+Or wouldn&rsquo;t the feature work if I omit &ldquo;languagesystem DFLT dflt;&rdquo;?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -253,20 +236,15 @@ Or wouldn't the feature work if I omit "languagesystem DFLT dflt;"?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The question whether to include both "languagesystem DFLT dflt" and "languagesystem latn dflt" or just "languagesystem latn dflt" has nothing to do with locl or Romanian. 
-
-AFDKO 1.6 which is part of FontLab Studio 5 only supports "languagesystem latn dflt" because "languagesystem DFLT dflt" was added to the OpenType specification much later (so in FLS5, it is misunderstood, and the four-spaces-script tag is generated instead, which my script corrects). 
-
-Whether one needs to use it at all, or not, is a matter of preference. Microsoft applications and older Adobe applications don't use the "languagesystem DFLT dflt" branch at all, just "languagesystem latn dflt". Newer Adobe applications will use "languagesystem latn dflt" in most cases, and "languagesystem DFLT dflt" in some cases, but if it is not present, they will use "languagesystem latn dflt" instead. 
-
-As far as I can tell, Microsoft considers the DFLT script tag redundant and unnecessary, so it was registered specifically by Adobe's motivation, but Adobe will also support the latn script tag. 
-
-FontLab Studio 6 will include AFDKO 2.5 which supports "languagesystem DFLT dflt" — but the question will still remain open whether it actually makes sense at all to add "languagesystem DFLT dflt". It's complicated :) 
-
-Either way, fonts with just "languagesystem latn dflt" will definitely work fine. 
-
-Regards,
-Adam</div>
+		<div class="commentbody"><p>The question whether to include both &ldquo;languagesystem DFLT dflt&rdquo; and &ldquo;languagesystem latn dflt&rdquo; or just &ldquo;languagesystem latn dflt&rdquo; has nothing to do with locl or Romanian.</p>
+<p>AFDKO 1.6 which is part of FontLab Studio 5 only supports &ldquo;languagesystem latn dflt&rdquo; because &ldquo;languagesystem DFLT dflt&rdquo; was added to the OpenType specification much later (so in FLS5, it is misunderstood, and the four-spaces-script tag is generated instead, which my script corrects).</p>
+<p>Whether one needs to use it at all, or not, is a matter of preference. Microsoft applications and older Adobe applications don&rsquo;t use the &ldquo;languagesystem DFLT dflt&rdquo; branch at all, just &ldquo;languagesystem latn dflt&rdquo;. Newer Adobe applications will use &ldquo;languagesystem latn dflt&rdquo; in most cases, and &ldquo;languagesystem DFLT dflt&rdquo; in some cases, but if it is not present, they will use &ldquo;languagesystem latn dflt&rdquo; instead.</p>
+<p>As far as I can tell, Microsoft considers the DFLT script tag redundant and unnecessary, so it was registered specifically by Adobe&rsquo;s motivation, but Adobe will also support the latn script tag.</p>
+<p>FontLab Studio 6 will include AFDKO 2.5 which supports &ldquo;languagesystem DFLT dflt&rdquo; — but the question will still remain open whether it actually makes sense at all to add &ldquo;languagesystem DFLT dflt&rdquo;. It&rsquo;s complicated :)</p>
+<p>Either way, fonts with just &ldquo;languagesystem latn dflt&rdquo; will definitely work fine.</p>
+<p>Regards,
+Adam</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -287,11 +265,10 @@ Adam</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Roger: <em>I also intend to duplicate the tTcommaaccent into the currently empty tTcedilla/U021AB spots.</em>
-
-I used to recommend that, since I never found any evidence of T/t with actual cedilla in use anywhere, but having discussed this with some Romanians at Microsoft, I've determined that it would be better to have T/t with cedilla glyphs mapped to U+0162 and U+00163. The thinking is that if these codepoints are used for Romanian text, which is still often the case due to legacy encodings, this implies that U+015E and U+015F will be used for the S/s diacritic; in this situation it is considered preferable for both S/s and T/t to be displayed with the incorrect cedilla accent than for one to be displayed with the cedilla and one with the comma-like accent.
-
-All the Microsoft core fonts were updated in this way recently, and now have actual T/t with cedilla glyphs mapped to U+0162 and U+00163.</div>
+		<div class="commentbody"><p>Roger: <!-- raw HTML omitted -->I also intend to duplicate the tTcommaaccent into the currently empty tTcedilla/U021AB spots.<!-- raw HTML omitted --></p>
+<p>I used to recommend that, since I never found any evidence of T/t with actual cedilla in use anywhere, but having discussed this with some Romanians at Microsoft, I&rsquo;ve determined that it would be better to have T/t with cedilla glyphs mapped to U+0162 and U+00163. The thinking is that if these codepoints are used for Romanian text, which is still often the case due to legacy encodings, this implies that U+015E and U+015F will be used for the S/s diacritic; in this situation it is considered preferable for both S/s and T/t to be displayed with the incorrect cedilla accent than for one to be displayed with the cedilla and one with the comma-like accent.</p>
+<p>All the Microsoft core fonts were updated in this way recently, and now have actual T/t with cedilla glyphs mapped to U+0162 and U+00163.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -312,27 +289,22 @@ All the Microsoft core fonts were updated in this way recently, and now have act
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I recommend against using the glyph names "Scommaaccent" and "scommaaccent" because they are not recognized by Mac OS X 10.4 and earlier. Use "uni0218" and "uni0219" instead, they will work everywhere where "Scommaaccent" and "scommaaccent" *and* also in Mac OS X 10.4 and earlier. 
-
-So, the following code works fine and is fully sufficient: 
-
-<code>languagesystem latn dflt;
+		<div class="commentbody"><p>I recommend against using the glyph names &ldquo;Scommaaccent&rdquo; and &ldquo;scommaaccent&rdquo; because they are not recognized by Mac OS X 10.4 and earlier. Use &ldquo;uni0218&rdquo; and &ldquo;uni0219&rdquo; instead, they will work everywhere where &ldquo;Scommaaccent&rdquo; and &ldquo;scommaaccent&rdquo; <em>and</em> also in Mac OS X 10.4 and earlier.</p>
+<p>So, the following code works fine and is fully sufficient:</p>
+<p><!-- raw HTML omitted -->languagesystem latn dflt;
 languagesystem latn MOL;
-languagesystem latn ROM;</code>
-
-<code>feature locl { # Localized Forms
-# Latin
-language MOL exclude_dflt; # Moldavian
+languagesystem latn ROM;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature locl { # Localized Forms</p>
+<h1 id="latin">Latin</h1>
+<p>language MOL exclude_dflt; # Moldavian
 sub [Scedilla scedilla] by [uni0218 uni0219];
 language ROM exclude_dflt; # Romanian
 sub [Scedilla scedilla] by [uni0218 uni0219];
-} locl;</code>
-
-If you use AFDKO 2.5 to build your fonts rather than FLS5, you might optionally also want to add the line 
-
-<code>languagesystem DFLT dflt;</code>
-
-at the very beginning of your feature definition file (i.e. in FontLab Studio's UI, in the lower-right pane). Or, if you use FLS5, you can add that line and then use my script. Or you may simply not bother about it at all. </div>
+} locl;<!-- raw HTML omitted --></p>
+<p>If you use AFDKO 2.5 to build your fonts rather than FLS5, you might optionally also want to add the line</p>
+<p><!-- raw HTML omitted -->languagesystem DFLT dflt;<!-- raw HTML omitted --></p>
+<p>at the very beginning of your feature definition file (i.e. in FontLab Studio&rsquo;s UI, in the lower-right pane). Or, if you use FLS5, you can add that line and then use my script. Or you may simply not bother about it at all.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -353,17 +325,15 @@ at the very beginning of your feature definition file (i.e. in FontLab Studio's 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@Adam: Thanks for confirming the "easy" solution. I prefer to do it all in FontLab, so omitting "languagesystem DFLT dflt;" suits me just fine :)
-And BTW: when will FontLab Studio 6 be available? ;)
-
-@John: jeez, you just HAD to throw another spanner in the works! :p
-I can understand the reasoning behind it, though - it makes sense for the Microsoft core fonts for which there must be LOTS of existing documents written in Romanian...
-But I'm not too worried about backward compatibility for my fonts - they will (probably) only be used to set NEW text, and therefore I only want them to support the new "correct" glyph designs. That is also the reason I want to implement the language code - to aid in getting rid of the legacy usage (only in language "tag" aware application, though).
-
-Thanks for all the good help - during a weekend, even!
-:)
-
-Roger</div>
+		<div class="commentbody"><p>@Adam: Thanks for confirming the &ldquo;easy&rdquo; solution. I prefer to do it all in FontLab, so omitting &ldquo;languagesystem DFLT dflt;&rdquo; suits me just fine :)
+And BTW: when will FontLab Studio 6 be available? ;)</p>
+<p>@John: jeez, you just HAD to throw another spanner in the works! :p
+I can understand the reasoning behind it, though - it makes sense for the Microsoft core fonts for which there must be LOTS of existing documents written in Romanian&hellip;
+But I&rsquo;m not too worried about backward compatibility for my fonts - they will (probably) only be used to set NEW text, and therefore I only want them to support the new &ldquo;correct&rdquo; glyph designs. That is also the reason I want to implement the language code - to aid in getting rid of the legacy usage (only in language &ldquo;tag&rdquo; aware application, though).</p>
+<p>Thanks for all the good help - during a weekend, even!
+:)</p>
+<p>Roger</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -384,9 +354,9 @@ Roger</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>All the Microsoft core fonts were updated in this way recently, and now have actual T/t with cedilla glyphs mapped to U+0162 and U+00163.</em>
-
-Same thing for FontFonts.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->All the Microsoft core fonts were updated in this way recently, and now have actual T/t with cedilla glyphs mapped to U+0162 and U+00163.<!-- raw HTML omitted --></p>
+<p>Same thing for FontFonts.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -407,7 +377,7 @@ Same thing for FontFonts.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">*Tricketi-tracketi-tracking*</div>
+		<div class="commentbody"><em>Tricketi-tracketi-tracking</em></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -428,13 +398,11 @@ Same thing for FontFonts.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Roger: <em>But I’m not too worried about backward compatibility for my fonts - they will (probably) only be used to set NEW text, and therefore I only want them to support the new “correct” glyph designs.</em>
-
-But the standard 8-bit codepages that use the old encodings for Romanian have not gone away, nor have the Romanian keyboard drivers that use them, and plenty of new Romanian text gets encoded using U+0162 and U+0163 for the T/t diacritic instead of the newer, recommended codepoints. Wherever there is the possibility that the Romanian S/s diacritic will be displayed with a cedilla because of the encoding, the T/t diacritic should match.
-
-<em>That is also the reason I want to implement the language code - to aid in getting rid of the legacy usage (only in language “tag” aware application, though).</em>
-
-Good. But this mechanism should also be used to convert T/t with cedilla to T/t with comma-like accent, rather than making the latter the default form for U+0162 and U+0163.</div>
+		<div class="commentbody"><p>Roger: <!-- raw HTML omitted -->But I’m not too worried about backward compatibility for my fonts - they will (probably) only be used to set NEW text, and therefore I only want them to support the new “correct” glyph designs.<!-- raw HTML omitted --></p>
+<p>But the standard 8-bit codepages that use the old encodings for Romanian have not gone away, nor have the Romanian keyboard drivers that use them, and plenty of new Romanian text gets encoded using U+0162 and U+0163 for the T/t diacritic instead of the newer, recommended codepoints. Wherever there is the possibility that the Romanian S/s diacritic will be displayed with a cedilla because of the encoding, the T/t diacritic should match.</p>
+<p><!-- raw HTML omitted -->That is also the reason I want to implement the language code - to aid in getting rid of the legacy usage (only in language “tag” aware application, though).<!-- raw HTML omitted --></p>
+<p>Good. But this mechanism should also be used to convert T/t with cedilla to T/t with comma-like accent, rather than making the latter the default form for U+0162 and U+0163.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -455,16 +423,14 @@ Good. But this mechanism should also be used to convert T/t with cedilla to T/t 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ouch, my head hurts now... ;)
-
-I understand the problem, and see that it can (maybe) be solved with even more switcheroo-stuff encoded in the font (feel free to supply the needed code ;). But putting in a "wrongly designed" glyph just irks me. Using two wrongly designed glyphs in text for the sake of consistency irks me doubly.
-
-I personally have no problem leaving a little responsibility to the users of my fonts.
-At least the T will be presented with the correct design in any case - and if the user want an S with the corresponding design, they will have to pick it from the glyph pallette, search/replace or use an input method that works "correctly".
+		<div class="commentbody"><p>Ouch, my head hurts now&hellip; ;)</p>
+<p>I understand the problem, and see that it can (maybe) be solved with even more switcheroo-stuff encoded in the font (feel free to supply the needed code ;). But putting in a &ldquo;wrongly designed&rdquo; glyph just irks me. Using two wrongly designed glyphs in text for the sake of consistency irks me doubly.</p>
+<p>I personally have no problem leaving a little responsibility to the users of my fonts.
+At least the T will be presented with the correct design in any case - and if the user want an S with the corresponding design, they will have to pick it from the glyph pallette, search/replace or use an input method that works &ldquo;correctly&rdquo;.
 If they set the text and have differently designed T and S - and care about it - they should also know how to correct it.
-Again: the fonts I make are not intended for large amounts of text, so the user should be able to adjust it manually.
-
-But for the general information value of this thread: it would be interesting to see a catch-all solution worked out, preferably with the text always ending up with using correctly designed glyphs. Is that even possible?</div>
+Again: the fonts I make are not intended for large amounts of text, so the user should be able to adjust it manually.</p>
+<p>But for the general information value of this thread: it would be interesting to see a catch-all solution worked out, preferably with the text always ending up with using correctly designed glyphs. Is that even possible?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -485,14 +451,13 @@ But for the general information value of this thread: it would be interesting to
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I tried to find the correct glyph -> unicode assignment of the T/tcommaaccent T/tcedilla S/scomm... I had a look at various fonts and found no clear solution. 
-
-Can someone give a clear overview of glyphshape > unicode/name for this four glyphs? Does the glyph look like the name and witch unicodes should be assigned?
+		<div class="commentbody"><p>I tried to find the correct glyph -&gt; unicode assignment of the T/tcommaaccent T/tcedilla S/scomm&hellip; I had a look at various fonts and found no clear solution.</p>
+<p>Can someone give a clear overview of glyphshape &gt; unicode/name for this four glyphs? Does the glyph look like the name and witch unicodes should be assigned?
 Is is a completely incorrect example of what I meen:
-[img:sites/default/files/old-images/commaaccents_3460.png]
-
-Thanks
-Georg</div>
+[img:sites/default/files/old-images/commaaccents_3460.png]</p>
+<p>Thanks
+Georg</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -513,13 +478,11 @@ Georg</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This is exactly the main problem: inconsistency! ;)
-
-What John suggests (and Microsoft and FontFont apparently has done recently) is to change the design of the "tTcommaaccent"/U021A-B to a Tt with cedilla - a glyph which is "incorrect", but more consistent with a wrongly used sScedilla...
-
-And previously the recommendation from John (and the choice of Microsoft and FontFont) was to use a comma on both T-designs (as in your example) - with the reasoning being that the tT with cedilla "doesn't exist".
-
-My stance so far (but it might change someday ;) is that it is better to have at least one (T) glyph correct in all instances and leave the correction of the other one (S) up to the user. If they use language tag aware (= updated) software the first mentioned code will auto-correct it, and if they use older software and/or is not capable to change the S around themselves: they are "bad designers/typographers", and it will show in their work. Tough love! ;)</div>
+		<div class="commentbody"><p>This is exactly the main problem: inconsistency! ;)</p>
+<p>What John suggests (and Microsoft and FontFont apparently has done recently) is to change the design of the &ldquo;tTcommaaccent&rdquo;/U021A-B to a Tt with cedilla - a glyph which is &ldquo;incorrect&rdquo;, but more consistent with a wrongly used sScedilla&hellip;</p>
+<p>And previously the recommendation from John (and the choice of Microsoft and FontFont) was to use a comma on both T-designs (as in your example) - with the reasoning being that the tT with cedilla &ldquo;doesn&rsquo;t exist&rdquo;.</p>
+<p>My stance so far (but it might change someday ;) is that it is better to have at least one (T) glyph correct in all instances and leave the correction of the other one (S) up to the user. If they use language tag aware (= updated) software the first mentioned code will auto-correct it, and if they use older software and/or is not capable to change the S around themselves: they are &ldquo;bad designers/typographers&rdquo;, and it will show in their work. Tough love! ;)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -540,11 +503,10 @@ My stance so far (but it might change someday ;) is that it is better to have at
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"FontLab Studio 6 will include AFDKO 2.5 ..."
-
-Will this actually be in our lifetime, Adam? Or will there be yet another new FDK and 3 OS changes before we actually see it on a Mac?
-
-ChrisL</div>
+		<div class="commentbody"><p>&ldquo;FontLab Studio 6 will include AFDKO 2.5 &hellip;&rdquo;</p>
+<p>Will this actually be in our lifetime, Adam? Or will there be yet another new FDK and 3 OS changes before we actually see it on a Mac?</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -565,14 +527,12 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">There are four Unicode characters, included in a single 8-bit Romanian codepage: U+01FE U+015F U+0162 U+0163. These are all identified in Unicode as ...WITH CEDILLA.
-
-Now, this encoding is generally recognised as having been a mistake, because it falsely unifies S/s with cedilla, as used in Turkish, with S/s with comma-like accent as used in Romanian. Later, in an effort to correct this mistake, Unicode added distinct S/s and T/t with comma-like accent codepoints -- U+0218 U+0129 U+021A U+021B -- thereby producing two divergent ways of encoding the Romanian language. It is a mess, to be sure, but I do not think it can be asserted with certainty that T/t with a cedilla is a ‘wrongly designed glyph’ for U+0162 or U+0163; indeed, since Unicode deliberately chose to disunify not only S/s with cedilla from S/s with comma-like accent but also T/t with cedilla from T/t with comma-like accent, I think a very strong case can be made that, whatever the needs of Romanian typography, U+0162 or U+0163 should be designed with a cedilla in parallel with U+01FE and U+015F.
-
-Sure, the cedilla is wrong for Romanian, but the approved solution to that problem is to use the new codepoints -- U+0218 U+0129 U+021A U+021B -- for Romanian. For better or for worse, this is the solution that Unicode provides: a change in the character encoding. Since they disunified both the S/s and T/t diacritics for Romanian, that implies to me that the glyphs should be likewise disunified. And as I noted, the change in practice in MS fonts was in response to consultation with native Romanian text processing experts. The same point is also made -- complete with link to me contradicting my current position! -- on this Romanian web page:
-http://dic.academic.ru/dic.nsf/enwiki/236528
-
-In this case, two wrongs do seem to make, if not a right, at least a lesser wrong.</div>
+		<div class="commentbody"><p>There are four Unicode characters, included in a single 8-bit Romanian codepage: U+01FE U+015F U+0162 U+0163. These are all identified in Unicode as &hellip;WITH CEDILLA.</p>
+<p>Now, this encoding is generally recognised as having been a mistake, because it falsely unifies S/s with cedilla, as used in Turkish, with S/s with comma-like accent as used in Romanian. Later, in an effort to correct this mistake, Unicode added distinct S/s and T/t with comma-like accent codepoints &ndash; U+0218 U+0129 U+021A U+021B &ndash; thereby producing two divergent ways of encoding the Romanian language. It is a mess, to be sure, but I do not think it can be asserted with certainty that T/t with a cedilla is a ‘wrongly designed glyph’ for U+0162 or U+0163; indeed, since Unicode deliberately chose to disunify not only S/s with cedilla from S/s with comma-like accent but also T/t with cedilla from T/t with comma-like accent, I think a very strong case can be made that, whatever the needs of Romanian typography, U+0162 or U+0163 should be designed with a cedilla in parallel with U+01FE and U+015F.</p>
+<p>Sure, the cedilla is wrong for Romanian, but the approved solution to that problem is to use the new codepoints &ndash; U+0218 U+0129 U+021A U+021B &ndash; for Romanian. For better or for worse, this is the solution that Unicode provides: a change in the character encoding. Since they disunified both the S/s and T/t diacritics for Romanian, that implies to me that the glyphs should be likewise disunified. And as I noted, the change in practice in MS fonts was in response to consultation with native Romanian text processing experts. The same point is also made &ndash; complete with link to me contradicting my current position! &ndash; on this Romanian web page:
+<a href="http://dic.academic.ru/dic.nsf/enwiki/236528">http://dic.academic.ru/dic.nsf/enwiki/236528</a></p>
+<p>In this case, two wrongs do seem to make, if not a right, at least a lesser wrong.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -593,21 +553,17 @@ In this case, two wrongs do seem to make, if not a right, at least a lesser wron
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">OK, John - you have persuaded me, I think ;)
-
-Even though the tT with cedilla shouldn't really be used, it's more fun to design different glyphs, anyway (instead of having duplicate ones)...
-
-Now let's create the needed code! Need a little help here...
-
-languagesystem DFLT dflt; # optional
+		<div class="commentbody"><p>OK, John - you have persuaded me, I think ;)</p>
+<p>Even though the tT with cedilla shouldn&rsquo;t really be used, it&rsquo;s more fun to design different glyphs, anyway (instead of having duplicate ones)&hellip;</p>
+<p>Now let&rsquo;s create the needed code! Need a little help here&hellip;</p>
+<p>languagesystem DFLT dflt; # optional
 languagesystem latn dflt;
 languagesystem latn MOL; # Moldovian (is that an actual latin language? Wikipedia says church slavonic)
 languagesystem latn ROM; # Romanian
-languagesystem latn ???; # Livonian (uses commaaccent for other letters, so need help to "switch" the tTcedilla if it gets the "unused" design)
-
-feature locl { # Localized Forms
-# Latin
-language MOL exclude_dflt; # Moldavian
+languagesystem latn ???; # Livonian (uses commaaccent for other letters, so need help to &ldquo;switch&rdquo; the tTcedilla if it gets the &ldquo;unused&rdquo; design)</p>
+<p>feature locl { # Localized Forms</p>
+<h1 id="latin">Latin</h1>
+<p>language MOL exclude_dflt; # Moldavian
 sub [Scedilla scedilla] by [uni0218 uni0219];
 sub [Tcedilla tcedilla] by [uni021A uni021B];
 language ROM exclude_dflt; # Romanian
@@ -615,9 +571,9 @@ sub [Scedilla scedilla] by [uni0218 uni0219];
 sub [Tcedilla tcedilla] by [uni021A uni021B];
 language ??? exclude_dflt; # Livonian
 sub [Tcedilla tcedilla] by [uni021A uni021B];
-} locl;
-
-Are we getting there?</div>
+} locl;</p>
+<p>Are we getting there?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -638,7 +594,7 @@ Are we getting there?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you to all who commented on this thread. I have posted a <a href="http://forum.fontlab.com/fontlab-studio-tips-and-tricks/handling-romanian-glyphs-in-opentype-fonts-updated-as-of-2009-t337.0.html;msg911#msg911"><strong>summary of this discussion on the FontLab forum</strong></a>. </div>
+		<div class="commentbody">Thank you to all who commented on this thread. I have posted a <!-- raw HTML omitted --><!-- raw HTML omitted -->summary of this discussion on the FontLab forum<!-- raw HTML omitted --><!-- raw HTML omitted -->.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -659,20 +615,17 @@ Are we getting there?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Wow, more "uniXXXX" glyph names...
-I like the lookup subroutine, though...
-
-When will FontLab start using these (new?) correct glyphnames? (0162-3 are called tTcommaaccent now - the opposite of what they should look like according to the most recent policy ;)
-Will this be corrected in FontLab Studio 6? And when will this be released, Adam? ;)
-
-And to further prove the confusion around these glyphs:
+		<div class="commentbody"><p>Wow, more &ldquo;uniXXXX&rdquo; glyph names&hellip;
+I like the lookup subroutine, though&hellip;</p>
+<p>When will FontLab start using these (new?) correct glyphnames? (0162-3 are called tTcommaaccent now - the opposite of what they should look like according to the most recent policy ;)
+Will this be corrected in FontLab Studio 6? And when will this be released, Adam? ;)</p>
+<p>And to further prove the confusion around these glyphs:
 On my Mac (Safari 3.2 / OSX 10.4.11) your letters under point 1 show up correctly (as described) BUT
-On my PC (Internet Explorer 7 / Win XP Pro) the tT designs are switched! (tTcedilla has clearly disconnected commaaccents and the tTcommaaccents looks connected)
-
-Man, what a mess! :D
-
-Oh, and we should also put in proper language support for the (9?) Livonian-speaking users out there! ;)
-Just for completeness. Anybody know the proper language code for Livonian?</div>
+On my PC (Internet Explorer 7 / Win XP Pro) the tT designs are switched! (tTcedilla has clearly disconnected commaaccents and the tTcommaaccents looks connected)</p>
+<p>Man, what a mess! :D</p>
+<p>Oh, and we should also put in proper language support for the (9?) Livonian-speaking users out there! ;)
+Just for completeness. Anybody know the proper language code for Livonian?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -693,11 +646,11 @@ Just for completeness. Anybody know the proper language code for Livonian?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Oh, Adam deleted his initial post and made a link to the FontLab forum instead...
-On the FontLab forum the letters are displayed correctly.
-
-But trust me, it DID look wrong here ;)
-(Could you re-post it, Adam?)</div>
+		<div class="commentbody"><p>Oh, Adam deleted his initial post and made a link to the FontLab forum instead&hellip;
+On the FontLab forum the letters are displayed correctly.</p>
+<p>But trust me, it DID look wrong here ;)
+(Could you re-post it, Adam?)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -718,16 +671,13 @@ But trust me, it DID look wrong here ;)
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Roger, 
-
-I was having trouble getting the post formatted here on Typophile because Typophile does not support tables, AFAIK. So I posted it on the FontLab forum. But feel free to comment on it here if you wish. 
-
-We don't have a release date for FontLab Studio 6 yet but of course it will use the newest AGLFN and glyph naming recommendations. The current version uses an older version of AGLFN (which was current at the time of release of FLS5, and which did recommend the use of *commaaccent glyph names.) 
-
-As for the rendering of the characters in my posting — they are encoded correctly in the posting, but will of course be rendered using the glyphs that are in the browser's current font. We all know that some fonts have those glyphs designed according to the current recommendations while other fonts will have them designed according to the old specs, or even yet in a different way. 
-
-Best,
-Adam</div>
+		<div class="commentbody"><p>Roger,</p>
+<p>I was having trouble getting the post formatted here on Typophile because Typophile does not support tables, AFAIK. So I posted it on the FontLab forum. But feel free to comment on it here if you wish.</p>
+<p>We don&rsquo;t have a release date for FontLab Studio 6 yet but of course it will use the newest AGLFN and glyph naming recommendations. The current version uses an older version of AGLFN (which was current at the time of release of FLS5, and which did recommend the use of *commaaccent glyph names.)</p>
+<p>As for the rendering of the characters in my posting — they are encoded correctly in the posting, but will of course be rendered using the glyphs that are in the browser&rsquo;s current font. We all know that some fonts have those glyphs designed according to the current recommendations while other fonts will have them designed according to the old specs, or even yet in a different way.</p>
+<p>Best,
+Adam</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -749,7 +699,7 @@ Adam</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">No worries - it just looked too funny (especially in this context)
-Yeah, I know it had to do with the browser fonts (or probably substitute fonts), but still... hilarious.
+Yeah, I know it had to do with the browser fonts (or probably substitute fonts), but still&hellip; hilarious.
 :)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -771,7 +721,7 @@ Yeah, I know it had to do with the browser fonts (or probably substitute fonts),
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hilarious? I don't know. I guess it's the difference in attitude. I assume that all software products, including fonts from all vendors, are faulty and buggy to some extent — so if a bug surfaces, it's just a confirmation of my expectation. In other words, I'm not surprised that those characters render differently depending on the font. If they were all fine, we wouldn't be having this conversation :) </div>
+		<div class="commentbody">Hilarious? I don&rsquo;t know. I guess it&rsquo;s the difference in attitude. I assume that all software products, including fonts from all vendors, are faulty and buggy to some extent — so if a bug surfaces, it&rsquo;s just a confirmation of my expectation. In other words, I&rsquo;m not surprised that those characters render differently depending on the font. If they were all fine, we wouldn&rsquo;t be having this conversation :)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -792,11 +742,10 @@ Yeah, I know it had to do with the browser fonts (or probably substitute fonts),
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Exactly. :)
-
-Now, if only John (with his exceptional technical linguistic knowledge) could supply us with the language code for Livonian we can also include support for the tTcedilla to tTcommaaccent switch neccesary for that language when we make a tT with cedilla in glyph position U0162-3.
-
-THEN all new fonts with this feature code and glyph design will work optimally (until next time technology or whatnot makes us change the policy again ;)</div>
+		<div class="commentbody"><p>Exactly. :)</p>
+<p>Now, if only John (with his exceptional technical linguistic knowledge) could supply us with the language code for Livonian we can also include support for the tTcedilla to tTcommaaccent switch neccesary for that language when we make a tT with cedilla in glyph position U0162-3.</p>
+<p>THEN all new fonts with this feature code and glyph design will work optimally (until next time technology or whatnot makes us change the policy again ;)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -817,9 +766,9 @@ THEN all new fonts with this feature code and glyph design will work optimally (
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">'Moldavian' is more usually referred to as Moldovan. Essentially, it is Romanian as spoken in the region of Moldavia that was part of the USSR (now the Republic of Moldova). For this reason, while Romanian in Romania has been written in the Latin alphabet since the 19th Century, Moldovan, like most other minority languages of the Soviet Union, was given a Cyrillic alphabet in the 1930s. In 1989, the former Moldovian SSR officially switched to a Latin alphabet.
-
-There is no OpenType language system tag for Livonian, but there should be. I'll mention it to Peter Constable at MS.</div>
+		<div class="commentbody"><p>&lsquo;Moldavian&rsquo; is more usually referred to as Moldovan. Essentially, it is Romanian as spoken in the region of Moldavia that was part of the USSR (now the Republic of Moldova). For this reason, while Romanian in Romania has been written in the Latin alphabet since the 19th Century, Moldovan, like most other minority languages of the Soviet Union, was given a Cyrillic alphabet in the 1930s. In 1989, the former Moldovian SSR officially switched to a Latin alphabet.</p>
+<p>There is no OpenType language system tag for Livonian, but there should be. I&rsquo;ll mention it to Peter Constable at MS.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -840,7 +789,7 @@ There is no OpenType language system tag for Livonian, but there should be. I'll
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks, John - you're a true cornucopia of knowledge. :)</div>
+		<div class="commentbody">Thanks, John - you&rsquo;re a true cornucopia of knowledge. :)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -861,9 +810,9 @@ There is no OpenType language system tag for Livonian, but there should be. I'll
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I seem to recall that the cedilla is used in one romanisation of Arabic to indicate emphatic consonants: ş z̧ ḑ ţ. The t-cedilla for this purpose should not have the commaaccent. 
-
-However, I see that the d + combining cedilla is looking like d + commaaccent in my system fonts here, which is incorrect for this Arabic transcription method.</div>
+		<div class="commentbody"><p>I seem to recall that the cedilla is used in one romanisation of Arabic to indicate emphatic consonants: ş z̧ ḑ ţ. The t-cedilla for this purpose should not have the commaaccent.</p>
+<p>However, I see that the d + combining cedilla is looking like d + commaaccent in my system fonts here, which is incorrect for this Arabic transcription method.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -884,11 +833,10 @@ However, I see that the d + combining cedilla is looking like d + commaaccent in
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>However, I see that the d + combining cedilla is looking like d + commaaccent in my system fonts here, which is incorrect for this Arabic transcription method.</em>
-
-That suggests that the combination of d with combining cedilla is being mapped, at the character level, to U+1E0D, using Unicode canonical composition. This codepoint is almost always displayed as d with an undercomma, because that is the Unicode reference glyph form and, as used for Livonian, this is the correct form. There are a number of Unicode characters whose names and canonical decompositions involve cedilla, but whose use and reference glyph specifies the commaaccent form. You would need a specialised Arabic-transcription font in order to display the form with cedilla.
-
-I'm not familiar with this convention for Arabic transcription. Where is it used?</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->However, I see that the d + combining cedilla is looking like d + commaaccent in my system fonts here, which is incorrect for this Arabic transcription method.<!-- raw HTML omitted --></p>
+<p>That suggests that the combination of d with combining cedilla is being mapped, at the character level, to U+1E0D, using Unicode canonical composition. This codepoint is almost always displayed as d with an undercomma, because that is the Unicode reference glyph form and, as used for Livonian, this is the correct form. There are a number of Unicode characters whose names and canonical decompositions involve cedilla, but whose use and reference glyph specifies the commaaccent form. You would need a specialised Arabic-transcription font in order to display the form with cedilla.</p>
+<p>I&rsquo;m not familiar with this convention for Arabic transcription. Where is it used?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -909,17 +857,13 @@ I'm not familiar with this convention for Arabic transcription. Where is it used
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>That suggests that the combination of d with combining cedilla is being mapped, at the character level, to U+1E0D, using Unicode canonical composition. This codepoint is almost always displayed as d with an undercomma, because that is the Unicode reference glyph form and, as used for Livonian, this is the correct form. </cite>
-
-True, but there should be a way to produce a D + cedilla using the combining diacritic (U+0327) which produces the cedilla. If one wanted the D + commaaccent, one could either use the precomposed character U+1E10 or use D+ combining commaaccent (U+0326). Yes, the correct forms of U+1E10 and U+1E11 use the commaaccent, regardless of their Unicode character name.
-
-<cite>There are a number of Unicode characters whose names and canonical decompositions involve cedilla, but whose use and reference glyph specifies the commaaccent form.</cite>
-
-It is a pity that the cedillas and commaaccents were unified early on in Unicode.
-
-<cite>I’m not familiar with this convention for Arabic transcription. Where is it used?</cite>
-
-Off-hand, it's used in National Geographic Atlases. Looking through my copy, there are the Iraqi cities of Al Ḩaḑr, Al Mawşil, Ash Sharqāţ, Al Kāz̧imīyah.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->That suggests that the combination of d with combining cedilla is being mapped, at the character level, to U+1E0D, using Unicode canonical composition. This codepoint is almost always displayed as d with an undercomma, because that is the Unicode reference glyph form and, as used for Livonian, this is the correct form. <!-- raw HTML omitted --></p>
+<p>True, but there should be a way to produce a D + cedilla using the combining diacritic (U+0327) which produces the cedilla. If one wanted the D + commaaccent, one could either use the precomposed character U+1E10 or use D+ combining commaaccent (U+0326). Yes, the correct forms of U+1E10 and U+1E11 use the commaaccent, regardless of their Unicode character name.</p>
+<p><!-- raw HTML omitted -->There are a number of Unicode characters whose names and canonical decompositions involve cedilla, but whose use and reference glyph specifies the commaaccent form.<!-- raw HTML omitted --></p>
+<p>It is a pity that the cedillas and commaaccents were unified early on in Unicode.</p>
+<p><!-- raw HTML omitted -->I’m not familiar with this convention for Arabic transcription. Where is it used?<!-- raw HTML omitted --></p>
+<p>Off-hand, it&rsquo;s used in National Geographic Atlases. Looking through my copy, there are the Iraqi cities of Al Ḩaḑr, Al Mawşil, Ash Sharqāţ, Al Kāz̧imīyah.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -940,15 +884,12 @@ Off-hand, it's used in National Geographic Atlases. Looking through my copy, the
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>True, but there should be a way to produce a D + cedilla using the combining diacritic (U+0327) which produces the cedilla.</em>
-
-There are numerous ways it could be done, all of which are font-level solutions. If unicode normalisation form C is applied to text or if, like MS Uniscribe, the text engine performs buffered character-level substition of D + combining cedilla to U+1E10, then one needs either
-
-a) a font for which the default glyph for U+1E10 is a D with cedilla (e.g. specialised font for Arabic transliteration); or
-
-b) a font which contains a [locl] feature subsitution of the default, commaaccent form of U+1E10 to a variant glyph with a cedilla.
-
-The latter solution raises the question of which language system tag would be appropriate for such a [locl] lookup. Theoretically, the obvious answer would be Arabic [ARA ], so one would have an Arabic language system tag associated with a Latin [latn] script tag. In practice, I'm not sure whether this would work or not. If I have a spare half hour at some point I'll make a test in InDesign ME, and see what happens if one tags text in Latin characters as Arabic.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->True, but there should be a way to produce a D + cedilla using the combining diacritic (U+0327) which produces the cedilla.<!-- raw HTML omitted --></p>
+<p>There are numerous ways it could be done, all of which are font-level solutions. If unicode normalisation form C is applied to text or if, like MS Uniscribe, the text engine performs buffered character-level substition of D + combining cedilla to U+1E10, then one needs either</p>
+<p>a) a font for which the default glyph for U+1E10 is a D with cedilla (e.g. specialised font for Arabic transliteration); or</p>
+<p>b) a font which contains a [locl] feature subsitution of the default, commaaccent form of U+1E10 to a variant glyph with a cedilla.</p>
+<p>The latter solution raises the question of which language system tag would be appropriate for such a [locl] lookup. Theoretically, the obvious answer would be Arabic [ARA ], so one would have an Arabic language system tag associated with a Latin [latn] script tag. In practice, I&rsquo;m not sure whether this would work or not. If I have a spare half hour at some point I&rsquo;ll make a test in InDesign ME, and see what happens if one tags text in Latin characters as Arabic.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -969,19 +910,15 @@ The latter solution raises the question of which language system tag would be ap
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Sorry for bumping this thread, but I get this on compile:
-
-<code>
-[FATAL] <Facet-Regular> invalid token (text was " ") [/Users/claus/Library/Application Support/FontLab/Studio 5/Features/fontlab.fea 26]
-</code>
-
-and that would be this line:
-<code>
+		<div class="commentbody"><p>Sorry for bumping this thread, but I get this on compile:</p>
+<!-- raw HTML omitted -->
+<p>and that would be this line:
+<!-- raw HTML omitted -->
   sub [Scedilla scedilla] by [uni0218 uni0219];
-</code>
-
-Thanks
-Claus</div>
+<!-- raw HTML omitted --></p>
+<p>Thanks
+Claus</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1002,7 +939,7 @@ Claus</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Okay, I fixed it. There was an invisible (in the OT panel) tab stop (or something) character that got pulled in from Adam's code on the Fontlab forum, when I copy pasted it. I could see it in the UFO thank God. Perhaps it's my Safari 4 beta playing tricks on me, but I don't think so since nothing weird shows up if I paste into Textmate or Pico. Go figure, or you might want to check if that is replicable in your neck of the woods Adam.</div>
+		<div class="commentbody">Okay, I fixed it. There was an invisible (in the OT panel) tab stop (or something) character that got pulled in from Adam&rsquo;s code on the Fontlab forum, when I copy pasted it. I could see it in the UFO thank God. Perhaps it&rsquo;s my Safari 4 beta playing tricks on me, but I don&rsquo;t think so since nothing weird shows up if I paste into Textmate or Pico. Go figure, or you might want to check if that is replicable in your neck of the woods Adam.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1023,26 +960,24 @@ Claus</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I had that same problem. Caused me some time of head-scratching, too, I can tell you... ;)
-Here is the needed code (copied and pasted from a working text-file:
-
-languagesystem DFLT dflt; # optional
+		<div class="commentbody"><p>I had that same problem. Caused me some time of head-scratching, too, I can tell you&hellip; ;)
+Here is the needed code (copied and pasted from a working text-file:</p>
+<p>languagesystem DFLT dflt; # optional
 languagesystem latn dflt;
 languagesystem latn ROM;
-languagesystem latn MOL;
-
-feature locl { # Localized Forms
-# Latin
-language ROM exclude_dflt; # Romanian
+languagesystem latn MOL;</p>
+<p>feature locl { # Localized Forms</p>
+<h1 id="latin">Latin</h1>
+<p>language ROM exclude_dflt; # Romanian
 lookup locl_ROM { 
-  sub [Scedilla scedilla] by [uni0218 uni0219];
-  sub [uni0162 uni0163] by [uni021A uni021B];
+sub [Scedilla scedilla] by [uni0218 uni0219];
+sub [uni0162 uni0163] by [uni021A uni021B];
 } locl_ROM;
 language MOL exclude_dflt; # Moldavian
 lookup locl_ROM;
-} locl;
-
-Works for me! :D</div>
+} locl;</p>
+<p>Works for me! :D</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1063,7 +998,7 @@ Works for me! :D</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You need to be careful when copying feature code from a web page. Because of the limited html support in discussion forums, it's often difficult to get indentation to display properly (which are especially important to Python, for example), so all sorts of workarounds are used, such as using fixed spaces instead of normal spaces. Unfortunately, this breaks the code if you try to run it. To be safe, check any indents or white space in code you get from the web before running it.</div>
+		<div class="commentbody">You need to be careful when copying feature code from a web page. Because of the limited html support in discussion forums, it&rsquo;s often difficult to get indentation to display properly (which are especially important to Python, for example), so all sorts of workarounds are used, such as using fixed spaces instead of normal spaces. Unfortunately, this breaks the code if you try to run it. To be safe, check any indents or white space in code you get from the web before running it.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -71,11 +71,11 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I&#39;m working on a handwriting font that I would like to make semi-random. I alrady have glyphs for primary and alternate forms set up in fontlab. I tried to read through the Microsoft OpenType spec but it was like eating a box of rocks, a little hard to swallow. All I want to do is code the font so that &#34;ss&#34; and other dual characters that I set up will automatically be replaced with &#34;s s.Alt&#34; etc. <BR> <BR>Can someone point me to an easy guide to the programming side of OTFs, or let me know which code sequence I should be using?</div>
+  <div class="post-content e-content" itemprop="articleBody">I'm working on a handwriting font that I would like to make semi-random. I alrady have glyphs for primary and alternate forms set up in fontlab. I tried to read through the Microsoft OpenType spec but it was like eating a box of rocks, a little hard to swallow. All I want to do is code the font so that &quot;ss&quot; and other dual characters that I set up will automatically be replaced with &quot;s s.Alt&quot; etc. <!-- raw HTML omitted --> <!-- raw HTML omitted -->Can someone point me to an easy guide to the programming side of OTFs, or let me know which code sequence I should be using?</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Are you making the OpenType features with FontLab or VOLT or ? If we know what tools you are using, we can provide more precise advice. <BR> <BR>Basically, though, you want to create a set of substitution lookups for the Contextual Alternates &#60;calt&#62; layout feature. I use VOLT for OpenType, so in VOLT syntax I would express your example in this way: <BR> <BR> s -&#62; s.alt <BR> s | <BR> <BR>The bar in the second line indicates the context, so this substitution would occur whenever preceded by s. <BR> <BR>Someone else can probably explain the FontLab / Adobe FDK syntax better than I can. I always have to go and read the manual again whenever I do any OT work directly in FontLab.</div>
+		<div class="commentbody">Are you making the OpenType features with FontLab or VOLT or ? If we know what tools you are using, we can provide more precise advice. <!-- raw HTML omitted --> <!-- raw HTML omitted -->Basically, though, you want to create a set of substitution lookups for the Contextual Alternates &lt;calt&gt; layout feature. I use VOLT for OpenType, so in VOLT syntax I would express your example in this way: <!-- raw HTML omitted --> <!-- raw HTML omitted --> s -&gt; s.alt <!-- raw HTML omitted --> s | <!-- raw HTML omitted --> <!-- raw HTML omitted -->The bar in the second line indicates the context, so this substitution would occur whenever preceded by s. <!-- raw HTML omitted --> <!-- raw HTML omitted -->Someone else can probably explain the FontLab / Adobe FDK syntax better than I can. I always have to go and read the manual again whenever I do any OT work directly in FontLab.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -96,7 +96,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">please try <BR> <BR>feature calt { <BR> sub s s&#39; by s.alt; <BR>} calt; <BR> <BR>&#39; indicates the glyph to be changed.</div>
+		<div class="commentbody">please try <!-- raw HTML omitted --> <!-- raw HTML omitted -->feature calt { <!-- raw HTML omitted --> sub s s' by s.alt; <!-- raw HTML omitted -->} calt; <!-- raw HTML omitted --> <!-- raw HTML omitted -->' indicates the glyph to be changed.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -117,7 +117,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for your help. I&#39;m using FontLab, but I think I&#39;ll download volt to check it out.</div>
+		<div class="commentbody">Thanks for your help. I'm using FontLab, but I think I'll download volt to check it out.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -138,7 +138,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">There are three types of substitutions that may be useful to you: <BR> <BR>- ligatures <BR>- contextual alternates <BR>- contextual ligatures <BR> <BR>Ligatures are easy as pie. For example, if you have an ss ligature with a glyph name of &#34;s_s&#34; &#40;not to be confused with the German eszett&#41;, you could do: <BR> <BR>feature liga { <BR>sub s s by s_s;  <BR>} liga; <BR> <BR>Or for a contextual substitution where you get a different ss ligature when ss comes after the letter &#34;e&#34; <BR> <BR>feature clig { <BR>sub e s&#39; s&#39; by s_s.alt;  <BR>} clig; <BR> <BR>Note that you would want to put the clig feature ahead of the liga feature to make that work. Otherwise you&#39;d already have the s_s ligature and that substitution wouldn&#39;t fire. To make clig work &#42;after&#42; liga, you&#39;d do: <BR> <BR>feature clig { <BR>sub e s_s by s_s.alt;  <BR>} clig; <BR> <BR>Hope this quick tutorial helps. <BR> <BR>T</div>
+		<div class="commentbody">There are three types of substitutions that may be useful to you: <!-- raw HTML omitted --> <!-- raw HTML omitted -->- ligatures <!-- raw HTML omitted -->- contextual alternates <!-- raw HTML omitted -->- contextual ligatures <!-- raw HTML omitted --> <!-- raw HTML omitted -->Ligatures are easy as pie. For example, if you have an ss ligature with a glyph name of &quot;s_s&quot; (not to be confused with the German eszett), you could do: <!-- raw HTML omitted --> <!-- raw HTML omitted -->feature liga { <!-- raw HTML omitted -->sub s s by s_s;  <!-- raw HTML omitted -->} liga; <!-- raw HTML omitted --> <!-- raw HTML omitted -->Or for a contextual substitution where you get a different ss ligature when ss comes after the letter &quot;e&quot; <!-- raw HTML omitted --> <!-- raw HTML omitted -->feature clig { <!-- raw HTML omitted -->sub e s' s' by s_s.alt;  <!-- raw HTML omitted -->} clig; <!-- raw HTML omitted --> <!-- raw HTML omitted -->Note that you would want to put the clig feature ahead of the liga feature to make that work. Otherwise you'd already have the s_s ligature and that substitution wouldn't fire. To make clig work *after* liga, you'd do: <!-- raw HTML omitted --> <!-- raw HTML omitted -->feature clig { <!-- raw HTML omitted -->sub e s_s by s_s.alt;  <!-- raw HTML omitted -->} clig; <!-- raw HTML omitted --> <!-- raw HTML omitted -->Hope this quick tutorial helps. <!-- raw HTML omitted --> <!-- raw HTML omitted -->T</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -159,7 +159,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Awesome, thanks for all of your help. :-&#41; <BR> <BR>Now, my next goal is to make a completely random opentype font where there are 3 or 4 different glyphs for each character. ;-&#41; I know there&#39;s a random feature that I need to figure out...</div>
+		<div class="commentbody">Awesome, thanks for all of your help. :-) <!-- raw HTML omitted --> <!-- raw HTML omitted -->Now, my next goal is to make a completely random opentype font where there are 3 or 4 different glyphs for each character. ;-) I know there's a random feature that I need to figure out&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -180,7 +180,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Matthew,  <BR> <BR>there is a &#34;rand&#34; OpenType feature registered in the spec, but it isn&#39;t supported by any application &#40;to my knowledge&#41;. Therefore, you&#39;re best to try clig/calt as suggested above.  <BR> <BR>Adam</div>
+		<div class="commentbody">Matthew,  <!-- raw HTML omitted --> <!-- raw HTML omitted -->there is a &quot;rand&quot; OpenType feature registered in the spec, but it isn't supported by any application (to my knowledge). Therefore, you're best to try clig/calt as suggested above.  <!-- raw HTML omitted --> <!-- raw HTML omitted -->Adam</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -201,7 +201,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I use VOLT for OpenType <BR> <BR> <BR>what is VOLT?</div>
+		<div class="commentbody">I use VOLT for OpenType <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->what is VOLT?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -222,7 +222,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><a href="http://www.microsoft.com/typography/VOLT.mspx">VOLT</a> = Visual OpenType Layout Tool <BR> <BR>This is a free, Windows-only tool provided by Microsoft for adding OpenType Layout functionality to TrueType fonts&#42;. It has a number of advantages over current FontLab and the Adobe FDK, most importantly in supporting some lookup types that are not supported in the FDK code, particularly one-to-many substitutions and anchor attachment positioning. It also allows you to order lookups independently of features, which means you can stagger lookups from different features which can help efficiency. VOLT is pretty much essential for doing any work with complex scripts, so it has a large user base of Indian and Arabic font developers. I&#39;ve been using it since 2000, and still prefer it to FontLab for this kind of work.  <BR> <BR>&#42;It can also be used to add such functionality to CFF OT fonts, but VOLT does not have a CFF rasteriser, so you need to do your work in a dummy TT font and then import it to a CFF font.</div>
+		<div class="commentbody"><!-- raw HTML omitted -->VOLT<!-- raw HTML omitted --> = Visual OpenType Layout Tool <!-- raw HTML omitted --> <!-- raw HTML omitted -->This is a free, Windows-only tool provided by Microsoft for adding OpenType Layout functionality to TrueType fonts*. It has a number of advantages over current FontLab and the Adobe FDK, most importantly in supporting some lookup types that are not supported in the FDK code, particularly one-to-many substitutions and anchor attachment positioning. It also allows you to order lookups independently of features, which means you can stagger lookups from different features which can help efficiency. VOLT is pretty much essential for doing any work with complex scripts, so it has a large user base of Indian and Arabic font developers. I've been using it since 2000, and still prefer it to FontLab for this kind of work.  <!-- raw HTML omitted --> <!-- raw HTML omitted -->*It can also be used to add such functionality to CFF OT fonts, but VOLT does not have a CFF rasteriser, so you need to do your work in a dummy TT font and then import it to a CFF font.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -243,7 +243,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I&#39;ve wondered about the &#34;rand&#34; feature. Would it be set up like: <BR>sub x from [x x.salt1 x.salt2 x.salt3 &#40;etc.&#41;] <BR>and then the application would randomly pick from within that set? or is there a more ideal way that this would be set up? <BR>unfortunately, i doubt any apps will support this feature anytime soon, but it&#39;d be nice to know how this feature would be written in theory.</div>
+		<div class="commentbody">I've wondered about the &quot;rand&quot; feature. Would it be set up like: <!-- raw HTML omitted -->sub x from [x x.salt1 x.salt2 x.salt3 (etc.)] <!-- raw HTML omitted -->and then the application would randomly pick from within that set? or is there a more ideal way that this would be set up? <!-- raw HTML omitted -->unfortunately, i doubt any apps will support this feature anytime soon, but it'd be nice to know how this feature would be written in theory.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -264,7 +264,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">VOLT = Visual OpenType Layout Tool  <BR> <BR>This is a free, Windows-only tool provided by Microsoft for adding OpenType Layout functionality to TrueType fonts&#42;. It has a number of advantages over current FontLab and the Adobe FDK, most importantly in supporting some lookup types that are not supported in the FDK code, particularly one-to-many substitutions and anchor attachment positioning. It also allows you to order lookups independently of features, which means you can stagger lookups from different features which can help efficiency. VOLT is pretty much essential for doing any work with complex scripts, so it has a large user base of Indian and Arabic font developers. I&#39;ve been using it since 2000, and still prefer it to FontLab for this kind of work. <BR> <BR> <BR> <BR>Not too fast. Not too fast. I work with computers, but I&#39;m not a computer whiz.  <BR> <BR> <BR>VOLT is pretty much essential for doing any work with complex scripts <BR> <BR> <BR>Scripts - typefaces? or  programming issue? <BR> <BR> <BR> so it has a large user base of Indian and Arabic font developers. <BR> <BR> you design Indian and Arabic fonts?</div>
+		<div class="commentbody">VOLT = Visual OpenType Layout Tool  <!-- raw HTML omitted --> <!-- raw HTML omitted -->This is a free, Windows-only tool provided by Microsoft for adding OpenType Layout functionality to TrueType fonts*. It has a number of advantages over current FontLab and the Adobe FDK, most importantly in supporting some lookup types that are not supported in the FDK code, particularly one-to-many substitutions and anchor attachment positioning. It also allows you to order lookups independently of features, which means you can stagger lookups from different features which can help efficiency. VOLT is pretty much essential for doing any work with complex scripts, so it has a large user base of Indian and Arabic font developers. I've been using it since 2000, and still prefer it to FontLab for this kind of work. <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->Not too fast. Not too fast. I work with computers, but I'm not a computer whiz.  <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->VOLT is pretty much essential for doing any work with complex scripts <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->Scripts - typefaces? or  programming issue? <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted --> so it has a large user base of Indian and Arabic font developers. <!-- raw HTML omitted --> <!-- raw HTML omitted --> you design Indian and Arabic fonts?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -285,7 +285,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><i>Scripts - typefaces? or programming issue?</i> <BR> <BR>Heh, sorry, neither. The term &#39;complex script&#39; is used to refer to a writing system in which there is not a simple sequential rendering of glyphs relative to character codes. So Latin is typically considered a simple or non-complex script, because there is a one-to-one relationship between the characters that you type and the glyphs that appear on your screen, which are simply laid out in a line. Of course, once you start including ligatures, variant letters, dynamic accent positioning, etc. Latin ceases to be so simple, but it remains differentiated from complex scripts in the sense of writing systems that require complex processing simply in order to be readable. So, for example, Arabic is a complex script because individual letters may take different forms depending on where they occur in a word or what the adjacent letters are, and this is normative behaviour for the writing system. <BR> <BR> <BR><i>you design Indian and Arabic fonts?</i> <BR> <BR>I have not designed any Indian typefaces yet, but I&#39;m looking forward to it. I&#39;ve done Thai &#40;with Fiona Ross and Tim Holloway&#41;, which is related to the Indic writing systems. I&#39;ve collaborated &#40;again, with Fiona and Tim&#41; on Arabic font development, although Tim does most of the actual design and I have the fun job of making the complex script stuff work with OpenType lookups. The most complex thing I&#39;ve had to both design and build was the SBL Hebrew font for Biblical Hebrew.</div>
+		<div class="commentbody"><!-- raw HTML omitted -->Scripts - typefaces? or programming issue?<!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->Heh, sorry, neither. The term 'complex script' is used to refer to a writing system in which there is not a simple sequential rendering of glyphs relative to character codes. So Latin is typically considered a simple or non-complex script, because there is a one-to-one relationship between the characters that you type and the glyphs that appear on your screen, which are simply laid out in a line. Of course, once you start including ligatures, variant letters, dynamic accent positioning, etc. Latin ceases to be so simple, but it remains differentiated from complex scripts in the sense of writing systems that require complex processing simply in order to be readable. So, for example, Arabic is a complex script because individual letters may take different forms depending on where they occur in a word or what the adjacent letters are, and this is normative behaviour for the writing system. <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted --><!-- raw HTML omitted -->you design Indian and Arabic fonts?<!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->I have not designed any Indian typefaces yet, but I'm looking forward to it. I've done Thai (with Fiona Ross and Tim Holloway), which is related to the Indic writing systems. I've collaborated (again, with Fiona and Tim) on Arabic font development, although Tim does most of the actual design and I have the fun job of making the complex script stuff work with OpenType lookups. The most complex thing I've had to both design and build was the SBL Hebrew font for Biblical Hebrew.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -306,7 +306,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><i>I&#39;ve done Thai....  I&#39;ve collaborated on Arabic font development... <BR>The most complex thing I&#39;ve had to both design and build was the SBL Hebrew font for Biblical Hebrew.</i> <BR> <BR> <BR>Interesting. Do you speak the language&#40;s&#41;? Did you know that you want to design non-latin typefaces? <BR> <BR>I&#39;m reading the book &#34;Designing Typefaces&#34; -now the story by Akira Kobayashi. That is why I&#39;m asking. <BR> <BR>Do you think it is wise to study/learn another language?  <BR>I&#39;m asking that since of the thread &#34;Breaking into the Industry&#34; <BR> <BR>Back to VOLT - In order to design non-latin typefaces you need VOLT? and PC?  <BR>Why you can&#39;t design non-latin typefaces with MAC? <BR> <BR> <BR>Oh....what is &#34;SBL&#34;?</div>
+		<div class="commentbody"><!-- raw HTML omitted -->I've done Thai&hellip;.  I've collaborated on Arabic font development&hellip; <!-- raw HTML omitted -->The most complex thing I've had to both design and build was the SBL Hebrew font for Biblical Hebrew.<!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->Interesting. Do you speak the language(s)? Did you know that you want to design non-latin typefaces? <!-- raw HTML omitted --> <!-- raw HTML omitted -->I'm reading the book &quot;Designing Typefaces&quot; -now the story by Akira Kobayashi. That is why I'm asking. <!-- raw HTML omitted --> <!-- raw HTML omitted -->Do you think it is wise to study/learn another language?  <!-- raw HTML omitted -->I'm asking that since of the thread &quot;Breaking into the Industry&quot; <!-- raw HTML omitted --> <!-- raw HTML omitted -->Back to VOLT - In order to design non-latin typefaces you need VOLT? and PC?  <!-- raw HTML omitted -->Why you can't design non-latin typefaces with MAC? <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->Oh&hellip;.what is &quot;SBL&quot;?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -327,7 +327,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don&#39;t speak most of the languages for which I design type. Even if I spoke one language for each of the scripts for which I design, that would still be only a tiny percentage of the actual languages written in those scripts. Speaking or reading knowledge of a language is not necessary to design for &#39;foreign&#39; scripts. It is important to have a good understanding of the history and development of the script, or to work closely with people who do. I try to understand scripts as systems, in terms of construction, relationship to language and grammar, etc. Most often, I arrange to have my work reviewed by an experienced typographer who is a native user of the script, unless I&#39;m particularly confident in my knowledge of a script or can&#39;t find someone with the appropriate skills and experience. <BR> <BR>I started designing for non-Latin scripts in 1997, when I tried my first Cyrillic design. At the time, I was mainly looking for a way to expand the number of shapes I got to draw: I was getting bored of Latin letters. Later I realised that I&#39;d accidentally stumbled into one of the few growth areas in this business, and also one in which few of my colleagues were working. <BR> <BR> <BR>You can make plenty of non-Latin typefaces without VOLT. You only need VOLT if the script requires OpenType Layout features that are not supported in FontLab yet, e.g. anchor attachment positioning. Since VOLT is a Windows tool, you need to either be running a Windows machine or VirtualPC to make complex script OT fonts. You can, of course, make AAT format complex script fonts using free tools from Apple, but the tools are ludicrously difficult and the format has only minimal application support and is not cross-platform compatible. <BR> <BR>A lot of people who start out in Latin script type design come to it from a North American or European graphic design background, in which the Mac is still the most common tool. But for non-Latin font development and <i>use</i> Windows is a much more common platform. Personally, when I look at the range of font development applications and tools that are available on Windows, many of them free, I really can&#39;t see any point in using a Mac. Windows is simply a better font development environment. This is not to say that typical Latin font makers are missing out on anything by using a Mac: if everything you need to do can be done in FontLab, then it doesn&#39;t matter what platform you are on. But I have upwards of 20 font development and testing applications on my system, which perform a variety of functions including things that cannot be done in FontLab and which have no parallel on the Mac. Now, I should also point out that most of my clients are major software developers, who have very strict technical quality assurance requirements, so the kind of non-critical bug that might pass unnoticed in the average Latin retail font is not acceptable in my work. And if, for example, my client says they want a TT font to have a version 3 OS/2 table and a format 3 post table, I need to be able to deliver that, even if FontLab doesn&#39;t have these options yet. <BR> <BR> <BR>SBL is the Society of Biblical Literature, a scholarly organisation that is one of my clients.</div>
+		<div class="commentbody">I don't speak most of the languages for which I design type. Even if I spoke one language for each of the scripts for which I design, that would still be only a tiny percentage of the actual languages written in those scripts. Speaking or reading knowledge of a language is not necessary to design for 'foreign' scripts. It is important to have a good understanding of the history and development of the script, or to work closely with people who do. I try to understand scripts as systems, in terms of construction, relationship to language and grammar, etc. Most often, I arrange to have my work reviewed by an experienced typographer who is a native user of the script, unless I'm particularly confident in my knowledge of a script or can't find someone with the appropriate skills and experience. <!-- raw HTML omitted --> <!-- raw HTML omitted -->I started designing for non-Latin scripts in 1997, when I tried my first Cyrillic design. At the time, I was mainly looking for a way to expand the number of shapes I got to draw: I was getting bored of Latin letters. Later I realised that I'd accidentally stumbled into one of the few growth areas in this business, and also one in which few of my colleagues were working. <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->You can make plenty of non-Latin typefaces without VOLT. You only need VOLT if the script requires OpenType Layout features that are not supported in FontLab yet, e.g. anchor attachment positioning. Since VOLT is a Windows tool, you need to either be running a Windows machine or VirtualPC to make complex script OT fonts. You can, of course, make AAT format complex script fonts using free tools from Apple, but the tools are ludicrously difficult and the format has only minimal application support and is not cross-platform compatible. <!-- raw HTML omitted --> <!-- raw HTML omitted -->A lot of people who start out in Latin script type design come to it from a North American or European graphic design background, in which the Mac is still the most common tool. But for non-Latin font development and <!-- raw HTML omitted -->use<!-- raw HTML omitted --> Windows is a much more common platform. Personally, when I look at the range of font development applications and tools that are available on Windows, many of them free, I really can't see any point in using a Mac. Windows is simply a better font development environment. This is not to say that typical Latin font makers are missing out on anything by using a Mac: if everything you need to do can be done in FontLab, then it doesn't matter what platform you are on. But I have upwards of 20 font development and testing applications on my system, which perform a variety of functions including things that cannot be done in FontLab and which have no parallel on the Mac. Now, I should also point out that most of my clients are major software developers, who have very strict technical quality assurance requirements, so the kind of non-critical bug that might pass unnoticed in the average Latin retail font is not acceptable in my work. And if, for example, my client says they want a TT font to have a version 3 OS/2 table and a format 3 post table, I need to be able to deliver that, even if FontLab doesn't have these options yet. <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->SBL is the Society of Biblical Literature, a scholarly organisation that is one of my clients.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -348,7 +348,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">More interesting! <BR> <BR> <BR><i> Later I realised that I&#39;d accidentally stumbled into one of the few growth areas in this business, and also one in which few of my colleagues were working.</i> <BR> <BR>Now I have a challenge!  <BR> <BR> <BR>In your opinion - to buy a PC? Is there a good PC?  Windows or XP? &#40; I don&#39;t know if I&#39;m going to do that this year...&#41; <BR> <BR><i>if everything you need to do can be done in FontLab, then it doesn&#39;t matter what platform you are on</i> <BR> <BR>I don&#39;t know what I want to do, or can do, or &#34;can be done with FontLab&#34;</div>
+		<div class="commentbody">More interesting! <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted --><!-- raw HTML omitted --> Later I realised that I'd accidentally stumbled into one of the few growth areas in this business, and also one in which few of my colleagues were working.<!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->Now I have a challenge!  <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->In your opinion - to buy a PC? Is there a good PC?  Windows or XP? ( I don't know if I'm going to do that this year&hellip;) <!-- raw HTML omitted --> <!-- raw HTML omitted --><!-- raw HTML omitted -->if everything you need to do can be done in FontLab, then it doesn't matter what platform you are on<!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->I don't know what I want to do, or can do, or &quot;can be done with FontLab&quot;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -369,7 +369,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If you want to buy a Windows PC, I suggest a Dell machine running Windows XP Pro. Some of the Toshiba Satellite laptops are quite good too. I should also note that I don&#39;t know much about current PC desktop hardware, as I&#39;ve only used laptops for the past five years.</div>
+		<div class="commentbody">If you want to buy a Windows PC, I suggest a Dell machine running Windows XP Pro. Some of the Toshiba Satellite laptops are quite good too. I should also note that I don't know much about current PC desktop hardware, as I've only used laptops for the past five years.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -390,7 +390,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you John. <BR> <BR>&#40;By the way, I have Toshiba Satellite laptop , but with Windows 98&#41;</div>
+		<div class="commentbody">Thank you John. <!-- raw HTML omitted --> <!-- raw HTML omitted -->(By the way, I have Toshiba Satellite laptop , but with Windows 98)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -411,7 +411,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">&#62; Speaking or reading knowledge of a language is <BR>&#62; not necessary to design for &#39;foreign&#39; scripts. <BR> <BR>As I expressed in my recent Spatium magazine article, with proper help from natives &#40;like in proofing legibility&#41;, linguistic analysis and a general sensitivity to cultural authenticity and functionality, a non-native can produce very good type in scripts he doesn&#39;t even know the elemental sounds for! But one thing you can&#39;t do without nativity is push the cultural boundaries, to express things beyond what historical precedent will encourage. <BR> <BR>hhp</div>
+		<div class="commentbody">&gt; Speaking or reading knowledge of a language is <!-- raw HTML omitted -->&gt; not necessary to design for 'foreign' scripts. <!-- raw HTML omitted --> <!-- raw HTML omitted -->As I expressed in my recent Spatium magazine article, with proper help from natives (like in proofing legibility), linguistic analysis and a general sensitivity to cultural authenticity and functionality, a non-native can produce very good type in scripts he doesn't even know the elemental sounds for! But one thing you can't do without nativity is push the cultural boundaries, to express things beyond what historical precedent will encourage. <!-- raw HTML omitted --> <!-- raw HTML omitted -->hhp</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -432,7 +432,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><i>But one thing you can&#39;t do without nativity is push the cultural boundaries, to express things beyond what historical precedent will encourage.</i> <BR> <BR>  cultural boundaries - such as....?</div>
+		<div class="commentbody"><!-- raw HTML omitted -->But one thing you can't do without nativity is push the cultural boundaries, to express things beyond what historical precedent will encourage.<!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->  cultural boundaries - such as&hellip;.?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -453,7 +453,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">For example let&#39;s say you need to make a dual-script system with Latin and a non-Latin font. To know how much and in what directions you can &#34;push&#34; the non-Latin component to match the Latin requires a sensitivity that goes way beyond what a non-native can usually muster. <BR> <BR>hhp</div>
+		<div class="commentbody">For example let's say you need to make a dual-script system with Latin and a non-Latin font. To know how much and in what directions you can &quot;push&quot; the non-Latin component to match the Latin requires a sensitivity that goes way beyond what a non-native can usually muster. <!-- raw HTML omitted --> <!-- raw HTML omitted -->hhp</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -474,7 +474,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">&#60;font class=&#34;dontLookLikeCrap&#34;&#62;<i>let&#39;s say you need to make a dual-script system with Latin and a non-Latin font</i> <BR> <BR>any good sample? your work? I see that you are dealing with non-latin, no &#40; and came from Russia. Do you speak Russian?&#41; <BR> <BR> <BR>By the way - do you any good source to learn/study: Russian, Arabic, Hebrew, Latin, Greek - <BR> <BR> like Alexander Lawson,  Alexander &amp; Nicholas Humez &#40;Alpha to Omega - Greek history as seen through the development of its language &amp; alphabet&#41;&#60;/font&#62;</div>
+		<div class="commentbody">&lt;font class=&quot;dontLookLikeCrap&quot;&gt;<!-- raw HTML omitted -->let's say you need to make a dual-script system with Latin and a non-Latin font<!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->any good sample? your work? I see that you are dealing with non-latin, no ( and came from Russia. Do you speak Russian?) <!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->By the way - do you any good source to learn/study: Russian, Arabic, Hebrew, Latin, Greek - <!-- raw HTML omitted --> <!-- raw HTML omitted --> like Alexander Lawson,  Alexander &amp; Nicholas Humez (Alpha to Omega - Greek history as seen through the development of its language &amp; alphabet)&lt;/font&gt;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -495,7 +495,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Got $15? Buy the current issue of Spatium magazine - all is explained.  :-&#62; <BR> <BR>Russian: I just learned to pronounce all the letters, but that&#39;s about it. I&#39;ve heard it&#39;s a hard language. <BR> <BR>Resources: I saw that other thread of yours - give me a day or two. <BR> <BR>hhp</div>
+		<div class="commentbody">Got $15? Buy the current issue of Spatium magazine - all is explained.  :-&gt; <!-- raw HTML omitted --> <!-- raw HTML omitted -->Russian: I just learned to pronounce all the letters, but that's about it. I've heard it's a hard language. <!-- raw HTML omitted --> <!-- raw HTML omitted -->Resources: I saw that other thread of yours - give me a day or two. <!-- raw HTML omitted --> <!-- raw HTML omitted -->hhp</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -516,7 +516,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You&#39;re fast. Thanks. <BR> <BR><i>Got $15? Buy the current issue of Spatium magazine</i> <BR> <BR>From ?</div>
+		<div class="commentbody">You're fast. Thanks. <!-- raw HTML omitted --> <!-- raw HTML omitted --><!-- raw HTML omitted -->Got $15? Buy the current issue of Spatium magazine<!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->From ?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -537,7 +537,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><a href="http://www.typophile.com/forums/messages/30/47261.html" target="_blank">http://www.typophile.com/forums/messages/30/47261.html</a> <BR> <BR>hhp</div>
+		<div class="commentbody"><!-- raw HTML omitted --><a href="http://www.typophile.com/forums/messages/30/47261.html">http://www.typophile.com/forums/messages/30/47261.html</a><!-- raw HTML omitted --> <!-- raw HTML omitted --> <!-- raw HTML omitted -->hhp</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -558,7 +558,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hrant, <BR>My copy of Spatium just came in the mail today.  Hmmmm, ah, let me see here. . .ah, YES, page 10 &#34;Latinization: Prevention and Cure, by Hrant H. Papazian. :-&#41; <BR> <BR>Bravo Hrant! <BR> <BR>ChrisL</div>
+		<div class="commentbody">Hrant, <!-- raw HTML omitted -->My copy of Spatium just came in the mail today.  Hmmmm, ah, let me see here. . .ah, YES, page 10 &quot;Latinization: Prevention and Cure, by Hrant H. Papazian. :-) <!-- raw HTML omitted --> <!-- raw HTML omitted -->Bravo Hrant! <!-- raw HTML omitted --> <!-- raw HTML omitted -->ChrisL</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -579,7 +579,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">In response to Hrant&#39;s comment on cultural boundaries: <BR> <BR>I&#39;ve found that a little cultural cross polination is the perfect way to push cultural boundaries. For example, Latin alphabets done in Japan are very interesting. &#40;I recently came across <a href="http://www.p22.com/pavilion/index.html">these</a> at p22&#41;. Even from a linguistic standpoint, non-native speakers often use expressive transliterations that, because they are different from common idioms, communicate beautifully. <BR> <BR>Now, Hrant may argue that becuase so many Roman-native type designers do non-roman fonts, the cross-polination has gone out of control--an invasive species out-competing the native fauna, as obrusive as non-native sucker fish, sqeezing out the native trout in my state. This may very well be the case.</div>
+		<div class="commentbody">In response to Hrant's comment on cultural boundaries: <!-- raw HTML omitted --> <!-- raw HTML omitted -->I've found that a little cultural cross polination is the perfect way to push cultural boundaries. For example, Latin alphabets done in Japan are very interesting. (I recently came across <!-- raw HTML omitted -->these<!-- raw HTML omitted --> at p22). Even from a linguistic standpoint, non-native speakers often use expressive transliterations that, because they are different from common idioms, communicate beautifully. <!-- raw HTML omitted --> <!-- raw HTML omitted -->Now, Hrant may argue that becuase so many Roman-native type designers do non-roman fonts, the cross-polination has gone out of control&ndash;an invasive species out-competing the native fauna, as obrusive as non-native sucker fish, sqeezing out the native trout in my state. This may very well be the case.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -600,7 +600,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I love cross-polination. I also love cultural variety. The degree to which these two things can coexist positively depends on the &#34;security&#34; of the scripts/cultures in question. What I mean is that for example Latinization of Armenian is much worse than that of Cyrillic or Arabic. And things like the Arabization of Latin is downright great - and I&#39;m not saying this due to some cultural prejudice, but simply because Latin is too strong to be hurt by it - it can only get richer thanks to cross-polination. <BR> <BR>Also, a big on-the-ground problem with cross-polination is that it&#39;s almost never done with the subtlety necessary in the realm of text design. Virtually all Latinized non-Latin fonts reduce readability through blind fealty to formalism &#40;eg matching x-heights&#41;, and pretty much every single Latin face that&#39;s made to look like some non-Latin script or other can only ever be a cute, naive display face. We need to clearly understand the qualitative difference between text and display before we can apply typographic cross-polination well. But even then sometimes it&#39;s a bad idea. <BR> <BR>hhp</div>
+		<div class="commentbody">I love cross-polination. I also love cultural variety. The degree to which these two things can coexist positively depends on the &quot;security&quot; of the scripts/cultures in question. What I mean is that for example Latinization of Armenian is much worse than that of Cyrillic or Arabic. And things like the Arabization of Latin is downright great - and I'm not saying this due to some cultural prejudice, but simply because Latin is too strong to be hurt by it - it can only get richer thanks to cross-polination. <!-- raw HTML omitted --> <!-- raw HTML omitted -->Also, a big on-the-ground problem with cross-polination is that it's almost never done with the subtlety necessary in the realm of text design. Virtually all Latinized non-Latin fonts reduce readability through blind fealty to formalism (eg matching x-heights), and pretty much every single Latin face that's made to look like some non-Latin script or other can only ever be a cute, naive display face. We need to clearly understand the qualitative difference between text and display before we can apply typographic cross-polination well. But even then sometimes it's a bad idea. <!-- raw HTML omitted --> <!-- raw HTML omitted -->hhp</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -621,7 +621,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">&#62; I recently came across [<a href="http://www.p22.com/pavilion/index.html" target="_blank">http://www.p22.com/pavilion/index.html</a>] at p22 <BR> <BR>Wow, now I know the <i>real</i> meaning of Unicase: the PTAF font &#40;in the first set&#41;. <BR>Dude, you could like base an entire 20th century design ideology on that, dude. <BR> <BR>hhp</div>
+		<div class="commentbody">&gt; I recently came across [<!-- raw HTML omitted -->http://www.p22.com/pavilion/index.html<!-- raw HTML omitted -->] at p22 <!-- raw HTML omitted --> <!-- raw HTML omitted -->Wow, now I know the <!-- raw HTML omitted -->real<!-- raw HTML omitted --> meaning of Unicase: the PTAF font (in the first set). <!-- raw HTML omitted -->Dude, you could like base an entire 20th century design ideology on that, dude. <!-- raw HTML omitted --> <!-- raw HTML omitted -->hhp</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -642,7 +642,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I recently came across these <BR>if you like that kinda thing, check out: <BR><a href="http://www2.wind.ne.jp/maniackers/designfont.html" target="_blank">http://www2.wind.ne.jp/maniackers/designfont.html</a> <BR><a href="http://www.flop.jp.org/" target="_blank">http://www.flop.jp.org/</a> <BR><a href="http://www.lovedesign.tv/" target="_blank">http://www.lovedesign.tv/</a> <BR><a href="http://www.orange.ne.jp/~den7/" target="_blank">http://www.orange.ne.jp/~den7/</a> <BR><a href="http://www.kinemamoon.com/" target="_blank">http://www.kinemamoon.com/</a> <BR>... just a few of my favorites</div>
+		<div class="commentbody">I recently came across these <!-- raw HTML omitted -->if you like that kinda thing, check out: <!-- raw HTML omitted --><!-- raw HTML omitted --><a href="http://www2.wind.ne.jp/maniackers/designfont.html">http://www2.wind.ne.jp/maniackers/designfont.html</a><!-- raw HTML omitted --> <!-- raw HTML omitted --><!-- raw HTML omitted --><a href="http://www.flop.jp.org/">http://www.flop.jp.org/</a><!-- raw HTML omitted --> <!-- raw HTML omitted --><!-- raw HTML omitted --><a href="http://www.lovedesign.tv/">http://www.lovedesign.tv/</a><!-- raw HTML omitted --> <!-- raw HTML omitted --><!-- raw HTML omitted --><a href="http://www.orange.ne.jp/~den7/">http://www.orange.ne.jp/~den7/</a><!-- raw HTML omitted --> <!-- raw HTML omitted --><!-- raw HTML omitted --><a href="http://www.kinemamoon.com/">http://www.kinemamoon.com/</a><!-- raw HTML omitted --> <!-- raw HTML omitted -->&hellip; just a few of my favorites</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

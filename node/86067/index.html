@@ -71,94 +71,48 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hello Typophyles!
-
-      I Am currently working on an Arabic Font. I want to know is it possible in Microsoft Volt (preferably) or in FontLab to use the same glyph for alternate Ijam (Dots) placement? I have attached an Image explaining my query. 
-
-
-[img:sites/default/files/old-images/Graphic1_6056.jpg]
-
-
-      For example I made a ligature in the font as the one on the right side of the image "hahhahisolated". Then I have to make eight more glyphs with the same shape but only Ijam (Dots) difference as shown in the Image. So In the font I have to assign the same shape to nine glyphs instead of one. As a result the number of glyphs increases too much in the font while I want to keep them less. How can I use only one glyph with Ijam variation on the same glyph in Microsoft Volt? If it is not possible in Volt than how can I do it in FontLab?
-
-Please Help me.............</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hello Typophyles!</p>
+<pre><code>  I Am currently working on an Arabic Font. I want to know is it possible in Microsoft Volt (preferably) or in FontLab to use the same glyph for alternate Ijam (Dots) placement? I have attached an Image explaining my query. 
+</code></pre>
+<p>[img:sites/default/files/old-images/Graphic1_6056.jpg]</p>
+<pre><code>  For example I made a ligature in the font as the one on the right side of the image &quot;hahhahisolated&quot;. Then I have to make eight more glyphs with the same shape but only Ijam (Dots) difference as shown in the Image. So In the font I have to assign the same shape to nine glyphs instead of one. As a result the number of glyphs increases too much in the font while I want to keep them less. How can I use only one glyph with Ijam variation on the same glyph in Microsoft Volt? If it is not possible in Volt than how can I do it in FontLab?
+</code></pre>
+<p>Please Help me&hellip;&hellip;&hellip;&hellip;.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">In my [[http://www.amirifont.org|Amiri]] font I used to have dots separated from base of the glyph, the idea is simple:
-
-* first you have a ccmp feature that decomposes the glyphs, something like (using feature file syntax):
-
-<pre>
-feature ccmp {
-  sub haa  by haa.base;
-  sub khaa by haa.base dot.above;
-  sub jeem by haa.base dot.below;
-  ...
-} ccmp;
-</pre>
-
-Where <code>haa.base</code> is the dotless glyph, and <code>dot.above</code> and <code>dot.below</code> are zerowidth glyphs with mark glyph class.
-
-* from now on all glyph substitution is done on base glyphs, e.g.:
-
-<pre>
-feature init {
- lookupflag IgnoreMarks;
-  sub haa.base by haa.base.init;
-  ...
-} init;
-
-feature liga {
- lookupflag IgnoreMarks;
-  sub haa.base.init haa.base.fina by haahaa.isol.liga;
-  ...
-} liga;
-</pre>
-
-The <code>IgnoreMarks</code> flag is very important, else the dots will interfere with the substitution.
-
-* lastly, you use anchor marks for placing dots just like tashkil marks.
-
-* some characters have different dot placement depending on their form, e.g. farsi yeh have dots only in final/isolated forms, for these characters you are better doing decomposition in init, medi etc. features, e.g.:
-
-<pre>
-feature init {
-  sub farsiyeh by yeh.base.init twodots.below;
-  ...
-} init;
-
-feature fina {
-  sub farsiyeh by yeh.base.fina;
-  ...
-} fina;
-</pre>
-
-However, this has some side effects, e.g. sometimes you need different kerning for glyphs with dots below than glyphs with dots above, sometimes certain dotted combinations don't go well together and you need to avoid ligatures in these combinations and this becomes tricky because the dots are treated as combining marks so you can't use them as context until you remove the <code>IgnoreMarks</code> flag and I ended up abandoning the idea.
-
-* A different strategy to decrease the number of glyphs is to avoid ligatures at all and use contextual forms instead. e.g. instead of the haahaa ligature above you "cut" the ligature into two parts:
-
-<pre>
-@clsHaaInit = [haa.init khaa.init jeem.init ...];
-@clsHaaFina = [haa.fina khaa.fina jeem.fina ...];
-@clsHaaInit.HaaHaa = [haa.init.haahaa khaa.init.haahaa jeem.init.haahaa ...];
-@clsHaaFina.HaaHaa = [haa.fina.haahaa khaa.fina.haahaa jeem.fina.haahaa ...];
-
-lookup haahaa.isol {
-  sub @clsHaaInit by @clsHaaInit.HaaHaa;
-  sub @clsHaaFina by @clsHaaFina.HaaHaa;
-} hhaahaa.isol;
-
-feature calt {
-  sub @clsHaaInit' lookup haahaa.isol @clsHaaFina' lookup haahaa.isol;
-} calt;
-</pre>
-
-Since we have 15 haa-like characters in Unicode, this cuts the number of glyph needed for this ligature from 15×15=225 (number of all possible combinations) to 15+15=30 (number of components).
-
-(PS. the names used above are arbitrary, you can use whatever glyph names you like).
-
-
+		<div class="commentbody"><p>In my [[http://www.amirifont.org|Amiri]] font I used to have dots separated from base of the glyph, the idea is simple:</p>
+<ul>
+<li>first you have a ccmp feature that decomposes the glyphs, something like (using feature file syntax):</li>
+</ul>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Where <!-- raw HTML omitted -->haa.base<!-- raw HTML omitted --> is the dotless glyph, and <!-- raw HTML omitted -->dot.above<!-- raw HTML omitted --> and <!-- raw HTML omitted -->dot.below<!-- raw HTML omitted --> are zerowidth glyphs with mark glyph class.</p>
+<ul>
+<li>from now on all glyph substitution is done on base glyphs, e.g.:</li>
+</ul>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>The <!-- raw HTML omitted -->IgnoreMarks<!-- raw HTML omitted --> flag is very important, else the dots will interfere with the substitution.</p>
+<ul>
+<li>
+<p>lastly, you use anchor marks for placing dots just like tashkil marks.</p>
+</li>
+<li>
+<p>some characters have different dot placement depending on their form, e.g. farsi yeh have dots only in final/isolated forms, for these characters you are better doing decomposition in init, medi etc. features, e.g.:</p>
+</li>
+</ul>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>However, this has some side effects, e.g. sometimes you need different kerning for glyphs with dots below than glyphs with dots above, sometimes certain dotted combinations don&rsquo;t go well together and you need to avoid ligatures in these combinations and this becomes tricky because the dots are treated as combining marks so you can&rsquo;t use them as context until you remove the <!-- raw HTML omitted -->IgnoreMarks<!-- raw HTML omitted --> flag and I ended up abandoning the idea.</p>
+<ul>
+<li>A different strategy to decrease the number of glyphs is to avoid ligatures at all and use contextual forms instead. e.g. instead of the haahaa ligature above you &ldquo;cut&rdquo; the ligature into two parts:</li>
+</ul>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Since we have 15 haa-like characters in Unicode, this cuts the number of glyph needed for this ligature from 15×15=225 (number of all possible combinations) to 15+15=30 (number of components).</p>
+<p>(PS. the names used above are arbitrary, you can use whatever glyph names you like).</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -201,7 +155,7 @@ Since we have 15 haa-like characters in Unicode, this cuts the number of glyph n
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, this is possible, as Khaled describes. One thing to consider, though, is that this will break with Microsoft Office's options to display marks in different colours or not to display marks, since it has no way to distinguish dots treated in this way from other marks. This shouldn't necessarily stop you from doing this approach -- and for some styles of Arabic such as nastaliq it is the only sensible approach --, but it is something to be aware of and may result in some support contact from confused users.</div>
+		<div class="commentbody">Yes, this is possible, as Khaled describes. One thing to consider, though, is that this will break with Microsoft Office&rsquo;s options to display marks in different colours or not to display marks, since it has no way to distinguish dots treated in this way from other marks. This shouldn&rsquo;t necessarily stop you from doing this approach &ndash; and for some styles of Arabic such as nastaliq it is the only sensible approach &ndash;, but it is something to be aware of and may result in some support contact from confused users.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -222,12 +176,10 @@ Since we have 15 haa-like characters in Unicode, this cuts the number of glyph n
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">
-Thanks.
-
-It solved the problem. I am grateful to Khaled Hosny for such detail and taking time to explain the solution with an image. I also appreciate John Hudson for providing valuable piece of information.
-
-Once again Thanks.</div>
+		<div class="commentbody"><p>Thanks.</p>
+<p>It solved the problem. I am grateful to Khaled Hosny for such detail and taking time to explain the solution with an image. I also appreciate John Hudson for providing valuable piece of information.</p>
+<p>Once again Thanks.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -248,7 +200,7 @@ Once again Thanks.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Khaled Hosny for the detailed explanation. </div>
+		<div class="commentbody">Thanks Khaled Hosny for the detailed explanation.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

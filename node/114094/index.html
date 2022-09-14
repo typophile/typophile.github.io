@@ -71,49 +71,35 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hello Typophiles,
-
-Apologies for the nerdiness on a first post.
-
-In the midst of some last checks before releasing my first real font, I noticed an unpleasant beating frequency effect on repeated characters at smallish ppems when testing on Windows 7 with the "Natural" mode of DirectWrite ClearType rendering (tested via Firefox with the Anti-aliasing Tuner add-on).  The characters phase in and out of different degrees of bluriness.
-
-With a bit of investigation, it looks like this is due to fractional advance widths.  I was hoping to be able to control for this by slightly adjusting the advance width phantom point via TrueType hinting.  However, it looks like Windows is ignoring that in this rendering mode and using only the designed width instead.
-
-Attached is an extremely simple test case (TTX format, renamed to .txt) that shows this.  In the lower case x glyph slot it has a pointed cross occupying a 1000 font unit square, with a width set to 1000 font units (no sidebearings).  The glyph program is the following:
-
-<pre>SVTCA[x-axis]
-PUSHB_2
- 17            // Advance width phantom point (16 points in curve)
- 0             // CVT 0 (2000 font units)
-MIAP[no-rnd]</pre>
-
-The test font also has the following simple preprogram:
-
-<pre>PUSHB_2        // New font with ClearType support
- 4
- 3
-INSTCTRL
-PUSHW_1        // 64 pixel cut-in (i.e., not a factor)
- 4096
-SCVTCI</pre>
-
-Testing this out, I see that DirectWrite's GDI Classic and GDI Natural rendering modes correctly handle this; a string of xxxxx shows the expected double spacing between the glyphs.  However, this is missing from the Natural and Natural Symmetric modes and they render with something closer to the designed widths instead:
-
-[img:sites/default/files/old-images/widthtest_4207.gif]
-
-So this brings me to the following questions:
-
-1) Is there any voodoo that I can do to get it to honor hints that adjust the width?  Or am I simply stuck with the beat pattern here?
-
-2) I notice that in the documentation for <code>DWRITE_RENDERING_MODE</code> for Windows 8 and later, the descriptions for Natural and Natural Symmetric mention that the glyph advances are rounded to whole pixels.  However, no such mention is made of this in the corresponding documentation for earlier versions of Windows.  Does Windows 8 therefore not have the same beat problem?
-
-Thanks!</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hello Typophiles,</p>
+<p>Apologies for the nerdiness on a first post.</p>
+<p>In the midst of some last checks before releasing my first real font, I noticed an unpleasant beating frequency effect on repeated characters at smallish ppems when testing on Windows 7 with the &ldquo;Natural&rdquo; mode of DirectWrite ClearType rendering (tested via Firefox with the Anti-aliasing Tuner add-on).  The characters phase in and out of different degrees of bluriness.</p>
+<p>With a bit of investigation, it looks like this is due to fractional advance widths.  I was hoping to be able to control for this by slightly adjusting the advance width phantom point via TrueType hinting.  However, it looks like Windows is ignoring that in this rendering mode and using only the designed width instead.</p>
+<p>Attached is an extremely simple test case (TTX format, renamed to .txt) that shows this.  In the lower case x glyph slot it has a pointed cross occupying a 1000 font unit square, with a width set to 1000 font units (no sidebearings).  The glyph program is the following:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>The test font also has the following simple preprogram:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Testing this out, I see that DirectWrite&rsquo;s GDI Classic and GDI Natural rendering modes correctly handle this; a string of xxxxx shows the expected double spacing between the glyphs.  However, this is missing from the Natural and Natural Symmetric modes and they render with something closer to the designed widths instead:</p>
+<p>[img:sites/default/files/old-images/widthtest_4207.gif]</p>
+<p>So this brings me to the following questions:</p>
+<ol>
+<li>
+<p>Is there any voodoo that I can do to get it to honor hints that adjust the width?  Or am I simply stuck with the beat pattern here?</p>
+</li>
+<li>
+<p>I notice that in the documentation for <!-- raw HTML omitted -->DWRITE_RENDERING_MODE<!-- raw HTML omitted --> for Windows 8 and later, the descriptions for Natural and Natural Symmetric mention that the glyph advances are rounded to whole pixels.  However, no such mention is made of this in the corresponding documentation for earlier versions of Windows.  Does Windows 8 therefore not have the same beat problem?</p>
+</li>
+</ol>
+<p>Thanks!</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Alas, the answer is that no, there isn't any voodoo you can do to get DWrite to respect the width hints.
-
-Shortly after fractional width rendering (subpixel positioning) was introduced, I suggested to some people at MS that it would be good if there were a flag in the font that one could set to indicate to DWrite that one wanted full pixel spacing to be used. [The context for this is that we were designing some fonts for specific ppem sizes on full pixel grids, but when they were preceded on the line by other fonts they were getting knocked off the grid in DWrite environments.] The folks I spoke to agreed that such a flag would have been a useful thing, but thought it was too late to introduce it.</div>
+		<div class="commentbody"><p>Alas, the answer is that no, there isn&rsquo;t any voodoo you can do to get DWrite to respect the width hints.</p>
+<p>Shortly after fractional width rendering (subpixel positioning) was introduced, I suggested to some people at MS that it would be good if there were a flag in the font that one could set to indicate to DWrite that one wanted full pixel spacing to be used. [The context for this is that we were designing some fonts for specific ppem sizes on full pixel grids, but when they were preceded on the line by other fonts they were getting knocked off the grid in DWrite environments.] The folks I spoke to agreed that such a flag would have been a useful thing, but thought it was too late to introduce it.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -155,9 +141,8 @@ Shortly after fractional width rendering (subpixel positioning) was introduced, 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'm curious, why did you delete your first post?
-
-hhp
+		<div class="commentbody"><p>I&rsquo;m curious, why did you delete your first post?</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -179,15 +164,11 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi John,
-
-Thanks for looking into that for me.  It's a shame to hear that, but I can't say I'm suprised.
-
-It's too bad that they seemed to go to such trouble to preserve backward compatibility with the various ClearType rendering options, but didn't provide a way for forward compatibility.  I'd have thought that some combination of the GASP table and <code>INSTCTRL</code> (beyond just the 4 3 flag and selector) would be ideal.
-
-I realize that the world is generally moving away from hinting, but from my experience as an enthusiastic amateur in font design, it still seems like carefully chosen TrueType instructions have every bit as much to say as the raw splines about the visual character of a font at lower resolutions.  Likewise, I feel feel strongly that the choice between whole pixel grids, subpixel grids, and lack of grids ought to be a design decision that belongs in the fonts themselves (at least for fonts new enough to be aware of such things).
-
-Oh well.  Thanks again.
+		<div class="commentbody"><p>Hi John,</p>
+<p>Thanks for looking into that for me.  It&rsquo;s a shame to hear that, but I can&rsquo;t say I&rsquo;m suprised.</p>
+<p>It&rsquo;s too bad that they seemed to go to such trouble to preserve backward compatibility with the various ClearType rendering options, but didn&rsquo;t provide a way for forward compatibility.  I&rsquo;d have thought that some combination of the GASP table and <!-- raw HTML omitted -->INSTCTRL<!-- raw HTML omitted --> (beyond just the 4 3 flag and selector) would be ideal.</p>
+<p>I realize that the world is generally moving away from hinting, but from my experience as an enthusiastic amateur in font design, it still seems like carefully chosen TrueType instructions have every bit as much to say as the raw splines about the visual character of a font at lower resolutions.  Likewise, I feel feel strongly that the choice between whole pixel grids, subpixel grids, and lack of grids ought to be a design decision that belongs in the fonts themselves (at least for fonts new enough to be aware of such things).</p>
+<p>Oh well.  Thanks again.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -209,9 +190,8 @@ Oh well.  Thanks again.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><blockquote>I feel strongly that the choice between whole pixel grids, subpixel grids, and lack of grids ought to be a design decision that belongs in the fonts themselves</blockquote>
-
-I entirely agree.</div>
+		<div class="commentbody"><!-- raw HTML omitted -->
+<p>I entirely agree.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -253,9 +233,8 @@ I entirely agree.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I think the deleted post did provide a certain kind of information: that you needed to consult somebody for the answer. I can't think of a good reason to have deleted it. Anyway, no huge deal.
-
-hhp
+		<div class="commentbody"><p>I think the deleted post did provide a certain kind of information: that you needed to consult somebody for the answer. I can&rsquo;t think of a good reason to have deleted it. Anyway, no huge deal.</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -277,15 +256,12 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"..., it still seems like carefully chosen TrueType instructions have every bit as much to say as the raw splines about the visual character of a font at lower resolutions"
-
-This is a great observation, but it has been so long since the instructions were reliable. The proof is now out that only the rich can make viable solutions for the web, to a great extent, because of this windows rendering. And the bottleneck it has created is not just Google fonts opportunity.
-
-"Likewise, I feel feel strongly that the choice between whole pixel grids, subpixel grids, and lack of grids ought to be a design decision that belongs in the fonts themselves (at least for fonts new enough to be aware of such things)."
-
-This goes back to the gasp table's invention which is not so new either. What is new here is that so many more people understand the issue, and that the fonts MS was afraid of rendering because of evil hints, must be dead and gone by now?
-
-My favorite comment, is that you'd a thought MS would make Some Way forward for excellence in hinting. Can we have x back on windows now? Is the x box done hogging it?;)</div>
+		<div class="commentbody"><p>&ldquo;&hellip;, it still seems like carefully chosen TrueType instructions have every bit as much to say as the raw splines about the visual character of a font at lower resolutions&rdquo;</p>
+<p>This is a great observation, but it has been so long since the instructions were reliable. The proof is now out that only the rich can make viable solutions for the web, to a great extent, because of this windows rendering. And the bottleneck it has created is not just Google fonts opportunity.</p>
+<p>&ldquo;Likewise, I feel feel strongly that the choice between whole pixel grids, subpixel grids, and lack of grids ought to be a design decision that belongs in the fonts themselves (at least for fonts new enough to be aware of such things).&rdquo;</p>
+<p>This goes back to the gasp table&rsquo;s invention which is not so new either. What is new here is that so many more people understand the issue, and that the fonts MS was afraid of rendering because of evil hints, must be dead and gone by now?</p>
+<p>My favorite comment, is that you&rsquo;d a thought MS would make Some Way forward for excellence in hinting. Can we have x back on windows now? Is the x box done hogging it?;)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -306,11 +282,10 @@ My favorite comment, is that you'd a thought MS would make Some Way forward for 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">hi Bitblt 
-as John mentioned this is the situation right now. I am Mike Duggan by the way. Is it possible for you to introduce yourself?
-
-cheers
-mike
+		<div class="commentbody"><p>hi Bitblt 
+as John mentioned this is the situation right now. I am Mike Duggan by the way. Is it possible for you to introduce yourself?</p>
+<p>cheers
+mike</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -353,9 +328,9 @@ mike
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">David: <em>...and that the fonts MS was afraid of rendering because of evil hints, must be dead and gone by now?</em>
-
-The fonts are not dead and gone, but the rendering environments at which their heavy delta hinting was targeted have died and gone, so the obvious solution would be to rehint those fonts for modern rendering environments.</div>
+		<div class="commentbody"><p>David: <!-- raw HTML omitted -->&hellip;and that the fonts MS was afraid of rendering because of evil hints, must be dead and gone by now?<!-- raw HTML omitted --></p>
+<p>The fonts are not dead and gone, but the rendering environments at which their heavy delta hinting was targeted have died and gone, so the obvious solution would be to rehint those fonts for modern rendering environments.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -376,13 +351,11 @@ The fonts are not dead and gone, but the rendering environments at which their h
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi Mike,
-
-Sure.  I'm coming at things from the technical side.  I'm a professional software developer with an expertise in graphics algorithms.
-
-I spend a lot of time reading code on screen and several years ago I found myself not completely happy with any of the available typefaces.  So I set out to make one I'd like to use.  Working on it soon became a hobby and I got a bit crazy with it (to the point of teaching myself to write TT hinting instructions).  What can I say? I'm very demanding of my pixels, both at work and at home.
-
-Cheers!</div>
+		<div class="commentbody"><p>Hi Mike,</p>
+<p>Sure.  I&rsquo;m coming at things from the technical side.  I&rsquo;m a professional software developer with an expertise in graphics algorithms.</p>
+<p>I spend a lot of time reading code on screen and several years ago I found myself not completely happy with any of the available typefaces.  So I set out to make one I&rsquo;d like to use.  Working on it soon became a hobby and I got a bit crazy with it (to the point of teaching myself to write TT hinting instructions).  What can I say? I&rsquo;m very demanding of my pixels, both at work and at home.</p>
+<p>Cheers!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -403,9 +376,9 @@ Cheers!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Damien? :-)
-
-looking forward to seeing the font when its released. Please let us know when that happens. </div>
+		<div class="commentbody"><p>Damien? :-)</p>
+<p>looking forward to seeing the font when its released. Please let us know when that happens.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -426,15 +399,12 @@ looking forward to seeing the font when its released. Please let us know when th
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">JoHn:"The fonts are not dead and gone, "
-
-I think they are. The instructions you are talking about, only make CT fonts blue, while the instructions I was talking about, were said to make whole computer screens blue. 
-
-" so the obvious solution would be to rehint those fonts for modern rendering environments."
-
-I think that's all done. As I should have said, the fonts that concerned MS in the transition from aliased to CT, are dead and rehinted. 
-
-Free Damien.;)</div>
+		<div class="commentbody"><p>JoHn:&ldquo;The fonts are not dead and gone, &quot;</p>
+<p>I think they are. The instructions you are talking about, only make CT fonts blue, while the instructions I was talking about, were said to make whole computer screens blue.</p>
+<p>&quot; so the obvious solution would be to rehint those fonts for modern rendering environments.&rdquo;</p>
+<p>I think that&rsquo;s all done. As I should have said, the fonts that concerned MS in the transition from aliased to CT, are dead and rehinted.</p>
+<p>Free Damien.;)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -455,7 +425,7 @@ Free Damien.;)</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello, again.  This perhaps deserves its own post under Release, but just to follow up on this thread I made the font in question, <a href="http://eastfarthing.com/luculent">Luculent</a>, available as of yesterday.</div>
+		<div class="commentbody">Hello, again.  This perhaps deserves its own post under Release, but just to follow up on this thread I made the font in question, <!-- raw HTML omitted -->Luculent<!-- raw HTML omitted -->, available as of yesterday.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

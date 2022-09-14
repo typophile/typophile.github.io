@@ -71,52 +71,25 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hello,
-
-I'm trying to embed a OTF font into PDF 1.3. From what I understood the best way is to use Composite Type0 Fonts, i.e. CID-keyed fonts, either with TrueType or PS fonts.
-
-My question is, may I just drop, i.e. simply not copy, certain tables from original font to the PDF while embedding? In other words, PDF specs says, one only needs "head", "hhea", "loca", "maxp", "cvt", "prep", "glyf", "hmtx", "fpgm" - if I type a text in PDF using just glyph indexes (Type0) - is the font going to work even if I drop all the other tables, including "cmap", "GLYF", "GPOS", ..? Sane for TrueType and CFF? Of course I update its checksum and Offset Table and Table Record entries accordingly.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hello,</p>
+<p>I&rsquo;m trying to embed a OTF font into PDF 1.3. From what I understood the best way is to use Composite Type0 Fonts, i.e. CID-keyed fonts, either with TrueType or PS fonts.</p>
+<p>My question is, may I just drop, i.e. simply not copy, certain tables from original font to the PDF while embedding? In other words, PDF specs says, one only needs &ldquo;head&rdquo;, &ldquo;hhea&rdquo;, &ldquo;loca&rdquo;, &ldquo;maxp&rdquo;, &ldquo;cvt&rdquo;, &ldquo;prep&rdquo;, &ldquo;glyf&rdquo;, &ldquo;hmtx&rdquo;, &ldquo;fpgm&rdquo; - if I type a text in PDF using just glyph indexes (Type0) - is the font going to work even if I drop all the other tables, including &ldquo;cmap&rdquo;, &ldquo;GLYF&rdquo;, &ldquo;GPOS&rdquo;, ..? Sane for TrueType and CFF? Of course I update its checksum and Offset Table and Table Record entries accordingly.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Each font embedded inside of a PDF consists of two "parts": a font dictionary and a font program. 
-
-My understanding is — but this is just me reading the spec — that in general, PDF allows the following font dictionaries and programs (Program Key / Program Subtype / Dictionary Subtype): 
-<ul>
-<li><code>FontFile/—/Type1</code>: name-keyed Type 1 font, uncompressed (PDF 1.0)
-</li><li><code>FontFile/—/MMType1</code>: name-keyed Multiple Master font, uncompressed (PDF 1.0)
-</li><li><code>FontFile2/—/TrueType</code>: GID-keyed TrueType font (PDF 1.1)
-</li><li><code>FontFile3/Type1C/Type1</code>: name-keyed Type 1-based CFF font (PDF 1.2)
-</li><li><code>FontFile3/Type1C/MMType1</code>: name-keyed Multiple Master-based CFF font (PDF 1.2)
-</li><li><code>FontFile2/—/CIDFontType2</code>: CID-keyed TrueType-based font (PDF 1.3)
-</li><li><code>FontFile3/CIDFontType0C/CIDFontType0</code>: CID-keyed Type 1-based CFF font (PDF 1.3)
-</li><li><code>FontFile3/OpenType/Type1</code>: name-keyed Type 1-based CFF font with OpenType tables (PDF 1.6)
-</li><li><code>FontFile3/OpenType/CIDFontType0</code>: CID-keyed Type 1-based CFF font with OpenType tables (PDF 1.6)
-</li><li><code>FontFile3/OpenType/TrueType</code>: GID-keyed TrueType font with OpenType tables (PDF 1.6)
-</li><li><code>FontFile3/OpenType/CIDFontType2</code>: CID-keyed TrueType-based font with OpenType tables (PDF 1.6)
-</li>
-</ul>
-
-Most font types should also include <code>/ToUnicode</code> and <code>/CMap</code> structures. <code>CIDFontType2</code> font should also include a <code>/CIDToGIDMap</code> structure. <code>FontFile3/OpenType</code> font types should instead include the OpenType <code>"cmap"</code> table. 
-
-<ul><li>Type 1 fonts are typically converted into a CFF structure, either name-keyed or CID-keyed. 
-</li><li>OpenType TT (.ttf) and TrueType fonts are typically represented as a TrueType structure, either without conversion (GID-keyed) or converted into a CID-keyed form. 
-</li><li>For OpenType PS (.otf) fonts, there is a substantial difference: older PDF formats (from 1.2) only allowed the embedding of the CFF structure that is part of the OpenType font, without the additional OpenType tables. PDF 1.6 allows embedding of entire OpenType PS (.otf) fonts, with the <code>"CFF " table as well as other tables (<code>"cmap"</code> etc., but also <code>"GSUB"</code>, <code>"GPOS"</code> etc.). This latter form can also be used to embed OpenType TT (.ttf) fonts.</li>
-</ul>
-
-So, for PDF 1.2 and above, you can embed Type 1 and OpenType PS (.otf) fonts as font dictionaries in the name-keyed CFF format or in the CID-keyed <code>CIDFontType0</code> CFF format, and in addition as font programs in the <code>FontFile3/Type1C</code> name-keyed CFF format or in the <code>FontFile3/CIDFontType0C</code> CID-keyed CFF format. For PDF 1.6 and above, you can also embed the entire OpenType PS (.otf) fonts as <code>FontFile3/OpenType</code> programs. 
-
-Analogously, for PDF 1.2 and above, you can embed OpenType TT (.ttf) and TrueType fonts as font dictionaries in the GID-keyed TrueType form or the CID-keyed <code>CIDFontType2</code> form, and in addition as form programs in the <code>FontFile2</code> GID-based or CID-based TrueType-based form. For PDF 1.6 and above, you can also embed the entire OpenType TT (.ttf) fonts as <code>FontFile2/OpenType</code> fonts. 
-
-The choice which format to choose is basically: which minimal PDF format you want to support. The easiest thing to do would be to go with <code>FontFile3/OpenType programs, but that only gives you support for PDF 1.6 and above, which is pretty recent. For older PDF formats (1.2 and above would be most sensible), you should deal with the whole mess of various formats available. 
-
-I would say that the most sensible thing would be to always try to use the simplest format available. For example, if the font is a non-CJK OpenType PS (.otf) for or a Type 1 font, I'd embed it as <code>FontFile3/Type1C/Type1</code> (which is PDF 1.2), or perhaps as <code>FontFile3/CIDFontType0C/CIDFontType0</code> (which is PDF 1.3). If the font is an OpenType TT (.ttf) or TrueType font, I'd embed it as <code>FontFile2/—/TrueType</code> (which is PDF 1.1) or perhaps as <code>FontFile2/—/CIDFontType2</code> (which is PDF 1.3). 
-
-Sorry, I wish it all were simpler :) 
-
-Best,
-Adam
-
+		<div class="commentbody"><p>Each font embedded inside of a PDF consists of two &ldquo;parts&rdquo;: a font dictionary and a font program.</p>
+<p>My understanding is — but this is just me reading the spec — that in general, PDF allows the following font dictionaries and programs (Program Key / Program Subtype / Dictionary Subtype):</p>
+<!-- raw HTML omitted -->
+<p>Most font types should also include <!-- raw HTML omitted -->/ToUnicode<!-- raw HTML omitted --> and <!-- raw HTML omitted -->/CMap<!-- raw HTML omitted --> structures. <!-- raw HTML omitted -->CIDFontType2<!-- raw HTML omitted --> font should also include a <!-- raw HTML omitted -->/CIDToGIDMap<!-- raw HTML omitted --> structure. <!-- raw HTML omitted -->FontFile3/OpenType<!-- raw HTML omitted --> font types should instead include the OpenType <!-- raw HTML omitted -->&ldquo;cmap&rdquo;<!-- raw HTML omitted --> table.</p>
+<!-- raw HTML omitted -->
+<p>So, for PDF 1.2 and above, you can embed Type 1 and OpenType PS (.otf) fonts as font dictionaries in the name-keyed CFF format or in the CID-keyed <!-- raw HTML omitted -->CIDFontType0<!-- raw HTML omitted --> CFF format, and in addition as font programs in the <!-- raw HTML omitted -->FontFile3/Type1C<!-- raw HTML omitted --> name-keyed CFF format or in the <!-- raw HTML omitted -->FontFile3/CIDFontType0C<!-- raw HTML omitted --> CID-keyed CFF format. For PDF 1.6 and above, you can also embed the entire OpenType PS (.otf) fonts as <!-- raw HTML omitted -->FontFile3/OpenType<!-- raw HTML omitted --> programs.</p>
+<p>Analogously, for PDF 1.2 and above, you can embed OpenType TT (.ttf) and TrueType fonts as font dictionaries in the GID-keyed TrueType form or the CID-keyed <!-- raw HTML omitted -->CIDFontType2<!-- raw HTML omitted --> form, and in addition as form programs in the <!-- raw HTML omitted -->FontFile2<!-- raw HTML omitted --> GID-based or CID-based TrueType-based form. For PDF 1.6 and above, you can also embed the entire OpenType TT (.ttf) fonts as <!-- raw HTML omitted -->FontFile2/OpenType<!-- raw HTML omitted --> fonts.</p>
+<p>The choice which format to choose is basically: which minimal PDF format you want to support. The easiest thing to do would be to go with <!-- raw HTML omitted -->FontFile3/OpenType programs, but that only gives you support for PDF 1.6 and above, which is pretty recent. For older PDF formats (1.2 and above would be most sensible), you should deal with the whole mess of various formats available.</p>
+<p>I would say that the most sensible thing would be to always try to use the simplest format available. For example, if the font is a non-CJK OpenType PS (.otf) for or a Type 1 font, I&rsquo;d embed it as <!-- raw HTML omitted -->FontFile3/Type1C/Type1<!-- raw HTML omitted --> (which is PDF 1.2), or perhaps as <!-- raw HTML omitted -->FontFile3/CIDFontType0C/CIDFontType0<!-- raw HTML omitted --> (which is PDF 1.3). If the font is an OpenType TT (.ttf) or TrueType font, I&rsquo;d embed it as <!-- raw HTML omitted -->FontFile2/—/TrueType<!-- raw HTML omitted --> (which is PDF 1.1) or perhaps as <!-- raw HTML omitted -->FontFile2/—/CIDFontType2<!-- raw HTML omitted --> (which is PDF 1.3).</p>
+<p>Sorry, I wish it all were simpler :)</p>
+<p>Best,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -138,15 +111,12 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ps. Please note that all of my recommendations apply to non-CJK fonts. For CJK (Chinese/Japanese/Korean) fonts, you'll be best to always embed them as CID-based fonts, but you'll need to make sure that the appropriate standard /CMap is selected whenever possible, to avoid duplication of data. 
-
-Yet another issue I haven't mentioned is subsetting. Embedding fonts as FontFile3/OpenType/* or FontFile2/—/TrueType makes sense mostly if you're embedding entire fonts. Otherwise, especially for FontFile3/OpenType/*, subsetting is quite challenging. Again, in this case, using CID-based fonts (FontFile3/CIDFontType0C/CIDFontType0 and FontFile2/—/CIDFontType2) may be the easiest — and these are probably the two formats you should "get right" first. 
-
-Remember that between FontFile3/CIDFontType0C/CIDFontType0 and FontFile2/—/CIDFontType2 there is a *fundamental* difference: FontFile3/CIDFontType0C/CIDFontType0 basically embeds just the "CFF" portion of the font, without any other tables. On top of that, a /ToUnicode CMap is recommended. 
-
-FontFile2/—/CIDFontType2 embeds the *entire* sfnt font structure (some tables may be removed, but they also may be kept), and then you need to add a /CIDToGIDMap "Identity" structure and also a /ToUnicode CMap that basically duplicates the TrueType font's "cmap" table. At least this is how I understand it. 
-
-At least this is how I understand it :)</div>
+		<div class="commentbody"><p>Ps. Please note that all of my recommendations apply to non-CJK fonts. For CJK (Chinese/Japanese/Korean) fonts, you&rsquo;ll be best to always embed them as CID-based fonts, but you&rsquo;ll need to make sure that the appropriate standard /CMap is selected whenever possible, to avoid duplication of data.</p>
+<p>Yet another issue I haven&rsquo;t mentioned is subsetting. Embedding fonts as FontFile3/OpenType/* or FontFile2/—/TrueType makes sense mostly if you&rsquo;re embedding entire fonts. Otherwise, especially for FontFile3/OpenType/*, subsetting is quite challenging. Again, in this case, using CID-based fonts (FontFile3/CIDFontType0C/CIDFontType0 and FontFile2/—/CIDFontType2) may be the easiest — and these are probably the two formats you should &ldquo;get right&rdquo; first.</p>
+<p>Remember that between FontFile3/CIDFontType0C/CIDFontType0 and FontFile2/—/CIDFontType2 there is a <em>fundamental</em> difference: FontFile3/CIDFontType0C/CIDFontType0 basically embeds just the &ldquo;CFF&rdquo; portion of the font, without any other tables. On top of that, a /ToUnicode CMap is recommended.</p>
+<p>FontFile2/—/CIDFontType2 embeds the <em>entire</em> sfnt font structure (some tables may be removed, but they also may be kept), and then you need to add a /CIDToGIDMap &ldquo;Identity&rdquo; structure and also a /ToUnicode CMap that basically duplicates the TrueType font&rsquo;s &ldquo;cmap&rdquo; table. At least this is how I understand it.</p>
+<p>At least this is how I understand it :)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -167,25 +137,19 @@ At least this is how I understand it :)</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hey Adam,
-
-thanks a lot for the very detailed answer.
-
-As I said above, I'm targeting PDF 1.3 so full OTF is unfortunately not an option.
-
-I read the specs more-or-less in similar way, except for a few details:
-
-/ToUnicode - is there only to support copy-and-paste of the text from PDF but is not really needed for font program to work
-
-/CIDToGIDMap - this is especially confusing, since its requirement varies from spec version to version. The very last version says, it's optional
-
-/CMap - the most important field for this topic - I was thinking that I could write "/Encoding/Identity-H" and "/Ordering (Identity)" basically saying that I will be setting the text not in Unicode code points but in the form of position indexes of the glyphs in font program. For example, to write "ABC" I wont write "ABC" or "\x61\x62\x63" or (whatever the notation is), but "\1\2\3\" if "a" was the first glyph in the font, "b" the second, ... In such way /CMap is not needed, as well. But I'm not sure I understood the specs well.
-
-To rephrase my question, if I have OTF font which I want to embed in PDF 1.3, is it ok to drop all but the above mentioned tables, effectively converting OTF to, say, TTF and hence making it suitable for embedding in PDF 1.3? Do the above tables depend on other tables or not? If I use, say, just plain Latin 1, I find the glyph indexes in font's cmap, right? And everything needed for the glyphs to draw is in "glyf" table... And if I use, say, ligatures I somehow query the font and search for the indexes again, so for "fi" I will write "\73456", instead of "\66\69", am I right? So no other tables should be needed?
-
-It all seems to me rather complicated (off-topic: *), the most simple way out, in my eyes, is to use "FontFile2/-/CIDFontType2" and "FontFile3/CIDFontType0C/CIDFontType0" but I'm not sure how to prepare a font file for embedding so it remains intact...
-
-* is there even small chance that one day there will be widespread support for XML fonts? Or completely new, non-legacy font format?</div>
+		<div class="commentbody"><p>Hey Adam,</p>
+<p>thanks a lot for the very detailed answer.</p>
+<p>As I said above, I&rsquo;m targeting PDF 1.3 so full OTF is unfortunately not an option.</p>
+<p>I read the specs more-or-less in similar way, except for a few details:</p>
+<p>/ToUnicode - is there only to support copy-and-paste of the text from PDF but is not really needed for font program to work</p>
+<p>/CIDToGIDMap - this is especially confusing, since its requirement varies from spec version to version. The very last version says, it&rsquo;s optional</p>
+<p>/CMap - the most important field for this topic - I was thinking that I could write &ldquo;/Encoding/Identity-H&rdquo; and &ldquo;/Ordering (Identity)&rdquo; basically saying that I will be setting the text not in Unicode code points but in the form of position indexes of the glyphs in font program. For example, to write &ldquo;ABC&rdquo; I wont write &ldquo;ABC&rdquo; or &ldquo;\x61\x62\x63&rdquo; or (whatever the notation is), but &ldquo;\1\2\3&quot; if &ldquo;a&rdquo; was the first glyph in the font, &ldquo;b&rdquo; the second, &hellip; In such way /CMap is not needed, as well. But I&rsquo;m not sure I understood the specs well.</p>
+<p>To rephrase my question, if I have OTF font which I want to embed in PDF 1.3, is it ok to drop all but the above mentioned tables, effectively converting OTF to, say, TTF and hence making it suitable for embedding in PDF 1.3? Do the above tables depend on other tables or not? If I use, say, just plain Latin 1, I find the glyph indexes in font&rsquo;s cmap, right? And everything needed for the glyphs to draw is in &ldquo;glyf&rdquo; table&hellip; And if I use, say, ligatures I somehow query the font and search for the indexes again, so for &ldquo;fi&rdquo; I will write &ldquo;\73456&rdquo;, instead of &ldquo;\66\69&rdquo;, am I right? So no other tables should be needed?</p>
+<p>It all seems to me rather complicated (off-topic: *), the most simple way out, in my eyes, is to use &ldquo;FontFile2/-/CIDFontType2&rdquo; and &ldquo;FontFile3/CIDFontType0C/CIDFontType0&rdquo; but I&rsquo;m not sure how to prepare a font file for embedding so it remains intact&hellip;</p>
+<ul>
+<li>is there even small chance that one day there will be widespread support for XML fonts? Or completely new, non-legacy font format?</li>
+</ul>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -206,14 +170,12 @@ It all seems to me rather complicated (off-topic: *), the most simple way out, i
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I just saw your ps.
-
-<cite>FontFile3/CIDFontType0C/CIDFontType0 basically embeds just the "CFF" portion of the font, without any other tables</cite>
-
-What do you mean by this? "Required Tables" + "CFF"?
-http://www.microsoft.com/typography/otspec/otff.htm#otttables
-
-And yes, I would like to embed the whole font, rather than its subset. And no CJK so far.</div>
+		<div class="commentbody"><p>I just saw your ps.</p>
+<p><!-- raw HTML omitted -->FontFile3/CIDFontType0C/CIDFontType0 basically embeds just the &ldquo;CFF&rdquo; portion of the font, without any other tables<!-- raw HTML omitted --></p>
+<p>What do you mean by this? &ldquo;Required Tables&rdquo; + &ldquo;CFF&rdquo;?
+<a href="http://www.microsoft.com/typography/otspec/otff.htm#otttables">http://www.microsoft.com/typography/otspec/otff.htm#otttables</a></p>
+<p>And yes, I would like to embed the whole font, rather than its subset. And no CJK so far.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -234,26 +196,22 @@ And yes, I would like to embed the whole font, rather than its subset. And no CJ
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Tuom, 
-
-> What do you mean by this? "Required Tables" + "CFF"?
-
-No, the story goes like this: at the beginning, there was Type 1, and the CID-keyed Type 1-based fonts. Then Adobe invented the CFF structure to represent both these font types in a compressed font. And when OpenType was developed by Microsoft as TrueType Open, Adobe thought that the easiest way to put PostScript glyph descriptions inside of an OpenType font (i.e. an "sfnt" structure) is to put the entire CFF structure as a new table named "CFF " (with a trailing space). 
-
-So we have two basic structures: 
-* the CFF structure which is a compressed form of any PostScript font, and basically only lives inside of PDF files
-* the sfnt structure which is used in TrueType and OpenType fonts, where the glyphs are stored as a "glyf" table (for TrueType-based fonts) and as a "CFF " table (for PostScript-based fonts). This structure can live inside of a PDF file, and then it has Adobe's PDF requirements as to which tables are necessary, or it can live as a standalone desktop font (with the .ttf or .otf file extension), and is then subject to the OpenType spec's requirements. The tables required by the PDF spec and the tables required by the OpenType spec are not the same requirements. 
-
-<strong>TrueType</strong>-based fonts: <code>FontFile2/—/TrueType</code>, <code>FontFile2/—/CIDFontType2</code>, <code>FontFile3/OpenType/TrueType</code> and <code>FontFile3/OpenType/CIDFontType2</code> all contain the <strong>sfnt structure with a "glyf" table</code>, and additional tables.  
-
-<strong>PostScript</strong>-based fonts: <code>FontFile3/Type1C/Type1</code> and <code>FontFile3/CIDFontType0C/CIDFontType0</code> only contain the <strong>"bare" CFF structure</strong>, not the sfnt structure. So there is no way to put "other tables" there, because the concept of "tables" applies to the sfnt structure. On the other hand, <code>FontFile3/OpenType/Type1</code> and <code>FontFile3/OpenType/CIDFontType0</code> all contain the <strong>sfnt structure with a "CFF " table</strong>, and additional tables. The "CFF " table is identical to the CFF structure, but wrapped inside of the sfnt structure which allows room for other tables. 
-
-Again: the PDF spec lists the "required" tables within that structure (separately for those with a "glyf" table and for those with the "CFF " table), but this is not the same list of tables as the tables required when the sfnt structure is a standalone desktop font with the .ttf or .otf file extension (then it is subject to OpenType spec's requirements).
-
-As for your other questions, it's a bit beyond my expertise, but I've alerted some Adobe people to have a look at this thread, so hopefully they can tune in in the coming days. 
-
-Best,
-Adam
+		<div class="commentbody"><p>Tuom,</p>
+<blockquote>
+<p>What do you mean by this? &ldquo;Required Tables&rdquo; + &ldquo;CFF&rdquo;?</p>
+</blockquote>
+<p>No, the story goes like this: at the beginning, there was Type 1, and the CID-keyed Type 1-based fonts. Then Adobe invented the CFF structure to represent both these font types in a compressed font. And when OpenType was developed by Microsoft as TrueType Open, Adobe thought that the easiest way to put PostScript glyph descriptions inside of an OpenType font (i.e. an &ldquo;sfnt&rdquo; structure) is to put the entire CFF structure as a new table named &ldquo;CFF &quot; (with a trailing space).</p>
+<p>So we have two basic structures:</p>
+<ul>
+<li>the CFF structure which is a compressed form of any PostScript font, and basically only lives inside of PDF files</li>
+<li>the sfnt structure which is used in TrueType and OpenType fonts, where the glyphs are stored as a &ldquo;glyf&rdquo; table (for TrueType-based fonts) and as a &ldquo;CFF &quot; table (for PostScript-based fonts). This structure can live inside of a PDF file, and then it has Adobe&rsquo;s PDF requirements as to which tables are necessary, or it can live as a standalone desktop font (with the .ttf or .otf file extension), and is then subject to the OpenType spec&rsquo;s requirements. The tables required by the PDF spec and the tables required by the OpenType spec are not the same requirements.</li>
+</ul>
+<p><!-- raw HTML omitted -->TrueType<!-- raw HTML omitted -->-based fonts: <!-- raw HTML omitted -->FontFile2/—/TrueType<!-- raw HTML omitted -->, <!-- raw HTML omitted -->FontFile2/—/CIDFontType2<!-- raw HTML omitted -->, <!-- raw HTML omitted -->FontFile3/OpenType/TrueType<!-- raw HTML omitted --> and <!-- raw HTML omitted -->FontFile3/OpenType/CIDFontType2<!-- raw HTML omitted --> all contain the <!-- raw HTML omitted -->sfnt structure with a &ldquo;glyf&rdquo; table<!-- raw HTML omitted -->, and additional tables.</p>
+<p><!-- raw HTML omitted -->PostScript<!-- raw HTML omitted -->-based fonts: <!-- raw HTML omitted -->FontFile3/Type1C/Type1<!-- raw HTML omitted --> and <!-- raw HTML omitted -->FontFile3/CIDFontType0C/CIDFontType0<!-- raw HTML omitted --> only contain the <!-- raw HTML omitted -->&ldquo;bare&rdquo; CFF structure<!-- raw HTML omitted -->, not the sfnt structure. So there is no way to put &ldquo;other tables&rdquo; there, because the concept of &ldquo;tables&rdquo; applies to the sfnt structure. On the other hand, <!-- raw HTML omitted -->FontFile3/OpenType/Type1<!-- raw HTML omitted --> and <!-- raw HTML omitted -->FontFile3/OpenType/CIDFontType0<!-- raw HTML omitted --> all contain the <!-- raw HTML omitted -->sfnt structure with a &ldquo;CFF &quot; table<!-- raw HTML omitted -->, and additional tables. The &ldquo;CFF &quot; table is identical to the CFF structure, but wrapped inside of the sfnt structure which allows room for other tables.</p>
+<p>Again: the PDF spec lists the &ldquo;required&rdquo; tables within that structure (separately for those with a &ldquo;glyf&rdquo; table and for those with the &ldquo;CFF &quot; table), but this is not the same list of tables as the tables required when the sfnt structure is a standalone desktop font with the .ttf or .otf file extension (then it is subject to OpenType spec&rsquo;s requirements).</p>
+<p>As for your other questions, it&rsquo;s a bit beyond my expertise, but I&rsquo;ve alerted some Adobe people to have a look at this thread, so hopefully they can tune in in the coming days.</p>
+<p>Best,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -275,9 +233,9 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hm, ok, I read it four times and I think I somewhat got it. Thank you once more, and thanks for asking the people!
-
-Btw, dear Adobe people, how to correctly compute "StemV"?</div>
+		<div class="commentbody"><p>Hm, ok, I read it four times and I think I somewhat got it. Thank you once more, and thanks for asking the people!</p>
+<p>Btw, dear Adobe people, how to correctly compute &ldquo;StemV&rdquo;?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -298,15 +256,12 @@ Btw, dear Adobe people, how to correctly compute "StemV"?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">As Adam pointed out, font embedding in PDF is somewhat (or extraordinarily, depending on your point of view) complex, which is why we developed libraries to do this work.
-
-I can make a couple of comments.
-
-/CIDToGIDMap is useful only for CID-keyed fonts, and its purpose is to map CIDs (used by /ToUnicode) to GIDs in the embedded font.
-
-One should never embed an entire CID-keyed font, due to size. For example, even if the user specifies that 100% of the glyphs in a font are to be embedded, the font-embedding functions of our PDF libraries will subset, including only the glyphs for the characters that are referenced in the document, then embed. This is for reasons of practicality. Name-keyed fonts, of course, will have all of their glyphs embedded if the user specifies 100%.
-
-With regard to computing StemV, I think that it'd simply be taken from the /StdVW value of the embedded font's hint dictionary.</div>
+		<div class="commentbody"><p>As Adam pointed out, font embedding in PDF is somewhat (or extraordinarily, depending on your point of view) complex, which is why we developed libraries to do this work.</p>
+<p>I can make a couple of comments.</p>
+<p>/CIDToGIDMap is useful only for CID-keyed fonts, and its purpose is to map CIDs (used by /ToUnicode) to GIDs in the embedded font.</p>
+<p>One should never embed an entire CID-keyed font, due to size. For example, even if the user specifies that 100% of the glyphs in a font are to be embedded, the font-embedding functions of our PDF libraries will subset, including only the glyphs for the characters that are referenced in the document, then embed. This is for reasons of practicality. Name-keyed fonts, of course, will have all of their glyphs embedded if the user specifies 100%.</p>
+<p>With regard to computing StemV, I think that it&rsquo;d simply be taken from the /StdVW value of the embedded font&rsquo;s hint dictionary.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -327,9 +282,9 @@ With regard to computing StemV, I think that it'd simply be taken from the /StdV
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I assume you meant Adobe PDF Library SDK - unfortunately for me (or everyone but Adobe) it is closed source software and therefore it is not possible to look inside how things work. Please, don't get me wrong, I appreciate your reply, it's just I'm not really sure how I should process further.
-
-I read that /StdVW is part of Type 1 only - what about TrueType? I found that W3C recommends to read "cvt " but I couldn't find anything inside that table..?</div>
+		<div class="commentbody"><p>I assume you meant Adobe PDF Library SDK - unfortunately for me (or everyone but Adobe) it is closed source software and therefore it is not possible to look inside how things work. Please, don&rsquo;t get me wrong, I appreciate your reply, it&rsquo;s just I&rsquo;m not really sure how I should process further.</p>
+<p>I read that /StdVW is part of Type 1 only - what about TrueType? I found that W3C recommends to read &ldquo;cvt &quot; but I couldn&rsquo;t find anything inside that table..?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

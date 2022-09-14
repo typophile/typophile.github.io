@@ -71,22 +71,20 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Is it possible to do ligature substitutions right to left in OpenType?
-
-I'm working on a special monospaced typeface with ligatures, you can check it out [[https://github.com/i-tu/Hasklig/|here]].
-
-I'm trying to separate zeros in groups of three with a ligature. Examples: 1000000 -> 1 000 000, and 10000 -> 10 000. The substitution should be done right to left, or otherwise the 10000 becomes 1 000 0, as with the following code:
-<code>
+  <div class="post-content e-content" itemprop="articleBody"><p>Is it possible to do ligature substitutions right to left in OpenType?</p>
+<p>I&rsquo;m working on a special monospaced typeface with ligatures, you can check it out [[https://github.com/i-tu/Hasklig/|here]].</p>
+<p>I&rsquo;m trying to separate zeros in groups of three with a ligature. Examples: 1000000 -&gt; 1 000 000, and 10000 -&gt; 10 000. The substitution should be done right to left, or otherwise the 10000 becomes 1 000 0, as with the following code:
+<!-- raw HTML omitted -->
 feature liga {
-    sub zero zero zero by zero_zero_zero;
+sub zero zero zero by zero_zero_zero;
 }
-</code>
-
-I'd also appreciate information on how one would use kerning rules in a situation like this, though I'm not sure if they would apply to a monospaced typeface.</div>
+<!-- raw HTML omitted --></p>
+<p>I&rsquo;d also appreciate information on how one would use kerning rules in a situation like this, though I&rsquo;m not sure if they would apply to a monospaced typeface.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Working link: https://github.com/i-tu/Hasklig/</div>
+		<div class="commentbody">Working link: <a href="https://github.com/i-tu/Hasklig/">https://github.com/i-tu/Hasklig/</a></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -107,49 +105,12 @@ I'd also appreciate information on how one would use kerning rules in a situatio
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You can use contextual substitutions to replace a zero, or a digit, with a variant; for instance a digit followed by three digits but not a fourth can be replaced by a digit with a larger right side bearing. Knowing that lookups are applied on the input line one after the other, that gives the impression that the processing is right to left though it is not. Here is some code that I just checked in FontForge and that groups digits in groups of three.
-<PRE>
-@dgt    = [\zero \one \two \three \four 
-          \five \six \seven \eight \nine] ;
-@dgtrsp = [\zero.rsp \one.rsp \two.rsp \three.rsp 
-          \four.rsp \five.rsp \six.rsp 
-          \seven.rsp \eight.rsp \nine.rsp ] ; 
-
-lookup addspace1 {
-   ignore sub @dgt' @dgt @dgt @dgt @dgt ; 
-   sub @dgt' @dgt @dgt @dgt by @dgtrsp ;
-} addspace1 ;
-
-lookup addspace2 {
-	sub @dgt' @dgt @dgt @dgtrsp by @dgtrsp ;
-} addspace2 ;
-
-lookup addspace3 {
-	sub @dgt' @dgt @dgt @dgtrsp by @dgtrsp ;
-} addspace3 ;
-
-lookup addspace4 {
-	sub @dgt' @dgt @dgt @dgtrsp by @dgtrsp ;
-} addspace4 ;
-
-feature calt {
-   script DFLT;
-     language dflt ;
-	lookup addspace1 ;
-	lookup addspace2 ;
-	lookup addspace3 ;
-	lookup addspace4 ;
-   script latn ;
-     language dflt;
-	lookup addspace1 ;
-	lookup addspace2 ;
-	lookup addspace3 ;
-	lookup addspace4 ;
-} calt ;
-</PRE>
-Of course, if you wanted to group digits after the decimal point, you would consider left contexts and use digits with a large left side bearing instead.
-
-It was assumed above that the glyph zero.rsp is the glyph zero with a right side bearing increased by some constant value and similarly for other .rsp glyphs. It is also possible to keep all .rsp digits the same width as  digits and then to add a kerning equal to that constant value (for you, the character widths) between the .rsp digits and the digits; that has the same visual effect.</div>
+		<div class="commentbody"><p>You can use contextual substitutions to replace a zero, or a digit, with a variant; for instance a digit followed by three digits but not a fourth can be replaced by a digit with a larger right side bearing. Knowing that lookups are applied on the input line one after the other, that gives the impression that the processing is right to left though it is not. Here is some code that I just checked in FontForge and that groups digits in groups of three.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Of course, if you wanted to group digits after the decimal point, you would consider left contexts and use digits with a large left side bearing instead.</p>
+<p>It was assumed above that the glyph zero.rsp is the glyph zero with a right side bearing increased by some constant value and similarly for other .rsp glyphs. It is also possible to keep all .rsp digits the same width as  digits and then to add a kerning equal to that constant value (for you, the character widths) between the .rsp digits and the digits; that has the same visual effect.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

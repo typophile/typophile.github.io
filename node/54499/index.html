@@ -71,36 +71,29 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I tried looking this up but didn't see it. I'm creating ligatures for a titling font and since I don't want them to come on by default I'm putting them in the Discretionary Ligature feature.
-
-When I compiled them they came in, but this feature seems to ignore the glyph order. For instance if I put T_T before E_T in the feature code and type E T T it still renders E_T first. Is there any way around this? I take it that dlig doesn't function like the standard liga.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I tried looking this up but didn&rsquo;t see it. I&rsquo;m creating ligatures for a titling font and since I don&rsquo;t want them to come on by default I&rsquo;m putting them in the Discretionary Ligature feature.</p>
+<p>When I compiled them they came in, but this feature seems to ignore the glyph order. For instance if I put T_T before E_T in the feature code and type E T T it still renders E_T first. Is there any way around this? I take it that dlig doesn&rsquo;t function like the standard liga.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You need to use two lookups: 
-
-<code>feature dlig { 
-  lookup dlig1 { 
-    sub T T by T_T;
-  } dlig1; 
-  lookup dlig2 { 
-    sub E T by E_T;
-  } dlig2; 
-} dlig;</code>
-
-With each pass of the text, one lookup is executed. 
-
-Within one pass, the layout engine tries to match all the substitution rules within that lookup against the current text, one glyph after another. Whenever a match occurs, the substitution rule is executed. So if you put both the E_T and T_T rules in one lookup, the E_T rule will be the best match in the first pass (in the glyph string E T T), and it will be executed (so the result is the glyph string E_T T). 
-
-But with multiple lookups, they are executed in consecutive passes on the full glyph run (typically one line of text), and the output of one lookup becomes the input of the next one. So if you define the substitutions in two lookups as shown above, with the T_T rule being first, the first pass will substitute E E T with E T_T, and then the second lookup will have nothing to match. 
-
-If you don't define lookups explicitly in the <a href="http://forum.fontlab.com/adobe/afdko/">AFDKO</a> / FontLab Studio syntax, one lookup per feature definition is implicitly created, and each feature definition gets a separate lookup (so while you reorder the feature definitions in FontLab Studio's OpenType panel, you are in fact changing the order of lookups in the font). 
-
-In <a href="http://forum.fontlab.com/adobe/afdko/">Adobe FDK for OpenType (AFDKO) version 2.5</a>, which will also be part of FontLab Studio 6, it is possible to define lookups outside of feature definitions, which allows creating more complex scenarios useful in feature cross-interaction. If two features are active at the same time, your code might then execute the first lookup of the feature A, then feed the output into the first lookup of the feature B, and then feed the output into the second lookup of the feature A. This is currently not possible in FontLab Studio 5. 
-
-Adam
-
-Ps. No, I don't have any specific release details for FontLab Studio 6 to announce yet :)</div>
+		<div class="commentbody"><p>You need to use two lookups:</p>
+<p><!-- raw HTML omitted -->feature dlig { 
+lookup dlig1 { 
+sub T T by T_T;
+} dlig1; 
+lookup dlig2 { 
+sub E T by E_T;
+} dlig2; 
+} dlig;<!-- raw HTML omitted --></p>
+<p>With each pass of the text, one lookup is executed.</p>
+<p>Within one pass, the layout engine tries to match all the substitution rules within that lookup against the current text, one glyph after another. Whenever a match occurs, the substitution rule is executed. So if you put both the E_T and T_T rules in one lookup, the E_T rule will be the best match in the first pass (in the glyph string E T T), and it will be executed (so the result is the glyph string E_T T).</p>
+<p>But with multiple lookups, they are executed in consecutive passes on the full glyph run (typically one line of text), and the output of one lookup becomes the input of the next one. So if you define the substitutions in two lookups as shown above, with the T_T rule being first, the first pass will substitute E E T with E T_T, and then the second lookup will have nothing to match.</p>
+<p>If you don&rsquo;t define lookups explicitly in the <!-- raw HTML omitted -->AFDKO<!-- raw HTML omitted --> / FontLab Studio syntax, one lookup per feature definition is implicitly created, and each feature definition gets a separate lookup (so while you reorder the feature definitions in FontLab Studio&rsquo;s OpenType panel, you are in fact changing the order of lookups in the font).</p>
+<p>In <!-- raw HTML omitted -->Adobe FDK for OpenType (AFDKO) version 2.5<!-- raw HTML omitted -->, which will also be part of FontLab Studio 6, it is possible to define lookups outside of feature definitions, which allows creating more complex scenarios useful in feature cross-interaction. If two features are active at the same time, your code might then execute the first lookup of the feature A, then feed the output into the first lookup of the feature B, and then feed the output into the second lookup of the feature A. This is currently not possible in FontLab Studio 5.</p>
+<p>Adam</p>
+<p>Ps. No, I don&rsquo;t have any specific release details for FontLab Studio 6 to announce yet :)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -121,11 +114,10 @@ Ps. No, I don't have any specific release details for FontLab Studio 6 to announ
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Adam.
-
-I should have though about writing lookups. Your explanation makes it much clearer to understand how it works too.
-
-Stephen</div>
+		<div class="commentbody"><p>Thanks Adam.</p>
+<p>I should have though about writing lookups. Your explanation makes it much clearer to understand how it works too.</p>
+<p>Stephen</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

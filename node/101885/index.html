@@ -71,16 +71,17 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I put the pre-alpha (but very usable for low enough resolutions) version of monospaced scalable variant of Unifont font to [[http://ilyaz.org/software/fonts]].
-<!--break-->
-It is constructed by a scanner/stroke-designer backend running over the 16×8, 16×16 bitmaps of Unifont.  The scanner/designer are written in Perl; the scanner is ready, the designer 70% ready.   (Of course, it turned out to be a much more complicated task than I expected at the start — 6 months ago!)
-The frontend converting strokes to a font is EXTREMELY primitive (cooked in a day, and hitting new and new bugs in FontForge — sigh…).  So I'm afraid any critique at this moment would be very premature…
-I'm hitting my head again and again with <code>.notdef</code>; it does not work in Windows console if I include U+0000 and U+0001 glyphs.  So currently I just omit these glyphs — is there any alternative?  The recommendations in [[http://www.microsoft.com/typography/otspec/recom.htm]] are not very helpful: how can one include <code>.null</code> into a monospaced font?
-Any help with this would be greatly appreciated.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I put the pre-alpha (but very usable for low enough resolutions) version of monospaced scalable variant of Unifont font to [[http://ilyaz.org/software/fonts]].</p>
+<!-- raw HTML omitted -->
+<p>It is constructed by a scanner/stroke-designer backend running over the 16×8, 16×16 bitmaps of Unifont.  The scanner/designer are written in Perl; the scanner is ready, the designer 70% ready.   (Of course, it turned out to be a much more complicated task than I expected at the start — 6 months ago!)
+The frontend converting strokes to a font is EXTREMELY primitive (cooked in a day, and hitting new and new bugs in FontForge — sigh…).  So I&rsquo;m afraid any critique at this moment would be very premature…
+I&rsquo;m hitting my head again and again with <!-- raw HTML omitted -->.notdef<!-- raw HTML omitted -->; it does not work in Windows console if I include U+0000 and U+0001 glyphs.  So currently I just omit these glyphs — is there any alternative?  The recommendations in [[http://www.microsoft.com/typography/otspec/recom.htm]] are not very helpful: how can one include <!-- raw HTML omitted -->.null<!-- raw HTML omitted --> into a monospaced font?
+Any help with this would be greatly appreciated.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I think .null and .notdef are perfectly valid in a monospaced font. Apparently Consolas includes them...</div>
+		<div class="commentbody">I think .null and .notdef are perfectly valid in a monospaced font. Apparently Consolas includes them&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -99,31 +100,23 @@ Any help with this would be greatly appreciated.</div>
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Maybe I just cannot find the magic incantation in FontForge.  If I use the sequence <code>.notdef/0002/0003/0004/0005/</code>etc, everything works OK.  Inserting glyphs named <code>0000/0001</code> after .notdef makes the glyph <code>0000</code> used instead of <code>.notdef</code>.
-
-Consolas has
-
-<blockquote>
-StartChar: .notdef
-Encoding: 65536 -1 0
-Width: 1126
-
-StartChar: glyph1
+		<div class="commentbody"><p>Maybe I just cannot find the magic incantation in FontForge.  If I use the sequence <!-- raw HTML omitted -->.notdef/0002/0003/0004/0005/<!-- raw HTML omitted -->etc, everything works OK.  Inserting glyphs named <!-- raw HTML omitted -->0000/0001<!-- raw HTML omitted --> after .notdef makes the glyph <!-- raw HTML omitted -->0000<!-- raw HTML omitted --> used instead of <!-- raw HTML omitted -->.notdef<!-- raw HTML omitted -->.</p>
+<p>Consolas has</p>
+<!-- raw HTML omitted -->
+<p>StartChar: glyph1
 Encoding: 0 -1 1
 AltUni2: 000000.ffffffff.0
-Width: 1126
-
-StartChar: uni000D
+Width: 1126</p>
+<p>StartChar: uni000D
 Encoding: 13 13 2
-Width: 0
-
-StartChar: space
+Width: 0</p>
+<p>StartChar: space
 Encoding: 32 32 3
 AltUni2: 0000a0.ffffffff.0
-Width: 1126
-</blockquote>
-
-which, on the surface, is contrary to M$ recommendations: CR should have non-0 width, second glyph should be named .null and it should have 0-width.  Moreover, M$ says that a console font should be monospaced — but above CR has width 0….</div>
+Width: 1126</p>
+<!-- raw HTML omitted -->
+<p>which, on the surface, is contrary to M$ recommendations: CR should have non-0 width, second glyph should be named .null and it should have 0-width.  Moreover, M$ says that a console font should be monospaced — but above CR has width 0….</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -146,9 +139,9 @@ which, on the surface, is contrary to M$ recommendations: CR should have non-0 w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">In a monospaced font, *all* glyphs should have the same advance width, and this overrides other recommendations such as that which says NULL should be zero-width. If a monospaced font contains glyphs that do not share the common width, it can cause major problems, because software tends to cache the width value for monospaced fonts.
-
-Note also that the proper name of this glyph is NULL, not .null. The only glyph in a font whose name begins with something other than A-z is .notdef.</div>
+		<div class="commentbody"><p>In a monospaced font, <em>all</em> glyphs should have the same advance width, and this overrides other recommendations such as that which says NULL should be zero-width. If a monospaced font contains glyphs that do not share the common width, it can cause major problems, because software tends to cache the width value for monospaced fonts.</p>
+<p>Note also that the proper name of this glyph is NULL, not .null. The only glyph in a font whose name begins with something other than A-z is .notdef.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -167,11 +160,10 @@ Note also that the proper name of this glyph is NULL, not .null. The only glyph 
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks, John! The question remaining is: what you say, is it just “common knowledge”,  or is it documented somewhere? What I was quoting was the cited MS's document; one does not expect it to be even close to being perfect, but it would be nice if one knew something more authoritative, and still kind of comprehensive.
-
-I do not say that your word is less authoritative than the MS's document; it it just that what you say is one (or two) tidbits at a time ;-).
-
-Please bear with me, this is my first foray into non-bitmap world….  Of course, in what I released every char is of the same width — I just was not sure which card bits which when different recommendations are concerned.  ― And note that in Consola 000D has width 0, contrary to “consoleness” — which for me implies being monospaced; and the recommendation above says that 000D should be non-0 width….</div>
+		<div class="commentbody"><p>Thanks, John! The question remaining is: what you say, is it just “common knowledge”,  or is it documented somewhere? What I was quoting was the cited MS&rsquo;s document; one does not expect it to be even close to being perfect, but it would be nice if one knew something more authoritative, and still kind of comprehensive.</p>
+<p>I do not say that your word is less authoritative than the MS&rsquo;s document; it it just that what you say is one (or two) tidbits at a time ;-).</p>
+<p>Please bear with me, this is my first foray into non-bitmap world….  Of course, in what I released every char is of the same width — I just was not sure which card bits which when different recommendations are concerned.  ― And note that in Consola 000D has width 0, contrary to “consoleness” — which for me implies being monospaced; and the recommendation above says that 000D should be non-0 width….</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -194,21 +186,13 @@ Please bear with me, this is my first foray into non-bitmap world….  Of course
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">On my mac (Office 2011, Consolas version 5.22), all glyphs in Consolas have width 1126 except the following (obtained from a ttx output with <code>grep '&lt;mtx' Consolas.ttx | grep -v 1126</code> and then some clean up):
-<PRE>
-    "afii299" width="0" lsb="-36"
-    "afii300" width="0" lsb="-431"
-    "afii301" width="0" lsb="-219"
-    "afii61664" width="0" lsb="-36"
-    "glyph00002" width="0" lsb="0"
-    "uniFEFF" width="0" lsb="0"
-</PRE>
-
-As for NULL, it is called <code>uni0000</code> according to ttx but Fontforge and DTL OT Master give me some different information... Hmm.
-
-And as for proper documentation, if you find any, please tell us.
-
-PS. <a href="http://levien.com">Raph Levien</a>'s font <a href="http://www.levien.com/type/myfonts/inconsolata.html">Inconsolata</a> defines no NULL character.</div>
+		<div class="commentbody"><p>On my mac (Office 2011, Consolas version 5.22), all glyphs in Consolas have width 1126 except the following (obtained from a ttx output with <!-- raw HTML omitted -->grep &lsquo;&lt;mtx&rsquo; Consolas.ttx | grep -v 1126<!-- raw HTML omitted --> and then some clean up):</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>As for NULL, it is called <!-- raw HTML omitted -->uni0000<!-- raw HTML omitted --> according to ttx but Fontforge and DTL OT Master give me some different information&hellip; Hmm.</p>
+<p>And as for proper documentation, if you find any, please tell us.</p>
+<p>PS. <!-- raw HTML omitted -->Raph Levien<!-- raw HTML omitted -->&rsquo;s font <!-- raw HTML omitted -->Inconsolata<!-- raw HTML omitted --> defines no NULL character.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -227,27 +211,25 @@ PS. <a href="http://levien.com">Raph Levien</a>'s font <a href="http://www.levie
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><code><pre>
-    "afii299" width="0" lsb="-36"
-    "afii300" width="0" lsb="-431"
-    "afii301" width="0" lsb="-219"
-    "afii61664" width="0" lsb="-36"
-    "glyph00002" width="0" lsb="0"
-    "uniFEFF" width="0" lsb="0"
-</pre></code>
+		<div class="commentbody"><p><!-- raw HTML omitted --><!-- raw HTML omitted -->
+&ldquo;afii299&rdquo; width=&ldquo;0&rdquo; lsb=&quot;-36&quot;
+&ldquo;afii300&rdquo; width=&ldquo;0&rdquo; lsb=&quot;-431&quot;
+&ldquo;afii301&rdquo; width=&ldquo;0&rdquo; lsb=&quot;-219&quot;
+&ldquo;afii61664&rdquo; width=&ldquo;0&rdquo; lsb=&quot;-36&quot;
+&ldquo;glyph00002&rdquo; width=&ldquo;0&rdquo; lsb=&ldquo;0&rdquo;
+&ldquo;uniFEFF&rdquo; width=&ldquo;0&rdquo; lsb=&ldquo;0&rdquo;
+<!-- raw HTML omitted --><!-- raw HTML omitted -->
 Just to have reference nearby (from [[http://partners.adobe.com/public/developer/en/opentype/aglfn.txt]]):
-<code><pre>
+<!-- raw HTML omitted --><!-- raw HTML omitted -->
 200E;afii299;LEFT-TO-RIGHT MARK
 200F;afii300;RIGHT-TO-LEFT MARK
 200D;afii301;ZERO WIDTH JOINER
-200C;afii61664;ZERO WIDTH NON-JOINER
-
-FEFF	ZERO WIDTH NO-BREAK SPACE                                    ; from NamesList.txt
-</pre></code>
-Do not know what glyph00002 is used for….
-
-<strong>Update:</strong> doing <code>grep -B 5 -A 5 "Width: 0" Consolas.sfd </code>, I see
-<code><pre>
+200C;afii61664;ZERO WIDTH NON-JOINER</p>
+<p>FEFF	ZERO WIDTH NO-BREAK SPACE                                    ; from NamesList.txt
+<!-- raw HTML omitted --><!-- raw HTML omitted -->
+Do not know what glyph00002 is used for….</p>
+<p><!-- raw HTML omitted -->Update:<!-- raw HTML omitted --> doing <!-- raw HTML omitted -->grep -B 5 -A 5 &ldquo;Width: 0&rdquo; Consolas.sfd <!-- raw HTML omitted -->, I see
+<!-- raw HTML omitted --><!-- raw HTML omitted -->
 StartChar: uni000D
 Encoding: 13 13 2
 Width: 0
@@ -255,8 +237,9 @@ GlyphClass: 2
 Flags: W
 LayerCount: 2
 EndChar
-</pre></code>
-which, by exclusion, must be what you see as glyph00002….</div>
+<!-- raw HTML omitted --><!-- raw HTML omitted -->
+which, by exclusion, must be what you see as glyph00002….</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -300,40 +283,35 @@ which, by exclusion, must be what you see as glyph00002….</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Concerning <code>glyph00002</code>, the sfd file produced from Consolas on my mac gives this:
-<blockquote>
-
-StartChar: glyph1
+		<div class="commentbody"><p>Concerning <!-- raw HTML omitted -->glyph00002<!-- raw HTML omitted -->, the sfd file produced from Consolas on my mac gives this:</p>
+<!-- raw HTML omitted -->
+<p>StartChar: glyph1
 Encoding: 1 -1 1
 AltUni2: 000000.ffffffff.0
 Width: 1126
 GlyphClass: 2
 Flags: W
 LayerCount: 2
-EndChar
-
-StartChar: glyph2
+EndChar</p>
+<p>StartChar: glyph2
 Encoding: 2 -1 2
 Width: 0
 GlyphClass: 2
 Flags: W
 LayerCount: 2
-EndChar
-
-StartChar: uni0009
+EndChar</p>
+<p>StartChar: uni0009
 Encoding: 3 9 3
 AltUni2: 0000a0.ffffffff.0 000020.ffffffff.0 00000d.ffffffff.0
 Width: 1126
 GlyphClass: 2
 Flags: W
 LayerCount: 2
-EndChar
-</blockquote>
-and <code>glyph00002</code> is simply <code>glyph2</code>.
-
-The <code>uni0000</code> produced by ttx must come from <code>AltUni2: 000000.ffffffff.0</code>
-
-And concerning <code>uniFEFF  ZERO WIDTH NO-BREAK SPACE</code> it has width 1233 in DejaVuSansMono.ttf version 2.33. </div>
+EndChar</p>
+<!-- raw HTML omitted -->
+<p>The <!-- raw HTML omitted -->uni0000<!-- raw HTML omitted --> produced by ttx must come from <!-- raw HTML omitted -->AltUni2: 000000.ffffffff.0<!-- raw HTML omitted --></p>
+<p>And concerning <!-- raw HTML omitted -->uniFEFF  ZERO WIDTH NO-BREAK SPACE<!-- raw HTML omitted --> it has width 1233 in DejaVuSansMono.ttf version 2.33.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -354,16 +332,15 @@ And concerning <code>uniFEFF  ZERO WIDTH NO-BREAK SPACE</code> it has width 1233
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Update to my initial post:  [[http://ilyaz.org/fonts]] — now it contains the <strong>really</strong> working versions of the fonts (it was not so a year ago!).
-  •  3 flavors of the de-rasterized Unifont (latest, so it contains the full BMP of Unicode 6.3); including:
-  •  DejaVu with missing glyphs overlaid from Unifont (glyphs massaged to match DejaVu better);
-  •  Versions which work in Windows’ console, and versions for more flexible environments;
-  •  Now useful at, I would say, pixel sizes 8–40.
-
-Additionally, I put there a fixed version of George Douros’ Symbola v7.12.  A PREP table is added, so that it shows now nicely even in GDI applications on Windows.
-
-Enjoy,
-Ilya</div>
+		<div class="commentbody"><p>Update to my initial post:  [[http://ilyaz.org/fonts]] — now it contains the <!-- raw HTML omitted -->really<!-- raw HTML omitted --> working versions of the fonts (it was not so a year ago!).
+•  3 flavors of the de-rasterized Unifont (latest, so it contains the full BMP of Unicode 6.3); including:
+•  DejaVu with missing glyphs overlaid from Unifont (glyphs massaged to match DejaVu better);
+•  Versions which work in Windows’ console, and versions for more flexible environments;
+•  Now useful at, I would say, pixel sizes 8–40.</p>
+<p>Additionally, I put there a fixed version of George Douros’ Symbola v7.12.  A PREP table is added, so that it shows now nicely even in GDI applications on Windows.</p>
+<p>Enjoy,
+Ilya</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -383,11 +360,10 @@ Ilya</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">[[http://ilyaz.org/fonts|Yet another update released]].  The most important changes:
-  • I synced with Unifont 7.0.06.
-  • The non-monospaced version now includes non-BMP characters.
-  • The family names are changed to Unifont Smooth, Unifont Smooth Mono (hopefully, this is going to stay).
-Additionally, the merged-with-DejaVu version replaces several defective glyphs from DejaVu with the counterparts from Unifont Smooth.
-</div>
+• I synced with Unifont 7.0.06.
+• The non-monospaced version now includes non-BMP characters.
+• The family names are changed to Unifont Smooth, Unifont Smooth Mono (hopefully, this is going to stay).
+Additionally, the merged-with-DejaVu version replaces several defective glyphs from DejaVu with the counterparts from Unifont Smooth.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

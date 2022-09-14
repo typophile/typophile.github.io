@@ -71,53 +71,51 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I'm trying to create an SVG-in-OpenType font by adding an 'SVG '-table to an existing font, but the SVG glyph will not render in the final font.
-
-This is my process:
-
-1. I take an existing font and decompile it with ttx (Behdad's version)
-
-2. I add an SVG table with a single svgDoc entry holding an SVG image.
-
-3. I recompile the ttx (without errors) and test the font in Firefox (which supports SVG-in-OpenType).
-
-Although ttx doesn't throw any errors, the SVG glyph doesn't show up — the original glyph is being shown.
-
-My addition to the font looks like this:
-
-<code>&lt;svg>
-&lt;svgDoc endGlyphID="4" startGlyphID="4">
-    &lt;![CDATA[
-    &lt;!-- svg data -->
-    ]]>
-&lt;/svgDoc>
-&lt;colorPalettes></colorPalettes>
-&lt;/svg></code>
-
-I've tried the following:
-
-* Using different TTF fonts to transplant my SVGs into
-* Using all kinds of different SVGs, including one I took from an existing ttx'ed SVG-in-OpenType font
-* Matching other tables to those of existing SVG-in-OpenType (e.g. adding a cmap_format_6 table)
-* Decompiling the generated font to see if nothing was being dropped by ttx
-
-I don't know why this doesn't work. It looks so simple, and according to various sources* adding the SVG table should be all there's to it. Inspecting proper SVG-in-OpenType fonts seems to confirm this.
-
-Anybody have an idea what I'm doing wrong?
-
-* https://hacks.mozilla.org/2014/10/svg-colors-in-opentype-fonts/ and http://www.microsoft.com/typography/otspec/svg.htm</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m trying to create an SVG-in-OpenType font by adding an &lsquo;SVG &lsquo;-table to an existing font, but the SVG glyph will not render in the final font.</p>
+<p>This is my process:</p>
+<ol>
+<li>
+<p>I take an existing font and decompile it with ttx (Behdad&rsquo;s version)</p>
+</li>
+<li>
+<p>I add an SVG table with a single svgDoc entry holding an SVG image.</p>
+</li>
+<li>
+<p>I recompile the ttx (without errors) and test the font in Firefox (which supports SVG-in-OpenType).</p>
+</li>
+</ol>
+<p>Although ttx doesn&rsquo;t throw any errors, the SVG glyph doesn&rsquo;t show up — the original glyph is being shown.</p>
+<p>My addition to the font looks like this:</p>
+<p><!-- raw HTML omitted -->&lt;svg&gt;
+&lt;svgDoc endGlyphID=&ldquo;4&rdquo; startGlyphID=&ldquo;4&rdquo;&gt;
+&lt;![CDATA[
+&lt;!&ndash; svg data &ndash;&gt;
+]]&gt;
+&lt;/svgDoc&gt;
+&lt;colorPalettes&gt;<!-- raw HTML omitted -->
+&lt;/svg&gt;<!-- raw HTML omitted --></p>
+<p>I&rsquo;ve tried the following:</p>
+<ul>
+<li>Using different TTF fonts to transplant my SVGs into</li>
+<li>Using all kinds of different SVGs, including one I took from an existing ttx&rsquo;ed SVG-in-OpenType font</li>
+<li>Matching other tables to those of existing SVG-in-OpenType (e.g. adding a cmap_format_6 table)</li>
+<li>Decompiling the generated font to see if nothing was being dropped by ttx</li>
+</ul>
+<p>I don&rsquo;t know why this doesn&rsquo;t work. It looks so simple, and according to various sources* adding the SVG table should be all there&rsquo;s to it. Inspecting proper SVG-in-OpenType fonts seems to confirm this.</p>
+<p>Anybody have an idea what I&rsquo;m doing wrong?</p>
+<ul>
+<li><a href="https://hacks.mozilla.org/2014/10/svg-colors-in-opentype-fonts/">https://hacks.mozilla.org/2014/10/svg-colors-in-opentype-fonts/</a> and <a href="http://www.microsoft.com/typography/otspec/svg.htm">http://www.microsoft.com/typography/otspec/svg.htm</a></li>
+</ul>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ugh. In case someone else ever runs into this: the SVG image can't be copied verbatim; something needs to be added to it. The glyph ID, as used in the GlyphOrder table ttx generates, needs to be added to the SVG. For example
-
-&lt;GlyphID id="4" name="exclam"/>
-
-would need
-
-&lt;svg id="glyph4" ... >
-
-And I didn't notice the IDs didn't match. Duh.</div>
+		<div class="commentbody"><p>Ugh. In case someone else ever runs into this: the SVG image can&rsquo;t be copied verbatim; something needs to be added to it. The glyph ID, as used in the GlyphOrder table ttx generates, needs to be added to the SVG. For example</p>
+<p>&lt;GlyphID id=&ldquo;4&rdquo; name=&ldquo;exclam&rdquo;/&gt;</p>
+<p>would need</p>
+<p>&lt;svg id=&ldquo;glyph4&rdquo; &hellip; &gt;</p>
+<p>And I didn&rsquo;t notice the IDs didn&rsquo;t match. Duh.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

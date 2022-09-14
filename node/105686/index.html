@@ -71,37 +71,28 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi all,
-
-I've created a typeface that has a swash on the uppercase. I want to create alternate uppercase glyphs without the swash that will be used as a default after an initial cap. Problem is, I'm not sure how to create them so that they're interpreted by a design program in the correct way.
-
-I'm still learning Fontlab but have created three weights, set the metrics, kerned and included ligatures – this is my last stumbling block so I'd really appreciate the help.
-
-Thanks everyone
-
-Stew
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi all,</p>
+<p>I&rsquo;ve created a typeface that has a swash on the uppercase. I want to create alternate uppercase glyphs without the swash that will be used as a default after an initial cap. Problem is, I&rsquo;m not sure how to create them so that they&rsquo;re interpreted by a design program in the correct way.</p>
+<p>I&rsquo;m still learning Fontlab but have created three weights, set the metrics, kerned and included ligatures – this is my last stumbling block so I&rsquo;d really appreciate the help.</p>
+<p>Thanks everyone</p>
+<p>Stew</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">From your description it sounds like you have swashes on the default form of the caps? If so, the following would work.
-
-feature calt {
+		<div class="commentbody"><p>From your description it sounds like you have swashes on the default form of the caps? If so, the following would work.</p>
+<p>feature calt {
 sub [@Swash @NoSwash] @Swash' by @NoSwash;
-} calt;
-
-Where @Swash and @NoSwash have been defined to to include your default caps and your swashless caps, respectively.
-
-I'd suggest, though, that it would be better to use your swashless forms as the default and then include
-
-feature swsh {
+} calt;</p>
+<p>Where @Swash and @NoSwash have been defined to to include your default caps and your swashless caps, respectively.</p>
+<p>I&rsquo;d suggest, though, that it would be better to use your swashless forms as the default and then include</p>
+<p>feature swsh {
 ignore sub [@Letters] @NoSwash';
 sub @NoSwash' by @Swash;
-} swsh;
-
-Where @Letters is the set of all upper and lowercase letters defined in your font. This would provide a (IMO) more intuitive interface where swashes are turned on by activating them rather than turned off by deactivating contextual alternates.
-
-André</div>
+} swsh;</p>
+<p>Where @Letters is the set of all upper and lowercase letters defined in your font. This would provide a (IMO) more intuitive interface where swashes are turned on by activating them rather than turned off by deactivating contextual alternates.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

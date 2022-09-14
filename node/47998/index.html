@@ -71,32 +71,38 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Here are my observations on WPF ClearType tuning on a lowly 96 dpi LG LCD fitted to a Compaq V5000 laptop running XP SP3. Before diving in, note that my observations are NOT relevant to ClearType for GDI, which is what the Control Panel applet tweaks!
-
-I relied on two WPF applications to test the various settings: Expression Design 2, and XamlPadX v3 using FlowDocumentPageViewer. Design 2 has a default white on black menu, which was a good torture test for legibility. I tried the surfaces (i.e. drawing areas) of these two apps with various C-series fonts and Segoe UI, but I couldn't get them to look exactly the same even using the same font, point size and zoom level. It seems that Design 2 doesn't use WPF's ClearType setting for its drawing surface. [BTW, Expression Web 2 seemed to ignore <em>all</em> WPF ClearType registry setting (perhaps it has its own??), so I couldn't test anything with it. Also Web 2 didn't show Segoe UI in its fonts list (bug?).] My sad conclusion after all this is that the only WPF app for which ClearType can be reliably tweaked is XamlPadX, which isn't exactly a production tool... In any case, on with the show:
-
-0) In contrast with GDI ClearType, there is no tool that I know of for changing WPF ClearType settings. I used the registry editor. The values I'm discussing are all decimal; make sure you don't enter them as hex in regedit (which is the default input mode). The reference on the registry entries is: http://msdn.microsoft.com/en-us/library/aa970267.aspx
-
-1) Unlike the GDI ClearType registry changes, which takes effect instantly on all GDI applications, the WPF ClearType registry tweaks require the WPF application(s) to be be restarted for changes to take effect.
-
-2) There are no default WPF ClearType registry entries, and contrary to what MSDN claims, the settings for the GDI ClearType were NOT used as default for WPF applications. Instead some built-in defaults seem to be used.
-
-3) Color fringes, perhaps the most annoying "feature" of ClearType, can (finally) be controlled for WPF apps by changing the GammaLevel setting. This setting doesn't affect the monitor gamma in any way, but only changes what WPF ClearType /thinks/ the gamma is. MSDN recommends that you match this with your actual monitor gamma. My experience is that the higher the setting, the better reduction of color fringes is. IMO 2200 (decimal), which is the max setting, seems optimal.
-
-4) The general level of glyph anti-aliasing seems to be controlled by the ClearTypeLevel setting. The best seemed the max value - 100 (which seems the default).
-
-5) There's another registry setting that counterbalances glyph aliasing: TextContrastLevel. This controls how thick the stems remain even after applying the anti-aliasing. The default is 1, which is okay at 12 point, but makes the menus hard to read. Lowering this to 0 was significantly better for white on black menus, but made black on white text a bit harder to read.
-
-6) The PixelStructure controls the order of sub-pixels. 0 means no sub-pixel rendering, 1, which looked best to me, means RGB order, 2=BGR. Beware that the default is 0! My Design 2's menu was really foggy with 0, which is what motivated me to investigate this whole matter. Also, don't worry much about getting your sub-pixel order wrong because at the wrong setting white text looks rainbow colored, so it's easily spotted.
-
-That's it. To recap, the best settings for me were PixelStructure=1, TextContrastLevel=0 (1 is okay too), ClearTypeLevel=100, GammaLevel=2200. I'd be glad to hear your comments on this.
+  <div class="post-content e-content" itemprop="articleBody"><p>Here are my observations on WPF ClearType tuning on a lowly 96 dpi LG LCD fitted to a Compaq V5000 laptop running XP SP3. Before diving in, note that my observations are NOT relevant to ClearType for GDI, which is what the Control Panel applet tweaks!</p>
+<p>I relied on two WPF applications to test the various settings: Expression Design 2, and XamlPadX v3 using FlowDocumentPageViewer. Design 2 has a default white on black menu, which was a good torture test for legibility. I tried the surfaces (i.e. drawing areas) of these two apps with various C-series fonts and Segoe UI, but I couldn&rsquo;t get them to look exactly the same even using the same font, point size and zoom level. It seems that Design 2 doesn&rsquo;t use WPF&rsquo;s ClearType setting for its drawing surface. [BTW, Expression Web 2 seemed to ignore <!-- raw HTML omitted -->all<!-- raw HTML omitted --> WPF ClearType registry setting (perhaps it has its own??), so I couldn&rsquo;t test anything with it. Also Web 2 didn&rsquo;t show Segoe UI in its fonts list (bug?).] My sad conclusion after all this is that the only WPF app for which ClearType can be reliably tweaked is XamlPadX, which isn&rsquo;t exactly a production tool&hellip; In any case, on with the show:</p>
+<ol start="0">
+<li>
+<p>In contrast with GDI ClearType, there is no tool that I know of for changing WPF ClearType settings. I used the registry editor. The values I&rsquo;m discussing are all decimal; make sure you don&rsquo;t enter them as hex in regedit (which is the default input mode). The reference on the registry entries is: <a href="http://msdn.microsoft.com/en-us/library/aa970267.aspx">http://msdn.microsoft.com/en-us/library/aa970267.aspx</a></p>
+</li>
+<li>
+<p>Unlike the GDI ClearType registry changes, which takes effect instantly on all GDI applications, the WPF ClearType registry tweaks require the WPF application(s) to be be restarted for changes to take effect.</p>
+</li>
+<li>
+<p>There are no default WPF ClearType registry entries, and contrary to what MSDN claims, the settings for the GDI ClearType were NOT used as default for WPF applications. Instead some built-in defaults seem to be used.</p>
+</li>
+<li>
+<p>Color fringes, perhaps the most annoying &ldquo;feature&rdquo; of ClearType, can (finally) be controlled for WPF apps by changing the GammaLevel setting. This setting doesn&rsquo;t affect the monitor gamma in any way, but only changes what WPF ClearType /thinks/ the gamma is. MSDN recommends that you match this with your actual monitor gamma. My experience is that the higher the setting, the better reduction of color fringes is. IMO 2200 (decimal), which is the max setting, seems optimal.</p>
+</li>
+<li>
+<p>The general level of glyph anti-aliasing seems to be controlled by the ClearTypeLevel setting. The best seemed the max value - 100 (which seems the default).</p>
+</li>
+<li>
+<p>There&rsquo;s another registry setting that counterbalances glyph aliasing: TextContrastLevel. This controls how thick the stems remain even after applying the anti-aliasing. The default is 1, which is okay at 12 point, but makes the menus hard to read. Lowering this to 0 was significantly better for white on black menus, but made black on white text a bit harder to read.</p>
+</li>
+<li>
+<p>The PixelStructure controls the order of sub-pixels. 0 means no sub-pixel rendering, 1, which looked best to me, means RGB order, 2=BGR. Beware that the default is 0! My Design 2&rsquo;s menu was really foggy with 0, which is what motivated me to investigate this whole matter. Also, don&rsquo;t worry much about getting your sub-pixel order wrong because at the wrong setting white text looks rainbow colored, so it&rsquo;s easily spotted.</p>
+</li>
+</ol>
+<p>That&rsquo;s it. To recap, the best settings for me were PixelStructure=1, TextContrastLevel=0 (1 is okay too), ClearTypeLevel=100, GammaLevel=2200. I&rsquo;d be glad to hear your comments on this.</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'm not sure what prompted this, but thank you; this is actually something I might have to get into for a project, even though frankly I don't get most of what you wrote... yet. Would it make sense to show some images here?
-
-hhp
+		<div class="commentbody"><p>I&rsquo;m not sure what prompted this, but thank you; this is actually something I might have to get into for a project, even though frankly I don&rsquo;t get most of what you wrote&hellip; yet. Would it make sense to show some images here?</p>
+<p>hhp</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -118,7 +124,7 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">http://windowsclient.net/wpf/white-papers/wpftextclarity.aspx</div>
+		<div class="commentbody"><a href="http://windowsclient.net/wpf/white-papers/wpftextclarity.aspx">http://windowsclient.net/wpf/white-papers/wpftextclarity.aspx</a></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -139,11 +145,10 @@ hhp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">http://windowsclient.net/wpf/white-papers/wpftextclarity.aspx
-
-"Californian FB", as shown in this 'white paper', seems to be particularly effected by 'CT tuning.' 
-
-Cheers!</div>
+		<div class="commentbody"><p><a href="http://windowsclient.net/wpf/white-papers/wpftextclarity.aspx">http://windowsclient.net/wpf/white-papers/wpftextclarity.aspx</a></p>
+<p>&ldquo;Californian FB&rdquo;, as shown in this &lsquo;white paper&rsquo;, seems to be particularly effected by &lsquo;CT tuning.&rsquo;</p>
+<p>Cheers!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -164,9 +169,13 @@ Cheers!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">>>“Californian FB”, as shown in this ’white paper’, seems to be particularly effected by ’CT tuning.’ 
-
-I contacted the owner of the Site. Normal service has been returned ;-)</div>
+		<div class="commentbody"><blockquote>
+<blockquote>
+<p>“Californian FB”, as shown in this ’white paper’, seems to be particularly effected by ’CT tuning.’</p>
+</blockquote>
+</blockquote>
+<p>I contacted the owner of the Site. Normal service has been returned ;-)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -187,12 +196,11 @@ I contacted the owner of the Site. Normal service has been returned ;-)</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"I contacted the owner of the Site. Normal service has been returned"
-
-Thank you so much, it now looks a lot more like the original, having serifs, and contrast and those good old shapes.
-No need to set loose the IP lawyers on a misbranding licensee either. :)
-
-Cheers!</div>
+		<div class="commentbody"><p>&ldquo;I contacted the owner of the Site. Normal service has been returned&rdquo;</p>
+<p>Thank you so much, it now looks a lot more like the original, having serifs, and contrast and those good old shapes.
+No need to set loose the IP lawyers on a misbranding licensee either. :)</p>
+<p>Cheers!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

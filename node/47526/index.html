@@ -71,30 +71,26 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Dear forum,
-
-i'm working on a really large script font with 80 ligatures and a number of alternates, so there are currently about 28.000 kerning pairs. I made a similar font before and everything worked well. Now i do not find a way to avoid the [FATAL] warning as a result of compiling the OpenType features: GPOS feature 'kern' causes overflow of offset to a subtable (0x1ce1e).
-
-Here is what i tried again and again during the last days before generating and compiling the kern feature:
-- expand class kerning and reset kerning classes
-- let FL automatically generate new classes with different options selected, then compressed kerning
-- defined my own kerning classes
-- looked up the typophile forum for similar problems
-
-I'm using FontLab Studio 5.04 for Mac.
-
-Maybe there is help out there...
-
-Hopefully,
-
-Ingo</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Dear forum,</p>
+<p>i&rsquo;m working on a really large script font with 80 ligatures and a number of alternates, so there are currently about 28.000 kerning pairs. I made a similar font before and everything worked well. Now i do not find a way to avoid the [FATAL] warning as a result of compiling the OpenType features: GPOS feature &lsquo;kern&rsquo; causes overflow of offset to a subtable (0x1ce1e).</p>
+<p>Here is what i tried again and again during the last days before generating and compiling the kern feature:</p>
+<ul>
+<li>expand class kerning and reset kerning classes</li>
+<li>let FL automatically generate new classes with different options selected, then compressed kerning</li>
+<li>defined my own kerning classes</li>
+<li>looked up the typophile forum for similar problems</li>
+</ul>
+<p>I&rsquo;m using FontLab Studio 5.04 for Mac.</p>
+<p>Maybe there is help out there&hellip;</p>
+<p>Hopefully,</p>
+<p>Ingo</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You should try to generate the kern feature via AFDKO, this might solve the problem!
-
-http://typophile.com/node/37295
-http://blogs.adobe.com/typblography/atypi2006/atypi_Adventures_in_class_kerning.pdf
+		<div class="commentbody"><p>You should try to generate the kern feature via AFDKO, this might solve the problem!</p>
+<p><a href="http://typophile.com/node/37295">http://typophile.com/node/37295</a>
+<a href="http://blogs.adobe.com/typblography/atypi2006/atypi_Adventures_in_class_kerning.pdf">http://blogs.adobe.com/typblography/atypi2006/atypi_Adventures_in_class_kerning.pdf</a></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -116,9 +112,9 @@ http://blogs.adobe.com/typblography/atypi2006/atypi_Adventures_in_class_kerning.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Most likely, the problem resides in your own defined kerning classes. The likely culprit is a duplicate glyph in two or more of your classes. 
-
-We ran into this problem recently and found that the ae glyph was present in its own class (left and right position), and also present in a class e1 (e as the first or left glyph). Removing one of the instances solved the problem.</div>
+		<div class="commentbody"><p>Most likely, the problem resides in your own defined kerning classes. The likely culprit is a duplicate glyph in two or more of your classes.</p>
+<p>We ran into this problem recently and found that the ae glyph was present in its own class (left and right position), and also present in a class e1 (e as the first or left glyph). Removing one of the instances solved the problem.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -139,7 +135,7 @@ We ran into this problem recently and found that the ae glyph was present in its
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>a duplicate glyph in two or more of your classes</cite>
+		<div class="commentbody"><!-- raw HTML omitted -->a duplicate glyph in two or more of your classes<!-- raw HTML omitted -->
 Which should be quite easy to find via kerning assistance.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -161,12 +157,12 @@ Which should be quite easy to find via kerning assistance.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks, for the answers. 
-But the classes are not the problem. FL itself doesn't find a problem within the classes, i also checked all classes myself.
-In case of this script font i would omit classes, because there are only very few glyphs looking similar on one or both sides. But even if i expand class kerning to plain pair kerning and delete all classes, the problem remains. This raises the question "are there any subtables in flat kerning?"
-Does anyone know what FL's output codes e.g. "subtable (0x1ce1e)" are meaning? Then it would be easy to find where the problem is, i think.
-
-Hmmmm...</div>
+		<div class="commentbody"><p>Thanks, for the answers. 
+But the classes are not the problem. FL itself doesn&rsquo;t find a problem within the classes, i also checked all classes myself.
+In case of this script font i would omit classes, because there are only very few glyphs looking similar on one or both sides. But even if i expand class kerning to plain pair kerning and delete all classes, the problem remains. This raises the question &ldquo;are there any subtables in flat kerning?&rdquo;
+Does anyone know what FL&rsquo;s output codes e.g. &ldquo;subtable (0x1ce1e)&rdquo; are meaning? Then it would be easy to find where the problem is, i think.</p>
+<p>Hmmmm&hellip;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -187,8 +183,7 @@ Hmmmm...</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Are we certain that this error pertains to GPOS, and not to the 'kern' table (and I do mean kern *table*, not subtable of GPOS)? This situation would make some sense if that is the case. There is a fundamental problem with the specification of the 'kern' table, in that the length descriptor is a 16-bit unsigned integer (USHORT) with maximum capacity of 65536. But the number of pairs is also given as a USHORT, while the length of each entry is 6 bytes. So the length field will overflow whenever there are more than 10922 flat pairs (actually I think it is less than that because of some header info). Some tools, including FontLab, choke on this situation. But again, it is specifically with the 'kern' table, not GPOS kerning. I think it is possible to toggle the use of a 'kern' table when generating in FL, perhaps try playing with that and see if it makes any difference?
-</div>
+		<div class="commentbody">Are we certain that this error pertains to GPOS, and not to the &lsquo;kern&rsquo; table (and I do mean kern <em>table</em>, not subtable of GPOS)? This situation would make some sense if that is the case. There is a fundamental problem with the specification of the &lsquo;kern&rsquo; table, in that the length descriptor is a 16-bit unsigned integer (USHORT) with maximum capacity of 65536. But the number of pairs is also given as a USHORT, while the length of each entry is 6 bytes. So the length field will overflow whenever there are more than 10922 flat pairs (actually I think it is less than that because of some header info). Some tools, including FontLab, choke on this situation. But again, it is specifically with the &lsquo;kern&rsquo; table, not GPOS kerning. I think it is possible to toggle the use of a &lsquo;kern&rsquo; table when generating in FL, perhaps try playing with that and see if it makes any difference?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -209,11 +204,10 @@ Hmmmm...</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This is a pretty well-understood issue, and as Christoph pointed you towards in the first reply, you have too many classes within a single subtable, so you're breaking the 64K limit on the size of a subtable.
-
-I *think* FontLab supports the subtable break code from the AFDKO, in which case that's what you need to do (with switching over to AFDKO being more of a last resort). Christopher Slye or Miguel Sousa from my team could advise more on the detailed tactics of how to do this, if one of them stops by soon. They're both at TypeCon right now, but I expect they'll be back online in a day or two.
-
-T</div>
+		<div class="commentbody"><p>This is a pretty well-understood issue, and as Christoph pointed you towards in the first reply, you have too many classes within a single subtable, so you&rsquo;re breaking the 64K limit on the size of a subtable.</p>
+<p>I <em>think</em> FontLab supports the subtable break code from the AFDKO, in which case that&rsquo;s what you need to do (with switching over to AFDKO being more of a last resort). Christopher Slye or Miguel Sousa from my team could advise more on the detailed tactics of how to do this, if one of them stops by soon. They&rsquo;re both at TypeCon right now, but I expect they&rsquo;ll be back online in a day or two.</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -234,12 +228,11 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks a lot again for your answers.
-
-My largest subtable at the moment contains the incredible number of over 8.000 lines. And i'm not yet finished with creating additional glyphs...
-As i mentioned above, in this special font the number of classes is rather limited. And in most classes only two glyphs are contained, thus the number of subtables is very limited, too.
-
-Thomas, i will try to get the newer AFDKO running... it seems to be the only promising way.</div>
+		<div class="commentbody"><p>Thanks a lot again for your answers.</p>
+<p>My largest subtable at the moment contains the incredible number of over 8.000 lines. And i&rsquo;m not yet finished with creating additional glyphs&hellip;
+As i mentioned above, in this special font the number of classes is rather limited. And in most classes only two glyphs are contained, thus the number of subtables is very limited, too.</p>
+<p>Thomas, i will try to get the newer AFDKO running&hellip; it seems to be the only promising way.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -260,13 +253,12 @@ Thomas, i will try to get the newer AFDKO running... it seems to be the only pro
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The newer AFDKO didn't solve it.
-Now i created new classes with  as many glyps in each class as possibe, even with glyphs whose forms that doesn't look similar at first sight. In this way i could reduce the number of kerning pairs down to 3.100 !!! Compressed to Class Kerning its only 1127 entries in the kern feature definition!!! Maybe i exaggerated it somewhat... but now there's no subtable overflow any more :-)
-
-But FL S' output after compiling the OpenType features now shows the following: 
-[WARNING] Start of new pair positioning subtable; some pairs may never be accessed: [... ...] [... ...]
-
-I think i can ignore that.</div>
+		<div class="commentbody"><p>The newer AFDKO didn&rsquo;t solve it.
+Now i created new classes with  as many glyps in each class as possibe, even with glyphs whose forms that doesn&rsquo;t look similar at first sight. In this way i could reduce the number of kerning pairs down to 3.100 !!! Compressed to Class Kerning its only 1127 entries in the kern feature definition!!! Maybe i exaggerated it somewhat&hellip; but now there&rsquo;s no subtable overflow any more :-)</p>
+<p>But FL S' output after compiling the OpenType features now shows the following: 
+[WARNING] Start of new pair positioning subtable; some pairs may never be accessed: [&hellip; &hellip;] [&hellip; &hellip;]</p>
+<p>I think i can ignore that.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -309,7 +301,7 @@ Pieter</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You're right, i'm sorry. I just forgot to check the classes at least before compiling... ;-}</div>
+		<div class="commentbody">You&rsquo;re right, i&rsquo;m sorry. I just forgot to check the classes at least before compiling&hellip; ;-}</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -330,11 +322,10 @@ Pieter</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">PvR -- <cite>You can ignore that, but it means that there are classes which contain the same glyphs.</cite>
-
-Sure about the "can ignore that" part? The warning says <cite>Start of new pair positioning subtable; some pairs may never be accessed</cite>, so you better <em>not</em> ignore it unless you don't care if all your kerning pairs show up when using the font.&nbsp;&nbsp;:D
-
-Karsten</div>
+		<div class="commentbody"><p>PvR &ndash; <!-- raw HTML omitted -->You can ignore that, but it means that there are classes which contain the same glyphs.<!-- raw HTML omitted --></p>
+<p>Sure about the &ldquo;can ignore that&rdquo; part? The warning says <!-- raw HTML omitted -->Start of new pair positioning subtable; some pairs may never be accessed<!-- raw HTML omitted -->, so you better <!-- raw HTML omitted -->not<!-- raw HTML omitted --> ignore it unless you don&rsquo;t care if all your kerning pairs show up when using the font.  :D</p>
+<p>Karsten</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -355,12 +346,11 @@ Karsten</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello Karsten,
-
-Yes, you are right. I mean that the font will be generated and will work but some kerning pairs will not be there.
-Thanks.
-
-Pieter</div>
+		<div class="commentbody"><p>Hello Karsten,</p>
+<p>Yes, you are right. I mean that the font will be generated and will work but some kerning pairs will not be there.
+Thanks.</p>
+<p>Pieter</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

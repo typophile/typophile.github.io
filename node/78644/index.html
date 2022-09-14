@@ -71,40 +71,32 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi all,
-First off, I have zero experience with coding and syntax for proper output.
-
-I have just finished a typeface with the usual ligatures (fl, fi, ffl, ffi, even st & ct) and I want to make the ligatures automatic instead of being forced to navigate to the glyphs palette and manually apply ligatures.
-
-I know the answer is in Robofab or Python but I do not have any experience with them and can't find a decent walk-through in the context of type design, specifically ligatures (since Python does all sorts of applications, type design being one).
-
-Is there not a standard snippet of code that applies to all typefaces that automates the ligatures? "when U+0066 & U+0066 appear consecutively with U+FB00"? 
-I presume not.
-
-Also, I use Fontographer 5.
-
-Thanks in advance.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi all,
+First off, I have zero experience with coding and syntax for proper output.</p>
+<p>I have just finished a typeface with the usual ligatures (fl, fi, ffl, ffi, even st &amp; ct) and I want to make the ligatures automatic instead of being forced to navigate to the glyphs palette and manually apply ligatures.</p>
+<p>I know the answer is in Robofab or Python but I do not have any experience with them and can&rsquo;t find a decent walk-through in the context of type design, specifically ligatures (since Python does all sorts of applications, type design being one).</p>
+<p>Is there not a standard snippet of code that applies to all typefaces that automates the ligatures? &ldquo;when U+0066 &amp; U+0066 appear consecutively with U+FB00&rdquo;? 
+I presume not.</p>
+<p>Also, I use Fontographer 5.</p>
+<p>Thanks in advance.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">In a simple text editor, declare the liga feature in aalt:
-
-<code>feature aalt{
-  feature liga;
-} aalt;</code>
-
-Then program the ligatures thus:
-
-<code>feature liga {
-# Latin
-    sub f i by fi;
-    sub f l by fl;
-    sub X X by XX;
-    etc.
-} liga;</code>
-
-Then, SAVE AS your_file_name.fea. In FOG5, navigate to Element &gt; Font Info &gt; Encoding, then select the radio button for an external feature file, and browse for and select your feature file.
-
+		<div class="commentbody"><p>In a simple text editor, declare the liga feature in aalt:</p>
+<p><!-- raw HTML omitted -->feature aalt{
+feature liga;
+} aalt;<!-- raw HTML omitted --></p>
+<p>Then program the ligatures thus:</p>
+<p><!-- raw HTML omitted -->feature liga {</p>
+<h1 id="latin">Latin</h1>
+<pre><code>sub f i by fi;
+sub f l by fl;
+sub X X by XX;
+etc.
+</code></pre>
+<p>} liga;<!-- raw HTML omitted --></p>
+<p>Then, SAVE AS your_file_name.fea. In FOG5, navigate to Element &gt; Font Info &gt; Encoding, then select the radio button for an external feature file, and browse for and select your feature file.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -126,9 +118,9 @@ Then, SAVE AS your_file_name.fea. In FOG5, navigate to Element &gt; Font Info &g
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>I know the answer is in Robofab or Python…</cite>
-
-Nick’s answer is correct, but just to elaborate, character substitution is done with OpenType features. Robofab and Python are used to automate font design tasks; they don’t actually introduce any code into a font.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->I know the answer is in Robofab or Python…<!-- raw HTML omitted --></p>
+<p>Nick’s answer is correct, but just to elaborate, character substitution is done with OpenType features. Robofab and Python are used to automate font design tasks; they don’t actually introduce any code into a font.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -149,22 +141,18 @@ Nick’s answer is correct, but just to elaborate, character substitution is don
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Also, I'll mention that recommended glyph names for ligatures are "f_l", "f_i", "f_f", "s_t", "f_adieresis" etc. 
-
-So your code would look like
-
-<code>feature liga {
-# Latin
-sub f i by f_i;
+		<div class="commentbody"><p>Also, I&rsquo;ll mention that recommended glyph names for ligatures are &ldquo;f_l&rdquo;, &ldquo;f_i&rdquo;, &ldquo;f_f&rdquo;, &ldquo;s_t&rdquo;, &ldquo;f_adieresis&rdquo; etc.</p>
+<p>So your code would look like</p>
+<p><!-- raw HTML omitted -->feature liga {</p>
+<h1 id="latin">Latin</h1>
+<p>sub f i by f_i;
 sub f l by f_l;
 sub f f by f_f;
-sub s t by s_t;
-# etc.
-} liga;</code>
-
-(after "sub" you type in sequences of glyph names that should be replaced, after "by" you type in the glyph name that is inserted).
-
-A.
+sub s t by s_t;</p>
+<h1 id="etc">etc.</h1>
+<p>} liga;<!-- raw HTML omitted --></p>
+<p>(after &ldquo;sub&rdquo; you type in sequences of glyph names that should be replaced, after &ldquo;by&rdquo; you type in the glyph name that is inserted).</p>
+<p>A.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -207,16 +195,12 @@ A.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Dunwich/James, 
-
-it's VFB, so it can — but since FOG doesn't have any UI for displaying the font features, the code won't be visible/accessible. 
-
-I do recommend installing the demo version of FontLab Studio along Fontographer 5. The demo version of FL Studio is free, and serves as an excellent in-depth font viewer. If you open an OpenType font in the FontLab Studio demo, you can export the font feature definitions from the OpenType panel into a .fea text file, edit it in a text editor and then use it in FOG 5 when generating the font. 
-
-FontLab Studio 5 can only export font feature definitions in the older AFDKO 1.6 syntax. If you want to export font feature definitions including things like mark attachment, ie. in the AFDKO 2.5 syntax, you need to use a different tool, such as DTL OTMaster, which is also available from fontlab.com. 
-
-Best,
-Adam
+		<div class="commentbody"><p>Dunwich/James,</p>
+<p>it&rsquo;s VFB, so it can — but since FOG doesn&rsquo;t have any UI for displaying the font features, the code won&rsquo;t be visible/accessible.</p>
+<p>I do recommend installing the demo version of FontLab Studio along Fontographer 5. The demo version of FL Studio is free, and serves as an excellent in-depth font viewer. If you open an OpenType font in the FontLab Studio demo, you can export the font feature definitions from the OpenType panel into a .fea text file, edit it in a text editor and then use it in FOG 5 when generating the font.</p>
+<p>FontLab Studio 5 can only export font feature definitions in the older AFDKO 1.6 syntax. If you want to export font feature definitions including things like mark attachment, ie. in the AFDKO 2.5 syntax, you need to use a different tool, such as DTL OTMaster, which is also available from fontlab.com.</p>
+<p>Best,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -238,10 +222,10 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I knew the answer would be as simple as this.
-Let me apply this text and see what my output is, etc and get back with more questions.
-
-Thanks so much all</div>
+		<div class="commentbody"><p>I knew the answer would be as simple as this.
+Let me apply this text and see what my output is, etc and get back with more questions.</p>
+<p>Thanks so much all</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -262,7 +246,7 @@ Thanks so much all</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">ok, a basic problem I'm running into now. I have TextEdit, Adobe Reader & MSWord and none of them Save As... .fea
+		<div class="commentbody">ok, a basic problem I&rsquo;m running into now. I have TextEdit, Adobe Reader &amp; MSWord and none of them Save As&hellip; .fea
 What program or application can save a file as such?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -305,12 +289,8 @@ What program or application can save a file as such?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>What program or application can save a file as [.fea]?</cite>
-
-Use TextEdit, save as text, then change the extension from .txt to .fea in the name of the file.
-
-
-
+		<div class="commentbody"><p><!-- raw HTML omitted -->What program or application can save a file as [.fea]?<!-- raw HTML omitted --></p>
+<p>Use TextEdit, save as text, then change the extension from .txt to .fea in the name of the file.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -332,9 +312,9 @@ Use TextEdit, save as text, then change the extension from .txt to .fea in the n
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Matt, 
-
-in TextEdit, you need to choose Format / Make Plain Text before saving. </div>
+		<div class="commentbody"><p>Matt,</p>
+<p>in TextEdit, you need to choose Format / Make Plain Text before saving.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -355,9 +335,9 @@ in TextEdit, you need to choose Format / Make Plain Text before saving. </div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Té, "TextEdit" is a dead giveaway :-)
-
-Matt, when using TextEdit, make sure to select menu "Format", then choose "Make Plain Text". Otherwise, you'll be looking in vain for the "Save as plain text" option ... (You'll get to choose what character encoding you want to use, but I'm guessing the default "UTF-8" is just fine for the plain text file that a .fea is.)</div>
+		<div class="commentbody"><p>Té, &ldquo;TextEdit&rdquo; is a dead giveaway :-)</p>
+<p>Matt, when using TextEdit, make sure to select menu &ldquo;Format&rdquo;, then choose &ldquo;Make Plain Text&rdquo;. Otherwise, you&rsquo;ll be looking in vain for the &ldquo;Save as plain text&rdquo; option &hellip; (You&rsquo;ll get to choose what character encoding you want to use, but I&rsquo;m guessing the default &ldquo;UTF-8&rdquo; is just fine for the plain text file that a .fea is.)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -378,33 +358,26 @@ Matt, when using TextEdit, make sure to select menu "Format", then choose "Make 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">thanks riccard0,
-I saved it as a .fea, then applied to the encoding section.
-
-my text is exactly:
-
-feature aalt{
+		<div class="commentbody"><p>thanks riccard0,
+I saved it as a .fea, then applied to the encoding section.</p>
+<p>my text is exactly:</p>
+<p>feature aalt{
 feature liga;
-} aalt;
-
-feature liga {
-# Latin
-
-sub f i by f_i;
+} aalt;</p>
+<p>feature liga {</p>
+<h1 id="latin">Latin</h1>
+<p>sub f i by f_i;
 sub f l by f_l;
 sub f f l by f_f_l;
 sub f f i by f_f_i;
-sub s t by s_t;
-
-# etc.
-
-} liga;
-
-and upon trying to Generate Font File,
-"cannon generate open type file due to an error in feature definition file."
-are the underscores necessary or will spaces clear the issue? (sub f i by fi;)
-
-I'll try copy/pasting the code from an established typeface with the ligature features until I know more.</div>
+sub s t by s_t;</p>
+<h1 id="etc">etc.</h1>
+<p>} liga;</p>
+<p>and upon trying to Generate Font File,
+&ldquo;cannon generate open type file due to an error in feature definition file.&rdquo;
+are the underscores necessary or will spaces clear the issue? (sub f i by fi;)</p>
+<p>I&rsquo;ll try copy/pasting the code from an established typeface with the ligature features until I know more.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -425,7 +398,7 @@ I'll try copy/pasting the code from an established typeface with the ligature fe
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">more detailed explanation: http://ilovetypography.com/OpenType/opentype-features.html</div>
+		<div class="commentbody">more detailed explanation: <a href="http://ilovetypography.com/OpenType/opentype-features.html">http://ilovetypography.com/OpenType/opentype-features.html</a></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -467,11 +440,10 @@ I'll try copy/pasting the code from an established typeface with the ligature fe
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>The glyphnames for the ligatures should be EXACTLY the same as those entered in your feature file.</cite>
-
-Exactly. So, if your glyph in the font is named fi, it will have to be so named in the feature file.
-
-Better to change the name to f_i in the font -- and of course, use f_i in the feature file (as Adam suggested). The "fi" glyph hangs around in some fonts, and is in Unicode, to accommodate legacy issues. Sort of like corsets . . .</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->The glyphnames for the ligatures should be EXACTLY the same as those entered in your feature file.<!-- raw HTML omitted --></p>
+<p>Exactly. So, if your glyph in the font is named fi, it will have to be so named in the feature file.</p>
+<p>Better to change the name to f_i in the font &ndash; and of course, use f_i in the feature file (as Adam suggested). The &ldquo;fi&rdquo; glyph hangs around in some fonts, and is in Unicode, to accommodate legacy issues. Sort of like corsets . . .</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -492,9 +464,9 @@ Better to change the name to f_i in the font -- and of course, use f_i in the fe
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@theunis - I suspected a Windows box when I saw MSWord in the list, but TextEdit could just as well be a Mac program, as far as I'm concerned. Now, Notepad or Wordpad...
-
-Aside: I generally use only two editors: mewin (though it's not eight-bit clean) and mcedit. Meaning? Count me out of any editor jihad.</div>
+		<div class="commentbody"><p>@theunis - I suspected a Windows box when I saw MSWord in the list, but TextEdit could just as well be a Mac program, as far as I&rsquo;m concerned. Now, Notepad or Wordpad&hellip;</p>
+<p>Aside: I generally use only two editors: mewin (though it&rsquo;s not eight-bit clean) and mcedit. Meaning? Count me out of any editor jihad.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

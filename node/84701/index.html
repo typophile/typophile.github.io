@@ -71,28 +71,21 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I am working on a python script that find glyphs containing overlaps by making a copy, removing its overlaps, and checking for a difference in anchor points between the copy and the original. I make my copy like this:
-
-copy = glyph.copy()
-
-But when I try to remove overlaps in the copy:
-
-copy.removeOverlap()
-
-Fontlab give this error:
-
-AttributeError: 'RGlyph' object has no attribute 'removeOverlap'
-
-What am I doing wrong?
+  <div class="post-content e-content" itemprop="articleBody"><p>I am working on a python script that find glyphs containing overlaps by making a copy, removing its overlaps, and checking for a difference in anchor points between the copy and the original. I make my copy like this:</p>
+<p>copy = glyph.copy()</p>
+<p>But when I try to remove overlaps in the copy:</p>
+<p>copy.removeOverlap()</p>
+<p>Fontlab give this error:</p>
+<p>AttributeError: &lsquo;RGlyph&rsquo; object has no attribute &lsquo;removeOverlap&rsquo;</p>
+<p>What am I doing wrong?</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">As far as I can see you are trying to apply a FontLab-specific method (‘removeOverlap()’) on a glyph object that is not in FontLab itself. The copy() constructor gives you an RF Glyph object but as long as it doesn’t have a place in your FontLab file you cannot apply FontLab-specific methods. See: [[http://robofab.org/objects/glyph.html]]
-
-Use f['some_glyph_name'].appendGlyph(copy) to create a copy of the glyph in your FontLab file. Then you can remove the overlap and start comparing coordinates.
-
-HTH.</div>
+		<div class="commentbody"><p>As far as I can see you are trying to apply a FontLab-specific method (‘removeOverlap()’) on a glyph object that is not in FontLab itself. The copy() constructor gives you an RF Glyph object but as long as it doesn’t have a place in your FontLab file you cannot apply FontLab-specific methods. See: [[http://robofab.org/objects/glyph.html]]</p>
+<p>Use f[&lsquo;some_glyph_name&rsquo;].appendGlyph(copy) to create a copy of the glyph in your FontLab file. Then you can remove the overlap and start comparing coordinates.</p>
+<p>HTH.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

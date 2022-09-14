@@ -71,15 +71,14 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I'm working on feature code in FontLab for a fully connecting script. Since it has pretty wide letterspacing I created versions of both letters and ligatures that would not normally have a starting stroke. So, for example, a lowercase o or an o_l ligature would have one version each that has a lead in stroke and one each with no lead in stroke. To make things even more complicated there are versions of ligatures that have ending that are supposed to come at the end of a word even if followed by punctuation such as a comma or quote. I used a series of classes and the feature clig with lookups to make this work. 
-
-So far everything worked smoothly until I discovered that for some reason ligatures that start with a cap work just the opposite as they should. So if I type in the OT preview: cool followed by a space; I get c followed by the o_o_l.end ligature which has a left side connector on the o and an ending version of l. Same for o_n followed by ool space. But if I type in Atool space (A_t being a ligature) I get the wrong version. Logically this would mean that A_t must be in the wrong OT classes. I checked this over again and again, but they all seem to be placed correctly. As an interesting experiment I type the A_t ligature manually in the text window of the OT preview and it worked exactly as it should have. So its only going wrong when the preview window does the substitution for me. I can't see why a ligature starting with a cap would not work like any other ligature or glyph combination. 
-
-Any ideas? Also…  pardon the scrolling image. I wanted to get all the samples showing this behavior.[img:sites/default/files/old-images/OT_Preview_4945.gif]</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m working on feature code in FontLab for a fully connecting script. Since it has pretty wide letterspacing I created versions of both letters and ligatures that would not normally have a starting stroke. So, for example, a lowercase o or an o_l ligature would have one version each that has a lead in stroke and one each with no lead in stroke. To make things even more complicated there are versions of ligatures that have ending that are supposed to come at the end of a word even if followed by punctuation such as a comma or quote. I used a series of classes and the feature clig with lookups to make this work.</p>
+<p>So far everything worked smoothly until I discovered that for some reason ligatures that start with a cap work just the opposite as they should. So if I type in the OT preview: cool followed by a space; I get c followed by the o_o_l.end ligature which has a left side connector on the o and an ending version of l. Same for o_n followed by ool space. But if I type in Atool space (A_t being a ligature) I get the wrong version. Logically this would mean that A_t must be in the wrong OT classes. I checked this over again and again, but they all seem to be placed correctly. As an interesting experiment I type the A_t ligature manually in the text window of the OT preview and it worked exactly as it should have. So its only going wrong when the preview window does the substitution for me. I can&rsquo;t see why a ligature starting with a cap would not work like any other ligature or glyph combination.</p>
+<p>Any ideas? Also…  pardon the scrolling image. I wanted to get all the samples showing this behavior.[img:sites/default/files/old-images/OT_Preview_4945.gif]</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">There are no special limitations on which glyphs should work, so there must be a bug in the code somewhere. </div>
+		<div class="commentbody">There are no special limitations on which glyphs should work, so there must be a bug in the code somewhere.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -100,23 +99,21 @@ Any ideas? Also…  pardon the scrolling image. I wanted to get all the samples 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I would recommend dispensing with ligatures and using alternate versions of characters within the contextual alternates feature.
-You want the proper cursive joins as default behaviour, don't you?
-
-So each character would have a maximum of nine alternates, based on combinations of:
-
-* no lead-in stroke, no exit stroke
-* no lead-in stroke, high exit stroke
-* no lead-in stroke, low exit stroke
-* low lead-in stroke, no exit stroke
-* low lead-in stroke, high exit stroke
-* low lead-in stroke, low exit stroke (the default)
-* high lead-in stroke, no exit stroke
-* high lead-in stroke, high exit stroke
-* high lead-in stroke, low exit stroke
-
-This to be used in combination with the "ignore" command for beginnings and endings.
-
+		<div class="commentbody"><p>I would recommend dispensing with ligatures and using alternate versions of characters within the contextual alternates feature.
+You want the proper cursive joins as default behaviour, don&rsquo;t you?</p>
+<p>So each character would have a maximum of nine alternates, based on combinations of:</p>
+<ul>
+<li>no lead-in stroke, no exit stroke</li>
+<li>no lead-in stroke, high exit stroke</li>
+<li>no lead-in stroke, low exit stroke</li>
+<li>low lead-in stroke, no exit stroke</li>
+<li>low lead-in stroke, high exit stroke</li>
+<li>low lead-in stroke, low exit stroke (the default)</li>
+<li>high lead-in stroke, no exit stroke</li>
+<li>high lead-in stroke, high exit stroke</li>
+<li>high lead-in stroke, low exit stroke</li>
+</ul>
+<p>This to be used in combination with the &ldquo;ignore&rdquo; command for beginnings and endings.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -138,11 +135,11 @@ This to be used in combination with the "ignore" command for beginnings and endi
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@Adam 
-You might be right about a bug in the code, but it sure is hard ti find if that's the case. I've checked my OT classes and my feature code and it seems to be set up the same for ligatures with the same ending strokes. What makes me wonder more is that when I just type in the OT feature preview "At" followed by "ool" it doesn't work right. But if I type in /A_t for the "At" then it shows up correctly. If the code or classes were wrong wouldn't it behave the same in both instances? If you look closely at the first instance of "Atool" in the sample you will see that the o_o_l has no connecting stroke so the "At" does not quite connect. In the second where I typed in /A_t it has that connector stroke.
-
-@Nick
-Granted that would be a solution, but would work best on fonts that have a more rigid structure. If you look at the top sample where no ligatures are used it does connect cleanly. But you don't get that same fluidity of strokes that having some ligatures allows. Since the connections are particularly long in this style fluid connections are much harder to attain without ligatures.</div>
+		<div class="commentbody"><p>@Adam 
+You might be right about a bug in the code, but it sure is hard ti find if that&rsquo;s the case. I&rsquo;ve checked my OT classes and my feature code and it seems to be set up the same for ligatures with the same ending strokes. What makes me wonder more is that when I just type in the OT feature preview &ldquo;At&rdquo; followed by &ldquo;ool&rdquo; it doesn&rsquo;t work right. But if I type in /A_t for the &ldquo;At&rdquo; then it shows up correctly. If the code or classes were wrong wouldn&rsquo;t it behave the same in both instances? If you look closely at the first instance of &ldquo;Atool&rdquo; in the sample you will see that the o_o_l has no connecting stroke so the &ldquo;At&rdquo; does not quite connect. In the second where I typed in /A_t it has that connector stroke.</p>
+<p>@Nick
+Granted that would be a solution, but would work best on fonts that have a more rigid structure. If you look at the top sample where no ligatures are used it does connect cleanly. But you don&rsquo;t get that same fluidity of strokes that having some ligatures allows. Since the connections are particularly long in this style fluid connections are much harder to attain without ligatures.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -163,7 +160,7 @@ Granted that would be a solution, but would work best on fonts that have a more 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">What do the relevant <code>sub</code> lines in your OpenType scripting look like?</div>
+		<div class="commentbody">What do the relevant <!-- raw HTML omitted -->sub<!-- raw HTML omitted --> lines in your OpenType scripting look like?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -184,26 +181,23 @@ Granted that would be a solution, but would work best on fonts that have a more 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Here is what I'm currently using for ligature sets like o_o_l. There are 4 versions of this ligature. A standard connecting version in the liga feature, then ones with no left lead-in stroke; lead-in stroke and ending without connection; and finally, no lead-in with unconnected ending. Using this setup I get it to work both at the beginning of a lines as well as inside all various text positions.
-
-@Letter1 = glyphs with connecting strokes on right side.
+		<div class="commentbody"><p>Here is what I&rsquo;m currently using for ligature sets like o_o_l. There are 4 versions of this ligature. A standard connecting version in the liga feature, then ones with no left lead-in stroke; lead-in stroke and ending without connection; and finally, no lead-in with unconnected ending. Using this setup I get it to work both at the beginning of a lines as well as inside all various text positions.</p>
+<p>@Letter1 = glyphs with connecting strokes on right side.
 @Letter2 = All glyphs except space and ending punctuation.
 @All = All glphs including space.
 @Uncon = All Letters with no right side connection including space.
-@End = space and ending punctuation.
-
-feature clig {
-
-lookup clig_ool.endalt {
-	sub @Uncon o' o' l' @End by o_o_l.start2;
-	sub @Uncon o' o' l' @Letter2 by o_o_l.start;
-	ignore sub @All o' o' l';
-	sub o' o' l' @Letter2 by o_o_l.start;
-	sub o' o' l' @End by o_o_l.start2;
-	} clig_ool.endalt;
-	sub @Letter1 o' o' l' @End by o_o_l.end;
-
-} clig;</div>
+@End = space and ending punctuation.</p>
+<p>feature clig {</p>
+<p>lookup clig_ool.endalt {
+sub @Uncon o' o' l' @End by o_o_l.start2;
+sub @Uncon o' o' l' @Letter2 by o_o_l.start;
+ignore sub @All o' o' l';
+sub o' o' l' @Letter2 by o_o_l.start;
+sub o' o' l' @End by o_o_l.start2;
+} clig_ool.endalt;
+sub @Letter1 o' o' l' @End by o_o_l.end;</p>
+<p>} clig;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -224,10 +218,10 @@ lookup clig_ool.endalt {
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don't think your use of "ignore" for the start and end of words is correct.
-
-See Karsten's explanation in this thread:
-http://typophile.com/node/19625</div>
+		<div class="commentbody"><p>I don&rsquo;t think your use of &ldquo;ignore&rdquo; for the start and end of words is correct.</p>
+<p>See Karsten&rsquo;s explanation in this thread:
+<a href="http://typophile.com/node/19625">http://typophile.com/node/19625</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -248,10 +242,10 @@ http://typophile.com/node/19625</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick
-I think the way I'm using ignore is still correct, but in a very different context from how its being used for random substitution which this is pretty much the opposite of. There is nothing random here that I'm attempting. I'm calling up very specific substitutions that just happen to work for a lot of ligatures. The ignore here is used only once and its purpose is to cause the o_o_l.start and the o_o_l.start2 ligatures to come in at the beginning of a line of text. Having the subs for the same ligatures in a contextual sequence (after @Uncon) above the ignore rule allows these same beginning versions to come in after either a space or an non-connecting letter as well. 
-
-In the OT feature preview window its working fine. I still need to generate this and test in applications, but I think it will work.</div>
+		<div class="commentbody"><p>Nick
+I think the way I&rsquo;m using ignore is still correct, but in a very different context from how its being used for random substitution which this is pretty much the opposite of. There is nothing random here that I&rsquo;m attempting. I&rsquo;m calling up very specific substitutions that just happen to work for a lot of ligatures. The ignore here is used only once and its purpose is to cause the o_o_l.start and the o_o_l.start2 ligatures to come in at the beginning of a line of text. Having the subs for the same ligatures in a contextual sequence (after @Uncon) above the ignore rule allows these same beginning versions to come in after either a space or an non-connecting letter as well.</p>
+<p>In the OT feature preview window its working fine. I still need to generate this and test in applications, but I think it will work.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -293,12 +287,12 @@ In the OT feature preview window its working fine. I still need to generate this
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">A_t is in the liga feature. The features list has clig before liga. 
+		<div class="commentbody"><p>A_t is in the liga feature. The features list has clig before liga. 
 The A_t is in the following OT classes:
 @All @Letter1 and @Letter2. 
-Other ligatures in the same classes work fine in the OT feature preview, but the 4 standard ligatures starting with an A don't. So if I were to type in Af to get the A_f ligature which, unlike the A_t,  has no right side connection then the connected version of o_o_l comes in… just the opposite of what it should. If I type it in as /A_f  which bypasses the OT feature preview sub rules for that glyph, then the correct o_o_l version comes in. 
-
-It just seems like there is some sort of glitch with cap ligatures in the OT feature preview. I will try to test it in Illustrator tonight to see if it works in real life.</div>
+Other ligatures in the same classes work fine in the OT feature preview, but the 4 standard ligatures starting with an A don&rsquo;t. So if I were to type in Af to get the A_f ligature which, unlike the A_t,  has no right side connection then the connected version of o_o_l comes in… just the opposite of what it should. If I type it in as /A_f  which bypasses the OT feature preview sub rules for that glyph, then the correct o_o_l version comes in.</p>
+<p>It just seems like there is some sort of glitch with cap ligatures in the OT feature preview. I will try to test it in Illustrator tonight to see if it works in real life.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -340,11 +334,10 @@ It just seems like there is some sort of glitch with cap ligatures in the OT fea
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Stephen, scroll down to Karsten's post of 15th May, 2008, 4:35 a.m.
-http://typophile.com/node/19625
-It's not about randomness, but explains "ignore" for intial and final forms.
-
-One problem with substitutions is that they don't work very well at the beginning or end of a line of text in a layout application, as apps use a non-character space there. So to get the substitutions to always work, it may be necessary for the end user to type an actual space at either end of a text string on a single line. 
+		<div class="commentbody"><p>Stephen, scroll down to Karsten&rsquo;s post of 15th May, 2008, 4:35 a.m.
+<a href="http://typophile.com/node/19625">http://typophile.com/node/19625</a>
+It&rsquo;s not about randomness, but explains &ldquo;ignore&rdquo; for intial and final forms.</p>
+<p>One problem with substitutions is that they don&rsquo;t work very well at the beginning or end of a line of text in a layout application, as apps use a non-character space there. So to get the substitutions to always work, it may be necessary for the end user to type an actual space at either end of a text string on a single line.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -366,20 +359,14 @@ One problem with substitutions is that they don't work very well at the beginnin
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I've always been able to get beginning of line characters to come in, but can never get an end of line character to come in. That I understand as there is no way to get a layout app to recognize a character as being end of line. 
-
-In Karsten's post he states 
-"the sole purpose of this subtable is to "catch" all contexts listed in the ignore statement.
-
-Layout engines follow the rule that if a glyph or glyph sequence has been consumed by a subtable, then all following subtables will be skipped for this glyph or glyph sequence."
-
-My ignore statement:
- ignore sub @All o' o' l';
-This essentially says ignore this substitution if there is any glyph of any kind before the sequence. Since at the beginning of a line you have no glyph, then the subtable does not "catch" this sequence as listed in the ignore statement. 
-
-I do agree about the end of line context. An ignore statement will not work on an end of line. I've never been able to get that to work. I can get an end of word sub if there is a space or punctuation following it. So for end of line subs the user will have to add this by selection in their layout app.
-
-
+		<div class="commentbody"><p>I&rsquo;ve always been able to get beginning of line characters to come in, but can never get an end of line character to come in. That I understand as there is no way to get a layout app to recognize a character as being end of line.</p>
+<p>In Karsten&rsquo;s post he states 
+&ldquo;the sole purpose of this subtable is to &ldquo;catch&rdquo; all contexts listed in the ignore statement.</p>
+<p>Layout engines follow the rule that if a glyph or glyph sequence has been consumed by a subtable, then all following subtables will be skipped for this glyph or glyph sequence.&rdquo;</p>
+<p>My ignore statement:
+ignore sub @All o' o' l';
+This essentially says ignore this substitution if there is any glyph of any kind before the sequence. Since at the beginning of a line you have no glyph, then the subtable does not &ldquo;catch&rdquo; this sequence as listed in the ignore statement.</p>
+<p>I do agree about the end of line context. An ignore statement will not work on an end of line. I&rsquo;ve never been able to get that to work. I can get an end of word sub if there is a space or punctuation following it. So for end of line subs the user will have to add this by selection in their layout app.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -401,10 +388,10 @@ I do agree about the end of line context. An ignore statement will not work on a
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Here is the o_o_l ligatures in Illustrator. 
-Top to bottom: Beginning of line connecting on right; connecting on left with ending on right; non-connecting left with connecting on right; and non-connecting on left with end form on right.
-
-[img:sites/default/files/old-images/subs_5913.gif]</div>
+		<div class="commentbody"><p>Here is the o_o_l ligatures in Illustrator. 
+Top to bottom: Beginning of line connecting on right; connecting on left with ending on right; non-connecting left with connecting on right; and non-connecting on left with end form on right.</p>
+<p>[img:sites/default/files/old-images/subs_5913.gif]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -425,7 +412,7 @@ Top to bottom: Beginning of line connecting on right; connecting on left with en
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'm having some trouble following the logic of your code, but it might help to put the stuff that deals with beginnings in a separate lookup from the stuff that deals with endings. At least that's what I do, and it works.</div>
+		<div class="commentbody">I&rsquo;m having some trouble following the logic of your code, but it might help to put the stuff that deals with beginnings in a separate lookup from the stuff that deals with endings. At least that&rsquo;s what I do, and it works.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -446,7 +433,7 @@ Top to bottom: Beginning of line connecting on right; connecting on left with en
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It is a little odd I suppose. It does work. I just got the cap ligature problem fixed as well, but I'm not clear about why it didn't work right off. I put A_t and other A_ligatures at the top of the list in the clig feature before all the lookups. That seemed to do the trick. But why they need to come before these lookups and the other ligatures and glyphs didn't still seems a mystery.</div>
+		<div class="commentbody">It is a little odd I suppose. It does work. I just got the cap ligature problem fixed as well, but I&rsquo;m not clear about why it didn&rsquo;t work right off. I put A_t and other A_ligatures at the top of the list in the clig feature before all the lookups. That seemed to do the trick. But why they need to come before these lookups and the other ligatures and glyphs didn&rsquo;t still seems a mystery.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -467,7 +454,7 @@ Top to bottom: Beginning of line connecting on right; connecting on left with en
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Cool font Professor Stephen. :) </div>
+		<div class="commentbody">Cool font Professor Stephen. :)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

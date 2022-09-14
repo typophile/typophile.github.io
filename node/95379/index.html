@@ -71,48 +71,36 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi all
-
-I wrote this Robofab macro to copy kerning from one pair to others.
-
-I am using Class kerning put I kern OAO and then use the macro to copy those values to AC, AG, AQ etc.
-
-It speeds the process up and ensures I don't miss pairs
-
-#Upper/UpperKern---------------
-#
-from robofab.world import CurrentFont
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi all</p>
+<p>I wrote this Robofab macro to copy kerning from one pair to others.</p>
+<p>I am using Class kerning put I kern OAO and then use the macro to copy those values to AC, AG, AQ etc.</p>
+<p>It speeds the process up and ensures I don&rsquo;t miss pairs</p>
+<p>#Upper/UpperKern&mdash;&mdash;&mdash;&mdash;&mdash;</p>
+<h1 id="heading"></h1>
+<p>from robofab.world import CurrentFont
 f = CurrentFont()
-kerning = f.kerning
-#
-if kerning[('A','O')]:
-	AO = kerning[('A','O')]
-	kerning[('A','C')] = kerning[('A','G')] = kerning[('A','Q')] = kerning[('A','OE')] = AO
-
-if kerning[('O','A')]:
-	OA = kerning[('O','A')]
-	kerning[('D','A')] = kerning[('Q','A')] = OA
-
-… …
-
-Problem with this macro is it doesn't work with MM fonts. The value from one master is copied to the other.
-
-The value for 'AO' could be different across masters but the macro copies the same value to both masters.
-
-The Fontlab API KerningPair class says it's MM compatible but doesn't give any examples of how to use it.
-
-http://e-font.de/flpydoc/
-
-Does anyone know how I could use FL's API to copy the value of kerning pairs to other pairs.
+kerning = f.kerning</p>
+<h1 id="heading-1"></h1>
+<p>if kerning[(&lsquo;A&rsquo;,&lsquo;O&rsquo;)]:
+AO = kerning[(&lsquo;A&rsquo;,&lsquo;O&rsquo;)]
+kerning[(&lsquo;A&rsquo;,&lsquo;C&rsquo;)] = kerning[(&lsquo;A&rsquo;,&lsquo;G&rsquo;)] = kerning[(&lsquo;A&rsquo;,&lsquo;Q&rsquo;)] = kerning[(&lsquo;A&rsquo;,&lsquo;OE&rsquo;)] = AO</p>
+<p>if kerning[(&lsquo;O&rsquo;,&lsquo;A&rsquo;)]:
+OA = kerning[(&lsquo;O&rsquo;,&lsquo;A&rsquo;)]
+kerning[(&lsquo;D&rsquo;,&lsquo;A&rsquo;)] = kerning[(&lsquo;Q&rsquo;,&lsquo;A&rsquo;)] = OA</p>
+<p>… …</p>
+<p>Problem with this macro is it doesn&rsquo;t work with MM fonts. The value from one master is copied to the other.</p>
+<p>The value for &lsquo;AO&rsquo; could be different across masters but the macro copies the same value to both masters.</p>
+<p>The Fontlab API KerningPair class says it&rsquo;s MM compatible but doesn&rsquo;t give any examples of how to use it.</p>
+<p><a href="http://e-font.de/flpydoc/">http://e-font.de/flpydoc/</a></p>
+<p>Does anyone know how I could use FL&rsquo;s API to copy the value of kerning pairs to other pairs.</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You are using Robofab for your macro, so you’d want to look at the Robofab docs rather than the FontLab API: http://www.robofab.org/objects/kerning.html
-
-I’m not sure if Robofab handles MultipleMaster VFBs.
-
-Another solution would be to simply put C, G, Q, Œ etc. in the right side kerning class for O ;)</div>
+		<div class="commentbody"><p>You are using Robofab for your macro, so you’d want to look at the Robofab docs rather than the FontLab API: <a href="http://www.robofab.org/objects/kerning.html">http://www.robofab.org/objects/kerning.html</a></p>
+<p>I’m not sure if Robofab handles MultipleMaster VFBs.</p>
+<p>Another solution would be to simply put C, G, Q, Œ etc. in the right side kerning class for O ;)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -133,11 +121,10 @@ Another solution would be to simply put C, G, Q, Œ etc. in the right side kerni
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Robofab doesn't handle kerning in MM fonts, I think Fontlab API does.
-
-My macro was done using Robofab but I would like to do the same thing with FL API.
-
-I could do the class thing but it wouldn't fit in with my work flow.</div>
+		<div class="commentbody"><p>Robofab doesn&rsquo;t handle kerning in MM fonts, I think Fontlab API does.</p>
+<p>My macro was done using Robofab but I would like to do the same thing with FL API.</p>
+<p>I could do the class thing but it wouldn&rsquo;t fit in with my work flow.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -158,21 +145,11 @@ I could do the class thing but it wouldn't fit in with my work flow.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Here's an example of creating an MM kerning pair using the FontLab Python API: 
-
-<pre>f = fl.font	# Set current font to "f"
-g1name = "A"	# First glyph's name is "A"
-g2name = "W"	# Second glyph's name is "W"
-g1i = f.FindGlyph(g1name)	# Find glyph index for "A" glyph
-g2i = f.FindGlyph(g2name)	# Find glyph index for "W" glyph
-if g1i > -1 and g2i > -1:	# If both glyphs exist
-  g1 = f.glyphs[g1i]		# Assign first glyph object
-  kp = KerningPair(g2i)		# Blank kerning pair referring to "W"
-  if g1.layers_number == 4: 	# Check if first glyph has 4 masters
-    kp.values = [-35, -32, -30, -28]	# Assign values for 4 masters
-    g1.kerning.append(kp)	# Add kerning pair to fist glyph</pre>
-
-(It's possible to write this code more efficiently, but this is the "safest" and most verbatim method that should show how it works.)</div>
+		<div class="commentbody"><p>Here&rsquo;s an example of creating an MM kerning pair using the FontLab Python API:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>(It&rsquo;s possible to write this code more efficiently, but this is the &ldquo;safest&rdquo; and most verbatim method that should show how it works.)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

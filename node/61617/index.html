@@ -71,65 +71,49 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I'm running into a problem with the way in which FontLab Studio orders GSUB features, and I suspect it is because I don't really understand how GSUB lookups are actually implemented. I've got some features which rely on lookups which are defined in other feature definitions, and FontLab isn't ordering those features the way in which they appear in the OpenType window. The general structure of the relevant portion is as follows:
-
-feature fea1 {
-	    lookup A { ... } A ;
-	    lookup B { ... } B ;
-} fea1 ;
-
-feature fea2 {
-
-	    lookup B ;
-	    lookup C { ... } C ;
-	    lookup D { ... } D;
-  
-} fea2 ;
-
-feature fea3 {
-
-  	  lookup B ;
-  	  lookup E { ... } E ;
-  	  lookup D ;
-  
-} fea3 ;
-
-feature fea4 {
-
-	    lookup B ;
-	    lookup F { ... } F ;
-	    lookup E;
-	    lookup C ;
-	    lookup D;
-  
-} fea4 ;
-
-The problem which I am running into is that FLS is determined to place feature 'fea2' after 'fea4' despite the order in which I've placed them. I'm assuming that this has something to do with the fact that lookups are being called across features, but I don't understand why I can call features defined in 'fea1' and 'fea3' in 'fea4' and have them ordered as I've requested, while 'fea2' is bumped to the end. All of the lookups involved are contextual substitution rules (GSUB type 6) except for lookup A which is GSUB type 1.
-
-My current workaround is to simply redefine each of the lookups in each of the feature blocks, but this seems rather inefficient. Can someone give me some pointers on where I can get an explanation of what's going on here? If there's something in the FSL manual or in Adobe's OT spec I seem to be missing it.
-
-TIA,
-André</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m running into a problem with the way in which FontLab Studio orders GSUB features, and I suspect it is because I don&rsquo;t really understand how GSUB lookups are actually implemented. I&rsquo;ve got some features which rely on lookups which are defined in other feature definitions, and FontLab isn&rsquo;t ordering those features the way in which they appear in the OpenType window. The general structure of the relevant portion is as follows:</p>
+<p>feature fea1 {
+    lookup A { &hellip; } A ;
+    lookup B { &hellip; } B ;
+} fea1 ;</p>
+<p>feature fea2 {</p>
+<pre><code>    lookup B ;
+    lookup C { ... } C ;
+    lookup D { ... } D;
+</code></pre>
+<p>} fea2 ;</p>
+<p>feature fea3 {</p>
+<p>  	  lookup B ;
+  	  lookup E { &hellip; } E ;
+  	  lookup D ;</p>
+<p>} fea3 ;</p>
+<p>feature fea4 {</p>
+<pre><code>    lookup B ;
+    lookup F { ... } F ;
+    lookup E;
+    lookup C ;
+    lookup D;
+</code></pre>
+<p>} fea4 ;</p>
+<p>The problem which I am running into is that FLS is determined to place feature &lsquo;fea2&rsquo; after &lsquo;fea4&rsquo; despite the order in which I&rsquo;ve placed them. I&rsquo;m assuming that this has something to do with the fact that lookups are being called across features, but I don&rsquo;t understand why I can call features defined in &lsquo;fea1&rsquo; and &lsquo;fea3&rsquo; in &lsquo;fea4&rsquo; and have them ordered as I&rsquo;ve requested, while &lsquo;fea2&rsquo; is bumped to the end. All of the lookups involved are contextual substitution rules (GSUB type 6) except for lookup A which is GSUB type 1.</p>
+<p>My current workaround is to simply redefine each of the lookups in each of the feature blocks, but this seems rather inefficient. Can someone give me some pointers on where I can get an explanation of what&rsquo;s going on here? If there&rsquo;s something in the FSL manual or in Adobe&rsquo;s OT spec I seem to be missing it.</p>
+<p>TIA,
+André</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">André, 
-
-the feature definition syntax used in the Adobe FDK for OpenType (AFDKO) library version 1.6, which is used by FontLab Studio 5, allows you to specify lookups inside of the feature definition clauses. Yet in the OpenType Layout tables, lookups are stored in a sequence, and then are mapped to the features, which are not ordered in any way. So by defining the lookups inside of feature descriptions, what you actually do is you define the order of lookups. 
-
-But also note that when FontLab Studio opens an existing OpenType font, it decompiles the features code into the AFDKO syntax, and sometimes does not give you a perfect representation of what is inside of the font file. I recommend using a tool such as FontTools/TTX or -- especially -- DTL OTMaster to look at how the lookups are ordered inside of the final font file. This will give you a reliable insight into the actual font structure. 
-
-The case you're describing is strange. I suggest reporting a problem directly at http://www.fontlab.com/problem
-
-The AFDKO version 2.x syntax allows to define lookups outside of feature definitions, so you have perfect control over the lookup order, and can even do things like interweaving lookups (so when two features are applied at the same time, the 1st lookup of the 1st feature can be applied, then the 1st lookup of the 2nd feature, then the 2nd lookup of the 1st feature, then the 2nd lookup of the 2nd feature). 
-
-FontLab Studio does not yet use AFDKO 2.x. So if you need this functionality, you need to build your OpenType font using the makeotf tool that ships with AFDKO 2.5. 
-
-Links to all mentioned software products are included on 
-http://www.font.org/software/
-
-Cheers,
-Adam</div>
+		<div class="commentbody"><p>André,</p>
+<p>the feature definition syntax used in the Adobe FDK for OpenType (AFDKO) library version 1.6, which is used by FontLab Studio 5, allows you to specify lookups inside of the feature definition clauses. Yet in the OpenType Layout tables, lookups are stored in a sequence, and then are mapped to the features, which are not ordered in any way. So by defining the lookups inside of feature descriptions, what you actually do is you define the order of lookups.</p>
+<p>But also note that when FontLab Studio opens an existing OpenType font, it decompiles the features code into the AFDKO syntax, and sometimes does not give you a perfect representation of what is inside of the font file. I recommend using a tool such as FontTools/TTX or &ndash; especially &ndash; DTL OTMaster to look at how the lookups are ordered inside of the final font file. This will give you a reliable insight into the actual font structure.</p>
+<p>The case you&rsquo;re describing is strange. I suggest reporting a problem directly at <a href="http://www.fontlab.com/problem">http://www.fontlab.com/problem</a></p>
+<p>The AFDKO version 2.x syntax allows to define lookups outside of feature definitions, so you have perfect control over the lookup order, and can even do things like interweaving lookups (so when two features are applied at the same time, the 1st lookup of the 1st feature can be applied, then the 1st lookup of the 2nd feature, then the 2nd lookup of the 1st feature, then the 2nd lookup of the 2nd feature).</p>
+<p>FontLab Studio does not yet use AFDKO 2.x. So if you need this functionality, you need to build your OpenType font using the makeotf tool that ships with AFDKO 2.5.</p>
+<p>Links to all mentioned software products are included on 
+<a href="http://www.font.org/software/">http://www.font.org/software/</a></p>
+<p>Cheers,
+Adam</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -150,11 +134,10 @@ Adam</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Adam,
-
-Thanks for your detailed reply -- this does clarify things quite a bit and I suspect I now understand where the problem lies. I've been thinking about the cross-feature lookup calls in the same way as I think of procedure calls which is apparently not a good metaphor. Your response makes it clear that I'll simply have to duplicate the lookups in each feature since what I was trying to do was essentially alter the order in which lookup C, D, and E were applied in the different features.
-
-André</div>
+		<div class="commentbody"><p>Adam,</p>
+<p>Thanks for your detailed reply &ndash; this does clarify things quite a bit and I suspect I now understand where the problem lies. I&rsquo;ve been thinking about the cross-feature lookup calls in the same way as I think of procedure calls which is apparently not a good metaphor. Your response makes it clear that I&rsquo;ll simply have to duplicate the lookups in each feature since what I was trying to do was essentially alter the order in which lookup C, D, and E were applied in the different features.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

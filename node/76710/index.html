@@ -71,46 +71,37 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi there,
-
-When you make localisation features (locl) for substitutions such:
-
-language TRK;
-  # Turkish
-  sub i by i.latn_TRK;
-
-is it necessary also to address its small caps counterpart? ( sub i.sc by i.latn_TRK.sc; )
-or this is not really needed since i.latn_TRK will be made i.latn_TRK.sc by the 'smcp' feature?
-
-Thanks in advance.
-
-Ramiro.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi there,</p>
+<p>When you make localisation features (locl) for substitutions such:</p>
+<p>language TRK;</p>
+<h1 id="turkish">Turkish</h1>
+<p>sub i by i.latn_TRK;</p>
+<p>is it necessary also to address its small caps counterpart? ( sub i.sc by i.latn_TRK.sc; )
+or this is not really needed since i.latn_TRK will be made i.latn_TRK.sc by the &lsquo;smcp&rsquo; feature?</p>
+<p>Thanks in advance.</p>
+<p>Ramiro.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Unless your localization feature applies after your small caps feature (which would defeat the whole purpose) then there should be no need.
-
-The normal substitutions needed would be:
-
-<code>feature locl {
+		<div class="commentbody"><p>Unless your localization feature applies after your small caps feature (which would defeat the whole purpose) then there should be no need.</p>
+<p>The normal substitutions needed would be:</p>
+<p><!-- raw HTML omitted -->feature locl {
   script latn;
   language TRK exclude_dflt;
     sub i by i.trk;
-} locl;</code>
-
-<code>feature smcp {
-
-<code>  sub i by i.sc;</code>
-<code>  # if using separate glyphs for smcp/c2sc</code>
-<code>     sub dotlessi by dotlessi.sc;</code>
-<code>    sub i.trk by i.trk.sc;</code>
-<code>  # if using the same glyphs for smcp/c2sc</code>
-<code>    sub dotlessi by I.sc</code>
-<code>    sub i.trk by Idotaccent.sc</code>
-<code>} smcp;</code>
-
-
-André</div>
+} locl;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature smcp {</p>
+<p><!-- raw HTML omitted -->  sub i by i.sc;<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->  # if using separate glyphs for smcp/c2sc<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->     sub dotlessi by dotlessi.sc;<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->    sub i.trk by i.trk.sc;<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->  # if using the same glyphs for smcp/c2sc<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->    sub dotlessi by I.sc<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->    sub i.trk by Idotaccent.sc<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->} smcp;<!-- raw HTML omitted --></p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -131,24 +122,20 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi Ramiro
+		<div class="commentbody"><p>Hi Ramiro
 As far as I know, in your code you for localized forms you only need
 lookup locl_TRK {
 sub i by i.TRK;
-} locl_TRK;
-
-In your small caps feature you should substitute both i and i.TRK
+} locl_TRK;</p>
+<p>In your small caps feature you should substitute both i and i.TRK
 smcp {
 sub i by i.smcp;
 sub i.TRK by i.TRK.smcp;
-} smcp;
-
-Be sure to put the locl feature above smcp, so when you activate locl for TRK, i will be substituted by i.TRK and then when you activate smcp the i.TRK will be subsituted by i.TRK.smcp, on the other hand if locl for TRK is deactivated and you activate smcp, i will be substituted by i.smcp
-
-There are other ways of doing this. I hope this works.
-You also can read this comment by Twardoch http://typophile.com/node/17787
-
-Regards
+} smcp;</p>
+<p>Be sure to put the locl feature above smcp, so when you activate locl for TRK, i will be substituted by i.TRK and then when you activate smcp the i.TRK will be subsituted by i.TRK.smcp, on the other hand if locl for TRK is deactivated and you activate smcp, i will be substituted by i.smcp</p>
+<p>There are other ways of doing this. I hope this works.
+You also can read this comment by Twardoch <a href="http://typophile.com/node/17787">http://typophile.com/node/17787</a></p>
+<p>Regards</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -170,9 +157,8 @@ Regards
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"locl" should indeed be included before other features in the font. Then, you can just make plain substitutions of the localized glyphs (since they've been swapped in the locl feature) using the regular "latn/dflt" context (which is available if you don't use the explicit language statement). Of course you do need to make sure that in smcp, you're replacing i.latn_TRK with a *dotted* small-cap i, while the regular i should be replaced with an undotted smallcap i. That is, actually, the very purpose of employing the locl feature: i and i.latn_TRK look identical as they are, but the "locl" swap allows you to use two different input glyphs when performing OpenType replacements that are functionally case substitutions (smcp, pcap, titl, case etc.). 
-
-A.
+		<div class="commentbody"><p>&ldquo;locl&rdquo; should indeed be included before other features in the font. Then, you can just make plain substitutions of the localized glyphs (since they&rsquo;ve been swapped in the locl feature) using the regular &ldquo;latn/dflt&rdquo; context (which is available if you don&rsquo;t use the explicit language statement). Of course you do need to make sure that in smcp, you&rsquo;re replacing i.latn_TRK with a <em>dotted</em> small-cap i, while the regular i should be replaced with an undotted smallcap i. That is, actually, the very purpose of employing the locl feature: i and i.latn_TRK look identical as they are, but the &ldquo;locl&rdquo; swap allows you to use two different input glyphs when performing OpenType replacements that are functionally case substitutions (smcp, pcap, titl, case etc.).</p>
+<p>A.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

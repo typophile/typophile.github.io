@@ -71,36 +71,26 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I'm trying to code my opentype features in the most efficient way, but not sure about what order they need to go in.
-
-Here's what I'm trying to achieve using dlig and salt.
-
-[img:sites/default/files/old-images/opentypeligs_6336.jpg]
-
-The first line is what appears by default, using just <code>liga</code>. The f has a slightly shorter hood.
-
-Second, the only difference is the descender, this should be a stylistic set.
-
-Third, using <code>dlig</code>, the crossbar or hood joins onto the next glyph.
-
-Fourth, if we want descending and joining ligatures, we can apply the stylistic set and the <code>dlig</code> feature.
-
-Codewise:
-
-<code>liga</code> 
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m trying to code my opentype features in the most efficient way, but not sure about what order they need to go in.</p>
+<p>Here&rsquo;s what I&rsquo;m trying to achieve using dlig and salt.</p>
+<p>[img:sites/default/files/old-images/opentypeligs_6336.jpg]</p>
+<p>The first line is what appears by default, using just <!-- raw HTML omitted -->liga<!-- raw HTML omitted -->. The f has a slightly shorter hood.</p>
+<p>Second, the only difference is the descender, this should be a stylistic set.</p>
+<p>Third, using <!-- raw HTML omitted -->dlig<!-- raw HTML omitted -->, the crossbar or hood joins onto the next glyph.</p>
+<p>Fourth, if we want descending and joining ligatures, we can apply the stylistic set and the <!-- raw HTML omitted -->dlig<!-- raw HTML omitted --> feature.</p>
+<p>Codewise:</p>
+<p><!-- raw HTML omitted -->liga<!-- raw HTML omitted --> 
 #something like
-sub f'f' by ff; #where ff is a tweaked composite of two fs.
-#etc for other ligs
-
-<code>ss01</code>
+sub f&rsquo;f' by ff; #where ff is a tweaked composite of two fs.
+#etc for other ligs</p>
+<p><!-- raw HTML omitted -->ss01<!-- raw HTML omitted -->
 #sub f' [b f h i j k l t] by f.alt; #where f.alt is the descending version.
-#plus some other substition to fix the double f ligs.
-
-<code>dlig</code>
+#plus some other substition to fix the double f ligs.</p>
+<p><!-- raw HTML omitted -->dlig<!-- raw HTML omitted -->
 sub f' f' by f_f; #where f_f is the connected variant
-#etc for other ligs
-
-Now where do I stick the code that applies when both ss01 and dlig are applied? In both features? Is my code really messy?</div>
+#etc for other ligs</p>
+<p>Now where do I stick the code that applies when both ss01 and dlig are applied? In both features? Is my code really messy?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
@@ -125,10 +115,10 @@ Now where do I stick the code that applies when both ss01 and dlig are applied? 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">My first impression:
-
-—If you want the descender AND the ligatures in the same glyph, I’d say that you need to add some new glyphs to the font.
-—You could call those new glyphs using another stylistic alternate (ss02).</div>
+		<div class="commentbody"><p>My first impression:</p>
+<p>—If you want the descender AND the ligatures in the same glyph, I’d say that you need to add some new glyphs to the font.
+—You could call those new glyphs using another stylistic alternate (ss02).</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -170,24 +160,19 @@ Now where do I stick the code that applies when both ss01 and dlig are applied? 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">For something like this, my inclination is usually to do the stylistic variation first, and then the ligation. Since your ligatures seem to be all variants on the common f-ligature, I don't think 'dlig' is appropriate. I would use 'ss01' and 'liga', in that order. In other words, the input for the 'liga' feature will include output forms from the 'ss01' feature, e.g.
-
-'ss01'
-f -> f.ss01
-...
-
-'liga'
-f f -> f_f
-f.ss01 f.ss01 -> f_f.ss01
-...
-
-What you should consider is what behaviour would be appropriate if a user has turned on 'ss01' for only part of a ligating sequence, i.e. what should happen in 'liga' if the input sequence is
-
-f f.ss01
-
-or
-
-f.ss01 f</div>
+		<div class="commentbody"><p>For something like this, my inclination is usually to do the stylistic variation first, and then the ligation. Since your ligatures seem to be all variants on the common f-ligature, I don&rsquo;t think &lsquo;dlig&rsquo; is appropriate. I would use &lsquo;ss01&rsquo; and &lsquo;liga&rsquo;, in that order. In other words, the input for the &lsquo;liga&rsquo; feature will include output forms from the &lsquo;ss01&rsquo; feature, e.g.</p>
+<p>&lsquo;ss01&rsquo;
+f -&gt; f.ss01
+&hellip;</p>
+<p>&lsquo;liga&rsquo;
+f f -&gt; f_f
+f.ss01 f.ss01 -&gt; f_f.ss01
+&hellip;</p>
+<p>What you should consider is what behaviour would be appropriate if a user has turned on &lsquo;ss01&rsquo; for only part of a ligating sequence, i.e. what should happen in &lsquo;liga&rsquo; if the input sequence is</p>
+<p>f f.ss01</p>
+<p>or</p>
+<p>f.ss01 f</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -208,7 +193,7 @@ f.ss01 f</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">And maybe the first f’s as calt (if they are shorter than the default f, that is)? </div>
+		<div class="commentbody">And maybe the first f’s as calt (if they are shorter than the default f, that is)?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -229,13 +214,13 @@ f.ss01 f</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">>Since your ligatures seem to be all variants on the common f-ligature, I don't think 'dlig' is appropriate
-
-John, thanks...well, I didn't put the other ligatures in that image, there are LOTS of them :)
-
-I'll try what you suggest and see what happens. I'll check what happens with the half-and-half situation too. Good catch.
-
-Frode, maybe, is calt on by default? My knowledge of this stuff is very patchy! First step is to make some classes to make the code neater...back soon.</div>
+		<div class="commentbody"><blockquote>
+<p>Since your ligatures seem to be all variants on the common f-ligature, I don&rsquo;t think &lsquo;dlig&rsquo; is appropriate</p>
+</blockquote>
+<p>John, thanks&hellip;well, I didn&rsquo;t put the other ligatures in that image, there are LOTS of them :)</p>
+<p>I&rsquo;ll try what you suggest and see what happens. I&rsquo;ll check what happens with the half-and-half situation too. Good catch.</p>
+<p>Frode, maybe, is calt on by default? My knowledge of this stuff is very patchy! First step is to make some classes to make the code neater&hellip;back soon.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -277,11 +262,11 @@ Frode, maybe, is calt on by default? My knowledge of this stuff is very patchy! 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Got it working. The descending f is in ss02.
+		<div class="commentbody"><p>Got it working. The descending f is in ss02.
 [img:sites/default/files/old-images/opentype-features_3774.gif]
-Thanks everyone!
-
-John, by the way, if the features are applied to one part of a sequence, all of it stays as the default glyphs. Not sure what would be best in that instance, and also where would the code go?</div>
+Thanks everyone!</p>
+<p>John, by the way, if the features are applied to one part of a sequence, all of it stays as the default glyphs. Not sure what would be best in that instance, and also where would the code go?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -302,9 +287,9 @@ John, by the way, if the features are applied to one part of a sequence, all of 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite> > if the features are applied to one part of a sequence, all of it stays as the default glyphs […] and also where would the code go?
-
-Bendy, could you please post the code you finally used? This way it would be easier to think in complementary code…</div>
+		<div class="commentbody"><p><!-- raw HTML omitted --> &gt; if the features are applied to one part of a sequence, all of it stays as the default glyphs […] and also where would the code go?</p>
+<p>Bendy, could you please post the code you finally used? This way it would be easier to think in complementary code…</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -325,116 +310,111 @@ Bendy, could you please post the code you finally used? This way it would be eas
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Sure Cristobal. Here we go. It's messy tho' ;)
-
-feature liga {#this tweaks glyphs for better fit. Should perhaps be calt rather than liga
-   sub f f f by fff;
-   sub f' f' [igrave icircumflex idieresis itilde imacron ibreve jcircumflex uni0209 uni020B uni01D0 uni1E2F uni1EC9] by f_f.short;
-   sub f' [igrave icircumflex idieresis itilde imacron ibreve jcircumflex uni0209 uni020B uni01D0 uni1E2F uni1EC9] by f.short;
-   sub f f by ff; #standard ligs for backward compatability. Small tweaks to shapes
-   sub f i by fi;
-   sub f l by fl;
-   } liga;
-
-feature dlig {#this joins up the ligatures and there are lots of them. I may move some to hlig
-  sub c b by c_b;
-  sub c h by c_h;
-  sub c i by c_i;
-  sub c k by c_k;
-  sub c l by c_l;
-  sub c t by c_t;
-  sub f f b by f_f_b;
-  sub ff b by f_f_b;
-  sub f f f by f_f_f;
-  sub fff by f_f_f;
-  sub f f h by f_f_h;
-  sub ff h by f_f_h;
-  sub f f i by f_f_i;
-  sub ff i by f_f_i;
-  sub f f j by f_f_j;
-  sub ff j by f_f_j;
-  sub f f k by f_f_k;
-  sub ff k by f_f_k;
-  sub f f l by f_f_l;
-  sub ff l by f_f_l;
-  sub f f t by f_f_t;
-  sub ff t by f_f_t;
-  sub f b by f_b;
-  sub ff by f_f.alt;
-  sub f f by f_f.alt;
-  sub f h by f_h;
-  sub f i by f_i.alt;
-  sub fi by f_i.alt;
-  sub f j by f_j;
-  sub f k by f_k;
-  sub f l by f_l.alt;
-  sub fl by f_l.alt;
-  sub f thorn by f_thorn;
-  sub f t by f_t;
-  sub g h by g_h;
-  sub g i by g_i;
-  sub g j by g_j;
-  sub g l by g_l;
-  sub g thorn by g_thorn;
-  sub i t by i_t;
-  sub j t by j_t;
-  sub o h by o_h;
-  sub o k by o_k;
-  sub o l by o_l;
-  sub p h by p_h;
-  sub p i by p_i;
-  sub p l by p_l;
-  sub p p by p_p;
-  sub s b by s_b;
-  sub s h by s_h;
-  sub s i by s_i;
-  sub s k by s_k;
-  sub s l by s_l;
-  sub s p l by s_p_l;
-  sub s p by s_p;
-  sub s thorn by s_thorn;
-  sub s t by s_t;
-  sub T h by T_h;
-  sub t t by t_t;
-  } dlig;
-
-feature ss02 {#descending f 
-  #non connected
-   sub f f f by fff.001;
-   sub fff by fff.001;
-   sub f' f' [igrave icircumflex idieresis itilde imacron ibreve jcircumflex uni0209 uni020B uni01D0 uni1E2F uni1EC9] by f_f.short.001;
-   sub f' f' [b f h i j k l t thorn] by ff.001;
-   sub f' [igrave icircumflex idieresis itilde imacron ibreve jcircumflex uni0209 uni020B uni01D0 uni1E2F uni1EC9] by f.short.001;
-   sub f' [b h i j k l t thorn] by f.alt;
-   sub ff by ff.001;
-   sub fi by fi.001;
-   sub fl by fl.001;
-   sub f f by ff.001;
-  #and for the connected ligatures
-   sub f_b by f_b.001;
-   sub f_f.alt by f_f.001;
-   sub f_f_b by f_f_b.001;
-   sub f_f_f by f_f_f.001;
-   sub f_f_h by f_f_h.001;
-   sub f_f_i by f_f_i.001;
-   sub f_f_j by f_f_j.001;
-   sub f_f_k by f_f_k.001;
-   sub f_f_l by f_f_l.001;
-   sub f_f_t by f_f_t.001;
-   sub f_h by f_h.001;
-   sub f_i.alt by f_i.001;
-   sub f_l.alt by f_l.001;
-   sub f_j by f_j.001;
-   sub f_k by f_k.001;
-   sub f_thorn by f_thorn.001;
-   sub f_t by f_t.001;
-} ss02;
-
-The code is messy because I thought I'd get very confused with everything in classes. 
-
-I haven't made connected glyphs for the f_igrave etc yet, not sure if that's really a good use of time...!
-
-Let me know if this needs more explanation; some of the glyph names are not immediately clear I know.</div>
+		<div class="commentbody"><p>Sure Cristobal. Here we go. It&rsquo;s messy tho' ;)</p>
+<p>feature liga {#this tweaks glyphs for better fit. Should perhaps be calt rather than liga
+sub f f f by fff;
+sub f' f' [igrave icircumflex idieresis itilde imacron ibreve jcircumflex uni0209 uni020B uni01D0 uni1E2F uni1EC9] by f_f.short;
+sub f' [igrave icircumflex idieresis itilde imacron ibreve jcircumflex uni0209 uni020B uni01D0 uni1E2F uni1EC9] by f.short;
+sub f f by ff; #standard ligs for backward compatability. Small tweaks to shapes
+sub f i by fi;
+sub f l by fl;
+} liga;</p>
+<p>feature dlig {#this joins up the ligatures and there are lots of them. I may move some to hlig
+sub c b by c_b;
+sub c h by c_h;
+sub c i by c_i;
+sub c k by c_k;
+sub c l by c_l;
+sub c t by c_t;
+sub f f b by f_f_b;
+sub ff b by f_f_b;
+sub f f f by f_f_f;
+sub fff by f_f_f;
+sub f f h by f_f_h;
+sub ff h by f_f_h;
+sub f f i by f_f_i;
+sub ff i by f_f_i;
+sub f f j by f_f_j;
+sub ff j by f_f_j;
+sub f f k by f_f_k;
+sub ff k by f_f_k;
+sub f f l by f_f_l;
+sub ff l by f_f_l;
+sub f f t by f_f_t;
+sub ff t by f_f_t;
+sub f b by f_b;
+sub ff by f_f.alt;
+sub f f by f_f.alt;
+sub f h by f_h;
+sub f i by f_i.alt;
+sub fi by f_i.alt;
+sub f j by f_j;
+sub f k by f_k;
+sub f l by f_l.alt;
+sub fl by f_l.alt;
+sub f thorn by f_thorn;
+sub f t by f_t;
+sub g h by g_h;
+sub g i by g_i;
+sub g j by g_j;
+sub g l by g_l;
+sub g thorn by g_thorn;
+sub i t by i_t;
+sub j t by j_t;
+sub o h by o_h;
+sub o k by o_k;
+sub o l by o_l;
+sub p h by p_h;
+sub p i by p_i;
+sub p l by p_l;
+sub p p by p_p;
+sub s b by s_b;
+sub s h by s_h;
+sub s i by s_i;
+sub s k by s_k;
+sub s l by s_l;
+sub s p l by s_p_l;
+sub s p by s_p;
+sub s thorn by s_thorn;
+sub s t by s_t;
+sub T h by T_h;
+sub t t by t_t;
+} dlig;</p>
+<p>feature ss02 {#descending f 
+#non connected
+sub f f f by fff.001;
+sub fff by fff.001;
+sub f' f' [igrave icircumflex idieresis itilde imacron ibreve jcircumflex uni0209 uni020B uni01D0 uni1E2F uni1EC9] by f_f.short.001;
+sub f' f' [b f h i j k l t thorn] by ff.001;
+sub f' [igrave icircumflex idieresis itilde imacron ibreve jcircumflex uni0209 uni020B uni01D0 uni1E2F uni1EC9] by f.short.001;
+sub f' [b h i j k l t thorn] by f.alt;
+sub ff by ff.001;
+sub fi by fi.001;
+sub fl by fl.001;
+sub f f by ff.001;
+#and for the connected ligatures
+sub f_b by f_b.001;
+sub f_f.alt by f_f.001;
+sub f_f_b by f_f_b.001;
+sub f_f_f by f_f_f.001;
+sub f_f_h by f_f_h.001;
+sub f_f_i by f_f_i.001;
+sub f_f_j by f_f_j.001;
+sub f_f_k by f_f_k.001;
+sub f_f_l by f_f_l.001;
+sub f_f_t by f_f_t.001;
+sub f_h by f_h.001;
+sub f_i.alt by f_i.001;
+sub f_l.alt by f_l.001;
+sub f_j by f_j.001;
+sub f_k by f_k.001;
+sub f_thorn by f_thorn.001;
+sub f_t by f_t.001;
+} ss02;</p>
+<p>The code is messy because I thought I&rsquo;d get very confused with everything in classes.</p>
+<p>I haven&rsquo;t made connected glyphs for the f_igrave etc yet, not sure if that&rsquo;s really a good use of time&hellip;!</p>
+<p>Let me know if this needs more explanation; some of the glyph names are not immediately clear I know.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -455,8 +435,7 @@ Let me know if this needs more explanation; some of the glyph names are not imme
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You have some minor issues with glyph names. For example, "fff" is not a great glyph name, better off as "f_f_f"....
-</div>
+		<div class="commentbody">You have some minor issues with glyph names. For example, &ldquo;fff&rdquo; is not a great glyph name, better off as &ldquo;f_f_f&rdquo;&hellip;.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -477,9 +456,9 @@ Let me know if this needs more explanation; some of the glyph names are not imme
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Thomas, I wondered if that might be a problem, and already renamed some of them. I'll have to think up some alternative names as f_f_f is the connected form. Maybe it's best to call them f.dlig and f.ss02 for clarity's sake.
-
-I was also slightly wondering if the non-connected forms of fi should appear in a contextual alternate feature, but not sure why that would be better so left in the liga one.</div>
+		<div class="commentbody"><p>Thanks Thomas, I wondered if that might be a problem, and already renamed some of them. I&rsquo;ll have to think up some alternative names as f_f_f is the connected form. Maybe it&rsquo;s best to call them f.dlig and f.ss02 for clarity&rsquo;s sake.</p>
+<p>I was also slightly wondering if the non-connected forms of fi should appear in a contextual alternate feature, but not sure why that would be better so left in the liga one.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -500,15 +479,14 @@ I was also slightly wondering if the non-connected forms of fi should appear in 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> f.dlig
-
-That would be an alternate of a single f, not a replacement for three f's. How about f_f_f.dlig?
-
-The main thing as far as what features to put things in, is whether the feature is on or off by default, and whether the user will be confused or comfortable with the groupings of alternates together in a single feature....
-
-cheers,
-
-T</div>
+		<div class="commentbody"><blockquote>
+<p>f.dlig</p>
+</blockquote>
+<p>That would be an alternate of a single f, not a replacement for three f&rsquo;s. How about f_f_f.dlig?</p>
+<p>The main thing as far as what features to put things in, is whether the feature is on or off by default, and whether the user will be confused or comfortable with the groupings of alternates together in a single feature&hellip;.</p>
+<p>cheers,</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

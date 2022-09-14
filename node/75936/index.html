@@ -71,53 +71,37 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">[Cross-posted with the <a href="http://groups.google.com/group/uafdkoml/">UAFDKOML group</a>]
-
-
-I'm starting to receive some questions about features not working in InDesign CS5 when a non-Latin language or "No Language" is selected. And this is happening with fonts that worked fine in CS3 and CS4.
-
-From the cases I've seen, the bugs were in the fonts. More specifically, the feature file code lacked languagesystem declarations. Regarding InDesign CS5, what I can tell you is that this version is more strict than CS3 and CS4 were in terms of dealing with language and script tags. So if the fonts don't have lookups for all the necessary languagesystems, ID CS5 will just stick to what's in the font rather than creating them on-the-fly, like CS3 and CS4 used to do.
-
-What does this mean? It means that you should check that, at a minimum(!), your feature code starts with these two lines:
-
-	languagesystem DFLT dflt;
-	languagesystem latn dflt;
-
-The latn/dflt line ensures that the features (or more precisely, the lookups) are available under all Latin-based languages. (Even if you don't explicitly provide it, the FDK will create the lookups with this languagesystem anyway.)
-The DFLT/dflt is also necessary. If you don't provide it, the features will not work when the user selects "No Language".
-
-In addition to the above, if the font supports non-Latin languages (e.g. Greek, Cyrillic) you'll need to use the appropriate languagesystem declarations as well, such as:
-
-	languagesystem cyrl dflt;
-	languagesystem grek dflt;
-
-For example, the features will not work when the user selects Russian as the language, if the font does not have the lookups registered under the languagesystem cyrl/dflt. (And I believe that applies to the 'kern' feature as well as the other.)
-
-To get a complete list of script tags and language tags, please consult these pages,
-http://www.microsoft.com/typography/otspec/scripttags.htm
-http://www.microsoft.com/typography/otspec/languagetags.htm
-
-So, please check your fonts, and let me know if you have questions.
+  <div class="post-content e-content" itemprop="articleBody"><p>[Cross-posted with the <!-- raw HTML omitted -->UAFDKOML group<!-- raw HTML omitted -->]</p>
+<p>I&rsquo;m starting to receive some questions about features not working in InDesign CS5 when a non-Latin language or &ldquo;No Language&rdquo; is selected. And this is happening with fonts that worked fine in CS3 and CS4.</p>
+<p>From the cases I&rsquo;ve seen, the bugs were in the fonts. More specifically, the feature file code lacked languagesystem declarations. Regarding InDesign CS5, what I can tell you is that this version is more strict than CS3 and CS4 were in terms of dealing with language and script tags. So if the fonts don&rsquo;t have lookups for all the necessary languagesystems, ID CS5 will just stick to what&rsquo;s in the font rather than creating them on-the-fly, like CS3 and CS4 used to do.</p>
+<p>What does this mean? It means that you should check that, at a minimum(!), your feature code starts with these two lines:</p>
+<pre><code>languagesystem DFLT dflt;
+languagesystem latn dflt;
+</code></pre>
+<p>The latn/dflt line ensures that the features (or more precisely, the lookups) are available under all Latin-based languages. (Even if you don&rsquo;t explicitly provide it, the FDK will create the lookups with this languagesystem anyway.)
+The DFLT/dflt is also necessary. If you don&rsquo;t provide it, the features will not work when the user selects &ldquo;No Language&rdquo;.</p>
+<p>In addition to the above, if the font supports non-Latin languages (e.g. Greek, Cyrillic) you&rsquo;ll need to use the appropriate languagesystem declarations as well, such as:</p>
+<pre><code>languagesystem cyrl dflt;
+languagesystem grek dflt;
+</code></pre>
+<p>For example, the features will not work when the user selects Russian as the language, if the font does not have the lookups registered under the languagesystem cyrl/dflt. (And I believe that applies to the &lsquo;kern&rsquo; feature as well as the other.)</p>
+<p>To get a complete list of script tags and language tags, please consult these pages,
+<a href="http://www.microsoft.com/typography/otspec/scripttags.htm">http://www.microsoft.com/typography/otspec/scripttags.htm</a>
+<a href="http://www.microsoft.com/typography/otspec/languagetags.htm">http://www.microsoft.com/typography/otspec/languagetags.htm</a></p>
+<p>So, please check your fonts, and let me know if you have questions.</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I just had some issues myself with this and came to this solution:
-
-And add any other language you use in any feature (e.g. in the locl feature) to the languagesystem declaration.
-
-if you have
-
-language TRK;
-
-somewhere, you need to have
-
-languagesystem latn TRK;
-
-at the top of the feature definition?
-
-Am I right?
-Georg
+		<div class="commentbody"><p>I just had some issues myself with this and came to this solution:</p>
+<p>And add any other language you use in any feature (e.g. in the locl feature) to the languagesystem declaration.</p>
+<p>if you have</p>
+<p>language TRK;</p>
+<p>somewhere, you need to have</p>
+<p>languagesystem latn TRK;</p>
+<p>at the top of the feature definition?</p>
+<p>Am I right?
+Georg</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -139,8 +123,8 @@ Georg
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, that's right.
-And the other rule you need to observe is that whenever you want to control two or more languages (for example, latn/TRK and latn/DEU), in each feature that you define the specific lookups for one of the languages, you'll also have to define what's supposed to happen to the other language(s). Otherwise you'll run the risk of having a feature that works for one language but not for the other(s).</div>
+		<div class="commentbody">Yes, that&rsquo;s right.
+And the other rule you need to observe is that whenever you want to control two or more languages (for example, latn/TRK and latn/DEU), in each feature that you define the specific lookups for one of the languages, you&rsquo;ll also have to define what&rsquo;s supposed to happen to the other language(s). Otherwise you&rsquo;ll run the risk of having a feature that works for one language but not for the other(s).</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -161,14 +145,11 @@ And the other rule you need to observe is that whenever you want to control two 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If talking about this.
-
-I work with hebrew font, so the alpha bet is defined as hebrew but numbers and different characters are defined as english.
-(hebrew is RTL and English LTR)
-
-What do i do if i am checking both hebrew and english
-SUB Alef One by Alef SupOne
-
+		<div class="commentbody"><p>If talking about this.</p>
+<p>I work with hebrew font, so the alpha bet is defined as hebrew but numbers and different characters are defined as english.
+(hebrew is RTL and English LTR)</p>
+<p>What do i do if i am checking both hebrew and english
+SUB Alef One by Alef SupOne</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -232,24 +213,17 @@ SUB Alef One by Alef SupOne
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Question, from one who (1) doesn't understand this part of the code, (2) doesn't use language tags, and (3) uses only FontLab Studio 5 for all font work:
-
-If I put the exact string Miguel recommended earlier, namely
-
-languagesystem DFLT dflt;
-languagesystem latn dflt;
-
-Then compile the features in FontLab, I get the following message:
-
-[WARNING] . . . Use of DFLT tag has been deprecated. It will work, but please use 'dflt' instead.
-
-
-Does that mean the string should read:
-
-languagesystem dflt dflt;
-languagesystem latn dflt;
-
-Or I should just ignore the warning? Or . . . ?</div>
+		<div class="commentbody"><p>Question, from one who (1) doesn&rsquo;t understand this part of the code, (2) doesn&rsquo;t use language tags, and (3) uses only FontLab Studio 5 for all font work:</p>
+<p>If I put the exact string Miguel recommended earlier, namely</p>
+<p>languagesystem DFLT dflt;
+languagesystem latn dflt;</p>
+<p>Then compile the features in FontLab, I get the following message:</p>
+<p>[WARNING] . . . Use of DFLT tag has been deprecated. It will work, but please use &lsquo;dflt&rsquo; instead.</p>
+<p>Does that mean the string should read:</p>
+<p>languagesystem dflt dflt;
+languagesystem latn dflt;</p>
+<p>Or I should just ignore the warning? Or . . . ?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -270,12 +244,12 @@ Or I should just ignore the warning? Or . . . ?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">script latn
+		<div class="commentbody"><p>script latn
 lookup lookupname (If Pos)
-lookupflag LeftToRight;
-
-this is how it shows up in fontlab
-(but i don't use fontlab for OTL tables)</div>
+lookupflag LeftToRight;</p>
+<p>this is how it shows up in fontlab
+(but i don&rsquo;t use fontlab for OTL tables)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -296,21 +270,15 @@ this is how it shows up in fontlab
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Eli
-
-I'm sorry, I don't understand. Was your post directed at my question? If not, that's fine, but if so, I'm still lost.
-
-What I understood Miguel to be saying was that at the head of the features file, two more lines of code are needed, if one is to use InDesign CS5. So to test, I put those lines in an existing .fea file, imported it into FL, and when I compiled in FL, got the warning message I posted.
-
-Basically, we're typesetters. We don't sell fonts. What we make has to work on our systems only. We don't use language tags, and to date, no manuscript supplied to us has had them. If/when it happens, we'll deal with it.
-
-But we are moving to InDesign CS5. If I have to revisit all our fonts and add those lines of code, I'd like to get it right the first time -- it's no fun if one of the comps comes to me and says "Fonts don't work. First proof's due Friday."
-
-The only font I occasionally distribute is a version of Charis (under SIL's Open Font License) for a few publishers that just have to set something in house, and don't have a font with the needed characters, or the ability to go into an Adobe font and modify it. It would be especially nice for that one to be correct. 
-
-TIA,
-
-Charles</div>
+		<div class="commentbody"><p>Eli</p>
+<p>I&rsquo;m sorry, I don&rsquo;t understand. Was your post directed at my question? If not, that&rsquo;s fine, but if so, I&rsquo;m still lost.</p>
+<p>What I understood Miguel to be saying was that at the head of the features file, two more lines of code are needed, if one is to use InDesign CS5. So to test, I put those lines in an existing .fea file, imported it into FL, and when I compiled in FL, got the warning message I posted.</p>
+<p>Basically, we&rsquo;re typesetters. We don&rsquo;t sell fonts. What we make has to work on our systems only. We don&rsquo;t use language tags, and to date, no manuscript supplied to us has had them. If/when it happens, we&rsquo;ll deal with it.</p>
+<p>But we are moving to InDesign CS5. If I have to revisit all our fonts and add those lines of code, I&rsquo;d like to get it right the first time &ndash; it&rsquo;s no fun if one of the comps comes to me and says &ldquo;Fonts don&rsquo;t work. First proof&rsquo;s due Friday.&rdquo;</p>
+<p>The only font I occasionally distribute is a version of Charis (under SIL&rsquo;s Open Font License) for a few publishers that just have to set something in house, and don&rsquo;t have a font with the needed characters, or the ability to go into an Adobe font and modify it. It would be especially nice for that one to be correct.</p>
+<p>TIA,</p>
+<p>Charles</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -331,9 +299,9 @@ Charles</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The following is Ben Kiel’s explanation of the FontLab issue:
-
-Also, for those of you who don't know, FontLab 5 doesn't write the DFLT language system correctly into the OTFs it generates. It incorrectly reports that DFLT is depreciated, and the resulting font has four spaces "    " instead of "DFLT" in the font. Using TTX, you can do a find/replace for "    " to "DFLT" to fix this. Also, Adam Twardoch had a script to do this if you have FontTools installed. Script is here: http://www.silesian.com/software/FixDFLTScriptTagSL.zip, info about it is here: http://typophile.com/node/29469. There isn't a problem if one is using the FDK to generate your fonts.</div>
+		<div class="commentbody"><p>The following is Ben Kiel’s explanation of the FontLab issue:</p>
+<p>Also, for those of you who don&rsquo;t know, FontLab 5 doesn&rsquo;t write the DFLT language system correctly into the OTFs it generates. It incorrectly reports that DFLT is depreciated, and the resulting font has four spaces &quot;    &quot; instead of &ldquo;DFLT&rdquo; in the font. Using TTX, you can do a find/replace for &quot;    &quot; to &ldquo;DFLT&rdquo; to fix this. Also, Adam Twardoch had a script to do this if you have FontTools installed. Script is here: <a href="http://www.silesian.com/software/FixDFLTScriptTagSL.zip">http://www.silesian.com/software/FixDFLTScriptTagSL.zip</a>, info about it is here: <a href="http://typophile.com/node/29469">http://typophile.com/node/29469</a>. There isn&rsquo;t a problem if one is using the FDK to generate your fonts.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -354,13 +322,12 @@ Also, for those of you who don't know, FontLab 5 doesn't write the DFLT language
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">charles: I develop OT in Volt, but when i open it in fontlab this is what i get.
-
-why not work in volt, it makes life much easier, learning volt takes acouple of hours, then easy life.
-Volt is free.
-
-what features are we talking about?????
-marks will take a while to understand, but subs can be learned in a half a hour</div>
+		<div class="commentbody"><p>charles: I develop OT in Volt, but when i open it in fontlab this is what i get.</p>
+<p>why not work in volt, it makes life much easier, learning volt takes acouple of hours, then easy life.
+Volt is free.</p>
+<p>what features are we talking about?????
+marks will take a while to understand, but subs can be learned in a half a hour</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -402,22 +369,22 @@ marks will take a while to understand, but subs can be learned in a half a hour<
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Here is where I stand: I bought FontLab to do font work specifically to use fonts with selected layout programs. If one of the main layout programs (InDesign) has changed  so that a FontLab bug now keeps me from using that program, I'm more than a little unhappy. 
-
-Here is what I don't want to do:
-
-1. I don't want to worry about it if the bug causes no harm. I'll confess I don't know where the "No Language" setting is in InDesign. If changing that setting to "Latin" or "English" or "American" or somesuch avoids the problem, enough.
-
-However, if the bug does cause problems,
-
-2. I don't want to use Volt or AFDKO 2.5 because there is a bug in the program I own and do want to use, esp. since that program's stated purpose fit my needs.
-
-3. I don't want to install Python to run a script on every font I work on just to fix a bug.
-
-I can wait for all the goodies promised in FL6. But if I have to navigate away from FL5 just to get work done, I doubt I'll bother to come back to FontLab later. One of the main reasons for purchasing it was to avoid having to learn Volt, AFDKO, etc.
-
-YMMV
-
+		<div class="commentbody"><p>Here is where I stand: I bought FontLab to do font work specifically to use fonts with selected layout programs. If one of the main layout programs (InDesign) has changed  so that a FontLab bug now keeps me from using that program, I&rsquo;m more than a little unhappy.</p>
+<p>Here is what I don&rsquo;t want to do:</p>
+<ol>
+<li>I don&rsquo;t want to worry about it if the bug causes no harm. I&rsquo;ll confess I don&rsquo;t know where the &ldquo;No Language&rdquo; setting is in InDesign. If changing that setting to &ldquo;Latin&rdquo; or &ldquo;English&rdquo; or &ldquo;American&rdquo; or somesuch avoids the problem, enough.</li>
+</ol>
+<p>However, if the bug does cause problems,</p>
+<ol start="2">
+<li>
+<p>I don&rsquo;t want to use Volt or AFDKO 2.5 because there is a bug in the program I own and do want to use, esp. since that program&rsquo;s stated purpose fit my needs.</p>
+</li>
+<li>
+<p>I don&rsquo;t want to install Python to run a script on every font I work on just to fix a bug.</p>
+</li>
+</ol>
+<p>I can wait for all the goodies promised in FL6. But if I have to navigate away from FL5 just to get work done, I doubt I&rsquo;ll bother to come back to FontLab later. One of the main reasons for purchasing it was to avoid having to learn Volt, AFDKO, etc.</p>
+<p>YMMV</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -439,9 +406,9 @@ YMMV
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>I bought FontLab to do font work specifically to use fonts with selected layout programs. If one of the main layout programs (InDesign) has changed so that a FontLab bug now keeps me from using that program, I'm more than a little unhappy. </em>
-
-FontLab needs to expand its pool of beta testers...</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->I bought FontLab to do font work specifically to use fonts with selected layout programs. If one of the main layout programs (InDesign) has changed so that a FontLab bug now keeps me from using that program, I&rsquo;m more than a little unhappy. <!-- raw HTML omitted --></p>
+<p>FontLab needs to expand its pool of beta testers&hellip;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -462,16 +429,13 @@ FontLab needs to expand its pool of beta testers...</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Charles,
-
-No one is forcing you to do anything. If you don't even know where the "No Language" language option is, then you probably don't even need to care about this issue. (However, I must say that considering the many comments you've posted over the years, I was under the impression that the work you do involved dealing with different languages, some of which not so common. Which brings me back to the subject.)
-
-When a user selects a language in InDesign the application uses that to decide which hyphenation and spelling rules it needs apply. Since the list of languages supported by InDesign does not cover all the ones that exist in the planet, sometimes it's better to set the language to "No Language". This way the program doesn't try to hyphenate or spellcheck the text in funny ways. I think there must be other things that are tied with the language setting. One that I can think of right now is the quotation styles that can differ from language to language (http://en.wikipedia.org/wiki/Non-English_usage_of_quotation_mark).
-
-Anyway, if you think you don't need to change your fonts, then don't do it.
-
-Below is the Character panel of InDesign CS5 showing the language options.
-[img:sites/default/files/old-images/InDesignCS5_languages_3550.png]</div>
+		<div class="commentbody"><p>Charles,</p>
+<p>No one is forcing you to do anything. If you don&rsquo;t even know where the &ldquo;No Language&rdquo; language option is, then you probably don&rsquo;t even need to care about this issue. (However, I must say that considering the many comments you&rsquo;ve posted over the years, I was under the impression that the work you do involved dealing with different languages, some of which not so common. Which brings me back to the subject.)</p>
+<p>When a user selects a language in InDesign the application uses that to decide which hyphenation and spelling rules it needs apply. Since the list of languages supported by InDesign does not cover all the ones that exist in the planet, sometimes it&rsquo;s better to set the language to &ldquo;No Language&rdquo;. This way the program doesn&rsquo;t try to hyphenate or spellcheck the text in funny ways. I think there must be other things that are tied with the language setting. One that I can think of right now is the quotation styles that can differ from language to language (<a href="http://en.wikipedia.org/wiki/Non-English_usage_of_quotation_mark)">http://en.wikipedia.org/wiki/Non-English_usage_of_quotation_mark)</a>.</p>
+<p>Anyway, if you think you don&rsquo;t need to change your fonts, then don&rsquo;t do it.</p>
+<p>Below is the Character panel of InDesign CS5 showing the language options.
+[img:sites/default/files/old-images/InDesignCS5_languages_3550.png]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -492,29 +456,19 @@ Below is the Character panel of InDesign CS5 showing the language options.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">To all following this thread: I apologize for all the verbiage I wrote last night. I'm going to edit this post and try to get it relevant. Might fail, of course . . .
-
-Miguel, thank you. You've explained what I needed to know. I did know about *that* Language setting, which we don't use. I did not know all the effects the language setting has beyond the dictionary.
-
-Such a setting addresses one of the things I generally object to, the arrogance of "Oh, the layout program does that" or "The font does that." Even with all the programming, a compositor's skills are still needed. I have a long, long list of "PE's" to prove it. "The font did it" doesn't take away the PE. It is good that a program such as InDesign, which offers a passel of ways to automate things, also offers a way to disable them. That this particular situation allows a bug in another program to be quite significant is unfortunate.
-
-The reason we don't use InDesign's language settings -- and the Proximity hyphenation routines -- is because we build a custom hyphenation dictionary for each job. Every word in the manuscript over five letters is in the exception dictionary, in an InDesign document dictionary. It isn't a perfect solution. We have filed and received acknowledgments of bugs going back to CS2. They are still there in CS5. But it beats the Proximity dictionary, for our kind of work anyway. I'd also note that to date, we have never gotten in a manuscript that had language tags.
-
-[An aside that might be interesting: My wife, who also runs a book design and typesetting company, uses the standard Proximity hyphenation routine. They have to do what they call a "production proof pass" on all proof stages. Often this happens at the dining room table, so I get to hear the mutterings. At every stage, she finds hyphenation that won't pass muster. She spends far more time with those bum hyphens in those multiple production passes than we spend creating our job-specific hyphenation dictionary.]
-
-I realize full well that InDesign could not be marketed with bookwork as its primary audience, and I appreciate full well that that someone selling fonts can't assume this approach to hyphenation.
- 
-Another consideration on dictionaries is what will happen when the reflow centric ebooks get around to supporting hyphenation. Hyphenation is supposed to be an option with CSS3. I believe the current EPUB standard still recommends CSS1. Well, lots of other issues with EPUB still.
-
-* * *
-
-Extending the automation of selecting a language to OT features seems iffy. Or maybe it will just take time for it to sink in to what's at play. 
-
-For example, most fonts have the liga feature written so that the f_i ligature is disabled when a Turkish language tag is used. But most fonts don't have the dotted capital I, or the G,g-breve, so you can't set Turkish anyway.
-
-Or, French uses guillemets. In French, guillmets are spaced a bit from the words they precede/follow. I've never seen a font with a French language tag that automates this. Authors often type them with a non-breaking word space, which is too big. Wouldn't be too hard to automate this with the proper spacing in an OT feature . . .
-
-Etc.</div>
+		<div class="commentbody"><p>To all following this thread: I apologize for all the verbiage I wrote last night. I&rsquo;m going to edit this post and try to get it relevant. Might fail, of course . . .</p>
+<p>Miguel, thank you. You&rsquo;ve explained what I needed to know. I did know about <em>that</em> Language setting, which we don&rsquo;t use. I did not know all the effects the language setting has beyond the dictionary.</p>
+<p>Such a setting addresses one of the things I generally object to, the arrogance of &ldquo;Oh, the layout program does that&rdquo; or &ldquo;The font does that.&rdquo; Even with all the programming, a compositor&rsquo;s skills are still needed. I have a long, long list of &ldquo;PE&rsquo;s&rdquo; to prove it. &ldquo;The font did it&rdquo; doesn&rsquo;t take away the PE. It is good that a program such as InDesign, which offers a passel of ways to automate things, also offers a way to disable them. That this particular situation allows a bug in another program to be quite significant is unfortunate.</p>
+<p>The reason we don&rsquo;t use InDesign&rsquo;s language settings &ndash; and the Proximity hyphenation routines &ndash; is because we build a custom hyphenation dictionary for each job. Every word in the manuscript over five letters is in the exception dictionary, in an InDesign document dictionary. It isn&rsquo;t a perfect solution. We have filed and received acknowledgments of bugs going back to CS2. They are still there in CS5. But it beats the Proximity dictionary, for our kind of work anyway. I&rsquo;d also note that to date, we have never gotten in a manuscript that had language tags.</p>
+<p>[An aside that might be interesting: My wife, who also runs a book design and typesetting company, uses the standard Proximity hyphenation routine. They have to do what they call a &ldquo;production proof pass&rdquo; on all proof stages. Often this happens at the dining room table, so I get to hear the mutterings. At every stage, she finds hyphenation that won&rsquo;t pass muster. She spends far more time with those bum hyphens in those multiple production passes than we spend creating our job-specific hyphenation dictionary.]</p>
+<p>I realize full well that InDesign could not be marketed with bookwork as its primary audience, and I appreciate full well that that someone selling fonts can&rsquo;t assume this approach to hyphenation.</p>
+<p>Another consideration on dictionaries is what will happen when the reflow centric ebooks get around to supporting hyphenation. Hyphenation is supposed to be an option with CSS3. I believe the current EPUB standard still recommends CSS1. Well, lots of other issues with EPUB still.</p>
+<hr>
+<p>Extending the automation of selecting a language to OT features seems iffy. Or maybe it will just take time for it to sink in to what&rsquo;s at play.</p>
+<p>For example, most fonts have the liga feature written so that the f_i ligature is disabled when a Turkish language tag is used. But most fonts don&rsquo;t have the dotted capital I, or the G,g-breve, so you can&rsquo;t set Turkish anyway.</p>
+<p>Or, French uses guillemets. In French, guillmets are spaced a bit from the words they precede/follow. I&rsquo;ve never seen a font with a French language tag that automates this. Authors often type them with a non-breaking word space, which is too big. Wouldn&rsquo;t be too hard to automate this with the proper spacing in an OT feature . . .</p>
+<p>Etc.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -577,11 +531,10 @@ Etc.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Arno: <em>Just use the AFDKO directly [...]</em>
-
-DTL OTMaster can comfortably compile the features from an &lsquo;all covering&rsquo; OT Layout features file (because the rewritten HOT tool removes the obsolete features from the font during generation) supporting the latest AFDKO 2.5 version. And so do DTL Bezier- and IkarusMaster and DataMaster does it all in batch.
-
-FEB</div>
+		<div class="commentbody"><p>Arno: <!-- raw HTML omitted -->Just use the AFDKO directly [&hellip;]<!-- raw HTML omitted --></p>
+<p>DTL OTMaster can comfortably compile the features from an ‘all covering’ OT Layout features file (because the rewritten HOT tool removes the obsolete features from the font during generation) supporting the latest AFDKO 2.5 version. And so do DTL Bezier- and IkarusMaster and DataMaster does it all in batch.</p>
+<p>FEB</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

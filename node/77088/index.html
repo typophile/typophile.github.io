@@ -75,20 +75,17 @@
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The "fontinfo" file (for name-keyed fonts; CID-keyed fonts use the "cidfontinfo" file) serves as a way to specify MakeOTF options without specifying them on the command line. The following are some examples:
-
-IsBoldStyle                 false
+		<div class="commentbody"><p>The &ldquo;fontinfo&rdquo; file (for name-keyed fonts; CID-keyed fonts use the &ldquo;cidfontinfo&rdquo; file) serves as a way to specify MakeOTF options without specifying them on the command line. The following are some examples:</p>
+<p>IsBoldStyle                 false
 IsItalicStyle               false
 PreferOS/2TypoMetrics       true
 IsOS/2WidthWeigthSlopeOnly  true
 IsOS/2OBLIQUE               false
-UseOldNameID4               false
-
-It is true that many of the fields in this file seem redundant, because the same information is present in the font.pfa (Type 1) files. Part of this is due to the former way in which we built Type 1 fonts that involved individual "bez" files in a "bez" directory, each of which represented a glyph.
-
-The "FontMenuNameDB" file is used only for setting the font's menu name strings for the 'name' table.
-
-I will ask read to chime in with additional details… …or to correct anything that wrote above. :-)</div>
+UseOldNameID4               false</p>
+<p>It is true that many of the fields in this file seem redundant, because the same information is present in the font.pfa (Type 1) files. Part of this is due to the former way in which we built Type 1 fonts that involved individual &ldquo;bez&rdquo; files in a &ldquo;bez&rdquo; directory, each of which represented a glyph.</p>
+<p>The &ldquo;FontMenuNameDB&rdquo; file is used only for setting the font&rsquo;s menu name strings for the &lsquo;name&rsquo; table.</p>
+<p>I will ask read to chime in with additional details… …or to correct anything that wrote above. :-)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -109,13 +106,13 @@ I will ask read to chime in with additional details… …or to correct anything
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I agree that it would be a nicer design to have a single file contain the data that it is now spread between the FontMenuNameDB file and the fontinfo file. The reason that makeotf has both  is becuase of history, not because of optimal de novo design. For some years, our old production workflow for Type 1 fonts needed to stay functional, while we were also running a new production workflow for OpenType/CFF fonts from the same sources. The old system required the fontinfo file. Since the fontinfo file had to exist for the old workflow and duplicating source data is always dangerous, we used the fontinfo file as the source for the relevant data for the new workflow, and made a separate FontMenuNameDB file for the new production workflow.
-
-We have now dropped Type 1 production, and are free combine the two files into one. However, software development is expensive, and you need strong motivation to spend a few days to change a design that is working without bugs to a more elegant design that, because it is new, probably will have bugs. 
-
-Ken's one error was in commenting that the fontinfo file contains info that is also in the Postscript font. This is true for some of the Adobe fontinfo files which have survived since the Type1 production days, when the fontinfo file was a source for the Type 1 font file data, but makeotf doesn't use that info. The only fields in the fontinfo that makeotf uses are not present in the Type1 source font file.
-
-- Read</div>
+		<div class="commentbody"><p>I agree that it would be a nicer design to have a single file contain the data that it is now spread between the FontMenuNameDB file and the fontinfo file. The reason that makeotf has both  is becuase of history, not because of optimal de novo design. For some years, our old production workflow for Type 1 fonts needed to stay functional, while we were also running a new production workflow for OpenType/CFF fonts from the same sources. The old system required the fontinfo file. Since the fontinfo file had to exist for the old workflow and duplicating source data is always dangerous, we used the fontinfo file as the source for the relevant data for the new workflow, and made a separate FontMenuNameDB file for the new production workflow.</p>
+<p>We have now dropped Type 1 production, and are free combine the two files into one. However, software development is expensive, and you need strong motivation to spend a few days to change a design that is working without bugs to a more elegant design that, because it is new, probably will have bugs.</p>
+<p>Ken&rsquo;s one error was in commenting that the fontinfo file contains info that is also in the Postscript font. This is true for some of the Adobe fontinfo files which have survived since the Type1 production days, when the fontinfo file was a source for the Type 1 font file data, but makeotf doesn&rsquo;t use that info. The only fields in the fontinfo that makeotf uses are not present in the Type1 source font file.</p>
+<ul>
+<li>Read</li>
+</ul>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -136,47 +133,40 @@ Ken's one error was in commenting that the fontinfo file contains info that is a
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">In addition to what Ken and Read added, we are also now starting to put hinting information in the fontinfo files. This allows the autohinter to hint classes of glyphs using only the hinting zones that apply specifically to those classes.
-
-So for Arno Regular, here is the hinting that lists the zones for the lower case:
-
-<code>begin FDDict LOWERCASE
-	BaselineYCoord 0
-	BaselineOvershoot -18
-	LcHeight 395
-	LcOvershoot 15
-	AscenderHeight 672
-	AscenderOvershoot 6
-	DescenderHeight -250
-	DescenderOvershoot -18
-	DominantV [75 86]
-	DominantH [36 41]
-	FlexOK false
-end FDDict LOWERCASE</code>
-
-and here is a hinting dictionary of the lower case, which consists of regular expressions that will capture all the production names of the glyphs to be hinted by the zones listed above:
-
-
-<code>begin GlyphSet LOWERCASE
-	#Latin
-		^(dotless)?[a-z](grave|acute|circumflex|tilde|dieresis|ring|caron|slash|cedilla|horn|breve|macron|ogonek|croat|dotaccent|commaaccent|hungarumlaut|dot|bar)?(.dup|.alt|acute|grave|tilde|hook|dotbelow)?(.swash)?(\.)?(begin|end)?(alt)?[0-9]?$
-		^(dcroat|eth|eng|yogh|germandbls|longs|i.dot|napostrophe|kgreenlandic|schwa.latin)(\.)?(swash)?$
-		^[adfilno][efijlz][il]*(acute|caron)?(.swash)?$
-		^(c|f|i|l|s|t|longs)_(b|f|h|i|j|k|l|p|r|t|longs)[_bhijklt]*(.alt|.swash)?$
-	#Greek
-		^(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)(iotasub)?(.alt|.end|.greek|.math|tonos|dieresis|lenis|asper|acute|grave|breve|macron|tilde)?(tonos|acute|grave|tilde)?(_gamma|_lambda)?(.swash)?$
-		^(stigma|koppa|sampi|digamma|iotaadscript|kai)(.alt)?$
-	#Cyrillic
-		^(a|e|i|o|u|ie|igrave|imacron|umacron|obar|schwa)(.cyr|cyr|.short|short|.ukran|ukran)(\.)?(straight)?(stroke)?(.swash)?$
-		^(be|ve|ghe|de|ie|zhe|ze|ka|el|em|en|pe|er|es|te|ef|ha|tse|che|sha|shcha|hard|yeru|soft|yu|ya|iegrave|io|dje|gje|dze|yi|je|lje|nje|tshe|kje|dzhe|yat|fita|izhitsa|shha|palochka)(\.)?(stroke|descender|up)?(\.)?(alt|ital)?(.swash)?$
-	#Punctuation
-		^(exclam|question)down$
-	#OSF
-		^(zero|one|two|three|four|five|six|seven|eight|nine)(\.)?(tab)?oldstyle$
-end GlyphSet LOWERCASE</code>
-
-snippets of code like this are also included for uppercase, figures, small capitals, &c.
-
+		<div class="commentbody"><p>In addition to what Ken and Read added, we are also now starting to put hinting information in the fontinfo files. This allows the autohinter to hint classes of glyphs using only the hinting zones that apply specifically to those classes.</p>
+<p>So for Arno Regular, here is the hinting that lists the zones for the lower case:</p>
+<p><!-- raw HTML omitted -->begin FDDict LOWERCASE
+BaselineYCoord 0
+BaselineOvershoot -18
+LcHeight 395
+LcOvershoot 15
+AscenderHeight 672
+AscenderOvershoot 6
+DescenderHeight -250
+DescenderOvershoot -18
+DominantV [75 86]
+DominantH [36 41]
+FlexOK false
+end FDDict LOWERCASE<!-- raw HTML omitted --></p>
+<p>and here is a hinting dictionary of the lower case, which consists of regular expressions that will capture all the production names of the glyphs to be hinted by the zones listed above:</p>
+<p><!-- raw HTML omitted -->begin GlyphSet LOWERCASE
+#Latin
+^(dotless)?<a href="grave%7Cacute%7Ccircumflex%7Ctilde%7Cdieresis%7Cring%7Ccaron%7Cslash%7Ccedilla%7Chorn%7Cbreve%7Cmacron%7Cogonek%7Ccroat%7Cdotaccent%7Ccommaaccent%7Chungarumlaut%7Cdot%7Cbar">a-z</a>?(.dup|.alt|acute|grave|tilde|hook|dotbelow)?(.swash)?(.)?(begin|end)?(alt)?[0-9]?$
+^(dcroat|eth|eng|yogh|germandbls|longs|i.dot|napostrophe|kgreenlandic|schwa.latin)(.)?(swash)?$
+^[adfilno][efijlz][il]<em>(acute|caron)?(.swash)?$
+^(c|f|i|l|s|t|longs)_(b|f|h|i|j|k|l|p|r|t|longs)[_bhijklt]</em>(.alt|.swash)?$
+#Greek
+^(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)(iotasub)?(.alt|.end|.greek|.math|tonos|dieresis|lenis|asper|acute|grave|breve|macron|tilde)?(tonos|acute|grave|tilde)?(_gamma|_lambda)?(.swash)?$
+^(stigma|koppa|sampi|digamma|iotaadscript|kai)(.alt)?$
+#Cyrillic
+^(a|e|i|o|u|ie|igrave|imacron|umacron|obar|schwa)(.cyr|cyr|.short|short|.ukran|ukran)(.)?(straight)?(stroke)?(.swash)?$
+^(be|ve|ghe|de|ie|zhe|ze|ka|el|em|en|pe|er|es|te|ef|ha|tse|che|sha|shcha|hard|yeru|soft|yu|ya|iegrave|io|dje|gje|dze|yi|je|lje|nje|tshe|kje|dzhe|yat|fita|izhitsa|shha|palochka)(.)?(stroke|descender|up)?(.)?(alt|ital)?(.swash)?$
+#Punctuation
+^(exclam|question)down$
+#OSF
+^(zero|one|two|three|four|five|six|seven|eight|nine)(.)?(tab)?oldstyle$
+end GlyphSet LOWERCASE<!-- raw HTML omitted --></p>
+<p>snippets of code like this are also included for uppercase, figures, small capitals, &amp;c.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -198,7 +188,7 @@ snippets of code like this are also included for uppercase, figures, small capit
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks, guys. The autohinting information is particularly interesting; I had no idea that I can break it down like that. Are the two values for DominantV and DominantH for straight stems and wider curved stems? And is this detailed in FDK documentation? I checked 5900.RFMFAH_Tutorial.pdf and the autohinter’s built-in documentation and did not see anything. </div>
+		<div class="commentbody">Thanks, guys. The autohinting information is particularly interesting; I had no idea that I can break it down like that. Are the two values for DominantV and DominantH for straight stems and wider curved stems? And is this detailed in FDK documentation? I checked 5900.RFMFAH_Tutorial.pdf and the autohinter’s built-in documentation and did not see anything.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -219,11 +209,10 @@ snippets of code like this are also included for uppercase, figures, small capit
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This one from Ken’s example is interesting:
-
-<em>UseOldNameID4 false</em>
-
-It doesn’t seem to have any effect in the current public version of makeotf. I guess it has something to do with the changed recommendations regarding name ID 4 on Windows?</div>
+		<div class="commentbody"><p>This one from Ken’s example is interesting:</p>
+<p><!-- raw HTML omitted -->UseOldNameID4 false<!-- raw HTML omitted --></p>
+<p>It doesn’t seem to have any effect in the current public version of makeotf. I guess it has something to do with the changed recommendations regarding name ID 4 on Windows?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -244,11 +233,11 @@ It doesn’t seem to have any effect in the current public version of makeotf. I
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@James
-The current public version of the FDK can't do what Paul mentioned. You'll find the documentation in the autohint tool -- autohint -h -- once a new FDK version is out.
-
-@Jens
-Yes, you're correct.</div>
+		<div class="commentbody"><p>@James
+The current public version of the FDK can&rsquo;t do what Paul mentioned. You&rsquo;ll find the documentation in the autohint tool &ndash; autohint -h &ndash; once a new FDK version is out.</p>
+<p>@Jens
+Yes, you&rsquo;re correct.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -269,15 +258,12 @@ Yes, you're correct.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">My memory for all this is pretty much what Read said, in terms of reasons "back in the day."
-
-There was one other factor, which is that because font menu names tend to be coordinated across an entire family, and we were also converting the entire Adobe Type Library and trying to have consistency in how we handled menu names both within and between families, we found it very convenient to have all the font menu names in one file.
-
-This was also true when dealing with a font family, even when there wasn't a whole library conversion involved.
-
-Cheers,
-
-T</div>
+		<div class="commentbody"><p>My memory for all this is pretty much what Read said, in terms of reasons &ldquo;back in the day.&rdquo;</p>
+<p>There was one other factor, which is that because font menu names tend to be coordinated across an entire family, and we were also converting the entire Adobe Type Library and trying to have consistency in how we handled menu names both within and between families, we found it very convenient to have all the font menu names in one file.</p>
+<p>This was also true when dealing with a font family, even when there wasn&rsquo;t a whole library conversion involved.</p>
+<p>Cheers,</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

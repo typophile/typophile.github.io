@@ -71,50 +71,40 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I've made a calt to add swashed alternatives to beginning and end of every word. I think it's ok, but I'm planning also stylistic alternatives to these swashes and it's here where it gets complicated. I get "Duplicate target glyph for single substitution" error when compiling. This is what i have now:
-
-Classes:
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;ve made a calt to add swashed alternatives to beginning and end of every word. I think it&rsquo;s ok, but I&rsquo;m planning also stylistic alternatives to these swashes and it&rsquo;s here where it gets complicated. I get &ldquo;Duplicate target glyph for single substitution&rdquo; error when compiling. This is what i have now:</p>
+<p>Classes:
 All_glyphs (All glyphs, including swashes. 986 total)
 Normal_Caps_Start (Starting glyphs to be replaced. 170 total)
 Normal_Caps_End (Ending glyphs to be replaced. 133 total)
 Swash_Caps_Start (Starting glyph swashes. 170 total)
-Swash_Caps_End (Ending glyph swashes. 133 total)
-
-Code:
+Swash_Caps_End (Ending glyph swashes. 133 total)</p>
+<p>Code:
 feature calt { 
 lookup start_swashes {
-    ignore sub @All_glyphs @Normal_Caps_Start';
-    sub @Normal_Caps_Start' by @Swash_Caps_Start;
+ignore sub @All_glyphs @Normal_Caps_Start';
+sub @Normal_Caps_Start' by @Swash_Caps_Start;
 } start_swashes;
 lookup end_swashes {
-    ignore sub @All_glyphs @Normal_Caps_End';
-    sub @Normal_Caps_End' by @Swash_Caps_End;
+ignore sub @All_glyphs @Normal_Caps_End';
+sub @Normal_Caps_End' by @Swash_Caps_End;
 } end_swashes;
-} calt;
-
-I've put calt feature after salt feature.
-
-The problem must be in the way i made the classes. For example letter A has A1 and A2 alternatives. In Swash_Caps_Start this means: [A1, A2, B...], and in Normal_Caps_Start class its [A, A, B...]. This way the substitute classes have the same amount of pairs, but there are two A's in the other class. How is this done correctly?
-
-Probably there is some really simple solution for this, but now i just can't figure it out. I've searched for this, but Google doesn't anymore give the results from Typophile it has used to.</div>
+} calt;</p>
+<p>I&rsquo;ve put calt feature after salt feature.</p>
+<p>The problem must be in the way i made the classes. For example letter A has A1 and A2 alternatives. In Swash_Caps_Start this means: [A1, A2, B&hellip;], and in Normal_Caps_Start class its [A, A, B&hellip;]. This way the substitute classes have the same amount of pairs, but there are two A&rsquo;s in the other class. How is this done correctly?</p>
+<p>Probably there is some really simple solution for this, but now i just can&rsquo;t figure it out. I&rsquo;ve searched for this, but Google doesn&rsquo;t anymore give the results from Typophile it has used to.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite> The problem must be in the way i made the classes. For example letter A has A1 and A2 alternatives. In Swash_Caps_Start this means: [A1, A2, B...], and in Normal_Caps_Start class its [A, A, B...]. This way the substitute classes have the same amount of pairs, but there are two A's in the other class. How is this done correctly? </cite>
-
-This means that in effect you have you are trying to replace {A, A, B ... } with {A1, A2, B ... }, and the software cannot determine whether A should be substituted by A1 or A2. If you have a rule of the form <code>sub @A by @B</code>, it's perfectly OK to have the same glyph listed multiple times in class B, but generally <em>not</em> in class A.
-
-What you need to do is map {A, B, ... } to {A1, B1, ...} and then substitute A1 by A2 in some lookup which occurs later in your features.
-
-Also, on an unrelated note I suspect that there is an error in your 'calt' code. I think that where you write:
-
-<code> ignore sub @All_glyphs @Normal_Caps_End';</code>
-
-you actually want the following (assuming you're trying to get the substitution to occur only at the end of a word, i.e. where no glyph <em> follows</em> the target glyph).
-
-<code>ignore sub @Normal_Caps_End' @All_glyphs;</code>
-
-André</div>
+		<div class="commentbody"><p><!-- raw HTML omitted --> The problem must be in the way i made the classes. For example letter A has A1 and A2 alternatives. In Swash_Caps_Start this means: [A1, A2, B&hellip;], and in Normal_Caps_Start class its [A, A, B&hellip;]. This way the substitute classes have the same amount of pairs, but there are two A&rsquo;s in the other class. How is this done correctly? <!-- raw HTML omitted --></p>
+<p>This means that in effect you have you are trying to replace {A, A, B &hellip; } with {A1, A2, B &hellip; }, and the software cannot determine whether A should be substituted by A1 or A2. If you have a rule of the form <!-- raw HTML omitted -->sub @A by @B<!-- raw HTML omitted -->, it&rsquo;s perfectly OK to have the same glyph listed multiple times in class B, but generally <!-- raw HTML omitted -->not<!-- raw HTML omitted --> in class A.</p>
+<p>What you need to do is map {A, B, &hellip; } to {A1, B1, &hellip;} and then substitute A1 by A2 in some lookup which occurs later in your features.</p>
+<p>Also, on an unrelated note I suspect that there is an error in your &lsquo;calt&rsquo; code. I think that where you write:</p>
+<p><!-- raw HTML omitted --> ignore sub @All_glyphs @Normal_Caps_End';<!-- raw HTML omitted --></p>
+<p>you actually want the following (assuming you&rsquo;re trying to get the substitution to occur only at the end of a word, i.e. where no glyph <!-- raw HTML omitted --> follows<!-- raw HTML omitted --> the target glyph).</p>
+<p><!-- raw HTML omitted -->ignore sub @Normal_Caps_End' @All_glyphs;<!-- raw HTML omitted --></p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -156,15 +146,12 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If I understand you correctly, A1 and A2 are both swash versions intended for initial use, correct?
-
-If so, then yes, you'd perform the A->A1 substitution in 'calt', and the A1->A2 substitution in 'salt', which would be done <em>after</em> your 'calt' feature.
-
-Also, I'd recommend duplicating your 'salt' feature in 'ss01' since InDesign implements stylistic sets but not 'salt', whereas Illustrator implements 'salt' but not stylistic sets.
-
-Finally, don't name your glyphs A1, A2, etc. Use a suffix; for example A.1, A.2. Otherwise, you'll run into compatibility problems with (e.g.) Acrobat Distiller.
-
-André</div>
+		<div class="commentbody"><p>If I understand you correctly, A1 and A2 are both swash versions intended for initial use, correct?</p>
+<p>If so, then yes, you&rsquo;d perform the A-&gt;A1 substitution in &lsquo;calt&rsquo;, and the A1-&gt;A2 substitution in &lsquo;salt&rsquo;, which would be done <!-- raw HTML omitted -->after<!-- raw HTML omitted --> your &lsquo;calt&rsquo; feature.</p>
+<p>Also, I&rsquo;d recommend duplicating your &lsquo;salt&rsquo; feature in &lsquo;ss01&rsquo; since InDesign implements stylistic sets but not &lsquo;salt&rsquo;, whereas Illustrator implements &lsquo;salt&rsquo; but not stylistic sets.</p>
+<p>Finally, don&rsquo;t name your glyphs A1, A2, etc. Use a suffix; for example A.1, A.2. Otherwise, you&rsquo;ll run into compatibility problems with (e.g.) Acrobat Distiller.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -185,7 +172,7 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It all works now, phew. I was just referring the A1 and A2 names to simplify my post, but a good point there. Thanks Andre, you've been a great help!</div>
+		<div class="commentbody">It all works now, phew. I was just referring the A1 and A2 names to simplify my post, but a good point there. Thanks Andre, you&rsquo;ve been a great help!</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

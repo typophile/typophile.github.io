@@ -71,34 +71,23 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi all
-
-I'm looking for a simple way to generate the Accents glyphs with a Robofab/Python script. From the Robofab documentation it looks like generateGlyph should do the trick.
-
-<code>
-from robofab.world import CurrentFont
-f = CurrentFont()
-glyphs = ['ccaron','amacron','Cacute','Cdotaccent','Abreve','cdotaccent','ccircumflex','Aogonek','abreve','cacute','Ccaron','Amacron','aogonek','Ccircumflex']
-
-for glyph in glyphs:
-	nglyph = f.generateGlyph(glyph)
-	nglyph.autoUnicodes()
-	nglyph.mark = 10
-#
-f.update()
-
-</code>
-
-This works fine for generating the glyphs and adding the base glyphs but doesn't add the accent. Is it possible to add the accent with Robofab so the code would work like - Glyph > Generate Gkyohs in FontLab.
-
-Rr
-
-
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi all</p>
+<p>I&rsquo;m looking for a simple way to generate the Accents glyphs with a Robofab/Python script. From the Robofab documentation it looks like generateGlyph should do the trick.</p>
+<!-- raw HTML omitted -->
+<p>for glyph in glyphs:
+nglyph = f.generateGlyph(glyph)
+nglyph.autoUnicodes()
+nglyph.mark = 10</p>
+<h1 id="heading"></h1>
+<p>f.update()</p>
+<!-- raw HTML omitted -->
+<p>This works fine for generating the glyphs and adding the base glyphs but doesn&rsquo;t add the accent. Is it possible to add the accent with Robofab so the code would work like - Glyph &gt; Generate Gkyohs in FontLab.</p>
+<p>Rr</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Have you had a look at Ben Kiel's 'accentTools'? [[http://www.benkiel.com/typeDesign/]]
+		<div class="commentbody">Have you had a look at Ben Kiel&rsquo;s &lsquo;accentTools&rsquo;? [[http://www.benkiel.com/typeDesign/]]
 It might be of inspiration, or actually what you are looking for.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -141,7 +130,7 @@ It might be of inspiration, or actually what you are looking for.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It sounds like you don't have your accents named correctly. Also, check that you have your anchors named correctly in your base glyphs and in the accents (and remember the accents are supposed to start with an _).</div>
+		<div class="commentbody">It sounds like you don&rsquo;t have your accents named correctly. Also, check that you have your anchors named correctly in your base glyphs and in the accents (and remember the accents are supposed to start with an _).</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -162,36 +151,24 @@ It might be of inspiration, or actually what you are looking for.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi,
-
-You can try with this:
-<code>
-----------------------------------------------------
-from robofab.world import CurrentFont
-from robofab.tools.accentBuilder import AccentTools
-
-font = CurrentFont()
-
-
-accents = ['ccaron','amacron','Cacute','Cdotaccent','Abreve','cdotaccent']
-accentTool = AccentTools(font, accents)
-
-
-accentTool.buildAnchors(ucXOffset=30, ucYOffset=70, lcXOffset=20, lcYOffset=50, doProgress=True)
-
-accentTool.printAnchorErrors()
+		<div class="commentbody"><p>Hi,</p>
+<h2 id="code">You can try with this:
+<!-- raw HTML omitted --></h2>
+<p>from robofab.world import CurrentFont
+from robofab.tools.accentBuilder import AccentTools</p>
+<p>font = CurrentFont()</p>
+<p>accents = [&lsquo;ccaron&rsquo;,&lsquo;amacron&rsquo;,&lsquo;Cacute&rsquo;,&lsquo;Cdotaccent&rsquo;,&lsquo;Abreve&rsquo;,&lsquo;cdotaccent&rsquo;]
+accentTool = AccentTools(font, accents)</p>
+<p>accentTool.buildAnchors(ucXOffset=30, ucYOffset=70, lcXOffset=20, lcYOffset=50, doProgress=True)</p>
+<p>accentTool.printAnchorErrors()
 accentTool.buildAccents(doProgress=True)
 accentTool.printAccentErrors()
-font.autoUnicodes()
-
-#font.update()
-# This glyph update isn't the best way, but it works...
-for glyph in font:
-		glyph.update()
-----------------------------------------------------		
-<code>
-
-
+font.autoUnicodes()</p>
+<p>#font.update()</p>
+<h1 id="this-glyph-update-isnt-the-best-way-but-it-works">This glyph update isn&rsquo;t the best way, but it works&hellip;</h1>
+<h2 id="glyphupdate">for glyph in font:
+glyph.update()</h2>
+<!-- raw HTML omitted -->
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -213,7 +190,7 @@ for glyph in font:
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If you use standard names, you shouldn't even need a script. In the "Generate glyphs" dialog, you can just paste glyph names or link to a text file with the names of the glyphs you want to generate. I'm actually not really sure why people bother to use scripts. There is a FL system file which specifies how base glyphs and accents combine, so you can modify this if you want to use case specific accents.</div>
+		<div class="commentbody">If you use standard names, you shouldn&rsquo;t even need a script. In the &ldquo;Generate glyphs&rdquo; dialog, you can just paste glyph names or link to a text file with the names of the glyphs you want to generate. I&rsquo;m actually not really sure why people bother to use scripts. There is a FL system file which specifies how base glyphs and accents combine, so you can modify this if you want to use case specific accents.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

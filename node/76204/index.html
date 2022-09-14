@@ -71,22 +71,20 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hello there:
-
-As there is nothing like Prepolator for PC....
-I'm thinking of some kind of basic script to help PC users to prepare fonts for "mask to master" interpolation.
-
-Nothing too complex, maybe something simple like this:
-
-For each glyph in the current open font:
- - Count number of points
- - Count number of contours
- - Save list as .txt file, or just output somewhere that can be copied and pasted.
-
-So, we can run the script in 2 fonts, open the list in excel & quickly find the glyphs that needs more tunning to be compatible.
-Can this be done? Where do I star looking for info to code this?
-
-Thanks in advance.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hello there:</p>
+<p>As there is nothing like Prepolator for PC&hellip;.
+I&rsquo;m thinking of some kind of basic script to help PC users to prepare fonts for &ldquo;mask to master&rdquo; interpolation.</p>
+<p>Nothing too complex, maybe something simple like this:</p>
+<p>For each glyph in the current open font:</p>
+<ul>
+<li>Count number of points</li>
+<li>Count number of contours</li>
+<li>Save list as .txt file, or just output somewhere that can be copied and pasted.</li>
+</ul>
+<p>So, we can run the script in 2 fonts, open the list in excel &amp; quickly find the glyphs that needs more tunning to be compatible.
+Can this be done? Where do I star looking for info to code this?</p>
+<p>Thanks in advance.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
@@ -111,17 +109,10 @@ Thanks in advance.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You can use the robofab framework. A robofab glyph has a "isCompatible" method:
-
-<code>
-<strong>isCompatible(self, otherGlyph, report=True):</strong>
-"""Return a bool value if the glyph is compatible with otherGlyph.With report = True, isCompatible will return a report of what's wrong. The interpolate method requires absolute equality between contour data. Absolute equality is preferred among component and anchor data, but it is NOT required. Interpolation between components and anchors will only deal with compatible data and incompatible data will be ignored. This method reflects this system."""
-</code>
-
-... and it works on PC
-
-Eigi
-
+		<div class="commentbody"><p>You can use the robofab framework. A robofab glyph has a &ldquo;isCompatible&rdquo; method:</p>
+<!-- raw HTML omitted -->
+<p>&hellip; and it works on PC</p>
+<p>Eigi</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -143,7 +134,7 @@ Eigi
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Andreas, that's great!</div>
+		<div class="commentbody">Thanks Andreas, that&rsquo;s great!</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -164,38 +155,33 @@ Eigi
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">from robofab.world import CurrentFont,CurrentGlyph
-font = CurrentFont()
+		<div class="commentbody"><p>from robofab.world import CurrentFont,CurrentGlyph
+font = CurrentFont()</p>
+<h1 id="make-a-list-to-collect-your-data">make a list to collect your data</h1>
+<p>stuff = []</p>
+<h1 id="naming-attributes">naming attributes</h1>
+<p>stuff.append(font.info.fullName) 
+stuff.append('&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;')</p>
+<p>for glyph in font:
+stuff.append('    &lsquo;) 
+stuff.append(glyph.name)
+stuff.append(&quot;(glyph has %d contour)&quot; % len(glyph)) 
+stuff.append('&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-')</p>
+<pre><code>for contour in glyph:
 
-# make a list to collect your data
-stuff = []
+	#stuff.append(`contour`)
 
-# naming attributes
-stuff.append(font.info.fullName) 
-stuff.append('---------------------------------------------------------') 
-
-for glyph in font:
-	stuff.append('    ') 
-	stuff.append(glyph.name)
-	stuff.append("(glyph has %d contour)" % len(glyph)) 
-	stuff.append('-------------------------------') 
-	
-	for contour in glyph:
-	
-		#stuff.append(`contour`)
-	
-		stuff.append("  This contour has %d segments" % len(contour.segments)) 
-
-
-# make up a path where you want to save
-# if you run this script in fontlab
-# you need to provide a full path
-
-import os.path
-path = os.path.join( os.path.split(fl.font.file_name)[0] , "segmentos.txt")
-f = open(path, 'w')
-f.write("\r".join(stuff))
-f.close</div>
+	stuff.append(&quot;  This contour has %d segments&quot; % len(contour.segments)) 
+</code></pre>
+<h1 id="make-up-a-path-where-you-want-to-save">make up a path where you want to save</h1>
+<h1 id="if-you-run-this-script-in-fontlab">if you run this script in fontlab</h1>
+<h1 id="you-need-to-provide-a-full-path">you need to provide a full path</h1>
+<p>import os.path
+path = os.path.join( os.path.split(fl.font.file_name)[0] , &ldquo;segmentos.txt&rdquo;)
+f = open(path, &lsquo;w&rsquo;)
+f.write(&quot;\r&quot;.join(stuff))
+f.close</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -216,9 +202,9 @@ f.close</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">IMPORTANTE: cortar y pegar en FL y poner las indentaciones tal como muestra la imagen que adjunto (sino no anda).
-
-[img:sites/default/files/old-images/Screen_3603.jpg]</div>
+		<div class="commentbody"><p>IMPORTANTE: cortar y pegar en FL y poner las indentaciones tal como muestra la imagen que adjunto (sino no anda).</p>
+<p>[img:sites/default/files/old-images/Screen_3603.jpg]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -71,27 +71,23 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I have 2 fonts that work together overlapped. One with letters and no dots, other with dots.
-I have a problem I can't solve.
+  <div class="post-content e-content" itemprop="articleBody"><p>I have 2 fonts that work together overlapped. One with letters and no dots, other with dots.
+I have a problem I can&rsquo;t solve.
 Only when I use a text box, the dots font is not matching, the linebase is different.
 This happen in Photoshop and Illustrator. Works ok on InDesign.
-I have the same metric values in both fonts, also the TrueType specific ones. I tried in OTF and TTf, nothing works.
-
-Now is the weirdest thing I ever seen.
-If I draw a box with the caps height in the letter «d» the font will match the line spacing. Only happen with «d» glyph. The dot font have only dots and little square inside the caps height and baseline space.
-
-I also tried filling all the character set with my letters. It works always, excepting when i put the centered dot in «d» glyph.
-
-Does anybody knows the origin of this problem and how to solve it?
-
-PD: The strange thing with the «d» makes me think I'm completely crazy.
+I have the same metric values in both fonts, also the TrueType specific ones. I tried in OTF and TTf, nothing works.</p>
+<p>Now is the weirdest thing I ever seen.
+If I draw a box with the caps height in the letter «d» the font will match the line spacing. Only happen with «d» glyph. The dot font have only dots and little square inside the caps height and baseline space.</p>
+<p>I also tried filling all the character set with my letters. It works always, excepting when i put the centered dot in «d» glyph.</p>
+<p>Does anybody knows the origin of this problem and how to solve it?</p>
+<p>PD: The strange thing with the «d» makes me think I&rsquo;m completely crazy.</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>I have the same metric values in both fonts, also the TrueType specific ones.</em>
-
-Is the bbox the same for both fonts?</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->I have the same metric values in both fonts, also the TrueType specific ones.<!-- raw HTML omitted --></p>
+<p>Is the bbox the same for both fonts?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -112,12 +108,13 @@ Is the bbox the same for both fonts?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">No.
-
-1. (0, -126) - (1162,699)
-2. (212,0) - (790,698)
-
-I don't understand how BBox works and how can I equal this.</div>
+		<div class="commentbody"><p>No.</p>
+<ol>
+<li>(0, -126) - (1162,699)</li>
+<li>(212,0) - (790,698)</li>
+</ol>
+<p>I don&rsquo;t understand how BBox works and how can I equal this.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -140,7 +137,7 @@ I don't understand how BBox works and how can I equal this.</div>
 	<div class="card-body">
 		<div class="commentbody">I did a bullet character with a rectangle that goes from descender to ascender.
 Now Bbox is the same in every font.
-And it still doesn't work. (Unless i do it with letter «d» :)</div>
+And it still doesn&rsquo;t work. (Unless i do it with letter «d» :)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -161,9 +158,9 @@ And it still doesn't work. (Unless i do it with letter «d» :)</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Sounds like the problem, which I had partly solved a while ago: http://typophile.com/node/59648
-
-(You are right with the “d”.)</div>
+		<div class="commentbody"><p>Sounds like the problem, which I had partly solved a while ago: <a href="http://typophile.com/node/59648">http://typophile.com/node/59648</a></p>
+<p>(You are right with the “d”.)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -187,7 +184,7 @@ And it still doesn't work. (Unless i do it with letter «d» :)</div>
 		<div class="commentbody">Thanks Arno!
 Excelent! I was right. It is completely insane.
 I already did that «dirty» solution: Put a little square a the top and it worked.
-I have to see what is the minimum thing I can put there. I tried a dot but it didn't work. Maybe a line or a 2x2 square?
+I have to see what is the minimum thing I can put there. I tried a dot but it didn&rsquo;t work. Maybe a line or a 2x2 square?
 Thanks for this info.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -209,25 +206,31 @@ Thanks for this info.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>Maybe a line or a 2x2 square?</cite>
-
-The smallest possible closed (!) contour consists of three overlaying (!) nodes. But even that is displayed in Photoshop as from a font size of round about 110 pixel.
-
-You have the following alternatives:
-
-1. You ignore the problem, because it is not a bug in your font, and provide a warning information in the manual of the font.
-
-2. You provide an OpenType layout feature, which replaces the d by a d without aligner and which is applied by default. Disadvantage: That does not work in all programs.
-
-3.  I did not try it and cannot exclude negative side effects / error in reasoning: The d of the font without aligner (font A) may hide the aligner of the other font (B), if the aligner is exactly placed with the coordinates of the highest point of the d of A in B. In this case you had to provide an info in the manual, that the user has to use A above B.
-
-Edited: Does not work in case of your two fonts, because the font with the dots is intended to overlay the font without dots.
-
-4. I did not try it and cannot exclude negative side effects / error in reasoning: You place the aligner horizontally very far away from the outline of the d (left side) and give the d a corresponding negative left side bearing. This would require short lines, because the bbox (or character) width cannot be bigger as a certain size (4000 units?), which I actually don’t remember.
-
-5. You provide a third font, that covers the aligner. That font is always on the top of the other two text layers and the text color must be the same as the color of the bottom text layer. That font could (and should!) only contain the aligner and space characters (same width and kerning as in the other two fonts), because otherwise the anti-aliasing would be doubled or you have a problem with half transparent layers. And you had to add an information to the manual of the font.
-
-But note, that users often don’t read manuals. I think, I would go with alternative 1.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Maybe a line or a 2x2 square?<!-- raw HTML omitted --></p>
+<p>The smallest possible closed (!) contour consists of three overlaying (!) nodes. But even that is displayed in Photoshop as from a font size of round about 110 pixel.</p>
+<p>You have the following alternatives:</p>
+<ol>
+<li>
+<p>You ignore the problem, because it is not a bug in your font, and provide a warning information in the manual of the font.</p>
+</li>
+<li>
+<p>You provide an OpenType layout feature, which replaces the d by a d without aligner and which is applied by default. Disadvantage: That does not work in all programs.</p>
+</li>
+<li>
+<p>I did not try it and cannot exclude negative side effects / error in reasoning: The d of the font without aligner (font A) may hide the aligner of the other font (B), if the aligner is exactly placed with the coordinates of the highest point of the d of A in B. In this case you had to provide an info in the manual, that the user has to use A above B.</p>
+</li>
+</ol>
+<p>Edited: Does not work in case of your two fonts, because the font with the dots is intended to overlay the font without dots.</p>
+<ol start="4">
+<li>
+<p>I did not try it and cannot exclude negative side effects / error in reasoning: You place the aligner horizontally very far away from the outline of the d (left side) and give the d a corresponding negative left side bearing. This would require short lines, because the bbox (or character) width cannot be bigger as a certain size (4000 units?), which I actually don’t remember.</p>
+</li>
+<li>
+<p>You provide a third font, that covers the aligner. That font is always on the top of the other two text layers and the text color must be the same as the color of the bottom text layer. That font could (and should!) only contain the aligner and space characters (same width and kerning as in the other two fonts), because otherwise the anti-aliasing would be doubled or you have a problem with half transparent layers. And you had to add an information to the manual of the font.</p>
+</li>
+</ol>
+<p>But note, that users often don’t read manuals. I think, I would go with alternative 1.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

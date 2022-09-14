@@ -71,29 +71,20 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">The font I'm working on, I wanted to have an alternative "i", so I used the salt feature. I have two classes, "i" and "salt", containg the glyphs to change.
-
-<code>
-feature salt {
-  sub @i by @salt ;
-} salt;
-</code>
-
-First of all, is this the correct way to go ? 
-
-Everything works great within Fontlab in the opentype window, but how do I get it to work in Adobe Indesign or other applications. The opentype menu doesn't seem to have any options to use the alternative glyphs.
-
- [img:sites/default/files/old-images/Picture1_4659.jpg]</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>The font I&rsquo;m working on, I wanted to have an alternative &ldquo;i&rdquo;, so I used the salt feature. I have two classes, &ldquo;i&rdquo; and &ldquo;salt&rdquo;, containg the glyphs to change.</p>
+<!-- raw HTML omitted -->
+<p>First of all, is this the correct way to go ?</p>
+<p>Everything works great within Fontlab in the opentype window, but how do I get it to work in Adobe Indesign or other applications. The opentype menu doesn&rsquo;t seem to have any options to use the alternative glyphs.</p>
+<p>[img:sites/default/files/old-images/Picture1_4659.jpg]</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Rachel, you should avoid the salt feature, which is not a plain 1:1 GSUB lookup. As salt is explained on the Adobe OT Resources page:
-
-The salt table maps GIDs for default forms to one or more GIDs for corresponding stylistic alternatives. While many of these substitutions are one-to-one (GSUB lookup type 1), others require a selection from a set (GSUB lookup type 3). The manufacturer may choose to build two tables (one for each lookup type) or only one which uses lookup type 3 for all substitutions. 
-
-What you're working with is a GSUB lookup type 1, but of a non-standard kind. In other words, it's not a calt, hist, titl, or swsh. In order for your feature to work in less-OpenType-knowledgeable apps, such as InDesign CS1 you are using, you should use one of the available features, such as titl, and duplicate your feature as a Stylistic Set: SS01. SSes are accessible by InDesign CS2 and Apple's TextEdit, but not Illustrator CS2 for example.
-
-So, watch out for salt. Until the implementation of the lookup type 3 is sorted out, stay away from it.</div>
+		<div class="commentbody"><p>Rachel, you should avoid the salt feature, which is not a plain 1:1 GSUB lookup. As salt is explained on the Adobe OT Resources page:</p>
+<p>The salt table maps GIDs for default forms to one or more GIDs for corresponding stylistic alternatives. While many of these substitutions are one-to-one (GSUB lookup type 1), others require a selection from a set (GSUB lookup type 3). The manufacturer may choose to build two tables (one for each lookup type) or only one which uses lookup type 3 for all substitutions.</p>
+<p>What you&rsquo;re working with is a GSUB lookup type 1, but of a non-standard kind. In other words, it&rsquo;s not a calt, hist, titl, or swsh. In order for your feature to work in less-OpenType-knowledgeable apps, such as InDesign CS1 you are using, you should use one of the available features, such as titl, and duplicate your feature as a Stylistic Set: SS01. SSes are accessible by InDesign CS2 and Apple&rsquo;s TextEdit, but not Illustrator CS2 for example.</p>
+<p>So, watch out for salt. Until the implementation of the lookup type 3 is sorted out, stay away from it.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -114,11 +105,10 @@ So, watch out for salt. Until the implementation of the lookup type 3 is sorted 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Village, 
-
-Thanks for the advise, so is it possible to do what I'm trying to do  - have alternative glyphs. If it is whats, the best way to go about it.
-
-I'm new to opentype, so if someone could explain this process that would be great.</div>
+		<div class="commentbody"><p>Village,</p>
+<p>Thanks for the advise, so is it possible to do what I&rsquo;m trying to do  - have alternative glyphs. If it is whats, the best way to go about it.</p>
+<p>I&rsquo;m new to opentype, so if someone could explain this process that would be great.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -139,7 +129,7 @@ I'm new to opentype, so if someone could explain this process that would be grea
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don't know if this is apples to apples but I recently finished a job with Apex New and used the search and replace to sub in the alternate "a" "g" and "y".</div>
+		<div class="commentbody">I don&rsquo;t know if this is apples to apples but I recently finished a job with Apex New and used the search and replace to sub in the alternate &ldquo;a&rdquo; &ldquo;g&rdquo; and &ldquo;y&rdquo;.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -160,28 +150,22 @@ I'm new to opentype, so if someone could explain this process that would be grea
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Rachel, what you're doing is fine, but you should choose a different feature; one which is supported by all of the applications you want to use the font in.
-
-I screengrabbed all of the OT interfaces from the CS2 apps. You can view them here:
-http://vllg.com/files/cs2/
-
-I would nominate Titling Alternates in your case.
-
-feature titl { # Titling Alternates
-# Latin
-sub i by i.alt;
-} titl;
-
-And use a stylistic set too:
-
-feature ss01 { # Alternate lowercase i
-# Latin
-sub i by i.alt;
-} ss01;
-
-I believe that you need to have a GPOS feature - kern, for example - in the compiled OT file in order for the GSUBs to work.
-
-Good luck.</div>
+		<div class="commentbody"><p>Rachel, what you&rsquo;re doing is fine, but you should choose a different feature; one which is supported by all of the applications you want to use the font in.</p>
+<p>I screengrabbed all of the OT interfaces from the CS2 apps. You can view them here:
+<a href="http://vllg.com/files/cs2/">http://vllg.com/files/cs2/</a></p>
+<p>I would nominate Titling Alternates in your case.</p>
+<p>feature titl { # Titling Alternates</p>
+<h1 id="latin">Latin</h1>
+<p>sub i by i.alt;
+} titl;</p>
+<p>And use a stylistic set too:</p>
+<p>feature ss01 { # Alternate lowercase i</p>
+<h1 id="latin-1">Latin</h1>
+<p>sub i by i.alt;
+} ss01;</p>
+<p>I believe that you need to have a GPOS feature - kern, for example - in the compiled OT file in order for the GSUBs to work.</p>
+<p>Good luck.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -223,7 +207,7 @@ Good luck.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I second chester's advice.
+		<div class="commentbody">I second chester&rsquo;s advice.
 I put the alternate set in all three of salt, titl, and ss01, that way it is accessible in as many past and present versions of different software.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -245,9 +229,9 @@ I put the alternate set in all three of salt, titl, and ss01, that way it is acc
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I'm stuck in the digital mud of CS1. I'd have to get a new wide format printer if I jumped forward at this point. Believe me I searched for a way to pick up the alternates automatically.
-
-Anyway, the internal museum design staff didn't feel it was worth keeping this stylistic convention that was set in the catalogue, so only my wall texts had the alternates. Chester?—I think those three alt characters really change the feel of the face—nice work.</div>
+		<div class="commentbody"><p>I&rsquo;m stuck in the digital mud of CS1. I&rsquo;d have to get a new wide format printer if I jumped forward at this point. Believe me I searched for a way to pick up the alternates automatically.</p>
+<p>Anyway, the internal museum design staff didn&rsquo;t feel it was worth keeping this stylistic convention that was set in the catalogue, so only my wall texts had the alternates. Chester?—I think those three alt characters really change the feel of the face—nice work.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -268,11 +252,10 @@ Anyway, the internal museum design staff didn't feel it was worth keeping this s
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Once again Typophile comes through with the answers, thanks everyone.
-
-Nick when you say you put the alternate set in all three of salt, titl, and ss01. Do you mean choose one of salt, titl or ssO1, or use them all.
-
-Thanks again everyone.</div>
+		<div class="commentbody"><p>Once again Typophile comes through with the answers, thanks everyone.</p>
+<p>Nick when you say you put the alternate set in all three of salt, titl, and ss01. Do you mean choose one of salt, titl or ssO1, or use them all.</p>
+<p>Thanks again everyone.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -293,7 +276,7 @@ Thanks again everyone.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Based on <a href="http://www.typotheque.com/fonts/opentype_feature_support/">http://www.typotheque.com/fonts/opentype_feature_support/</a> I'd guess all three. InDesign CS2 does ss01 but not salt, Illustrator and Quark 7 do salt but not ss01, older InDesign versions do titl but neither ss01 nor salt, and Photoshop does salt and ss01 but not titl. So if you do all three, it can be accessed in all these programs.</div>
+		<div class="commentbody">Based on <!-- raw HTML omitted --><a href="http://www.typotheque.com/fonts/opentype_feature_support/">http://www.typotheque.com/fonts/opentype_feature_support/</a><!-- raw HTML omitted --> I&rsquo;d guess all three. InDesign CS2 does ss01 but not salt, Illustrator and Quark 7 do salt but not ss01, older InDesign versions do titl but neither ss01 nor salt, and Photoshop does salt and ss01 but not titl. So if you do all three, it can be accessed in all these programs.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -314,24 +297,21 @@ Thanks again everyone.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">So I would do :
-
-feature titl { 
-# Latin
-sub i by i.alt;
-} titl;
-
-feature salt { 
-# Latin
-sub i by i.alt;
-} salt;
-
-feature ss01 { 
-# Latin
-sub i by i.alt;
-} ss01;
-
-will different features doing the same thing cause any problems ? </div>
+		<div class="commentbody"><p>So I would do :</p>
+<p>feature titl {</p>
+<h1 id="latin">Latin</h1>
+<p>sub i by i.alt;
+} titl;</p>
+<p>feature salt {</p>
+<h1 id="latin-1">Latin</h1>
+<p>sub i by i.alt;
+} salt;</p>
+<p>feature ss01 {</p>
+<h1 id="latin-2">Latin</h1>
+<p>sub i by i.alt;
+} ss01;</p>
+<p>will different features doing the same thing cause any problems ?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -352,9 +332,9 @@ will different features doing the same thing cause any problems ? </div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I haven't tried it with all three, but in <a href="http://typophile.com/node/17887">this thread</a> Adam Twardoch gives an example with three features doing the same thing, so I would expect that it works.
-
-And I made a mistake earlier: Photoshop does salt but not ss01.</div>
+		<div class="commentbody"><p>I haven&rsquo;t tried it with all three, but in <!-- raw HTML omitted -->this thread<!-- raw HTML omitted --> Adam Twardoch gives an example with three features doing the same thing, so I would expect that it works.</p>
+<p>And I made a mistake earlier: Photoshop does salt but not ss01.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -375,7 +355,7 @@ And I made a mistake earlier: Photoshop does salt but not ss01.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The font will work with all three features. (If you wanted to, you could make your i -> i.alt substitution the smcp or onum feature.)</div>
+		<div class="commentbody">The font will work with all three features. (If you wanted to, you could make your i -&gt; i.alt substitution the smcp or onum feature.)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -396,17 +376,13 @@ And I made a mistake earlier: Photoshop does salt but not ss01.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I know this conversation is as old as the (OpenType) hills, but what everyone is advocating is not ideal, from my perspective.
-
-Many OpenType features are really the same -- they substitute one glyph for another, in the case of 'titl' or 'smcp' or 'sups'. The reason there are different features is that the feature itself conveys information about the substitutions it comprises. If you put an alternate in 'titl' that is not a titling alternate, then you are telling an application "this font has one or more titling alternates" when it actually doesn't.
-
-It's tempting to look at the features that are supported in popular applications and comandeer them in order to make alternates more easily acccessible, but I personally believe it's bad practice. I understand the arguments in favor of it, but I don't necessarily agree with them.
-
-My opinion is that your alternate i belongs in 'salt'. If it truly is a titling alternate, then of course it's appropriate to put it in 'titl'. Whether it correctly belongs in a stylistic set ('ss**' feature) is even murkier; I personally think that stylistic sets should be reserved for multiple glyphs which are intended to be substituted together, not single alternates.
-
-Of course in InDesign, alternates from 'salt' are available through the glyph palette.
-
-In the long run, I think it's better to keep glyphs in appropriate features, because we all hope that one day soon that OpenType feature UI will improve, and when that day comes, font users will find that their fonts behave consistently and predictably.</div>
+		<div class="commentbody"><p>I know this conversation is as old as the (OpenType) hills, but what everyone is advocating is not ideal, from my perspective.</p>
+<p>Many OpenType features are really the same &ndash; they substitute one glyph for another, in the case of &lsquo;titl&rsquo; or &lsquo;smcp&rsquo; or &lsquo;sups&rsquo;. The reason there are different features is that the feature itself conveys information about the substitutions it comprises. If you put an alternate in &lsquo;titl&rsquo; that is not a titling alternate, then you are telling an application &ldquo;this font has one or more titling alternates&rdquo; when it actually doesn&rsquo;t.</p>
+<p>It&rsquo;s tempting to look at the features that are supported in popular applications and comandeer them in order to make alternates more easily acccessible, but I personally believe it&rsquo;s bad practice. I understand the arguments in favor of it, but I don&rsquo;t necessarily agree with them.</p>
+<p>My opinion is that your alternate i belongs in &lsquo;salt&rsquo;. If it truly is a titling alternate, then of course it&rsquo;s appropriate to put it in &lsquo;titl&rsquo;. Whether it correctly belongs in a stylistic set (&lsquo;ss**&rsquo; feature) is even murkier; I personally think that stylistic sets should be reserved for multiple glyphs which are intended to be substituted together, not single alternates.</p>
+<p>Of course in InDesign, alternates from &lsquo;salt&rsquo; are available through the glyph palette.</p>
+<p>In the long run, I think it&rsquo;s better to keep glyphs in appropriate features, because we all hope that one day soon that OpenType feature UI will improve, and when that day comes, font users will find that their fonts behave consistently and predictably.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -427,13 +403,11 @@ In the long run, I think it's better to keep glyphs in appropriate features, bec
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The fact that InDesign allows stylistic sets to be specified in a style sheet <strong>and</strong> that it allows more than one stylistic set to be applied on the same text makes for a powerful combination and implies that they were meant for more than the limited way you describe (presumably the way in which they were intended to be used).
-
-salt severely limits the usefulness of alternate since they can't be specified in style sheets. Using the Glyph palette to select alternate characters is probably okay for display fonts, but impractical for text. 
-
-Imagine using the Glyph palette to substitute every lowercase "a" with an alternate form in a 300-page book. If it's included as a single character stylistic set instance, you can change the style sheet and every "a" in the book will use the alternate form. And who is to say that a single alternate character could not be considered a valid stylistic set? Why must it be "multiple glyphs"? Especially since we have up to twenty sets to utilize?
-
-I realize that what I'm describing could be considered a hack. But this is such an incredibly useful and powerful thing that I very much hope that InDesign's implementation of stylistic sets becomes the norm.</div>
+		<div class="commentbody"><p>The fact that InDesign allows stylistic sets to be specified in a style sheet <!-- raw HTML omitted -->and<!-- raw HTML omitted --> that it allows more than one stylistic set to be applied on the same text makes for a powerful combination and implies that they were meant for more than the limited way you describe (presumably the way in which they were intended to be used).</p>
+<p>salt severely limits the usefulness of alternate since they can&rsquo;t be specified in style sheets. Using the Glyph palette to select alternate characters is probably okay for display fonts, but impractical for text.</p>
+<p>Imagine using the Glyph palette to substitute every lowercase &ldquo;a&rdquo; with an alternate form in a 300-page book. If it&rsquo;s included as a single character stylistic set instance, you can change the style sheet and every &ldquo;a&rdquo; in the book will use the alternate form. And who is to say that a single alternate character could not be considered a valid stylistic set? Why must it be &ldquo;multiple glyphs&rdquo;? Especially since we have up to twenty sets to utilize?</p>
+<p>I realize that what I&rsquo;m describing could be considered a hack. But this is such an incredibly useful and powerful thing that I very much hope that InDesign&rsquo;s implementation of stylistic sets becomes the norm.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -454,15 +428,12 @@ I realize that what I'm describing could be considered a hack. But this is such 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Mark, we're really talking about two different things. First, what is an OpenType layout feature intended to do? And second, how successfully is a feature supported in an application?
-
-I can't argue with your observations about feature UI. It is very helpful to be able to specify features in a style sheet, and the fact that one cannot do that with 'salt' is a problem. The real solution, though, is for applications to improve their feature support and UI. 'salt' is a valid and useful feature, and we need applications to handle it better.
-
-(By the way, in case anyone doubts it: Application users have the most influence over its features. I urge all users to write to application developers and describe UI problems and make suggestions. The more they hear about something, the more likely it is to be addressed. The fact that one cannot easily apply a single 'salt' substitution across an entire document, for example, is something to complain about.)
-
-Stylistic sets are a tricky business. My recollection is that the feature was conceived as an adjunct to 'salt', as a way to say, "These glyphs are, collectively, a single stylistic alternate and should be used together, not individually." Given that, a stylistic set with one glyph should simply be in 'salt'. I don't know that it's some horrible sin to put a single glyph in a stylistic set, but I'd describe it as inappropriate -- something akin to putting a regular, non-contextual ligature in 'clig' instead of 'liga'. The best argument I can make against single-glyph stylistic sets is that they are not "stylistic sets", they are "stylistic alternates".
-
-Really though, I understand the real-world situation is less than ideal, and I am sympathetic. I just didn't want the opposing view to go unmentioned, as I think it's worth keeping in mind.</div>
+		<div class="commentbody"><p>Mark, we&rsquo;re really talking about two different things. First, what is an OpenType layout feature intended to do? And second, how successfully is a feature supported in an application?</p>
+<p>I can&rsquo;t argue with your observations about feature UI. It is very helpful to be able to specify features in a style sheet, and the fact that one cannot do that with &lsquo;salt&rsquo; is a problem. The real solution, though, is for applications to improve their feature support and UI. &lsquo;salt&rsquo; is a valid and useful feature, and we need applications to handle it better.</p>
+<p>(By the way, in case anyone doubts it: Application users have the most influence over its features. I urge all users to write to application developers and describe UI problems and make suggestions. The more they hear about something, the more likely it is to be addressed. The fact that one cannot easily apply a single &lsquo;salt&rsquo; substitution across an entire document, for example, is something to complain about.)</p>
+<p>Stylistic sets are a tricky business. My recollection is that the feature was conceived as an adjunct to &lsquo;salt&rsquo;, as a way to say, &ldquo;These glyphs are, collectively, a single stylistic alternate and should be used together, not individually.&rdquo; Given that, a stylistic set with one glyph should simply be in &lsquo;salt&rsquo;. I don&rsquo;t know that it&rsquo;s some horrible sin to put a single glyph in a stylistic set, but I&rsquo;d describe it as inappropriate &ndash; something akin to putting a regular, non-contextual ligature in &lsquo;clig&rsquo; instead of &lsquo;liga&rsquo;. The best argument I can make against single-glyph stylistic sets is that they are not &ldquo;stylistic sets&rdquo;, they are &ldquo;stylistic alternates&rdquo;.</p>
+<p>Really though, I understand the real-world situation is less than ideal, and I am sympathetic. I just didn&rsquo;t want the opposing view to go unmentioned, as I think it&rsquo;s worth keeping in mind.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -504,9 +475,9 @@ Really though, I understand the real-world situation is less than ideal, and I a
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Through my inexperience with opentype I believed that the Stylistic Alternatives could be used in the same way as Lining and Old style figures, with a simple click changing all glyphs to the alternative - but thats obviously not the case at the moment.
-
-If I was to implement the Stylistic Alternatives using the features stated, how would I use them in Indesign. Style sheets have been mentioned, but how would I use them ?</div>
+		<div class="commentbody"><p>Through my inexperience with opentype I believed that the Stylistic Alternatives could be used in the same way as Lining and Old style figures, with a simple click changing all glyphs to the alternative - but thats obviously not the case at the moment.</p>
+<p>If I was to implement the Stylistic Alternatives using the features stated, how would I use them in Indesign. Style sheets have been mentioned, but how would I use them ?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -548,15 +519,12 @@ If I was to implement the Stylistic Alternatives using the features stated, how 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>It’s tempting to look at the features that are supported in popular applications and comandeer them in order to make alternates more easily acccessible, but I personally believe it’s bad practice. I understand the arguments in favor of it, but I don’t necessarily agree with them.</cite>
-
-I understand the sentiment, but don't agree at all. You only have to go back to the Type 1 days & the Windows & Mac operating systems to see the problems with this kind of thinking. To use double-f ligatures, you had to lie about the name, whether you put them in a separate font, like Monotype, or the same font, like some FontFont fonts.   So, better not to use them?
-
-Of course, if you weren't stuck with those kludge programs Quark and PageMaker, or with Windows or Mac OS, you could do as you chose. We ran TeX out of a DOS box, so could write a legitimate encoding vector to include whatever glyphs we wanted. Features for fonts aren't new -- a little thing most people don't know was that you could put ligaturing instructions in an AFM file, and if your typesetting program made use of it (the AFM), you would get automatic ligaturing -- fj gg, zy, ggy, no problem.
-
-The point is that end users, so often ignored, turn the tables when it is time to get work done -- we have to ignore your whims, while thanking you for the basic tools.
-
-And by the way, how did anyone ever get the idea that "set" implied more than one member?</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->It’s tempting to look at the features that are supported in popular applications and comandeer them in order to make alternates more easily acccessible, but I personally believe it’s bad practice. I understand the arguments in favor of it, but I don’t necessarily agree with them.<!-- raw HTML omitted --></p>
+<p>I understand the sentiment, but don&rsquo;t agree at all. You only have to go back to the Type 1 days &amp; the Windows &amp; Mac operating systems to see the problems with this kind of thinking. To use double-f ligatures, you had to lie about the name, whether you put them in a separate font, like Monotype, or the same font, like some FontFont fonts.   So, better not to use them?</p>
+<p>Of course, if you weren&rsquo;t stuck with those kludge programs Quark and PageMaker, or with Windows or Mac OS, you could do as you chose. We ran TeX out of a DOS box, so could write a legitimate encoding vector to include whatever glyphs we wanted. Features for fonts aren&rsquo;t new &ndash; a little thing most people don&rsquo;t know was that you could put ligaturing instructions in an AFM file, and if your typesetting program made use of it (the AFM), you would get automatic ligaturing &ndash; fj gg, zy, ggy, no problem.</p>
+<p>The point is that end users, so often ignored, turn the tables when it is time to get work done &ndash; we have to ignore your whims, while thanking you for the basic tools.</p>
+<p>And by the way, how did anyone ever get the idea that &ldquo;set&rdquo; implied more than one member?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -577,11 +545,10 @@ And by the way, how did anyone ever get the idea that "set" implied more than on
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">charles_e,
-
-I'm slightly confused, are you saying not to include alternative glyphs.
-
-I've actually got it all working now using .titl and sso1 features, which works across platforms on all Abode applications. The alternative "i" I wanted to include isn't vital to the font, but more of an extra I wanted to add. </div>
+		<div class="commentbody"><p>charles_e,</p>
+<p>I&rsquo;m slightly confused, are you saying not to include alternative glyphs.</p>
+<p>I&rsquo;ve actually got it all working now using .titl and sso1 features, which works across platforms on all Abode applications. The alternative &ldquo;i&rdquo; I wanted to include isn&rsquo;t vital to the font, but more of an extra I wanted to add.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -602,12 +569,11 @@ I've actually got it all working now using .titl and sso1 features, which works 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">No, what I'm saying is that as long as there are different applications programs which support different features, the helpful type designer will make their *font features* available so those varying programs can use them. Fonts usually aren't an end in themselves; someone must be able to use them to do work. To the extent possible, don't go flat-out against the intended purpose of a feature, but there is ample history for even this, with good reason, looking back no further than the Type 1 format.   
-
-I'm looking more & more with favor on the people like Nick Shinn (& others), who said
-
-<cite>I second chester’s advice.
-I put the alternate set in all three of salt, titl, and ss01, that way it is accessible in as many past and present versions of different software.</cite></div>
+		<div class="commentbody"><p>No, what I&rsquo;m saying is that as long as there are different applications programs which support different features, the helpful type designer will make their <em>font features</em> available so those varying programs can use them. Fonts usually aren&rsquo;t an end in themselves; someone must be able to use them to do work. To the extent possible, don&rsquo;t go flat-out against the intended purpose of a feature, but there is ample history for even this, with good reason, looking back no further than the Type 1 format.</p>
+<p>I&rsquo;m looking more &amp; more with favor on the people like Nick Shinn (&amp; others), who said</p>
+<p><!-- raw HTML omitted -->I second chester’s advice.
+I put the alternate set in all three of salt, titl, and ss01, that way it is accessible in as many past and present versions of different software.<!-- raw HTML omitted --></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -628,11 +594,10 @@ I put the alternate set in all three of salt, titl, and ss01, that way it is acc
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Chris, what of those who have not upgraded from CS1? As an employee of Adobe, you must know how many there are. I don't, but I'm assuming there are a significant number.
-
-Those are the people who must rely on "Titling" to access the alternates features in InDesign etc.
-
-In principle, I think it's better to maximize accessibility now and facilitate the longevity of existing products, rather than optimize for programmed obscelescence and a hypothetical future.</div>
+		<div class="commentbody"><p>Chris, what of those who have not upgraded from CS1? As an employee of Adobe, you must know how many there are. I don&rsquo;t, but I&rsquo;m assuming there are a significant number.</p>
+<p>Those are the people who must rely on &ldquo;Titling&rdquo; to access the alternates features in InDesign etc.</p>
+<p>In principle, I think it&rsquo;s better to maximize accessibility now and facilitate the longevity of existing products, rather than optimize for programmed obscelescence and a hypothetical future.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -653,9 +618,9 @@ In principle, I think it's better to maximize accessibility now and facilitate t
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Perhaps Christopher might hint about CS3's opentype features? Might he say they are at least better than they are in CS2?
-
-ChrisL</div>
+		<div class="commentbody"><p>Perhaps Christopher might hint about CS3&rsquo;s opentype features? Might he say they are at least better than they are in CS2?</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -676,21 +641,15 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Maybe I'm just grouchy today or something, I dunno.
-
-Predictably enough, I'm with Christopher on this one. I'll also go so far as to add that if you hijack features for your own purposes, you are making a font that can reasonably be called a hack, or even buggy.
-
-On the other hand, perhaps I should be more appreciative; if other folks make sub-standard OpenType fonts, more people will want to buy ours instead. I just hope it doesn't damage OpenType's reputation.
-
-This discussion reminds me of a popular OpenType script font that uses the 'calt' feature for non-contextual substitutions of ending forms. Since 'calt' is on by default, this means that typing with this font in common applications such as InDesign yields ending forms in the middle of words... sigh.
-
-Charles: the reason that some people think stylistic sets should affect more than one glyph is not because they don't know the definition of "set" but because the OpenType feature registry says so.
-
-<cite>Function: In addition to, or instead of, stylistic alternatives of individual glyphs (see 'salt' feature), some fonts may contain sets of stylistic variant glyphs corresponding to portions of the character set, e.g. multiple variants for lowercase letters in a Latin font. Glyphs in stylistic sets may be designed to harmonise visually, interract in particular ways, or otherwise work together.</cite>
-
-Cheers,
-
-T</div>
+		<div class="commentbody"><p>Maybe I&rsquo;m just grouchy today or something, I dunno.</p>
+<p>Predictably enough, I&rsquo;m with Christopher on this one. I&rsquo;ll also go so far as to add that if you hijack features for your own purposes, you are making a font that can reasonably be called a hack, or even buggy.</p>
+<p>On the other hand, perhaps I should be more appreciative; if other folks make sub-standard OpenType fonts, more people will want to buy ours instead. I just hope it doesn&rsquo;t damage OpenType&rsquo;s reputation.</p>
+<p>This discussion reminds me of a popular OpenType script font that uses the &lsquo;calt&rsquo; feature for non-contextual substitutions of ending forms. Since &lsquo;calt&rsquo; is on by default, this means that typing with this font in common applications such as InDesign yields ending forms in the middle of words&hellip; sigh.</p>
+<p>Charles: the reason that some people think stylistic sets should affect more than one glyph is not because they don&rsquo;t know the definition of &ldquo;set&rdquo; but because the OpenType feature registry says so.</p>
+<p><!-- raw HTML omitted -->Function: In addition to, or instead of, stylistic alternatives of individual glyphs (see &lsquo;salt&rsquo; feature), some fonts may contain sets of stylistic variant glyphs corresponding to portions of the character set, e.g. multiple variants for lowercase letters in a Latin font. Glyphs in stylistic sets may be designed to harmonise visually, interract in particular ways, or otherwise work together.<!-- raw HTML omitted --></p>
+<p>Cheers,</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -711,21 +670,15 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>To use double-f ligatures, you had to lie about the name, whether you put them in a separate font, like Monotype, or the same font, like some FontFont fonts. So, better not to use them?</cite>
-
-Well, I wouldn't say that it's "better not to use them". The glyphs are in the font and are usable. We agree that the current UI is not very good for stylistic alternates, and using them is a hassle in some cases. (On the other hand, if one is only using an occasional alternate, the current UI in InDesign is quite adequate.)
-
-But the old Type 1 method which you are describing reinforces my belief that it's better to resist nonintuitive workarounds (which is how I would describe typing cap-Y to get 'ffi'). The appeal of keeping glyphs in appropriate OpenType layout features is an idealistic one for me. If I enter <code>characters + 'titl'</code> into my document, I've just specified a description which is independent of font and application.
-
-I want to see all applications implement a wide range of layout features, which I am optimistic about -- but when that happens, it will not be so pleasant if all the fonts out there have been built with inconsistent layout features. Imagine how crazy things would be if applying 'bold' to a font produced italics or titling alternates. I don't think layout features are so different from these more entrenched styling choices, and in a world where styling and content are becoming more distinct all the time (HTML, CSS, etc.), it is only becoming more important to ensure that style tags produce the expected visual result.
-
-<cite>And by the way, how did anyone ever get the idea that “set” implied more than one member?</cite>
-
-The same way I learned what lots of other words mean, I guess. (Reading? School?) My Webster's dictionary says:
-
-<cite>a number of things of the same kind that belong or are used together</cite>
-
-My real point with that was that, the way I see it, 'ss**' was meant to be the multiple-glyph version of 'salt'.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->To use double-f ligatures, you had to lie about the name, whether you put them in a separate font, like Monotype, or the same font, like some FontFont fonts. So, better not to use them?<!-- raw HTML omitted --></p>
+<p>Well, I wouldn&rsquo;t say that it&rsquo;s &ldquo;better not to use them&rdquo;. The glyphs are in the font and are usable. We agree that the current UI is not very good for stylistic alternates, and using them is a hassle in some cases. (On the other hand, if one is only using an occasional alternate, the current UI in InDesign is quite adequate.)</p>
+<p>But the old Type 1 method which you are describing reinforces my belief that it&rsquo;s better to resist nonintuitive workarounds (which is how I would describe typing cap-Y to get &lsquo;ffi&rsquo;). The appeal of keeping glyphs in appropriate OpenType layout features is an idealistic one for me. If I enter <!-- raw HTML omitted -->characters + &lsquo;titl&rsquo;<!-- raw HTML omitted --> into my document, I&rsquo;ve just specified a description which is independent of font and application.</p>
+<p>I want to see all applications implement a wide range of layout features, which I am optimistic about &ndash; but when that happens, it will not be so pleasant if all the fonts out there have been built with inconsistent layout features. Imagine how crazy things would be if applying &lsquo;bold&rsquo; to a font produced italics or titling alternates. I don&rsquo;t think layout features are so different from these more entrenched styling choices, and in a world where styling and content are becoming more distinct all the time (HTML, CSS, etc.), it is only becoming more important to ensure that style tags produce the expected visual result.</p>
+<p><!-- raw HTML omitted -->And by the way, how did anyone ever get the idea that “set” implied more than one member?<!-- raw HTML omitted --></p>
+<p>The same way I learned what lots of other words mean, I guess. (Reading? School?) My Webster&rsquo;s dictionary says:</p>
+<p><!-- raw HTML omitted -->a number of things of the same kind that belong or are used together<!-- raw HTML omitted --></p>
+<p>My real point with that was that, the way I see it, &lsquo;ss**&rsquo; was meant to be the multiple-glyph version of &lsquo;salt&rsquo;.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -746,13 +699,11 @@ My real point with that was that, the way I see it, 'ss**' was meant to be the m
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>My real point with that was that, the way I see it, ‘ss**’ was meant to be the multiple-glyph version of ‘salt’.</cite>
-
-That's certainly how I read the spec. Now, it's still reasonable to put for example an alternate "i" in ss01, in part because you probably also have that same alternate on all the various accented forms of the "i" as well.
-
-Cheers,
-
-T</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->My real point with that was that, the way I see it, ‘ss**’ was meant to be the multiple-glyph version of ‘salt’.<!-- raw HTML omitted --></p>
+<p>That&rsquo;s certainly how I read the spec. Now, it&rsquo;s still reasonable to put for example an alternate &ldquo;i&rdquo; in ss01, in part because you probably also have that same alternate on all the various accented forms of the &ldquo;i&rdquo; as well.</p>
+<p>Cheers,</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -773,11 +724,10 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It's always good to hear from folks at Adobe on these issues. Naturally, I agree whith Christopher and Thomas on these issues, and one of my mantras is "Design 10 years into the future", which is what Adobe's David Lemon once told me, concerning OT development.
-
-In order for OpenType to be accepted and embraced, and for people to know how "drive" OT fonts, developers need to adhere to the spec. Just as all users of the road need to adhere to the same set of traffic laws.
-
-I assumed that Rachel's work is personal, and not intended for publication, in which case she can make her GSUB work under any feature. (Closed Course. Professional Driver.) If Rachel intends to publish the typeface in question, she should think very carefully about how her alternate i feature functions: Is it a titling variant? Or a stylistic set? What espectations will users have about the font, based upon which OT features are programmed into it?</div>
+		<div class="commentbody"><p>It&rsquo;s always good to hear from folks at Adobe on these issues. Naturally, I agree whith Christopher and Thomas on these issues, and one of my mantras is &ldquo;Design 10 years into the future&rdquo;, which is what Adobe&rsquo;s David Lemon once told me, concerning OT development.</p>
+<p>In order for OpenType to be accepted and embraced, and for people to know how &ldquo;drive&rdquo; OT fonts, developers need to adhere to the spec. Just as all users of the road need to adhere to the same set of traffic laws.</p>
+<p>I assumed that Rachel&rsquo;s work is personal, and not intended for publication, in which case she can make her GSUB work under any feature. (Closed Course. Professional Driver.) If Rachel intends to publish the typeface in question, she should think very carefully about how her alternate i feature functions: Is it a titling variant? Or a stylistic set? What espectations will users have about the font, based upon which OT features are programmed into it?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -798,13 +748,11 @@ I assumed that Rachel's work is personal, and not intended for publication, in w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Maybe I’m grouchy too but…
-
-I realize opentype feature implementation and UI design is still in it’s early childhood stage of development but in my opinion it needs an overhaul. With casual, handmade design the current and increasing trend, fonts capable of simulating the hand of the artist should be possible in Opentype font development and modern design applications. This means having the ability pull from a set of many alternate designs for a single glyph to randomly insert slightly different designs when a letter is repeated in a string of text.
-
-I love the idea of stylistic sets but it needs to be implemented in a consistent manner throughout the whole suite. It almost seems like the individual teams (Illustrator, InDesign, Photoshop…) don’t talk to each other when it comes to UI design. I hope I can stick my foot in my mouth by the end of this month with the release of CS3 and we will see some improvements.
-
-Josh</div>
+		<div class="commentbody"><p>Maybe I’m grouchy too but…</p>
+<p>I realize opentype feature implementation and UI design is still in it’s early childhood stage of development but in my opinion it needs an overhaul. With casual, handmade design the current and increasing trend, fonts capable of simulating the hand of the artist should be possible in Opentype font development and modern design applications. This means having the ability pull from a set of many alternate designs for a single glyph to randomly insert slightly different designs when a letter is repeated in a string of text.</p>
+<p>I love the idea of stylistic sets but it needs to be implemented in a consistent manner throughout the whole suite. It almost seems like the individual teams (Illustrator, InDesign, Photoshop…) don’t talk to each other when it comes to UI design. I hope I can stick my foot in my mouth by the end of this month with the release of CS3 and we will see some improvements.</p>
+<p>Josh</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -825,20 +773,14 @@ Josh</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>if you hijack features for your own purposes</em>
-
-It depends on one's perspective. It would seem that Thomas expects font developers to abide by the way Adobe interprets features.
-
-For instance, by combining figure features, the InDesign implementation of OT figure styles is somewhat of a hack/buggy. Suppose I produce a font with two figure features, pnum and tnum. Now, if an InDesign user clicks on "Proportional Oldstyle", what happens? I just hope that doesn't "damage OpenType's reputation" :-)
-
-To use Thomas' colourful language, the OT features have been hijacked so that Adobe's OT fonts, all of which have either one or four figure styles, serve the purposes of Adobe's layout applications, or vice versa. Either way, a perfectly legitimate font with two figure features appears buggy, when in fact it is the layout application which is at fault.
-
-Actually, I have found it quite stimulating to *have* to produce four sets of figure styles, and I have great admiration for Adobe apps--and I always design with them in mind. And like chester, I follow their lead and advice on many things. I only draw attention to this figures issue to demonstrate that it's not an absolute situation, no design is perfect, and as there may be some interpretation involved in implementing OpenType features, there should also be room for flexibility.
-
-<em>Design 10 years into the future</em>
-
-But what if someone who chooses not to upgrade CS1 wants to access a stylistic set with InDesign today, without doing it glyph by glyph from the glyph palette? What possible negative future ramifications will occur if I put the alternates of a font like Softmachine in "Titling"? In fact, that's what I've done, and explained it in the "read me" pdf.
- </div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->if you hijack features for your own purposes<!-- raw HTML omitted --></p>
+<p>It depends on one&rsquo;s perspective. It would seem that Thomas expects font developers to abide by the way Adobe interprets features.</p>
+<p>For instance, by combining figure features, the InDesign implementation of OT figure styles is somewhat of a hack/buggy. Suppose I produce a font with two figure features, pnum and tnum. Now, if an InDesign user clicks on &ldquo;Proportional Oldstyle&rdquo;, what happens? I just hope that doesn&rsquo;t &ldquo;damage OpenType&rsquo;s reputation&rdquo; :-)</p>
+<p>To use Thomas' colourful language, the OT features have been hijacked so that Adobe&rsquo;s OT fonts, all of which have either one or four figure styles, serve the purposes of Adobe&rsquo;s layout applications, or vice versa. Either way, a perfectly legitimate font with two figure features appears buggy, when in fact it is the layout application which is at fault.</p>
+<p>Actually, I have found it quite stimulating to <em>have</em> to produce four sets of figure styles, and I have great admiration for Adobe apps&ndash;and I always design with them in mind. And like chester, I follow their lead and advice on many things. I only draw attention to this figures issue to demonstrate that it&rsquo;s not an absolute situation, no design is perfect, and as there may be some interpretation involved in implementing OpenType features, there should also be room for flexibility.</p>
+<p><!-- raw HTML omitted -->Design 10 years into the future<!-- raw HTML omitted --></p>
+<p>But what if someone who chooses not to upgrade CS1 wants to access a stylistic set with InDesign today, without doing it glyph by glyph from the glyph palette? What possible negative future ramifications will occur if I put the alternates of a font like Softmachine in &ldquo;Titling&rdquo;? In fact, that&rsquo;s what I&rsquo;ve done, and explained it in the &ldquo;read me&rdquo; pdf.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -859,15 +801,11 @@ But what if someone who chooses not to upgrade CS1 wants to access a stylistic s
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I think RachelR has her answer, so I hope we’re not really hijacking the thread. OK, I understand that someone may specify “set” is to be used only when there is more than one member, though that borders on Wittgenstein’s grumble about “private language” -– as best I remember my math logic, a set could have no members, one member, or more than one member . . . whatever.
-
-Here is a true story. We had a book to set where the designer wanted to use text (old style) numbers, and small capitals for acronyms. Pretty normal stuff. As it turned out, there were some acronyms with an “I”, and one that occurred more than once where there was both an “I” and a “1” in the acronym. On seeing sample pages, the editor hit the roof; down came the mandate that either the os figures or the small cap acronyms had to go.
-
-Putting on my Solomon cap (an unfamiliar role), I made up a os fig “1” that looked like a regular “1” (or like a Minion os “1”). Problem solved. This was back in the Type 1 days, so the glyph was named oneoldstylealt, and since, as I mentioned, we could write our own encoding vector, everything was pretty clear downstream to boot.
-
-Now how are we going to handle this with OT? The need is there; designers and editors still fuss about their overlapping turf. As I understand it, if we were to put the alternate “1” in the salt feature, then it is on when any of the other features we might want as stylistic alternates are on. Not a happy situation. Moreover, if the “1” variant is to be used throughout the book, it needs to be picked up in ID’s “Paragraph Style Options - Open Type Features” which includes stylistic sets, but not salt, unless I’m wrong yet one more time.
-
-My point, I hoped, was that the designers of type too frequently don’t pay enough attention to the users of type and their needs. Comps have that problem too, I know. All throughout the 19th century, the lead comp was the designer. But the compositors developed their own aesthetic, and it turned out not to be an aesthetic shared by most people, including the customers who paid the printing bill. Enter the layout man; the comps lost the privilege of designing.
+		<div class="commentbody"><p>I think RachelR has her answer, so I hope we’re not really hijacking the thread. OK, I understand that someone may specify “set” is to be used only when there is more than one member, though that borders on Wittgenstein’s grumble about “private language” -– as best I remember my math logic, a set could have no members, one member, or more than one member . . . whatever.</p>
+<p>Here is a true story. We had a book to set where the designer wanted to use text (old style) numbers, and small capitals for acronyms. Pretty normal stuff. As it turned out, there were some acronyms with an “I”, and one that occurred more than once where there was both an “I” and a “1” in the acronym. On seeing sample pages, the editor hit the roof; down came the mandate that either the os figures or the small cap acronyms had to go.</p>
+<p>Putting on my Solomon cap (an unfamiliar role), I made up a os fig “1” that looked like a regular “1” (or like a Minion os “1”). Problem solved. This was back in the Type 1 days, so the glyph was named oneoldstylealt, and since, as I mentioned, we could write our own encoding vector, everything was pretty clear downstream to boot.</p>
+<p>Now how are we going to handle this with OT? The need is there; designers and editors still fuss about their overlapping turf. As I understand it, if we were to put the alternate “1” in the salt feature, then it is on when any of the other features we might want as stylistic alternates are on. Not a happy situation. Moreover, if the “1” variant is to be used throughout the book, it needs to be picked up in ID’s “Paragraph Style Options - Open Type Features” which includes stylistic sets, but not salt, unless I’m wrong yet one more time.</p>
+<p>My point, I hoped, was that the designers of type too frequently don’t pay enough attention to the users of type and their needs. Comps have that problem too, I know. All throughout the 19th century, the lead comp was the designer. But the compositors developed their own aesthetic, and it turned out not to be an aesthetic shared by most people, including the customers who paid the printing bill. Enter the layout man; the comps lost the privilege of designing.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -910,13 +848,11 @@ My point, I hoped, was that the designers of type too frequently don’t pay eno
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>the reason that some people think stylistic sets should affect more than one glyph is not because they don’t know the definition of “set” but because the OpenType feature registry says so.</em>
-
-So, if you design a font with only one alternate glyph (I have seen fonts like this), the spec would bar you from putting the single alternate glyph into a stylistic set? 
-
-Or, let's say you have only two alternate characters and let's say they don't harmonize, you shouldn't put them into separate stylistic sets simply because there would only be one glyph in each set? 
-
-This insistence that a stylistic set must have two or more characters seems a little unreasonable and bureaucratic. In spite of the spec, is there any reason (practical or otherwise) that having a stylistic set that affects only one glyph would cause problems now or in the future?</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->the reason that some people think stylistic sets should affect more than one glyph is not because they don’t know the definition of “set” but because the OpenType feature registry says so.<!-- raw HTML omitted --></p>
+<p>So, if you design a font with only one alternate glyph (I have seen fonts like this), the spec would bar you from putting the single alternate glyph into a stylistic set?</p>
+<p>Or, let&rsquo;s say you have only two alternate characters and let&rsquo;s say they don&rsquo;t harmonize, you shouldn&rsquo;t put them into separate stylistic sets simply because there would only be one glyph in each set?</p>
+<p>This insistence that a stylistic set must have two or more characters seems a little unreasonable and bureaucratic. In spite of the spec, is there any reason (practical or otherwise) that having a stylistic set that affects only one glyph would cause problems now or in the future?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -937,9 +873,9 @@ This insistence that a stylistic set must have two or more characters seems a li
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I think we all have to look at it from the users perspective. If the user can't use it reasonably easily to achieve the desired result, then either the spec, the applications, or the font design need some adjustment (or all three). I know it is hard reigning in a comittee which goes accross corporate borders but if opentype is to gain ground, the process must begin.
-
-ChrisL</div>
+		<div class="commentbody"><p>I think we all have to look at it from the users perspective. If the user can&rsquo;t use it reasonably easily to achieve the desired result, then either the spec, the applications, or the font design need some adjustment (or all three). I know it is hard reigning in a comittee which goes accross corporate borders but if opentype is to gain ground, the process must begin.</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -960,11 +896,10 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">We come up with feature functionality before giving it a name, so to argue that one can interpret the name of a feature one way or another is beside the point. The thing to consider is its specification and (lacking clarity there) its intended function. The stylistic sets features were conceived (IIRC) to gather more than one alternate and activate them together. Anyone is welcome to interpret a feature's function differently, but in the end, font developers will benefit from knowing what the intended, agreed-upon function of a feature is, to ensure that what they implement in their font will be consistent with those from other developers.
-
-That said, the discussion about the difference between 'salt' and 'ss**' is more difficult than is typical, because the general concept of stylistic alternates is quite fuzzy compared to other features. For example, if one applies 'smcp' to a letter, it's pretty obvious what one should get. OTOH, if one applies 'salt' to a letter, all one knows is they should get "some stylistic alternate." Such an expectation is pretty vague, and certainly can't be expected to be consistent between different font families. Also, applications will probably always have different UIs for 'salt' and 'ss**', because the former is often "one from many", and the latter is always "one to one". (The reason there are multiple 'ss**' features is kind of a way of implementing "many to many from many".)
-
-I don't think all this is a matter of "insistence" or "bureaucracy". I only think that a specification exists to create a standard on which people can depend to ensure consistent and successful results is a world where many things (fonts, applications, OSes) interact. I think the best way to ensure successful, pleasing layout features is to follow a specification, so I recommend that. Everybody else is quite welcome to do differently, with the inherent advantages, disadvantages, and risks. As we know, taking liberties with a layout feature's specified function has some appeal, but I just want everyone to be aware of the downside, too.</div>
+		<div class="commentbody"><p>We come up with feature functionality before giving it a name, so to argue that one can interpret the name of a feature one way or another is beside the point. The thing to consider is its specification and (lacking clarity there) its intended function. The stylistic sets features were conceived (IIRC) to gather more than one alternate and activate them together. Anyone is welcome to interpret a feature&rsquo;s function differently, but in the end, font developers will benefit from knowing what the intended, agreed-upon function of a feature is, to ensure that what they implement in their font will be consistent with those from other developers.</p>
+<p>That said, the discussion about the difference between &lsquo;salt&rsquo; and &lsquo;ss**&rsquo; is more difficult than is typical, because the general concept of stylistic alternates is quite fuzzy compared to other features. For example, if one applies &lsquo;smcp&rsquo; to a letter, it&rsquo;s pretty obvious what one should get. OTOH, if one applies &lsquo;salt&rsquo; to a letter, all one knows is they should get &ldquo;some stylistic alternate.&rdquo; Such an expectation is pretty vague, and certainly can&rsquo;t be expected to be consistent between different font families. Also, applications will probably always have different UIs for &lsquo;salt&rsquo; and &lsquo;ss**&rsquo;, because the former is often &ldquo;one from many&rdquo;, and the latter is always &ldquo;one to one&rdquo;. (The reason there are multiple &lsquo;ss**&rsquo; features is kind of a way of implementing &ldquo;many to many from many&rdquo;.)</p>
+<p>I don&rsquo;t think all this is a matter of &ldquo;insistence&rdquo; or &ldquo;bureaucracy&rdquo;. I only think that a specification exists to create a standard on which people can depend to ensure consistent and successful results is a world where many things (fonts, applications, OSes) interact. I think the best way to ensure successful, pleasing layout features is to follow a specification, so I recommend that. Everybody else is quite welcome to do differently, with the inherent advantages, disadvantages, and risks. As we know, taking liberties with a layout feature&rsquo;s specified function has some appeal, but I just want everyone to be aware of the downside, too.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -985,9 +920,9 @@ I don't think all this is a matter of "insistence" or "bureaucracy". I only thin
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Great thread everyone, thanks for the input.
-
-It seems from people in the know here that to ensure consistent and successful results stylistic alternatives aren't possible at the moment. I have the alternatives I wanted working using a ss01 feature, but at the risk of producing a buggy font, I'll side with caution and leave out the stylistic alternatives, better safe than sorry.</div>
+		<div class="commentbody"><p>Great thread everyone, thanks for the input.</p>
+<p>It seems from people in the know here that to ensure consistent and successful results stylistic alternatives aren&rsquo;t possible at the moment. I have the alternatives I wanted working using a ss01 feature, but at the risk of producing a buggy font, I&rsquo;ll side with caution and leave out the stylistic alternatives, better safe than sorry.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1008,15 +943,12 @@ It seems from people in the know here that to ensure consistent and successful r
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>Surely it was mechanization that sundered design and production in the 19th C.,, not the pecadilloes of compositors.</cite>
-
-Well, maybe. Take a look at Vincent Steer's <cite>Printing Design and Layout</cite> (London: Virtue & Co, 1934).
-
-<cite>At the beginning of the present century, however, the need for an intervening stage between the written word and the printed word became acute. The printing industry had been split up into sections and where one man formerly performed all the operations necessary in the production  of a piece of printing, now many specialists were required. Printers had lost the art of designing their own work and were soon to lose the proud privilege of doing so. The master printer, having now become a modern business man, was no longer to be regarded as an artist craftsman.</cite>
-
-My take is that it was the time of Victorian excess in the comp world. The comps resisted the intervention of a "layout man," but the print shop owners noticed they got more billable hours out of the comps if they didn't do design as well, do that was that. It pretty much came about because the comps tried to outdo each other with different typefaces & complicated layouts -- not what the customers wanted -- sound familiar?
-
-BTW, there is one used copy of the Steer at Amazon, cheap (I paid about $50 for my copy). Lots of good out-of-date ornaments if that's your thing.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Surely it was mechanization that sundered design and production in the 19th C.,, not the pecadilloes of compositors.<!-- raw HTML omitted --></p>
+<p>Well, maybe. Take a look at Vincent Steer&rsquo;s <!-- raw HTML omitted -->Printing Design and Layout<!-- raw HTML omitted --> (London: Virtue &amp; Co, 1934).</p>
+<p><!-- raw HTML omitted -->At the beginning of the present century, however, the need for an intervening stage between the written word and the printed word became acute. The printing industry had been split up into sections and where one man formerly performed all the operations necessary in the production  of a piece of printing, now many specialists were required. Printers had lost the art of designing their own work and were soon to lose the proud privilege of doing so. The master printer, having now become a modern business man, was no longer to be regarded as an artist craftsman.<!-- raw HTML omitted --></p>
+<p>My take is that it was the time of Victorian excess in the comp world. The comps resisted the intervention of a &ldquo;layout man,&rdquo; but the print shop owners noticed they got more billable hours out of the comps if they didn&rsquo;t do design as well, do that was that. It pretty much came about because the comps tried to outdo each other with different typefaces &amp; complicated layouts &ndash; not what the customers wanted &ndash; sound familiar?</p>
+<p>BTW, there is one used copy of the Steer at Amazon, cheap (I paid about $50 for my copy). Lots of good out-of-date ornaments if that&rsquo;s your thing.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1037,89 +969,70 @@ BTW, there is one used copy of the Steer at Amazon, cheap (I paid about $50 for 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">My own understanding is that OpenType Layout features can perform several different functions. In my own terminology, OpenType Layout features can perform five different kinds of tasks: 
-
-<strong>a) linguistic</strong>: there is a very strong inherent meaning to the feature; the feature performs a task that is crucial in the process of producing linguistically (orthographically) correct text. Usually, there is an established orthographic tradition when such features are applied, and they are usually applied automatically by the typesetting software. Such features are <em>init</em>, <em>medi</em>, <em>fina</em> or <em>isol</em> for Arabic, <em>haln</em> or <em>nukt</em> for Indic scripts, <em>rlig</em>, <em>locl</em> or <em>ccmp</em> for all writing systems, and many others. 
-<strong>b) semantic</strong>: the feature has some clearly defined purpose, and affects the semantic aspect of the text — as well as the visual side. Typically, its use is discretionary but there is an established typographic tradition of when such features are applied, i.e. whenever a feature is applied, the general reader knows what this accentuation means. Such features include <em>sups</em>, <em>subs</em> and <em>sinf</em> commonly used in scientific purposes, <em>frac</em>, <em>numr</em>, <em>dnom</em> and <em>afrc</em> to denote fractions, <em>hist</em> to indicate a shift in the historical context of the text, <em>ornm</em>, <em>ordn</em> and others. 
-<strong>c) casing</strong>: the feature assists the typesetter in case conversions. It is a border-case between semantic and articulatory function, and deserves a class of its own. Use of different case may affect the semantic aspect of the text (e.g. proper names) or just the visual side (emphasis, headlines). The features include <em>smcp</em>, <em>c2sc</em>, <em>case</em>, <em>pcap</em>, <em>c2pc</em>, <em>unic</em>, <em>cpsp</em>. 
-<strong>d) articulatory</strong>: the feature has a defined purpose but there is not commonly-accepted convention, or code, that allows the reader to decipher the function; the convention needs to be established on a per-publication basis, e.g. <em>zero</em>, <em>swsh</em>, <em>cswh</em>, <em>titl</em>, <em>dlig</em>, <em>onum</em>, <em>lnum</em>. Such features may also be used to solve purely visual tasks, e.g. <em>jalt</em>, <em>kern</em>, <em>pnum</em>, <em>tnum</em>, <em>curs</em>. For non-cursive writing systems, this also includes <em>init</em>, <em>medi</em>, <em>fina</em>. 
-<strong>e) stylistic</strong>: the feature has no defined purpose and is used solely to diversify the visual aspect of the text or assists in solving of typographic problems, e.g. <em>ss01</em>–<em>ss20</em>, <em>salt</em>, <em>liga</em>, <em>calt</em>, <em>aalt</em>. 
-
-Each feature typically is tied to one of these functions, but some features can perform different functions. For example, features such as <em>curs</em>, <em>init</em>, <em>medi</em>, <em>fina</em> can perform linguistic, articulatory or stylistic functions, depending on the particular writing system, language, font and the purposes for which the user is employing the font. 
-
-<em>My own view:</em> Substitutions defined in features classified as performing semantic or articulatory functions, as well as some liguistic features (<em>ccmp</em>, <em>locl</em>) may also be duplicated in the stylistic features. "Hi-jacking" of the linguistic, semantic or casing features (i.e. implementing functionality in them that contradicts their defined function) should be avoided at all cost. The stylistic features can be "hi-jacked" practically without limitations: it really is up to the designer what kind of functionality gets implemented in <em>ss01</em>–<em>ss20</em>, <em>salt</em>, <em>liga</em>, <em>calt</em>. "Hi-jacking" of articulatory features should be avoided, but in some very specific cases exceptions can be made. For example, the <em>zero</em> feature might perhaps substitute some other glyphs except "zero" if the designer deems it necessary, or instead of a slashed zero, a different form of the zero glyph (clearly distinct from "O" but not necessarily using a slash) might get inserted. 
-
-For <em>ssXX</em> and <em>salt</em>, I personally always consider them to have a similar, "pivotal" relation to each other. In the fonts I develop I typically first develop the semantic and articulatory features.  
-
-<code>feature fina { 
-  lookup fina1 {
-    sub a by a.fina; 
-    sub e by e.fina; 
-  } fina1; 
-} fina;
-
-feature swsh { 
-  lookup swsh1 {
-    sub b by b.swsh; 
-    sub g by g.swsh; 
-  } swsh1; 
-} swsh;
-
-feature hist { 
-  lookup hist1 {
-    sub r by r.hist; 
-    sub M by M.hist; 
-  } hist1; 
-} hist;</code>
-
-Then, I develop the stylistic features. I start off with stylistic sets. In addition to substitutions that only happen within the stylistic sets, I also make sets that duplicate the functionality of some of the previously defined semantic and articulatory features. Pretty much any semantic or articulatory substitution can also in addition be viewed as a stylistic substitution -- users may want to use a different glyph not because they want to express a different function but also simple because they like it visually. I wouldn't go so far and duplicate the basic casing features (<em>smcp</em>, <em>c2sc</em>, <em>case</em> etc.) onto stylistic sets, but would do so for their alternates, e.g. if a font has several sets of small caps, I'd include <em>pcap</em>/<em>c2pc</em> but also make the petite caps a stylistic set <em>ss01</em> and stylistic alternate <em>salt</em> for the small caps. Similar, alternate fractions (<em>afrc</em>) should be IMO also stylistic sets of regular fractions (<em>frac</em>) -- at least for precomposed fractions. 
-
-So, my <em>ssXX</em> features might look like: 
-
-<code>feature ss01 { 
-  sub a by a.ss01; 
-  sub b by b.ss01; 
-  sub c by c.ss01; 
-} ss01; 
-
-feature ss02 {
-  sub a by a.ss02; 
-  sub d by d.ss02; 
-} ss02;
-
-feature ss03 {
-  lookup fina1; # Same as "fina"
-} ss03; 
-
-feature ss04 {
-  lookup swsh1; # Same as "swsh"
-} ss04; 
-
-feature ss05 {
-  lookup hist1; # Same as "hist"
-} ss05;</code>
-
-Finally, I create the stylistic alternates feature (<em>salt</em>) which implements the same substitutions as the <em>ssXX</em> features but using one-to-one out of many lookups. Since Illustrator only supports the first alternate, stylistic alternates in Illustrator works exactly the same as stylistic set 1 in InDesign: 
-
-<code>feature salt {
-  sub a from [a.ss01 a.ss02 a.fina]; 
-  sub b from [b.ss01 b.swsh]; 
-  sub c from [c.ss01]; 
-  sub d from [d.ss02]; 
-  sub e from [e.fina]; 
-  sub g from [g.swsh]; 
-  sub r from [r.hist]; 
-  sub M from [M.hist]; 
-} salt;</code>
-
-I found this approach rather logical, consistent and also predictable for end-users. 
-
-I wonder what your thoughts on this might be. 
-
-Best, 
-Adam
-
-Ps. Edited: by John Hudson's suggestion, I replaced "strong stylistic" with "articulatory" and "weak stylistic" with "stylistic". Also added a paragraph explaining that while most features are tied to one function, some features can be tied to different functions depending on the script, language or font. </div>
+		<div class="commentbody"><p>My own understanding is that OpenType Layout features can perform several different functions. In my own terminology, OpenType Layout features can perform five different kinds of tasks:</p>
+<p><!-- raw HTML omitted -->a) linguistic<!-- raw HTML omitted -->: there is a very strong inherent meaning to the feature; the feature performs a task that is crucial in the process of producing linguistically (orthographically) correct text. Usually, there is an established orthographic tradition when such features are applied, and they are usually applied automatically by the typesetting software. Such features are <!-- raw HTML omitted -->init<!-- raw HTML omitted -->, <!-- raw HTML omitted -->medi<!-- raw HTML omitted -->, <!-- raw HTML omitted -->fina<!-- raw HTML omitted --> or <!-- raw HTML omitted -->isol<!-- raw HTML omitted --> for Arabic, <!-- raw HTML omitted -->haln<!-- raw HTML omitted --> or <!-- raw HTML omitted -->nukt<!-- raw HTML omitted --> for Indic scripts, <!-- raw HTML omitted -->rlig<!-- raw HTML omitted -->, <!-- raw HTML omitted -->locl<!-- raw HTML omitted --> or <!-- raw HTML omitted -->ccmp<!-- raw HTML omitted --> for all writing systems, and many others. 
+<!-- raw HTML omitted -->b) semantic<!-- raw HTML omitted -->: the feature has some clearly defined purpose, and affects the semantic aspect of the text — as well as the visual side. Typically, its use is discretionary but there is an established typographic tradition of when such features are applied, i.e. whenever a feature is applied, the general reader knows what this accentuation means. Such features include <!-- raw HTML omitted -->sups<!-- raw HTML omitted -->, <!-- raw HTML omitted -->subs<!-- raw HTML omitted --> and <!-- raw HTML omitted -->sinf<!-- raw HTML omitted --> commonly used in scientific purposes, <!-- raw HTML omitted -->frac<!-- raw HTML omitted -->, <!-- raw HTML omitted -->numr<!-- raw HTML omitted -->, <!-- raw HTML omitted -->dnom<!-- raw HTML omitted --> and <!-- raw HTML omitted -->afrc<!-- raw HTML omitted --> to denote fractions, <!-- raw HTML omitted -->hist<!-- raw HTML omitted --> to indicate a shift in the historical context of the text, <!-- raw HTML omitted -->ornm<!-- raw HTML omitted -->, <!-- raw HTML omitted -->ordn<!-- raw HTML omitted --> and others. 
+<!-- raw HTML omitted -->c) casing<!-- raw HTML omitted -->: the feature assists the typesetter in case conversions. It is a border-case between semantic and articulatory function, and deserves a class of its own. Use of different case may affect the semantic aspect of the text (e.g. proper names) or just the visual side (emphasis, headlines). The features include <!-- raw HTML omitted -->smcp<!-- raw HTML omitted -->, <!-- raw HTML omitted -->c2sc<!-- raw HTML omitted -->, <!-- raw HTML omitted -->case<!-- raw HTML omitted -->, <!-- raw HTML omitted -->pcap<!-- raw HTML omitted -->, <!-- raw HTML omitted -->c2pc<!-- raw HTML omitted -->, <!-- raw HTML omitted -->unic<!-- raw HTML omitted -->, <!-- raw HTML omitted -->cpsp<!-- raw HTML omitted -->. 
+<!-- raw HTML omitted -->d) articulatory<!-- raw HTML omitted -->: the feature has a defined purpose but there is not commonly-accepted convention, or code, that allows the reader to decipher the function; the convention needs to be established on a per-publication basis, e.g. <!-- raw HTML omitted -->zero<!-- raw HTML omitted -->, <!-- raw HTML omitted -->swsh<!-- raw HTML omitted -->, <!-- raw HTML omitted -->cswh<!-- raw HTML omitted -->, <!-- raw HTML omitted -->titl<!-- raw HTML omitted -->, <!-- raw HTML omitted -->dlig<!-- raw HTML omitted -->, <!-- raw HTML omitted -->onum<!-- raw HTML omitted -->, <!-- raw HTML omitted -->lnum<!-- raw HTML omitted -->. Such features may also be used to solve purely visual tasks, e.g. <!-- raw HTML omitted -->jalt<!-- raw HTML omitted -->, <!-- raw HTML omitted -->kern<!-- raw HTML omitted -->, <!-- raw HTML omitted -->pnum<!-- raw HTML omitted -->, <!-- raw HTML omitted -->tnum<!-- raw HTML omitted -->, <!-- raw HTML omitted -->curs<!-- raw HTML omitted -->. For non-cursive writing systems, this also includes <!-- raw HTML omitted -->init<!-- raw HTML omitted -->, <!-- raw HTML omitted -->medi<!-- raw HTML omitted -->, <!-- raw HTML omitted -->fina<!-- raw HTML omitted -->. 
+<!-- raw HTML omitted -->e) stylistic<!-- raw HTML omitted -->: the feature has no defined purpose and is used solely to diversify the visual aspect of the text or assists in solving of typographic problems, e.g. <!-- raw HTML omitted -->ss01<!-- raw HTML omitted -->–<!-- raw HTML omitted -->ss20<!-- raw HTML omitted -->, <!-- raw HTML omitted -->salt<!-- raw HTML omitted -->, <!-- raw HTML omitted -->liga<!-- raw HTML omitted -->, <!-- raw HTML omitted -->calt<!-- raw HTML omitted -->, <!-- raw HTML omitted -->aalt<!-- raw HTML omitted -->.</p>
+<p>Each feature typically is tied to one of these functions, but some features can perform different functions. For example, features such as <!-- raw HTML omitted -->curs<!-- raw HTML omitted -->, <!-- raw HTML omitted -->init<!-- raw HTML omitted -->, <!-- raw HTML omitted -->medi<!-- raw HTML omitted -->, <!-- raw HTML omitted -->fina<!-- raw HTML omitted --> can perform linguistic, articulatory or stylistic functions, depending on the particular writing system, language, font and the purposes for which the user is employing the font.</p>
+<p><!-- raw HTML omitted -->My own view:<!-- raw HTML omitted --> Substitutions defined in features classified as performing semantic or articulatory functions, as well as some liguistic features (<!-- raw HTML omitted -->ccmp<!-- raw HTML omitted -->, <!-- raw HTML omitted -->locl<!-- raw HTML omitted -->) may also be duplicated in the stylistic features. &ldquo;Hi-jacking&rdquo; of the linguistic, semantic or casing features (i.e. implementing functionality in them that contradicts their defined function) should be avoided at all cost. The stylistic features can be &ldquo;hi-jacked&rdquo; practically without limitations: it really is up to the designer what kind of functionality gets implemented in <!-- raw HTML omitted -->ss01<!-- raw HTML omitted -->–<!-- raw HTML omitted -->ss20<!-- raw HTML omitted -->, <!-- raw HTML omitted -->salt<!-- raw HTML omitted -->, <!-- raw HTML omitted -->liga<!-- raw HTML omitted -->, <!-- raw HTML omitted -->calt<!-- raw HTML omitted -->. &ldquo;Hi-jacking&rdquo; of articulatory features should be avoided, but in some very specific cases exceptions can be made. For example, the <!-- raw HTML omitted -->zero<!-- raw HTML omitted --> feature might perhaps substitute some other glyphs except &ldquo;zero&rdquo; if the designer deems it necessary, or instead of a slashed zero, a different form of the zero glyph (clearly distinct from &ldquo;O&rdquo; but not necessarily using a slash) might get inserted.</p>
+<p>For <!-- raw HTML omitted -->ssXX<!-- raw HTML omitted --> and <!-- raw HTML omitted -->salt<!-- raw HTML omitted -->, I personally always consider them to have a similar, &ldquo;pivotal&rdquo; relation to each other. In the fonts I develop I typically first develop the semantic and articulatory features.</p>
+<p><!-- raw HTML omitted -->feature fina { 
+lookup fina1 {
+sub a by a.fina; 
+sub e by e.fina; 
+} fina1; 
+} fina;</p>
+<p>feature swsh { 
+lookup swsh1 {
+sub b by b.swsh; 
+sub g by g.swsh; 
+} swsh1; 
+} swsh;</p>
+<p>feature hist { 
+lookup hist1 {
+sub r by r.hist; 
+sub M by M.hist; 
+} hist1; 
+} hist;<!-- raw HTML omitted --></p>
+<p>Then, I develop the stylistic features. I start off with stylistic sets. In addition to substitutions that only happen within the stylistic sets, I also make sets that duplicate the functionality of some of the previously defined semantic and articulatory features. Pretty much any semantic or articulatory substitution can also in addition be viewed as a stylistic substitution &ndash; users may want to use a different glyph not because they want to express a different function but also simple because they like it visually. I wouldn&rsquo;t go so far and duplicate the basic casing features (<!-- raw HTML omitted -->smcp<!-- raw HTML omitted -->, <!-- raw HTML omitted -->c2sc<!-- raw HTML omitted -->, <!-- raw HTML omitted -->case<!-- raw HTML omitted --> etc.) onto stylistic sets, but would do so for their alternates, e.g. if a font has several sets of small caps, I&rsquo;d include <!-- raw HTML omitted -->pcap<!-- raw HTML omitted -->/<!-- raw HTML omitted -->c2pc<!-- raw HTML omitted --> but also make the petite caps a stylistic set <!-- raw HTML omitted -->ss01<!-- raw HTML omitted --> and stylistic alternate <!-- raw HTML omitted -->salt<!-- raw HTML omitted --> for the small caps. Similar, alternate fractions (<!-- raw HTML omitted -->afrc<!-- raw HTML omitted -->) should be IMO also stylistic sets of regular fractions (<!-- raw HTML omitted -->frac<!-- raw HTML omitted -->) &ndash; at least for precomposed fractions.</p>
+<p>So, my <!-- raw HTML omitted -->ssXX<!-- raw HTML omitted --> features might look like:</p>
+<p><!-- raw HTML omitted -->feature ss01 { 
+sub a by a.ss01; 
+sub b by b.ss01; 
+sub c by c.ss01; 
+} ss01;</p>
+<p>feature ss02 {
+sub a by a.ss02; 
+sub d by d.ss02; 
+} ss02;</p>
+<p>feature ss03 {
+lookup fina1; # Same as &ldquo;fina&rdquo;
+} ss03;</p>
+<p>feature ss04 {
+lookup swsh1; # Same as &ldquo;swsh&rdquo;
+} ss04;</p>
+<p>feature ss05 {
+lookup hist1; # Same as &ldquo;hist&rdquo;
+} ss05;<!-- raw HTML omitted --></p>
+<p>Finally, I create the stylistic alternates feature (<!-- raw HTML omitted -->salt<!-- raw HTML omitted -->) which implements the same substitutions as the <!-- raw HTML omitted -->ssXX<!-- raw HTML omitted --> features but using one-to-one out of many lookups. Since Illustrator only supports the first alternate, stylistic alternates in Illustrator works exactly the same as stylistic set 1 in InDesign:</p>
+<p><!-- raw HTML omitted -->feature salt {
+sub a from [a.ss01 a.ss02 a.fina]; 
+sub b from [b.ss01 b.swsh]; 
+sub c from [c.ss01]; 
+sub d from [d.ss02]; 
+sub e from [e.fina]; 
+sub g from [g.swsh]; 
+sub r from [r.hist]; 
+sub M from [M.hist]; 
+} salt;<!-- raw HTML omitted --></p>
+<p>I found this approach rather logical, consistent and also predictable for end-users.</p>
+<p>I wonder what your thoughts on this might be.</p>
+<p>Best, 
+Adam</p>
+<p>Ps. Edited: by John Hudson&rsquo;s suggestion, I replaced &ldquo;strong stylistic&rdquo; with &ldquo;articulatory&rdquo; and &ldquo;weak stylistic&rdquo; with &ldquo;stylistic&rdquo;. Also added a paragraph explaining that while most features are tied to one function, some features can be tied to different functions depending on the script, language or font.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1140,22 +1053,16 @@ Ps. Edited: by John Hudson's suggestion, I replaced "strong stylistic" with "art
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">As you know, most or all of us at Adobe disagree with you on the acceptability of "hijacking"; we think it should either never be done, or certainly not for mere convenience in a regular retail font.
-
-That being said, some features are flexible enough that few uses of them are likely to constitute hijacking. I think this is true of 'salt' and 'ssXX'.
-
-The type of hijacking that I find most objectionable is when there is a feature that is clearly defined for one purpose, and that is the purpose in question, but the font developer chooses to assign another feature as well or instead because of what happens to be supported in current versions of applications, and that other feature has a clearly defined and contrary meaning to the glyphs being put in it.
-
-As an example, putting ending forms into 'calt' (connecting/contextual alternates) in a way that causes them to show up even in the middle of a word when 'calt' is on, is bad practice. Especially so given that 'calt' is supposed to be on by default. Also undesriable would be putting an arbitrary stylistic alternate into 'titl' (titling alternates).
-
-Many of these sorts of things will be reasonable candidates for a stylistic set and perhaps a stylistic alternate. 
-I will continue to label such fonts as broken and buggy. I think that making fonts in this way is bad for everybody in the long run, even if it seems convenient in the near term. Yes, you can get much better performance out of your 16-cylinder font, but the gas consumption and emissions are long-term problems.
-
-As a side note, your code example of 'salt' does not function identically to 'ss01' the way you say it does, unless your 'ss01' happens to also invoke some ".ss02" glyphs and some ".hist" glyphs, etcetera.
-
-Regards,
-
-T</div>
+		<div class="commentbody"><p>As you know, most or all of us at Adobe disagree with you on the acceptability of &ldquo;hijacking&rdquo;; we think it should either never be done, or certainly not for mere convenience in a regular retail font.</p>
+<p>That being said, some features are flexible enough that few uses of them are likely to constitute hijacking. I think this is true of &lsquo;salt&rsquo; and &lsquo;ssXX&rsquo;.</p>
+<p>The type of hijacking that I find most objectionable is when there is a feature that is clearly defined for one purpose, and that is the purpose in question, but the font developer chooses to assign another feature as well or instead because of what happens to be supported in current versions of applications, and that other feature has a clearly defined and contrary meaning to the glyphs being put in it.</p>
+<p>As an example, putting ending forms into &lsquo;calt&rsquo; (connecting/contextual alternates) in a way that causes them to show up even in the middle of a word when &lsquo;calt&rsquo; is on, is bad practice. Especially so given that &lsquo;calt&rsquo; is supposed to be on by default. Also undesriable would be putting an arbitrary stylistic alternate into &lsquo;titl&rsquo; (titling alternates).</p>
+<p>Many of these sorts of things will be reasonable candidates for a stylistic set and perhaps a stylistic alternate. 
+I will continue to label such fonts as broken and buggy. I think that making fonts in this way is bad for everybody in the long run, even if it seems convenient in the near term. Yes, you can get much better performance out of your 16-cylinder font, but the gas consumption and emissions are long-term problems.</p>
+<p>As a side note, your code example of &lsquo;salt&rsquo; does not function identically to &lsquo;ss01&rsquo; the way you say it does, unless your &lsquo;ss01&rsquo; happens to also invoke some &ldquo;.ss02&rdquo; glyphs and some &ldquo;.hist&rdquo; glyphs, etcetera.</p>
+<p>Regards,</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1176,13 +1083,10 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thomas, 
-
-I agree that my wording was overly optimistic. My "salt" and "ss01" do not work identically. I guess I should have said that using my implementation, it is possible to achieve largely similar results using "salt" in Illustrator and one or more "ssXX" features in InDesign. Since the "ssXX" features in InDesign are implemented in an additive way, one could say that InDesign offers a finer control than Illustrator but altogether gives access to the same glyphs. 
-
-As you noted, I'm also opposed to "hi-jacking" features that have a clearly defined purpose. This is most true for linguistic and semantic features. Strong stylistic features are a border case -- if there are really good reasons, some hi-jacking would be permissible, within reason. For example, the description of <em>titl</em> in the OpenType spec says <em>"Function: This feature replaces the default glyphs with corresponding forms designed specifically for titling. These may be all-capital and/or larger on the body, and adjusted for viewing at larger sizes. (...) Recommended implementation: The titl table maps default forms to corresponding titling forms (GSUB lookup type 1)."</em>. However, as the English word <strong>titling</strong> is ambiguous (it may stand for "to provide a title for" or "to designate or call by a title"), I could imagine a designer putting fancy abbreviations such as "Mr.", "Ms.", "Mme." into that feature. It would not necessarily go with the exact wording of the specification, but would still make sense by general logic. 
-
-A.
+		<div class="commentbody"><p>Thomas,</p>
+<p>I agree that my wording was overly optimistic. My &ldquo;salt&rdquo; and &ldquo;ss01&rdquo; do not work identically. I guess I should have said that using my implementation, it is possible to achieve largely similar results using &ldquo;salt&rdquo; in Illustrator and one or more &ldquo;ssXX&rdquo; features in InDesign. Since the &ldquo;ssXX&rdquo; features in InDesign are implemented in an additive way, one could say that InDesign offers a finer control than Illustrator but altogether gives access to the same glyphs.</p>
+<p>As you noted, I&rsquo;m also opposed to &ldquo;hi-jacking&rdquo; features that have a clearly defined purpose. This is most true for linguistic and semantic features. Strong stylistic features are a border case &ndash; if there are really good reasons, some hi-jacking would be permissible, within reason. For example, the description of <!-- raw HTML omitted -->titl<!-- raw HTML omitted --> in the OpenType spec says <!-- raw HTML omitted -->&ldquo;Function: This feature replaces the default glyphs with corresponding forms designed specifically for titling. These may be all-capital and/or larger on the body, and adjusted for viewing at larger sizes. (&hellip;) Recommended implementation: The titl table maps default forms to corresponding titling forms (GSUB lookup type 1).&quot;<!-- raw HTML omitted -->. However, as the English word <!-- raw HTML omitted -->titling<!-- raw HTML omitted --> is ambiguous (it may stand for &ldquo;to provide a title for&rdquo; or &ldquo;to designate or call by a title&rdquo;), I could imagine a designer putting fancy abbreviations such as &ldquo;Mr.&rdquo;, &ldquo;Ms.&rdquo;, &ldquo;Mme.&rdquo; into that feature. It would not necessarily go with the exact wording of the specification, but would still make sense by general logic.</p>
+<p>A.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1204,17 +1108,13 @@ A.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Adam, a very nice & thorough job of thought & explanation.
-
-Having said that, there are always matters that do not fall nicely into categories. I stayed out of the "small cap numbers" thread, but consider that there is  a style <cite>Harvard Blue</cite> where titles are set cap-small cap. It is a fairly common legal style. Now any numbers occurring withing the book titles in this style should NOT be set with small cap lining figures, but with either full lining or old style, depending on the figure style of the journal.
-
-But the feature one would turn on to set the titles would be "small caps," so as to make setting the Cap-small caps easier, and to avoid blocking kerning between the full & small caps. And for this reason, I wouldn't want the small cap feature to include small cap lining features.
-
-From my perspective then, small cap figures belong in a stylistic set. I agree it is debatable.
-
-Best,
-
-Charles </div>
+		<div class="commentbody"><p>Adam, a very nice &amp; thorough job of thought &amp; explanation.</p>
+<p>Having said that, there are always matters that do not fall nicely into categories. I stayed out of the &ldquo;small cap numbers&rdquo; thread, but consider that there is  a style <!-- raw HTML omitted -->Harvard Blue<!-- raw HTML omitted --> where titles are set cap-small cap. It is a fairly common legal style. Now any numbers occurring withing the book titles in this style should NOT be set with small cap lining figures, but with either full lining or old style, depending on the figure style of the journal.</p>
+<p>But the feature one would turn on to set the titles would be &ldquo;small caps,&rdquo; so as to make setting the Cap-small caps easier, and to avoid blocking kerning between the full &amp; small caps. And for this reason, I wouldn&rsquo;t want the small cap feature to include small cap lining features.</p>
+<p>From my perspective then, small cap figures belong in a stylistic set. I agree it is debatable.</p>
+<p>Best,</p>
+<p>Charles</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1235,26 +1135,17 @@ Charles </div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Adam: Yes, the English word "titling" is ambiguous, which is why instead of an English word we use a feature tag and we define what that feature tag means. So the example you give is a great example of a designer doing something they shouldn't. In any case, even that kind of logic would not support putting a sylistic variant of a lowercase "i" into 'titl'.
-
-Mark et al: Personally, I would not consider it egregious to have a stylistic set that only affected one glyph. I do think it would be a really bad idea to put completely unrelated things in a single stylistic set, as the whole point of a stylistic set is to get a consistent look, and it's meant to be applied globally.
-
-Also of note is the idea that 'salt' is meant to be applied on a single character at a time, and implies a UI that allows the user to pick which alternate they want for the character being affected.
-
-Josh: The functionality you're asking for is already possible and has been implemented in some fonts that work with shipping applications today. The 'rand' feature is not directly supported, but can be imitated by contextual substitutions. Given that context can go across words, the same word can be made to appear differently when typed repeatedly in different contexts, as one can see with "the" in Bickham Script Pro.
-
-Nick: <cite>It would seem that Thomas expects font developers to abide by the way Adobe interprets features.</cite>
-
-No, I simply expect developers to abide by the published specs.
-
-You bring up a quite different (though certainly important) question of application support and UI. I have certainly never argued that InDesign's UI for OpenType features is wonderful. I agree that it could stand improvement in a variety of ways, and have repeatedly suggested that if other people are unhappy about it, they should put in a feature request so that the InDesign team will know that people are unhappy (http://www.adobe.com/cfusion/mmform/index.cfm?name=wishform). But as of a few weeks ago, going through the entire InDesign feature request database for the previous year, NOT ONE PERSON made such a request, and hardly anyone has asked for support for more OpenType layout features. This despite thousands of feature requests.
-
-So, Nick, if that bothers you enough to write about it here, you should make a feature request. Otherwise you're like people who complain about the actions of elected leaders but can't be bothered to vote. It's not like I haven't pointed out the link before:
-http://www.adobe.com/cfusion/mmform/index.cfm?name=wishform
-
-Cheers,
-
-T
+		<div class="commentbody"><p>Adam: Yes, the English word &ldquo;titling&rdquo; is ambiguous, which is why instead of an English word we use a feature tag and we define what that feature tag means. So the example you give is a great example of a designer doing something they shouldn&rsquo;t. In any case, even that kind of logic would not support putting a sylistic variant of a lowercase &ldquo;i&rdquo; into &lsquo;titl&rsquo;.</p>
+<p>Mark et al: Personally, I would not consider it egregious to have a stylistic set that only affected one glyph. I do think it would be a really bad idea to put completely unrelated things in a single stylistic set, as the whole point of a stylistic set is to get a consistent look, and it&rsquo;s meant to be applied globally.</p>
+<p>Also of note is the idea that &lsquo;salt&rsquo; is meant to be applied on a single character at a time, and implies a UI that allows the user to pick which alternate they want for the character being affected.</p>
+<p>Josh: The functionality you&rsquo;re asking for is already possible and has been implemented in some fonts that work with shipping applications today. The &lsquo;rand&rsquo; feature is not directly supported, but can be imitated by contextual substitutions. Given that context can go across words, the same word can be made to appear differently when typed repeatedly in different contexts, as one can see with &ldquo;the&rdquo; in Bickham Script Pro.</p>
+<p>Nick: <!-- raw HTML omitted -->It would seem that Thomas expects font developers to abide by the way Adobe interprets features.<!-- raw HTML omitted --></p>
+<p>No, I simply expect developers to abide by the published specs.</p>
+<p>You bring up a quite different (though certainly important) question of application support and UI. I have certainly never argued that InDesign&rsquo;s UI for OpenType features is wonderful. I agree that it could stand improvement in a variety of ways, and have repeatedly suggested that if other people are unhappy about it, they should put in a feature request so that the InDesign team will know that people are unhappy (<a href="http://www.adobe.com/cfusion/mmform/index.cfm?name=wishform)">http://www.adobe.com/cfusion/mmform/index.cfm?name=wishform)</a>. But as of a few weeks ago, going through the entire InDesign feature request database for the previous year, NOT ONE PERSON made such a request, and hardly anyone has asked for support for more OpenType layout features. This despite thousands of feature requests.</p>
+<p>So, Nick, if that bothers you enough to write about it here, you should make a feature request. Otherwise you&rsquo;re like people who complain about the actions of elected leaders but can&rsquo;t be bothered to vote. It&rsquo;s not like I haven&rsquo;t pointed out the link before:
+<a href="http://www.adobe.com/cfusion/mmform/index.cfm?name=wishform">http://www.adobe.com/cfusion/mmform/index.cfm?name=wishform</a></p>
+<p>Cheers,</p>
+<p>T</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1276,7 +1167,7 @@ T
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">i agree, charles. i feel that Adam's stance an explanation provides a comfortable middle ground between the fundamentalist OT spec hardline and the willy-nilly asignment of functions and features.</div>
+		<div class="commentbody">i agree, charles. i feel that Adam&rsquo;s stance an explanation provides a comfortable middle ground between the fundamentalist OT spec hardline and the willy-nilly asignment of functions and features.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1297,11 +1188,10 @@ T
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I still say you're going to hell, and taking me with you!
-
-:)
-
-T</div>
+		<div class="commentbody"><p>I still say you&rsquo;re going to hell, and taking me with you!</p>
+<p>:)</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1322,9 +1212,9 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">My mistrust of classification systems is well documented, but teleological classification is a respectable Thomistic tradition, so I'll play along with Adam's suggestions. I'm not very happy with the titles 'Strong Stylistic' and 'Weak Stylistic', because these qualifiers seem to undermine the functional focus of the classification. I would probably use, respectively, 'Articulatory' and 'Stylistic'.
-
-Of course, now we can have a good argument about whether e.g. the 'curs' feature is linguistic, articulatory or stylistic. And the answer is that it might be any of these, or straddle categories, depending on the particular script, language, font and the purposes for which the user is employing the font. And there goes another classification system... :)</div>
+		<div class="commentbody"><p>My mistrust of classification systems is well documented, but teleological classification is a respectable Thomistic tradition, so I&rsquo;ll play along with Adam&rsquo;s suggestions. I&rsquo;m not very happy with the titles &lsquo;Strong Stylistic&rsquo; and &lsquo;Weak Stylistic&rsquo;, because these qualifiers seem to undermine the functional focus of the classification. I would probably use, respectively, &lsquo;Articulatory&rsquo; and &lsquo;Stylistic&rsquo;.</p>
+<p>Of course, now we can have a good argument about whether e.g. the &lsquo;curs&rsquo; feature is linguistic, articulatory or stylistic. And the answer is that it might be any of these, or straddle categories, depending on the particular script, language, font and the purposes for which the user is employing the font. And there goes another classification system&hellip; :)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1345,11 +1235,10 @@ Of course, now we can have a good argument about whether e.g. the 'curs' feature
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Charles, the emergence of the layout man, later to be termed art director or graphic designer, was due to more widespread phenomena than just changes in typography. Mechanization happened in all areas of publishing. "The Origins of Graphic Design in America 1870-1920" by Ellen Mazur Thomson is the best work I've come across on the phenomenon. 
-
-<em>Also undesriable would be putting an arbitrary stylistic alternate into ‘titl’ (titling alternates)</em>
-
-Thomas, "titling" is the least logical of the "discretionary alternates", because really it's just a lazy way of not making another font. After all, what is the difference between titling and a display/size-specific ("optical scaling") font? Surely typographers should have access to (almost) all characters in a font at display size?  It seems to me that "titling" was instituted to accomodate Adobe Garamond's titling caps -- meanwhile types such as Kepler, Freight, Filosofia, Requiem etc. offer the whole shebang. Therefore it deserves to be repurposed!</div>
+		<div class="commentbody"><p>Charles, the emergence of the layout man, later to be termed art director or graphic designer, was due to more widespread phenomena than just changes in typography. Mechanization happened in all areas of publishing. &ldquo;The Origins of Graphic Design in America 1870-1920&rdquo; by Ellen Mazur Thomson is the best work I&rsquo;ve come across on the phenomenon.</p>
+<p><!-- raw HTML omitted -->Also undesriable would be putting an arbitrary stylistic alternate into ‘titl’ (titling alternates)<!-- raw HTML omitted --></p>
+<p>Thomas, &ldquo;titling&rdquo; is the least logical of the &ldquo;discretionary alternates&rdquo;, because really it&rsquo;s just a lazy way of not making another font. After all, what is the difference between titling and a display/size-specific (&ldquo;optical scaling&rdquo;) font? Surely typographers should have access to (almost) all characters in a font at display size?  It seems to me that &ldquo;titling&rdquo; was instituted to accomodate Adobe Garamond&rsquo;s titling caps &ndash; meanwhile types such as Kepler, Freight, Filosofia, Requiem etc. offer the whole shebang. Therefore it deserves to be repurposed!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1370,27 +1259,22 @@ Thomas, "titling" is the least logical of the "discretionary alternates", becaus
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thomas, 
-
-> Yes, the English word “titling” is ambiguous, which 
-> is why instead of an English word we use a feature 
-> tag and we define what that feature tag means. So 
-> the example you give is a great example of a designer 
-> doing something they shouldn’t.
-
-Let’s analyze the feature description: <em>"This feature replaces the default glyphs with corresponding forms designed specifically for titling. These may be all-capital and/or larger on the body, and adjusted for viewing at larger sizes."</em>
-
-A fancy "Mr." ligature is a "corresponding form designed specifically for titling". Not "titling" as in "to provide a title for" but "titling" as in "to call by a title". 
-
-The feature description then goes on to speak what the corresponding forms <em>may</em> be. Just by reading the feature description, it does not say that a fancy "Mr." ligature with a raised and underscored "r" is <em>not</em> what this feature is for. As I said, the word "titling" is ambiguous, and the <em>titl</em> feature description does not clarify whether it is only one of the meanings that it is intended for. The example cited in the feature description (<em>"The user applies this feature in Adobe Garamond to get the titling caps"</em>) shows one possible solution, but it is not exhaustive. 
-
-It was not me who wrote the feature descriptions in the OpenType specification. An average font developer <em>may or may not know</em> what the developers of the specification <em>had in mind</em> when writing the wording. 
-
-If you must, please accept this contribution of mine as a call for clarification of the feature description of <em>titl</em> to minimize possible implementations that you consider non-conformant. 
-
-A.
-
-Ps. Please keep in mind that non-native speakers such as myself tend to read texts more literally if they do not necessarily know the cultural background. Perhaps for you, it is obvious what exactly the word "titling" means in this context. For me, it is not. </div>
+		<div class="commentbody"><p>Thomas,</p>
+<blockquote>
+<p>Yes, the English word “titling” is ambiguous, which 
+is why instead of an English word we use a feature 
+tag and we define what that feature tag means. So 
+the example you give is a great example of a designer 
+doing something they shouldn’t.</p>
+</blockquote>
+<p>Let’s analyze the feature description: <!-- raw HTML omitted -->&ldquo;This feature replaces the default glyphs with corresponding forms designed specifically for titling. These may be all-capital and/or larger on the body, and adjusted for viewing at larger sizes.&quot;<!-- raw HTML omitted --></p>
+<p>A fancy &ldquo;Mr.&rdquo; ligature is a &ldquo;corresponding form designed specifically for titling&rdquo;. Not &ldquo;titling&rdquo; as in &ldquo;to provide a title for&rdquo; but &ldquo;titling&rdquo; as in &ldquo;to call by a title&rdquo;.</p>
+<p>The feature description then goes on to speak what the corresponding forms <!-- raw HTML omitted -->may<!-- raw HTML omitted --> be. Just by reading the feature description, it does not say that a fancy &ldquo;Mr.&rdquo; ligature with a raised and underscored &ldquo;r&rdquo; is <!-- raw HTML omitted -->not<!-- raw HTML omitted --> what this feature is for. As I said, the word &ldquo;titling&rdquo; is ambiguous, and the <!-- raw HTML omitted -->titl<!-- raw HTML omitted --> feature description does not clarify whether it is only one of the meanings that it is intended for. The example cited in the feature description (<!-- raw HTML omitted -->&ldquo;The user applies this feature in Adobe Garamond to get the titling caps&rdquo;<!-- raw HTML omitted -->) shows one possible solution, but it is not exhaustive.</p>
+<p>It was not me who wrote the feature descriptions in the OpenType specification. An average font developer <!-- raw HTML omitted -->may or may not know<!-- raw HTML omitted --> what the developers of the specification <!-- raw HTML omitted -->had in mind<!-- raw HTML omitted --> when writing the wording.</p>
+<p>If you must, please accept this contribution of mine as a call for clarification of the feature description of <!-- raw HTML omitted -->titl<!-- raw HTML omitted --> to minimize possible implementations that you consider non-conformant.</p>
+<p>A.</p>
+<p>Ps. Please keep in mind that non-native speakers such as myself tend to read texts more literally if they do not necessarily know the cultural background. Perhaps for you, it is obvious what exactly the word &ldquo;titling&rdquo; means in this context. For me, it is not.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1411,11 +1295,10 @@ Ps. Please keep in mind that non-native speakers such as myself tend to read tex
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>Nick, if that bothers you enough to write about it here, you should make a feature request. </em>
-
-It doesn't bother me, as I said I have been challenged and stimulated by it -- to create old style figures for a scotch modern face, and it surprised me that they turned out OK (at least I thought so). What bothers me is the hard line on standards.  I like to see clearly defined standards, but at the same time I don't mind digression. In fact, clearly defined standards encourage meaningful digression.
-
-I don't see myself making feature requests to Adobe, or getting involved with industry groups. I've done my share of that and I often end up being a lone dissenting voice, which wearies. I'd rather discuss things on Typophile, this is where the action and ideas are -- and your blog is cool too.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Nick, if that bothers you enough to write about it here, you should make a feature request. <!-- raw HTML omitted --></p>
+<p>It doesn&rsquo;t bother me, as I said I have been challenged and stimulated by it &ndash; to create old style figures for a scotch modern face, and it surprised me that they turned out OK (at least I thought so). What bothers me is the hard line on standards.  I like to see clearly defined standards, but at the same time I don&rsquo;t mind digression. In fact, clearly defined standards encourage meaningful digression.</p>
+<p>I don&rsquo;t see myself making feature requests to Adobe, or getting involved with industry groups. I&rsquo;ve done my share of that and I often end up being a lone dissenting voice, which wearies. I&rsquo;d rather discuss things on Typophile, this is where the action and ideas are &ndash; and your blog is cool too.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1436,11 +1319,10 @@ I don't see myself making feature requests to Adobe, or getting involved with in
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"...the entire InDesign feature request database for the previous year, NOT ONE PERSON made such a request, and hardly anyone has asked for support for more OpenType layout features."
-
-There is at least one now.
-
-ChrisL</div>
+		<div class="commentbody"><p>&ldquo;&hellip;the entire InDesign feature request database for the previous year, NOT ONE PERSON made such a request, and hardly anyone has asked for support for more OpenType layout features.&rdquo;</p>
+<p>There is at least one now.</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1461,7 +1343,7 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ok, maybe the right place for <a href="http://typophile.com/node/32455#comment-192478" target="_blank">my comment</a> was on this thread.&nbsp;&nbsp;;-)</div>
+		<div class="commentbody">Ok, maybe the right place for <!-- raw HTML omitted -->my comment<!-- raw HTML omitted --> was on this thread.  ;-)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1482,14 +1364,11 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Further to my comment on the uselessness of the "Titling" feature:
-
-http://typophile.com/node/32478
-
-**
-
-So I will carry on putting alternates in "titl" so that users of older apps can access the feature.
-However, I have decided to in future use Stylistic Sets and Stylistic Alternates "properly", based on arguments above.
+		<div class="commentbody"><p>Further to my comment on the uselessness of the &ldquo;Titling&rdquo; feature:</p>
+<p><a href="http://typophile.com/node/32478">http://typophile.com/node/32478</a></p>
+<p>**</p>
+<p>So I will carry on putting alternates in &ldquo;titl&rdquo; so that users of older apps can access the feature.
+However, I have decided to in future use Stylistic Sets and Stylistic Alternates &ldquo;properly&rdquo;, based on arguments above.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1511,7 +1390,7 @@ However, I have decided to in future use Stylistic Sets and Stylistic Alternates
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Oops. I just thought of a good use for Titling -- for a set of Inline, "Tooled", or Decorative Capitals, such as those in Scala (although there are four sets). Perhaps those would be better as stylistic sets. But if there was just one set of fancy caps, something like Castellar, inserted in a tradition serifed font, for example.</div>
+		<div class="commentbody">Oops. I just thought of a good use for Titling &ndash; for a set of Inline, &ldquo;Tooled&rdquo;, or Decorative Capitals, such as those in Scala (although there are four sets). Perhaps those would be better as stylistic sets. But if there was just one set of fancy caps, something like Castellar, inserted in a tradition serifed font, for example.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1532,11 +1411,10 @@ However, I have decided to in future use Stylistic Sets and Stylistic Alternates
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick, 
-
-since Titling Alternates is an "articulatory" feature and Stylistic Sets is a "stylistic" feature, I think it is quite fine to place the Inline, “Tooled”, or Decorative Capitals into the "titl" feature and *also* have them as one of the "ssXX" features. I think everybody agrees that there is no problem with having the same glyphs being invoked through different features, as long as each and every of these paths does not conflict with the registered description or the intended meaning of each of these features. A set of decorative capitals is both "titling" and "stylistic", and you don't have to make an "either or" choice. 
-
-A.</div>
+		<div class="commentbody"><p>Nick,</p>
+<p>since Titling Alternates is an &ldquo;articulatory&rdquo; feature and Stylistic Sets is a &ldquo;stylistic&rdquo; feature, I think it is quite fine to place the Inline, “Tooled”, or Decorative Capitals into the &ldquo;titl&rdquo; feature and <em>also</em> have them as one of the &ldquo;ssXX&rdquo; features. I think everybody agrees that there is no problem with having the same glyphs being invoked through different features, as long as each and every of these paths does not conflict with the registered description or the intended meaning of each of these features. A set of decorative capitals is both &ldquo;titling&rdquo; and &ldquo;stylistic&rdquo;, and you don&rsquo;t have to make an &ldquo;either or&rdquo; choice.</p>
+<p>A.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1557,13 +1435,11 @@ A.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">To the assembled, does the following constitute a "true" titling application?
-
-Versions of A, O, and U with "embedded" umlauts, which are contained within the cap-height. These forms are not appropriate within running text, but they can be used for all-caps headline setting. These forms should not be linked to case, because not all languages would benefit from these variants.
-
-If this is a true titl, should it also be tagged to only occur in German texts?
-
-Looking forward to hearing both opinions and answers.</div>
+		<div class="commentbody"><p>To the assembled, does the following constitute a &ldquo;true&rdquo; titling application?</p>
+<p>Versions of A, O, and U with &ldquo;embedded&rdquo; umlauts, which are contained within the cap-height. These forms are not appropriate within running text, but they can be used for all-caps headline setting. These forms should not be linked to case, because not all languages would benefit from these variants.</p>
+<p>If this is a true titl, should it also be tagged to only occur in German texts?</p>
+<p>Looking forward to hearing both opinions and answers.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1584,13 +1460,11 @@ Looking forward to hearing both opinions and answers.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>Versions of A, O, and U with “embedded” umlauts, which are contained within the cap-height. These forms are not appropriate within running text, but they can be used for all-caps headline setting.</cite>
-
-Sounds good.
-
-I would not restrict it to one language. What about adding some more fancy versions for combinations with acute, grave, circumflex?
-
-Karsten</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Versions of A, O, and U with “embedded” umlauts, which are contained within the cap-height. These forms are not appropriate within running text, but they can be used for all-caps headline setting.<!-- raw HTML omitted --></p>
+<p>Sounds good.</p>
+<p>I would not restrict it to one language. What about adding some more fancy versions for combinations with acute, grave, circumflex?</p>
+<p>Karsten</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1611,15 +1485,14 @@ Karsten</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> Versions of A, O, and U with “embedded” umlauts, 
-> which are contained within the cap-height. 
-
-It is very appropriate for both Titling Alternates and Stylistic Sets. Language tagging typically makes sense to enforce certain behaviors by default if the text is known to be in a particular language (e.g. the Serbian Cyrillic alternates in "locl", the localized forms feature, specific substitutions for non-Arabic languages that use the Arabic script), or to prevent some behaviors to happen in a particular language that would otherwise occur, but would "spoil" the setting in that language (e.g. the formation of f+i ligatures in Turkish and related languages). 
-
-I think for completely discretionary features where it is not known with certainty that a particular behavior is suitable only for German or not at all for German, restricting a substitution to one language only is not a good idea. 
-
-Best, 
-Adam
+		<div class="commentbody"><blockquote>
+<p>Versions of A, O, and U with “embedded” umlauts, 
+which are contained within the cap-height.</p>
+</blockquote>
+<p>It is very appropriate for both Titling Alternates and Stylistic Sets. Language tagging typically makes sense to enforce certain behaviors by default if the text is known to be in a particular language (e.g. the Serbian Cyrillic alternates in &ldquo;locl&rdquo;, the localized forms feature, specific substitutions for non-Arabic languages that use the Arabic script), or to prevent some behaviors to happen in a particular language that would otherwise occur, but would &ldquo;spoil&rdquo; the setting in that language (e.g. the formation of f+i ligatures in Turkish and related languages).</p>
+<p>I think for completely discretionary features where it is not known with certainty that a particular behavior is suitable only for German or not at all for German, restricting a substitution to one language only is not a good idea.</p>
+<p>Best, 
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1641,17 +1514,13 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Adobists-
-
-I would expects a spec-positive approach from anyone developing fonts inside Adobe. Not only have they co-authored the specification, but are large and need a consistent toolbox for everyone internally.
-
-Nevertheless, what makes a font OpenType, is the file format (talbes) and a digital signature. This is accessible to anyone. The structuring of the specification is not. The value of OpenType to Adobe is increased by Metcalfe's law, so your OT fonts increase in value with the aggregate output of outside developers--but without being part of the spec design, they (we) are a lawless horde, which tends to complicate things.
-
-Likewise, I do not think it is unfair for others to expect that Adobe will implement all the features they sponsored for inclusion prior to dictation of best practices. I take most earnestly the recommendations that are implemented by them, not just stated. They are the only (of all two) specification designers that has a strong position in actual dtp software and font development. After all, why else should they determine the final wording of the specification? (Example: 'RAND')
-
-Adam-
-
-I find your breakdown very useful for a project I am working on. I was trying to formulate something similar, with little success. Do you mind if I borrow those categories for the collaborative taxonomy of OT components I am working on in my "spare" time?</div>
+		<div class="commentbody"><p>Adobists-</p>
+<p>I would expects a spec-positive approach from anyone developing fonts inside Adobe. Not only have they co-authored the specification, but are large and need a consistent toolbox for everyone internally.</p>
+<p>Nevertheless, what makes a font OpenType, is the file format (talbes) and a digital signature. This is accessible to anyone. The structuring of the specification is not. The value of OpenType to Adobe is increased by Metcalfe&rsquo;s law, so your OT fonts increase in value with the aggregate output of outside developers&ndash;but without being part of the spec design, they (we) are a lawless horde, which tends to complicate things.</p>
+<p>Likewise, I do not think it is unfair for others to expect that Adobe will implement all the features they sponsored for inclusion prior to dictation of best practices. I take most earnestly the recommendations that are implemented by them, not just stated. They are the only (of all two) specification designers that has a strong position in actual dtp software and font development. After all, why else should they determine the final wording of the specification? (Example: &lsquo;RAND&rsquo;)</p>
+<p>Adam-</p>
+<p>I find your breakdown very useful for a project I am working on. I was trying to formulate something similar, with little success. Do you mind if I borrow those categories for the collaborative taxonomy of OT components I am working on in my &ldquo;spare&rdquo; time?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1672,15 +1541,13 @@ I find your breakdown very useful for a project I am working on. I was trying to
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>These forms are not appropriate within running text...</em>
-
-Not necessarily.
+		<div class="commentbody"><p><!-- raw HTML omitted -->These forms are not appropriate within running text&hellip;<!-- raw HTML omitted --></p>
+<p>Not necessarily.
 Wherever leading is tight or solid, cap accents get in the way.
-And it's the art director's prerogative to do that, negative leading even.
-
-<em>If this is a true titl, should it also be tagged to only occur in German texts?</em>
-
-Dude. Blue Öyster Cult.</div>
+And it&rsquo;s the art director&rsquo;s prerogative to do that, negative leading even.</p>
+<p><!-- raw HTML omitted -->If this is a true titl, should it also be tagged to only occur in German texts?<!-- raw HTML omitted --></p>
+<p>Dude. Blue Öyster Cult.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1701,12 +1568,11 @@ Dude. Blue Öyster Cult.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>Wherever leading is tight or solid, cap accents get in the way.
-And it’s the art director’s prerogative to do that, negative leading even.</cite>
-
-And the comp's prerogative to tell such an art director to look for a short pier to take a long walk off -- or should that be "off which to take a long walk"?
-
-A designer who doesn't take into account the language used in running text, for whatever reason, is a <cite>stylist</cite> -- who cares nothing for authors or readers.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Wherever leading is tight or solid, cap accents get in the way.
+And it’s the art director’s prerogative to do that, negative leading even.<!-- raw HTML omitted --></p>
+<p>And the comp&rsquo;s prerogative to tell such an art director to look for a short pier to take a long walk off &ndash; or should that be &ldquo;off which to take a long walk&rdquo;?</p>
+<p>A designer who doesn&rsquo;t take into account the language used in running text, for whatever reason, is a <!-- raw HTML omitted -->stylist<!-- raw HTML omitted --> &ndash; who cares nothing for authors or readers.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1727,9 +1593,9 @@ A designer who doesn't take into account the language used in running text, for 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Charles, art directors working in many languages set text solid--many of them with a complete lack of style.
+		<div class="commentbody">Charles, art directors working in many languages set text solid&ndash;many of them with a complete lack of style.
 Often lack of space, or excess of text, is the culprit.
-Perhaps "embedded" cap accents will help.</div>
+Perhaps &ldquo;embedded&rdquo; cap accents will help.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1750,11 +1616,10 @@ Perhaps "embedded" cap accents will help.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick, you're right of course. Under those conditions (never happens in my line of work), it would make sense, if the community of readers understood & accepted it. There is even a precedent in mathematics -- the limits for summation & integration are place on top in displayed equations, but along side when the equation is run into text, expressions having numerators/denominators indicate them with a solidus when run in, and so on.
-
-<cite>Edit</cite>
-
-I hope it goes without saying that these glyphs should be in addition to the caps with regular accents. This could even be a plus -- I've always felt that the accents on Quadraat capitals compromise the design a bit. Mr. Smeijers may feel otherwise, of course. </div>
+		<div class="commentbody"><p>Nick, you&rsquo;re right of course. Under those conditions (never happens in my line of work), it would make sense, if the community of readers understood &amp; accepted it. There is even a precedent in mathematics &ndash; the limits for summation &amp; integration are place on top in displayed equations, but along side when the equation is run into text, expressions having numerators/denominators indicate them with a solidus when run in, and so on.</p>
+<p><!-- raw HTML omitted -->Edit<!-- raw HTML omitted --></p>
+<p>I hope it goes without saying that these glyphs should be in addition to the caps with regular accents. This could even be a plus &ndash; I&rsquo;ve always felt that the accents on Quadraat capitals compromise the design a bit. Mr. Smeijers may feel otherwise, of course.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1775,7 +1640,7 @@ I hope it goes without saying that these glyphs should be in addition to the cap
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">So, are people saying that embedded/tucked accented caps should be a it's own, new, separate feature tag?</div>
+		<div class="commentbody">So, are people saying that embedded/tucked accented caps should be a it&rsquo;s own, new, separate feature tag?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1796,13 +1661,11 @@ I hope it goes without saying that these glyphs should be in addition to the cap
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, it should be a stylistic set feature, because typographers will want to apply it to a mass of text.
-
-Yes, it should be in stylistic alternates as well, typographers might not think to look in the sets for it.
-
-No, it shouldn't be language-specific, because it is not a linguistic attribute.
-
-Perhaps a font targeted specifically for German (and English heavy metal) use could include it as "calt" - so that it is on by default, but could be turned off if perchance a Scandinavian uses the font.</div>
+		<div class="commentbody"><p>Yes, it should be a stylistic set feature, because typographers will want to apply it to a mass of text.</p>
+<p>Yes, it should be in stylistic alternates as well, typographers might not think to look in the sets for it.</p>
+<p>No, it shouldn&rsquo;t be language-specific, because it is not a linguistic attribute.</p>
+<p>Perhaps a font targeted specifically for German (and English heavy metal) use could include it as &ldquo;calt&rdquo; - so that it is on by default, but could be turned off if perchance a Scandinavian uses the font.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1823,19 +1686,14 @@ Perhaps a font targeted specifically for German (and English heavy metal) use co
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick, 
-
-[img:sites/default/files/old-images/image_4916.gif]
-<em>(Image courtesy of <a href="http://diacritics.typo.cz/index.php?id=12">diacritics.typo.cz</a>)</em>
-
-In contemporary German typographic practice, such treatment of accents as shown above in Futura is considered dated, antiquated, or at least, it is left for very discretionary purposes. Most certainly it should not be on by default. 
-
-Choz, 
-
-feel free to use my categorization in your work. You are welcome to mention the source -- to ensure the readers that it is not any "official" classification but the result of my subjective view of the topic. 
-
-Best,
-Adam
+		<div class="commentbody"><p>Nick,</p>
+<p>[img:sites/default/files/old-images/image_4916.gif]
+<!-- raw HTML omitted -->(Image courtesy of <!-- raw HTML omitted -->diacritics.typo.cz<!-- raw HTML omitted -->)<!-- raw HTML omitted --></p>
+<p>In contemporary German typographic practice, such treatment of accents as shown above in Futura is considered dated, antiquated, or at least, it is left for very discretionary purposes. Most certainly it should not be on by default.</p>
+<p>Choz,</p>
+<p>feel free to use my categorization in your work. You are welcome to mention the source &ndash; to ensure the readers that it is not any &ldquo;official&rdquo; classification but the result of my subjective view of the topic.</p>
+<p>Best,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1857,22 +1715,12 @@ Adam
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em> dated, antiquated</em>
-
-That's what I had in mind, a retro or historical revival typeface that played up such tight-fitting qualities. But you're probably right, it shouldn't be on by default.
-
-<em>What about adding some more fancy versions for combinations with acute, grave, circumflex?</em>
-
-A comparable treatment for French etc. would be a didone face where acute, grave and circumflex cap accents are all just a thin horizontal hairline.
-
-**
-
-Adam, your thoughts please on the occasional Polish practice of running the cap acute right through the top horizontal stem of C, S and O?
-
-
-
-
-
+		<div class="commentbody"><p><!-- raw HTML omitted --> dated, antiquated<!-- raw HTML omitted --></p>
+<p>That&rsquo;s what I had in mind, a retro or historical revival typeface that played up such tight-fitting qualities. But you&rsquo;re probably right, it shouldn&rsquo;t be on by default.</p>
+<p><!-- raw HTML omitted -->What about adding some more fancy versions for combinations with acute, grave, circumflex?<!-- raw HTML omitted --></p>
+<p>A comparable treatment for French etc. would be a didone face where acute, grave and circumflex cap accents are all just a thin horizontal hairline.</p>
+<p>**</p>
+<p>Adam, your thoughts please on the occasional Polish practice of running the cap acute right through the top horizontal stem of C, S and O?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1894,9 +1742,11 @@ Adam, your thoughts please on the occasional Polish practice of running the cap 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> <em>Perhaps a font targeted specifically for German (and English heavy metal) use could include it as “calt” - so that it is on by default, but could be turned off if perchance a Scandinavian uses the font.</em>
-
-Don't implement such behavior in 'calt', because turning the feature off may disable other functionalities present in 'calt'.</div>
+		<div class="commentbody"><blockquote>
+<p><!-- raw HTML omitted -->Perhaps a font targeted specifically for German (and English heavy metal) use could include it as “calt” - so that it is on by default, but could be turned off if perchance a Scandinavian uses the font.<!-- raw HTML omitted --></p>
+</blockquote>
+<p>Don&rsquo;t implement such behavior in &lsquo;calt&rsquo;, because turning the feature off may disable other functionalities present in &lsquo;calt&rsquo;.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1917,15 +1767,12 @@ Don't implement such behavior in 'calt', because turning the feature off may dis
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>(and English heavy metal) use</em>
-
-They are generally niche-purposed swashes, with no affect on pronunciation or meaning. Shouldn't they should normally go in a stylistic set? Or, perhaps, even in swash (assuming the face didn't have a broader-use swash). Don't forget that it isn't just English-speaking/targeting bands that use the umlaut gratuitously, and that it is not restricted to topping a o and u. !Panzermensch, that "heavy metal" face I was showing last October, features an umlautted n, as an homage to Spinal Tap. 
-
-@ our next board meeting I will propose that !Exclamachine work to sponsor the -hmum- tag.~
-
-<em>. You are welcome to mention the source — to ensure the readers that it is not any “official” classification</em> 
-
-I'll call it the Twardoch Method™. :)  There does seem to be enough thought and acceptance by those that understand OT in this thread that if you haven't nailed it down, you are on a very interesting track. I am not going to say that it is officially anything, but I think that it might be a great tool for those trying to get their brain around OpenType concepts. I like the way you break it into more manageable bites, which is the overall goal of my project. Since it is a wiki, there is no harm in having several ways of categorizing. So far I had just begun building a database using the inherent hierarchal tags, and grouping by lookup types. This will become another searchable, groupable vector.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->(and English heavy metal) use<!-- raw HTML omitted --></p>
+<p>They are generally niche-purposed swashes, with no affect on pronunciation or meaning. Shouldn&rsquo;t they should normally go in a stylistic set? Or, perhaps, even in swash (assuming the face didn&rsquo;t have a broader-use swash). Don&rsquo;t forget that it isn&rsquo;t just English-speaking/targeting bands that use the umlaut gratuitously, and that it is not restricted to topping a o and u. !Panzermensch, that &ldquo;heavy metal&rdquo; face I was showing last October, features an umlautted n, as an homage to Spinal Tap.</p>
+<p>@ our next board meeting I will propose that !Exclamachine work to sponsor the -hmum- tag.~</p>
+<p><!-- raw HTML omitted -->. You are welcome to mention the source — to ensure the readers that it is not any “official” classification<!-- raw HTML omitted --></p>
+<p>I&rsquo;ll call it the Twardoch Method™. :)  There does seem to be enough thought and acceptance by those that understand OT in this thread that if you haven&rsquo;t nailed it down, you are on a very interesting track. I am not going to say that it is officially anything, but I think that it might be a great tool for those trying to get their brain around OpenType concepts. I like the way you break it into more manageable bites, which is the overall goal of my project. Since it is a wiki, there is no harm in having several ways of categorizing. So far I had just begun building a database using the inherent hierarchal tags, and grouping by lookup types. This will become another searchable, groupable vector.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1946,9 +1793,9 @@ I'll call it the Twardoch Method™. :)  There does seem to be enough thought an
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>an umlautted n, as an homage to Spinal Tap.</em>
-
-Sounds like a candidate for Unicode.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->an umlautted n, as an homage to Spinal Tap.<!-- raw HTML omitted --></p>
+<p>Sounds like a candidate for Unicode.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1969,12 +1816,10 @@ Sounds like a candidate for Unicode.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>"It's like a pair of eyes. You're looking at the umlaut, and it's looking at you."
--- David St. Hubbins </em>
-
-I think they want it (the 'n̈') to only be assembled out of some sequence of tedious demiglyphs. The futureproof standard with enough space for "forever" used up all the best code points for the 720° rotated extreme 'e', the deformed-P with dot below ('‽') and other typographic gems. They are running scared now and very picky about what they will add. The Snark's only chance at officaldom, for example, is if it evolves into a form that looks similar to, but not exactly like a tilde-on-a-dot. I think.
-
-I should have gone to bed already, and not peeked back in on this thread! At least we're not debating <em>this</em>: http://en.wikipedia.org/wiki/Talk:Heavy_metal_umlaut#n-umlaut
+		<div class="commentbody"><p><!-- raw HTML omitted -->&ldquo;It&rsquo;s like a pair of eyes. You&rsquo;re looking at the umlaut, and it&rsquo;s looking at you.&rdquo;
+&ndash; David St. Hubbins <!-- raw HTML omitted --></p>
+<p>I think they want it (the &lsquo;n̈&rsquo;) to only be assembled out of some sequence of tedious demiglyphs. The futureproof standard with enough space for &ldquo;forever&rdquo; used up all the best code points for the 720° rotated extreme &lsquo;e&rsquo;, the deformed-P with dot below ('‽') and other typographic gems. They are running scared now and very picky about what they will add. The Snark&rsquo;s only chance at officaldom, for example, is if it evolves into a form that looks similar to, but not exactly like a tilde-on-a-dot. I think.</p>
+<p>I should have gone to bed already, and not peeked back in on this thread! At least we&rsquo;re not debating <!-- raw HTML omitted -->this<!-- raw HTML omitted -->: <a href="http://en.wikipedia.org/wiki/Talk:Heavy_metal_umlaut#n-umlaut">http://en.wikipedia.org/wiki/Talk:Heavy_metal_umlaut#n-umlaut</a></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1996,12 +1841,14 @@ I should have gone to bed already, and not peeked back in on this thread! At lea
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">>> an umlautted n, as an homage to Spinal Tap.
-> Sounds like a candidate for Unicode.
-
-It is in Unicode. The Unicode Standard encodes it as <em>U+006E U+0308</em>. The character does not have a precomposed form, but it does not necessarily need one. In an OpenType font, you’d define a mark attachment feature <em>mark</em> so that "n" followed by "dieresiscomb" snap into place, and optionally, you could also supply a precomposed glyph named "uni006E0308" that you’d access through the <em>ccmp</em> feature. 
-
-A.
+		<div class="commentbody"><blockquote>
+<blockquote>
+<p>an umlautted n, as an homage to Spinal Tap.
+Sounds like a candidate for Unicode.</p>
+</blockquote>
+</blockquote>
+<p>It is in Unicode. The Unicode Standard encodes it as <!-- raw HTML omitted -->U+006E U+0308<!-- raw HTML omitted -->. The character does not have a precomposed form, but it does not necessarily need one. In an OpenType font, you’d define a mark attachment feature <!-- raw HTML omitted -->mark<!-- raw HTML omitted --> so that &ldquo;n&rdquo; followed by &ldquo;dieresiscomb&rdquo; snap into place, and optionally, you could also supply a precomposed glyph named &ldquo;uni006E0308&rdquo; that you’d access through the <!-- raw HTML omitted -->ccmp<!-- raw HTML omitted --> feature.</p>
+<p>A.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -2023,13 +1870,11 @@ A.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>It is in Unicode.</em>
-
-Not much use if the font (such as helvetica.dfont, which many a web site calls for--and nothing this user can do to deny them) has combining accents which don't have a negative left sidebearing. I'm looking at Spin¨al Tap.
-
-Surely negative left sidebearing on (most) combining accents is a best practice?
-
-Or are there applications that position combining accents by backspacing them?</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->It is in Unicode.<!-- raw HTML omitted --></p>
+<p>Not much use if the font (such as helvetica.dfont, which many a web site calls for&ndash;and nothing this user can do to deny them) has combining accents which don&rsquo;t have a negative left sidebearing. I&rsquo;m looking at Spin¨al Tap.</p>
+<p>Surely negative left sidebearing on (most) combining accents is a best practice?</p>
+<p>Or are there applications that position combining accents by backspacing them?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2050,9 +1895,9 @@ Or are there applications that position combining accents by backspacing them?</
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Kerning pair perhaps?
-
-ChrisL</div>
+		<div class="commentbody"><p>Kerning pair perhaps?</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2073,17 +1918,12 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>Not much use if the font (such as helvetica.dfont, which many a web site calls for</em>
-
-But adding the n w/ umlaut to a new font would also not solve that problem. 
-
-<em>and nothing this user can do to deny them)</em>
-
-Switch to Opera? They offer a lot of style sheet control for the user. Or install the Firefox developer's toolbar add-on, then write up your own style sheet override that uses any face. No one is still really using IE are they?
-
-<strong><em>Surely negative left sidebearing on (most) combining accents is a best practice?</em></strong>
-
-I'd really like to know the current consensus on that.
+		<div class="commentbody"><p><!-- raw HTML omitted -->Not much use if the font (such as helvetica.dfont, which many a web site calls for<!-- raw HTML omitted --></p>
+<p>But adding the n w/ umlaut to a new font would also not solve that problem.</p>
+<p><!-- raw HTML omitted -->and nothing this user can do to deny them)<!-- raw HTML omitted --></p>
+<p>Switch to Opera? They offer a lot of style sheet control for the user. Or install the Firefox developer&rsquo;s toolbar add-on, then write up your own style sheet override that uses any face. No one is still really using IE are they?</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->Surely negative left sidebearing on (most) combining accents is a best practice?<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p>I&rsquo;d really like to know the current consensus on that.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -2105,11 +1945,9 @@ I'd really like to know the current consensus on that.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick, 
-
-I believe a negative sidebearing for combining accents is a fine design solution which works well in "primitive" applications. Ideally, such font should also contain mark positioning. 
-
-A.
+		<div class="commentbody"><p>Nick,</p>
+<p>I believe a negative sidebearing for combining accents is a fine design solution which works well in &ldquo;primitive&rdquo; applications. Ideally, such font should also contain mark positioning.</p>
+<p>A.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -2131,7 +1969,7 @@ A.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Besides its use in the name of a certain mock-rock group, Ndieresis and ndieresis are used in the Malagasy language, but the glyphs do not have "standalone" Unicode indices (yet). They can be made using ccmp, as Adam notes.</div>
+		<div class="commentbody">Besides its use in the name of a certain mock-rock group, Ndieresis and ndieresis are used in the Malagasy language, but the glyphs do not have &ldquo;standalone&rdquo; Unicode indices (yet). They can be made using ccmp, as Adam notes.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2152,9 +1990,9 @@ A.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>Ideally, such font should also contain mark positioning.</em>
-
-What's the code for that?</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Ideally, such font should also contain mark positioning.<!-- raw HTML omitted --></p>
+<p>What&rsquo;s the code for that?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2175,9 +2013,11 @@ What's the code for that?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> <em>What’s the code for that?</em>
-
-You'll have to use [[VOLT]] if you want to do mark positioning. The [[AFDKO]] (v2.0) can't do it yet.</div>
+		<div class="commentbody"><blockquote>
+<p><!-- raw HTML omitted -->What’s the code for that?<!-- raw HTML omitted --></p>
+</blockquote>
+<p>You&rsquo;ll have to use [[VOLT]] if you want to do mark positioning. The [[AFDKO]] (v2.0) can&rsquo;t do it yet.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2198,29 +2038,19 @@ You'll have to use [[VOLT]] if you want to do mark positioning. The [[AFDKO]] (v
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"Predictably enough, I’m with Christopher on this one. I’ll also go so far as to add that if you hijack features for your own purposes, you are making a font that can reasonably be called a hack, or even buggy."
-
-A HACK ? You want to talk about a HACK look no further that CS3.
-
-Three programs made by one company and all handle Open Type fonts differently.
-
-That would be Photoshop, Indesign and Illustrator.. Turn on Ornaments in Indesign.. Nope can't do it that can only be accomplished in Photoshop. Turn on Stylistic Alternates in InDesign.. Nope can't do that also you can only do that in Photoshop.
-
-Turn on Stylistic set 01 in Photoshop or Illustrator. Nope can't do that also. You only can do that in Indesign.. See a pattern here of nobody is keeping track of what the other programmers are doing ?
-
-Do you think they could have hid the open type features panel much further down the list. It's only three menus deep.
-
-Font lab has the right idea, give you a list of options and let you turn them on in any order you want. Don't have to go searching for it or turning one option only at a time before the three menus close again..
-
-The whole glyph pallet is a hack. You don't need that, Font designers can actually program it if aalt list was being used like it is suppose to be used, to build a list of option buttons into the application. 
-
-It's no wonder people keep building fonts with everything in the wrong place.
-
-There trying to get there hard work to work with stupid open type implemented programs above.
-
-I'm astonished at how poorly the open type features are written into the above three applications now that I'm testing my font on them.
-
-Just read the aalt list and give them buttons for every option listed. Don't bury them on auto closing menus three layers down.</div>
+		<div class="commentbody"><p>&ldquo;Predictably enough, I’m with Christopher on this one. I’ll also go so far as to add that if you hijack features for your own purposes, you are making a font that can reasonably be called a hack, or even buggy.&rdquo;</p>
+<p>A HACK ? You want to talk about a HACK look no further that CS3.</p>
+<p>Three programs made by one company and all handle Open Type fonts differently.</p>
+<p>That would be Photoshop, Indesign and Illustrator.. Turn on Ornaments in Indesign.. Nope can&rsquo;t do it that can only be accomplished in Photoshop. Turn on Stylistic Alternates in InDesign.. Nope can&rsquo;t do that also you can only do that in Photoshop.</p>
+<p>Turn on Stylistic set 01 in Photoshop or Illustrator. Nope can&rsquo;t do that also. You only can do that in Indesign.. See a pattern here of nobody is keeping track of what the other programmers are doing ?</p>
+<p>Do you think they could have hid the open type features panel much further down the list. It&rsquo;s only three menus deep.</p>
+<p>Font lab has the right idea, give you a list of options and let you turn them on in any order you want. Don&rsquo;t have to go searching for it or turning one option only at a time before the three menus close again..</p>
+<p>The whole glyph pallet is a hack. You don&rsquo;t need that, Font designers can actually program it if aalt list was being used like it is suppose to be used, to build a list of option buttons into the application.</p>
+<p>It&rsquo;s no wonder people keep building fonts with everything in the wrong place.</p>
+<p>There trying to get there hard work to work with stupid open type implemented programs above.</p>
+<p>I&rsquo;m astonished at how poorly the open type features are written into the above three applications now that I&rsquo;m testing my font on them.</p>
+<p>Just read the aalt list and give them buttons for every option listed. Don&rsquo;t bury them on auto closing menus three layers down.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2241,15 +2071,11 @@ Just read the aalt list and give them buttons for every option listed. Don't bur
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Pete, I'm afraid this is not news.
-The folks at Adobe, in the different departments of type and the several applications involved, have been aware of the problems with OpenType application support since they first introduced it, and their attention has been drawn to the problems by others (such as <a href="http://www.shinntype.com/Writing/BigThing.pdf">myself</a>), since at least 2002.
-For many reasons--the most telling of which is that expert typography is an insignificant part of the graphic design industry --fixing the problems is simply not a priority, although some progress has been made, in Illustrator for instance, where the OT features palette can be brought to the top level.
-
-I for one am grateful that OpenType exists (and we do have Adobe to thank for that), despite any flaws, inherent or in application support.
-And I'm really excited about the OpenType support in the upcoming MyFonts.com redesign.
-
-
-
+		<div class="commentbody"><p>Pete, I&rsquo;m afraid this is not news.
+The folks at Adobe, in the different departments of type and the several applications involved, have been aware of the problems with OpenType application support since they first introduced it, and their attention has been drawn to the problems by others (such as <!-- raw HTML omitted -->myself<!-- raw HTML omitted -->), since at least 2002.
+For many reasons&ndash;the most telling of which is that expert typography is an insignificant part of the graphic design industry &ndash;fixing the problems is simply not a priority, although some progress has been made, in Illustrator for instance, where the OT features palette can be brought to the top level.</p>
+<p>I for one am grateful that OpenType exists (and we do have Adobe to thank for that), despite any flaws, inherent or in application support.
+And I&rsquo;m really excited about the OpenType support in the upcoming MyFonts.com redesign.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -2271,26 +2097,16 @@ And I'm really excited about the OpenType support in the upcoming MyFonts.com re
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"> I'm actually glad also that it exists because the fonts I make and want to make would be impossible with out Open Type but still the implementations of it are totally inconsistent. I know that this is not a new problem but really has this feature not been around for 8 years already? You know how I found this thread, Googling how to turn on Stylistic Alternatives on in Indesign. Three programs with the same suite code all handling Open Type fonts and not one doing it the same. Different menus, different options. It may be a hack alright and I write in all my fonts I'll fix it as soon as Open Type programs get fixed up and work the way they are suppose to work. I have two options, break the rules and give them more content or leave them out and give them nothing. Actually later I found this list and it shows the sorry state open type support is in programs.
-
-Here I'll have to shorten the link, warning it's a one page pdf document.
-
-http://tinyurl.com/4cavo4
-
-I'm moving options around to get them working somehow because the feature support is inconsistent. If people have a problem with that then don't use those options.
-
-It's not a big problem if everyone owns all three of those programs but that is a pipe dream. If they only own one they are at a serious disadvantage.
-
-That glyph pallet gets you around the problem of older fonts not being able to get a hold of glyphs because they were not programed into a feature but now days it has the effect of breaking features if they are now programed in. Where is the ornaments feature ? If you programed it in CORRECTLY it is now  broken in Indesign.
-
-Works the Photoshop and you have to hack one a time in Indesign to do the same thing. Actually what you are doing is forcing the user to try to figure out how to program your font that they never made don't have a clue where the glyphs are, what there names are and how many into programming it onto a little substitution list..
-
-Now that is consistent.
-
- On a font that has 10,000 glyphs that the menu consistently insists to show the entire font every time you try to type something in.
-
-Oh that's a better idea alright.
-
+		<div class="commentbody"><p>I&rsquo;m actually glad also that it exists because the fonts I make and want to make would be impossible with out Open Type but still the implementations of it are totally inconsistent. I know that this is not a new problem but really has this feature not been around for 8 years already? You know how I found this thread, Googling how to turn on Stylistic Alternatives on in Indesign. Three programs with the same suite code all handling Open Type fonts and not one doing it the same. Different menus, different options. It may be a hack alright and I write in all my fonts I&rsquo;ll fix it as soon as Open Type programs get fixed up and work the way they are suppose to work. I have two options, break the rules and give them more content or leave them out and give them nothing. Actually later I found this list and it shows the sorry state open type support is in programs.</p>
+<p>Here I&rsquo;ll have to shorten the link, warning it&rsquo;s a one page pdf document.</p>
+<p><a href="http://tinyurl.com/4cavo4">http://tinyurl.com/4cavo4</a></p>
+<p>I&rsquo;m moving options around to get them working somehow because the feature support is inconsistent. If people have a problem with that then don&rsquo;t use those options.</p>
+<p>It&rsquo;s not a big problem if everyone owns all three of those programs but that is a pipe dream. If they only own one they are at a serious disadvantage.</p>
+<p>That glyph pallet gets you around the problem of older fonts not being able to get a hold of glyphs because they were not programed into a feature but now days it has the effect of breaking features if they are now programed in. Where is the ornaments feature ? If you programed it in CORRECTLY it is now  broken in Indesign.</p>
+<p>Works the Photoshop and you have to hack one a time in Indesign to do the same thing. Actually what you are doing is forcing the user to try to figure out how to program your font that they never made don&rsquo;t have a clue where the glyphs are, what there names are and how many into programming it onto a little substitution list..</p>
+<p>Now that is consistent.</p>
+<p>On a font that has 10,000 glyphs that the menu consistently insists to show the entire font every time you try to type something in.</p>
+<p>Oh that&rsquo;s a better idea alright.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -2312,15 +2128,17 @@ Oh that's a better idea alright.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Very interesting, this thread shows how much we look differently at type functionality…
-I have a pair of questions:
-
-- I am trying a functionality, which substitutes groups of letters with politypes. I placed the most important, basic substitutions as discretionary ligatures, and then I added other substitutions into separate Stylistic Sets, so the user will be able to avoid an excessively decorated text.
-If the additional ligatures are – say – in stylistic sets ss03 to ss05, would it be better to duplicate all the substitution features in subsequent sets? i.e. Would it be better to have ss05 contain all the possible substitutions or just the more decorative additions?
-
-I wonder about this, since some additions concern letters of different height, which the user should be able to turn off while mantaining politypes resting within the regular height…
-
-- Since I would like to avoid duplications, may I just duplicate (according to the advice given before) the ones I consider "stylistic alternates" in both [salt] and a stylistic set? I find this goofy, since I prefer to use [ssXX] for substitutions that involve a set of more letterforms…</div>
+		<div class="commentbody"><p>Very interesting, this thread shows how much we look differently at type functionality…
+I have a pair of questions:</p>
+<ul>
+<li>I am trying a functionality, which substitutes groups of letters with politypes. I placed the most important, basic substitutions as discretionary ligatures, and then I added other substitutions into separate Stylistic Sets, so the user will be able to avoid an excessively decorated text.
+If the additional ligatures are – say – in stylistic sets ss03 to ss05, would it be better to duplicate all the substitution features in subsequent sets? i.e. Would it be better to have ss05 contain all the possible substitutions or just the more decorative additions?</li>
+</ul>
+<p>I wonder about this, since some additions concern letters of different height, which the user should be able to turn off while mantaining politypes resting within the regular height…</p>
+<ul>
+<li>Since I would like to avoid duplications, may I just duplicate (according to the advice given before) the ones I consider &ldquo;stylistic alternates&rdquo; in both [salt] and a stylistic set? I find this goofy, since I prefer to use [ssXX] for substitutions that involve a set of more letterforms…</li>
+</ul>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2341,9 +2159,9 @@ I wonder about this, since some additions concern letters of different height, w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I just realized this is an older topic brought back to life. Thought i was having a Dejá Vu. 
-
-I've been working on an OT version of a recent hand lettering font for my day job. I had 3 cap I's for it: one standard, one swash, and one just as a chosen alternate. In the aalt feature I just added a straight sub for that letter for the alternate and it became available in the glyph menu of both Illustrator and InDesign. If I were to add it to the salt feature it would be presumably be accessible through Photoshop as well. Is using the aalt feature like this considered OK or is that in a sense a hijack as well?</div>
+		<div class="commentbody"><p>I just realized this is an older topic brought back to life. Thought i was having a Dejá Vu.</p>
+<p>I&rsquo;ve been working on an OT version of a recent hand lettering font for my day job. I had 3 cap I&rsquo;s for it: one standard, one swash, and one just as a chosen alternate. In the aalt feature I just added a straight sub for that letter for the alternate and it became available in the glyph menu of both Illustrator and InDesign. If I were to add it to the salt feature it would be presumably be accessible through Photoshop as well. Is using the aalt feature like this considered OK or is that in a sense a hijack as well?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2385,15 +2203,13 @@ I've been working on an OT version of a recent hand lettering font for my day jo
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Can you define what you mean by politypes. That one wasn't in my dictionary and so it might make things clearer to understand the nature of substitution that you want to do. 
-
-If you are talking about multiple glyphs to be substituted by a single combined glyph, then you have to label it as a ligature. Not all ligatures must be substituted automatically. Besides the discretionary ligatures you could also employ the feature clig. That lets you define the context of a ligature, however, both calt and liga features must be active for it to work as far as I've seen.
-
-You could consider a new post as this won't be on the front page and its kinda long. 
+		<div class="commentbody"><p>Can you define what you mean by politypes. That one wasn&rsquo;t in my dictionary and so it might make things clearer to understand the nature of substitution that you want to do.</p>
+<p>If you are talking about multiple glyphs to be substituted by a single combined glyph, then you have to label it as a ligature. Not all ligatures must be substituted automatically. Besides the discretionary ligatures you could also employ the feature clig. That lets you define the context of a ligature, however, both calt and liga features must be active for it to work as far as I&rsquo;ve seen.</p>
+<p>You could consider a new post as this won&rsquo;t be on the front page and its kinda long. 
 ps. 
-Sorry about responding to you're original question with another question.
-
-Stephen</div>
+Sorry about responding to you&rsquo;re original question with another question.</p>
+<p>Stephen</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2414,13 +2230,13 @@ Stephen</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Stephen, maybe I'll start a new thread.
-I used "politypes" to make a distinction from normal ligatures, since the name ligatures to me is more related to lowercase, as it came about in current writing, when the need for writing faster arose.
+		<div class="commentbody"><p>Thanks Stephen, maybe I&rsquo;ll start a new thread.
+I used &ldquo;politypes&rdquo; to make a distinction from normal ligatures, since the name ligatures to me is more related to lowercase, as it came about in current writing, when the need for writing faster arose.
 My politypes (politipi) are multiple glyphs and mostly formed by two uppercase.
 None of those is contextual (so no [calt], for now), and I have divided them between [liga] and [dlig], leaving on [liga] only the one really needed (for example [T_T]).
-Hope my question is a little clearer now… :=)
-
-Your question is strictly about [aalt], I'm sorry I am unable to answer, as I was wondering myself if [aalt] could be used just to make all alternatives grouped in the glyph palette of InDesign, or if its use needs to be justified by more important issues… :=)</div>
+Hope my question is a little clearer now… :=)</p>
+<p>Your question is strictly about [aalt], I&rsquo;m sorry I am unable to answer, as I was wondering myself if [aalt] could be used just to make all alternatives grouped in the glyph palette of InDesign, or if its use needs to be justified by more important issues… :=)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2441,15 +2257,12 @@ Your question is strictly about [aalt], I'm sorry I am unable to answer, as I wa
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I apologize in advance for resurrecting such an old thread, but just like Mighty Pete, I got here exactly the same way - trying to google how to turn on stylistic alternates in InDesign for a font I'm creating.
-
-I also agree with Thomas Phinney in that "hijacking" OpenType features is a bad idea.
-
-So, Adobe, quit making us "hijack" OpenType features.  "Hijacking" OpenType is a lot better than not doing the work to create a flexible typography option.  I find the tone of Phinney's post rather galling, as it's the company he works for which has forced my hand.  What are the other options?  Offering different fonts and going back to the bad old days before OpenType?  Not even remotely imaginable.
-
-The best solution would be for Adobe products to actually support OpenType features consistently and fully.  What I'm doing with my typeface is, in some circumstances, not really covered in OpenType, so my original plan was to create ten different stylistic sets, not including the default.  I can't do this, so then I was forced to "hijack" features to get them to work at all, only to find out how woefully Illustrator is behind the times, and then to discover that the common feature tag support between programs WITHIN CS5 isn't even consistent.
-
-I'm very irritated that I'm being forced to hijack features due to inconsistent and incomplete support in CS5 for issues that involve OpenType feature tags that have been documented for at least 11 years.  The <salt> tag may be older, but I see references to it in the spec change logs that go back to at least 2000.</div>
+		<div class="commentbody"><p>I apologize in advance for resurrecting such an old thread, but just like Mighty Pete, I got here exactly the same way - trying to google how to turn on stylistic alternates in InDesign for a font I&rsquo;m creating.</p>
+<p>I also agree with Thomas Phinney in that &ldquo;hijacking&rdquo; OpenType features is a bad idea.</p>
+<p>So, Adobe, quit making us &ldquo;hijack&rdquo; OpenType features.  &ldquo;Hijacking&rdquo; OpenType is a lot better than not doing the work to create a flexible typography option.  I find the tone of Phinney&rsquo;s post rather galling, as it&rsquo;s the company he works for which has forced my hand.  What are the other options?  Offering different fonts and going back to the bad old days before OpenType?  Not even remotely imaginable.</p>
+<p>The best solution would be for Adobe products to actually support OpenType features consistently and fully.  What I&rsquo;m doing with my typeface is, in some circumstances, not really covered in OpenType, so my original plan was to create ten different stylistic sets, not including the default.  I can&rsquo;t do this, so then I was forced to &ldquo;hijack&rdquo; features to get them to work at all, only to find out how woefully Illustrator is behind the times, and then to discover that the common feature tag support between programs WITHIN CS5 isn&rsquo;t even consistent.</p>
+<p>I&rsquo;m very irritated that I&rsquo;m being forced to hijack features due to inconsistent and incomplete support in CS5 for issues that involve OpenType feature tags that have been documented for at least 11 years.  The <!-- raw HTML omitted --> tag may be older, but I see references to it in the spec change logs that go back to at least 2000.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2470,19 +2283,14 @@ I'm very irritated that I'm being forced to hijack features due to inconsistent 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Delusion, remember that you're not addressing "Adobe" here, because "Adobe" does not read Typophile. Adobe's type team does (or at least some members of it), but they want mostly the same things you do. It doesn't matter because the product teams do not perceive there being popular demand for these features, and/or think very few of their users will care.
-
-If you want to have an effect on the features in Photoshop, Illustrator and InDesign, besides complaining here, log a feature request for each affected product.
-
-https://www.adobe.com/cfusion/mmform/index.cfm?name=wishform
-
-I'm curious about what you were trying to do and why stylistic sets were not a viable workaround.
-
-Best of luck. I do know it's frustrating. (Also note that I haven't worked for Adobe for over two years.)
-
-Cheers,
-
-T</div>
+		<div class="commentbody"><p>Delusion, remember that you&rsquo;re not addressing &ldquo;Adobe&rdquo; here, because &ldquo;Adobe&rdquo; does not read Typophile. Adobe&rsquo;s type team does (or at least some members of it), but they want mostly the same things you do. It doesn&rsquo;t matter because the product teams do not perceive there being popular demand for these features, and/or think very few of their users will care.</p>
+<p>If you want to have an effect on the features in Photoshop, Illustrator and InDesign, besides complaining here, log a feature request for each affected product.</p>
+<p><a href="https://www.adobe.com/cfusion/mmform/index.cfm?name=wishform">https://www.adobe.com/cfusion/mmform/index.cfm?name=wishform</a></p>
+<p>I&rsquo;m curious about what you were trying to do and why stylistic sets were not a viable workaround.</p>
+<p>Best of luck. I do know it&rsquo;s frustrating. (Also note that I haven&rsquo;t worked for Adobe for over two years.)</p>
+<p>Cheers,</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2503,13 +2311,11 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I apologize for delivering the brunt of my irritation to your doorstep.
-
-I find it so strange that Adobe, or the product teams of the individual products, or whoever, doesn't make complying with OpenType as robustly as possible a priority.  When I think of typography, Adobe is one of the first few companies I think of, and it's a standard they helped create.
-
-The reason Stylistic Sets aren't a solution for what I'm doing is that Indesign is the only of the four CS5 programs I use that supports it.  Premiere probably isn't that big of a deal for me personally, as on the rare occasions I use it it's usually just for personal projects.  Indesign supports it, but Illustrator and Photoshop scratch their collective heads at it.
-
-The typeface I'm creating is historically related to Win Crouwel's New Alphabet, so the options I'm creating are more appropriate for Stylistic Sets than the "traditional" OpenType features.  An example of this is that I'm providing a set for an overline to represent a doubled character, a monospace set, a monocase set, etc.  OpenType has a unicase tag, but none of CS5 supports it, and a monocase tag isn't in OpenType.  The overlining for doubled characters - effectively a set of double-letter ligatures - is too idiosyncratic to even consider as an OpenType  feature tag.  Stylistic Sets would be ideal, but most of this is per-pixel based work and best suited to Photoshop.  To be a bit more practical, it would help if re-naming the Stylistic Sets were supported, so that someone wouldn't have to guess or consult a cheat sheet.</div>
+		<div class="commentbody"><p>I apologize for delivering the brunt of my irritation to your doorstep.</p>
+<p>I find it so strange that Adobe, or the product teams of the individual products, or whoever, doesn&rsquo;t make complying with OpenType as robustly as possible a priority.  When I think of typography, Adobe is one of the first few companies I think of, and it&rsquo;s a standard they helped create.</p>
+<p>The reason Stylistic Sets aren&rsquo;t a solution for what I&rsquo;m doing is that Indesign is the only of the four CS5 programs I use that supports it.  Premiere probably isn&rsquo;t that big of a deal for me personally, as on the rare occasions I use it it&rsquo;s usually just for personal projects.  Indesign supports it, but Illustrator and Photoshop scratch their collective heads at it.</p>
+<p>The typeface I&rsquo;m creating is historically related to Win Crouwel&rsquo;s New Alphabet, so the options I&rsquo;m creating are more appropriate for Stylistic Sets than the &ldquo;traditional&rdquo; OpenType features.  An example of this is that I&rsquo;m providing a set for an overline to represent a doubled character, a monospace set, a monocase set, etc.  OpenType has a unicase tag, but none of CS5 supports it, and a monocase tag isn&rsquo;t in OpenType.  The overlining for doubled characters - effectively a set of double-letter ligatures - is too idiosyncratic to even consider as an OpenType  feature tag.  Stylistic Sets would be ideal, but most of this is per-pixel based work and best suited to Photoshop.  To be a bit more practical, it would help if re-naming the Stylistic Sets were supported, so that someone wouldn&rsquo;t have to guess or consult a cheat sheet.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2530,10 +2336,10 @@ The typeface I'm creating is historically related to Win Crouwel's New Alphabet,
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The company that Adobe used to be in the Warnock era would have done the right thing and supported the entire collection of Adobe apps with all opentype features and perhaps even made them work the same way on all of the apps.  Today's Adobe regime is a different beast.  They have become large enough and powerful enough in the marketplace to feel free to ignore their fine heritage. They have achieved the Peter principle size of bureaucracy where pure organizational divisions led by pure organizational  managers with pure organizational egos rarely perceive each-other's common goals and customer needs in favor of the cost-benefit analysis seen with only a bean-counter's mentality. There have been repeated and consorted attempts by users to at least include a basic glyph palette in Photoshop let alone stylistic sets.  Adobe has ignored them.  Before I hear the mantra of "submit it as a feature request via their website" yet again, I will mention that I have and we have and no-one gave a damn except the folks there who are too low on the totem pole to have a voice. 
-The catch 22 of user requests is that they can't request what they don't understand and they can't understand what does not exist in a sensible enough way to reveal its true worth.  Stylistic sets buried 3 levels deep with no way of knowing how they function because catchy names like ss01, ss02, ss03, don't mean diddley sßit to the average user.
-
-I wonder how many feature requests came through the Adobe web site in the early 1980's for a thing called PostScript? Probably was no such link then--probably no web site then either;-P  Guess what, Warnock went ahead and did it anyway even though most potential users of the time did not have a clue what it meant. Warnock and Company then "Splained it to them Lutsy" and next thing you know, we had the DTP revolution.  Of course, Warnock was a visionary and these guys now are just Harvard MBAs whose idea of vision does not venture past their divisions current quarterly profit report.</div>
+		<div class="commentbody"><p>The company that Adobe used to be in the Warnock era would have done the right thing and supported the entire collection of Adobe apps with all opentype features and perhaps even made them work the same way on all of the apps.  Today&rsquo;s Adobe regime is a different beast.  They have become large enough and powerful enough in the marketplace to feel free to ignore their fine heritage. They have achieved the Peter principle size of bureaucracy where pure organizational divisions led by pure organizational  managers with pure organizational egos rarely perceive each-other&rsquo;s common goals and customer needs in favor of the cost-benefit analysis seen with only a bean-counter&rsquo;s mentality. There have been repeated and consorted attempts by users to at least include a basic glyph palette in Photoshop let alone stylistic sets.  Adobe has ignored them.  Before I hear the mantra of &ldquo;submit it as a feature request via their website&rdquo; yet again, I will mention that I have and we have and no-one gave a damn except the folks there who are too low on the totem pole to have a voice. 
+The catch 22 of user requests is that they can&rsquo;t request what they don&rsquo;t understand and they can&rsquo;t understand what does not exist in a sensible enough way to reveal its true worth.  Stylistic sets buried 3 levels deep with no way of knowing how they function because catchy names like ss01, ss02, ss03, don&rsquo;t mean diddley sßit to the average user.</p>
+<p>I wonder how many feature requests came through the Adobe web site in the early 1980&rsquo;s for a thing called PostScript? Probably was no such link then&ndash;probably no web site then either;-P  Guess what, Warnock went ahead and did it anyway even though most potential users of the time did not have a clue what it meant. Warnock and Company then &ldquo;Splained it to them Lutsy&rdquo; and next thing you know, we had the DTP revolution.  Of course, Warnock was a visionary and these guys now are just Harvard MBAs whose idea of vision does not venture past their divisions current quarterly profit report.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2554,9 +2360,11 @@ I wonder how many feature requests came through the Adobe web site in the early 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> Stylistic sets buried 3 levels deep with no way of knowing how they function because catchy names like ss01, ss02, ss03, don't mean diddley sßit to the average user.
-
-Wouldn't that be "diddley ʃit"?</div>
+		<div class="commentbody"><blockquote>
+<p>Stylistic sets buried 3 levels deep with no way of knowing how they function because catchy names like ss01, ss02, ss03, don&rsquo;t mean diddley sßit to the average user.</p>
+</blockquote>
+<p>Wouldn&rsquo;t that be &ldquo;diddley ʃit&rdquo;?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2598,17 +2406,13 @@ Wouldn't that be "diddley ʃit"?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I just have trouble understanding the presumed conversations between the Office/AdobeApps groups, and the respective Type Groups:
-
-TG:"if you do it that way, you'll break the fonts."
-O/AA G: "okay"
-
-Don't sound much like a standard to me.
-
-[img:sites/default/files/old-images/train_wreck_at_montparnasse_1895_small_5158.jpg]
-"<a href="http://james.lab6.com/2006/10/29/the-trainwreck-industry/">A woman below was killed.</a> The cause seems to have been an excess of paperwork."(?!)
-
-Hope this all works on the web. :o
+		<div class="commentbody"><p>I just have trouble understanding the presumed conversations between the Office/AdobeApps groups, and the respective Type Groups:</p>
+<p>TG:&ldquo;if you do it that way, you&rsquo;ll break the fonts.&rdquo;
+O/AA G: &ldquo;okay&rdquo;</p>
+<p>Don&rsquo;t sound much like a standard to me.</p>
+<p>[img:sites/default/files/old-images/train_wreck_at_montparnasse_1895_small_5158.jpg]
+&ldquo;<!-- raw HTML omitted -->A woman below was killed.<!-- raw HTML omitted --> The cause seems to have been an excess of paperwork.&quot;(?!)</p>
+<p>Hope this all works on the web. :o</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -2630,19 +2434,14 @@ Hope this all works on the web. :o
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I hear and share your frustration.
-
-Getting a glyph palette in Photoshop would be fabulous. The best current work around is to get what you want in Illustrator and copy/paste it into Photoshop. (Illustrator and Photoshop share a text engine, while InDesign has a different one.)
-
-To be fair, Adobe was big and silo'd even before Warnock and Geschke left day-to-day running of the company. It's gotten worse, but that is as much a function of pure size as anything else.
-
-Much as I wish I had stylistic sets in Illustrator and Photoshop, and that InDesign and the others all supported showing "friendly names" for Stylistic Sets, I understand the motivations of the product managers for these products. As basic as typography is to me, and to most of the people reading posts on a site called "Typophile," the product managers are looking at what gets user demand and what solves the problems that users complain about. The PMs can do the stuff that they are really sure will sell, or they can take a chance that if more/better typography is dangled in front of the users that those users will turn out to appreciate it in the end. As long as the list of sure winners is sufficient, the stuff you and I really want is not making the cut.  :(
-
-Chris: The golden age might not have been as golden as you think. Some time ask me in person and in private exactly how we got the big burst of OpenType features in InDesign 2.0.....
-
-Cheers,
-
-T</div>
+		<div class="commentbody"><p>I hear and share your frustration.</p>
+<p>Getting a glyph palette in Photoshop would be fabulous. The best current work around is to get what you want in Illustrator and copy/paste it into Photoshop. (Illustrator and Photoshop share a text engine, while InDesign has a different one.)</p>
+<p>To be fair, Adobe was big and silo&rsquo;d even before Warnock and Geschke left day-to-day running of the company. It&rsquo;s gotten worse, but that is as much a function of pure size as anything else.</p>
+<p>Much as I wish I had stylistic sets in Illustrator and Photoshop, and that InDesign and the others all supported showing &ldquo;friendly names&rdquo; for Stylistic Sets, I understand the motivations of the product managers for these products. As basic as typography is to me, and to most of the people reading posts on a site called &ldquo;Typophile,&rdquo; the product managers are looking at what gets user demand and what solves the problems that users complain about. The PMs can do the stuff that they are really sure will sell, or they can take a chance that if more/better typography is dangled in front of the users that those users will turn out to appreciate it in the end. As long as the list of sure winners is sufficient, the stuff you and I really want is not making the cut.  :(</p>
+<p>Chris: The golden age might not have been as golden as you think. Some time ask me in person and in private exactly how we got the big burst of OpenType features in InDesign 2.0&hellip;..</p>
+<p>Cheers,</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

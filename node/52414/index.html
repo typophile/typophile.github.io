@@ -71,25 +71,22 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">The only way I can think to do this seems a bit complex so maybe there's ane asier way.
-
-In Spanish (including modern day) often times the word "de" when set in all capitals is ligatured.  However, a standard ligature isn't enough because de appears in many words.  So I was going to do a contextual substitution to make sure I only nab DE as a single word.
-
-BUT, this is of course unacceptable in most other languages.  So here's my solution, and just wondering if I'm approaching it properly or if there is a more efficient way.  (I'm using FontForge so I'll use psuedo code)
-
-1: If language is "es", switch "D" with "D.es"
-2: If language is "es", switch "E" with "E.es"
-3: If sequence "[any letter] D.es E.es" found, match and do nothing
-4: If sequence "D.es E.es [any letter]" found, match do nothing
-5: If sequence "D.es E.es" found, replace with D_E
-
-This requires making an extra glyph that is identical to a normal D and that in a Spanish document would be constantly being replaced.  I'm not sure if that in and of itself might cause concern as well.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>The only way I can think to do this seems a bit complex so maybe there&rsquo;s ane asier way.</p>
+<p>In Spanish (including modern day) often times the word &ldquo;de&rdquo; when set in all capitals is ligatured.  However, a standard ligature isn&rsquo;t enough because de appears in many words.  So I was going to do a contextual substitution to make sure I only nab DE as a single word.</p>
+<p>BUT, this is of course unacceptable in most other languages.  So here&rsquo;s my solution, and just wondering if I&rsquo;m approaching it properly or if there is a more efficient way.  (I&rsquo;m using FontForge so I&rsquo;ll use psuedo code)</p>
+<p>1: If language is &ldquo;es&rdquo;, switch &ldquo;D&rdquo; with &ldquo;D.es&rdquo;
+2: If language is &ldquo;es&rdquo;, switch &ldquo;E&rdquo; with &ldquo;E.es&rdquo;
+3: If sequence &ldquo;[any letter] D.es E.es&rdquo; found, match and do nothing
+4: If sequence &ldquo;D.es E.es [any letter]&rdquo; found, match do nothing
+5: If sequence &ldquo;D.es E.es&rdquo; found, replace with D_E</p>
+<p>This requires making an extra glyph that is identical to a normal D and that in a Spanish document would be constantly being replaced.  I&rsquo;m not sure if that in and of itself might cause concern as well.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">House Industries did a whole language specific contextual sub thing with their new script Sable. It has local versions of some of the diacritic marks.
-
-http://www.houseind.com/index.php?page=showfont&id=665&subpage=studio_how_lang</div>
+		<div class="commentbody"><p>House Industries did a whole language specific contextual sub thing with their new script Sable. It has local versions of some of the diacritic marks.</p>
+<p><a href="http://www.houseind.com/index.php?page=showfont&amp;id=665&amp;subpage=studio_how_lang">http://www.houseind.com/index.php?page=showfont&amp;id=665&amp;subpage=studio_how_lang</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -110,31 +107,26 @@ http://www.houseind.com/index.php?page=showfont&id=665&subpage=studio_how_lang</
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Seems like this is something for locl or salt or ss1 (stylistic sets) or a combo:
-(taking a stab as I'm trying to improve my OT mind)
-
-@UC = uppercase;
-
-feature locl { # Localized Forms
+		<div class="commentbody"><p>Seems like this is something for locl or salt or ss1 (stylistic sets) or a combo:
+(taking a stab as I&rsquo;m trying to improve my OT mind)</p>
+<p>@UC = uppercase;</p>
+<p>feature locl { # Localized Forms
 language ESP exclude_dflt; # Spanish;
 sub @UC D' E @UC by D.es; #D.es is a duplicate D marker glyph
 sub D E by D_E;
-} locl;
-
-feature salt { # Spanish DE ligature
+} locl;</p>
+<p>feature salt { # Spanish DE ligature
 sub @UC D' E @UC by D.es; #D.es is a duplicate D marker glyph
 sub D E by D_E;
-} ss1;
-
-feature ss1 { # Spanish DE ligature
+} ss1;</p>
+<p>feature ss1 { # Spanish DE ligature
 sub @UC D' E @UC by D.es; #D.es is a duplicate D marker glyph
 sub D E by D_E;
-} ss1;
-
-This could well be garbage :-) but it's what I'd try.
-Whoops that's fontlab, not fontforge.
-
-It'd be nice to get rid of both marker glyphs, not just one. The only other way I figured required an illegal one to many substitution. You could try to define when you do want the sub, not when you don't, but it's trickier.</div>
+} ss1;</p>
+<p>This could well be garbage :-) but it&rsquo;s what I&rsquo;d try.
+Whoops that&rsquo;s fontlab, not fontforge.</p>
+<p>It&rsquo;d be nice to get rid of both marker glyphs, not just one. The only other way I figured required an illegal one to many substitution. You could try to define when you do want the sub, not when you don&rsquo;t, but it&rsquo;s trickier.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -155,23 +147,19 @@ It'd be nice to get rid of both marker glyphs, not just one. The only other way 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don't think the glyphs D.es and E.es are necessary. I believe it can be done in one shot. The FDK syntax should be something like this:
-<code>
+		<div class="commentbody"><p>I don&rsquo;t think the glyphs D.es and E.es are necessary. I believe it can be done in one shot. The FDK syntax should be something like this:
+<!-- raw HTML omitted -->
 languagesystem latn dflt;
-languagesystem latn ESP;
-
-@ALL_LETTERS = [A-Z a-z];
-
-feature liga {
-	script latn;
-		language ESP;
-			ignore sub @ALL_LETTERS D' E';
-			ignore sub D' E' @ALL_LETTERS;
-			sub D' E' by D_E;
+languagesystem latn ESP;</p>
+<p>@ALL_LETTERS = [A-Z a-z];</p>
+<p>feature liga {
+script latn;
+language ESP;
+ignore sub @ALL_LETTERS D' E';
+ignore sub D' E' @ALL_LETTERS;
+sub D' E' by D_E;
 } liga;
-</code>
-
-
+<!-- raw HTML omitted --></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -193,16 +181,16 @@ feature liga {
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi Miguel,
-
-Thank you! I didn't know about "ignore sub" .. that will be handy!
-
-Side questions:
-
-1. Is languagesystem toggled by the Language dropdown in the character palette of InD CS2?
-2. Is that the prefered way to do things like polish diacritics in apps without locl support, or stylistic sets?
-3. Can it be done in Fontlab's opentype editor or just FDK?
-4. In your liga feature how do you signal the end of ESP specific subs, say if you wanted to add french specific subs or the aforementioned polish diacritics?</div>
+		<div class="commentbody"><p>Hi Miguel,</p>
+<p>Thank you! I didn&rsquo;t know about &ldquo;ignore sub&rdquo; .. that will be handy!</p>
+<p>Side questions:</p>
+<ol>
+<li>Is languagesystem toggled by the Language dropdown in the character palette of InD CS2?</li>
+<li>Is that the prefered way to do things like polish diacritics in apps without locl support, or stylistic sets?</li>
+<li>Can it be done in Fontlab&rsquo;s opentype editor or just FDK?</li>
+<li>In your liga feature how do you signal the end of ESP specific subs, say if you wanted to add french specific subs or the aforementioned polish diacritics?</li>
+</ol>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -223,60 +211,51 @@ Side questions:
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hey Randy,
-
-1. Yes, it is toggled by the Language dropdown in the character palette, but it will only work in InDesign CS3 and up. Photoshop CS4 and Illustrator CS4 support it as well.
-
-2. If the app does not have support for language-specific lookups, things won't work. For example, Adobe has been putting language-specific code in its fonts (e.g. Turkish) for quite some time, but only with InDesign CS3 we've started seeing the results of that code.
-
-3. You'll be able to compile the features and see the results in Fontlab, but you should also include the line <code>languagesystem DFLT dflt;</code> in the features. However, the current Fontlab 5 will throw an error message because of that. You'll have no problems if you use the FDK.
-
-4. The end of ESP would be signaled by the end of the feature, the start of another language, or the start of another script. Matthew's case had to do with a language-specific ligature, so the best way to do it is through 'liga'. In the case of Polish diacritics I'd say 'locl' is more appropriate. In the case of French, it depends on what you're trying to do. Below is some code for language-specific ligatures and diacritics.
-
-<code>
-languagesystem DFLT dflt;
-languagesystem latn dflt;
-languagesystem latn ESP;
-languagesystem latn FRA;
-languagesystem latn PLK;
-
-feature locl {
+		<div class="commentbody"><p>Hey Randy,</p>
+<ol>
+<li>
+<p>Yes, it is toggled by the Language dropdown in the character palette, but it will only work in InDesign CS3 and up. Photoshop CS4 and Illustrator CS4 support it as well.</p>
+</li>
+<li>
+<p>If the app does not have support for language-specific lookups, things won&rsquo;t work. For example, Adobe has been putting language-specific code in its fonts (e.g. Turkish) for quite some time, but only with InDesign CS3 we&rsquo;ve started seeing the results of that code.</p>
+</li>
+<li>
+<p>You&rsquo;ll be able to compile the features and see the results in Fontlab, but you should also include the line <!-- raw HTML omitted -->languagesystem DFLT dflt;<!-- raw HTML omitted --> in the features. However, the current Fontlab 5 will throw an error message because of that. You&rsquo;ll have no problems if you use the FDK.</p>
+</li>
+<li>
+<p>The end of ESP would be signaled by the end of the feature, the start of another language, or the start of another script. Matthew&rsquo;s case had to do with a language-specific ligature, so the best way to do it is through &lsquo;liga&rsquo;. In the case of Polish diacritics I&rsquo;d say &lsquo;locl&rsquo; is more appropriate. In the case of French, it depends on what you&rsquo;re trying to do. Below is some code for language-specific ligatures and diacritics.</p>
+</li>
+</ol>
+<!-- raw HTML omitted -->
+<p>feature locl {
 script latn;
 language FRA;
-sub eacute by eacute.FRA;
-
-language PLK;
+sub eacute by eacute.FRA;</p>
+<p>language PLK;
 sub cacute by cacute.PLK;
-} locl;
-
-@ALL_LETTERS = [A-Z a-z];
-
-feature liga {
+} locl;</p>
+<p>@ALL_LETTERS = [A-Z a-z];</p>
+<p>feature liga {
 script DFLT;
 language dflt;
 lookup LIGA {
 sub f i by f_i;
-} LIGA;
-
-script latn;
+} LIGA;</p>
+<p>script latn;
 language dflt;
-lookup LIGA;
-
-language PLK include_dflt;
-
-language ESP include_dflt;
+lookup LIGA;</p>
+<p>language PLK include_dflt;</p>
+<p>language ESP include_dflt;
 ignore sub @ALL_LETTERS D' E';
 ignore sub D' E' @ALL_LETTERS;
-sub D' E' by D_E;
-
-language FRA include_dflt;
+sub D' E' by D_E;</p>
+<p>language FRA include_dflt;
 sub e t by e_t;
 } liga;
-</code>
-
-The code in 'locl' is straightforward; glyphs are replaced by other glyphs depending on the language. The code in 'liga' is a little more tricky because there are ligatures that you'll want to have for all the languages and/or scripts in addition to the language-specific ones. In this case, all Latin languages (including ESP, FRA and PLK) will have the 'f_i' ligature. In addition, the 'D_E' ligature will be available to Spanish, and the 'e_t' ligature will be available to French.
-
-I could have been more concise with the 'liga' code but when it comes to coding language-specific behavior I like to be as explicit as I can to avoid unexpected behaviors. For example, the keyword 'include_dflt' could be omitted (because the lookups under 'language dflt;' are inherited by default by other languages within the same script). However, 'language PLK;' needs to be included in 'liga' otherwise 'f_i' will NOT be available for Polish.</div>
+<!-- raw HTML omitted --></p>
+<p>The code in &lsquo;locl&rsquo; is straightforward; glyphs are replaced by other glyphs depending on the language. The code in &lsquo;liga&rsquo; is a little more tricky because there are ligatures that you&rsquo;ll want to have for all the languages and/or scripts in addition to the language-specific ones. In this case, all Latin languages (including ESP, FRA and PLK) will have the &lsquo;f_i&rsquo; ligature. In addition, the &lsquo;D_E&rsquo; ligature will be available to Spanish, and the &lsquo;e_t&rsquo; ligature will be available to French.</p>
+<p>I could have been more concise with the &lsquo;liga&rsquo; code but when it comes to coding language-specific behavior I like to be as explicit as I can to avoid unexpected behaviors. For example, the keyword &lsquo;include_dflt&rsquo; could be omitted (because the lookups under &lsquo;language dflt;&rsquo; are inherited by default by other languages within the same script). However, &lsquo;language PLK;&rsquo; needs to be included in &lsquo;liga&rsquo; otherwise &lsquo;f_i&rsquo; will NOT be available for Polish.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -297,9 +276,9 @@ I could have been more concise with the 'liga' code but when it comes to coding 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for your comprehensive reply. Next up: FDK bootcamp for me.
-
-Randy</div>
+		<div class="commentbody"><p>Thanks for your comprehensive reply. Next up: FDK bootcamp for me.</p>
+<p>Randy</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

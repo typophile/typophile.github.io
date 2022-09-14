@@ -71,22 +71,31 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">When generating an OpenType font that only contains uppercase letters, is there some clever trick to avoid redundant information/data?
-
-1) If one makes the font without glyphs in the lowercase slots, the user will get "missing glyphs" when typing without Caps Lock on - not good.
-
-2) If one copies the uppercase glyphs to the lowercase slots, one have to take care to make the kerning work between the sets - effectively doubling the outline data and quadrupling the kerning data. I don't like this redundancy and would prefer to avoid it. But as I use class-kerning anyway this is probably the solution I'll end up using...
-
-3) One could use the uppercase glyphs as composites in the lowercase slots, but this may perhaps create problems (I don't think I've ever encountered a font with composites in the basic ASCII set - so I guess this is not good...). This would still need 4 times the kerning pairs, but at least the outline data will not be double.
-
-4) In OpenType one could use glyph substitution to map all lowercase input to the uppercase letters. This would still require the lowercase glyphs to be present, but they could just be empty. But what OpenType feature should then be used to make this switch? - it would have to be always-on...
-
-So... have anyone found a clever way to make an uppercase-only OpenType font?
-What is your preferred method?</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>When generating an OpenType font that only contains uppercase letters, is there some clever trick to avoid redundant information/data?</p>
+<ol>
+<li>
+<p>If one makes the font without glyphs in the lowercase slots, the user will get &ldquo;missing glyphs&rdquo; when typing without Caps Lock on - not good.</p>
+</li>
+<li>
+<p>If one copies the uppercase glyphs to the lowercase slots, one have to take care to make the kerning work between the sets - effectively doubling the outline data and quadrupling the kerning data. I don&rsquo;t like this redundancy and would prefer to avoid it. But as I use class-kerning anyway this is probably the solution I&rsquo;ll end up using&hellip;</p>
+</li>
+<li>
+<p>One could use the uppercase glyphs as composites in the lowercase slots, but this may perhaps create problems (I don&rsquo;t think I&rsquo;ve ever encountered a font with composites in the basic ASCII set - so I guess this is not good&hellip;). This would still need 4 times the kerning pairs, but at least the outline data will not be double.</p>
+</li>
+<li>
+<p>In OpenType one could use glyph substitution to map all lowercase input to the uppercase letters. This would still require the lowercase glyphs to be present, but they could just be empty. But what OpenType feature should then be used to make this switch? - it would have to be always-on&hellip;</p>
+</li>
+</ol>
+<p>So&hellip; have anyone found a clever way to make an uppercase-only OpenType font?
+What is your preferred method?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">5) You can assign more than one Unicode point to a glyph. The code field for "B" would show "0062 0042". I'm not sure if there are any problems inherent in the fact that it can have only one glyph name.</div>
+		<div class="commentbody"><ol start="5">
+<li>You can assign more than one Unicode point to a glyph. The code field for &ldquo;B&rdquo; would show &ldquo;0062 0042&rdquo;. I&rsquo;m not sure if there are any problems inherent in the fact that it can have only one glyph name.</li>
+</ol>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -128,20 +137,23 @@ What is your preferred method?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Undurprisingly, I agree with Josh. A few more detailed comments.
-
-2) If you use class kerning, there's zero increase in the amount of kerning data, so I don't understand the concern. The "kerning pairs" are purely virtual.
-
-3) Composites is a fine idea for OT-TT. For OT-CFF, if the font is built with subroutinization, the duplicate glyphs will add next to nothing to the total size, and you don't need even need to use composites (though it might help you keep things straight during development).
-
-4) That's a pretty weird choice. And in general, OT features should not map from one character to a different one.
-
-5) You can assign more than one Unicode point to a glyph, but this has some unfortunate side effects for backtracing Unicode codepoints from glyphs. Given (3), this would seem unnecessary.
-
-Cheers,
-
-T
-
+		<div class="commentbody"><p>Undurprisingly, I agree with Josh. A few more detailed comments.</p>
+<ol start="2">
+<li>
+<p>If you use class kerning, there&rsquo;s zero increase in the amount of kerning data, so I don&rsquo;t understand the concern. The &ldquo;kerning pairs&rdquo; are purely virtual.</p>
+</li>
+<li>
+<p>Composites is a fine idea for OT-TT. For OT-CFF, if the font is built with subroutinization, the duplicate glyphs will add next to nothing to the total size, and you don&rsquo;t need even need to use composites (though it might help you keep things straight during development).</p>
+</li>
+<li>
+<p>That&rsquo;s a pretty weird choice. And in general, OT features should not map from one character to a different one.</p>
+</li>
+<li>
+<p>You can assign more than one Unicode point to a glyph, but this has some unfortunate side effects for backtracing Unicode codepoints from glyphs. Given (3), this would seem unnecessary.</p>
+</li>
+</ol>
+<p>Cheers,</p>
+<p>T</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -163,12 +175,11 @@ T
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for the extra suggestion and comments. Much appreciated.
-And if not even Adobes own font expert knows of a special clever way to make uppercase-only fonts, then probably no-one does. ;)
-
-As I thought: I'll make, kern and space the uppercase, and then copy them to the lowercase slots before adding the diacritics as composites - using class-kerning based on the kerning of the uppercase glyphs. This will leave _some_ "redundant" data, but is probably the best option compatibility- and encoding-wise... Better to make a normal, working font, than risk trouble by being "clever". :)
-
-Roger</div>
+		<div class="commentbody"><p>Thanks for the extra suggestion and comments. Much appreciated.
+And if not even Adobes own font expert knows of a special clever way to make uppercase-only fonts, then probably no-one does. ;)</p>
+<p>As I thought: I&rsquo;ll make, kern and space the uppercase, and then copy them to the lowercase slots before adding the diacritics as composites - using class-kerning based on the kerning of the uppercase glyphs. This will leave <em>some</em> &ldquo;redundant&rdquo; data, but is probably the best option compatibility- and encoding-wise&hellip; Better to make a normal, working font, than risk trouble by being &ldquo;clever&rdquo;. :)</p>
+<p>Roger</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

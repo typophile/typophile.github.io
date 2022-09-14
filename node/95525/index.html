@@ -71,18 +71,20 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I want to make to operate stacking diacritics, for example ocircumflex with breve above. First way to type it is: ocircumflex + breve, the second: o + circumflex + breve. I made it that way:
-1. ocircumflex is decomposed to o + circumflex
-2. o and circumflex are positioned via mark
-3. circumflex and breve are positioned via mkmk
-So whatever combination you type (o ̂ ̆) or (ô ̆) you get proper stacked letter. It works beautifully in FontForge but to my astonishment only in FF. What is going on? Please help with this enigma.
+  <div class="post-content e-content" itemprop="articleBody"><p>I want to make to operate stacking diacritics, for example ocircumflex with breve above. First way to type it is: ocircumflex + breve, the second: o + circumflex + breve. I made it that way:</p>
+<ol>
+<li>ocircumflex is decomposed to o + circumflex</li>
+<li>o and circumflex are positioned via mark</li>
+<li>circumflex and breve are positioned via mkmk
+So whatever combination you type (o ̂ ̆) or (ô ̆) you get proper stacked letter. It works beautifully in FontForge but to my astonishment only in FF. What is going on? Please help with this enigma.</li>
+</ol>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">With no font to check (or at least feature code snippet, if you are writing feature files), it is hard to tell what is going on. 
-
-Staping in the dark, my first guess would be broken application(s), try testing in Notepad in Windows and/or Firefox, if still broken then make sure you have set script and language correctly for your feature.</div>
+		<div class="commentbody"><p>With no font to check (or at least feature code snippet, if you are writing feature files), it is hard to tell what is going on.</p>
+<p>Staping in the dark, my first guess would be broken application(s), try testing in Notepad in Windows and/or Firefox, if still broken then make sure you have set script and language correctly for your feature.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -103,31 +105,26 @@ Staping in the dark, my first guess would be broken application(s), try testing 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Janek,
-I've recently added the exact behavior you're describing to a font family on which I have been working. However, I compiled my fonts using the AFDKO. The resulting fonts have the correct behavior in MS Word (I tested version 10 on XP) and in InDesign CS6 with the World Ready composer applied (there seems to be a bug in this regard in the default composer). Those were the only instances that I tested. I've sent the font off to someone who does Jarai typography in XeLaTeX, I'll post back with his results, if interested.
-
-Here's my decomposition code in FDK syntax. Note the lookup titled DECOMPOSITION is outside of any feature block and before the <ccmp> feature. Also beware of the wrapping commented line below:
-
-
-<code>lookup DECOMPOSITION {
-		sub Ecircumflex by E circumflexcmb;
-		sub ecircumflex by e circumflexcmb;
-		sub Ocircumflex by O circumflexcmb;
-		sub ocircumflex by o circumflexcmb;
-} DECOMPOSITION;</code>
-
-<code>feature ccmp { # Glyph Composition / Decomposition</code>
-
-<code>	lookup GLYPH_DECOMPOSITION_CONTEXTUAL_2 {
-		#decomposes ecircumflex and ocircumflex forms when followed by combining breve: Jarai language support
-		sub Ecircumflex' lookup DECOMPOSITION brevecmb;
-		sub ecircumflex' lookup DECOMPOSITION brevecmb;
-		sub Ocircumflex' lookup DECOMPOSITION brevecmb;
-		sub ocircumflex' lookup DECOMPOSITION brevecmb;
-	} GLYPH_DECOMPOSITION_CONTEXTUAL_2;</code>
-
-<code>} ccmp;
-</code></div>
+		<div class="commentbody"><p>Janek,
+I&rsquo;ve recently added the exact behavior you&rsquo;re describing to a font family on which I have been working. However, I compiled my fonts using the AFDKO. The resulting fonts have the correct behavior in MS Word (I tested version 10 on XP) and in InDesign CS6 with the World Ready composer applied (there seems to be a bug in this regard in the default composer). Those were the only instances that I tested. I&rsquo;ve sent the font off to someone who does Jarai typography in XeLaTeX, I&rsquo;ll post back with his results, if interested.</p>
+<p>Here&rsquo;s my decomposition code in FDK syntax. Note the lookup titled DECOMPOSITION is outside of any feature block and before the <!-- raw HTML omitted --> feature. Also beware of the wrapping commented line below:</p>
+<p><!-- raw HTML omitted -->lookup DECOMPOSITION {
+sub Ecircumflex by E circumflexcmb;
+sub ecircumflex by e circumflexcmb;
+sub Ocircumflex by O circumflexcmb;
+sub ocircumflex by o circumflexcmb;
+} DECOMPOSITION;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->feature ccmp { # Glyph Composition / Decomposition<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->	lookup GLYPH_DECOMPOSITION_CONTEXTUAL_2 {
+#decomposes ecircumflex and ocircumflex forms when followed by combining breve: Jarai language support
+sub Ecircumflex' lookup DECOMPOSITION brevecmb;
+sub ecircumflex' lookup DECOMPOSITION brevecmb;
+sub Ocircumflex' lookup DECOMPOSITION brevecmb;
+sub ocircumflex' lookup DECOMPOSITION brevecmb;
+} GLYPH_DECOMPOSITION_CONTEXTUAL_2;<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->} ccmp;
+<!-- raw HTML omitted --></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -149,10 +146,9 @@ Here's my decomposition code in FDK syntax. Note the lookup titled DECOMPOSITION
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">A bit shorter feature file with classes: (sub part only)
-<code>
+<!-- raw HTML omitted -->
 sub [Ecircumflex ecircumflex Ocircumflex ocircumflex]' lookup DECOMPOSITION [brevecmb uni0306];
-<code\>
-</div>
+&lt;code&gt;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -174,15 +170,14 @@ sub [Ecircumflex ecircumflex Ocircumflex ocircumflex]' lookup DECOMPOSITION [bre
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Paul:
-"I've recently added the exact behavior..."
+&ldquo;I&rsquo;ve recently added the exact behavior&hellip;&rdquo;
 Post on your blog inspired me to explore ccmp and mark/mkmk. Especially ccmp is modestly documented.
-"However, I compiled my fonts using the AFDKO."
+&ldquo;However, I compiled my fonts using the AFDKO.&rdquo;
 FontForge uses AFDKO syntax, so your fea file was merged without any problems and modifications. Probably every AFDKO feature is supported by FF.
-"(there seems to be a bug in this regard in the default composer)"
+&ldquo;(there seems to be a bug in this regard in the default composer)&rdquo;
 What a pity! There are fonts (yours and Brill by John/Tiro at the very least) and InD does not fully support them.
 Thank you both for your prompt replies.
-regards
-</div>
+regards</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -204,12 +199,12 @@ regards
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Thanks a lot Khaled!
-Font works in FireFox as expected. I didn't expect I can write on Pablo Impallari test page, but it works.
-Then what about InD? [edit] Aha, I see... Thanks Paul!
+Font works in FireFox as expected. I didn&rsquo;t expect I can write on Pablo Impallari test page, but it works.
+Then what about InD? [edit] Aha, I see&hellip; Thanks Paul!
 [img:sites/default/files/old-images/1C_5792.jpg]
 [img:sites/default/files/old-images/05_6504.jpg]
 in brackets is the input (with spaces) and glyphs on the right
-FireFox 14, http://www.impallari.com/testing/</div>
+FireFox 14, <a href="http://www.impallari.com/testing/">http://www.impallari.com/testing/</a></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

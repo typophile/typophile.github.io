@@ -71,38 +71,21 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I am nearing completion on a display face I would like to offer in both a merged/solid option and broken-apart/two-layer option. I have generated the three font files (solid, layer 1, and layer 2) with identical vertical metrics. When I typeset text boxes on top of each other to test the alignment, layer 2 lines up properly on top of the solid font, but layer 1 is set at a slightly higher baseline.
-
-Searching past threads, I found this post by Nick Shinn from a couple years back where a similar problem was being dealt with. However I could not find an answer. I have also tried John Hudson’s how-to on vertical metrics and Adam Twardoch’s guide in Learn FontLab Fast for setting metrics for type families but have failed to fix this problem.
-
-Below are screenshots of the relevant Font Info metrics panels for the three fonts:
-
-<strong>Solid</strong>
-[img:sites/default/files/old-images/01_solid_4672.jpg]
-
-
-
-
-<strong>Layer 1</strong>
-[img:sites/default/files/old-images/02_left_4896.jpg]
-
-
-
-
-<strong>Layer 2</strong>
-[img:sites/default/files/old-images/03_right_5058.jpg]
-
-
-
-
-This screenshot illustrates the issue I'm facing. 
+  <div class="post-content e-content" itemprop="articleBody"><p>I am nearing completion on a display face I would like to offer in both a merged/solid option and broken-apart/two-layer option. I have generated the three font files (solid, layer 1, and layer 2) with identical vertical metrics. When I typeset text boxes on top of each other to test the alignment, layer 2 lines up properly on top of the solid font, but layer 1 is set at a slightly higher baseline.</p>
+<p>Searching past threads, I found this post by Nick Shinn from a couple years back where a similar problem was being dealt with. However I could not find an answer. I have also tried John Hudson’s how-to on vertical metrics and Adam Twardoch’s guide in Learn FontLab Fast for setting metrics for type families but have failed to fix this problem.</p>
+<p>Below are screenshots of the relevant Font Info metrics panels for the three fonts:</p>
+<p><!-- raw HTML omitted -->Solid<!-- raw HTML omitted -->
+[img:sites/default/files/old-images/01_solid_4672.jpg]</p>
+<p><!-- raw HTML omitted -->Layer 1<!-- raw HTML omitted -->
+[img:sites/default/files/old-images/02_left_4896.jpg]</p>
+<p><!-- raw HTML omitted -->Layer 2<!-- raw HTML omitted -->
+[img:sites/default/files/old-images/03_right_5058.jpg]</p>
+<p>This screenshot illustrates the issue I&rsquo;m facing. 
 [img:sites/default/files/old-images/comparison_4095.jpg]
-The left shows Layer 1 misaligned atop the Solid font; the right shows Layer 2 working just fine.
-
-
-If anyone could throw me a technical life preserver on this, I would be greatly appreciative. Some notes: working with FL5 on Mac OS 10.4 (Intel); alignment problem occurs in Illustrator and Photoshop CS2, but not InDesign CS2; generated fonts are OT PS.
-
-*hhea table metrics inconsistency has been corrected but problem persists.</div>
+The left shows Layer 1 misaligned atop the Solid font; the right shows Layer 2 working just fine.</p>
+<p>If anyone could throw me a technical life preserver on this, I would be greatly appreciative. Some notes: working with FL5 on Mac OS 10.4 (Intel); alignment problem occurs in Illustrator and Photoshop CS2, but not InDesign CS2; generated fonts are OT PS.</p>
+<p>*hhea table metrics inconsistency has been corrected but problem persists.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
@@ -169,11 +152,10 @@ If anyone could throw me a technical life preserver on this, I would be greatly 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Andy Babb
-
-<cite>but layer 1 is set at a slightly higher baseline.</cite>
-
-Not slightly. It’s the half of the edge of the triangle. I notice, that the sum of WinAscent and Win Descent (or Ascender and Descender) is bigger than the Font BBox height (1224); is this allowed? I am not sure. And the solid style minus the layer 2 style is the layer 1 style. I can imagine, that this subtraction has cut a key glyph, Photoshop or Illustrator uses for alignment, at the top. I am speculating, hope this is okay. I think, that I would test the font with a very basic character set; I mean, that I would remove first most characters from the font. Do you have tested it with the b as the only glyph, that is contained in it? For the case, that the different height of a key glyph is the cause, I would try to insert a mini dummy outline (which is likewise a triangle, but with an edge length of round about 1 unit, isn’t it?) into the key glyph.</div>
+		<div class="commentbody"><p>Andy Babb</p>
+<p><!-- raw HTML omitted -->but layer 1 is set at a slightly higher baseline.<!-- raw HTML omitted --></p>
+<p>Not slightly. It’s the half of the edge of the triangle. I notice, that the sum of WinAscent and Win Descent (or Ascender and Descender) is bigger than the Font BBox height (1224); is this allowed? I am not sure. And the solid style minus the layer 2 style is the layer 1 style. I can imagine, that this subtraction has cut a key glyph, Photoshop or Illustrator uses for alignment, at the top. I am speculating, hope this is okay. I think, that I would test the font with a very basic character set; I mean, that I would remove first most characters from the font. Do you have tested it with the b as the only glyph, that is contained in it? For the case, that the different height of a key glyph is the cause, I would try to insert a mini dummy outline (which is likewise a triangle, but with an edge length of round about 1 unit, isn’t it?) into the key glyph.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -194,11 +176,10 @@ Not slightly. It’s the half of the edge of the triangle. I notice, that the su
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Arno: thank you for your response. You're correct—perhaps 'slightly' is a bit of an understatement. I will look into setting the WinAscent/Ascender and WinDescent/Descender values so that their sum are equal to or less than 1224.
-
-Here is how the three font files were created: 1) I made an <em>unmerged</em> font for production that contained all triangles (both those of layer 1 and 2) as separate contours; 2) I merged all contours into individual characters, creating the solid font, adjusted metrics, kerning, and hinting; 3) imported the metrics from the solid file into the original unmerged production file and deleted triangles in each character to form the layer 1 and 2 font files. Which is to say, I did <em>not</em> create one of the layer files, then use a transformation or contour substraction to yield the other layer file. I'm not sure if that makes sense.
-
-Any suggestions for what to start with in terms of a basic character set for doing a diagnostic?</div>
+		<div class="commentbody"><p>Arno: thank you for your response. You&rsquo;re correct—perhaps &lsquo;slightly&rsquo; is a bit of an understatement. I will look into setting the WinAscent/Ascender and WinDescent/Descender values so that their sum are equal to or less than 1224.</p>
+<p>Here is how the three font files were created: 1) I made an <!-- raw HTML omitted -->unmerged<!-- raw HTML omitted --> font for production that contained all triangles (both those of layer 1 and 2) as separate contours; 2) I merged all contours into individual characters, creating the solid font, adjusted metrics, kerning, and hinting; 3) imported the metrics from the solid file into the original unmerged production file and deleted triangles in each character to form the layer 1 and 2 font files. Which is to say, I did <!-- raw HTML omitted -->not<!-- raw HTML omitted --> create one of the layer files, then use a transformation or contour substraction to yield the other layer file. I&rsquo;m not sure if that makes sense.</p>
+<p>Any suggestions for what to start with in terms of a basic character set for doing a diagnostic?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -219,9 +200,9 @@ Any suggestions for what to start with in terms of a basic character set for doi
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Having the OS/2 Win- metrics values sum to greater than the bbox is permitted, although Adobe avoid doing it. There are circumstances in which it is desirable, notably if one is releasing a font that is liable to be extended in future with additional scripts or stacked diacritics, and you want to be able to maintain metrics compatibility. In that case, it makes sense to build some leeway into the Win- metrics.
-
-However, if an application is using the bbox to calculate vertical alignment, which it might do for the first line in a text block, then the font with shorter descenders will be raised, as shown. One way around this would be to create a dummy glyph in the font that is the same height as the ascender in the taller fonts, e.g. the height of your Solid and Layer 1 b. This will make the bbox values compatible.</div>
+		<div class="commentbody"><p>Having the OS/2 Win- metrics values sum to greater than the bbox is permitted, although Adobe avoid doing it. There are circumstances in which it is desirable, notably if one is releasing a font that is liable to be extended in future with additional scripts or stacked diacritics, and you want to be able to maintain metrics compatibility. In that case, it makes sense to build some leeway into the Win- metrics.</p>
+<p>However, if an application is using the bbox to calculate vertical alignment, which it might do for the first line in a text block, then the font with shorter descenders will be raised, as shown. One way around this would be to create a dummy glyph in the font that is the same height as the ascender in the taller fonts, e.g. the height of your Solid and Layer 1 b. This will make the bbox values compatible.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -242,15 +223,12 @@ However, if an application is using the bbox to calculate vertical alignment, wh
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">John
-
-The height of the bbox in Andy’s fonts already is the same. (The bbox values cannot be edited like Ascender, Descender and so on.) That’s the reason, why I wonder, whether Illustrator and Photoshop CS2 calculate the alignment with the help of a key glyph in the font, the letter H for example. In this case you had to make the key glyph heigher, which could be done by adding a useless node over the top of the key glyph. Does a single node violate the specifications? A single node or two connected nodes would be optimal, because they are unvisible. If two nodes are not permitted, I would create an outline, that is as small as possible. I think, that is a triangle with an edge length of 1 unit. Such a triangle is even not visible at 512 zoom size (points?) in FontLab. Nevertheless this would be a dirty solution.
-
-Andy
-
-<cite>Any suggestions for what to start with in terms of a basic character set for doing a diagnostic?</cite>
-
-If there is a key glyph, that Photoshop CS2 or Illustrator CS2 use for alignment, I doubt, that this glyph is not in the alphabet (without diacritics). I can imagine, that it is the H. (Edited: It can’t be the b, because its height is the same in solid and layer 1.) If the different alignment remains, after you have removed all glyphs, except from the alphabet, I would remove the small letters additionally and test again. Something like that. But make sure, that you don’t change the bbox height, when you remove the glyphs. So keep a glyph, that is not in the basic alphabet and make make sure, that its height is 936 units in all three fonts.</div>
+		<div class="commentbody"><p>John</p>
+<p>The height of the bbox in Andy’s fonts already is the same. (The bbox values cannot be edited like Ascender, Descender and so on.) That’s the reason, why I wonder, whether Illustrator and Photoshop CS2 calculate the alignment with the help of a key glyph in the font, the letter H for example. In this case you had to make the key glyph heigher, which could be done by adding a useless node over the top of the key glyph. Does a single node violate the specifications? A single node or two connected nodes would be optimal, because they are unvisible. If two nodes are not permitted, I would create an outline, that is as small as possible. I think, that is a triangle with an edge length of 1 unit. Such a triangle is even not visible at 512 zoom size (points?) in FontLab. Nevertheless this would be a dirty solution.</p>
+<p>Andy</p>
+<p><!-- raw HTML omitted -->Any suggestions for what to start with in terms of a basic character set for doing a diagnostic?<!-- raw HTML omitted --></p>
+<p>If there is a key glyph, that Photoshop CS2 or Illustrator CS2 use for alignment, I doubt, that this glyph is not in the alphabet (without diacritics). I can imagine, that it is the H. (Edited: It can’t be the b, because its height is the same in solid and layer 1.) If the different alignment remains, after you have removed all glyphs, except from the alphabet, I would remove the small letters additionally and test again. Something like that. But make sure, that you don’t change the bbox height, when you remove the glyphs. So keep a glyph, that is not in the basic alphabet and make make sure, that its height is 936 units in all three fonts.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -292,66 +270,16 @@ If there is a key glyph, that Photoshop CS2 or Illustrator CS2 use for alignment
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Andy
-
-I think, that I have solved the problem: The small d is the key glyph. I have added a horizontal line, which is an open contour, to all characters d of my test font family except from the d, that is the highest one in my test font family. The line, that I have added is in the same height as the highest d in the family. When you generate the Font, FontLab grumbles. Ignore it. Maybe there is a cleaner solution. I am not sure, if this has any negative side-effects.
-
-May it be, that the d of your solid style is a b, mirrored at the vertical line? I ask, because otherwise the layer 1 d would probably also have the same height as the solid d.
-
-Note, that not your font is the problem (in my theory). All fonts, in which the small d has another height as the other styles in the font family (measured from the baseline to the top), show the same problem in Photoshop and Illustrator.
-
-Edited:
-
-Just save the following code as eps file and drag the eps file to the d-character. FontLab will not grumble, when you generate the font, because now I have taken three nodes, from which two overlay.
-
-<code>
-%!PS-Adobe-3.0 EPSF-3.0
-%%Creator: FontLab
-%%Title:
-%%CreationDate: Mon Jul 06 16:28:37 2009
-%%BoundingBox: 0.00 788.00 10.00 788.00
-%%EndComments
-%%BeginProlog
-/FontLab 24 dict def FontLab begin
-/Version 0 def
-/bd {bind def} def
-/n {newpath} bd
-/c {curveto} bd
-/C {curveto} bd
-/L {lineto} bd
-/l {lineto} bd
-/m {moveto} bd
-/f {closepath} bd
-/S {} bd
-/*u { } bd
-/*U { fill} bd
-/A {pop} bd
-/O {pop} bd
-/D {pop} bd
-/g {setgray} bd
-end
-%%EndProlog
-%%BeginSetup
-FontLab begin
-n
-%%EndSetup
-0 A  *u 0 O 0 g
-0 D
-0.00 788.00 m
-10.00 788.00 l
-0.00 788.00 l
-f
-*U
-%%PageTrailer
-showpage
-%%Trailer
-end
-%%EOF</code>
-
-And I doubt, that this has negative side effects.
-
-<cite>Nice b!</cite>
-Yes. It’s nice.
+		<div class="commentbody"><p>Andy</p>
+<p>I think, that I have solved the problem: The small d is the key glyph. I have added a horizontal line, which is an open contour, to all characters d of my test font family except from the d, that is the highest one in my test font family. The line, that I have added is in the same height as the highest d in the family. When you generate the Font, FontLab grumbles. Ignore it. Maybe there is a cleaner solution. I am not sure, if this has any negative side-effects.</p>
+<p>May it be, that the d of your solid style is a b, mirrored at the vertical line? I ask, because otherwise the layer 1 d would probably also have the same height as the solid d.</p>
+<p>Note, that not your font is the problem (in my theory). All fonts, in which the small d has another height as the other styles in the font family (measured from the baseline to the top), show the same problem in Photoshop and Illustrator.</p>
+<p>Edited:</p>
+<p>Just save the following code as eps file and drag the eps file to the d-character. FontLab will not grumble, when you generate the font, because now I have taken three nodes, from which two overlay.</p>
+<!-- raw HTML omitted -->
+<p>And I doubt, that this has negative side effects.</p>
+<p><!-- raw HTML omitted -->Nice b!<!-- raw HTML omitted -->
+Yes. It’s nice.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -374,7 +302,7 @@ Yes. It’s nice.
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">[img:sites/default/files/old-images/Thanks_4117.png]
-Brilliant! I can't express how grateful I am to you for coming up with this fix. 
+Brilliant! I can&rsquo;t express how grateful I am to you for coming up with this fix. 
 And belated thanks to Tom for his comment on the b.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -417,9 +345,9 @@ And belated thanks to Tom for his comment on the b.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Damn it! There is a negative side effect. Photoshop renders the aligner in the modes <em>sharp, sharper, strong and rounded</em>. It even renders it, if all three nodes of the aligner are at the same position. It’s small, but visible.
-
-Perhaps the problem can be solved by copying the aligner to the same position and change the path direction of the copied one.</div>
+		<div class="commentbody"><p>Damn it! There is a negative side effect. Photoshop renders the aligner in the modes <!-- raw HTML omitted -->sharp, sharper, strong and rounded<!-- raw HTML omitted -->. It even renders it, if all three nodes of the aligner are at the same position. It’s small, but visible.</p>
+<p>Perhaps the problem can be solved by copying the aligner to the same position and change the path direction of the copied one.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -440,32 +368,28 @@ Perhaps the problem can be solved by copying the aligner to the same position an
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Haven't read the entire discussion, so please handle with care ...
-
-Do you add extra points/outlines only to force FLS5 to calculate specific bounding box values?
-Rather than adding points/outlines, you could dump all fonts with TTX to .ttx files, open them in a text editor, find the largest <em>head</em> table yMin and yMax values and <em>CFF</em> table FontBBox values from all fonts, and then change all fonts' values to these largest values:
-
-&nbsp;&nbsp;&nbsp;{head}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[...]
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{xMin value="-215"/}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{yMin value="-270"/}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{xMax value="1113"/}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{yMax value="900"/}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[...]
-&nbsp;&nbsp;&nbsp;{/head}
-
-&nbsp;&nbsp;&nbsp;{CFF}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[...]
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{FontBBox value="-215 -270 1113 900"/}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[...]
-&nbsp;&nbsp;&nbsp;{/CFF}
-
-Then run .ttx files through TTX again, this time with the -b option so TTX won't recalculate box values, to get .otfs again.
+		<div class="commentbody"><p>Haven&rsquo;t read the entire discussion, so please handle with care &hellip;</p>
+<p>Do you add extra points/outlines only to force FLS5 to calculate specific bounding box values?
+Rather than adding points/outlines, you could dump all fonts with TTX to .ttx files, open them in a text editor, find the largest <!-- raw HTML omitted -->head<!-- raw HTML omitted --> table yMin and yMax values and <!-- raw HTML omitted -->CFF<!-- raw HTML omitted --> table FontBBox values from all fonts, and then change all fonts' values to these largest values:</p>
+<p>   {head}
+      [&hellip;]
+      {xMin value=&quot;-215&quot;/}
+      {yMin value=&quot;-270&quot;/}
+      {xMax value=&ldquo;1113&rdquo;/}
+      {yMax value=&ldquo;900&rdquo;/}
+      [&hellip;]
+   {/head}</p>
+<p>   {CFF}
+      [&hellip;]
+      {FontBBox value=&quot;-215 -270 1113 900&quot;/}
+      [&hellip;]
+   {/CFF}</p>
+<p>Then run .ttx files through TTX again, this time with the -b option so TTX won&rsquo;t recalculate box values, to get .otfs again.
 I am not sure if it would hurt application if these values are larger than perhaps necessary, might be worth a try.
-Perhaps it isn't even the worst idea to so with all fonts of any family, to make sure that all styles align identically in apps which rely on bounding box values for the distance from the top of the box.
-(I am tired and may have missed other occurrences of bounding box values in the font. Haven't tested on which of the box values apps actually rely. And braces of course should be larger/smaller signs.)
-
-Karsten</div>
+Perhaps it isn&rsquo;t even the worst idea to so with all fonts of any family, to make sure that all styles align identically in apps which rely on bounding box values for the distance from the top of the box.
+(I am tired and may have missed other occurrences of bounding box values in the font. Haven&rsquo;t tested on which of the box values apps actually rely. And braces of course should be larger/smaller signs.)</p>
+<p>Karsten</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -486,9 +410,9 @@ Karsten</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Arno: thanks for flagging the potential Photoshop issue. I've created a couple of quick .psd's using PS CS2, setting the text by clicking and also within text frames, and haven't noticed any visible sign of the aligner with all the various aliasing methods. What version of the program were you using when you encountered this problem with the aligner being visible?
-
-Karsten: being very much a newbie to formal type design, I had to Google TTX to know what you were referring to! Thanks very much for your suggestion of using it to fine-tune the font min and max values. I will look into this.</div>
+		<div class="commentbody"><p>Arno: thanks for flagging the potential Photoshop issue. I&rsquo;ve created a couple of quick .psd&rsquo;s using PS CS2, setting the text by clicking and also within text frames, and haven&rsquo;t noticed any visible sign of the aligner with all the various aliasing methods. What version of the program were you using when you encountered this problem with the aligner being visible?</p>
+<p>Karsten: being very much a newbie to formal type design, I had to Google TTX to know what you were referring to! Thanks very much for your suggestion of using it to fine-tune the font min and max values. I will look into this.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -509,17 +433,13 @@ Karsten: being very much a newbie to formal type design, I had to Google TTX to 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Karsten
-
-<cite>Do you add extra points/outlines only to force FLS5 to calculate specific bounding box values?</cite>
-
-No. Photoshop aligns the first line in a text frame with the help of the height of the character d. So the heighest point of the d is always in the same height as the text frame. (And it seems to compute the height for the actual text size, which can result in a one pixel rounding error.) It simply does not use any of the values stored in the font for aligning the first line. So I doubt, that the manipulation of the bbox values will help here. But it is nevertheless a useful tip, which might solve other problems with alignment and leading.
-
-Off topic: Have a look at <a href=http://forum.fontlab.com/fontlab-studio-tips-and-tricks/font-family-naming-in-fontlab-studio-5-t313.0.html;msg23929#msg23929>my addition to Adam Twardoch’s naming tutorial</a>, please. I have read a few of your tutorials (thanks for them!) and my comment might help to complete your naming tutorial.
-
-Andy
-
-Photoshop CS3 renders the aligner, but I assume, that Photoshop CS2 also does it. It probably is dependent from the text size, in which you test. Imagine, that the aligner has no content. At least I thought, that a line with a height of zero does not have content. So it may help to double the aligner and change the path direction of the aligner, which is on the top. I want to test that. But even if it works, now I cannot exclude anymore, that there are negative side effects. The way, in which Photoshop aligns the first line, is the problem, not your fonts.</div>
+		<div class="commentbody"><p>Karsten</p>
+<p><!-- raw HTML omitted -->Do you add extra points/outlines only to force FLS5 to calculate specific bounding box values?<!-- raw HTML omitted --></p>
+<p>No. Photoshop aligns the first line in a text frame with the help of the height of the character d. So the heighest point of the d is always in the same height as the text frame. (And it seems to compute the height for the actual text size, which can result in a one pixel rounding error.) It simply does not use any of the values stored in the font for aligning the first line. So I doubt, that the manipulation of the bbox values will help here. But it is nevertheless a useful tip, which might solve other problems with alignment and leading.</p>
+<p>Off topic: Have a look at <!-- raw HTML omitted -->my addition to Adam Twardoch’s naming tutorial<!-- raw HTML omitted -->, please. I have read a few of your tutorials (thanks for them!) and my comment might help to complete your naming tutorial.</p>
+<p>Andy</p>
+<p>Photoshop CS3 renders the aligner, but I assume, that Photoshop CS2 also does it. It probably is dependent from the text size, in which you test. Imagine, that the aligner has no content. At least I thought, that a line with a height of zero does not have content. So it may help to double the aligner and change the path direction of the aligner, which is on the top. I want to test that. But even if it works, now I cannot exclude anymore, that there are negative side effects. The way, in which Photoshop aligns the first line, is the problem, not your fonts.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -540,11 +460,12 @@ Photoshop CS3 renders the aligner, but I assume, that Photoshop CS2 also does it
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>Photoshop aligns the first line in a text frame with the help of the height of the character d.</cite>
-
-In this case it is indeed more than a pity and perhaps should be considered as a bug. Other apps use more reliable values -- and be it OS/2.usWinAscent* ... 
-
-* Joking.</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Photoshop aligns the first line in a text frame with the help of the height of the character d.<!-- raw HTML omitted --></p>
+<p>In this case it is indeed more than a pity and perhaps should be considered as a bug. Other apps use more reliable values &ndash; and be it OS/2.usWinAscent* &hellip;</p>
+<ul>
+<li>Joking.</li>
+</ul>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -565,13 +486,11 @@ In this case it is indeed more than a pity and perhaps should be considered as a
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">My idea with a second aligner on the same position as the first one does not work likewise.
-
-I don’t know, if it is a bug or a relict from times, in which it was useful; a feature from former times. Whatever it is, today it is a vermin, because the ecosystem has mutated, while the insect is still the same.
-
-Andy, if you use the 10-units-aligner, the minimum size, at which it is visible, is round about 110 Pixel. Try 300 pixel. And remember, that it aligns with the text frame. So hit the enter key, when you are ready with writing the d.
-
-You could build an OpenType feature, that substitutes a fake d with the real d. But remember all the non OpenType savy apps.</div>
+		<div class="commentbody"><p>My idea with a second aligner on the same position as the first one does not work likewise.</p>
+<p>I don’t know, if it is a bug or a relict from times, in which it was useful; a feature from former times. Whatever it is, today it is a vermin, because the ecosystem has mutated, while the insect is still the same.</p>
+<p>Andy, if you use the 10-units-aligner, the minimum size, at which it is visible, is round about 110 Pixel. Try 300 pixel. And remember, that it aligns with the text frame. So hit the enter key, when you are ready with writing the d.</p>
+<p>You could build an OpenType feature, that substitutes a fake d with the real d. But remember all the non OpenType savy apps.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

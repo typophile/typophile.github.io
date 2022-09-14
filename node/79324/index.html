@@ -71,56 +71,40 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">When working on a font, I like to increment my source files with a two-digit version number (foobar 02.vfb, foobar 03.vfb) so I can generate test OTFs with a version number.
-
-The annoyance is that after I generate, I always have to drag the new version into Font Book and delete the old versions manually (because Font Book resolves duplicates erratically, usually preferring older files).
-
-In the past, I've tried to set up a Folder Action to process new fonts, but it takes too long for Folder Action to notice that I made a new file.
-
-No more. Now I've discovered Hazel, which is a little $20 program (preference pane) that's basically a much more attentive version of Folder Actions. Which makes it actually useful.
-
-I generate my test OTF to the desktop. (Because it's the easiest destination to navigate to from the FL generate-font dialog.) My Hazel script watches for OTF files to drop onto the desktop. If it sees one that was created in the last minute (and it will grab them within a few seconds of their appearance), it deletes the older versions of that font from my ~/Library/Fonts, and moves the newest version there. If Font Book is running, it will automatically notice the change.
-
-What's cool about Hazel is that you can embed shell scripts in your sequence of folder actions. So in this case, to do the "delete older versions" magic, I made a little perl script that looks at my new font & deletes anything in my font folder with the same filename prefix.
-
-You would want to adjust this for your naming scheme. (And as usual, be careful of any script with an rm in it.)
-
-<code>
-#!/usr/bin/perl
-
-use warnings;
+  <div class="post-content e-content" itemprop="articleBody"><p>When working on a font, I like to increment my source files with a two-digit version number (foobar 02.vfb, foobar 03.vfb) so I can generate test OTFs with a version number.</p>
+<p>The annoyance is that after I generate, I always have to drag the new version into Font Book and delete the old versions manually (because Font Book resolves duplicates erratically, usually preferring older files).</p>
+<p>In the past, I&rsquo;ve tried to set up a Folder Action to process new fonts, but it takes too long for Folder Action to notice that I made a new file.</p>
+<p>No more. Now I&rsquo;ve discovered Hazel, which is a little $20 program (preference pane) that&rsquo;s basically a much more attentive version of Folder Actions. Which makes it actually useful.</p>
+<p>I generate my test OTF to the desktop. (Because it&rsquo;s the easiest destination to navigate to from the FL generate-font dialog.) My Hazel script watches for OTF files to drop onto the desktop. If it sees one that was created in the last minute (and it will grab them within a few seconds of their appearance), it deletes the older versions of that font from my ~/Library/Fonts, and moves the newest version there. If Font Book is running, it will automatically notice the change.</p>
+<p>What&rsquo;s cool about Hazel is that you can embed shell scripts in your sequence of folder actions. So in this case, to do the &ldquo;delete older versions&rdquo; magic, I made a little perl script that looks at my new font &amp; deletes anything in my font folder with the same filename prefix.</p>
+<p>You would want to adjust this for your naming scheme. (And as usual, be careful of any script with an rm in it.)</p>
+<!-- raw HTML omitted -->
+<p>use warnings;
 use strict;
-use File::Basename;
-
-# extract the filename from the pathname Hazel passes in
-my $filename = basename($ARGV[0]);
-
-# this matches a filename of the form:
-# prefix version number (optional version suffix).otf
-# like foobar 02a.otf
-($filename =~ m/(.+?)(\d{2,3})(.*?)\.otf/);
-
-# get the family name if it matched
-my $familyname = $1;
-
-# if there's no $familyname, abort
-exit(0) unless $familyname;
-
-# remove the fonts that have the same family name prefix
-my $output = `rm ~/Library/Fonts/'$familyname'*`;
-
-# Hazel continues after this, moving the new font into the directory
-
-exit(0);
-</code>
-<!--break-->
+use File::Basename;</p>
+<h1 id="extract-the-filename-from-the-pathname-hazel-passes-in">extract the filename from the pathname Hazel passes in</h1>
+<p>my $filename = basename($ARGV[0]);</p>
+<h1 id="this-matches-a-filename-of-the-form">this matches a filename of the form:</h1>
+<h1 id="prefix-version-number-optional-version-suffixotf">prefix version number (optional version suffix).otf</h1>
+<h1 id="like-foobar-02aotf">like foobar 02a.otf</h1>
+<p>($filename =~ m/(.+?)(\d{2,3})(.*?).otf/);</p>
+<h1 id="get-the-family-name-if-it-matched">get the family name if it matched</h1>
+<p>my $familyname = $1;</p>
+<h1 id="if-theres-no-familyname-abort">if there&rsquo;s no $familyname, abort</h1>
+<p>exit(0) unless $familyname;</p>
+<h1 id="remove-the-fonts-that-have-the-same-family-name-prefix">remove the fonts that have the same family name prefix</h1>
+<p>my $output = <code>rm ~/Library/Fonts/'$familyname'*</code>;</p>
+<h1 id="hazel-continues-after-this-moving-the-new-font-into-the-directory">Hazel continues after this, moving the new font into the directory</h1>
+<p>exit(0);
+<!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Don’t install your test fonts at all. Just do all your proofing in Indesign and generate test fonts directly into /Library/Application Support/Adobe/Fonts directory using Ben Kiel’s font generator script, overwriting the old font. Indesign automatically detects new or changed fonts and loads them on the fly. This will you save many hours of time that would otherwise be wasted incrementing font versions, restarting applications, clearing font caches, rebooting, dealing with Fontbook, etc.
-
-And increment your entire working directory instead of individual files. It’s faster and this way you also end up archiving the related files you create for Superpolator, UFO Stretch, notes you take, etc. If multiple users are working on a design they should increment each round of changes with a date/version number and their initials.</div>
+		<div class="commentbody"><p>Don’t install your test fonts at all. Just do all your proofing in Indesign and generate test fonts directly into /Library/Application Support/Adobe/Fonts directory using Ben Kiel’s font generator script, overwriting the old font. Indesign automatically detects new or changed fonts and loads them on the fly. This will you save many hours of time that would otherwise be wasted incrementing font versions, restarting applications, clearing font caches, rebooting, dealing with Fontbook, etc.</p>
+<p>And increment your entire working directory instead of individual files. It’s faster and this way you also end up archiving the related files you create for Superpolator, UFO Stretch, notes you take, etc. If multiple users are working on a design they should increment each round of changes with a date/version number and their initials.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -141,12 +125,9 @@ And increment your entire working directory instead of individual files. It’s 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">To each his own.
-
-If you do things my way, you may like this trick.
-
-If you don't, you won't.
-
+		<div class="commentbody"><p>To each his own.</p>
+<p>If you do things my way, you may like this trick.</p>
+<p>If you don&rsquo;t, you won&rsquo;t.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

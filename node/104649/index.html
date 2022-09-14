@@ -71,48 +71,27 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Is there a fast way in Indesign to change biblical text imported from the internet the includes nikud into the appropriate unicode sign.
-
-The imported text is built  - letter, nikud, dagesh
-I would like to change to - letter+dagesh glyph, nikud
-
-Bentzi</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Is there a fast way in Indesign to change biblical text imported from the internet the includes nikud into the appropriate unicode sign.</p>
+<p>The imported text is built  - letter, nikud, dagesh
+I would like to change to - letter+dagesh glyph, nikud</p>
+<p>Bentzi</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I have never coded for InDesign, and I can't answer the question you are asking.
-
-In any case, I would just recode the input text (before feeding it to InDesign). But first, are you sure your input never contains a sequence like "shin shidot qamats dagesh" (for instance הַשָּׁמַיִם) that you would want to replace by "shin dagesh shindot qamats"? If so, the substitution "[letter][nikkud][dagesh]" to "[letter][dagesh][nikkud]" is not general enough. You need to accept [nikkud]+, i.e. one or more.
-
-If your input file is already utf-8 encoded, then the following Python code should do it (provided there is no cantillation mark between the letter and the dagesh). 
-
-<PRE>
----- file reorddag.py ---- cut line
-#!/usr/bin/env python
-
-import re, sys
-reord = re.compile(ur'([\u05D0-\u05EA])([\u05B0-\u05BB\u05BD\u05BF\u05C1\u05C2\u05C7]+)\u05BC')
-
-if len(sys.argv) > 1:
-   f=open(sys.argv[1])
-else:
-   f=sys.stdin
-
-line = f.readline().decode('utf-8')
-while line:
-  print re.sub(reord, ur'\1\u05BC\2',line).encode('utf-8'),
-  line = f.readline().decode('utf-8')
----- cut line
-</PRE>
-If you you save those lines to <code>reorddag.py</code>, then
-<PRE>
-python reorddag.py input.txt > output.txt
-</PRE>
-should perform the desired changes; if you are on a mac or linux, you can name the file reorddag, make it executable and it can be used with <code>reorddag input.txt</code> to get the output on stdout and it can also be piped.
-
--- 16 Jul 2013 — 11:51am Added # that was missing before ! in the copy, on the first line 
--- Something weird is happening:  starting on my mac with shin shindot qamats dagesh in הַשָּׁמַיִם, copying it  to typophile  and then copying from typophile to my mac I end with the sequence shin qamats dagesh shindot.
--- 17 Jul 2013 — 3:35pm Added a missing comma at the end of the print line (was giving two CR for each line)</div>
+		<div class="commentbody"><p>I have never coded for InDesign, and I can&rsquo;t answer the question you are asking.</p>
+<p>In any case, I would just recode the input text (before feeding it to InDesign). But first, are you sure your input never contains a sequence like &ldquo;shin shidot qamats dagesh&rdquo; (for instance הַשָּׁמַיִם) that you would want to replace by &ldquo;shin dagesh shindot qamats&rdquo;? If so, the substitution &ldquo;[letter][nikkud][dagesh]&rdquo; to &ldquo;[letter][dagesh][nikkud]&rdquo; is not general enough. You need to accept [nikkud]+, i.e. one or more.</p>
+<p>If your input file is already utf-8 encoded, then the following Python code should do it (provided there is no cantillation mark between the letter and the dagesh).</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>If you you save those lines to <!-- raw HTML omitted -->reorddag.py<!-- raw HTML omitted -->, then</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>should perform the desired changes; if you are on a mac or linux, you can name the file reorddag, make it executable and it can be used with <!-- raw HTML omitted -->reorddag input.txt<!-- raw HTML omitted --> to get the output on stdout and it can also be piped.</p>
+<p>&ndash; 16 Jul 2013 — 11:51am Added # that was missing before ! in the copy, on the first line 
+&ndash; Something weird is happening:  starting on my mac with shin shindot qamats dagesh in הַשָּׁמַיִם, copying it  to typophile  and then copying from typophile to my mac I end with the sequence shin qamats dagesh shindot.
+&ndash; 17 Jul 2013 — 3:35pm Added a missing comma at the end of the print line (was giving two CR for each line)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

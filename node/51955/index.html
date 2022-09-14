@@ -71,50 +71,30 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I am setting up a font that I hope will look somewhat hand written when set. I have a stylistic alternate for every glyph with just slight changes in hand variance and attitude. 
-
-I would like to set up an OT feature where whenever two of the same glyphs are repeated side by side, the second glyph switches to the alternate.
-
-I have page 868 of the FontLab manual open. But it is not making a lot of sense to me right now.
-
-First, what would I call this feature in the OT window?
-
-Would the code look something like this?:
-
-Sub e e’ by e.alt;
-
-And then set that up for every glyph. Or am I confused?
-
-And then, how would that feature be turned on and off in the app?
-
-I have it set up to where I can switch out the alternates by hand, but other users will be lazier than me and I would love to see some kind of automatic feature.
-
-As long as my head doesn’t explode trying to code it…
-
+  <div class="post-content e-content" itemprop="articleBody"><p>I am setting up a font that I hope will look somewhat hand written when set. I have a stylistic alternate for every glyph with just slight changes in hand variance and attitude.</p>
+<p>I would like to set up an OT feature where whenever two of the same glyphs are repeated side by side, the second glyph switches to the alternate.</p>
+<p>I have page 868 of the FontLab manual open. But it is not making a lot of sense to me right now.</p>
+<p>First, what would I call this feature in the OT window?</p>
+<p>Would the code look something like this?:</p>
+<p>Sub e e’ by e.alt;</p>
+<p>And then set that up for every glyph. Or am I confused?</p>
+<p>And then, how would that feature be turned on and off in the app?</p>
+<p>I have it set up to where I can switch out the alternates by hand, but other users will be lazier than me and I would love to see some kind of automatic feature.</p>
+<p>As long as my head doesn’t explode trying to code it…</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes that's it, You have it right.
-
-There is also a alternate way of doing it with very large sets of substitutions and that is with classes.
-
-Basically you just drag and drop all the sets into classes and as long as they are in the correct order and size the code would be as follows:
-
-feature calt { # Or whatever feature you choose.
-  sub @letter @letter2' by @letter3 ;
-
-} calt;
-
-
-
-So you would make open type classes and drag all the first letters into one called 
-letter into it and make a new open type class called letter2 and drag all the second letters into it and then make a third class called letter3 and drag in all the replacement glyphs into that.
-
-Now that is not exactly correct but I'm pretty sure Fontlab will change and compile it correctly when you make the font. It will run in the open type preview correctly inside Fontlab as written just fine for debugging.
-
-If you do it your way I'm pretty sure Fontlab will make it sort of like my way on compiling the font. It will try to add them all to classes to make the code much smaller. You just have to make sure they are all in the correct order and that all three classes have the same exact amount of glyphs. It will not compile and give you a warning if that is not the case.
-
+		<div class="commentbody"><p>Yes that&rsquo;s it, You have it right.</p>
+<p>There is also a alternate way of doing it with very large sets of substitutions and that is with classes.</p>
+<p>Basically you just drag and drop all the sets into classes and as long as they are in the correct order and size the code would be as follows:</p>
+<p>feature calt { # Or whatever feature you choose.
+sub @letter @letter2' by @letter3 ;</p>
+<p>} calt;</p>
+<p>So you would make open type classes and drag all the first letters into one called 
+letter into it and make a new open type class called letter2 and drag all the second letters into it and then make a third class called letter3 and drag in all the replacement glyphs into that.</p>
+<p>Now that is not exactly correct but I&rsquo;m pretty sure Fontlab will change and compile it correctly when you make the font. It will run in the open type preview correctly inside Fontlab as written just fine for debugging.</p>
+<p>If you do it your way I&rsquo;m pretty sure Fontlab will make it sort of like my way on compiling the font. It will try to add them all to classes to make the code much smaller. You just have to make sure they are all in the correct order and that all three classes have the same exact amount of glyphs. It will not compile and give you a warning if that is not the case.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -136,19 +116,17 @@ If you do it your way I'm pretty sure Fontlab will make it sort of like my way o
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I just finished a font like this. I used three of every glyph in the font (including punctuation, spaces, nonbreaking spaces, and soft hyphens) in three classes; default, alt1, and alt2. My code (<a href="http://www.adobeforums.com/cgi-bin/webx?50@755.561rfSM0Gas.1@.3bbc5ea4">based on older code by Tom Phinney and others</a>) is:
-
-feature calt {
+		<div class="commentbody"><p>I just finished a font like this. I used three of every glyph in the font (including punctuation, spaces, nonbreaking spaces, and soft hyphens) in three classes; default, alt1, and alt2. My code (<!-- raw HTML omitted -->based on older code by Tom Phinney and others<!-- raw HTML omitted -->) is:</p>
+<p>feature calt {
 lookup rotate {
-  sub @default @default' by @alt1;
-  sub @alt1 @default' by @alt2;
+sub @default @default' by @alt1;
+sub @alt1 @default' by @alt2;
 } rotate;
 lookup rotate;
-} calt;
-
-To make it work in Indesign one has to use CALT (contextual alternates), because Indesign does not support SALT (<a href="http://www.adobe.com/cfusion/mmform/index.cfm?name=wishform">complain about that here</a>).
-
-You also need to set up kerning classes to control interaction between the different character sets (unless all of the characters vary enough to require manual kerning of everything). I recommend that you set up all of the classes in a text editor, proof them, and then import them. Otherwise you’ll have to find your mistakes by looking at the errors the Opentype compiler generates, which can be a PITA because errors fonts with large classes can cause the compiler to mangle the classes.</div>
+} calt;</p>
+<p>To make it work in Indesign one has to use CALT (contextual alternates), because Indesign does not support SALT (<!-- raw HTML omitted -->complain about that here<!-- raw HTML omitted -->).</p>
+<p>You also need to set up kerning classes to control interaction between the different character sets (unless all of the characters vary enough to require manual kerning of everything). I recommend that you set up all of the classes in a text editor, proof them, and then import them. Otherwise you’ll have to find your mistakes by looking at the errors the Opentype compiler generates, which can be a PITA because errors fonts with large classes can cause the compiler to mangle the classes.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -169,9 +147,9 @@ You also need to set up kerning classes to control interaction between the diffe
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I think this is working....
-
-Thanks, guys!</div>
+		<div class="commentbody"><p>I think this is working&hellip;.</p>
+<p>Thanks, guys!</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -71,43 +71,31 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I've been working on a mildly complex font for a client (moonlighting outside my day job).
-
-I've never worked with using a lookupflag to ignore certain glyphs, but it seems like the perfect solution for a particular issue I encountered. So I tried to do it in FontLab. It compiled fine and I export the font, but the desired behavior is not occurring in InDesign CS5 (even when I set text with the WorldReady Composer active).
-
-I'm wondering if I am doing something wrong, or...? Here's my process.
-
-A) First, for the glyphs we want to be ignored, do the following in the FontLab glyph window:
-- select the glyph.
-- bring up the glyph properties dialog
-- change the value of the OT popdown from "Unassigned" to "Mark"
-
-
-B) For EACH AND EVERY lookup we need the glyph to not interfere with, we need to add one line that reads "lookupflag IgnoreMarks ;" and goes right after the lookup is declared and before the substitution code, like this:
-
-  lookup LOOKUPNAME {
-    lookupflag IgnoreMarks ;
-    sub glyph' [a e i o u] by glyph.alt ;
-  } LOOKUPNAME ;
-
-C) In FontLab prefs, go to "Generating OpenType and TrueType" and make sure to check "Generate GDEF table"! This is critical because the glyphs being indicated as "Marks" are stored in the GDEF table and without that, it all won't work.
-
-Am I missing something?
-
-T</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;ve been working on a mildly complex font for a client (moonlighting outside my day job).</p>
+<p>I&rsquo;ve never worked with using a lookupflag to ignore certain glyphs, but it seems like the perfect solution for a particular issue I encountered. So I tried to do it in FontLab. It compiled fine and I export the font, but the desired behavior is not occurring in InDesign CS5 (even when I set text with the WorldReady Composer active).</p>
+<p>I&rsquo;m wondering if I am doing something wrong, or&hellip;? Here&rsquo;s my process.</p>
+<p>A) First, for the glyphs we want to be ignored, do the following in the FontLab glyph window:</p>
+<ul>
+<li>select the glyph.</li>
+<li>bring up the glyph properties dialog</li>
+<li>change the value of the OT popdown from &ldquo;Unassigned&rdquo; to &ldquo;Mark&rdquo;</li>
+</ul>
+<p>B) For EACH AND EVERY lookup we need the glyph to not interfere with, we need to add one line that reads &ldquo;lookupflag IgnoreMarks ;&rdquo; and goes right after the lookup is declared and before the substitution code, like this:</p>
+<p>lookup LOOKUPNAME {
+lookupflag IgnoreMarks ;
+sub glyph' [a e i o u] by glyph.alt ;
+} LOOKUPNAME ;</p>
+<p>C) In FontLab prefs, go to &ldquo;Generating OpenType and TrueType&rdquo; and make sure to check &ldquo;Generate GDEF table&rdquo;! This is critical because the glyphs being indicated as &ldquo;Marks&rdquo; are stored in the GDEF table and without that, it all won&rsquo;t work.</p>
+<p>Am I missing something?</p>
+<p>T</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If the glyphs you want to ignore are not combining marks, then you should be using <code>MarkAttachmentType</code> (or the new, mostly unsupported, <code>UseMarkFilteringSet</code>), otherwise no idea why <code>IgnoreMarks</code> is not working for you (but I don't use FontLab). You can also write the <code>GDEF</code> table directly in the feature file, if it makes any difference.
-
-Edit: Another idea, but I'm not really sure, but I think the <code>lookupflage</code> should go the feature block itself, so try:
-
-<code>
-feature calt {
-  lookupflag IgnoreMarks;
-    lookup LOOKUPNAME;
-} calt;
-</code></div>
+		<div class="commentbody"><p>If the glyphs you want to ignore are not combining marks, then you should be using <!-- raw HTML omitted -->MarkAttachmentType<!-- raw HTML omitted --> (or the new, mostly unsupported, <!-- raw HTML omitted -->UseMarkFilteringSet<!-- raw HTML omitted -->), otherwise no idea why <!-- raw HTML omitted -->IgnoreMarks<!-- raw HTML omitted --> is not working for you (but I don&rsquo;t use FontLab). You can also write the <!-- raw HTML omitted -->GDEF<!-- raw HTML omitted --> table directly in the feature file, if it makes any difference.</p>
+<p>Edit: Another idea, but I&rsquo;m not really sure, but I think the <!-- raw HTML omitted -->lookupflage<!-- raw HTML omitted --> should go the feature block itself, so try:</p>
+<!-- raw HTML omitted -->
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -149,16 +137,11 @@ feature calt {
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Khaled: Given that there are only two glyphs I want to ignore, and 1500 I want to NOT ignore, I am not sure MarkAttachmentType makes sense. At least, not given what the feature file syntax has to say about it:
-
-<code>To skip over all mark glyphs except for those of mark class @TOP_MARKS:</code>
-
-<code>   lookupflag MarkAttachmentType  @TOP_MARKS; </code>
-
-<code>The class name used with MarkAttachmentType can be either a regular glyph class name or a mark class name. The glyph sets of the referenced classes must not overlap, and the MarkAttachmentType statement can reference at most 15 different classes.</code>
-
-Karsten: Yes, at first I didn't think it would work, but then I saw it quite explicitly documented in the FontLab manual, and I got it to compile fairly easily....
-
+		<div class="commentbody"><p>Khaled: Given that there are only two glyphs I want to ignore, and 1500 I want to NOT ignore, I am not sure MarkAttachmentType makes sense. At least, not given what the feature file syntax has to say about it:</p>
+<p><!-- raw HTML omitted -->To skip over all mark glyphs except for those of mark class @TOP_MARKS:<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->   lookupflag MarkAttachmentType  @TOP_MARKS; <!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted -->The class name used with MarkAttachmentType can be either a regular glyph class name or a mark class name. The glyph sets of the referenced classes must not overlap, and the MarkAttachmentType statement can reference at most 15 different classes.<!-- raw HTML omitted --></p>
+<p>Karsten: Yes, at first I didn&rsquo;t think it would work, but then I saw it quite explicitly documented in the FontLab manual, and I got it to compile fairly easily&hellip;.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -180,7 +163,7 @@ Karsten: Yes, at first I didn't think it would work, but then I saw it quite exp
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I see, then may be using 'ignore' keyword is a better choice, but it largely depends on how complex your actual substitution.</div>
+		<div class="commentbody">I see, then may be using &lsquo;ignore&rsquo; keyword is a better choice, but it largely depends on how complex your actual substitution.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

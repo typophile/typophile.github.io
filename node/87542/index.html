@@ -71,22 +71,19 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I've run into a problem with GSUB coverage offset overflow errors in a largish font I have been working on. Adding useExtension to various lookups solves the problem when generating the font in FLS 5.0.4, but not in 5.1 where the error remains. Moreover, attempting to compile directly using AFDKO also fails, so I suspect that there is a bug in AFDKO 2.5 which is somehow causing the useExtension directive to be ignored.
-
-I was wondering if anyone has successfully compiled code using this directive either in AFDKO 2.5 (or FLS 5.1 which relies on AFDKO 2.5). This would help me determine whether this is indeed the root of the problem or whether there is some other less obvious problem with my code which FLS 5.0.4 (ADFKO 1.6) accepts but which FLS 5.1 (AFDKO 2.5) does not.
-
-(n.b. by 'successfully compiled' I mean compiled where the directive is actually necessary to prevent overflows -- not just where it is present).
-
-André</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;ve run into a problem with GSUB coverage offset overflow errors in a largish font I have been working on. Adding useExtension to various lookups solves the problem when generating the font in FLS 5.0.4, but not in 5.1 where the error remains. Moreover, attempting to compile directly using AFDKO also fails, so I suspect that there is a bug in AFDKO 2.5 which is somehow causing the useExtension directive to be ignored.</p>
+<p>I was wondering if anyone has successfully compiled code using this directive either in AFDKO 2.5 (or FLS 5.1 which relies on AFDKO 2.5). This would help me determine whether this is indeed the root of the problem or whether there is some other less obvious problem with my code which FLS 5.0.4 (ADFKO 1.6) accepts but which FLS 5.1 (AFDKO 2.5) does not.</p>
+<p>(n.b. by &lsquo;successfully compiled&rsquo; I mean compiled where the directive is actually necessary to prevent overflows &ndash; not just where it is present).</p>
+<p>André</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi André;
-
-Older versions of the FDK are not posted for download. I could recover an installable version of 1.6, but I think it would be a lot less work to make your features file work with 2.5. I can guarantee that the useExtension directive does work under 2.5, and that if the font can be *correctly* built with 1.6, it can also be built with FDK 2.5. Please send me the error log from the makeotf run, and I'll see what I can figure out (rroberts@adobe.com).
-
-- Read Roberts
-
+		<div class="commentbody"><p>Hi André;</p>
+<p>Older versions of the FDK are not posted for download. I could recover an installable version of 1.6, but I think it would be a lot less work to make your features file work with 2.5. I can guarantee that the useExtension directive does work under 2.5, and that if the font can be <em>correctly</em> built with 1.6, it can also be built with FDK 2.5. Please send me the error log from the makeotf run, and I&rsquo;ll see what I can figure out (<a href="mailto:rroberts@adobe.com">rroberts@adobe.com</a>).</p>
+<ul>
+<li>Read Roberts</li>
+</ul>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -108,15 +105,12 @@ Older versions of the FDK are not posted for download. I could recover an instal
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">After some additional hair-pulling I've discovered (fingers crossed) the source of my problem, though I'm still a bit mystified as to why FLS 5.0.4 and FLS 5.1 are behaving differently.
-
-In my original font (begun pre FLS 5.1), I'd tried to get around the lack of standalone lookups in FDK 1.6 by defining all of my lookups in a single, unregistered dummy feature at the beginning of my feature list, and then simply using lookup references in all my actual feature definitions.
-
-I've discovered that if I split this dummy feature into two (or more) dummy features, suddenly I can solve my offset overflow problems with useExtension. Apparently, FLS 5.1 chokes if the combined size of lookups *within a single feature block* exceeds a the size of a 16-bit offset.
-
-I don't understand *why* it cares whether the lookups are declared within a single feature block or not, but apparently it does.
-
-André</div>
+		<div class="commentbody"><p>After some additional hair-pulling I&rsquo;ve discovered (fingers crossed) the source of my problem, though I&rsquo;m still a bit mystified as to why FLS 5.0.4 and FLS 5.1 are behaving differently.</p>
+<p>In my original font (begun pre FLS 5.1), I&rsquo;d tried to get around the lack of standalone lookups in FDK 1.6 by defining all of my lookups in a single, unregistered dummy feature at the beginning of my feature list, and then simply using lookup references in all my actual feature definitions.</p>
+<p>I&rsquo;ve discovered that if I split this dummy feature into two (or more) dummy features, suddenly I can solve my offset overflow problems with useExtension. Apparently, FLS 5.1 chokes if the combined size of lookups <em>within a single feature block</em> exceeds a the size of a 16-bit offset.</p>
+<p>I don&rsquo;t understand <em>why</em> it cares whether the lookups are declared within a single feature block or not, but apparently it does.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -137,7 +131,7 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">(If I got you right, you're using FLS 5.1 now. Rather than using two dummy features instead of one, did you try to remove the <em>feature **** {</em> and <em>} ****;</em> wrapper around your lookup definitions entirely?)</div>
+		<div class="commentbody">(If I got you right, you&rsquo;re using FLS 5.1 now. Rather than using two dummy features instead of one, did you try to remove the <!-- raw HTML omitted -->feature **** {<!-- raw HTML omitted --> and <!-- raw HTML omitted -->} ****;<!-- raw HTML omitted --> wrapper around your lookup definitions entirely?)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -158,21 +152,16 @@ André</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It turns out that my original assessment was incorrect (Karsten's comment clued me into this since I'd already tried that to no avail, and if that didn't work, there's no reason to think breaking the feature up should matter).
-
-It turns out I'd made a rather foolish mistake -- I'd performed this experiment on the *wrong* version of the font, and was dealing with a shorter set of code. Here, breaking up the container feature made a difference, but the reason for this turns out to be less than mysterious.
-
-I'd started out with a single container feature, <code>AGIT</code>, which I'd broken into <code>AGIT</code> and <code>AGI2</code>, which contained roughly the same amount of code. I'd forgotten, though, that the feature file began with:
-
-<code>feature aalt {</code>
-<code>    feature AGIT;</code>
-<code>} aalt;</code>
-
-Since <code>AGIT</code> was now roughly half as long, it's no wonder the GSUB table shrank.
-
-When I return to the .vfb I'd intended to work with, I get the same problem -- a single <code>useExtension</code> is needed in FLS 5.0.4/FDK 1.6 but no amount of <code>useExtension</code>s will prevent overflows in FLS 5.1/FDK 2.5
-
-However, this seems to be restricted to this one file. I'd thought it extended to some other files as well, but it turns out the problem was solvable in these. It seems that FDK 2.5 produces longer GSUB code than FDK 1.6 by around 25%. So, except for my single problematic .vfb, <code>useExtension</code> will correct overflows, but it needs to be added to more lookups. After finding the problem wouldn't go away in my one file, I gave up too easily on the others rather than continuing to add <code>useExtension</code> until I was able to compile.</div>
+		<div class="commentbody"><p>It turns out that my original assessment was incorrect (Karsten&rsquo;s comment clued me into this since I&rsquo;d already tried that to no avail, and if that didn&rsquo;t work, there&rsquo;s no reason to think breaking the feature up should matter).</p>
+<p>It turns out I&rsquo;d made a rather foolish mistake &ndash; I&rsquo;d performed this experiment on the <em>wrong</em> version of the font, and was dealing with a shorter set of code. Here, breaking up the container feature made a difference, but the reason for this turns out to be less than mysterious.</p>
+<p>I&rsquo;d started out with a single container feature, <!-- raw HTML omitted -->AGIT<!-- raw HTML omitted -->, which I&rsquo;d broken into <!-- raw HTML omitted -->AGIT<!-- raw HTML omitted --> and <!-- raw HTML omitted -->AGI2<!-- raw HTML omitted -->, which contained roughly the same amount of code. I&rsquo;d forgotten, though, that the feature file began with:</p>
+<p><!-- raw HTML omitted -->feature aalt {<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->    feature AGIT;<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->} aalt;<!-- raw HTML omitted --></p>
+<p>Since <!-- raw HTML omitted -->AGIT<!-- raw HTML omitted --> was now roughly half as long, it&rsquo;s no wonder the GSUB table shrank.</p>
+<p>When I return to the .vfb I&rsquo;d intended to work with, I get the same problem &ndash; a single <!-- raw HTML omitted -->useExtension<!-- raw HTML omitted --> is needed in FLS 5.0.4/FDK 1.6 but no amount of <!-- raw HTML omitted -->useExtension<!-- raw HTML omitted -->s will prevent overflows in FLS 5.1/FDK 2.5</p>
+<p>However, this seems to be restricted to this one file. I&rsquo;d thought it extended to some other files as well, but it turns out the problem was solvable in these. It seems that FDK 2.5 produces longer GSUB code than FDK 1.6 by around 25%. So, except for my single problematic .vfb, <!-- raw HTML omitted -->useExtension<!-- raw HTML omitted --> will correct overflows, but it needs to be added to more lookups. After finding the problem wouldn&rsquo;t go away in my one file, I gave up too easily on the others rather than continuing to add <!-- raw HTML omitted -->useExtension<!-- raw HTML omitted --> until I was able to compile.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

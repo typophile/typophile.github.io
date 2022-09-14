@@ -71,26 +71,22 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I’m using kerning classes for a font I’m working on in FLAB 5.04. The classes are configured for the letter O as follows
-
-_O: O' Ograve Oacute Ocircumflex Otilde Odieresis Oslash
-_Oleft: O' C Q Ccedilla OE G
-
-_O controls both sides of the glyph, _Oleft controls only the left side. _O works just fine, but _Oleft gets weird and only some of the kerns appear. The letters in the _O class are turning blue, and kern for VC and VG but not for AC and AG. Making things weirder, when I try clicking the little blue/white buttons to see what’s going on with classes nothing shows up for any pair of letters. 
-
-I’ve made sure to clear out the existing kerns for the pairs of O, A, C, and G and added them back in to no avail. Am I doing something wrong, or is this just some Fontlab bug that won’t affect the final fonts?</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I’m using kerning classes for a font I’m working on in FLAB 5.04. The classes are configured for the letter O as follows</p>
+<p>_O: O' Ograve Oacute Ocircumflex Otilde Odieresis Oslash
+_Oleft: O' C Q Ccedilla OE G</p>
+<p>_O controls both sides of the glyph, _Oleft controls only the left side. _O works just fine, but _Oleft gets weird and only some of the kerns appear. The letters in the _O class are turning blue, and kern for VC and VG but not for AC and AG. Making things weirder, when I try clicking the little blue/white buttons to see what’s going on with classes nothing shows up for any pair of letters.</p>
+<p>I’ve made sure to clear out the existing kerns for the pairs of O, A, C, and G and added them back in to no avail. Am I doing something wrong, or is this just some Fontlab bug that won’t affect the final fonts?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">All mechanisms for generating a kern feature that I know (FLS5, the AFDKO script, my own stuff) require that there is exactly one keyglyph/class per side. This means, using _O class for 1st/2nd of pair and _Oleft as additional 1st of pair just does not work. The mechanism will use either of these classes and ignore the other.
-So this is about the only working option:
-
-_O_1ST: O’ Ograve Oacute Ocircumflex Otilde Odieresis Oslash C Q Ccedilla OE G
-_O_2ND: O’ Ograve Oacute Ocircumflex Otilde Odieresis Oslash
-
-Also, better use more unique identifiers like "_LEFT"/"_RIGHT". They make it easier for scripts to identify classes correctly. Or, preferably, "_1ST"/"_2ND" since both FLS5's and OpenType's logic for kerning is: first-glyph-of-pair and second-glyph-of-pair, not left and right. This is important when it comes to right-to-left kerning.
-
-Karsten</div>
+		<div class="commentbody"><p>All mechanisms for generating a kern feature that I know (FLS5, the AFDKO script, my own stuff) require that there is exactly one keyglyph/class per side. This means, using _O class for 1st/2nd of pair and _Oleft as additional 1st of pair just does not work. The mechanism will use either of these classes and ignore the other.
+So this is about the only working option:</p>
+<p>_O_1ST: O’ Ograve Oacute Ocircumflex Otilde Odieresis Oslash C Q Ccedilla OE G
+_O_2ND: O’ Ograve Oacute Ocircumflex Otilde Odieresis Oslash</p>
+<p>Also, better use more unique identifiers like &ldquo;_LEFT&rdquo;/&quot;_RIGHT&quot;. They make it easier for scripts to identify classes correctly. Or, preferably, &ldquo;_1ST&rdquo;/&quot;_2ND&quot; since both FLS5&rsquo;s and OpenType&rsquo;s logic for kerning is: first-glyph-of-pair and second-glyph-of-pair, not left and right. This is important when it comes to right-to-left kerning.</p>
+<p>Karsten</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -132,9 +128,9 @@ Karsten</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ok, I figured it out. It wasn’t the way I was setting things up (although I’m still going to handle the classes the way you recommend), it turns out that I had kerning values of zero in the AC and AG pairs that I had to reset.
-
-I’m still wondering why those buttons don’t actually refer back to the classes, tho.</div>
+		<div class="commentbody"><p>Ok, I figured it out. It wasn’t the way I was setting things up (although I’m still going to handle the classes the way you recommend), it turns out that I had kerning values of zero in the AC and AG pairs that I had to reset.</p>
+<p>I’m still wondering why those buttons don’t actually refer back to the classes, tho.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -155,10 +151,10 @@ I’m still wondering why those buttons don’t actually refer back to the class
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">James,
-FontLab's "Kerning Assistance" feature has a tiny hard to see icon of a ying-yang symbol. When you click on it, it tells you if you have any overlapping kerning classes. Karsten has explained the one-time use of a key glyph issue. I have found that there are rarely cases where a class will be both left and right. I almost always end up with left side and right side only key glyphs. It is more efficient and causes fewer of the cryptic opentype error messages that FontLab throws at you.
-
-ChrisL</div>
+		<div class="commentbody"><p>James,
+FontLab&rsquo;s &ldquo;Kerning Assistance&rdquo; feature has a tiny hard to see icon of a ying-yang symbol. When you click on it, it tells you if you have any overlapping kerning classes. Karsten has explained the one-time use of a key glyph issue. I have found that there are rarely cases where a class will be both left and right. I almost always end up with left side and right side only key glyphs. It is more efficient and causes fewer of the cryptic opentype error messages that FontLab throws at you.</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -179,11 +175,10 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"I’m still wondering why those buttons don’t actually refer back to the classes, tho."
-
-Because FontLab is goofy and needs to be fixed! 
-
-ChrisL</div>
+		<div class="commentbody"><p>&ldquo;I’m still wondering why those buttons don’t actually refer back to the classes, tho.&rdquo;</p>
+<p>Because FontLab is goofy and needs to be fixed!</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -204,9 +199,9 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">James, O left could include D for instance, and O right Œ.
-
-The trick then is to remember to only kern O with other characters, and not D with other characters.</div>
+		<div class="commentbody"><p>James, O left could include D for instance, and O right Œ.</p>
+<p>The trick then is to remember to only kern O with other characters, and not D with other characters.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -227,11 +222,10 @@ The trick then is to remember to only kern O with other characters, and not D wi
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Jumping a few posts back:
-
-<cite>it turns out that I had kerning values of zero in the AC and AG pairs that I had to reset</cite>
-
-As far as I know, zero-values don't go into the kern features. (For this reason, if you want to define "exception kerning" as zero-values, better choose 1 or -1. This is even more important if you work with MM fonts: There, zero can as well mean: no kerning. Which is not the same as an exception value of zero.)</div>
+		<div class="commentbody"><p>Jumping a few posts back:</p>
+<p><!-- raw HTML omitted -->it turns out that I had kerning values of zero in the AC and AG pairs that I had to reset<!-- raw HTML omitted --></p>
+<p>As far as I know, zero-values don&rsquo;t go into the kern features. (For this reason, if you want to define &ldquo;exception kerning&rdquo; as zero-values, better choose 1 or -1. This is even more important if you work with MM fonts: There, zero can as well mean: no kerning. Which is not the same as an exception value of zero.)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

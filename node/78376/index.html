@@ -71,18 +71,17 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">hi everyone i have a question about unicode naming in fontlab
-
-i noticed that some glyphs i made don't have a unicode assigned to them just "---" 
-How do i go about giving them a unicode and where do i for example find out what the unicode name is for ligatures such as f_k & f_h
-
-anny help is much appreciated</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>hi everyone i have a question about unicode naming in fontlab</p>
+<p>i noticed that some glyphs i made don&rsquo;t have a unicode assigned to them just &ldquo;&mdash;&rdquo; 
+How do i go about giving them a unicode and where do i for example find out what the unicode name is for ligatures such as f_k &amp; f_h</p>
+<p>anny help is much appreciated</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You find all Unicode values at: http://unicode.org/
+		<div class="commentbody">You find all Unicode values at: <a href="http://unicode.org/">http://unicode.org/</a>
 Only some common ligatures have a unicode however. They are accessed by an OpenType feature. 
-In addition you might assign a Unicode value from the Private Use Area (PUA), but that is mostly not recommendable. </div>
+In addition you might assign a Unicode value from the Private Use Area (PUA), but that is mostly not recommendable.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -103,9 +102,9 @@ In addition you might assign a Unicode value from the Private Use Area (PUA), bu
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">thank you for replying Ralf, i have send you a message via the contact function
-
-thnx again</div>
+		<div class="commentbody"><p>thank you for replying Ralf, i have send you a message via the contact function</p>
+<p>thnx again</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -147,7 +146,7 @@ thnx again</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You might consider that the giving of some ligatures Unicode values was for "legacy" purposes only. For these, and others, assigning a Unicode number only perpetuates a problem. </div>
+		<div class="commentbody">You might consider that the giving of some ligatures Unicode values was for &ldquo;legacy&rdquo; purposes only. For these, and others, assigning a Unicode number only perpetuates a problem.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -168,13 +167,11 @@ thnx again</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Basically, from the Unicode point of view, a text consists of letters and no ligatures. A ligature is just a device used by a font to present the text in the traditional appearance people are comfortable with.
-
-Of course, this assumes that the writing system is sufficiently simple that it is, in fact, reasonable to expect that an algorithm that can be coded inside a font will be sufficient to apply the rules for ligature use. If, instead, the appropriate and reasonable solution is for ligatures to be inserted manually by the typist when they are appropriate - and when preparing texts that are going to be used for printing and display, and not for other types of machine input - then this aspect of the philosophy of Unicode fails.
-
-In Burmese, for example, the technology required to print Burmese properly using Unicode Burmese as input is not yet standard - so users make do with fonts that have extra characters in unused Unicode positions in the Burmese block, because that is the most convenient thing to do, at least in the short run.
-
-Certainly, it is at least awkward, using, say, a Unicode Arabic font, to use it to type a table of the glyphs that font can generate. One can't do that simply by typing, with tabs, the characters of those glyphs if some of those glyphs don't exist as characters. Putting every glyph in a font in the Private Use Area solves <em>that</em> particular problem, of course.</div>
+		<div class="commentbody"><p>Basically, from the Unicode point of view, a text consists of letters and no ligatures. A ligature is just a device used by a font to present the text in the traditional appearance people are comfortable with.</p>
+<p>Of course, this assumes that the writing system is sufficiently simple that it is, in fact, reasonable to expect that an algorithm that can be coded inside a font will be sufficient to apply the rules for ligature use. If, instead, the appropriate and reasonable solution is for ligatures to be inserted manually by the typist when they are appropriate - and when preparing texts that are going to be used for printing and display, and not for other types of machine input - then this aspect of the philosophy of Unicode fails.</p>
+<p>In Burmese, for example, the technology required to print Burmese properly using Unicode Burmese as input is not yet standard - so users make do with fonts that have extra characters in unused Unicode positions in the Burmese block, because that is the most convenient thing to do, at least in the short run.</p>
+<p>Certainly, it is at least awkward, using, say, a Unicode Arabic font, to use it to type a table of the glyphs that font can generate. One can&rsquo;t do that simply by typing, with tabs, the characters of those glyphs if some of those glyphs don&rsquo;t exist as characters. Putting every glyph in a font in the Private Use Area solves <!-- raw HTML omitted -->that<!-- raw HTML omitted --> particular problem, of course.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -195,23 +192,16 @@ Certainly, it is at least awkward, using, say, a Unicode Arabic font, to use it 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Evie,
-
-Your f_k ligature (and f_b and f_h) are just like other ligatures. Go look at the features code for a font -- say, an Adobe font. Just do the same thing -- add them to your liga list.
-
-If you are making a Type 1 font, no Unicode is involved. You just name them. And if for older, hard-wired encoding system, you'll have to lie about the name. "product" and "integral" were common. Here's the problem. When you print text using your font, if those names were in the file, everything will look fine. Change fonts, or reuse the text, and that text is no longer correct.
-
-Unicode and OpentType work together to avoid these problems. Your f_k ligature is so named, and has no unicode number. In the font features file under "liga" you add
-
-sub f k by f_k
-
-Any text (Kafka) set using your font will use the f_k ligature, with the single characters f and k preserved in the file.   
-
-John:
-
-Let's suppose you make a PDF. Then you extract text. What happens to the characters that were in the Private Use Area? Gone, aren't they. Let's suppose you export XML from a file that had characters in the Private Use area. What happens? Problem, isn't it.
-
-So yes, there are reasons to use the PUA, but they come with severe compromises. If a ligature is needed for a font, but not a language, as, for example, is the case with all the f-ligatures in English, they should follow the usual convention. Do not put them in PUA, nor given a Unicode number. Even if ligatures are needed for a language, as with Arabic, there are ways to avoid PUA usage. PUA is for *characters* that just do not exist in Unicode, and are not constructions of characters already within the encoding.</div>
+		<div class="commentbody"><p>Evie,</p>
+<p>Your f_k ligature (and f_b and f_h) are just like other ligatures. Go look at the features code for a font &ndash; say, an Adobe font. Just do the same thing &ndash; add them to your liga list.</p>
+<p>If you are making a Type 1 font, no Unicode is involved. You just name them. And if for older, hard-wired encoding system, you&rsquo;ll have to lie about the name. &ldquo;product&rdquo; and &ldquo;integral&rdquo; were common. Here&rsquo;s the problem. When you print text using your font, if those names were in the file, everything will look fine. Change fonts, or reuse the text, and that text is no longer correct.</p>
+<p>Unicode and OpentType work together to avoid these problems. Your f_k ligature is so named, and has no unicode number. In the font features file under &ldquo;liga&rdquo; you add</p>
+<p>sub f k by f_k</p>
+<p>Any text (Kafka) set using your font will use the f_k ligature, with the single characters f and k preserved in the file.</p>
+<p>John:</p>
+<p>Let&rsquo;s suppose you make a PDF. Then you extract text. What happens to the characters that were in the Private Use Area? Gone, aren&rsquo;t they. Let&rsquo;s suppose you export XML from a file that had characters in the Private Use area. What happens? Problem, isn&rsquo;t it.</p>
+<p>So yes, there are reasons to use the PUA, but they come with severe compromises. If a ligature is needed for a font, but not a language, as, for example, is the case with all the f-ligatures in English, they should follow the usual convention. Do not put them in PUA, nor given a Unicode number. Even if ligatures are needed for a language, as with Arabic, there are ways to avoid PUA usage. PUA is for <em>characters</em> that just do not exist in Unicode, and are not constructions of characters already within the encoding.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

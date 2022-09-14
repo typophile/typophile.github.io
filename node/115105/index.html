@@ -71,37 +71,34 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi.
-
-We are looking at building a WYSIWYG version of the font menu that appears in our application and we would like to follow a similar style to Indesign (i.e.: draw some sample text using each font rather than drawing the font name using each font).
-
-At the moment the only technical hurdle we have is determining which sample text translation to use. To do this we need to determine the main / dominant language of that font. For example, Baghdad would be Arabic, Hiragino Sans GB would be Simplified Chinese and Hiragino Kaku would be Japanese.
-
-I assume Indesign is using some an algorithm to determine the language rather than a long list of known fonts / languages but the question is how does it do it?
-
-We already have an algorithm in our application that can determine all of the scripts used in a font by checking for glyphs in different Unicode ranges but this can't tell us what the main language is. I have also looked at the code page information for various fonts but even when the data is correct it normally lists multiple code pages so that doesn't help either.
-
-Does anybody have any ideas on this?
-
-
-Thanks.
-Kev.</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi.</p>
+<p>We are looking at building a WYSIWYG version of the font menu that appears in our application and we would like to follow a similar style to Indesign (i.e.: draw some sample text using each font rather than drawing the font name using each font).</p>
+<p>At the moment the only technical hurdle we have is determining which sample text translation to use. To do this we need to determine the main / dominant language of that font. For example, Baghdad would be Arabic, Hiragino Sans GB would be Simplified Chinese and Hiragino Kaku would be Japanese.</p>
+<p>I assume Indesign is using some an algorithm to determine the language rather than a long list of known fonts / languages but the question is how does it do it?</p>
+<p>We already have an algorithm in our application that can determine all of the scripts used in a font by checking for glyphs in different Unicode ranges but this can&rsquo;t tell us what the main language is. I have also looked at the code page information for various fonts but even when the data is correct it normally lists multiple code pages so that doesn&rsquo;t help either.</p>
+<p>Does anybody have any ideas on this?</p>
+<p>Thanks.
+Kev.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I worked with the engineer who developed the algorithm used by InDesign (it is in the CoolType module), and helped determine priorities. Originally the algorithm was used just to subdivide the menu into distinct sections.
-
-Showing sample text in a language is tricky because fonts support writing systems rather than languages. So a typical font supports at least a couple of dozen languages. Which one will you pick, and why?
-
-I thought it was a dubious exercise at the time, and I still believe that. But basically you can use one of several approaches:
-
-1) Strict priority. Use a prioritized list of writing systems, and as soon as you hit a writing system that the font supports, use that. So you might decide that your order is Chinese, Korean, Arabic, Hebrew, Latin, Cyrillic, Greek. If a font supports Chinese and some other languages, you'll show sample text in Chinese.
-
-2) Have some specific rules about combinations, and then fall back to priority.
-
-3) Have priority, but then afterwards, for some results, modify based on other rules. For example, let's say you come back with "Latin" as the writing system you want to display, but your rule is that if (1) the writing system found by priority is Latin, Greek or Cyrillic, AND (2) the user's system language is in one of the Latin, Cyrillic or Greek sets, AND (2) the user's system language is supported by the font, THEN show a string in that specific language.
-
-You might also want the user to be able to set a language or enter a string for display.</div>
+		<div class="commentbody"><p>I worked with the engineer who developed the algorithm used by InDesign (it is in the CoolType module), and helped determine priorities. Originally the algorithm was used just to subdivide the menu into distinct sections.</p>
+<p>Showing sample text in a language is tricky because fonts support writing systems rather than languages. So a typical font supports at least a couple of dozen languages. Which one will you pick, and why?</p>
+<p>I thought it was a dubious exercise at the time, and I still believe that. But basically you can use one of several approaches:</p>
+<ol>
+<li>
+<p>Strict priority. Use a prioritized list of writing systems, and as soon as you hit a writing system that the font supports, use that. So you might decide that your order is Chinese, Korean, Arabic, Hebrew, Latin, Cyrillic, Greek. If a font supports Chinese and some other languages, you&rsquo;ll show sample text in Chinese.</p>
+</li>
+<li>
+<p>Have some specific rules about combinations, and then fall back to priority.</p>
+</li>
+<li>
+<p>Have priority, but then afterwards, for some results, modify based on other rules. For example, let&rsquo;s say you come back with &ldquo;Latin&rdquo; as the writing system you want to display, but your rule is that if (1) the writing system found by priority is Latin, Greek or Cyrillic, AND (2) the user&rsquo;s system language is in one of the Latin, Cyrillic or Greek sets, AND (2) the user&rsquo;s system language is supported by the font, THEN show a string in that specific language.</p>
+</li>
+</ol>
+<p>You might also want the user to be able to set a language or enter a string for display.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -122,11 +119,10 @@ You might also want the user to be able to set a language or enter a string for 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Agreeing with Thomas Phinney. InDesign's system is not flawless:  Symbol, Wingdings, and Zapf Dingbats appear in the 'default' section, and huge fonts such as Arial MS Unicode appear (from memory) in the Chinese section.
-
-In general, ID seems to look at the Unicode ranges a font says it contains. Experimenting with these may reveal its actual algorithm --  chances are it's as simple as "first come, first serve", for a reasonable coverage of glyphs for a certain script.
-
-It's pretty useless to try and match glyph coverage to languages. If a font contains accented characters but not the letter 'k', would you infer it's intended to be used for Italian only? (Which only uses 'k' in loan words.)</div>
+		<div class="commentbody"><p>Agreeing with Thomas Phinney. InDesign&rsquo;s system is not flawless:  Symbol, Wingdings, and Zapf Dingbats appear in the &lsquo;default&rsquo; section, and huge fonts such as Arial MS Unicode appear (from memory) in the Chinese section.</p>
+<p>In general, ID seems to look at the Unicode ranges a font says it contains. Experimenting with these may reveal its actual algorithm &ndash;  chances are it&rsquo;s as simple as &ldquo;first come, first serve&rdquo;, for a reasonable coverage of glyphs for a certain script.</p>
+<p>It&rsquo;s pretty useless to try and match glyph coverage to languages. If a font contains accented characters but not the letter &lsquo;k&rsquo;, would you infer it&rsquo;s intended to be used for Italian only? (Which only uses &lsquo;k&rsquo; in loan words.)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -147,21 +143,15 @@ It's pretty useless to try and match glyph coverage to languages. If a font cont
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello Thomas & Theunis.
-
-Thanks for your replies, they were extremely helpful.
-
-After thinking about this more myself I had came to a similar conclusion that the solution would involve some prioritised list of writing systems. I think the prioritisation might also have to be based on the language that the user has set their operating system to.
-
-Our application already attempts to determine the scripts available in a font via Unicode glyph ranges so this could be used to determine major writing systems such as: Japanese, Korean, Thai, Arabic, Hebrew, Greek, Roman and Devanagari. We also need to handle Chinese but trying to split Simplified and Traditional will need more investigation.
-
-Once we know the writing system I guess we need to determine what localised text to display. For the languages we support in our application we would have translations for the sample text. For Roman scripts we would choose the text based on the operating system language with a fallback to English. For other writing systems we could choose the sample text based on the font writing system we determined or the operating system language. I guess some experimentation (and possibly user configuration) would be required here. 
-
-I know none of this is perfect but in the situation where we need to implement a WYSIWYG font menu I think this should produce a much better menu compared to just trying to display the font name using the font.
-
-
-Regards,
-Kev.</div>
+		<div class="commentbody"><p>Hello Thomas &amp; Theunis.</p>
+<p>Thanks for your replies, they were extremely helpful.</p>
+<p>After thinking about this more myself I had came to a similar conclusion that the solution would involve some prioritised list of writing systems. I think the prioritisation might also have to be based on the language that the user has set their operating system to.</p>
+<p>Our application already attempts to determine the scripts available in a font via Unicode glyph ranges so this could be used to determine major writing systems such as: Japanese, Korean, Thai, Arabic, Hebrew, Greek, Roman and Devanagari. We also need to handle Chinese but trying to split Simplified and Traditional will need more investigation.</p>
+<p>Once we know the writing system I guess we need to determine what localised text to display. For the languages we support in our application we would have translations for the sample text. For Roman scripts we would choose the text based on the operating system language with a fallback to English. For other writing systems we could choose the sample text based on the font writing system we determined or the operating system language. I guess some experimentation (and possibly user configuration) would be required here.</p>
+<p>I know none of this is perfect but in the situation where we need to implement a WYSIWYG font menu I think this should produce a much better menu compared to just trying to display the font name using the font.</p>
+<p>Regards,
+Kev.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

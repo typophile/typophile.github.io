@@ -71,18 +71,16 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I want to work with spaces in my sub code, or rather the glyphs immediately adjacent to the space.  I wonder if there is any way I could use a wildcard and simple variables to make this code a lot shorter. I'm trying to have a special glyh substition for all glyphs at the end of words, and all glyphs at the begining of words.
-
-If not I could always generate a line of code for every glyph - space combination, and every space - glyph combination.
-
- </div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I want to work with spaces in my sub code, or rather the glyphs immediately adjacent to the space.  I wonder if there is any way I could use a wildcard and simple variables to make this code a lot shorter. I&rsquo;m trying to have a special glyh substition for all glyphs at the end of words, and all glyphs at the begining of words.</p>
+<p>If not I could always generate a line of code for every glyph - space combination, and every space - glyph combination.</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Sounds like a job for <strong>init</strong> and<strong> fina</strong> features, but I have yet to use them, so I’m not much help. However, the same thing can be accomplished with the <strong>calt</strong> feature.
-
-As I understand it (which I may not, and amendment will surely follow), text strings within brackets are processed and/or recognized sequentially, so—instead of a line of code for every glyph—you could use code like this:
-<code>sub [ a b c d e f etc .]' space by [ a.fina b.fina c.fina d.fina e.fina f.fina etc.fina ];</code></div>
+		<div class="commentbody"><p>Sounds like a job for <!-- raw HTML omitted -->init<!-- raw HTML omitted --> and<!-- raw HTML omitted --> fina<!-- raw HTML omitted --> features, but I have yet to use them, so I’m not much help. However, the same thing can be accomplished with the <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> feature.</p>
+<p>As I understand it (which I may not, and amendment will surely follow), text strings within brackets are processed and/or recognized sequentially, so—instead of a line of code for every glyph—you could use code like this:
+<!-- raw HTML omitted -->sub [ a b c d e f etc .]' space by [ a.fina b.fina c.fina d.fina e.fina f.fina etc.fina ];<!-- raw HTML omitted --></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -103,7 +101,7 @@ As I understand it (which I may not, and amendment will surely follow), text str
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes init and fina seem to be exactly what im looking for. Researching them has led to more confusion however. Looks like I need to make 2 substitution tables. I have no idea how to do that.  Moreover I can't find anything on what the code would actually look like, or how to go about doing all this in fontlab.</div>
+		<div class="commentbody">Yes init and fina seem to be exactly what im looking for. Researching them has led to more confusion however. Looks like I need to make 2 substitution tables. I have no idea how to do that.  Moreover I can&rsquo;t find anything on what the code would actually look like, or how to go about doing all this in fontlab.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -124,8 +122,8 @@ As I understand it (which I may not, and amendment will surely follow), text str
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">See http://www.www.typophile.com/node/60990
-As for "wildcards," isn't that what OpenType classes more or less do?</div>
+		<div class="commentbody">See <a href="http://www.www.typophile.com/node/60990">http://www.www.typophile.com/node/60990</a>
+As for &ldquo;wildcards,&rdquo; isn&rsquo;t that what OpenType classes more or less do?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -167,31 +165,24 @@ As for "wildcards," isn't that what OpenType classes more or less do?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ok, Im advancing myself a little farther down this rabbit hole:
+		<div class="commentbody"><p>Ok, Im advancing myself a little farther down this rabbit hole:
 Very hard to find actual examples of opentype code online.
-Lots of sites describing its capabilities, and a few sites that list all its "features" aka methods,
-but very little actual code examples.
-
-It seems like this is what I want, though I haven't been able to get it to work:
-
-
-@LETTERS = [ < all letters in the font that could be part of a word>];
-
-feature clig {
+Lots of sites describing its capabilities, and a few sites that list all its &ldquo;features&rdquo; aka methods,
+but very little actual code examples.</p>
+<p>It seems like this is what I want, though I haven&rsquo;t been able to get it to work:</p>
+<p>@LETTERS = [ &lt; all letters in the font that could be part of a word&gt;];</p>
+<p>feature clig {
 lookup BEGIN_WORD_LIGS {
 ignore @LETTERS @LETTERS'; # will match any word glyph preceeded by another word glyph.
-sub c t by c_t.begin; # you know that there is no word glyph before the 'ct' sequence.
-};
-
-lookup END_WORD_LIGS {
+sub c t by c_t.begin; # you know that there is no word glyph before the &lsquo;ct&rsquo; sequence.
+};</p>
+<p>lookup END_WORD_LIGS {
 ignore @LETTERS' @LETTERS; # will match any word glyph followed by another word glyph.
-sub o f f by o_f_f.end; # you know that there is no word glyph after the 'off' sequence.
+sub o f f by o_f_f.end; # you know that there is no word glyph after the &lsquo;off&rsquo; sequence.
 };
-} clig; 
-
-
-
-I get that they are addressing a class with the @LETTERS, but did they have to create this class through fontlab somehow, as in a new set of glyphs? That is, is it or is it not being substantiated in the actual code itself?  And why isn't Fina or Init being used here?  Is Lookup an actual built-in function, or "feature", or just what the author chose to name this function right here in this example?</div>
+} clig;</p>
+<p>I get that they are addressing a class with the @LETTERS, but did they have to create this class through fontlab somehow, as in a new set of glyphs? That is, is it or is it not being substantiated in the actual code itself?  And why isn&rsquo;t Fina or Init being used here?  Is Lookup an actual built-in function, or &ldquo;feature&rdquo;, or just what the author chose to name this function right here in this example?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -212,13 +203,11 @@ I get that they are addressing a class with the @LETTERS, but did they have to c
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello  Ryan, 
-
-I am not an expert on OT myself, but after a lot of trial and error I managed to achieve a pretty sophisticated result...
-
-You can see my code in this thread: http://typophile.com/node/92348
-
-About your issue: Isn't "space" just a glyph like any other? It would make sense for it to be...</div>
+		<div class="commentbody"><p>Hello  Ryan,</p>
+<p>I am not an expert on OT myself, but after a lot of trial and error I managed to achieve a pretty sophisticated result&hellip;</p>
+<p>You can see my code in this thread: <a href="http://typophile.com/node/92348">http://typophile.com/node/92348</a></p>
+<p>About your issue: Isn&rsquo;t &ldquo;space&rdquo; just a glyph like any other? It would make sense for it to be&hellip;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -239,24 +228,23 @@ About your issue: Isn't "space" just a glyph like any other? It would make sense
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"I get that they are addressing a class with the @LETTERS, but did they have to create this class through fontlab somehow,"
-
-Yes.
-"as in a new set of glyphs?"
-
-New glyphs? Presumably not: the whole point was to reference all existing letter glyphs in the font.
-
-> That is, is it or is it not being substantiated in the actual code itself? 
-
-Yes, there needs to be code for it. There are no built-in classes in FontLab or OpenType.
-
->And why isn't Fina or Init being used here? 
-
-That's a question for the person who wrote the code. If it were me, my most likely reason to avoid 'init' and 'fina' would be poor app support. Even InDesign, which does support these features, contradicts the OpenType spec by not having them on by default. I lobbied hard to get them supported, but couldn't get them on by default.  :(
-
-> Is Lookup an actual built-in function, or "feature", or just what the author chose to name this function right here in this example?
-
-The concept of a lookup is fundamental to OpenType itself. The AFDKO feature language supports it directly for those cases where a lookup needs to be explicitly handled for some reason. Your feature code will otherwise create one lookup per OT feature where it is not explicit.</div>
+		<div class="commentbody"><p>&ldquo;I get that they are addressing a class with the @LETTERS, but did they have to create this class through fontlab somehow,&rdquo;</p>
+<p>Yes.
+&ldquo;as in a new set of glyphs?&rdquo;</p>
+<p>New glyphs? Presumably not: the whole point was to reference all existing letter glyphs in the font.</p>
+<blockquote>
+<p>That is, is it or is it not being substantiated in the actual code itself?</p>
+</blockquote>
+<p>Yes, there needs to be code for it. There are no built-in classes in FontLab or OpenType.</p>
+<blockquote>
+<p>And why isn&rsquo;t Fina or Init being used here?</p>
+</blockquote>
+<p>That&rsquo;s a question for the person who wrote the code. If it were me, my most likely reason to avoid &lsquo;init&rsquo; and &lsquo;fina&rsquo; would be poor app support. Even InDesign, which does support these features, contradicts the OpenType spec by not having them on by default. I lobbied hard to get them supported, but couldn&rsquo;t get them on by default.  :(</p>
+<blockquote>
+<p>Is Lookup an actual built-in function, or &ldquo;feature&rdquo;, or just what the author chose to name this function right here in this example?</p>
+</blockquote>
+<p>The concept of a lookup is fundamental to OpenType itself. The AFDKO feature language supports it directly for those cases where a lookup needs to be explicitly handled for some reason. Your feature code will otherwise create one lookup per OT feature where it is not explicit.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -277,7 +265,7 @@ The concept of a lookup is fundamental to OpenType itself. The AFDKO feature lan
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">BTW, this discussion really belongs in "Build" rather than "General Discussions."</div>
+		<div class="commentbody">BTW, this discussion really belongs in &ldquo;Build&rdquo; rather than &ldquo;General Discussions.&rdquo;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -298,48 +286,29 @@ The concept of a lookup is fundamental to OpenType itself. The AFDKO feature lan
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi,
-
-I just found a simple and elegant solution to the problem of targeting beginning- or ending-of-word letters. It is based on the example provided in the [[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f.ii| Adobe's specs]] : 
-
-<code>
-feature cswh {
-# --- Glyph classes used in this feature:
-@BEGINNINGS = [A-N P-Z Th m];
-@BEGINNINGS_SWASH = [A.swsh-N.swsh P.swsh-Z.swsh T_h.swsh m.init]; @ENDINGS = [a e z];
-@ENDINGS_SWASH = [a.fina e.fina z.fina];
-
-# --- Beginning-of-word swashes:
-ignore substitute @LETTER @BEGINNINGS'; 
-substitute @BEGINNINGS' by @BEGINNINGS_SWASH;
-
-# --- End-of-word swashes:
-ignore substitute @ENDINGS' @LETTER; 
+		<div class="commentbody"><p>Hi,</p>
+<p>I just found a simple and elegant solution to the problem of targeting beginning- or ending-of-word letters. It is based on the example provided in the [[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f.ii| Adobe&rsquo;s specs]] :</p>
+<!-- raw HTML omitted -->
+<h1 id="----beginning-of-word-swashes">&mdash; Beginning-of-word swashes:</h1>
+<p>ignore substitute @LETTER @BEGINNINGS'; 
+substitute @BEGINNINGS' by @BEGINNINGS_SWASH;</p>
+<h1 id="----end-of-word-swashes">&mdash; End-of-word swashes:</h1>
+<p>ignore substitute @ENDINGS' @LETTER; 
 substitute @ENDINGS' by @ENDINGS_SWASH;
 } cswh;
-</code>
-
-But this example does not work if applied to a single letter (at least in FontLab, the only place where I tested it for now). It seems that exclusion rules (<em>ignore substitute</em>) are cumulative. So first letters would be correctly replaced, but then the second rule will be limited to single-letter words (i.e. without a letter before - rule 1 - AND without a letter after - rule 2).
-
-A simple solution to this problem is to isolate each rule into a dedicated lookup block :
-
-<code>
-lookup beginning_s {
-	ignore sub @ALL_LETTERS s';
-  sub s' by s.starting;
-} beginning_s;
-
-lookup ending_s {
-	ignore sub s' @ALL_LETTERS;
-  sub s' by s.ending;
+<!-- raw HTML omitted --></p>
+<p>But this example does not work if applied to a single letter (at least in FontLab, the only place where I tested it for now). It seems that exclusion rules (<!-- raw HTML omitted -->ignore substitute<!-- raw HTML omitted -->) are cumulative. So first letters would be correctly replaced, but then the second rule will be limited to single-letter words (i.e. without a letter before - rule 1 - AND without a letter after - rule 2).</p>
+<p>A simple solution to this problem is to isolate each rule into a dedicated lookup block :</p>
+<!-- raw HTML omitted -->
+<p>lookup ending_s {
+ignore sub s' @ALL_LETTERS;
+sub s' by s.ending;
 } ending_s;
-</code>
-
-However, I did not tested using classes exactly as in the example, maybe the fact of using classes instead of single glyph also isolates contexts.
-
-Hope this will help with this common issue, there are very little resources available on this topic.
-
-Fred.</div>
+<!-- raw HTML omitted --></p>
+<p>However, I did not tested using classes exactly as in the example, maybe the fact of using classes instead of single glyph also isolates contexts.</p>
+<p>Hope this will help with this common issue, there are very little resources available on this topic.</p>
+<p>Fred.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -360,7 +329,7 @@ Fred.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ok I just tried with the exact same technique as in the specs, and it doesn't work in FontLab. So the 'lookup' trick seems to be the safer way to accomplish that.</div>
+		<div class="commentbody">Ok I just tried with the exact same technique as in the specs, and it doesn&rsquo;t work in FontLab. So the &lsquo;lookup&rsquo; trick seems to be the safer way to accomplish that.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

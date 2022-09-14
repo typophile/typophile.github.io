@@ -71,39 +71,36 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Here's the situation and I'm not sure if it can be done or if I'm just losing myself.
-
-Given two base glyphs, I'd like to change the first one if the second has a combining mark.  However, the first one can have 0-∞ combining mark.
-
-Hence my problem.  In this case I'd like to ignore combining marks on one part and ignore the base glyph on the second part, which would leave me with a simple "when X is followed by [list of combining marks], change to Y".
-
-In regex it'd be <code>(B1)[`´¨]*B2[`´¨]+</code>.   Do I ask too much of OpenType?</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Here&rsquo;s the situation and I&rsquo;m not sure if it can be done or if I&rsquo;m just losing myself.</p>
+<p>Given two base glyphs, I&rsquo;d like to change the first one if the second has a combining mark.  However, the first one can have 0-∞ combining mark.</p>
+<p>Hence my problem.  In this case I&rsquo;d like to ignore combining marks on one part and ignore the base glyph on the second part, which would leave me with a simple &ldquo;when X is followed by [list of combining marks], change to Y&rdquo;.</p>
+<p>In regex it&rsquo;d be <!-- raw HTML omitted -->(B1)[<code>´¨]*B2[</code>´¨]+<!-- raw HTML omitted -->.   Do I ask too much of OpenType?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This is a really difficult one. There's two possible approaches:
-
-1. Presuppose a limit on the number of combining marks that might be applied to the first glyph, and then include multiple context strings along the lines of
-
-[process -marks-]
-X -> Y
-...
+		<div class="commentbody"><p>This is a really difficult one. There&rsquo;s two possible approaches:</p>
+<ol>
+<li>Presuppose a limit on the number of combining marks that might be applied to the first glyph, and then include multiple context strings along the lines of</li>
+</ol>
+<p>[process -marks-]
+X -&gt; Y
+&hellip;
 | -marks- -marks- -marks- -marks- Z -marks-
 | -marks- -marks- -marks- Z -marks-
 | -marks- -marks- Z -marks-
 | -marks- Z -marks-
-| Z -marks-
-
-
-2. Include duplicate glyphs for the Z triggers and first perform a separate substitution when Z is followed by a mark:
-
-[process -marks-]
-Z -> Z.premark
-| -marks-
-
-[process NONE]
-X -> Y
-| Z</div>
+| Z -marks-</p>
+<ol start="2">
+<li>Include duplicate glyphs for the Z triggers and first perform a separate substitution when Z is followed by a mark:</li>
+</ol>
+<p>[process -marks-]
+Z -&gt; Z.premark
+| -marks-</p>
+<p>[process NONE]
+X -&gt; Y
+| Z</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -124,9 +121,9 @@ X -> Y
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Those were the two that came to mind, though I was hoping to nail it with just one.  The first one would probably work for all intents and purposes, but the programmer in me hates it.  I guess I'll go ahead with the second one, as I suppose it's not too much messier than ligatureless ligatures when you have a three-deep f design.
-
-I wonder if such regex-style matching could be added into an OpenType 1.7 (image what you could do with it) or if we'll have to look beyond OT.  I can think of quite a few uses beyond my eample and a few handwriting things.</div>
+		<div class="commentbody"><p>Those were the two that came to mind, though I was hoping to nail it with just one.  The first one would probably work for all intents and purposes, but the programmer in me hates it.  I guess I&rsquo;ll go ahead with the second one, as I suppose it&rsquo;s not too much messier than ligatureless ligatures when you have a three-deep f design.</p>
+<p>I wonder if such regex-style matching could be added into an OpenType 1.7 (image what you could do with it) or if we&rsquo;ll have to look beyond OT.  I can think of quite a few uses beyond my eample and a few handwriting things.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

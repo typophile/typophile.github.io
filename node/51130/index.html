@@ -71,35 +71,25 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I've been playing around with fontlab/openType for a school assignment but I'm not really getting it.
-
-I'm really interested in scripting a font. A teacher told me you don't have a lot of options nowadays since postscript type 3 isn't supported anymore? But you should still be able to do some nice things with openType I think.
-
-What I am after is the following;
-I'm making a font that lets all the characters respond to each other. Basically I want to check what the first character of a word is, and  let the other characters choose the appropriate glyph based on that.
-
-So, when I write 'nosebleed' (wow, random) I want the o,s,e,b,l,d to choose their glyphs belonging to the n, some something like o.n, s.n, e.n etc.
-
-For the combination CA you could do something like this:
-
-feature replace{
-     sub C A by C.A;  (where C.A is a glyph containing both a C and an special version of the A)
-} replace;
-
-But of course, this won't let you change the whole word.
-
-This;
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;ve been playing around with fontlab/openType for a school assignment but I&rsquo;m not really getting it.</p>
+<p>I&rsquo;m really interested in scripting a font. A teacher told me you don&rsquo;t have a lot of options nowadays since postscript type 3 isn&rsquo;t supported anymore? But you should still be able to do some nice things with openType I think.</p>
+<p>What I am after is the following;
+I&rsquo;m making a font that lets all the characters respond to each other. Basically I want to check what the first character of a word is, and  let the other characters choose the appropriate glyph based on that.</p>
+<p>So, when I write &lsquo;nosebleed&rsquo; (wow, random) I want the o,s,e,b,l,d to choose their glyphs belonging to the n, some something like o.n, s.n, e.n etc.</p>
+<p>For the combination CA you could do something like this:</p>
+<p>feature replace{
+sub C A by C.A;  (where C.A is a glyph containing both a C and an special version of the A)
+} replace;</p>
+<p>But of course, this won&rsquo;t let you change the whole word.</p>
+<p>This;
 ignore substitute @LETTER f' i'; 
-substitute f' i' by f_i.init; 
-
-Lets you change glyphs to make a ligature at the beginning of a word. But can you reverse this? Like; only replace the glyph if it's NOT at the beginning of the word, and replace it by it's version belonging to the FIRST character of the word.
-
-In other scripting languages I would do something like this:
-
-See if the typed character is the first character of the word being typed.
-If it is, use the standard glyph. If not, see what the first character was and make the typed character the glyph 'typedCharacter.firstCharacter'; 
-
-Does anyone know if there is a way to do this? Or something like this? Or something to get me started?</div>
+substitute f' i' by f_i.init;</p>
+<p>Lets you change glyphs to make a ligature at the beginning of a word. But can you reverse this? Like; only replace the glyph if it&rsquo;s NOT at the beginning of the word, and replace it by it&rsquo;s version belonging to the FIRST character of the word.</p>
+<p>In other scripting languages I would do something like this:</p>
+<p>See if the typed character is the first character of the word being typed.
+If it is, use the standard glyph. If not, see what the first character was and make the typed character the glyph &lsquo;typedCharacter.firstCharacter&rsquo;;</p>
+<p>Does anyone know if there is a way to do this? Or something like this? Or something to get me started?</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
@@ -124,13 +114,12 @@ Does anyone know if there is a way to do this? Or something like this? Or someth
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">A more conventional approach would be a calt feature, something along these lines:
-
-sub [A A.A B.A C.A D.A E.A] [A B C D E]' by [A.A B.A C.A D.A E.A];
-sub [B A.B B.B C.B D.B E.B] [A B C D E]' by [A.B B.B C.B D.B E.B];
-
-[A B C D E]' will be replaced, the class before is is what serves as context. This means, in the first line, any glyph following an A will be replaced by an .A alternate, and any subsequent glyph (i.e. following an .A alternate) will be replace by an .A alternate too. The first glyph of a word will not be replaced -- the above context definition requires that at least one glyph precedes the glyph to be replaced.
-Just wondering, how many alternates do you want to draw?&nbsp;&nbsp;;-)</div>
+		<div class="commentbody"><p>A more conventional approach would be a calt feature, something along these lines:</p>
+<p>sub [A A.A B.A C.A D.A E.A] [A B C D E]' by [A.A B.A C.A D.A E.A];
+sub [B A.B B.B C.B D.B E.B] [A B C D E]' by [A.B B.B C.B D.B E.B];</p>
+<p>[A B C D E]' will be replaced, the class before is is what serves as context. This means, in the first line, any glyph following an A will be replaced by an .A alternate, and any subsequent glyph (i.e. following an .A alternate) will be replace by an .A alternate too. The first glyph of a word will not be replaced &ndash; the above context definition requires that at least one glyph precedes the glyph to be replaced.
+Just wondering, how many alternates do you want to draw?  ;-)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -151,13 +140,12 @@ Just wondering, how many alternates do you want to draw?&nbsp;&nbsp;;-)</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Well, I have to make a typeface with the full 256 characters, so that means something like 265 * 265 = 70.255 glyphs
-
-But I'm not even sure if that amount is supported.
-I won't make them all myself. I'm pretty handy with scripting, so I'll just write some script which will generate the glyphs in PDF / illustrator format (and then I'll have to find a way of easily importing them in fontlab, instead of copy pasting them).
-But I think I will start with about 5 * 5 = 25 glyps so see if it works :p
-
-Thanks for the reply btw</div>
+		<div class="commentbody"><p>Well, I have to make a typeface with the full 256 characters, so that means something like 265 * 265 = 70.255 glyphs</p>
+<p>But I&rsquo;m not even sure if that amount is supported.
+I won&rsquo;t make them all myself. I&rsquo;m pretty handy with scripting, so I&rsquo;ll just write some script which will generate the glyphs in PDF / illustrator format (and then I&rsquo;ll have to find a way of easily importing them in fontlab, instead of copy pasting them).
+But I think I will start with about 5 * 5 = 25 glyps so see if it works :p</p>
+<p>Thanks for the reply btw</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -178,10 +166,10 @@ Thanks for the reply btw</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Karsten,
-Are your replacements ligatures or single glyph alternates in your example?
-
-ChrisL</div>
+		<div class="commentbody"><p>Karsten,
+Are your replacements ligatures or single glyph alternates in your example?</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -202,10 +190,8 @@ ChrisL</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You may need the Asia-Font Studio because FLS refuses to save fonts with more than, I don't remember, 6000-7000 glyphs.&nbsp;&nbsp;:D
-
-Hello Mr Lozos, it's just glyph alternates. I used as suffix the first-glyph-of-word to which the alternate relates, so "B.A" is an alternate B which is used in words starting with A.
-
+		<div class="commentbody"><p>You may need the Asia-Font Studio because FLS refuses to save fonts with more than, I don&rsquo;t remember, 6000-7000 glyphs.  :D</p>
+<p>Hello Mr Lozos, it&rsquo;s just glyph alternates. I used as suffix the first-glyph-of-word to which the alternate relates, so &ldquo;B.A&rdquo; is an alternate B which is used in words starting with A.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -227,13 +213,14 @@ Hello Mr Lozos, it's just glyph alternates. I used as suffix the first-glyph-of-
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">> You may need the Asia-Font Studio because FLS refuses 
-> to save fonts with more than, I don’t remember, 6000-7000 
-> glyphs.  :D
-
-6,399 is the maximum number of glyphs in a font that can be created with FontLab Studio 5. You should be glad to hear that this limit will be lifted in FontLab Studio 6 (which we are working on) so the maximum number of 65,535 glyphs per font will be possible. 
-
-Adam</div>
+		<div class="commentbody"><blockquote>
+<p>You may need the Asia-Font Studio because FLS refuses 
+to save fonts with more than, I don’t remember, 6000-7000 
+glyphs.  :D</p>
+</blockquote>
+<p>6,399 is the maximum number of glyphs in a font that can be created with FontLab Studio 5. You should be glad to hear that this limit will be lifted in FontLab Studio 6 (which we are working on) so the maximum number of 65,535 glyphs per font will be possible.</p>
+<p>Adam</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -254,9 +241,9 @@ Adam</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ah, now I get it, forgive a blind old geezer :-)
-
-ChrisL</div>
+		<div class="commentbody"><p>Ah, now I get it, forgive a blind old geezer :-)</p>
+<p>ChrisL</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

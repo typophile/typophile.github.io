@@ -71,50 +71,35 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi
-
-Is it possible to compare the side-bearings of two separate fonts and mark any differences.
-
-I have been trying to do it with a macro. I can open the two fonts but how do I loop through the glyphs of the fonts. It would be nice it it skips any glyphs that aren't present in both fonts as well.
-
-<CODE>
-from robofab.world import OpenFont
-fontOne = OpenFont(None)
-fontTwo = OpenFont(None)
-print fontOne.info.fullName,"/",fontTwo.info.fullName
-print " "
-for g in fontOne:
-	if fontOne[g].leftMargin != fontTwo[g].leftMargin or fontOne[g].rightMargin != fontTwo[g].rightMargin:
-	  print fontOne[g].leftMargin,"-",g,"-",fontOne[g].rightMargin
-	  print fontTwo[g].leftMargin,"-",g,"-",fontTwo[g].rightMargin
-	  print fontOne[g].leftMargin - fontTwo[g].leftMargin,"----",fontOne[g].rightMargin - fontTwo[g].rightMargin
-	  print "------------------"
-	  print " "
-	fontOne[g].mark += 10
-</CODE></div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi</p>
+<p>Is it possible to compare the side-bearings of two separate fonts and mark any differences.</p>
+<p>I have been trying to do it with a macro. I can open the two fonts but how do I loop through the glyphs of the fonts. It would be nice it it skips any glyphs that aren&rsquo;t present in both fonts as well.</p>
+<!-- raw HTML omitted -->
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You just have some syntax issues, mostly. 
-- just 'cause Python is loosely typed doesn't mean you can ignore variable type. In order to print the left margin, which is an integer, you need to cast it as a string. 
-- In order to specify a glyph, you need to pass it the glyph name, not the glyph itself, like:  font[glyphname"]
-- to add things to a print line, use the plus sign, not comma.
-
-So try this:
-
-from robofab.world import OpenFont
+		<div class="commentbody"><p>You just have some syntax issues, mostly.</p>
+<ul>
+<li>just &lsquo;cause Python is loosely typed doesn&rsquo;t mean you can ignore variable type. In order to print the left margin, which is an integer, you need to cast it as a string.</li>
+<li>In order to specify a glyph, you need to pass it the glyph name, not the glyph itself, like:  font[glyphname&quot;]</li>
+<li>to add things to a print line, use the plus sign, not comma.</li>
+</ul>
+<p>So try this:</p>
+<p>from robofab.world import OpenFont
 fontOne = OpenFont(None)
 fontTwo = OpenFont(None)
-print fontOne.info.postscriptFullName + " / " + fontTwo.info.postscriptFullName
-print " "
+print fontOne.info.postscriptFullName + &quot; / &quot; + fontTwo.info.postscriptFullName
+print &quot; &quot;
 for g in fontOne:
-    if fontOne[g.name].leftMargin != fontTwo[g.name].leftMargin or fontOne[g.name].rightMargin != fontTwo[g.name].rightMargin:
-        print str(fontOne[g.name].leftMargin) + "-" + g.name + "-" + str(fontOne[g.name].rightMargin)
-        print str(fontTwo[g.name].leftMargin) + "-" + g.name + "-" + str(fontTwo[g.name].rightMargin)
-        print str(fontOne[g.name].leftMargin - fontTwo[g.name].leftMargin) + "----" + str(fontOne[g.name].rightMargin - fontTwo[g.name].rightMargin)
-        print "------------------"
-        print " "
-        fontOne[g.name].mark += 10</div>
+if fontOne[g.name].leftMargin != fontTwo[g.name].leftMargin or fontOne[g.name].rightMargin != fontTwo[g.name].rightMargin:
+print str(fontOne[g.name].leftMargin) + &ldquo;-&rdquo; + g.name + &ldquo;-&rdquo; + str(fontOne[g.name].rightMargin)
+print str(fontTwo[g.name].leftMargin) + &ldquo;-&rdquo; + g.name + &ldquo;-&rdquo; + str(fontTwo[g.name].rightMargin)
+print str(fontOne[g.name].leftMargin - fontTwo[g.name].leftMargin) + &ldquo;&mdash;-&rdquo; + str(fontOne[g.name].rightMargin - fontTwo[g.name].rightMargin)
+print &ldquo;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&rdquo;
+print &quot; &quot;
+fontOne[g.name].mark += 10</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -156,13 +141,11 @@ for g in fontOne:
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for that jasonc
-
-It starts to work but then stops with no error output. I think it might be because the fonts might have slightly different glyphs included.
-
-They are both variants of the same font but one has been updated slightly and I wanted to make sure the spacing hand't been changed.
-
-Is there a log i can check to see why it stops?</div>
+		<div class="commentbody"><p>Thanks for that jasonc</p>
+<p>It starts to work but then stops with no error output. I think it might be because the fonts might have slightly different glyphs included.</p>
+<p>They are both variants of the same font but one has been updated slightly and I wanted to make sure the spacing hand&rsquo;t been changed.</p>
+<p>Is there a log i can check to see why it stops?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -183,9 +166,8 @@ Is there a log i can check to see why it stops?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Really? IN my testing it works when the glyph sets are not the same, it simply reports zeros for both sidebearings. Not an elegant solution but it works. 
-
-Did you adjust the indents before running it? Typophile edits out the indents, so you need to do that in order for it to work
+		<div class="commentbody"><p>Really? IN my testing it works when the glyph sets are not the same, it simply reports zeros for both sidebearings. Not an elegant solution but it works.</p>
+<p>Did you adjust the indents before running it? Typophile edits out the indents, so you need to do that in order for it to work</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -207,11 +189,10 @@ Did you adjust the indents before running it? Typophile edits out the indents, s
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes I replaced the indents.
-
-It starts so I'm assuming it works but then stops.
-
-Is there a log somewhere I could check?</div>
+		<div class="commentbody"><p>Yes I replaced the indents.</p>
+<p>It starts so I&rsquo;m assuming it works but then stops.</p>
+<p>Is there a log somewhere I could check?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -232,7 +213,7 @@ Is there a log somewhere I could check?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Not really. You can try adding print statements at different places so you can see where it's at. If you're not seeing any print lines, then you know it's stuck at the beginning, of course. </div>
+		<div class="commentbody">Not really. You can try adding print statements at different places so you can see where it&rsquo;s at. If you&rsquo;re not seeing any print lines, then you know it&rsquo;s stuck at the beginning, of course.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

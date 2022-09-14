@@ -71,98 +71,79 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">First I should mention that the goal here is not in fact randomness, because we want a "natural" effect, where adjacent glyphs are not identical--which is what would occur occasionally with a truly random disposition of glyphs.
-
-In these examples, there are four alternates of each character in the font (including punctuation and, importantly, the space). They are sorted in four classes, @one, @two, @three and @four.
-
-Version 1.0 was provided by Thomas Phinney. This is the first lookup.
-It sets glyphs from a sequence of classes: 1234 1234 1234, which then repeats.
-
-Version 2.0 is a tweak I provided, to deal with repetitive five-character sequences, as in "they do the things..."
+  <div class="post-content e-content" itemprop="articleBody"><p>First I should mention that the goal here is not in fact randomness, because we want a &ldquo;natural&rdquo; effect, where adjacent glyphs are not identical&ndash;which is what would occur occasionally with a truly random disposition of glyphs.</p>
+<p>In these examples, there are four alternates of each character in the font (including punctuation and, importantly, the space). They are sorted in four classes, @one, @two, @three and @four.</p>
+<p>Version 1.0 was provided by Thomas Phinney. This is the first lookup.
+It sets glyphs from a sequence of classes: 1234 1234 1234, which then repeats.</p>
+<p>Version 2.0 is a tweak I provided, to deal with repetitive five-character sequences, as in &ldquo;they do the things&hellip;&rdquo;
 This is implemented by the second lookup.
-It sets the class sequence to: 1234 1324 3142, which then repeats.
-
-Version 3.0 deals with the line-break problem. (Because layout applications don't carry contextuality from one line to the next, starting over every line, a word like "the" at the start of a line is set with the same glyphs every time.) This method was suggested by John Hudson. It works backwards from the fifth character in the line (chosen, again, to deal primarily with the problem of "the"). My code splits possible fifth letters into seven groups, arranged to separate those that occur most frequently in English into different groups. The seventh group is the default, and not coded. It includes all accented characters, as I have not bothered to make truly comprehensive classes, as I did with classes one through four, which might include them.
-This adjusts Version 2.0 by changing the first four classes in the sequence, depending on the fifth character in the line, to one of: 3143, 4324, 2413, 3214, 4132, 2314 or 1432.
-
-
-<code>
-feature calt { 
-
-lookup calt_one {
+It sets the class sequence to: 1234 1324 3142, which then repeats.</p>
+<p>Version 3.0 deals with the line-break problem. (Because layout applications don&rsquo;t carry contextuality from one line to the next, starting over every line, a word like &ldquo;the&rdquo; at the start of a line is set with the same glyphs every time.) This method was suggested by John Hudson. It works backwards from the fifth character in the line (chosen, again, to deal primarily with the problem of &ldquo;the&rdquo;). My code splits possible fifth letters into seven groups, arranged to separate those that occur most frequently in English into different groups. The seventh group is the default, and not coded. It includes all accented characters, as I have not bothered to make truly comprehensive classes, as I did with classes one through four, which might include them.
+This adjusts Version 2.0 by changing the first four classes in the sequence, depending on the fifth character in the line, to one of: 3143, 4324, 2413, 3214, 4132, 2314 or 1432.</p>
+<!-- raw HTML omitted -->
+<p>lookup calt_one {
 sub @one @one' @one by @two;
 sub @two @one' @one by @three;
 sub @three @one' @one by @four;
-} calt_one;
-
-lookup calt_two {
+} calt_one;</p>
+<p>lookup calt_two {
 sub @four @one @two' by @three;
 sub @three @three' by @two;
 sub @two @four @one' by @three;
 sub @four @three @two' by @one;
 sub @three @one @three' by @four;
 sub @four @four' by @two;
-} calt_two;
-
-lookup calt_three {
+} calt_two;</p>
+<p>lookup calt_three {
 sub @one' @two @three @four [E M V e m v one space] by @three;
 sub @two' @three @four [E M V e m v one space] @three by @one;
 sub @three' @four [E M V e m v one space] @three @two by @four;
 sub @four' [E M V e m v one space] @three @two @four by @two;
-} calt_three;
-
-lookup calt_four {
+} calt_three;</p>
+<p>lookup calt_four {
 sub @one' @two @three @four [T U B t u b two space.alt2] by @four;
 sub @two' @three @four [T U B t u b two space.alt2] @three by @three;
 sub @three' @four [T U B t u b two space.alt2] @three @two by @two;
 sub @four' [T U B t u b two space.alt2] @three @two @four by @four;
-} calt_four;
-
-lookup calt_five {
+} calt_four;</p>
+<p>lookup calt_five {
 sub @one' @two @three @four [P A C p a c three nine space.alt3] by @two;
 sub @two' @three @four [P A C p a c three nine space.alt3] @three by @four;
 sub @three' @four [P A C p a c three nine space.alt3] @three @two by @one;
 sub @four' [P A C p a c three nine space.alt3] @three @two @four by @three;
-} calt_five;
-
-lookup calt_six {
+} calt_five;</p>
+<p>lookup calt_six {
 sub @one' @two @three @four [L I Q Y l i q y four eight] by @three;
 sub @two' @three @four [L I Q Y l i q y four eight] @three by @two;
 sub @three' @four [L I Q Y l i q y four eight] @three @two by @one;
 sub @four' [L I Q Y l i q y four eight] @three @two @four by @four;
-} calt_six;
-
-lookup calt_seven {
+} calt_six;</p>
+<p>lookup calt_seven {
 sub @one' @two @three @four [D O G Z d o g z five] by @four;
 sub @two' @three @four [D O G Z d o g z five] @three by @one;
 sub @three' @four [D O G Z d o g z five] @three @two by @three;
 sub @four' [D O G Z d o g z five] @three @two @four by @two;
-} calt_seven;
-
-lookup calt_eight {
+} calt_seven;</p>
+<p>lookup calt_eight {
 sub @one' @two @three @four [F R J N f r j n six seven] by @one;
 sub @two' @three @four [F R J N f r j n six seven] @three by @four;
 sub @three' @four [F R J N f r j n six seven] @three @two by @three;
 sub @four' [F R J N f r j n six seven] @three @two @four by @two;
-} calt_eight;
-
-sub @two @two' by @one;
-sub @one @one' by @two;
-
-} calt;
-
-</code>I suspect it may be possible to configure a system that works entirely with backwards-activation, but it is too mind-boggling for me to figure out.
-
-[Sorry, I meant to post this in the Build forum.]</div>
+} calt_eight;</p>
+<p>sub @two @two' by @one;
+sub @one @one' by @two;</p>
+<p>} calt;</p>
+<p><!-- raw HTML omitted -->I suspect it may be possible to configure a system that works entirely with backwards-activation, but it is too mind-boggling for me to figure out.</p>
+<p>[Sorry, I meant to post this in the Build forum.]</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick,
-In what style of font do you see random substitution as best used?
-
-I've never tried to achieve a total random look, but the last 2 script fonts I've worked on (both connecting) I've gotten close to this effect just through using a lot of contextual substitution with certain classes. I would see Random substitution being most useful where the variations are subtle and letters are not connected. I've been adding contextual variations of ligatures as well which seems to be a useful thing for handlettering style designs.
-
-Stephen</div>
+		<div class="commentbody"><p>Nick,
+In what style of font do you see random substitution as best used?</p>
+<p>I&rsquo;ve never tried to achieve a total random look, but the last 2 script fonts I&rsquo;ve worked on (both connecting) I&rsquo;ve gotten close to this effect just through using a lot of contextual substitution with certain classes. I would see Random substitution being most useful where the variations are subtle and letters are not connected. I&rsquo;ve been adding contextual variations of ligatures as well which seems to be a useful thing for handlettering style designs.</p>
+<p>Stephen</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -185,12 +166,10 @@ Stephen</div>
 	<div class="card-body">
 		<div class="commentbody">Pseudo-random reduces repetition. For instance, consider f_f.
 In a four-alternates font, there would be four different f_f ligatures, but 12 different combinations of individual f and f.
-I've developed this code while working on Duffy Script, which is not connected.
-However, the variations don't have to be subtle.
-But they do have to work with every other glyph except themselves, so it's a more more complex design procedure, "mulling" (as James Montalbano puts it) over the whole as one works on the individual.
-I don't see why this shouldn't be applied to any genre of type, from strictly geometric sans to swashy connected script. 
-
-</div>
+I&rsquo;ve developed this code while working on Duffy Script, which is not connected.
+However, the variations don&rsquo;t have to be subtle.
+But they do have to work with every other glyph except themselves, so it&rsquo;s a more more complex design procedure, &ldquo;mulling&rdquo; (as James Montalbano puts it) over the whole as one works on the individual.
+I don&rsquo;t see why this shouldn&rsquo;t be applied to any genre of type, from strictly geometric sans to swashy connected script.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -211,10 +190,10 @@ I don't see why this shouldn't be applied to any genre of type, from strictly ge
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick, 
-Thanks for the code. I have been having this problem with a font I am working on and couldn't figure out the solution. Your code works great, now I just have to figure out how to expand it from four to nine.
-
-Michael</div>
+		<div class="commentbody"><p>Nick, 
+Thanks for the code. I have been having this problem with a font I am working on and couldn&rsquo;t figure out the solution. Your code works great, now I just have to figure out how to expand it from four to nine.</p>
+<p>Michael</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -235,9 +214,7 @@ Michael</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><blockquote>I suspect it may be possible to configure a system that works entirely with backwards-activation, but it is too mind-boggling for me to figure out.</blockquote>
-https://github.com/schriftgestalt/Mekka-Scripts/blob/master/Stylistic%20Sets/Create%20pseudorandom%20calt%20feature.py
-</div>
+		<div class="commentbody"><!-- raw HTML omitted --></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -258,11 +235,10 @@ https://github.com/schriftgestalt/Mekka-Scripts/blob/master/Stylistic%20Sets/Cre
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I know of one type of font where such features make sense: lettering fonts for comic strips. They intentionally simulate hand lettering, and they often have alternates (usually put in easy reach as UC/LC in a caps-only font) for the purpose of avoiding identical letters. (But the letter I usually has an alternate where the presence of serifs indicates a capital letter - or, rather, a letter that would still have been a capital even if the text weren't in all caps.)
-
-For such a face, it might be worthwhile to get more elaborate.
-
-Each letter might have five forms. Which form is used depends on which letter, and which form of that letter, preceded it. But there are two (really four) possible successors for each preceding letter - one picked by shifting the letter. (And if the previous letter was shifted, another two.)</div>
+		<div class="commentbody"><p>I know of one type of font where such features make sense: lettering fonts for comic strips. They intentionally simulate hand lettering, and they often have alternates (usually put in easy reach as UC/LC in a caps-only font) for the purpose of avoiding identical letters. (But the letter I usually has an alternate where the presence of serifs indicates a capital letter - or, rather, a letter that would still have been a capital even if the text weren&rsquo;t in all caps.)</p>
+<p>For such a face, it might be worthwhile to get more elaborate.</p>
+<p>Each letter might have five forms. Which form is used depends on which letter, and which form of that letter, preceded it. But there are two (really four) possible successors for each preceding letter - one picked by shifting the letter. (And if the previous letter was shifted, another two.)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -283,11 +259,10 @@ Each letter might have five forms. Which form is used depends on which letter, a
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"I don't see why this shouldn't be applied to any genre of type, from strictly geometric sans to swashy connected script."
-
-I don't either, except that effects of writing in some connecting scripts are less than random, being based on reservoir size, dip frequency and the "length" and "weight" of the glyphs being "written". 
-
-I'll let you know how that turns out. ;)</div>
+		<div class="commentbody"><p>&ldquo;I don&rsquo;t see why this shouldn&rsquo;t be applied to any genre of type, from strictly geometric sans to swashy connected script.&rdquo;</p>
+<p>I don&rsquo;t either, except that effects of writing in some connecting scripts are less than random, being based on reservoir size, dip frequency and the &ldquo;length&rdquo; and &ldquo;weight&rdquo; of the glyphs being &ldquo;written&rdquo;.</p>
+<p>I&rsquo;ll let you know how that turns out. ;)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -330,9 +305,9 @@ The constraints you mention are all subject to variation in writing, and are exa
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"You will ﬁnd that it is impossible to write like an automaton, devoid of randomness."
-
-Then you will find it hard to design randomness into a font with OT, won't you. I'm saying, for some results in some script styles, the mull calls for an approach to variation that is not just grapheme roulette. </div>
+		<div class="commentbody"><p>&ldquo;You will ﬁnd that it is impossible to write like an automaton, devoid of randomness.&rdquo;</p>
+<p>Then you will find it hard to design randomness into a font with OT, won&rsquo;t you. I&rsquo;m saying, for some results in some script styles, the mull calls for an approach to variation that is not just grapheme roulette.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -357,9 +332,7 @@ Then you will find it hard to design randomness into a font with OT, won't you. 
 The goal is to imitate certain irregular qualities of “natural” media.
 The coding can be constrained to accommodate all kinds of variation—anything that can be written.
 Neither is this grapheme roulette, because the variants are deployed according to contextuality, not by chance.
-Show me an example of “some results in some script styles” that you believe can’t be pseudo-randomized and I’ll explain how to do it.
-
-</div>
+Show me an example of “some results in some script styles” that you believe can’t be pseudo-randomized and I’ll explain how to do it.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -380,11 +353,9 @@ Show me an example of “some results in some script styles” that you believe 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"...the variants are deployed according to contextuality, not by chance."
-
-¡ But the quantity of a particular character in text subjected to any psuedomizer, is according chance. And the number of variations in a roulette-wheel of glyphs, playing on the chance in the text is chance times chance !
-
-Don't get me wrong,  I do not believe there is any style that can’t be psuedomized in OT. I just don't think it's correct to say one has a solution for 'any genre of type' when there are styles where the writer is not random, because among the mind, the tool and the content, there is an agenda.
+		<div class="commentbody"><p>&ldquo;&hellip;the variants are deployed according to contextuality, not by chance.&rdquo;</p>
+<p>¡ But the quantity of a particular character in text subjected to any psuedomizer, is according chance. And the number of variations in a roulette-wheel of glyphs, playing on the chance in the text is chance times chance !</p>
+<p>Don&rsquo;t get me wrong,  I do not believe there is any style that can’t be psuedomized in OT. I just don&rsquo;t think it&rsquo;s correct to say one has a solution for &lsquo;any genre of type&rsquo; when there are styles where the writer is not random, because among the mind, the tool and the content, there is an agenda.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -406,7 +377,7 @@ Don't get me wrong,  I do not believe there is any style that can’t be psuedom
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">As for using this idea for other kinds of type than that used for comic word balloons... there is an illustrious precedent. Gutenberg used many alternate forms in order for his printed books to look like manuscripts.</div>
+		<div class="commentbody">As for using this idea for other kinds of type than that used for comic word balloons&hellip; there is an illustrious precedent. Gutenberg used many alternate forms in order for his printed books to look like manuscripts.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -448,13 +419,11 @@ Don't get me wrong,  I do not believe there is any style that can’t be psuedom
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">"Gutenberg used many alternate forms in order for his printed books to look like manuscripts."
-
-But then his successors lost the knowledge of the agenda, i.e. started using the several hundred lowercase glyphs randomly, and no one collected their work. 
-
-Nick, there are a number of things going on in the famous specimen below, some of it is random, and some shows an agenda.
-
-[img:sites/default/files/old-images/penloading_5830.png]</div>
+		<div class="commentbody"><p>&ldquo;Gutenberg used many alternate forms in order for his printed books to look like manuscripts.&rdquo;</p>
+<p>But then his successors lost the knowledge of the agenda, i.e. started using the several hundred lowercase glyphs randomly, and no one collected their work.</p>
+<p>Nick, there are a number of things going on in the famous specimen below, some of it is random, and some shows an agenda.</p>
+<p>[img:sites/default/files/old-images/penloading_5830.png]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -496,13 +465,11 @@ Nick, there are a number of things going on in the famous specimen below, some o
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Sorry for the break. Nick, there are things that happen in writing, where the foreknowledge and memory of the writer go beyond the line breaks, which is OT's boundary. 
-
-So, in this example, "It affords me" is written with a pen that becomes unloaded, i.e. runs nearly dry by the time"much"is written. It reloads, in time for "pleasure"  and etc. 
-
-Next, there is no way to know not to cross the t, because a long descending f was used in the previous line, as the "fine" above, does to "that" which is below. 
-
-This is neither random, pseudo-random, or an OTability I know of, and there is more. . </div>
+		<div class="commentbody"><p>Sorry for the break. Nick, there are things that happen in writing, where the foreknowledge and memory of the writer go beyond the line breaks, which is OT&rsquo;s boundary.</p>
+<p>So, in this example, &ldquo;It affords me&rdquo; is written with a pen that becomes unloaded, i.e. runs nearly dry by the time&quot;much&quot;is written. It reloads, in time for &ldquo;pleasure&rdquo;  and etc.</p>
+<p>Next, there is no way to know not to cross the t, because a long descending f was used in the previous line, as the &ldquo;fine&rdquo; above, does to &ldquo;that&rdquo; which is below.</p>
+<p>This is neither random, pseudo-random, or an OTability I know of, and there is more. .</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -523,16 +490,10 @@ This is neither random, pseudo-random, or an OTability I know of, and there is m
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Right, OT contextuality is conﬁned to single lines (and stumbles at either end). It also fails when tracking (beyond a small amount) is applied—which is really annoying, as that is an intentional feature of layout applications, not a bug or technical limitation.
-
-Nonetheless, I do think that your example here, with its huge “negative leading”, is an outlier/special case. If typographers decide to adopt this tricky practice, they are likely aware that it will create extender collisions which will not be ameliorated by the layout app’s H&J’s or OT smart fonts, and are prepared to deal with them manually, or let things fall as they may. 
-
-One might just as well dismiss “smart quotes” software that replaces hash marks with proper quote marks, because it fails when dealing with apostrophes at the beginning of words.
-
-Pseudo-randomization is intended to mimic certain “natural media” effects but it cannot produce a perfect facsimile of virtuoso calligraphy and layout on the ﬂy. I doubt the author of the example could either, without ﬁrst sketching the layout—note how the “g” in “king” anticipates the line below.
-
-
-
+		<div class="commentbody"><p>Right, OT contextuality is conﬁned to single lines (and stumbles at either end). It also fails when tracking (beyond a small amount) is applied—which is really annoying, as that is an intentional feature of layout applications, not a bug or technical limitation.</p>
+<p>Nonetheless, I do think that your example here, with its huge “negative leading”, is an outlier/special case. If typographers decide to adopt this tricky practice, they are likely aware that it will create extender collisions which will not be ameliorated by the layout app’s H&amp;J’s or OT smart fonts, and are prepared to deal with them manually, or let things fall as they may.</p>
+<p>One might just as well dismiss “smart quotes” software that replaces hash marks with proper quote marks, because it fails when dealing with apostrophes at the beginning of words.</p>
+<p>Pseudo-randomization is intended to mimic certain “natural media” effects but it cannot produce a perfect facsimile of virtuoso calligraphy and layout on the ﬂy. I doubt the author of the example could either, without ﬁrst sketching the layout—note how the “g” in “king” anticipates the line below.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -554,7 +515,7 @@ Pseudo-randomization is intended to mimic certain “natural media” effects bu
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Now Nick, I'm not dismissing pseudo random typography!?  You asked, I showed, you said you did not understand, I explained. You seem to understand now, good. I just don't think roulette can be applied to any genre of type, because not all genres of type can be properly composed with Any random bits whatsoever, though not all.</div>
+		<div class="commentbody">Now Nick, I&rsquo;m not dismissing pseudo random typography!?  You asked, I showed, you said you did not understand, I explained. You seem to understand now, good. I just don&rsquo;t think roulette can be applied to any genre of type, because not all genres of type can be properly composed with Any random bits whatsoever, though not all.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -575,11 +536,9 @@ Pseudo-randomization is intended to mimic certain “natural media” effects bu
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><blockquote>First I should mention that the goal here is not in fact randomness, because we want a "natural" effect, where adjacent glyphs are not identical--which is what would occur occasionally with a truly random disposition of glyphs.</blockquote>
-
-Perhaps the only problem here was to the label the thread "pseudo randomness"? Ditching the label, try the type and let's see the result.
-
-If you want to stay purely theoretical, give some thought to the question of whether or not there could be more than one utopia. Most of us would settle for "this is nice." 
+		<div class="commentbody"><!-- raw HTML omitted -->
+<p>Perhaps the only problem here was to the label the thread &ldquo;pseudo randomness&rdquo;? Ditching the label, try the type and let&rsquo;s see the result.</p>
+<p>If you want to stay purely theoretical, give some thought to the question of whether or not there could be more than one utopia. Most of us would settle for &ldquo;this is nice.&rdquo;</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -601,16 +560,11 @@ If you want to stay purely theoretical, give some thought to the question of whe
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for posting the Flickinger specimen, David.
-You’re right, such a controlled piece of calligraphy has no place for randomness.
-
-It’s interesting that this penman’s methodology could be readily “pseudomized” with Contextual Alternates.
-
-In particular, the heavying up of certain downstrokes, but never (with the exception of double-f) for adjacent glyphs, is just the sort of thing that the Contextual Alternates feature handles well.
-
-Also, the use of different forms of “t” for initial, middle and terminal position.
-
-
+		<div class="commentbody"><p>Thanks for posting the Flickinger specimen, David.
+You’re right, such a controlled piece of calligraphy has no place for randomness.</p>
+<p>It’s interesting that this penman’s methodology could be readily “pseudomized” with Contextual Alternates.</p>
+<p>In particular, the heavying up of certain downstrokes, but never (with the exception of double-f) for adjacent glyphs, is just the sort of thing that the Contextual Alternates feature handles well.</p>
+<p>Also, the use of different forms of “t” for initial, middle and terminal position.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -632,11 +586,9 @@ Also, the use of different forms of “t” for initial, middle and terminal pos
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Your quite welcome Nick. It’s definitely an interesting specimen. After drawing a font in response over the last few seasons, I took a break to confer with Kent Lew about the OT possibilities of this same specimen, and we’re doing an excercise.  That plan led me to discuss it with Petr van Blokland, who’s always working at least a little on layout features. 
-
-There are always going to be limits on achieving handmade appearance, so I’m not trying to do the impossible. I take something like these Chinese compositions (http://arts.cultural-china.com/en/62A6116A12015.html), as an example of something so far inside of a person, I think it’s beyond computers to store.
-
-But you can see brushes loading up with ink, and spreading it out into writing, (and sure there’s some random in there too!). But there is also care in distributing that ink as evenly as possible, if that’s the compositional need, or not, if that’s what’s needed. 
+		<div class="commentbody"><p>Your quite welcome Nick. It’s definitely an interesting specimen. After drawing a font in response over the last few seasons, I took a break to confer with Kent Lew about the OT possibilities of this same specimen, and we’re doing an excercise.  That plan led me to discuss it with Petr van Blokland, who’s always working at least a little on layout features.</p>
+<p>There are always going to be limits on achieving handmade appearance, so I’m not trying to do the impossible. I take something like these Chinese compositions (<a href="http://arts.cultural-china.com/en/62A6116A12015.html)">http://arts.cultural-china.com/en/62A6116A12015.html)</a>, as an example of something so far inside of a person, I think it’s beyond computers to store.</p>
+<p>But you can see brushes loading up with ink, and spreading it out into writing, (and sure there’s some random in there too!). But there is also care in distributing that ink as evenly as possible, if that’s the compositional need, or not, if that’s what’s needed.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

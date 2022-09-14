@@ -71,13 +71,13 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">This may be something I should ultimately just let go of and hope nobody notices the result, but I'm noticing that when I generate an OTF from FontLab, and test it in OpenOffice, kerning is only applied to the glyphs in Latin-1. Though they are in the same class, Á kerns but Ā doesn't. Is this a limitation I should just expect, or is it an aspect of how I've generated my font that I can correct somehow?</div>
+  <div class="post-content e-content" itemprop="articleBody">This may be something I should ultimately just let go of and hope nobody notices the result, but I&rsquo;m noticing that when I generate an OTF from FontLab, and test it in OpenOffice, kerning is only applied to the glyphs in Latin-1. Though they are in the same class, Á kerns but Ā doesn&rsquo;t. Is this a limitation I should just expect, or is it an aspect of how I&rsquo;ve generated my font that I can correct somehow?</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">OpenType class kerning isn't supported very well by Office applications in general. But usually kerning is turned off by default in Office applications, so it’s quite unlikely anyone will notice. I'd just leave it as it is.
-
-Another option would be to expand the class kerning and write a »plain« kern table into the font. But expanding the class kerning may result in a lot of kern pairs, and the limit that can be used is somewhere over 10000, and you lose all the advantages of kerning classes.</div>
+		<div class="commentbody"><p>OpenType class kerning isn&rsquo;t supported very well by Office applications in general. But usually kerning is turned off by default in Office applications, so it’s quite unlikely anyone will notice. I&rsquo;d just leave it as it is.</p>
+<p>Another option would be to expand the class kerning and write a »plain« kern table into the font. But expanding the class kerning may result in a lot of kern pairs, and the limit that can be used is somewhere over 10000, and you lose all the advantages of kerning classes.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -98,20 +98,14 @@ Another option would be to expand the class kerning and write a »plain« kern t
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">As OTF fonts do not normally contain a "kern" table, only GPOS kerning, the Adobe font driver in Windows (part of Windows GDI) and ATM on Mac OS 9 expands the GPOS kerning into a flat table and subsets it for Latin-1. Applications that do not process OpenType Layout features use that kerning. 
-
-It's very likely that on Linux, FreeType works similarly. 
-
-OpenOffice does not, AFAIK, process OpenType Layout features in fonts. 
-
-As Jens points out, one way to work around the problem is to generate both GPOS kerning and the old-style plain "kern" table kerning (this is controlled in Preferences / Generating OpenType & TrueType / Kerning). The maximum number of "kern" table kerning pairs is 10920, and this is the maximum limit you should enter in "Limit total number..." there. 
-
-<em>Technical background: Each pair in the "kern" table takes 6 bytes, there is a 14-byte header, and the maximum size of a subtable is 64K bytes, so (65536-14)/6 gives you 10920. Most font engines only support a "kern" table with one subtable, so there's the limit.</em>
-
-This might help, provided that the font driver actually looks for the "kern" table in OTF fonts, which may or may not be true, depending on the operating system you're using OpenOffice in. 
-
-Best,
-Adam
+		<div class="commentbody"><p>As OTF fonts do not normally contain a &ldquo;kern&rdquo; table, only GPOS kerning, the Adobe font driver in Windows (part of Windows GDI) and ATM on Mac OS 9 expands the GPOS kerning into a flat table and subsets it for Latin-1. Applications that do not process OpenType Layout features use that kerning.</p>
+<p>It&rsquo;s very likely that on Linux, FreeType works similarly.</p>
+<p>OpenOffice does not, AFAIK, process OpenType Layout features in fonts.</p>
+<p>As Jens points out, one way to work around the problem is to generate both GPOS kerning and the old-style plain &ldquo;kern&rdquo; table kerning (this is controlled in Preferences / Generating OpenType &amp; TrueType / Kerning). The maximum number of &ldquo;kern&rdquo; table kerning pairs is 10920, and this is the maximum limit you should enter in &ldquo;Limit total number&hellip;&rdquo; there.</p>
+<p><!-- raw HTML omitted -->Technical background: Each pair in the &ldquo;kern&rdquo; table takes 6 bytes, there is a 14-byte header, and the maximum size of a subtable is 64K bytes, so (65536-14)/6 gives you 10920. Most font engines only support a &ldquo;kern&rdquo; table with one subtable, so there&rsquo;s the limit.<!-- raw HTML omitted --></p>
+<p>This might help, provided that the font driver actually looks for the &ldquo;kern&rdquo; table in OTF fonts, which may or may not be true, depending on the operating system you&rsquo;re using OpenOffice in.</p>
+<p>Best,
+Adam</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

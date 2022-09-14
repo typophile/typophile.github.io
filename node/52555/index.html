@@ -71,17 +71,13 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi all!
-
-Does anyone know how can I create class that will contain ALL glyphs exept a particular one? (lowercase s in my case)
-
-I have googled for hours and studied the FontLab manual a lot, but I can't find an answer.
-
-I could perhaps do it with character ranges, but which ones should I use? Based on which encoding?
-
-Sorry if its a stupid question, I'm quite a beginner in all this...
-
-Thanks in advance!</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi all!</p>
+<p>Does anyone know how can I create class that will contain ALL glyphs exept a particular one? (lowercase s in my case)</p>
+<p>I have googled for hours and studied the FontLab manual a lot, but I can&rsquo;t find an answer.</p>
+<p>I could perhaps do it with character ranges, but which ones should I use? Based on which encoding?</p>
+<p>Sorry if its a stupid question, I&rsquo;m quite a beginner in all this&hellip;</p>
+<p>Thanks in advance!</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
@@ -106,11 +102,11 @@ Thanks in advance!</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks for your reply John.
+		<div class="commentbody"><p>Thanks for your reply John.
 I thought about this (and its my last resort), but what happens when I add new glyphs? :/
-What I'm looking for is some kind of [not s] definition for a class. If I have to add the glyphs manually, I know how to do it...
-
-Also, adding the glyphs manually doesn't account for the case of start or end of the text...</div>
+What I&rsquo;m looking for is some kind of [not s] definition for a class. If I have to add the glyphs manually, I know how to do it&hellip;</p>
+<p>Also, adding the glyphs manually doesn&rsquo;t account for the case of start or end of the text&hellip;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -131,7 +127,7 @@ Also, adding the glyphs manually doesn't account for the case of start or end of
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Would the 'ignore sub' option work for you? You might want to expand on what you are attempting to do.</div>
+		<div class="commentbody">Would the &lsquo;ignore sub&rsquo; option work for you? You might want to expand on what you are attempting to do.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -152,31 +148,29 @@ Also, adding the glyphs manually doesn't account for the case of start or end of
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I tried the ignore sub with many ways, but it doesn't seem to work for what I want it to do.
-
-What I want to do is:
+		<div class="commentbody"><p>I tried the ignore sub with many ways, but it doesn&rsquo;t seem to work for what I want it to do.</p>
+<p>What I want to do is:
 I have 2 alternate s, that change based to the preceding or next character.
 I also have two different s that are used when the next or preceding character (respectively) is also an s, and another s to be used when both the preceding and next character is an s. 
-This totals to 1 normal s and 7 contextual alternates. 
-
-The code from the calt feature that has to do with any of them is the below (irrelevant subs removed):
-<code>
-  @not_s = [a-r t-z e.alt s.alt2 space period .notdef CR ];
-  @is_s = [s s.alt s.alt1 s.alt11 s.alt2 s.alt21 s.alt22 s.alt3];
-  sub @not_s s' [a f t z w u y b] by s.alt;
-  sub @is_s s' [a f t z w u y b] by s.alt22;
-  sub @not_s s' s by s.alt1;
-  sub @not_s s.alt2' s by s.alt11;
-  sub [s.alt1 s.alt11 s.alt3] s' s by s.alt3;
-  sub @is_s s' @not_s by s.alt21;
-  sub s.alt3 s.alt' by s.alt22;
-  # fresset!
-  sub f.alt r.alt e.alt s.alt11 s.alt21 e' t' by s_t.logo;
-</code>
-
-Of course the @not_s class is completely temporary and doesn't contain lots of glyphs. What I want it to contain is every glyph that is not a lowercase s (including start and end of lines, even though they aren't glyphs, although I doubt its possible :( ). 
-If that isn't possible, can anyone think of a way to do it with ignore sub? I have a strong feeling that ignore sub is the way to go, but everything I tried with it doesn't work :(
-This is troubling me for several hours but I can't figure out a more complete solution... :(</div>
+This totals to 1 normal s and 7 contextual alternates.</p>
+<p>The code from the calt feature that has to do with any of them is the below (irrelevant subs removed):
+<!-- raw HTML omitted -->
+@not_s = [a-r t-z e.alt s.alt2 space period .notdef CR ];
+@is_s = [s s.alt s.alt1 s.alt11 s.alt2 s.alt21 s.alt22 s.alt3];
+sub @not_s s' [a f t z w u y b] by s.alt;
+sub @is_s s' [a f t z w u y b] by s.alt22;
+sub @not_s s' s by s.alt1;
+sub @not_s s.alt2' s by s.alt11;
+sub [s.alt1 s.alt11 s.alt3] s' s by s.alt3;
+sub @is_s s' @not_s by s.alt21;
+sub s.alt3 s.alt' by s.alt22;</p>
+<h1 id="fresset">fresset!</h1>
+<p>sub f.alt r.alt e.alt s.alt11 s.alt21 e' t' by s_t.logo;
+<!-- raw HTML omitted --></p>
+<p>Of course the @not_s class is completely temporary and doesn&rsquo;t contain lots of glyphs. What I want it to contain is every glyph that is not a lowercase s (including start and end of lines, even though they aren&rsquo;t glyphs, although I doubt its possible :( ). 
+If that isn&rsquo;t possible, can anyone think of a way to do it with ignore sub? I have a strong feeling that ignore sub is the way to go, but everything I tried with it doesn&rsquo;t work :(
+This is troubling me for several hours but I can&rsquo;t figure out a more complete solution&hellip; :(</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -197,54 +191,51 @@ This is troubling me for several hours but I can't figure out a more complete so
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Okay, lets simplify the problem a bit.
-Lets suppose I only have s.alt1 which I want to place instead of s before every lowercase s and s.alt3 which I want to place instead of s when s is between two other s (sss). The problem is that in the second case, the middle s would be substituted by s.alt1 because it also precedes an s.
-
-This does not work:
-<code>
+		<div class="commentbody"><p>Okay, lets simplify the problem a bit.
+Lets suppose I only have s.alt1 which I want to place instead of s before every lowercase s and s.alt3 which I want to place instead of s when s is between two other s (sss). The problem is that in the second case, the middle s would be substituted by s.alt1 because it also precedes an s.</p>
+<p>This does not work:
+<!-- raw HTML omitted -->
 lookup calt_s1 {
-  	ignore substitute s s' s;
-  	sub s' s by s.alt1;
-  } calt_s1;
-</code><code>
-  lookup calt_s3 {
-  	sub s s' s by s.alt3;
-  } calt_s3;
-</code>
-
-This neither:
-<code>
+ignore substitute s s' s;
+sub s' s by s.alt1;
+} calt_s1;
+<!-- raw HTML omitted --><!-- raw HTML omitted -->
+lookup calt_s3 {
+sub s s' s by s.alt3;
+} calt_s3;
+<!-- raw HTML omitted --></p>
+<p>This neither:
+<!-- raw HTML omitted -->
 lookup calt_s1 {
-  	ignore substitute s s' s;
-  	sub s' s by s.alt1;
-  } calt_s1;
-</code><code>
-  lookup calt_s3 {
-  	sub s.alt1 s' s by s.alt3;
-  } calt_s3;
-</code>
-
-but this does:
-<code>
+ignore substitute s s' s;
+sub s' s by s.alt1;
+} calt_s1;
+<!-- raw HTML omitted --><!-- raw HTML omitted -->
+lookup calt_s3 {
+sub s.alt1 s' s by s.alt3;
+} calt_s3;
+<!-- raw HTML omitted --></p>
+<p>but this does:
+<!-- raw HTML omitted -->
 lookup calt_s1 {
-  	ignore substitute s s' s;
-  	sub [a-z space] s' s by s.alt1;
-  } calt_s1;
-</code><code>
-  lookup calt_s3 {
-  	sub s.alt1 s' s by s.alt3;
-  } calt_s3;
-</code>
-
-The reason I don't want the latter solution is that I have to create a class with every glyph, and it would still be incomplete, because I would also have to match somehow the start and end of the text.
-What seems to be the problem, is that ignore sub does not work if the pattern given to it is not an exact subcase of the substitution below. In the first case, since ignore sub had s s' s and the pattern was s' s, it didn't work. When we converted the substitution pattern to [a-z space] s' s it worked, as s s' s is a subcase of that. 
-However this behavior conflicts with the Adobe [[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f.ii|specification]] (see example 1, even though the pattern is [a e n] d' and the exceptions f [a e] d' and a d' d, they are supposed to work.
-
-So, the possibilities are two:
-1. I'm not grasping something correctly
-2. Its a FontLab bug (?!)
-
-My bet would be on 1. So what am I missing? :(</div>
+ignore substitute s s' s;
+sub [a-z space] s' s by s.alt1;
+} calt_s1;
+<!-- raw HTML omitted --><!-- raw HTML omitted -->
+lookup calt_s3 {
+sub s.alt1 s' s by s.alt3;
+} calt_s3;
+<!-- raw HTML omitted --></p>
+<p>The reason I don&rsquo;t want the latter solution is that I have to create a class with every glyph, and it would still be incomplete, because I would also have to match somehow the start and end of the text.
+What seems to be the problem, is that ignore sub does not work if the pattern given to it is not an exact subcase of the substitution below. In the first case, since ignore sub had s s' s and the pattern was s' s, it didn&rsquo;t work. When we converted the substitution pattern to [a-z space] s' s it worked, as s s' s is a subcase of that. 
+However this behavior conflicts with the Adobe [[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f.ii|specification]] (see example 1, even though the pattern is [a e n] d' and the exceptions f [a e] d' and a d' d, they are supposed to work.</p>
+<p>So, the possibilities are two:</p>
+<ol>
+<li>I&rsquo;m not grasping something correctly</li>
+<li>Its a FontLab bug (?!)</li>
+</ol>
+<p>My bet would be on 1. So what am I missing? :(</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -265,7 +256,7 @@ My bet would be on 1. So what am I missing? :(</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nevermind, I figured it out with a weird way and lots of lines of code that even I don't understand or can reproduce :P</div>
+		<div class="commentbody">Nevermind, I figured it out with a weird way and lots of lines of code that even I don&rsquo;t understand or can reproduce :P</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -286,9 +277,9 @@ My bet would be on 1. So what am I missing? :(</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Here's my code for long s.
-For words like "scissors", "satisfaction" and "offside".
-<code>
+		<div class="commentbody">Here&rsquo;s my code for long s.
+For words like &ldquo;scissors&rdquo;, &ldquo;satisfaction&rdquo; and &ldquo;offside&rdquo;.
+<!-- raw HTML omitted -->
 sub s by longs;
 sub longs' f by s;
 sub longs longs' by s; 

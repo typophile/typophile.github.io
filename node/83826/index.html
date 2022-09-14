@@ -71,48 +71,40 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi
-
-I'm having trouble getting my latest font to work properly.  It's a script font with various stylistic alternates, contextual alternates, swash etc. etc.  My probelm is that for, say, ss01 to work properly, calt needs to be before it in the features list, but then there is a lookup in calt which doesn't work properly with ss01 unless ss01 comes first in the features list.  I've confused myself with that sentence so I'll try showing the problem with the code:
-
-feature calt {
-  sub @ovw @changeafterovw' by @afterovw;
-  sub @changetbeforetall' @tall by @tbeforetall;
-  sub @tbeforei i' by dotlessi;
-  ignore sub @connectionafter o';
-  sub o' by o.init;  
-} calt;
-
-feature ss01 {
-  sub @droopable' by @drooped;
-} ss01;
-
-<cite>sub @ovw @changeafterovw' by @afterovw;</cite>
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi</p>
+<p>I&rsquo;m having trouble getting my latest font to work properly.  It&rsquo;s a script font with various stylistic alternates, contextual alternates, swash etc. etc.  My probelm is that for, say, ss01 to work properly, calt needs to be before it in the features list, but then there is a lookup in calt which doesn&rsquo;t work properly with ss01 unless ss01 comes first in the features list.  I&rsquo;ve confused myself with that sentence so I&rsquo;ll try showing the problem with the code:</p>
+<p>feature calt {
+sub @ovw @changeafterovw' by @afterovw;
+sub @changetbeforetall' @tall by @tbeforetall;
+sub @tbeforei i' by dotlessi;
+ignore sub @connectionafter o';
+sub o' by o.init;<br>
+} calt;</p>
+<p>feature ss01 {
+sub @droopable' by @drooped;
+} ss01;</p>
+<p><!-- raw HTML omitted -->sub @ovw @changeafterovw' by @afterovw;<!-- raw HTML omitted -->
 My class names are probably a bit confusing, but the general idea is that letters following a letter with a high lead in change to an alternate form:
 [img:sites/default/files/old-images/look_3747.JPG]
-See second o and k have changed form.  This is all good and works fine.
-
-<cite>sub @changetbeforetall' @tall by @tbeforetall;</cite>
-is a lookup that changes |t| and ligatures ending in |t| and alternate forms of |t| to versions with a shorter crossbar should there not be enough room for it - ie. when followed by a tall letter @tall.  The i doesn't count as a tall letter because it just changes to a dotless i:
-[img:sites/default/files/old-images/tttt_5957.JPG]
-
-Now the ss01 is a stylistic set where droopable letters droop:
+See second o and k have changed form.  This is all good and works fine.</p>
+<p><!-- raw HTML omitted -->sub @changetbeforetall' @tall by @tbeforetall;<!-- raw HTML omitted -->
+is a lookup that changes |t| and ligatures ending in |t| and alternate forms of |t| to versions with a shorter crossbar should there not be enough room for it - ie. when followed by a tall letter @tall.  The i doesn&rsquo;t count as a tall letter because it just changes to a dotless i:
+[img:sites/default/files/old-images/tttt_5957.JPG]</p>
+<p>Now the ss01 is a stylistic set where droopable letters droop:
 [img:sites/default/files/old-images/ttdroop_5867.JPG]
-and you can see that |t| is a droopable letter.  When calt appears before ss01 in the features list, the image above is the outcome, but when ss01 comes first, the |t| before a tall letter automatically droops because it hasn't been told yet that it should shorten its crossbar for the tall letter.
-
-This wasn't a problem as I just put calt first and everything was working ok, but then I added an initial form of |o| to be used when there is no lead in - ie. after spaces, some capital letters, drooped forms of regular letters.  To do this I put all the letters with a connector to the right in one class, and got |o| to sub for |o.init| in every situation apart from when it follows a connector.  Problem is because calt comes first in the features list, |o| seems to think that drooped and swash letters before it are their original forms (ie with connectors) and isn't substituting for the initial form:
-[img:sites/default/files/old-images/oinit_5302.JPG]
-
-Is there a way round this?  I'm guessing it's something to do with lookups but I'm not very good with those.  Any help would be very much appreciated.
-
-Cheers
-Dave</div>
+and you can see that |t| is a droopable letter.  When calt appears before ss01 in the features list, the image above is the outcome, but when ss01 comes first, the |t| before a tall letter automatically droops because it hasn&rsquo;t been told yet that it should shorten its crossbar for the tall letter.</p>
+<p>This wasn&rsquo;t a problem as I just put calt first and everything was working ok, but then I added an initial form of |o| to be used when there is no lead in - ie. after spaces, some capital letters, drooped forms of regular letters.  To do this I put all the letters with a connector to the right in one class, and got |o| to sub for |o.init| in every situation apart from when it follows a connector.  Problem is because calt comes first in the features list, |o| seems to think that drooped and swash letters before it are their original forms (ie with connectors) and isn&rsquo;t substituting for the initial form:
+[img:sites/default/files/old-images/oinit_5302.JPG]</p>
+<p>Is there a way round this?  I&rsquo;m guessing it&rsquo;s something to do with lookups but I&rsquo;m not very good with those.  Any help would be very much appreciated.</p>
+<p>Cheers
+Dave</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hmmm, I've just found a way to sort it.  I just put the 
-<cite>ignore sub @connectionafter o';
- sub o' by o.init;</cite>
+		<div class="commentbody">Hmmm, I&rsquo;ve just found a way to sort it.  I just put the 
+<!-- raw HTML omitted -->ignore sub @connectionafter o';
+sub o' by o.init;<!-- raw HTML omitted -->
 in the stylistic sets and swash features too after the rest.  It works but it seems a very messy way of doing it.  Anyone got any better ideas?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

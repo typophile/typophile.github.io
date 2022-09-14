@@ -71,48 +71,30 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hello everyone,
-
-I have been trying to create a PHP script to extract the information included in a font file. So far I have managed to get the information from the "name" table with success. 
-
-The next step would be to list the glyphs of the font. But as for now, I feel a little confused about where this information is located in the font file. If I consider this thread : http://typophile.com/node/16695#comment-99516
-
-I quote : "the glyph names are stored in the "post" table"
-
-This is the first question in my mind, to make sure where this information is.
-
-But to be completely honest, I don't get the structure of the "post" table, as seen <a href="https://developer.apple.com/fonts/ttrefman/rm06/Chap6post.html">here</a>. 
-
-What I don't really understand right now is the type of data (Fixed, and FWord) even though it's explained <a href="https://developer.apple.com/fonts/ttrefman/rm06/Chap6.html#Types">here</a>. As I use the unpack() function to get this information, I should specify a format, and this is where I'm confused.
-
-If anyone has any information about my questions, I would be really grateful :)
-
-Frederic
-
-
+  <div class="post-content e-content" itemprop="articleBody"><p>Hello everyone,</p>
+<p>I have been trying to create a PHP script to extract the information included in a font file. So far I have managed to get the information from the &ldquo;name&rdquo; table with success.</p>
+<p>The next step would be to list the glyphs of the font. But as for now, I feel a little confused about where this information is located in the font file. If I consider this thread : <a href="http://typophile.com/node/16695#comment-99516">http://typophile.com/node/16695#comment-99516</a></p>
+<p>I quote : &ldquo;the glyph names are stored in the &ldquo;post&rdquo; table&rdquo;</p>
+<p>This is the first question in my mind, to make sure where this information is.</p>
+<p>But to be completely honest, I don&rsquo;t get the structure of the &ldquo;post&rdquo; table, as seen <!-- raw HTML omitted -->here<!-- raw HTML omitted -->.</p>
+<p>What I don&rsquo;t really understand right now is the type of data (Fixed, and FWord) even though it&rsquo;s explained <!-- raw HTML omitted -->here<!-- raw HTML omitted -->. As I use the unpack() function to get this information, I should specify a format, and this is where I&rsquo;m confused.</p>
+<p>If anyone has any information about my questions, I would be really grateful :)</p>
+<p>Frederic</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Cor! That's old documentation!
-
-<cite>.. the information included in a font file ..</cite>
-
-There is No Such Thing as "a" font file. What sort of files are you referring to? DFONT? Type 1? Truetype? Opentype? Your mentioning a "name" table suggests the latter.
-
-Let's get the most important bits right first. I'm surprised you refer to that old page, because it's last updated around 2003 (and frankly even that late date surprises me). The reason for that is because that particular sub-site of Apple's deals with (their version of) Truetype, and Truetype fonts have long been abandoned by everyone in favour of the Opentype format. True, it's more or less the same, but you should be reading stuff like
-
-http://www.microsoft.com/typography/otspec/
-
-or
-
-http://www.adobe.com/devnet/opentype.html
-
-(the latter refers back to the Microsoft site for the main documents but still contains lots of useful additional info).
-
-Regarding the format of the 'post' table: this is, actually, still relevant for Opentype fonts. There are different <em>formats</em> in which the data can be stored; you should read the format first and then decide what else you need to know. <em>But</em> before I get your hopes up: one of the formats that is used frequently is type 3: 'explicit no-name table', which means there are <em>no</em> glyph names stored in the file (they might be stored as part of the CFF data in a Type 1 style OTF, which is yet something else).
-
-But yet again, this might be not what you were after. The 'post' table allows access to <em>unique glyph names</em> in a font, for example, a regular 'A' that is called 'A' and an alternate A called "A.alt". Perhaps what you describe would best be achieved by examining the <em>character map</em> instead -- <code>'cmap'</code>. (Read the documentation I referred to why I believe this.)</div>
+		<div class="commentbody"><p>Cor! That&rsquo;s old documentation!</p>
+<p><!-- raw HTML omitted -->.. the information included in a font file ..<!-- raw HTML omitted --></p>
+<p>There is No Such Thing as &ldquo;a&rdquo; font file. What sort of files are you referring to? DFONT? Type 1? Truetype? Opentype? Your mentioning a &ldquo;name&rdquo; table suggests the latter.</p>
+<p>Let&rsquo;s get the most important bits right first. I&rsquo;m surprised you refer to that old page, because it&rsquo;s last updated around 2003 (and frankly even that late date surprises me). The reason for that is because that particular sub-site of Apple&rsquo;s deals with (their version of) Truetype, and Truetype fonts have long been abandoned by everyone in favour of the Opentype format. True, it&rsquo;s more or less the same, but you should be reading stuff like</p>
+<p><a href="http://www.microsoft.com/typography/otspec/">http://www.microsoft.com/typography/otspec/</a></p>
+<p>or</p>
+<p><a href="http://www.adobe.com/devnet/opentype.html">http://www.adobe.com/devnet/opentype.html</a></p>
+<p>(the latter refers back to the Microsoft site for the main documents but still contains lots of useful additional info).</p>
+<p>Regarding the format of the &lsquo;post&rsquo; table: this is, actually, still relevant for Opentype fonts. There are different <!-- raw HTML omitted -->formats<!-- raw HTML omitted --> in which the data can be stored; you should read the format first and then decide what else you need to know. <!-- raw HTML omitted -->But<!-- raw HTML omitted --> before I get your hopes up: one of the formats that is used frequently is type 3: &lsquo;explicit no-name table&rsquo;, which means there are <!-- raw HTML omitted -->no<!-- raw HTML omitted --> glyph names stored in the file (they might be stored as part of the CFF data in a Type 1 style OTF, which is yet something else).</p>
+<p>But yet again, this might be not what you were after. The &lsquo;post&rsquo; table allows access to <!-- raw HTML omitted -->unique glyph names<!-- raw HTML omitted --> in a font, for example, a regular &lsquo;A&rsquo; that is called &lsquo;A&rsquo; and an alternate A called &ldquo;A.alt&rdquo;. Perhaps what you describe would best be achieved by examining the <!-- raw HTML omitted -->character map<!-- raw HTML omitted --> instead &ndash; <!-- raw HTML omitted -->&lsquo;cmap&rsquo;<!-- raw HTML omitted -->. (Read the documentation I referred to why I believe this.)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -133,17 +115,12 @@ But yet again, this might be not what you were after. The 'post' table allows ac
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you very much for your answer.
-
-You're right, that's some old documentation :) I had found the Microsoft one too, so I'll be using this one and the Adobe one from now on. Thank you for pointing this out and thank you for the links !
-
-Sorry for not being accurate on the font format. To be 100% honest with you I am still very confused about the file formats. I used to believe that .ttf stood for TrueType fonts, and .otf for OpenType fonts, but after reading a few documents about that, I feel kind of lost about that. That's it, I said it, and I'm not ashamed :) Well, maybe, just a little bit, but at least I admitted I didn't know something instead of trying to pretend.
-
-But let's go back to the last two paragraphs of your answer, admitting that it's OpenType I'm looking for. Concerning the 'post' table, when I open the font file I'm using for tests in a hexadecimal editor, I can locate the beginning of the 'post' table, and see the value of "version" (if that is what you are referring to by saying "formats" ?) and the value in my case is "2", which seems to be at least possible :) The only issue would be to mix it with PHP by finding the appropriate format to "unpack" the information.
-
-To be more accurate, I'd like to list all the characters that the font has. I'm sorry if I don't use all the appropriate terms, but as a non-native English speaker, when it comes to "technical" vocabulary I might not use all the correct words. Anyway, I've tried to locate the information in the 'cmap' table first before digging in the 'post' table. I can get the version, the number of subtables, then the platform ID, encoding ID, and offset for every subtable. In the font I was using, there were 3 subtables. The first subtable was in format 4. But then I got completely lost with the format 4 explanation and how to unpack the information. I managed to unpack the beginning, but the end doesn't make sense so I guess I've made a mistake somewhere. I also don't really understand the 'segment' part, to be honest.
-
-Yeah, I know, still a lot of work to do :)
+		<div class="commentbody"><p>Thank you very much for your answer.</p>
+<p>You&rsquo;re right, that&rsquo;s some old documentation :) I had found the Microsoft one too, so I&rsquo;ll be using this one and the Adobe one from now on. Thank you for pointing this out and thank you for the links !</p>
+<p>Sorry for not being accurate on the font format. To be 100% honest with you I am still very confused about the file formats. I used to believe that .ttf stood for TrueType fonts, and .otf for OpenType fonts, but after reading a few documents about that, I feel kind of lost about that. That&rsquo;s it, I said it, and I&rsquo;m not ashamed :) Well, maybe, just a little bit, but at least I admitted I didn&rsquo;t know something instead of trying to pretend.</p>
+<p>But let&rsquo;s go back to the last two paragraphs of your answer, admitting that it&rsquo;s OpenType I&rsquo;m looking for. Concerning the &lsquo;post&rsquo; table, when I open the font file I&rsquo;m using for tests in a hexadecimal editor, I can locate the beginning of the &lsquo;post&rsquo; table, and see the value of &ldquo;version&rdquo; (if that is what you are referring to by saying &ldquo;formats&rdquo; ?) and the value in my case is &ldquo;2&rdquo;, which seems to be at least possible :) The only issue would be to mix it with PHP by finding the appropriate format to &ldquo;unpack&rdquo; the information.</p>
+<p>To be more accurate, I&rsquo;d like to list all the characters that the font has. I&rsquo;m sorry if I don&rsquo;t use all the appropriate terms, but as a non-native English speaker, when it comes to &ldquo;technical&rdquo; vocabulary I might not use all the correct words. Anyway, I&rsquo;ve tried to locate the information in the &lsquo;cmap&rsquo; table first before digging in the &lsquo;post&rsquo; table. I can get the version, the number of subtables, then the platform ID, encoding ID, and offset for every subtable. In the font I was using, there were 3 subtables. The first subtable was in format 4. But then I got completely lost with the format 4 explanation and how to unpack the information. I managed to unpack the beginning, but the end doesn&rsquo;t make sense so I guess I&rsquo;ve made a mistake somewhere. I also don&rsquo;t really understand the &lsquo;segment&rsquo; part, to be honest.</p>
+<p>Yeah, I know, still a lot of work to do :)</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -165,9 +142,9 @@ Yeah, I know, still a lot of work to do :)
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Most of the documentation is this obscure (although probably not <em>intentionally</em>).
-
-I had similar experience doing my own investigations, I had to examine some of the tables one byte at a time before I finally understood (retroactively) what the documentation was trying to tell me :-)</div>
+		<div class="commentbody"><p>Most of the documentation is this obscure (although probably not <!-- raw HTML omitted -->intentionally<!-- raw HTML omitted -->).</p>
+<p>I had similar experience doing my own investigations, I had to examine some of the tables one byte at a time before I finally understood (retroactively) what the documentation was trying to tell me :-)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -188,15 +165,13 @@ I had similar experience doing my own investigations, I had to examine some of t
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I guess I'm in the same position right now, and I think what I lack is in which "order" should I get all the information, am I right ? I'm sure I will see the light once :) 
-
-I believe the truth must be somewhere around here ?
-
-"1 . A four-word header gives parameters for an optimized search of the segment list.
+		<div class="commentbody"><p>I guess I&rsquo;m in the same position right now, and I think what I lack is in which &ldquo;order&rdquo; should I get all the information, am I right ? I&rsquo;m sure I will see the light once :)</p>
+<p>I believe the truth must be somewhere around here ?</p>
+<p>&ldquo;1 . A four-word header gives parameters for an optimized search of the segment list.
 2. Four parallel arrays describe the segments (one segment for each contiguous range of codes).
-3. A variable-length array of glyph IDs (unsigned words)."
-
-But then again, I really have to figure out how to unpack this. If you have any trick :)</div>
+3. A variable-length array of glyph IDs (unsigned words).&rdquo;</p>
+<p>But then again, I really have to figure out how to unpack this. If you have any trick :)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -217,7 +192,7 @@ But then again, I really have to figure out how to unpack this. If you have any 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Wouldn't DTLs OTMaster give you what you are looking for?</div>
+		<div class="commentbody">Wouldn&rsquo;t DTLs OTMaster give you what you are looking for?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -238,9 +213,9 @@ But then again, I really have to figure out how to unpack this. If you have any 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Chris, thank you so much for the advice, it will be perfect for checking where I'm going and what I'm "unpacking" :) I have downloaded a light version just to check and it seems really great.
-
-The only issue is that I would like to be able to get all this with PHP and gather the info in arrays. But DTL OTMaster is kinda comforting me in the fact that I'm going in the good direction :D So far, I have got the good info for the two first subtables of the font I'm testing - the third one has the same offset, I still have to figure this out. It doesn't help me to go further in the 'cmap' subtables though :D</div>
+		<div class="commentbody"><p>Chris, thank you so much for the advice, it will be perfect for checking where I&rsquo;m going and what I&rsquo;m &ldquo;unpacking&rdquo; :) I have downloaded a light version just to check and it seems really great.</p>
+<p>The only issue is that I would like to be able to get all this with PHP and gather the info in arrays. But DTL OTMaster is kinda comforting me in the fact that I&rsquo;m going in the good direction :D So far, I have got the good info for the two first subtables of the font I&rsquo;m testing - the third one has the same offset, I still have to figure this out. It doesn&rsquo;t help me to go further in the &lsquo;cmap&rsquo; subtables though :D</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -261,9 +236,9 @@ The only issue is that I would like to be able to get all this with PHP and gath
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You might also find TTX useful. It's a command line tool that takes an .otf or .ttf font as input and outputs a XML text file representation of the font (i.e., a .ttx file). It also works in reverse.
-
-More info here: http://www.letterror.com/code/ttx/</div>
+		<div class="commentbody"><p>You might also find TTX useful. It&rsquo;s a command line tool that takes an .otf or .ttf font as input and outputs a XML text file representation of the font (i.e., a .ttx file). It also works in reverse.</p>
+<p>More info here: <a href="http://www.letterror.com/code/ttx/">http://www.letterror.com/code/ttx/</a></p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -284,7 +259,7 @@ More info here: http://www.letterror.com/code/ttx/</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ah Mark, should have thought of that. Yup, that's what I'm comparing my output against.</div>
+		<div class="commentbody">Ah Mark, should have thought of that. Yup, that&rsquo;s what I&rsquo;m comparing my output against.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -305,9 +280,9 @@ More info here: http://www.letterror.com/code/ttx/</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you Mark ! Having an output I can use is pretty interesting, also to check what I'm looking for :) Thanks to these two tools, it will be much easier to see through the font.
-
-Does anyone have any advice concerning the segments or the "unpacking" of the 'cmap' subtables ?</div>
+		<div class="commentbody"><p>Thank you Mark ! Having an output I can use is pretty interesting, also to check what I&rsquo;m looking for :) Thanks to these two tools, it will be much easier to see through the font.</p>
+<p>Does anyone have any advice concerning the segments or the &ldquo;unpacking&rdquo; of the &lsquo;cmap&rsquo; subtables ?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -328,9 +303,9 @@ Does anyone have any advice concerning the segments or the "unpacking" of the 'c
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>Does anyone have any advice concerning the segments or the "unpacking" of the 'cmap' subtables ?</em>
-
-Since you're a programmer, I'd recommend you look into the table decompiling code in the <a href="http://sourceforge.net/projects/fonttools/files/2.3/">FontTools</a> distribution. If you know PHP, Python shouldn't be too difficult ;)</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Does anyone have any advice concerning the segments or the &ldquo;unpacking&rdquo; of the &lsquo;cmap&rsquo; subtables ?<!-- raw HTML omitted --></p>
+<p>Since you&rsquo;re a programmer, I&rsquo;d recommend you look into the table decompiling code in the <!-- raw HTML omitted -->FontTools<!-- raw HTML omitted --> distribution. If you know PHP, Python shouldn&rsquo;t be too difficult ;)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -351,7 +326,7 @@ Since you're a programmer, I'd recommend you look into the table decompiling cod
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>i.e.</em> <code><strong>fonttools-2.3/Lib/fontTools/ttLib/tables/_c_m_a_p.py</strong></code></div>
+		<div class="commentbody"><!-- raw HTML omitted -->i.e.<!-- raw HTML omitted --> <!-- raw HTML omitted --><!-- raw HTML omitted -->fonttools-2.3/Lib/fontTools/ttLib/tables/_c_m_a_p.py<!-- raw HTML omitted --><!-- raw HTML omitted --></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -372,11 +347,10 @@ Since you're a programmer, I'd recommend you look into the table decompiling cod
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Jens, Michel, thank you thank you thank you so much :) I will give it a try right after posting this message :) In the meantime I have also found a script in C so both might be able to help me ! And it will be a good introduction to Python !
-
-Has anyone tried this around here before, extracting this kind of information with PHP ?
-
-Thank you very much to everyone who took the time to read my modest topic and to share their knowledge to help me improve mine :)</div>
+		<div class="commentbody"><p>Jens, Michel, thank you thank you thank you so much :) I will give it a try right after posting this message :) In the meantime I have also found a script in C so both might be able to help me ! And it will be a good introduction to Python !</p>
+<p>Has anyone tried this around here before, extracting this kind of information with PHP ?</p>
+<p>Thank you very much to everyone who took the time to read my modest topic and to share their knowledge to help me improve mine :)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -397,10 +371,10 @@ Thank you very much to everyone who took the time to read my modest topic and to
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Maybe this could help you?
-http://pomax.nihongoresources.com/pages/Font.js/
-
-It's JavaScript but it might give you some inspiration.</div>
+		<div class="commentbody"><p>Maybe this could help you?
+<a href="http://pomax.nihongoresources.com/pages/Font.js/">http://pomax.nihongoresources.com/pages/Font.js/</a></p>
+<p>It&rsquo;s JavaScript but it might give you some inspiration.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -421,11 +395,10 @@ It's JavaScript but it might give you some inspiration.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you Tim for your help, it will be good to have all these examples !
-
-Thank to everyone, I have made significant progress since the beginning of my topic. I have now understood the way a format 4 subtable is organized, and was able to get the information I wanted. I will now continue with the format 6, and 0, which are other formats I have met on fonts I have tested.
-
-Once again, thank you very much to everyone !</div>
+		<div class="commentbody"><p>Thank you Tim for your help, it will be good to have all these examples !</p>
+<p>Thank to everyone, I have made significant progress since the beginning of my topic. I have now understood the way a format 4 subtable is organized, and was able to get the information I wanted. I will now continue with the format 6, and 0, which are other formats I have met on fonts I have tested.</p>
+<p>Once again, thank you very much to everyone !</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -446,17 +419,13 @@ Once again, thank you very much to everyone !</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Well, I allow myself to bounce back on my last answer.
-
-I have successfully extracted the data inside a format 6 subtable, that was also in the 'cmap' table of the font I am testing. Now I'm asking myself, is it relevant to do so ? Since the <a href="http://www.microsoft.com/typography/otspec/cmap.htm">documentation</a> says :
-
-<em>"All Microsoft Unicode BMP encodings (Platform ID = 3, Encoding ID = 1) must provide at least a Format 4 'cmap' subtable".</em>
-
-And
-
-<em>"If the font is meant to support supplementary Unicode characters, it will additionally need a Format 12 subtable with a platform encoding ID 10."</em>
-
-So, if I sum up this, the only "required" subtables would be a format 4, and eventually format 12. Since the format 4 'cmap' subtable is compulsory, all the information I need should be there, shouldn't it ? Or there are possibilities I might actually miss letters in my letters-listing process ?</div>
+		<div class="commentbody"><p>Well, I allow myself to bounce back on my last answer.</p>
+<p>I have successfully extracted the data inside a format 6 subtable, that was also in the &lsquo;cmap&rsquo; table of the font I am testing. Now I&rsquo;m asking myself, is it relevant to do so ? Since the <!-- raw HTML omitted -->documentation<!-- raw HTML omitted --> says :</p>
+<p><!-- raw HTML omitted -->&ldquo;All Microsoft Unicode BMP encodings (Platform ID = 3, Encoding ID = 1) must provide at least a Format 4 &lsquo;cmap&rsquo; subtable&rdquo;.<!-- raw HTML omitted --></p>
+<p>And</p>
+<p><!-- raw HTML omitted -->&ldquo;If the font is meant to support supplementary Unicode characters, it will additionally need a Format 12 subtable with a platform encoding ID 10.&quot;<!-- raw HTML omitted --></p>
+<p>So, if I sum up this, the only &ldquo;required&rdquo; subtables would be a format 4, and eventually format 12. Since the format 4 &lsquo;cmap&rsquo; subtable is compulsory, all the information I need should be there, shouldn&rsquo;t it ? Or there are possibilities I might actually miss letters in my letters-listing process ?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -477,26 +446,19 @@ So, if I sum up this, the only "required" subtables would be a format 4, and eve
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It's as fuzzy as all other wording on the subject ;-)
-
-The problem lies in the maximum number of bytes allowed for each <em>character code</em>. The oldest tables, for example, only allow a single byte; hence the long list of different "languages" for the Mac tables. The next generation of tables supported Unicode, a 2-byte character definition. It was thought at the time that "surely 65,536 codes are enough for everybody" (echoing what Bill Gates is said to have said on memory) ... So that's what Windows supports with its Platform 3 stuff.
-
-Now we know 65,536 codes is not merely enough -- on one end, the Unicode Consortium valiantly attempts to define a code for all existing glyphs so far, and on the other end people are making up new glyphs by the thousands (ie. Klingon, emoticons) and then <em>demand</em> to be taken seriously by the UC consorts and be included in the next "definitive list of all Human Glyphs" :D
-
-Back in the ol' 2-byte Unicode days, there was a system called Unicode Surrogates, that reserves a chunk of 2-byte codes to only be used in pairs, forming (gasp!) 4-byte codes. That was sort of a stop-gap solution, IIRC to make the 2-byte definition swallow a large extra lump of CJK characters without breaking the old definition. That's what you see in the format 4 definition.
-
-My understanding is format 4 only allows <em>some</em> 4-byte Unicodes, and format 8 and higher allows all of them, but I'd have to see an example before I can work out the difference.
-
-Note that just like you should not be confusing <em>glyps</em> and <em>character codes</em> (a distinction you seem to have learned by now), you also must make a distinction between encoding table ID's and its physical manifestation. A Platform 3 Encoding 1 table can appear in many different formats, the font creating software must find a table format best suited to its Unicode repertoire. So the more different table formats you can read, the better.
-
-Best advice is to test on as much fonts as you can find :-) I just tested a few of my Mac system fonts:
-
-华文细黑.ttf  ("STHeiti") -> 37256 glyphs, 3:0 is format 12, Unicodes up to U+2A6C7
-儷宋 Pro.ttf ("LiSong Pro") -> 22581 glyphs, also format 12, UC up to U+2F9D4
-ヒラギノ丸ゴ Pro W4.otf ("Hiragino Maru Gothic Pro") -> 20317 glyphs, 3:10 is format 12, UC up to U+2F9F4
-Ken Lund's "Unicode All" Stress Test font (see <a href="http://typophile.com/node/89519">An "Extreme" OpenType font for stress-testing</a>) -> 65,535 glyphs, platform 3, encoding 1, format 4; UC up to U+10FFFD (this is a 40 byte large table that spits out a massive 293,888 lines with 4 codes per line :D )
-
-I am not aware of a Best Practice to find the table with the <em>largest</em> repertoire of characters in a given set -- if I would need this, I think I would simply test all of the available tables and count the number of entries in each. (I *think* you need to iterate over each full table's contents to find the number of supported Unicodes because you cannot simply tell from the table header.) And to do so, you need to be able to parse every possible table format you can lay your hands on.</div>
+		<div class="commentbody"><p>It&rsquo;s as fuzzy as all other wording on the subject ;-)</p>
+<p>The problem lies in the maximum number of bytes allowed for each <!-- raw HTML omitted -->character code<!-- raw HTML omitted -->. The oldest tables, for example, only allow a single byte; hence the long list of different &ldquo;languages&rdquo; for the Mac tables. The next generation of tables supported Unicode, a 2-byte character definition. It was thought at the time that &ldquo;surely 65,536 codes are enough for everybody&rdquo; (echoing what Bill Gates is said to have said on memory) &hellip; So that&rsquo;s what Windows supports with its Platform 3 stuff.</p>
+<p>Now we know 65,536 codes is not merely enough &ndash; on one end, the Unicode Consortium valiantly attempts to define a code for all existing glyphs so far, and on the other end people are making up new glyphs by the thousands (ie. Klingon, emoticons) and then <!-- raw HTML omitted -->demand<!-- raw HTML omitted --> to be taken seriously by the UC consorts and be included in the next &ldquo;definitive list of all Human Glyphs&rdquo; :D</p>
+<p>Back in the ol' 2-byte Unicode days, there was a system called Unicode Surrogates, that reserves a chunk of 2-byte codes to only be used in pairs, forming (gasp!) 4-byte codes. That was sort of a stop-gap solution, IIRC to make the 2-byte definition swallow a large extra lump of CJK characters without breaking the old definition. That&rsquo;s what you see in the format 4 definition.</p>
+<p>My understanding is format 4 only allows <!-- raw HTML omitted -->some<!-- raw HTML omitted --> 4-byte Unicodes, and format 8 and higher allows all of them, but I&rsquo;d have to see an example before I can work out the difference.</p>
+<p>Note that just like you should not be confusing <!-- raw HTML omitted -->glyps<!-- raw HTML omitted --> and <!-- raw HTML omitted -->character codes<!-- raw HTML omitted --> (a distinction you seem to have learned by now), you also must make a distinction between encoding table ID&rsquo;s and its physical manifestation. A Platform 3 Encoding 1 table can appear in many different formats, the font creating software must find a table format best suited to its Unicode repertoire. So the more different table formats you can read, the better.</p>
+<p>Best advice is to test on as much fonts as you can find :-) I just tested a few of my Mac system fonts:</p>
+<p>华文细黑.ttf  (&ldquo;STHeiti&rdquo;) -&gt; 37256 glyphs, 3:0 is format 12, Unicodes up to U+2A6C7
+儷宋 Pro.ttf (&ldquo;LiSong Pro&rdquo;) -&gt; 22581 glyphs, also format 12, UC up to U+2F9D4
+ヒラギノ丸ゴ Pro W4.otf (&ldquo;Hiragino Maru Gothic Pro&rdquo;) -&gt; 20317 glyphs, 3:10 is format 12, UC up to U+2F9F4
+Ken Lund&rsquo;s &ldquo;Unicode All&rdquo; Stress Test font (see <!-- raw HTML omitted -->An &ldquo;Extreme&rdquo; OpenType font for stress-testing<!-- raw HTML omitted -->) -&gt; 65,535 glyphs, platform 3, encoding 1, format 4; UC up to U+10FFFD (this is a 40 byte large table that spits out a massive 293,888 lines with 4 codes per line :D )</p>
+<p>I am not aware of a Best Practice to find the table with the <!-- raw HTML omitted -->largest<!-- raw HTML omitted --> repertoire of characters in a given set &ndash; if I would need this, I think I would simply test all of the available tables and count the number of entries in each. (I <em>think</em> you need to iterate over each full table&rsquo;s contents to find the number of supported Unicodes because you cannot simply tell from the table header.) And to do so, you need to be able to parse every possible table format you can lay your hands on.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -517,13 +479,11 @@ I am not aware of a Best Practice to find the table with the <em>largest</em> re
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Theunis, I'll never thank you enough for your incredible answers. I had to read it about 14 times because it is very complicated to me :D But now that my third black tea has kicked in, I can try some questions :)
-
-Thank you for the explanation and the history of formats :) If I sum up the first three paragraphs, do you mean that with the constantly growing number of glyphs, the actual table formats might not cover everything, and just like this might skip some because it doesn't know them yet ?
-
-About format 4, I was thinking that this format <em>"support Unicode ranges other than the range [U+D800 - U+DFFF]"</em> - according to the Microsoft documentation. So I guess, it must cover what I'm looking for ? It's my mistake, but I forgot to mention that I'm willing to get such information from fonts that would only have Latin and Cyrillic characters - I'm trying to list the characters to be able then to build the corresponding character map still with PHP, using a few fonts I have created.
-
-I'll test this "format 4 unpacking process" on several fonts to see if it makes sense. :)</div>
+		<div class="commentbody"><p>Theunis, I&rsquo;ll never thank you enough for your incredible answers. I had to read it about 14 times because it is very complicated to me :D But now that my third black tea has kicked in, I can try some questions :)</p>
+<p>Thank you for the explanation and the history of formats :) If I sum up the first three paragraphs, do you mean that with the constantly growing number of glyphs, the actual table formats might not cover everything, and just like this might skip some because it doesn&rsquo;t know them yet ?</p>
+<p>About format 4, I was thinking that this format <!-- raw HTML omitted -->&ldquo;support Unicode ranges other than the range [U+D800 - U+DFFF]&quot;<!-- raw HTML omitted --> - according to the Microsoft documentation. So I guess, it must cover what I&rsquo;m looking for ? It&rsquo;s my mistake, but I forgot to mention that I&rsquo;m willing to get such information from fonts that would only have Latin and Cyrillic characters - I&rsquo;m trying to list the characters to be able then to build the corresponding character map still with PHP, using a few fonts I have created.</p>
+<p>I&rsquo;ll test this &ldquo;format 4 unpacking process&rdquo; on several fonts to see if it makes sense. :)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -544,23 +504,16 @@ I'll test this "format 4 unpacking process" on several fonts to see if it makes 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><cite>...  do you mean that with the constantly growing number of glyphs, the actual table formats might not cover everything, and just like this might skip some because it doesn't know them yet?</cite>
-
-Right. But that should not hold you back, as just about everything is transient -- and more so in the field of computers. What is Hot today is laughed at tomorrow. Does anyone remember "Second Life"? Or (back to type) doesn't anyone who still has to use Type 1 fonts wish they could upgrade these to the equivalent Opentype fonts?
-
-You can only support what is known now and wish for the best.
-
-<cite>About format 4 [...] I guess, it must cover what I'm looking for?</cite>
-
-You can't know in advance if that specific <em>format</em> is used. If the cmap data is best described in format 2, 6, 12 or 16, that's what you will <em>find</em>. But --
-
-<cite>.. I'm willing to get such information from fonts that would only have Latin and Cyrillic characters.</cite>
-
--- those are pretty basic standards, and well inside the 'critical' range of 2-byte Unicodes. So even if you encounter a table formatting you cannot extract, one of the others will almost certainly contain these character codes.
-
-(Unless there is only one table in the file, but I think that's covered by the requirement you cited to have at least this format 4 table. I would have to check my fonts to be sure this one <em>is</em>, in fact, always included.)
-
-All of the above is guesswork based upon my personal experience, so anyone with more factual knowledge is hereby invited to point out any misconceptions I might be having :)</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->&hellip;  do you mean that with the constantly growing number of glyphs, the actual table formats might not cover everything, and just like this might skip some because it doesn&rsquo;t know them yet?<!-- raw HTML omitted --></p>
+<p>Right. But that should not hold you back, as just about everything is transient &ndash; and more so in the field of computers. What is Hot today is laughed at tomorrow. Does anyone remember &ldquo;Second Life&rdquo;? Or (back to type) doesn&rsquo;t anyone who still has to use Type 1 fonts wish they could upgrade these to the equivalent Opentype fonts?</p>
+<p>You can only support what is known now and wish for the best.</p>
+<p><!-- raw HTML omitted -->About format 4 [&hellip;] I guess, it must cover what I&rsquo;m looking for?<!-- raw HTML omitted --></p>
+<p>You can&rsquo;t know in advance if that specific <!-- raw HTML omitted -->format<!-- raw HTML omitted --> is used. If the cmap data is best described in format 2, 6, 12 or 16, that&rsquo;s what you will <!-- raw HTML omitted -->find<!-- raw HTML omitted -->. But &ndash;</p>
+<p><!-- raw HTML omitted -->.. I&rsquo;m willing to get such information from fonts that would only have Latin and Cyrillic characters.<!-- raw HTML omitted --></p>
+<p>&ndash; those are pretty basic standards, and well inside the &lsquo;critical&rsquo; range of 2-byte Unicodes. So even if you encounter a table formatting you cannot extract, one of the others will almost certainly contain these character codes.</p>
+<p>(Unless there is only one table in the file, but I think that&rsquo;s covered by the requirement you cited to have at least this format 4 table. I would have to check my fonts to be sure this one <!-- raw HTML omitted -->is<!-- raw HTML omitted -->, in fact, always included.)</p>
+<p>All of the above is guesswork based upon my personal experience, so anyone with more factual knowledge is hereby invited to point out any misconceptions I might be having :)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -581,18 +534,14 @@ All of the above is guesswork based upon my personal experience, so anyone with 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>Right. But that should not hold you back, as just about everything is transient -- and more so in the field of computers.</em>
-
-Oh it won't hold me back, where would be the fun otherwise if things didn't change all the time? :D
-While reading your answer, I had to ask myself when was the last time I heard someone talk about Second Life, so, like you say, "transient" :)
-
-<em>Unless there is only one table in the file, but I think that's covered by the requirement you cited to have at least this format 4 table. I would have to check my fonts to be sure this one is, in fact, always included</em>
-
-I have just spent some time checking a few fonts with TTX - a huge "thank you" again to Mark for making me discover TTX ! - and all of them included at least a format 4 'cmap' subtable, so I guess so far, I'll keep in this direction and see where it brings me.
-
-<em>All of the above is guesswork based upon my personal experience</em>
-
-So far, your personal experience and knowledge, as well as everyone's who helped me here, showed me the way to go :) Thank you once again for your precious help !</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->Right. But that should not hold you back, as just about everything is transient &ndash; and more so in the field of computers.<!-- raw HTML omitted --></p>
+<p>Oh it won&rsquo;t hold me back, where would be the fun otherwise if things didn&rsquo;t change all the time? :D
+While reading your answer, I had to ask myself when was the last time I heard someone talk about Second Life, so, like you say, &ldquo;transient&rdquo; :)</p>
+<p><!-- raw HTML omitted -->Unless there is only one table in the file, but I think that&rsquo;s covered by the requirement you cited to have at least this format 4 table. I would have to check my fonts to be sure this one is, in fact, always included<!-- raw HTML omitted --></p>
+<p>I have just spent some time checking a few fonts with TTX - a huge &ldquo;thank you&rdquo; again to Mark for making me discover TTX ! - and all of them included at least a format 4 &lsquo;cmap&rsquo; subtable, so I guess so far, I&rsquo;ll keep in this direction and see where it brings me.</p>
+<p><!-- raw HTML omitted -->All of the above is guesswork based upon my personal experience<!-- raw HTML omitted --></p>
+<p>So far, your personal experience and knowledge, as well as everyone&rsquo;s who helped me here, showed me the way to go :) Thank you once again for your precious help !</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -613,9 +562,9 @@ So far, your personal experience and knowledge, as well as everyone's who helped
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">There are very few TTF/OTF fonts you will encounter in the wild that do not have a format 4 cmap available.
-
-The next most important one is probably format 12. Though it is doubtless <1% of all TTF/OTF fonts out there that have any form of non-BMP characters in them.</div>
+		<div class="commentbody"><p>There are very few TTF/OTF fonts you will encounter in the wild that do not have a format 4 cmap available.</p>
+<p>The next most important one is probably format 12. Though it is doubtless &lt;1% of all TTF/OTF fonts out there that have any form of non-BMP characters in them.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -636,7 +585,7 @@ The next most important one is probably format 12. Though it is doubtless <1% of
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thank you Thomas for the confirmation ! I'll try to find a font with a format 12 cmap subtable and work on extracting the information inside to see how it works.</div>
+		<div class="commentbody">Thank you Thomas for the confirmation ! I&rsquo;ll try to find a font with a format 12 cmap subtable and work on extracting the information inside to see how it works.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -657,7 +606,7 @@ The next most important one is probably format 12. Though it is doubtless <1% of
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ken Lund's Stress Test font contains a Format 12 table. It's a small table but don't let that deceive you :-/</div>
+		<div class="commentbody">Ken Lund&rsquo;s Stress Test font contains a Format 12 table. It&rsquo;s a small table but don&rsquo;t let that deceive you :-/</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -678,36 +627,32 @@ The next most important one is probably format 12. Though it is doubtless <1% of
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">To clarify, my UnicodeAll.otf stress-test font includes a 40-byte Format 4 'cmap' subtable that supports only the BMP (U+0000 through U+FFFD, but excluding the 2,048 Surrogates from U+D800 through U+DFFF):
-
-format       =4
+		<div class="commentbody"><p>To clarify, my UnicodeAll.otf stress-test font includes a 40-byte Format 4 &lsquo;cmap&rsquo; subtable that supports only the BMP (U+0000 through U+FFFD, but excluding the 2,048 Surrogates from U+D800 through U+DFFF):</p>
+<p>format       =4
 length       =0028
 languageId   =0 [Default]
 segCountX2   =6
 searchRange  =4
 entrySelector=1
 rangeShift   =2
---- endCode[index]=code
+&mdash; endCode[index]=code
 [0]=55295 [1]=65533 [2]=65535 
 password=0
---- startCode[index]=code
+&mdash; startCode[index]=code
 [0]=0 [1]=57344 [2]=65535
---- idDelta[index]=code
+&mdash; idDelta[index]=code
 [0]=1 [1]=1 [2]=1 
---- idRangeOffset[index]=code
+&mdash; idRangeOffset[index]=code
 [0]=0000 [1]=0000 [2]=0000 
---- glyphId[index]=glyphId
-
-Its Format 12 'cmap' subtable, which is 232 bytes, supports all of Unicode, up through U+10FFFD, meaning 1,112,030 code points:
-
-format    =12
+&mdash; glyphId[index]=glyphId</p>
+<p>Its Format 12 &lsquo;cmap&rsquo; subtable, which is 232 bytes, supports all of Unicode, up through U+10FFFD, meaning 1,112,030 code points:</p>
+<p>format    =12
 length    =00e8
 languageId=0 [Default]
 nGroups=18
---- Group[index]={startCharCode,endCharCode,startGlyphID}  
-[0]={0,55295,1} [1]={57344,65533,57345} [2]={65536,131069,1} [3]={131072,196605,1} [4]={196608,262141,1} [5]={262144,327677,1} [6]={327680,393213,1} [7]={393216,458749,1} [8]={458752,524285,1} [9]={524288,589821,1} [10]={589824,655357,1} [11]={655360,720893,1} [12]={720896,786429,1} [13]={786432,851965,1} [14]={851968,917501,1} [15]={917504,983037,1} [16]={983040,1048573,1} [17]={1048576,1114109,1}
-
--- Ken
+&mdash; Group[index]={startCharCode,endCharCode,startGlyphID}<br>
+[0]={0,55295,1} [1]={57344,65533,57345} [2]={65536,131069,1} [3]={131072,196605,1} [4]={196608,262141,1} [5]={262144,327677,1} [6]={327680,393213,1} [7]={393216,458749,1} [8]={458752,524285,1} [9]={524288,589821,1} [10]={589824,655357,1} [11]={655360,720893,1} [12]={720896,786429,1} [13]={786432,851965,1} [14]={851968,917501,1} [15]={917504,983037,1} [16]={983040,1048573,1} [17]={1048576,1114109,1}</p>
+<p>&ndash; Ken</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -729,9 +674,9 @@ nGroups=18
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Excellent ! Thank you Ken for your explanation :) 
-
-Now, let's get my hands dirty :)</div>
+		<div class="commentbody"><p>Excellent ! Thank you Ken for your explanation :)</p>
+<p>Now, let&rsquo;s get my hands dirty :)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -752,28 +697,26 @@ Now, let's get my hands dirty :)</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Below is an interpretation of the "spot -tcmap" output above, providing Unicode and CID ranges for the eighteen Format 12 mappings that support all 1,112,030 Unicode code points:
-
-[0]={0,55295,1} -> U+0000 through U+D7FF map to CIDs 1 through 55296
-[1]={57344,65533,57345} -> U+E000 through U+FFFD map to CIDs 57345 through 65534
-[2]={65536,131069,1} -> U+10000 through U+1FFFD map to CIDs 1 through 65534
-[3]={131072,196605,1} -> U+20000 through U+2FFFD map to CIDs 1 through 65534
-[4]={196608,262141,1} -> U+30000 through U+3FFFD map to CIDs 1 through 65534
-[5]={262144,327677,1} -> U+40000 through U+4FFFD map to CIDs 1 through 65534
-[6]={327680,393213,1} -> U+50000 through U+5FFFD map to CIDs 1 through 65534
-[7]={393216,458749,1} -> U+60000 through U+6FFFD map to CIDs 1 through 65534
-[8]={458752,524285,1} -> U+70000 through U+7FFFD map to CIDs 1 through 65534
-[9]={524288,589821,1} -> U+80000 through U+8FFFD map to CIDs 1 through 65534
-[10]={589824,655357,1} -> U+90000 through U+9FFFD map to CIDs 1 through 65534
-[11]={655360,720893,1} -> U+A0000 through U+AFFFD map to CIDs 1 through 65534
-[12]={720896,786429,1} -> U+B0000 through U+BFFFD map to CIDs 1 through 65534
-[13]={786432,851965,1} -> U+C0000 through U+CFFFD map to CIDs 1 through 65534
-[14]={851968,917501,1} -> U+D0000 through U+DFFFD map to CIDs 1 through 65534
-[15]={917504,983037,1} -> U+E0000 through U+EFFFD map to CIDs 1 through 65534
-[16]={983040,1048573,1} -> U+F0000 through U+FFFFD map to CIDs 1 through 65534
-[17]={1048576,1114109,1} -> U+100000 through U+10FFFD map to CIDs 1 through 65534
-
--- Ken
+		<div class="commentbody"><p>Below is an interpretation of the &ldquo;spot -tcmap&rdquo; output above, providing Unicode and CID ranges for the eighteen Format 12 mappings that support all 1,112,030 Unicode code points:</p>
+<p>[0]={0,55295,1} -&gt; U+0000 through U+D7FF map to CIDs 1 through 55296
+[1]={57344,65533,57345} -&gt; U+E000 through U+FFFD map to CIDs 57345 through 65534
+[2]={65536,131069,1} -&gt; U+10000 through U+1FFFD map to CIDs 1 through 65534
+[3]={131072,196605,1} -&gt; U+20000 through U+2FFFD map to CIDs 1 through 65534
+[4]={196608,262141,1} -&gt; U+30000 through U+3FFFD map to CIDs 1 through 65534
+[5]={262144,327677,1} -&gt; U+40000 through U+4FFFD map to CIDs 1 through 65534
+[6]={327680,393213,1} -&gt; U+50000 through U+5FFFD map to CIDs 1 through 65534
+[7]={393216,458749,1} -&gt; U+60000 through U+6FFFD map to CIDs 1 through 65534
+[8]={458752,524285,1} -&gt; U+70000 through U+7FFFD map to CIDs 1 through 65534
+[9]={524288,589821,1} -&gt; U+80000 through U+8FFFD map to CIDs 1 through 65534
+[10]={589824,655357,1} -&gt; U+90000 through U+9FFFD map to CIDs 1 through 65534
+[11]={655360,720893,1} -&gt; U+A0000 through U+AFFFD map to CIDs 1 through 65534
+[12]={720896,786429,1} -&gt; U+B0000 through U+BFFFD map to CIDs 1 through 65534
+[13]={786432,851965,1} -&gt; U+C0000 through U+CFFFD map to CIDs 1 through 65534
+[14]={851968,917501,1} -&gt; U+D0000 through U+DFFFD map to CIDs 1 through 65534
+[15]={917504,983037,1} -&gt; U+E0000 through U+EFFFD map to CIDs 1 through 65534
+[16]={983040,1048573,1} -&gt; U+F0000 through U+FFFFD map to CIDs 1 through 65534
+[17]={1048576,1114109,1} -&gt; U+100000 through U+10FFFD map to CIDs 1 through 65534</p>
+<p>&ndash; Ken</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -795,9 +738,9 @@ Now, let's get my hands dirty :)</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks thanks thaaaanks :)
-
-I just love it here, you come up with a problem while thinking you're the only person asking yourself this kind of question, and all of a sudden, BOOM, everyone brings his own stone to my construction :)</div>
+		<div class="commentbody"><p>Thanks thanks thaaaanks :)</p>
+<p>I just love it here, you come up with a problem while thinking you&rsquo;re the only person asking yourself this kind of question, and all of a sudden, BOOM, everyone brings his own stone to my construction :)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -818,15 +761,12 @@ I just love it here, you come up with a problem while thinking you're the only p
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Fredrich: here is an interesting tale. I went your route the other way around; given a range of Unicodes, how to build a Format 4 subtable.
-
-I tried the numbers given in the example on Microsoft's OpenType page for 'cmap' -- the hypothetical font with glyphs starting at 1 and UC ranges 10-20, 30-90, 153-480 ... and failed to reproduce their table <em>again and again</em>! Exasperated (which is a programmer's euphemism for "utterly disgusted and frustrated beyond reason") I turned back to the almighty Web, fully expecting to have to quick-read thousands of lines of FreeType code. Until I happened to come across that same example again, but this time by Apple: <a href="https://developer.apple.com/fonts/ttrefman/rm06/Chap6cmap.html">TrueType Reference Manual</a>. Yup, the very same one I laughed at as being, well, a decade old! However, <em>Apple's</em> example differs in one tiny detail. It is correct.
-
-The problem lies in Microsoft's slightly different "sample range".  Character codes from 10 to 20 are translated into glyphs with a delta of -9; that uses glyphs 1 to 11. Codes 30 up to 90, using delta -18, translate to glyphs 22 to 72. Then they claim "153 to 480", using a delta of -27, translate into "and so on", meaning the rest of the glyphs. BUT 153 minus 27 is 126, <em>not</em> 73 -- the "next used glyph".
-
-Apple's third range is "100-153", also with delta -27 -- and indeed, 100 - 27 = 73, the number I was looking for in MS's example.
-
-Morale of this tale: Give up quickly and first look for an easier solution :-)</div>
+		<div class="commentbody"><p>Fredrich: here is an interesting tale. I went your route the other way around; given a range of Unicodes, how to build a Format 4 subtable.</p>
+<p>I tried the numbers given in the example on Microsoft&rsquo;s OpenType page for &lsquo;cmap&rsquo; &ndash; the hypothetical font with glyphs starting at 1 and UC ranges 10-20, 30-90, 153-480 &hellip; and failed to reproduce their table <!-- raw HTML omitted -->again and again<!-- raw HTML omitted -->! Exasperated (which is a programmer&rsquo;s euphemism for &ldquo;utterly disgusted and frustrated beyond reason&rdquo;) I turned back to the almighty Web, fully expecting to have to quick-read thousands of lines of FreeType code. Until I happened to come across that same example again, but this time by Apple: <!-- raw HTML omitted -->TrueType Reference Manual<!-- raw HTML omitted -->. Yup, the very same one I laughed at as being, well, a decade old! However, <!-- raw HTML omitted -->Apple&rsquo;s<!-- raw HTML omitted --> example differs in one tiny detail. It is correct.</p>
+<p>The problem lies in Microsoft&rsquo;s slightly different &ldquo;sample range&rdquo;.  Character codes from 10 to 20 are translated into glyphs with a delta of -9; that uses glyphs 1 to 11. Codes 30 up to 90, using delta -18, translate to glyphs 22 to 72. Then they claim &ldquo;153 to 480&rdquo;, using a delta of -27, translate into &ldquo;and so on&rdquo;, meaning the rest of the glyphs. BUT 153 minus 27 is 126, <!-- raw HTML omitted -->not<!-- raw HTML omitted --> 73 &ndash; the &ldquo;next used glyph&rdquo;.</p>
+<p>Apple&rsquo;s third range is &ldquo;100-153&rdquo;, also with delta -27 &ndash; and indeed, 100 - 27 = 73, the number I was looking for in MS&rsquo;s example.</p>
+<p>Morale of this tale: Give up quickly and first look for an easier solution :-)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -868,12 +808,9 @@ Morale of this tale: Give up quickly and first look for an easier solution :-)</
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">So, always trust the good old documentation seems to be the morale too, no ? :D
-
-Extracting the format 4 subtable is ok now. While testing my script with a few fonts, I came across one other thing. If the font has alternates characters, these are not listed in the cmap subtables. When I open the font file with the alternates characters with DTL OTMaster, the complete list is located in the 'CFF' part under the name 'CFF glyph list'. Now I don't think I will actually come across these kind of things that often - as I said, only required for basic operations - but as I was already there, I said, hey why not try this. So I have downloaded the Adobe Documentation regarding this, and I'm now trying to "decode" it - and I'd like to quote Theunis : "Most of the documentation is this obscure (although probably not intentionally)." :) - and to understand the structure of this CFF table.
-
-Still some work to do :)
-
+		<div class="commentbody"><p>So, always trust the good old documentation seems to be the morale too, no ? :D</p>
+<p>Extracting the format 4 subtable is ok now. While testing my script with a few fonts, I came across one other thing. If the font has alternates characters, these are not listed in the cmap subtables. When I open the font file with the alternates characters with DTL OTMaster, the complete list is located in the &lsquo;CFF&rsquo; part under the name &lsquo;CFF glyph list&rsquo;. Now I don&rsquo;t think I will actually come across these kind of things that often - as I said, only required for basic operations - but as I was already there, I said, hey why not try this. So I have downloaded the Adobe Documentation regarding this, and I&rsquo;m now trying to &ldquo;decode&rdquo; it - and I&rsquo;d like to quote Theunis : &ldquo;Most of the documentation is this obscure (although probably not intentionally).&rdquo; :) - and to understand the structure of this CFF table.</p>
+<p>Still some work to do :)</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -895,9 +832,9 @@ Still some work to do :)
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yah, CFF is fun too -- that's where I get my glyph names from if they are not listed in the 'post' table. You have to write a small sort of PostScript interpreter, but (in hindsight 'cuz I got it working) it's all perfectly doable.
-
-Watch out for the ROS type Top Dict entries, 'cause any one of these indicate the font is so large there is no point in adding a name for each separate character, and so there these CFFs contains <em>none</em> at all.</div>
+		<div class="commentbody"><p>Yah, CFF is fun too &ndash; that&rsquo;s where I get my glyph names from if they are not listed in the &lsquo;post&rsquo; table. You have to write a small sort of PostScript interpreter, but (in hindsight &lsquo;cuz I got it working) it&rsquo;s all perfectly doable.</p>
+<p>Watch out for the ROS type Top Dict entries, &lsquo;cause any one of these indicate the font is so large there is no point in adding a name for each separate character, and so there these CFFs contains <!-- raw HTML omitted -->none<!-- raw HTML omitted --> at all.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -918,7 +855,7 @@ Watch out for the ROS type Top Dict entries, 'cause any one of these indicate th
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Theunis, thank you very much for the advice :) To be honest, I'm not this far at the moment, but I'll keep this in mind. I think I have found out how it works in TTX, thanks to the python scripts, but I am far, even very far, to actually writing a script in PHP. I also think I can see where the information is located in the font, when I open it in an Hexadecimal editor, so the whole adventure now is to understand how to make this "automatic" :)</div>
+		<div class="commentbody">Theunis, thank you very much for the advice :) To be honest, I&rsquo;m not this far at the moment, but I&rsquo;ll keep this in mind. I think I have found out how it works in TTX, thanks to the python scripts, but I am far, even very far, to actually writing a script in PHP. I also think I can see where the information is located in the font, when I open it in an Hexadecimal editor, so the whole adventure now is to understand how to make this &ldquo;automatic&rdquo; :)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -960,11 +897,9 @@ Watch out for the ROS type Top Dict entries, 'cause any one of these indicate th
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">John,
-
-No, it does not include a Format 14 'cmap' subtable. One would need standardized or registered variation sequences that make sense for the glyph set for that.
-
--- Ken
+		<div class="commentbody"><p>John,</p>
+<p>No, it does not include a Format 14 &lsquo;cmap&rsquo; subtable. One would need standardized or registered variation sequences that make sense for the glyph set for that.</p>
+<p>&ndash; Ken</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -986,11 +921,10 @@ No, it does not include a Format 14 'cmap' subtable. One would need standardized
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ah, table format 14 is that one for Unicode Variation Sequences. One of the weirder "standards" put forth by the Unicode consortium, if I may say so ;-)
-
-Some of the (extremely large) Chinese and Japanese fonts on my Mac have these, and are even usable with InDesign. But if you have a modern version of Windoes, check out Cambria. It has a set of alternatives for several mathematical symbols. It seems these got added fairly recently to the specs so they don't work in my InDesign CS4.
-
-Remind me to check Apple's Color Emoji font. In some probably undescribable way the UC const. got press-ganged in including <em>different variations</em> for about the entire set of emoji.</div>
+		<div class="commentbody"><p>Ah, table format 14 is that one for Unicode Variation Sequences. One of the weirder &ldquo;standards&rdquo; put forth by the Unicode consortium, if I may say so ;-)</p>
+<p>Some of the (extremely large) Chinese and Japanese fonts on my Mac have these, and are even usable with InDesign. But if you have a modern version of Windoes, check out Cambria. It has a set of alternatives for several mathematical symbols. It seems these got added fairly recently to the specs so they don&rsquo;t work in my InDesign CS4.</p>
+<p>Remind me to check Apple&rsquo;s Color Emoji font. In some probably undescribable way the UC const. got press-ganged in including <!-- raw HTML omitted -->different variations<!-- raw HTML omitted --> for about the entire set of emoji.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1011,9 +945,9 @@ Remind me to check Apple's Color Emoji font. In some probably undescribable way 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The only CJK fonts bundled with Mac OS X that include variation sequences are some of the Hiragino (Japanese) ones.
-
-The Format 14 'cmap' subtable was developed by Adobe, which was reviewed by Microsoft. The Unicode Consortium had nothing to do with it. They either standardize or register variation sequences. Thankfully, the Format 14 'cmap' subtable has become the default and preferred way in which to represent variation sequences in OpenType fonts.</div>
+		<div class="commentbody"><p>The only CJK fonts bundled with Mac OS X that include variation sequences are some of the Hiragino (Japanese) ones.</p>
+<p>The Format 14 &lsquo;cmap&rsquo; subtable was developed by Adobe, which was reviewed by Microsoft. The Unicode Consortium had nothing to do with it. They either standardize or register variation sequences. Thankfully, the Format 14 &lsquo;cmap&rsquo; subtable has become the default and preferred way in which to represent variation sequences in OpenType fonts.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1034,15 +968,12 @@ The Format 14 'cmap' subtable was developed by Adobe, which was reviewed by Micr
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Okay, thanks Ken. (Uh. Were you perchance a member of that committee? In that case, apologies for my calling it "weird". I just can't grasp the idea of "prescribing allowed variations" -- wouldn't that circumvent the general idea of Unicode and rather be a case of glyph design, possibly used with an Opentype feature?)
-
-<cite>One would need standardized or registered variation sequences that make sense for the glyph set for that.</cite>
-
-It sounds like my version of InDesign indeed is hard-coded to recognize a fixed number of variation sequences, instead of inspecting the font first and *then* list the ones it finds. Possibly, both the Mongolian and Japanese were hardcoded at the time but not (yet) the Math ones. As I don't read Japanese and don't have any Mongolian font to test with, I can't check any further.
-
-My only not-system font with variations is Cambria Math, and that only contains the math variations. Check out, for instance, the "serifed' variations for U+2229 "INTERSECTION" and U+222A "UNION", glyph indices 6962 and 6963. Neither of these are available as regular alternates through an OpenType feature, which I would have guessed to be the preferable way.
-
-By the way, Apple's Color Emoji also does not contain variations of this particular kind.</div>
+		<div class="commentbody"><p>Okay, thanks Ken. (Uh. Were you perchance a member of that committee? In that case, apologies for my calling it &ldquo;weird&rdquo;. I just can&rsquo;t grasp the idea of &ldquo;prescribing allowed variations&rdquo; &ndash; wouldn&rsquo;t that circumvent the general idea of Unicode and rather be a case of glyph design, possibly used with an Opentype feature?)</p>
+<p><!-- raw HTML omitted -->One would need standardized or registered variation sequences that make sense for the glyph set for that.<!-- raw HTML omitted --></p>
+<p>It sounds like my version of InDesign indeed is hard-coded to recognize a fixed number of variation sequences, instead of inspecting the font first and <em>then</em> list the ones it finds. Possibly, both the Mongolian and Japanese were hardcoded at the time but not (yet) the Math ones. As I don&rsquo;t read Japanese and don&rsquo;t have any Mongolian font to test with, I can&rsquo;t check any further.</p>
+<p>My only not-system font with variations is Cambria Math, and that only contains the math variations. Check out, for instance, the &ldquo;serifed' variations for U+2229 &ldquo;INTERSECTION&rdquo; and U+222A &ldquo;UNION&rdquo;, glyph indices 6962 and 6963. Neither of these are available as regular alternates through an OpenType feature, which I would have guessed to be the preferable way.</p>
+<p>By the way, Apple&rsquo;s Color Emoji also does not contain variations of this particular kind.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1063,9 +994,9 @@ By the way, Apple's Color Emoji also does not contain variations of this particu
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">AFAIK, variants selected by variation selectors serve a specific meaning that need to be encoded into the text, though I think they would have very well encoded them as different characters (like, say, the regular and final Greek sigma). Also, the variants are indeed hard coded, in the sense that conformant implementations should only support sequences registered by Unicode. See http://www.unicode.org/Public/UNIDATA/StandardizedVariants.html.
-
-BTW, if someone is the looking for a free font that implements the math variants, there is [[https://github.com/khaledhosny/xits-math|XITS]] (OK, that is blatant self promotion).</div>
+		<div class="commentbody"><p>AFAIK, variants selected by variation selectors serve a specific meaning that need to be encoded into the text, though I think they would have very well encoded them as different characters (like, say, the regular and final Greek sigma). Also, the variants are indeed hard coded, in the sense that conformant implementations should only support sequences registered by Unicode. See <a href="http://www.unicode.org/Public/UNIDATA/StandardizedVariants.html">http://www.unicode.org/Public/UNIDATA/StandardizedVariants.html</a>.</p>
+<p>BTW, if someone is the looking for a free font that implements the math variants, there is [[https://github.com/khaledhosny/xits-math|XITS]] (OK, that is blatant self promotion).</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1086,11 +1017,10 @@ BTW, if someone is the looking for a free font that implements the math variants
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Keep in mind that there is a difference between standardized and registered variants. The former are closely tied to the standard. The latter are part of a registry that is set up by the standard. The implementation is the same in fonts, meaning via the Format 14 'cmap' subtable.
-
-About Apple's Color Emoji font, keep in mind that the Standardized Variants for emoji were just accepted into the standard during last month's UTC and WG2 meetings. Apple obviously hasn't had time to revise their fonts accordingly. The proposal came from Apple.
-
-BTW, I am the [[http://www.unicode.org/ivd/|IVD]] Registrar.</div>
+		<div class="commentbody"><p>Keep in mind that there is a difference between standardized and registered variants. The former are closely tied to the standard. The latter are part of a registry that is set up by the standard. The implementation is the same in fonts, meaning via the Format 14 &lsquo;cmap&rsquo; subtable.</p>
+<p>About Apple&rsquo;s Color Emoji font, keep in mind that the Standardized Variants for emoji were just accepted into the standard during last month&rsquo;s UTC and WG2 meetings. Apple obviously hasn&rsquo;t had time to revise their fonts accordingly. The proposal came from Apple.</p>
+<p>BTW, I am the [[http://www.unicode.org/ivd/|IVD]] Registrar.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1111,7 +1041,7 @@ BTW, I am the [[http://www.unicode.org/ivd/|IVD]] Registrar.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I think we can put up with you tooting your XITS horn, @Khaled. Well, I can. I've got my cuppa cha, even if it's 'just' CO-OP '99'.</div>
+		<div class="commentbody">I think we can put up with you tooting your XITS horn, @Khaled. Well, I can. I&rsquo;ve got my cuppa cha, even if it&rsquo;s &lsquo;just&rsquo; CO-OP &lsquo;99&rsquo;.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

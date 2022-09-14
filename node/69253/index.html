@@ -71,43 +71,29 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I'm faced with the following fatal error message in FontLab:
-
-<code> Coverage offset overflow (0x10004) in single substitution </code>
-
-A google search hasn't revealed any particular information about what a 'coverage offset overflow' is, but I'm starting to suspect that it means the total size of my GSUB table has become too large.
-
-I was under the impression, however, that size limits pertained to individual lookups rather than to the entire font. However, I'm currently getting this when I add substitutions almost anywhere, even if they are clearly not in and of themselves large. For example, the font compiles fine as it is now, but when I add the following code to my 'salt' feature, I get the error indicated above:
-
-<code> lookup CurrencyAlt { </code>
-
-     <code> sub rupee by rupee.alt; </code>
-
-<code> } CurrencyAlt; </code>
-
-Since I'm placing this within its own lookup, this shouldn't be contributing to the size of any other lookup, and this is hardly a large substitutions.
-
-The font in question does contain a very large amount of code involving substitutions which specify multiple contexts involving large classes (e.g. sub @X' @Y @Z by @W where the classes contain hundreds of glyphs), so it doesn't surprise me that I am starting to run into problems. The problem which I <em> am </em> having, though, is trying to track down exactly *which* portions of my code are at fault since the error itself starts cropping up when fairly trivial bits of code (such as the above) are added, and FontLabs error reporting isn't even indicating which <em> feature </em> is involved, let alone which lines of code are contributing to the problem.
-
-Can anyone explain to me exactly what a 'coverage offset' is?
-
-Which of the following is more likely to solve this sort of problem?
-
-— breaking larger lookups into smaller ones (even though the total number of substitutions remains the same)
-
-— splitting classes into smaller ones (which would entail creating more substitution rules, but ones which deal with fewer glyphs).
-
-Any pointers would be appreciated,
-
-André
-
-[n.b. I haven't even started kerning yet, so the GPOS table isn't involved -- I know overflow errors are quite common where the kern feature is involved].</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m faced with the following fatal error message in FontLab:</p>
+<p><!-- raw HTML omitted --> Coverage offset overflow (0x10004) in single substitution <!-- raw HTML omitted --></p>
+<p>A google search hasn&rsquo;t revealed any particular information about what a &lsquo;coverage offset overflow&rsquo; is, but I&rsquo;m starting to suspect that it means the total size of my GSUB table has become too large.</p>
+<p>I was under the impression, however, that size limits pertained to individual lookups rather than to the entire font. However, I&rsquo;m currently getting this when I add substitutions almost anywhere, even if they are clearly not in and of themselves large. For example, the font compiles fine as it is now, but when I add the following code to my &lsquo;salt&rsquo; feature, I get the error indicated above:</p>
+<p><!-- raw HTML omitted --> lookup CurrencyAlt { <!-- raw HTML omitted --></p>
+<p>     <!-- raw HTML omitted --> sub rupee by rupee.alt; <!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted --> } CurrencyAlt; <!-- raw HTML omitted --></p>
+<p>Since I&rsquo;m placing this within its own lookup, this shouldn&rsquo;t be contributing to the size of any other lookup, and this is hardly a large substitutions.</p>
+<p>The font in question does contain a very large amount of code involving substitutions which specify multiple contexts involving large classes (e.g. sub @X' @Y @Z by @W where the classes contain hundreds of glyphs), so it doesn&rsquo;t surprise me that I am starting to run into problems. The problem which I <!-- raw HTML omitted --> am <!-- raw HTML omitted --> having, though, is trying to track down exactly <em>which</em> portions of my code are at fault since the error itself starts cropping up when fairly trivial bits of code (such as the above) are added, and FontLabs error reporting isn&rsquo;t even indicating which <!-- raw HTML omitted --> feature <!-- raw HTML omitted --> is involved, let alone which lines of code are contributing to the problem.</p>
+<p>Can anyone explain to me exactly what a &lsquo;coverage offset&rsquo; is?</p>
+<p>Which of the following is more likely to solve this sort of problem?</p>
+<p>— breaking larger lookups into smaller ones (even though the total number of substitutions remains the same)</p>
+<p>— splitting classes into smaller ones (which would entail creating more substitution rules, but ones which deal with fewer glyphs).</p>
+<p>Any pointers would be appreciated,</p>
+<p>André</p>
+<p>[n.b. I haven&rsquo;t even started kerning yet, so the GPOS table isn&rsquo;t involved &ndash; I know overflow errors are quite common where the kern feature is involved].</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">André,
-
-I can claim no expertise whatsoever in this matter but, at first blush, I notice that your feature name has more than four characters in it, while NO other feature name I know of does. Relevant? Peut-être...</div>
+		<div class="commentbody"><p>André,</p>
+<p>I can claim no expertise whatsoever in this matter but, at first blush, I notice that your feature name has more than four characters in it, while NO other feature name I know of does. Relevant? Peut-être&hellip;</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -128,24 +114,19 @@ I can claim no expertise whatsoever in this matter but, at first blush, I notice
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Nick, you can name lookups whatever you want. You refer back to these names when you put them into a feature lookup list.
-
-<quote><em>Can anyone explain to me exactly what a 'coverage offset' is?</em></quote>
-
-It's a list of offsets from the start of any major OTF table that point to the actual data. Something like this (simplified ;-):
-
-<code>[GSUB] 'liga' pos_A 'ccmp' pos_B 'calt' POS_C ;
-pos_A: 'f' pos_D ;
-             'T' pos_E ;
-pos_D: 'i' -> f_i ;
-             'l' -> f_l ;
-</code>(etc.).
-
-The default size for coverage tables is fixed to 16-bit values only, which means that the distance in bytes between the start of the table (pos_A) and the first definition (pos_D) may not be more than 64K. However, that's a meaningless number because you can't really influence that directly... [*]
-
-I'm not sure which of your options is best ... ADFKO, FontForge, and VOLT (but not FontLab!) allow <em>far</em> offsets, which can be greater than 16 bits (if I remember correctly, all the way up to 32 bits, making multiple gigabyte lookup tables possible). I know, that doesn't help ...
-
-[*] Just noticed that number: 0x10004. It's a tad over 64K, so at least the error report is correct in that the offset is too big.</div>
+		<div class="commentbody"><p>Nick, you can name lookups whatever you want. You refer back to these names when you put them into a feature lookup list.</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->Can anyone explain to me exactly what a &lsquo;coverage offset&rsquo; is?<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p>It&rsquo;s a list of offsets from the start of any major OTF table that point to the actual data. Something like this (simplified ;-):</p>
+<p><!-- raw HTML omitted -->[GSUB] &lsquo;liga&rsquo; pos_A &lsquo;ccmp&rsquo; pos_B &lsquo;calt&rsquo; POS_C ;
+pos_A: &lsquo;f&rsquo; pos_D ;
+&lsquo;T&rsquo; pos_E ;
+pos_D: &lsquo;i&rsquo; -&gt; f_i ;
+&lsquo;l&rsquo; -&gt; f_l ;
+<!-- raw HTML omitted -->(etc.).</p>
+<p>The default size for coverage tables is fixed to 16-bit values only, which means that the distance in bytes between the start of the table (pos_A) and the first definition (pos_D) may not be more than 64K. However, that&rsquo;s a meaningless number because you can&rsquo;t really influence that directly&hellip; [*]</p>
+<p>I&rsquo;m not sure which of your options is best &hellip; ADFKO, FontForge, and VOLT (but not FontLab!) allow <!-- raw HTML omitted -->far<!-- raw HTML omitted --> offsets, which can be greater than 16 bits (if I remember correctly, all the way up to 32 bits, making multiple gigabyte lookup tables possible). I know, that doesn&rsquo;t help &hellip;</p>
+<p>[*] Just noticed that number: 0x10004. It&rsquo;s a tad over 64K, so at least the error report is correct in that the offset is too big.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -166,13 +147,11 @@ I'm not sure which of your options is best ... ADFKO, FontForge, and VOLT (but n
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks, Theunis
-
-So basically, the 'in single substitution' part of the error isn't telling me that I should be looking for a single <code> sub </code> rule that's got too much stuff in it -- I need to address this with respect to the entire set of code to shrink down the table size (sort of what I thought, but FLab's error messages tend to be cryptic).
-
-Part of my 'to-do' list has been to clean up my code in general. Maybe now's a good time to start on that project with crossed fingers.
-
-André</div>
+		<div class="commentbody"><p>Thanks, Theunis</p>
+<p>So basically, the &lsquo;in single substitution&rsquo; part of the error isn&rsquo;t telling me that I should be looking for a single <!-- raw HTML omitted --> sub <!-- raw HTML omitted --> rule that&rsquo;s got too much stuff in it &ndash; I need to address this with respect to the entire set of code to shrink down the table size (sort of what I thought, but FLab&rsquo;s error messages tend to be cryptic).</p>
+<p>Part of my &lsquo;to-do&rsquo; list has been to clean up my code in general. Maybe now&rsquo;s a good time to start on that project with crossed fingers.</p>
+<p>André</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

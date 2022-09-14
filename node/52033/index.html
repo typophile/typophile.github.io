@@ -71,75 +71,53 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Hi,
+  <div class="post-content e-content" itemprop="articleBody"><p>Hi,
 I am currently building an arabic font with a number of contextual alternates lookups.
-In some of the lookups, I use groups as substitution targets and/or context.
-
-All my lookups and groups seem to follow the appropriate syntax; the font compiles just fine.
-However the "substitution behaviour" of those lookups which use groups (instead of a list of individual substitutions) is completely erratic. Per ex, in a lookup where I have:
-
-< Group1a > -> < Group1b > in the context of being followed by < Group99 >
-
-in which the elements of Group1a are: A and B (in that order)
-the elements of Group1b are: A.alt  and B.alt (in that order)
-
-We would normally expect A to be replaced with A.alt  and B with B.alt
-
-However it is not what is happening. Instead, A is replaced with B.alt and B is replaced with A.alt. 
-It is not simply an inversion [which itself would also be puzzling]; with larger groups, elements A, B, C, D are replaced randomly (ex: A by C.alt, B by A.alt, C by D.alt, D by B.alt)
-
-The randomness does not come from the glyph order in the classes. The glyphs in each respective class are enumerated to match the position of the substitute glyph in the other class. In the vtl and vtg files:
-
-
-DEF_GROUP "Group1a"
- ENUM GLYPH "A" GLYPH "B" END_ENUM
+In some of the lookups, I use groups as substitution targets and/or context.</p>
+<p>All my lookups and groups seem to follow the appropriate syntax; the font compiles just fine.
+However the &ldquo;substitution behaviour&rdquo; of those lookups which use groups (instead of a list of individual substitutions) is completely erratic. Per ex, in a lookup where I have:</p>
+<p>&lt; Group1a &gt; -&gt; &lt; Group1b &gt; in the context of being followed by &lt; Group99 &gt;</p>
+<p>in which the elements of Group1a are: A and B (in that order)
+the elements of Group1b are: A.alt  and B.alt (in that order)</p>
+<p>We would normally expect A to be replaced with A.alt  and B with B.alt</p>
+<p>However it is not what is happening. Instead, A is replaced with B.alt and B is replaced with A.alt. 
+It is not simply an inversion [which itself would also be puzzling]; with larger groups, elements A, B, C, D are replaced randomly (ex: A by C.alt, B by A.alt, C by D.alt, D by B.alt)</p>
+<p>The randomness does not come from the glyph order in the classes. The glyphs in each respective class are enumerated to match the position of the substitute glyph in the other class. In the vtl and vtg files:</p>
+<p>DEF_GROUP &ldquo;Group1a&rdquo;
+ENUM GLYPH &ldquo;A&rdquo; GLYPH &ldquo;B&rdquo; END_ENUM
 END_GROUP
-END
-
---
-
-
-DEF_GROUP "Group1b"
- ENUM GLYPH "A.alt" GLYPH "B.alt" END_ENUM
+END</p>
+<p>&ndash;</p>
+<p>DEF_GROUP &ldquo;Group1b&rdquo;
+ENUM GLYPH &ldquo;A.alt&rdquo; GLYPH &ldquo;B.alt&rdquo; END_ENUM
 END_GROUP
-END
-
---
-
-
-DEF_LOOKUP "Calt01" PROCESS_BASE SKIP_MARKS DIRECTION RTL  [#this is an arabic script font]
+END</p>
+<p>&ndash;</p>
+<p>DEF_LOOKUP &ldquo;Calt01&rdquo; PROCESS_BASE SKIP_MARKS DIRECTION RTL  [#this is an arabic script font]
 IN_CONTEXT
- RIGHT GROUP "Group99"
+RIGHT GROUP &ldquo;Group99&rdquo;
 END_CONTEXT
 AS_SUBSTITUTION
-SUB GROUP "Group1a"
-WITH GROUP "Group1b"
+SUB GROUP &ldquo;Group1a&rdquo;
+WITH GROUP &ldquo;Group1b&rdquo;
 END_SUB
 END_SUBSTITUTION
-END
-
------
-
-The random substitution happens for a given lookup even when I delete all the other substitution lookups to make sure there is no unforeseen "interference" or problem of substitution order/sequence.
-
-Clearly if this is not working I must be doing something wrong, but I've checked again and again, notably by comparing with "Arabtype.volt.ttf", and I can't find where I'm erring.
-
-An inelegant way around this would be of course to explicitely enumerate each 'glyph to glyph' substitution individually (and it does work that way for the few lookups I've converted) but using groups *should* work and there are lookups which contain 30+ glyphs to substitute in the context of 6+ glyphs so I would not want to have to enumerate each combination individually.
-
-Any help would be much appreciated! Thanks,
-Patrick
-
+END</p>
+<hr>
+<p>The random substitution happens for a given lookup even when I delete all the other substitution lookups to make sure there is no unforeseen &ldquo;interference&rdquo; or problem of substitution order/sequence.</p>
+<p>Clearly if this is not working I must be doing something wrong, but I&rsquo;ve checked again and again, notably by comparing with &ldquo;Arabtype.volt.ttf&rdquo;, and I can&rsquo;t find where I&rsquo;m erring.</p>
+<p>An inelegant way around this would be of course to explicitely enumerate each &lsquo;glyph to glyph&rsquo; substitution individually (and it does work that way for the few lookups I&rsquo;ve converted) but using groups <em>should</em> work and there are lookups which contain 30+ glyphs to substitute in the context of 6+ glyphs so I would not want to have to enumerate each combination individually.</p>
+<p>Any help would be much appreciated! Thanks,
+Patrick</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The <a href="http://www.microsoft.com/typography/VOLT%20Release%20Notes/gsub.mspx" target="_blank">VOLT Release Notes</a> (bottom of the page) say:
-
-<cite>NOTE: Glyphs in groups are always ordered by their glyph IDs and not by the order implied from the way a group is described.</cite>
-
-So what matters is not the order of glyph names in group definitions, but the order of glyphs in the font. The glyph order should be <cite>A B C ...</cite> and <cite>A.alt B.alt C.alt ...</cite>
-
-Karsten</div>
+		<div class="commentbody"><p>The <!-- raw HTML omitted -->VOLT Release Notes<!-- raw HTML omitted --> (bottom of the page) say:</p>
+<p><!-- raw HTML omitted -->NOTE: Glyphs in groups are always ordered by their glyph IDs and not by the order implied from the way a group is described.<!-- raw HTML omitted --></p>
+<p>So what matters is not the order of glyph names in group definitions, but the order of glyphs in the font. The glyph order should be <!-- raw HTML omitted -->A B C &hellip;<!-- raw HTML omitted --> and <!-- raw HTML omitted -->A.alt B.alt C.alt &hellip;<!-- raw HTML omitted --></p>
+<p>Karsten</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -160,7 +138,7 @@ Karsten</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Yes, Karsten has it right: the GID orders of the two groups need to be cardinal. This limits the use of groups in substitution lookups. Generally, I recommend against the use of groups in this way anyway, since it doesn't provide any visual feedback on the substitutions in the lookup.</div>
+		<div class="commentbody">Yes, Karsten has it right: the GID orders of the two groups need to be cardinal. This limits the use of groups in substitution lookups. Generally, I recommend against the use of groups in this way anyway, since it doesn&rsquo;t provide any visual feedback on the substitutions in the lookup.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -181,12 +159,9 @@ Karsten</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">D'oh! 
-
-Thank you very much Karsten and John for your help
-
-Patrick
-
+		<div class="commentbody"><p>D&rsquo;oh!</p>
+<p>Thank you very much Karsten and John for your help</p>
+<p>Patrick</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

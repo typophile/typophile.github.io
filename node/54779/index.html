@@ -71,15 +71,11 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Is there a package that distributes footnotes on two or three columns, depending on how long they are?
-
-This style is used in some older books, e.g. Gadamer’s “Wahrheit und Methode”. I have written the following as an attempt, but it is inexact, clumsy, and ad hoc, as I lack a deep understanding of how TeX works, and really don’t want to spend the rest of my life learning about it. Comments or references to an already existing better version were much appreciated.
-
-% Footnotes.
-
-\usepackage[para]{footmisc}
-
-\def\thefootnote{}
+  <div class="post-content e-content" itemprop="articleBody"><p>Is there a package that distributes footnotes on two or three columns, depending on how long they are?</p>
+<p>This style is used in some older books, e.g. Gadamer’s “Wahrheit und Methode”. I have written the following as an attempt, but it is inexact, clumsy, and ad hoc, as I lack a deep understanding of how TeX works, and really don’t want to spend the rest of my life learning about it. Comments or references to an already existing better version were much appreciated.</p>
+<p>% Footnotes.</p>
+<p>\usepackage[para]{footmisc}</p>
+<p>\def\thefootnote{}
 \newcount{\left}
 \newcount{\thisfoot}
 \newcount{\counter}
@@ -106,14 +102,12 @@ This style is used in some older books, e.g. Gadamer’s “Wahrheit und Methode
 \newboolean{firstfootonpage}
 \newcount{\ofthree}
 \newcount{\endofline}
-\endofline=0
-
-\newlength{\halfwidth}
+\endofline=0</p>
+<p>\newlength{\halfwidth}
 \newlength{\thirdwidth}
 \newlength{\halfminusthird}
-\newlength{\thirdminusindent}
-
-\AtBeginDocument{
+\newlength{\thirdminusindent}</p>
+<p>\AtBeginDocument{
 \halfwidth=.5\textwidth
 \thirdwidth=.333333\textwidth
 \addtolength{\halfwidth}{-22pt}
@@ -123,17 +117,15 @@ This style is used in some older books, e.g. Gadamer’s “Wahrheit und Methode
 %\addtolength{\halfminusthird}{-2.2em}
 \thirdminusindent=\thirdwidth
 %\addtolength{\thirdminusindent}{-1.5em}
-}
-
-\newcommand{\fc}[1]{%
+}</p>
+<p>\newcommand{\fc}[1]{%
 \fn{%
 \renewcommand*{\ibidemname}{ibid}%
 \renewcommand*{\ibidemmidname}{ibid}%
 \cite{#1}%
 .}%
-}
-
-\newcommand{\fn}[1]{%
+}</p>
+<p>\newcommand{\fn}[1]{%
 \global\advance\thisfoot by 1%
 \global\lastfoot=\thisfoot
 \global\advance\lastfoot by -1%
@@ -157,9 +149,9 @@ This style is used in some older books, e.g. Gadamer’s “Wahrheit und Methode
 \up{\the\thisfoot}
 %
 \settowidth{\length}{\usebox{\footbox}}%
-\ifthenelse{\lengthtest{\length>\halfwidth}}{% If paragraph
+\ifthenelse{\lengthtest{\length&gt;\halfwidth}}{% If paragraph
 \footnote{%
-\ifnum\endofline=1 \\makebox[.8em]{} \endofline=0 \fi%
+\ifnum\endofline=1 \makebox[.8em]{} \endofline=0 \fi%
 \ifthenelse{\boolean{firstfootonpage}}{\makebox[.5em]{}}{}%
 \up{\the\thisfoot}\ex#1%
 \global\endofline=1%
@@ -168,9 +160,9 @@ This style is used in some older books, e.g. Gadamer’s “Wahrheit und Methode
 }{% If not paragraph
 \setbox0=\hbox{#1}%
 \footnote{%
-\ifthenelse{\lastsize<2}{%
-\%
-\ifthenelse{\lengthtest{\length>\thirdwidth}}{%
+\ifthenelse{\lastsize&lt;2}{%
+%
+\ifthenelse{\lengthtest{\length&gt;\thirdwidth}}{%
 \makebox[\halfwidth][l]{\hspace{1em}\usebox{\footbox}}% 1/2
 \global\lastsize=2%
 }{% else
@@ -181,8 +173,8 @@ This style is used in some older books, e.g. Gadamer’s “Wahrheit und Methode
 }{%
 \ifthenelse{\lastsize=3}{%
 \ifthenelse{\ofthree=2}{% 2/3
-\ifthenelse{\not\lengthtest{\length>\thirdwidth}%
-% \and \not\lengthtest{\wd\nextfoot>\thirdwidth}%
+\ifthenelse{\not\lengthtest{\length&gt;\thirdwidth}%
+% \and \not\lengthtest{\wd\nextfoot&gt;\thirdwidth}%
 \and \equal{\pageref{foot\the\thisfoot}}{\pageref{foot\the\nextfoot}}}{% then
 \global\lastsize=3%
 \global\ofthree=3%
@@ -194,13 +186,13 @@ This style is used in some older books, e.g. Gadamer’s “Wahrheit und Methode
 \global\endofline=1%
 }%
 }{% else 3/3: printing 2/3
-\ifthenelse{\not\lengthtest{\length>\thirdwidth}}{% if small
+\ifthenelse{\not\lengthtest{\length&gt;\thirdwidth}}{% if small
 \makebox[\thirdwidth][l]{\usebox\lastfoot}%
 \makebox[29pt]{}%
 }{% ?
 %\makebox[\halfminusthird][l]{}%
 \usebox\footbox%
-\%\makebox[1.5em]{}%
+%\makebox[1.5em]{}%
 }%
 \usebox{\footbox}% Last of 3
 \global\lastsize=0%
@@ -216,11 +208,12 @@ This style is used in some older books, e.g. Gadamer’s “Wahrheit und Methode
 }%
 }%
 }%
-}[img:sites/default/files/old-images/fns_5028.png]</div>
+}[img:sites/default/files/old-images/fns_5028.png]</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I think the bigfoot package can do that, but I have not use it for that purpose. </div>
+		<div class="commentbody">I think the bigfoot package can do that, but I have not use it for that purpose.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -241,9 +234,9 @@ This style is used in some older books, e.g. Gadamer’s “Wahrheit und Methode
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I found this post looking to see if this feature is available for InDesign. I've included a link to a book set in QuarkXpress that has footnotes like this. Is there a way to do this in InDesign as well? My guess is that InFnote can do this, but I ain't sure.
-
-[img:sites/default/files/old-images/rad-footnotes_5749.gif]</div>
+		<div class="commentbody"><p>I found this post looking to see if this feature is available for InDesign. I&rsquo;ve included a link to a book set in QuarkXpress that has footnotes like this. Is there a way to do this in InDesign as well? My guess is that InFnote can do this, but I ain&rsquo;t sure.</p>
+<p>[img:sites/default/files/old-images/rad-footnotes_5749.gif]</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -264,9 +257,9 @@ This style is used in some older books, e.g. Gadamer’s “Wahrheit und Methode
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">We're wandering away from the original question, but if you don't mind a little manual labor, sure ID can do this.  For your middle third-of-a-line column you make a variant of your footnote paragraph format with zero leading and an indent of a third of a line; then for your last third of a line you indent the format two thirds of a line, with the same zero leading.  You must then manually apply those formats to the appropriate footnotes, but it works (though I admit I've never used this for more than two footnotes per line).
-
-David</div>
+		<div class="commentbody"><p>We&rsquo;re wandering away from the original question, but if you don&rsquo;t mind a little manual labor, sure ID can do this.  For your middle third-of-a-line column you make a variant of your footnote paragraph format with zero leading and an indent of a third of a line; then for your last third of a line you indent the format two thirds of a line, with the same zero leading.  You must then manually apply those formats to the appropriate footnotes, but it works (though I admit I&rsquo;ve never used this for more than two footnotes per line).</p>
+<p>David</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -287,7 +280,7 @@ David</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">That is brilliant, David! I thought that since ID shows those frame borders around footnotes that you couldn't set them on the same line with 0pt leading. But if you set the "First Baseline Offset" to leading, and set the multicolumn footnotes to 0pt leading with an indent, sure enough it works. I feel giddy as a schoolgirl ...</div>
+		<div class="commentbody">That is brilliant, David! I thought that since ID shows those frame borders around footnotes that you couldn&rsquo;t set them on the same line with 0pt leading. But if you set the &ldquo;First Baseline Offset&rdquo; to leading, and set the multicolumn footnotes to 0pt leading with an indent, sure enough it works. I feel giddy as a schoolgirl &hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

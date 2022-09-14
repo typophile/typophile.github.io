@@ -71,21 +71,19 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">As a small foundry we have developed numerous typefaces and are in the process of converting all our fonts to open type. The problem we are having is that our kerning pairs (although displaying fine in the metrics/kern window) are not making it into our otf file, or it appears that way when loaded into indesign and illustrator. What we are looking for is an online tutorial or some expert advice into generating reliable, complete, and of course cross-platform font files.
-
-Any thoughts or suggestions would be most appreciated.
-(we are running Fontlab 4.5)
-
-Niels Oeltjen
-Letterbox</div>
+  <div class="post-content e-content" itemprop="articleBody"><p>As a small foundry we have developed numerous typefaces and are in the process of converting all our fonts to open type. The problem we are having is that our kerning pairs (although displaying fine in the metrics/kern window) are not making it into our otf file, or it appears that way when loaded into indesign and illustrator. What we are looking for is an online tutorial or some expert advice into generating reliable, complete, and of course cross-platform font files.</p>
+<p>Any thoughts or suggestions would be most appreciated.
+(we are running Fontlab 4.5)</p>
+<p>Niels Oeltjen
+Letterbox</p>
+</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Niels, this has been covered here somewhere before, but...
-
-You need to add a second OT feature to your files. For some buggy reason, fonts which only have a kern feature do not access that feature. The most common solution is to add the "basic" ligature feature for fi and fl substitution.
-
-Let us know if this works for you.</div>
+		<div class="commentbody"><p>Niels, this has been covered here somewhere before, but&hellip;</p>
+<p>You need to add a second OT feature to your files. For some buggy reason, fonts which only have a kern feature do not access that feature. The most common solution is to add the &ldquo;basic&rdquo; ligature feature for fi and fl substitution.</p>
+<p>Let us know if this works for you.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -106,17 +104,14 @@ Let us know if this works for you.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It's important that the second feature is of substitution type. With just the "kern" feature, only the GPOS table is included in the font file, and no GSUB. However, falsely, InDesign CS2 only checks for the presence of the GSUB table, and if there is none, does not process any OpenType features. Something like: 
-
-feature liga {
-  sub f i by fi; 
-  sub f l by fl; 
-} liga; 
-
-would help out as this will ensure that a GSUB substitution table is included in the font file. I have requested that in the next version of AFDKO, an empty GSUB table is always included even if there are not substitution features are defined by the user. 
-
-Adam Twardoch
-Fontlab Ltd.
+		<div class="commentbody"><p>It&rsquo;s important that the second feature is of substitution type. With just the &ldquo;kern&rdquo; feature, only the GPOS table is included in the font file, and no GSUB. However, falsely, InDesign CS2 only checks for the presence of the GSUB table, and if there is none, does not process any OpenType features. Something like:</p>
+<p>feature liga {
+sub f i by fi; 
+sub f l by fl; 
+} liga;</p>
+<p>would help out as this will ensure that a GSUB substitution table is included in the font file. I have requested that in the next version of AFDKO, an empty GSUB table is always included even if there are not substitution features are defined by the user.</p>
+<p>Adam Twardoch
+Fontlab Ltd.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -138,7 +133,7 @@ Fontlab Ltd.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">A small quibble: There are a number of fonts where either there are no f-ligatures, or shouldn't be (cap/small-cap fonts come to mind). If you use f-ligaturing, then any letterspacing you use runs into a bump with the ligatures. The most innocuous candidate I've found is "zero" "slash" "zero" to percent.</div>
+		<div class="commentbody">A small quibble: There are a number of fonts where either there are no f-ligatures, or shouldn&rsquo;t be (cap/small-cap fonts come to mind). If you use f-ligaturing, then any letterspacing you use runs into a bump with the ligatures. The most innocuous candidate I&rsquo;ve found is &ldquo;zero&rdquo; &ldquo;slash&rdquo; &ldquo;zero&rdquo; to percent.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -159,11 +154,10 @@ Fontlab Ltd.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Charles, 
-
-I don't think a replacement of "0/0" with "%" makes any sense at all. But if you think it's a good idea, what feature would you associate this with? 
-
-A.</div>
+		<div class="commentbody"><p>Charles,</p>
+<p>I don&rsquo;t think a replacement of &ldquo;0/0&rdquo; with &ldquo;%&rdquo; makes any sense at all. But if you think it&rsquo;s a good idea, what feature would you associate this with?</p>
+<p>A.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -184,17 +178,15 @@ A.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Adam, you're right, I should have listed the feature -- it is the fraction feature, which FontLab (5.0) will generate automatically. If there are no fractions, you can use
-
-@SLASH = [slash fraction];
+		<div class="commentbody"><p>Adam, you&rsquo;re right, I should have listed the feature &ndash; it is the fraction feature, which FontLab (5.0) will generate automatically. If there are no fractions, you can use</p>
+<p>@SLASH = [slash fraction];
 feature frac {
- sub zero' @SLASH' zero' zero' by perthousand;
- sub zero' @SLASH' zero' by percent;
-} frac;
-
-It doesn't have to be a ligature feature -- Anything that generates a GSUB table will work, and fractions, which aren't on by default, are a safer substitution. If there is no "perthousand" in the font, just kill that one (actually, FontLab just won't generate the routine if it isn't in the font).
-
-Charles</div>
+sub zero' @SLASH' zero' zero' by perthousand;
+sub zero' @SLASH' zero' by percent;
+} frac;</p>
+<p>It doesn&rsquo;t have to be a ligature feature &ndash; Anything that generates a GSUB table will work, and fractions, which aren&rsquo;t on by default, are a safer substitution. If there is no &ldquo;perthousand&rdquo; in the font, just kill that one (actually, FontLab just won&rsquo;t generate the routine if it isn&rsquo;t in the font).</p>
+<p>Charles</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -215,17 +207,15 @@ Charles</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I believe it's also perfectly fine (spec-wise) to substitute a glyph for itself, so you could have something like:
-
-<code>feature lnum {
+		<div class="commentbody"><p>I believe it&rsquo;s also perfectly fine (spec-wise) to substitute a glyph for itself, so you could have something like:</p>
+<p><!-- raw HTML omitted -->feature lnum {
    sub zero by zero;
    sub one by one;
-   # and so on...
-} lnum;</code>
-
-I'm sorta working off the top of my head here, so maybe there's a good reason to not do exactly that, with lnum; it's just an example of an approach worth mentioning.
-
-(In fact, I think the feature file "ignore sub" statement ends up in an OTF the same way, i.e. <code>ignore sub a b'</code> ends up being <code>sub a b' by b</code>, so perhaps a single <code>ignore sub</code> statement is also an option... not that I've actually tried this yet!)</div>
+   # and so on&hellip;
+} lnum;<!-- raw HTML omitted --></p>
+<p>I&rsquo;m sorta working off the top of my head here, so maybe there&rsquo;s a good reason to not do exactly that, with lnum; it&rsquo;s just an example of an approach worth mentioning.</p>
+<p>(In fact, I think the feature file &ldquo;ignore sub&rdquo; statement ends up in an OTF the same way, i.e. <!-- raw HTML omitted -->ignore sub a b'<!-- raw HTML omitted --> ends up being <!-- raw HTML omitted -->sub a b' by b<!-- raw HTML omitted -->, so perhaps a single <!-- raw HTML omitted -->ignore sub<!-- raw HTML omitted --> statement is also an option&hellip; not that I&rsquo;ve actually tried this yet!)</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -246,12 +236,10 @@ I'm sorta working off the top of my head here, so maybe there's a good reason to
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Adam and Village, your suggestions worked a treat!
-
-All fonts working and now available at 
-www.letterbox.net.au/store/
-
-Niels
+		<div class="commentbody"><p>Thanks Adam and Village, your suggestions worked a treat!</p>
+<p>All fonts working and now available at 
+<a href="http://www.letterbox.net.au/store/">www.letterbox.net.au/store/</a></p>
+<p>Niels</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -274,7 +262,7 @@ Niels
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Please help.
-I've added the ligature feature but I still cant see my kerning... My first serious font is frustrating me to death</div>
+I&rsquo;ve added the ligature feature but I still cant see my kerning&hellip; My first serious font is frustrating me to death</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -295,7 +283,7 @@ I've added the ligature feature but I still cant see my kerning... My first seri
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Its solved, I have been looking for more info in others threads and you were right and I finally made my kerning into Indesign CS2... tnx</div>
+		<div class="commentbody">Its solved, I have been looking for more info in others threads and you were right and I finally made my kerning into Indesign CS2&hellip; tnx</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -316,8 +304,8 @@ I've added the ligature feature but I still cant see my kerning... My first seri
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">BTW, using the 'frac' feature to access pre-composed fractions is a bad practice.
-It's true that it's handy for the user, but by doing so the input character stream (one;slash;two) might end up being inadvertently altered (onehalf).</div>
+		<div class="commentbody">BTW, using the &lsquo;frac&rsquo; feature to access pre-composed fractions is a bad practice.
+It&rsquo;s true that it&rsquo;s handy for the user, but by doing so the input character stream (one;slash;two) might end up being inadvertently altered (onehalf).</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -338,10 +326,10 @@ It's true that it's handy for the user, but by doing so the input character stre
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><em>BTW, using the ‘frac’ feature to access pre-composed fractions is a bad practice.
-It’s true that it’s handy for the user, but by doing so the input character stream (one;slash;two) might end up being inadvertently altered (onehalf).</em>
-
-but if the user specifies that one slash two be replaced by onehalf via the frac feature, don't we want to preserve the end result as opposed to the initial character stream?</div>
+		<div class="commentbody"><p><!-- raw HTML omitted -->BTW, using the ‘frac’ feature to access pre-composed fractions is a bad practice.
+It’s true that it’s handy for the user, but by doing so the input character stream (one;slash;two) might end up being inadvertently altered (onehalf).<!-- raw HTML omitted --></p>
+<p>but if the user specifies that one slash two be replaced by onehalf via the frac feature, don&rsquo;t we want to preserve the end result as opposed to the initial character stream?</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -362,11 +350,10 @@ but if the user specifies that one slash two be replaced by onehalf via the frac
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">That's an interesting question. I guess it depends on whether you view the original text stream as merely an input method, or as something to be preserved.
-
-Cheers,
-
-T</div>
+		<div class="commentbody"><p>That&rsquo;s an interesting question. I guess it depends on whether you view the original text stream as merely an input method, or as something to be preserved.</p>
+<p>Cheers,</p>
+<p>T</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -387,7 +374,7 @@ T</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">BTW, FontLab 4.5 is really old. I recommend using FontLab Studio 5.0.2 to build OpenType fonts. </div>
+		<div class="commentbody">BTW, FontLab 4.5 is really old. I recommend using FontLab Studio 5.0.2 to build OpenType fonts.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>TTF/OTF spec ambiguity (glyf table) | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="TTF/OTF spec ambiguity (glyf table)" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/69443/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-04-14T23:18:29+00:00" />
+<meta property="article:modified_time" content="2010-04-14T23:18:29+00:00" />
+
+<meta itemprop="name" content="TTF/OTF spec ambiguity (glyf table)">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-04-14T23:18:29+00:00" />
+<meta itemprop="dateModified" content="2010-04-14T23:18:29+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="TTF/OTF spec ambiguity (glyf table)"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">TTF/OTF spec ambiguity (glyf table)</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-04-14T23:18:29Z">April 14, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">fanatic font addict</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">The following is from the specfication for Glyf tables in Apple's OTF file specification. http://developer.apple.com/fonts/TTRefMan/RM06/Chap6glyf.html
+
+"If the x-short Vector bit is not set, and this bit is set, then the current x-coordinate is the same as the previous x-coordinate."
+
+Is is not clear whether they mean the *actual* x coordinate or the *relative* x coordinate.  What is actually stored in the table is relative offsets from the previously listed coordinate, so if the above statement refers to relative coordinates it would mean if you have a string of x coordinates "3,3,3,3,...." (indicating a constant angle for some stretch)  that just one "3" would be stored for that stretch.  OTOH if the above spec means *actual* x coordinates, it would mean that only in the case of a series of x's indicating a vertical line (i.e. no change in actual x coordinate) would all those x coordinates be collapsed to 1.
+
+So I can't tell from the spec which they're referring to.  And you can't tell from looking at most ttf files because the above spec only applies when x coordinates are 2 bytes as opposed to 1, which will be in an extreme minority as most x offsets form the previous x will be small.
+
+So an obscure question maybe, unless you have to parse TTF/OTF files directly (as in an application).  I wouldn't blame you guys if no one here knows this, but if knowledge of the TTF/OTF spec cannot be found here, then I don't know where.  </div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You are looking for something like line 2008 in FontForge's <a href="http://fontforge.cvs.sourceforge.net/viewvc/fontforge/fontforge/fontforge/parsettf.c?revision=1.207&view=markup&sortby=date">parsettf.c</a> source file?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-15 00:42:44"
+			itemprop="datePublished"
+		>
+			2010-04-15 00:42:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Are they parsing the glyf table there?  You actually found that out? Outstanding.  I haven't looked at their source before.
+
+If you're looking at it now would do you know the answer to my question.
+
+thanks</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-15 00:53:31"
+			itemprop="datePublished"
+		>
+			2010-04-15 00:53:31
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fanatic font addict</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">just click on the link above or <a href="http://fontforge.cvs.sourceforge.net/viewvc/*checkout*/fontforge/fontforge/fontforge/parsettf.c?revision=1.207"><strong>here</strong></a> to download the file without line numbers. The FontForge source repository is <a href="http://fontforge.cvs.sourceforge.net/fontforge/fontforge/fontforge/?sortby=date#dirlist"><strong>here</stong></a>
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-15 00:58:28"
+			itemprop="datePublished"
+		>
+			2010-04-15 00:58:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks I'll get back in a bit and report what I found.   "Look at someone else's source" - what a concept.  THanks again.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-15 01:01:25"
+			itemprop="datePublished"
+		>
+			2010-04-15 01:01:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fanatic font addict</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">They look at the actual x coordinate which is what I first assumed as well.  But if the goal is space savings you might as well save all repeat relative offsets when they're the same, (just as in the glyf spec any arbitrary flag is saved and repeated when the same as the previous).  But if sourceforge interprets it as the actual x coord and get away with it it must be OK.  </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-15 01:59:15"
+			itemprop="datePublished"
+		>
+			2010-04-15 01:59:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fanatic font addict</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

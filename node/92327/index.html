@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Text to image generation | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Text to image generation" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/92327/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-04-20T20:34:40+00:00" />
+<meta property="article:modified_time" content="2012-04-20T20:34:40+00:00" />
+
+<meta itemprop="name" content="Text to image generation">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-04-20T20:34:40+00:00" />
+<meta itemprop="dateModified" content="2012-04-20T20:34:40+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Text to image generation"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Text to image generation</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-04-20T20:34:40Z">April 20, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">frederich</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hello everyone,
+
+This is not really a problem, and it doesn't even entirely concern fonts - what on earth am I doing here then !? - but just a young fellow willing to learn from experience.
+
+I am trying to find new ways - or at least different from the ones I know :) - to generate an image (Server-side) from a text sample. So far, using PHP and GD library - ah, basics - has been working pretty well for me. But when it comes to ligatures or alternates, GD hasn't been very helpful so far. This is where I hope to benefit from everyone's incredible experience :) I have been asking the same question on more "specific" general forums, but with fonts being such a particular topic, I'm pretty sure I'll get more success here than anywhere else - like always !
+
+Learning new programming languages isn't really a problem, as I'm always curious. So if anyone has any suggestion, I'd love to hear it :)
+
+Thank you all for having taken the time to read my modest request, and thank you for your help,
+
+Frederic</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Until someone comes up with an “offline” OpenType interpreter, you may have to do the heavy lifting yourself.
+
+Logically, for ligatures that would probably mean doing swaps before you submit the text string to the rendering machine, perhaps something like this:
+
+<code>IF font has character UFB01;</code>
+
+<code>AND text string has contiguous characters /fi/;</code>
+
+<code>THEN swap UFB01 for /fi/ in text string before rendering;</code>
+
+<code>ELSE ignore.</code>
+
+For alternates, until a uniform standard for designation and Unicode assignment is developed, you're on you're own…</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-21 20:01:52"
+			itemprop="datePublished"
+		>
+			2012-04-21 20:01:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>oldnick</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@oldnick &ndash; Somebody did. One such interpreter is named FreeType. And, as far as I know, GD uses FreeType to handle the text rendering. So, depending on FreeType's capabilities, it may be possible to come up with some deep wizardry to toss in alternates on the fly.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-22 16:23:13"
+			itemprop="datePublished"
+		>
+			2012-04-22 16:23:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Té Rowan</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks to everyone for your answers. I apologize about the late reply, the week-end has been pretty busy around here.
+
+Nick, you actually managed to read my mind :) Manual replacement in a text string was my first idea too, and I also got stuck when it came to not having a Unicode value. And then I have absolutely no idea how to display these alternates/ligatures :(
+
+Reynir, you're absolutely right about GD. Though, as far as I know, FreeType doesn't display ligatures or alternates, does it ? Of course, I might be wrong, but here's what I found in the FreeType documentation :
+
+<em>"The library doesn't support text layout operations. Sophisticated features like glyph substitution, positioning (kerning), justification, bi-directional ordering, etc.m are not part of a font service in itself. They must be handled one level higher."</em>
+
+I just love the last sentence <em>"They must be handled one level higher"</em>. I still don't get what "one lever higher" means :)
+
+In the meantime, I have found ways to do this with the Python language, so I'm keeping this solution somewhere in my mind for the future, if I don't find another way to do this :)
+
+I have also done some reading during the last two days and bookmarked a few links for me to read. These links concern PHP libraries, so as soon as I'll be done with them, I'll see if it is what I'm looking for.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-23 09:23:13"
+			itemprop="datePublished"
+		>
+			2012-04-23 09:23:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>I just love the last sentence "They must be handled one level higher". I still don't get what "one lever higher" means :)</blockquote>
+
+Freetype contains routines to draw entire text strings (and thus limited to regular Unicode); but these are wrappers around its Core Business: drawing any arbitrary <em>glyph</em> from any font on any position.
+
+If you can figure out how to use the Draw Any Glyph function, you can pretty much draw any text, with all ligatures, small caps, accents, and whatever you can find in a font. The big drawback is that you need to follow the Opentype rules: do substitutions in the correct order, handle GPOS custom positioning (which includes, but is by no way limited to, advanced kerning), as well as handle all idiosyncratic inherent behavior of Opentype features (e.g., determine what a "beginning of word" character is and then look up if there is an "init" feature to be applied).
+
+I've never used it myself, but word on the streets is <strong>Harfbuzz</strong> is an intermediate text engine, sitting between Freetype and your own code to handle most OTF features.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-23 13:04:32"
+			itemprop="datePublished"
+		>
+			2012-04-23 13:04:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">And then there is Pango, which seems to be the second layer up.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-23 19:01:21"
+			itemprop="datePublished"
+		>
+			2012-04-23 19:01:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Té Rowan</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Theunis, to be absolutely honest, I'm not sure I completely understand what you are kindly trying to explain - the problem is definitely on my side though, when it comes to "technical" english :) And to continue with the honesty, I think I kinda rushed into this as I see many, many things I don't understand yet.
+
+So let me try to sum this up :
+
+- If I understand your two first paragraphs well, you mean that even if FreeType doesn't do automatic glyph substitution, it still could do it if it's told to do so ? This is a first problem to me : I have no idea how to even start to do so. You're giving me very good directions, but the main problem I see is "how to do the substitutions ?".
+
+I have checked many links about Harfbuzz and it seems very promising. Although I didn't manage to make it work so far. Neither did I manage to make Pango work so far. But this is a classic case of PEBKAC, as I'm really not good enough to understand this at the moment. Following guidelines was easy, now it's time to make my brain explode with a lot of things. I'd love to actually learn how to make these two things work, but following the documentation I have found wasn't a success so far.
+
+I think I have to do this one step at a time. Otherwise, I might have the temptation to give up before being even close to understanding everything, as this is veeeery fuzzy in my mind. I wouldn't even know where to start, to be honest, as this seems to be such a wide area to explore.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-23 20:12:40"
+			itemprop="datePublished"
+		>
+			2012-04-23 20:12:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It's a question of functional layering. Here is an infographic, hope this makes it a bit more clear.
+
+[img:sites/default/files/old-images/drawtype_6318.png]
+
+<em>FreeType</em> is best at drawing glyphs (both Unicode encoded and un-encoded), but you have to tell it what glyphs to draw and where. It only uses the outline part of an OpenType font.
+<em>HarfBuzz</em> can look up the correct glyph sequence to be displayed from a font, given a string of characters to draw and a set of Opentype features to apply.
+<em>Pango</em> integrates the two: you tell it what text to draw with what features applied.
+
+It totally depends on how far you want to go. Typically, you would use only FreeType if all you want to show is a simple list of all glyphs in a font (I used it to write my own quick-and-dirty font inspector).
+
+If you want to see Opentype features in action, you could read the data yourself out of the font and "apply" it (i.e., performing the right lookups for the character(s) you want to display and the features it should show), or use HarfBuzz, which -- as I understand -- does the looking up and translating to other glyphs for you.
+
+If you want a fully featured text drawing engine, you need to take 'everything' into account -- Opentype features, kerning, and even font switching to do stuff like display an italic word in a regular string. That's what Pango can do for you.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-24 00:00:25"
+			itemprop="datePublished"
+		>
+			2012-04-24 00:00:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Theunis, I will never thank you enough for the time you're taking to make this more clear to me.
+
+Your infographic has been very useful to me, thank you very very much ! 
+
+If I understand well, Pango seems to be the most interesting solution for me so far. What I'm looking for is, for example, a way to write a regular text in a form, then show an image with this text with ligatures/alternates included. I'll focus my efforts on learning more about Pango from now on - and the first one will be to understand how to use it :)
+
+But then, I feel a little confused about the part on FreeType. If I still understand well - correct me if I'm wrong - you're saying FreeType can display ligatures or alternates if it's told to do so ? But then, the question would be how do I tell it to do so ? I always thought like this : 1. Give a text string, 2. The environment gets the text string, displays the text with ligatures/alternates, 3. Save as an image. Could I still do it with GD - so this would mean I was wrong in the first place ? 
+
+If I want to replace, let's say a regular "a" with an "alternate a", I think I have to find out how to call that "alternate a" to make the replacement ?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-24 15:02:24"
+			itemprop="datePublished"
+		>
+			2012-04-24 15:02:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">If you are going to use Pango, I presume you can instruct it to do so ... I don't think it would be necessary to "manually" insert FreeType commands.
+
+So when using Pango, don't worry about the other libraries. That's the advantage of layered software: everything 'below' the level you are using ought not to concern you (unless, of course, you want to do something that the higher level library doesn't support).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-24 16:02:06"
+			itemprop="datePublished"
+		>
+			2012-04-24 16:02:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you again Theunis, I'll stick with Pango at the moment. 
+
+If somebody has any other suggestion to check for other possibilities, don't hesitate to jump in :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-24 19:42:27"
+			itemprop="datePublished"
+		>
+			2012-04-24 19:42:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

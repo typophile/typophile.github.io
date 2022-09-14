@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Could any Fontlab gurus help a novice with hinting? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Could any Fontlab gurus help a novice with hinting?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/80528/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-03-28T03:20:04+00:00" />
+<meta property="article:modified_time" content="2011-03-28T03:20:04+00:00" />
+
+<meta itemprop="name" content="Could any Fontlab gurus help a novice with hinting?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-03-28T03:20:04+00:00" />
+<meta itemprop="dateModified" content="2011-03-28T03:20:04+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Could any Fontlab gurus help a novice with hinting?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Could any Fontlab gurus help a novice with hinting?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-03-28T03:20:04Z">March 28, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">CreeDo</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">So a couple of years ago, I made my first font, Yagi Double. Then I wanted to hint it, got scared when I saw the amount of work involved. Now I'm ready to try again but it STILL seems too tedious, like I'm missing something. What I've read so far on the subject:
+http://www.rastertragedy.com/
+http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&item_id=NotesOnHintingWithFL
+
+
+As I understand it, you come up with an array of numbers representing the location of stuff like the baseline, cap height, x-height, etc. You feed these into two different areas in Fontlab. With an inline font like this, there are twice as many of these numbers. It's a lot of hassle.
+
+1. Does this really produce good hinting results at the end, if I could force myself to do it properly?
+
+2. Is there no way I can just manually edit the post-hinting outline for each letter? Like drag the vector points around until they neatly box in the pixels? I can [[http://creedo.gbgl-hq.com/hinting.jpg|SEE this outline on the screen]], but I can't seem to manipulate it. Is it unrealistic to think I could just manually tweak 52ish characters for every font size between, say, 8 and 18 points?
+
+3. If I can't do it this way in fontlab, can I somehow do it in illustrator and import the result into fontlab, like "use this vector outline as my 8pt version of zero"?
+
+Any advice is appreciated.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">How important is it to you that your inline display font looks great at 8pt?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-28 03:44:14"
+			itemprop="datePublished"
+		>
+			2011-03-28 03:44:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eliason</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You shouldn't need that many values... for an all-caps display font like this you can probably get away with defining alignment zones for just the baseline and cap height, and standard stem values for the width/height of the main stroke and the inline. Add those to the hinting area in Font Info, then import the zones in the TT Hinting Options (the "..." button on the panel in hinting mode).
+
+One way of hinting a glyph like the zero (a relatively simple example): Start in vertical mode and add anchors to points at the top and bottom of the glyph (which should automatically attach to the alignment zones), then drag a single link from each of those anchored points up/down to the inside of the first contour (these should automatically link to the stem value for the stroke), from there add another single link across the inline (which should automatically link to the stem value for the inline), and finally to the inside of the interior stroke.
+
+In horizontal mode, add an anchor to the left sidebearing, from there drag a single link to the left side of the glyph (holding Shift to keep from automatically setting a stem value), then an auto-value single link across the main stroke, the inline and the inner stroke. Shift-drag a no-value single link across the inside counter, then continue with automatic single links to the right side of the glyph, finishing with a no-value link to the right sidebearing.
+
+It's these zones, stem values, anchors, links, etc. that are stored inside of the font as "hinting." The interpolated post-hinting outlines that you see in FontLab are created on-the-fly based on that info, which is why there's no way to adjust the outline; it's generated from the current hinting program and displayed as a visual aid to help you understand how the points and outlines are being affected to create the bitmap.
+
+Using the freeware Yagi-like font <a href="http://www.dafont.com/retro-stereo-wide.font">Retro Stereo Wide</a> as an example, here's how the hinted zero appears alongside the other un-hinted numerals (Windows XP Grayscale rendering with smoothing to all sizes):
+
+[img:sites/default/files/old-images/zero-hint_5324.png]&nbsp;
+The increased sharpness and definition seems fairly evident, up to a point; whether the difference is drastic enough to warrant manually hinting such a font is... perhaps less so. The double stroke will give you a headache on glyphs like B, E, S, etc. Maybe fill the inline and practice on that first.
+&nbsp;
+Vertical hints (11ppem/8pt):
+[img:sites/default/files/old-images/zero-hint-vertical_4420.png]&nbsp;
+Horizontal hints (11ppem/8pt):
+[img:sites/default/files/old-images/zero-hint-horizontal_4935.png]
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-28 07:51:40"
+			itemprop="datePublished"
+		>
+			2011-03-28 07:51:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-28 11:36:53"
+			itemprop="datePublished"
+		>
+			2011-03-28 11:36:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Eliason: Not important really, I wouldn't want to read a book in this font. 
+
+I'm kind of bummed out actually, someone else released their own version of Yagi Double, and it looks pretty good (even unhinted). And it has more characters that I've bothered to do. At this point hinting any size would be a training exercise only.
+
+Gargoyle: holy crap, you're the man, or possibly woman! You took the time to not only answer fully but to even provide visuals. This info is exactly what I was hoping for. I'm gonna go play with it right now and see if I can figure it out as thoroughly as you seem to have. I have my 2nd-ever effort underway, might as well hint that.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-29 04:44:22"
+			itemprop="datePublished"
+		>
+			2011-03-29 04:44:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>CreeDo</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

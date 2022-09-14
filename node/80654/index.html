@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>FL Aliases File Bug? Commaaccent or Cedilla? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="FL Aliases File Bug? Commaaccent or Cedilla?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/80654/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-03-30T23:37:41+00:00" />
+<meta property="article:modified_time" content="2011-03-30T23:37:41+00:00" />
+
+<meta itemprop="name" content="FL Aliases File Bug? Commaaccent or Cedilla?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-03-30T23:37:41+00:00" />
+<meta itemprop="dateModified" content="2011-03-30T23:37:41+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="FL Aliases File Bug? Commaaccent or Cedilla?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">FL Aliases File Bug? Commaaccent or Cedilla?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-03-30T23:37:41Z">March 30, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">bendy</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I'm wondering what sort of bug this is. When I compose Ncommaaccent for example, FL puts a cedilla, rather than a commaaccent on the N base glyph. This happens for all commaaccent glyphs. I know there has been extensive discussion about Romanian/Moldavian S and T cedilla/commaaccent characters, but haven't seen anything about the G, K, N or R commaaccent characters.
+
+So I'm wondering if this is a problem with the FL alias file which is telling the 'create glyph' command to look for U+0327 (cedilla) instead of U+0326 (commaaccent), or if it's a naming problem where the glyphs are supposed to be made with cedillas despite having commaaccent names?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You are right! 
+
+alias.dat is buggy in that regard, it says: 
+
+Ncommaaccent N+~uni0327.case
+Ncommaaccent N+uni0327
+Ncommaaccent N+commaaccent
+
+but it should say
+
+Ncommaaccent N+~uni0326.case
+Ncommaaccent N+uni0326
+Ncommaaccent N+commaaccent
+
+This is the result of the -- now considered errorneous -- canonical decomposition in the Unicode Standard, which decomposes U+0145 to U+004E U+0327. 
+
+Also, please note that in the meantime, we've changed the recommendation for glyph naming. Rather than "Ncommaaccent", the glyph should be named "uni0145". 
+
+(Of course this also applies to all the other "commaaccent"-related glyphs).
+
+We'll rebuild alias.dat to improve this, but it will take some time, since building it is a kind of a complicated process. 
+
+Thank you for catching this!
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-31 00:31:23"
+			itemprop="datePublished"
+		>
+			2011-03-31 00:31:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Phew, I was hoping you'd respond, Adam :)
+
+Glad the poking around inside FL dat files paid off!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-31 01:01:33"
+			itemprop="datePublished"
+		>
+			2011-03-31 01:01:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bendy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Actually, the funny thing is that you seem to have uni0327 (the combining cedilla, properly named) in your font (right?) -- which most people do not have. That's the reason why the problem was not discovered earlier. 
+
+As you may notice, after the "N+uni0327" recipe, the next in queue is "N+commaaccent". And the way alias.dat works is that FLS tries to find the best match by stepping through the entries with the same glyph name, until it finds the largest number of fitting composites. 
+
+Since most fonts don't have "uni0327" but they do have "commaaccent", the first rule got ignored, and the second one kicked in for most of them. So they did not experience your problem. 
+
+Anyhow, many thanks!
+A.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-31 01:35:00"
+			itemprop="datePublished"
+		>
+			2011-03-31 01:35:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Also, I shall mention that "uni0145" is a better name than "Ncommaaccent" because it will work in OTFs under Mac OS X 10.4, while "Ncommaaccent" won't. The "*commaaccent" names were removed from AGLFN (Adobe Glyph List for New Fonts), so the "uni****" names are the recommended form for them. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-31 01:37:12"
+			itemprop="datePublished"
+		>
+			2011-03-31 01:37:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Well, I only put in the combining cedilla at U+0327 to test my suspicion the aliases file was at fault...it took me several hours to figure out how FL builds the composites! My commaaccent must have had a weird name to start with, or FL would have found it without needing the unicode.
+
+I'll make sure to call Ncommaaccent uni0145 henceforth. Thanks for your help.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-31 02:18:57"
+			itemprop="datePublished"
+		>
+			2011-03-31 02:18:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bendy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Is it me or is Ocaron not defined in the aliases?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-31 02:24:23"
+			itemprop="datePublished"
+		>
+			2011-03-31 02:24:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bendy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">If you're also using Fontographer in your workflow, the alias.dat file should also include
+
+<code>Ncommaaccent N+commasubnosp</code></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-31 16:58:05"
+			itemprop="datePublished"
+		>
+			2011-03-31 16:58:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>oldnick</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

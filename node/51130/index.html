@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Getting the first glyph of a word/sentence in openType? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Getting the first glyph of a word/sentence in openType?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/51130/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2008-10-31T10:57:34+00:00" />
+<meta property="article:modified_time" content="2008-10-31T10:57:34+00:00" />
+
+<meta itemprop="name" content="Getting the first glyph of a word/sentence in openType?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2008-10-31T10:57:34+00:00" />
+<meta itemprop="dateModified" content="2008-10-31T10:57:34+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Getting the first glyph of a word/sentence in openType?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Getting the first glyph of a word/sentence in openType?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2008-10-31T10:57:34Z">October 31, 2008</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Heedless</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I've been playing around with fontlab/openType for a school assignment but I'm not really getting it.
+
+I'm really interested in scripting a font. A teacher told me you don't have a lot of options nowadays since postscript type 3 isn't supported anymore? But you should still be able to do some nice things with openType I think.
+
+What I am after is the following;
+I'm making a font that lets all the characters respond to each other. Basically I want to check what the first character of a word is, and  let the other characters choose the appropriate glyph based on that.
+
+So, when I write 'nosebleed' (wow, random) I want the o,s,e,b,l,d to choose their glyphs belonging to the n, some something like o.n, s.n, e.n etc.
+
+For the combination CA you could do something like this:
+
+feature replace{
+     sub C A by C.A;  (where C.A is a glyph containing both a C and an special version of the A)
+} replace;
+
+But of course, this won't let you change the whole word.
+
+This;
+ignore substitute @LETTER f' i'; 
+substitute f' i' by f_i.init; 
+
+Lets you change glyphs to make a ligature at the beginning of a word. But can you reverse this? Like; only replace the glyph if it's NOT at the beginning of the word, and replace it by it's version belonging to the FIRST character of the word.
+
+In other scripting languages I would do something like this:
+
+See if the typed character is the first character of the word being typed.
+If it is, use the standard glyph. If not, see what the first character was and make the typed character the glyph 'typedCharacter.firstCharacter'; 
+
+Does anyone know if there is a way to do this? Or something like this? Or something to get me started?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Check out the OpenType features for positional forms: init, medi, fina, isol. They are made for stuff like this. I think InDesign CS3 supports them.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-31 13:26:04"
+			itemprop="datePublished"
+		>
+			2008-10-31 13:26:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">A more conventional approach would be a calt feature, something along these lines:
+
+sub [A A.A B.A C.A D.A E.A] [A B C D E]' by [A.A B.A C.A D.A E.A];
+sub [B A.B B.B C.B D.B E.B] [A B C D E]' by [A.B B.B C.B D.B E.B];
+
+[A B C D E]' will be replaced, the class before is is what serves as context. This means, in the first line, any glyph following an A will be replaced by an .A alternate, and any subsequent glyph (i.e. following an .A alternate) will be replace by an .A alternate too. The first glyph of a word will not be replaced -- the above context definition requires that at least one glyph precedes the glyph to be replaced.
+Just wondering, how many alternates do you want to draw?&nbsp;&nbsp;;-)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-11-02 13:14:37"
+			itemprop="datePublished"
+		>
+			2008-11-02 13:14:37
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Well, I have to make a typeface with the full 256 characters, so that means something like 265 * 265 = 70.255 glyphs
+
+But I'm not even sure if that amount is supported.
+I won't make them all myself. I'm pretty handy with scripting, so I'll just write some script which will generate the glyphs in PDF / illustrator format (and then I'll have to find a way of easily importing them in fontlab, instead of copy pasting them).
+But I think I will start with about 5 * 5 = 25 glyps so see if it works :p
+
+Thanks for the reply btw</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-11-03 15:46:01"
+			itemprop="datePublished"
+		>
+			2008-11-03 15:46:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Heedless</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Karsten,
+Are your replacements ligatures or single glyph alternates in your example?
+
+ChrisL</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-11-03 16:01:47"
+			itemprop="datePublished"
+		>
+			2008-11-03 16:01:47
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You may need the Asia-Font Studio because FLS refuses to save fonts with more than, I don't remember, 6000-7000 glyphs.&nbsp;&nbsp;:D
+
+Hello Mr Lozos, it's just glyph alternates. I used as suffix the first-glyph-of-word to which the alternate relates, so "B.A" is an alternate B which is used in words starting with A.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-11-03 18:57:25"
+			itemprop="datePublished"
+		>
+			2008-11-03 18:57:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> You may need the Asia-Font Studio because FLS refuses 
+> to save fonts with more than, I don’t remember, 6000-7000 
+> glyphs.  :D
+
+6,399 is the maximum number of glyphs in a font that can be created with FontLab Studio 5. You should be glad to hear that this limit will be lifted in FontLab Studio 6 (which we are working on) so the maximum number of 65,535 glyphs per font will be possible. 
+
+Adam</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-11-03 19:20:55"
+			itemprop="datePublished"
+		>
+			2008-11-03 19:20:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ah, now I get it, forgive a blind old geezer :-)
+
+ChrisL</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-11-03 19:21:24"
+			itemprop="datePublished"
+		>
+			2008-11-03 19:21:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

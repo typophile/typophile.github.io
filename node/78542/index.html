@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Automated construction of a 16-bit font with a character map | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Automated construction of a 16-bit font with a character map" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/78542/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-01-30T19:29:37+00:00" />
+<meta property="article:modified_time" content="2011-01-30T19:29:37+00:00" />
+
+<meta itemprop="name" content="Automated construction of a 16-bit font with a character map">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-01-30T19:29:37+00:00" />
+<meta itemprop="dateModified" content="2011-01-30T19:29:37+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Automated construction of a 16-bit font with a character map"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Automated construction of a 16-bit font with a character map</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-01-30T19:29:37Z">January 30, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Slevinski</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I need to automate the creation of a 16-bit font file. Each glyph is available as a PNG or SVG file.  I can reconvert to PS if needed.
+
+We have released the 16-bit file based font under the Open Font License: ISWA 2010.  I have 37,811 glyphs with codepoints from 1 to 62,504.
+http://www.signbank.org/iswa
+http://www.signbank.org/iswa.zip
+
+Each glyph is available as an individual PNG or SVG file.  Each glyph has a unique codepoint.  Not all codepoints are assigned.  The glyphs do not share a common height or width.  The glyphs should always be displayed left then top.  The glyphs do not rotate or morph.
+
+The character map should be automated from a few simple rules.  There is one formula for a sequence of 3 characters and an algorithm for individual characters.  The characters are proposed for plane 1 of the UCS.
+http://www.signpuddle.net/plaintext
+http://www.signpuddle.net/plaintext.zip
+
+Is this possible to automate?  Anyone have a suggested process flow with command line tools or custom programs? 
+
+I'd appreciate any advice on an individual, company, or software package that could help me get this done quick.
+
+I need a version that will work with the proposed Unicode characters and display the correct glyph rather than the empty block characters.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Sign <em>writing</em> -- the literate pendant of sign language? I have worked with Hamnosys, and I wasn't duly impressed. Sure, single hand signals translate great to static single images of a hand & fingers in a certain configuration, but to add <em>movement</em> I had to coax various "accents" in place over the images. What a drag.
+(Besides, this also seem to cater for non-manual signs: nose wiggles, eye blinks, smileys. Everything to make a story lively, I guess.)
+
+It seems you have a set of <em>glyphs</em> and associated <em>Unicode codepoints</em> to store them in. Is your target a Unicode compliant font, where entering the Unicode, through software that supports this, yields the correct character?
+In that case, all that's needed is a (relatively) easy font creating software, where you can import your images into, assign arbitrary codepoints, and save as an OTF or TTF. I <em>do</em> know that you should stick to vector files -- no PNGs. I'm not sure about SVGs -- perhaps these can be imported or copied into the regular software, perhaps not. (With FontLab, I've read here, you can copy/paste from Illustrator.)
+
+Since it looks like you're not after heavy-duty Opentype features, you could try FontForge (which is free, so it's easily tried; but it has a steep learning curve), or FontLab's beginner's package <a href="http://www.fontlab.com/font-editor/typetool/">TypeTool</a>.
+
+If there is any way of converting your outline data to another format, you could look into <a href="http://sourceforge.net/projects/fonttools/">TTF</a> -- this is based around a human-readable XML format, but (downside) it needs the actual outlines to conform to standard font outline formats -- Type 1 or Truetype.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-30 23:29:23"
+			itemprop="datePublished"
+		>
+			2011-01-30 23:29:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ps. As long as you construct the glyph names so that for 4-digit Unicodes the glyph names are "uniXXXX" and for 5-digit Unicodes "uXXXXX" where XXXX(X) is the hexadecimal Unicode codepoint written using uppercase hex digits (but "uni" and "u" need to be lowercase), then the tools should automatically build a correct character map for you. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-31 00:33:28"
+			itemprop="datePublished"
+		>
+			2011-01-31 00:33:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">There are two sets of commandline tools that come to mind: 
+* FontForge [1]
+* Adobe FDK for OpenType (AFDKO) [2] combined with ufo2fdk [3] and the UFO format [4]
+
+The easiest path would probably be to construct an SVG Font [5] and then convert it into OpenType (OTF or TTF) using FontForge. Another approach would be to convert the SVG drawings into the UFO format (which is a simple, high-level XML-based format for font data representation), and then use ufo2fdk and AFDKO to build an OpenType (OTF) font. FontForge can also be used to convert UFO into OpenType (OTF or TTF). 
+
+FontForge can be run on Linux, Mac OS X and Windows. AFDKO can be run natively on Mac OS X and Windows, it can also be run on Linux using WINE. 
+
+[1] http://fontforge.sourceforge.net/
+[2] http://www.adobe.com/devnet/opentype/afdko.html
+[3] http://code.typesupply.com/wiki/ufo2fdk
+[4] http://unifiedfontobject.org/
+[5] http://www.w3.org/TR/SVG11/fonts.html</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-31 00:37:58"
+			itemprop="datePublished"
+		>
+			2011-01-31 00:37:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I have 2 SVG fonts to create.  Each font has 37,811 glyphs as individual SVG files.  I named the files after the combined character sequences of 3 Unicode characters.
+
+Here's an example:
+http://www.signpuddle.net/iswa/uni/svg1/u1D8A0_u1DA8C_u1DA9A.svg
+http://www.signpuddle.net/iswa/uni/svg2/u1D8A0_u1DA8C_u1DA9A.svg
+
+You can see all of the files online:
+http://www.signpuddle.net/iswa/uni/svg1
+http://www.signpuddle.net/iswa/uni/svg2
+
+Each is available for download:
+http://www.signpuddle.net/iswa/uni/svg1.zip
+http://www.signpuddle.net/iswa/uni/svg2.zip
+
+I failed at my first attempt to import into FontForge.  I tried File >> Import, "SVG" and "SVG Template".  Nothing loaded.
+
+I'm still looking for a tutorial.  Any ideas?  I'm not sure what search terms to use.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 23:33:33"
+			itemprop="datePublished"
+		>
+			2011-02-02 23:33:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Slevinski</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Python / Fontlab Script isdigit() Problem | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Python / Fontlab Script isdigit() Problem" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/84950/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-08-28T16:19:15+00:00" />
+<meta property="article:modified_time" content="2011-08-28T16:19:15+00:00" />
+
+<meta itemprop="name" content="Python / Fontlab Script isdigit() Problem">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-08-28T16:19:15+00:00" />
+<meta itemprop="dateModified" content="2011-08-28T16:19:15+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python / Fontlab Script isdigit() Problem"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Python / Fontlab Script isdigit() Problem</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-08-28T16:19:15Z">August 28, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Ken Krugh</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I've reached the exaspiration point so I'm hoping someone can weigh in on this for me.
+
+I have a python script that dumps out all the character names and unicodes but I'm getting an error using the isdigit() command.
+
+I couldn't get the indents I have in the code to show here so I've used backslashes for each indent.
+
+This smaller script works fine, in the line "unistr = str(f.glyphs[1].unicode)" if I change the "1" to a "0" I get the correct result:
+<code>
+#FLM: Testing Macro
+f = fl.font
+gcount = len(f)
+unistr = str(f.glyphs[1].unicode)
+isnumeric=unistr.isdigit()
+if isnumeric:
+-print "It is!"
+else:
+-print "It isn't!"
+</code>
+
+However, doing nearly the same darn thing I'm getting an invalid syntax error. I'm at a loss.
+
+Many thanks,
+Ken
+
+<code>
+#FLM: Writes marked glyph unicode numbers and names to a file
+f = fl.font
+fname=f.font_name
+finame=str("C:\Program Files\FontLab\Studio5\Macros\UnicodeAndNamesMarked_") + fname + str(".txt")
+</code>
+
+<code>TheFile = open(finame, "w")
+TheFile.write(f.family_name + " marked glyphs" + chr(10))
+if f != None:
+-gcount = len(f)
+-for i in range(gcount):
+--if f.glyphs[i].mark:
+---unistr = str(f.glyphs[i].unicode)
+---isnumeric=unistr.isdigit()
+---if isnumeric:
+----TheFile.write(hex(unistr) + chr(9) + f.glyphs[i].name + chr(10))
+---else:
+----TheFile.write(unistr + chr(9) + f.glyphs[i].name + chr(10))
+else:
+-print "There are no fonts opened"
+TheFile.close()
+print "Filename: " + finame
+</code></div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Oy, got it. It had something to do with the indents in the code. I must have had a space somehwere instead of a tab. Once I retyped them all everything worked fine.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-28 17:14:23"
+			itemprop="datePublished"
+		>
+			2011-08-28 17:14:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Ken Krugh</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello,
+I think this prints what you want:
+<code><pre>
+if len(fl) > 0:
+    for glyph in fl.font.glyphs:
+        if glyph.mark:
+            if glyph.unicode is None:
+                print 'None\t%s' % glyph.name
+            else:
+                print '0x%04X\t%s' % (glyph.unicode, glyph.name)
+</pre></code>
+Redirecting the output to a file is up to you ;-)
+Best
+Eigi</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-28 17:37:03"
+			itemprop="datePublished"
+		>
+			2011-08-28 17:37:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eigi</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Eigi:
+
+all the code does for me is the list of glyphs and "none" unicode for all of them, no matter they have unicode or not.
+
+Ken:
+Could I have the code, I just need it for generating unicode for many glyphs, and your script will make it a cakewalk, thanks.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-01 08:53:44"
+			itemprop="datePublished"
+		>
+			2011-09-01 08:53:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Bahman Eslami</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello Bahman,
+
+Hm - this confuses me!? This is what I get if I mark standard figures (with unicode) and old Style figures (without unicode)
+<pre>
+0x0030	zero
+0x0031	one
+0x0032	two
+0x0033	three
+0x0034	four
+0x0035	five
+0x0037	seven
+0x0036	six
+0x0038	eight
+0x0039	nine
+None	zero.onum
+None	one.onum
+None	two.onum
+None	three.onum
+None	four.onum
+None	five.onum
+None	seven.onum
+None	six.onum
+None	eight.onum
+None	nine.onum
+</pre>
+Are you running FontLab on Mac or Win?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-01 18:23:03"
+			itemprop="datePublished"
+		>
+			2011-09-01 18:23:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eigi</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Stil confused. Just checked FontLab 5.0.4 Win and 5.0.2 Mac - same output!?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-01 18:35:09"
+			itemprop="datePublished"
+		>
+			2011-09-01 18:35:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eigi</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hi Eigi
+I got it, it wasn't the code, the problem was that I had too many glyphs (about 800) and output window is not enough for it, so it just leaves out the glyphs which had unicode. I made the ken code to work but there is a problem, hex function is not working in it. without hex function it works but it's useless for me. what should I do?
+Thanks,
+Code:
+<pre>
+#FLM: Writes marked glyph unicode numbers and names to a file
+f = fl.font
+fname=f.font_name
+finame=str("C:\Program Files\FontLab\Studio5\Macros\UnicodeAndNamesMarked_") + fname + str(".txt")
+
+TheFile = open(finame, "w")
+TheFile.write(f.family_name + " marked glyphs" + chr(10))
+if f != None:
+ gcount = len(f)
+ for i in range(gcount):
+  if f.glyphs[i].mark:
+   unistr = str(f.glyphs[i].unicode)
+   isnumeric = unistr.isdigit()
+   if isnumeric:
+    TheFile.write(hex(unistr) + chr(9) + f.glyphs[i].name + chr(10))
+   else:
+    TheFile.write(unistr + chr(9) + f.glyphs[i].name + chr(10))
+else:
+ print "There are no fonts opened"
+TheFile.close()
+print "Filename: " + finame
+<pre/></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-02 06:13:16"
+			itemprop="datePublished"
+		>
+			2011-09-02 06:13:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Bahman Eslami</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello Bahman,
+
+The hex() function takes an integer as parameter not a string. See [[http://docs.python.org/library/functions.html#hex]]
+I prefer the string formatting operations to get a hex representation of an integer (as shown above). See [[http://docs.python.org/library/stdtypes.html#string-formatting-operations]]
+
+Best
+Eigi</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-02 08:04:57"
+			itemprop="datePublished"
+		>
+			2011-09-02 08:04:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eigi</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-05 09:21:24"
+			itemprop="datePublished"
+		>
+			2011-09-05 09:21:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Bahman Eslami</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

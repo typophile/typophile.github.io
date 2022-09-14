@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Another brick in the Unicode wall | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Another brick in the Unicode wall" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/74164/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-09-14T04:05:14+00:00" />
+<meta property="article:modified_time" content="2010-09-14T04:05:14+00:00" />
+
+<meta itemprop="name" content="Another brick in the Unicode wall">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-09-14T04:05:14+00:00" />
+<meta itemprop="dateModified" content="2010-09-14T04:05:14+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Another brick in the Unicode wall"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Another brick in the Unicode wall</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-09-14T04:05:14Z">September 14, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Igor Freiberger</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Some questions regarding diacritics, precomposed glyphs and Unicode, whose partial answers I found in other threads:
+
+Unicode philosophy does not admits further inclusion of letters with diacritics if they can be achieved combining glyphs already coded. So glyphs like Yoruba's E acute with dot below will not be included in any future Unicode version: they must be mounted in client program (text editor) using base glyph plus combining diacritics.
+
+The better way to get these combined glyphs without codepoint is <code>mark</code> feature. But this is still not supported by FontLab and most client programs. Even if we could do it with FontLab, there are kerning problems caused by some diacritics.
+
+Let's say you use <code>mark</code> feature to build something like ï. Here, diaeresis go further than the base glyph limits so the kerning bust be adjusted.
+
+<strong>(1)</strong> <em>How to handle kerning issues produced by diacritics in a </em><code>mark</code><em> scenario?. The font needs to have specific kerning exceptions for each combined glyph whose diacritics produce this effect?</em>
+
+In other hand, you can simply ignore <code>mark</code> feature by now and add the precombined glyphs you need to the desired language support. Typed sequences are defined as substitutions in <code>ccmp</code> feature and no marks are necessary.
+
+Anyway, these precombined glyphs have no codepoint as they are out of Unicode specification. Without a codepoint these glyphs suffer some limitations: they cannot be inserted by keyboard codes or Windows Character map, they cannot be used in replace commands (except ID CS4+) and they are not searchable in PDF documents. Even the keyboard layout editors cannot reach them as these editors work based on Unicode.
+
+<strong>(2)</strong> <em>Is not a reasonable idea to set codepoints from PUA to these precombined glyphs?</em>. I see this is not ideal and far from Unicode original idea, but this method was adopted in some fonts. Although I understand this option has drawbacks, the advantages does not pays off?
+
+Finnally, combining diacritics are used both in <code>mark</code> and as components to precomposed glyphs. They must have zero width so they are keep before the zero limit. I cannot find any instruction about the position for these diacritics within this negative space. What I conclude from some fonts: usual way is to put the combining diacritic aligned as if there is an o before zero point. If you have uppercase variants, align them with O. Like this:
+
+[img:sites/default/files/old-images/tela_09132010_225630_5141.jpg]
+
+.
+<strong>(3)</strong> <em>Is this a correct criteria or there are other issues related with combining diacritics positioning?</em> Actually, using anchors to handle components the position is not relevant. But for <code>mark</code> this seems to be essential.
+
+Sorry for the long post, but I was not able to describe these details in a shorter way.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">1. If using mark positioning, then you need contextual kern lookups to avoid collisions. For kerning to glyphs preceding the diacritic, you need a pair adjustment that uses the following mark glyphs as context. For glyphs that follow the diacritic, you can kern off the marks, although you need to take into account the possibility of stacked marks and mark order.
+
+As I've expressed elsewhere on Typophile, the interaction of base glyph spacing and positioning (kerning) with mark positioning, is the weakest aspect of the OpenType architecture. The OT lookup structure makes this kind of work both arduous and inefficient.
+
+2. Avoid PUA codepoints like the plague. They should never be used for anything with semantic content. The correct way to handle precomposed diacritic glyphs representing combinations of Unicode base+mark(s) characters is to map them with ligature lookups in the 'ccmp' OT Layout feature.
+
+3. There is no standard offset for marks on their zero widths. I tend to offset them as you have shown, over a medium width vowel such as o, since this ensures that they will have at least reasonable positioning even in software that doesn't support GPOS mark positioning. But it is just as valid to e.g. optically centre them on the zero-width. What I strongly recommend is that you offset them consistently, so that the same anchor or composite position can be used for all marks on a common base glyph.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-09-14 04:27:45"
+			itemprop="datePublished"
+		>
+			2010-09-14 04:27:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks a lot, John. As usual, you give excellent information.
+
+To apply kerning to marks is really complicated. Even if FL6 supports marks, I'd prefer to use precomposed glyphs – at least by now.
+
+I still did not include my precomposed glyphs in <code>ccmp</code> feature. After this is properly set, user could get the precomposed glyph through code <code>uniXXXXYYYY</code>? Of course, one needs to use a consistent naming schema to make this work.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-09-14 05:01:07"
+			itemprop="datePublished"
+		>
+			2010-09-14 05:01:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>But this is still not supported by FontLab and most client programs.</em>
+
+Which applications do not support the mark and mkmk features? I know a few which do:
+
+<ul>
+<li>TextEdit (tested on 10.6)</li>
+<li>InDesign (tested: CS3)</li>
+<li>Word (tested: 2010)</li>
+<li>Internet Explorer (IIRC)</li>
+</ul></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-09-14 13:33:06"
+			itemprop="datePublished"
+		>
+			2010-09-14 13:33:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yes, some support. But many not: Word (early versions), TextEdit (early versions), Photoshop, Illustrator, Quark-X-Press, Scribus, CorelDraw, Xara, ACD programs and most browsers. Also note that older versions are still largely used.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-09-14 15:30:01"
+			itemprop="datePublished"
+		>
+			2010-09-14 15:30:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

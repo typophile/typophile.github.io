@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>PostScript hinting -- number and weight of standard stems | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="PostScript hinting -- number and weight of standard stems" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/59506/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-06-30T11:08:51+00:00" />
+<meta property="article:modified_time" content="2009-06-30T11:08:51+00:00" />
+
+<meta itemprop="name" content="PostScript hinting -- number and weight of standard stems">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-06-30T11:08:51+00:00" />
+<meta itemprop="dateModified" content="2009-06-30T11:08:51+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="PostScript hinting -- number and weight of standard stems"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">PostScript hinting -- number and weight of standard stems</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-06-30T11:08:51Z">June 30, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Arno Enslin</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">David Lemon from Adobe writes in his tutorial <strong><em><a href="http://typophile.com/files/hinting.pdf">Basic Type 1 Hinting</a></em></strong> about the stem weights:
+
+<cite>"Another font-wide behavior is the stem weights provided for the font. It’s generally best to enter two values for vertical stems and one or two for horizontal, listing the values in ascending order. In a standard Latin font, the values should represent the optimal weight of the normal lowercase and capital stems (hence the two values). These values - especially the first vertical value - are used for a number of rasterization purposes, so it’s important to make them as representative as possible. Two of the most obvious uses include letting ATM know when to turn off synthetic emboldening in a bold design, and serving as target values, to ensure consistent stem weights at low resolutions. In a design where the stems vary slightly in weight, fine-tuning these target values can make a significant difference."</cite>
+
+But that is a try-and-error-solution. I would like to know, how I can find the optimal standard stem values in a more systematic way. And I have recognized, that Adobe (for example) does not use three or four values in all cases. Bold or black fonts, in which the contrast is stronger, seem to need more values. In my opinion the only thing in PostScript hinting, which is hard to do, is finding the optimal standard stems, especially because the output of the autohinting script contained in the <strong><em><a href="http://www.adobe.com/devnet/opentype/afdko/">Adobe Font Development Kit for OpenType (AFDKO)</a></em></strong> is extremely good. There is another script (setsnap.pl) contained in the AFDKO (coded by <strong><em><a href="http://lundestudio.com/">Ken Lunde</a></em></strong> in Perl), but the output was not helpful (even not with the non standard options). Unfortunately there is no tutorial, how to make the optimal use of the script (for the case, that it is useful and I am too stupid).
+
+<strong>So my request (because I bang my head against the wall):</strong>
+Please teach me! I would like to know a systematic way, how to find the optimal standard stem weights and the optimal number of standard stems. These values are extremely important for PostScript hinting. Even if you do not define individual hints for the glyphs, the values of the standard stems help the rasterizer. (Just make a test: Generate a font file, in which the individual hints are removed only. And generate a second file, in which you additionally have removed the standard stem values. Compare them. If the standard stem values were well chosen, as in Adobe fonts for example, you can see, that the font, in which standard stem values exist, looks much better on screen.)</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I just the Fontlab autohinter and then use the autofill button to have it gather the standard stem values. Then just delete the Fontlab hints.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-30 13:23:54"
+			itemprop="datePublished"
+		>
+			2009-06-30 13:23:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>I just the Fontlab autohinter and then use the autofill button to have it gather the standard stem values. Then just delete the Fontlab hints.</cite>
+
+Up till now I also have used FontLab for computing the standard stems, but that solution is semioptimal. Just open an Adobe original font in FontLab and remove (and forget) the original standard stems. Then try to reproduce the same quality. I would like to know, what exactly I have to measure and why the optimal standard stems are dependent from the number of pixels, in which the font is displayed. The setsnap.pl script indicates, that there are no optimal stems independent from the absolute resolution. But for example, for which size does Adobe optimize the stems and how do they fine tune them? Additionally it does not seem to be needed, that the standard stems match with any real stem width, for example: You have three real horizontal stem widths 10, 18 and 32 units, but your tests show, that you should take one only. So you could sum the three values and devide them by three. The result is 20. Your whole font does not contain a stem with a width of 20, but the rasterizer can make use of the value 20. (This naturally does not mean, that just 20 is the optimal value.) I assume, that FontLab computes standard stems only, that match with real stems. And if not, I would like to know, how FontLab computes the values. By the way the computed values are dependent from the hints, that exist in the font. Change the hints and FontLab computes different standard stems. All this is too arbitrary for being professional. The fact, that there are still so many non Adobe fonts, that are not well hinted, indicates, that there is a need for clarifying the problem. PostScript hinting is not magic. I keep my hands from TrueType hinting, but I really want to understand, how exactly PostScript hinting works. David Lemon’s tutorial is cool and his writing style eases the understanding, but it is not enough. I need more info. The individual hints are not the problems, but the standard stems are a big one in my opinion. (I also have a need for clarifying the exact influence of the BlueShift and the BlueScale value. I got info about the meaning from the Type1 blackbook, but the info is too compressed and partly too cryptical.)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-30 14:41:37"
+			itemprop="datePublished"
+		>
+			2009-06-30 14:41:37
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Arno,
+
+The setsnap.pl Perl script was originally a C program that I wrote in the early 1990s. I ported it to Perl three or four years ago.
+
+Like you, I do not run this script directly, but instead have a batch file, which happens to be another Perl script, that invokes it with specific options.
+
+The default behavior of setsnap.pl is to simply indicate the highest-frequency stem widths. It is expected to use the output of another AFDKO tool, specifically stemHist, as its input. The stemHist tool outputs two files, one for horizontal stems, and another for vertical ones.
+
+I have found that selecting appropriate stem values is a combination of art, science, and philosophy. The easiest and fastest approach is to simply take the highest-frequency stem values, for horizontal and vertical. For many purposes, this will provide adequate results. Our rendering experts have always claimed that having no hints is better than having poor hints. Selecting the highest-frequency stems could never be construed as having poor hints.
+
+One point of more careful selection of stem values involves a range within which the stems result in the same relative rendered size. The parameters are resolution and point size. If you set these (the setsnap.pl tool has options for these, but also has defaults if they are not set, specifically 72-dpi for the resolution, and 9- through 24-point as the point size range), you can experiment with various values.
+
+In the past, like nearly twenty years ago, we set the hinting parameters for our Japanese fonts by looking at only one or two rowfonts for each hint dictionary. For the kanji, this meant using only a small fraction of the glyphs to determine these values. When I originally wrote setsnap.pl in C, which was simply called setsnap, one purpose was to be able to use all of the rowfonts to calculate the stem values. (The purpose of setsnap.pl's "-s" option, which was also a feature of the original C version, is to additionally output a new stemHist file, and it assumes that its input is a bunch of them that have been concatenated from multiple rowfonts.) This resulted in much more accurate stem values, even if the highest-frequency one is to be selected.
+
+If you select only one stem value for horizontal and vertical, these become the StdHW and StdVW values of the font dictionary, respectively. You can also set the StemSnapH and StemSnapV arrays, meaning that multiple values are specified. Whether multiple values need to be specified depends on the font data. My "rule of thumb" is to keep multiple StemSnapH and StemSnapV values at least 10 units apart. And, as you are no doubt aware, one of the StemSnapH and StemSnapV values must be the same as set for the StdHW and StdVW values, respectively. If the output of the setsnap.pl tool suggests that there are two or three high-frequency stems that are at least 10 units apart, it would be a good idea to specify these in the StemSnapH and StemSnapV arrays, being sure to include the highest-frequency one as the StdHW and StdVW values. (The setsnap.pl tool outputs the highest-frequency stem, so you need to look into the output of stemHist to find others.)
+
+As an example, here is the horizontal stemHist output for the "Kanji" hint dictionary of RyoDispPlusN-Heavy (created by using the setsnap.pl "-s" option to concatenate multiple stemHist output files):
+
+Count	Width
+536	7
+254	8
+262	9
+266	10
+879	11
+1623	12
+1033	13
+279	14
+167	15
+35275	16
+576	17
+559	18
+264	19
+207	20
+212	21
+218	22
+229	23
+414	24
+346	25
+383	26
+522	27
+626	28
+429	29
+615	30
+858	31
+774	32
+393	33
+1031	34
+201	35
+121	36
+43	37
+20	38
+47	39
+22	40
+72	41
+18	42
+12	43
+24	44
+17	45
+15	46
+26	47
+8	48
+11	49
+223	50
+9	51
+6	52
+12	53
+20	54
+10	55
+2	56
+16	57
+14	58
+8	59
+67	60
+15	61
+15	62
+4	63
+4	64
+2	65
+10	66
+6	67
+7	68
+4	69
+9	70
+12	71
+8	72
+8	73
+10	74
+15	75
+8	76
+17	77
+14	78
+15	79
+13	80
+14	81
+18	82
+10	83
+13	84
+21	85
+12	86
+20	87
+20	88
+24	89
+22	90
+19	91
+29	92
+41	93
+55	94
+22	95
+25	96
+33	97
+22	98
+35	99
+29	100
+32	101
+27	102
+35	103
+43	104
+50	105
+40	106
+67	107
+68	108
+51	109
+43	110
+61	111
+64	112
+45	113
+46	114
+40	115
+63	116
+69	117
+59	118
+40	119
+60	120
+52	121
+42	122
+84	123
+60	124
+67	125
+52	126
+45	127
+77	128
+158	129
+48	130
+99	131
+53	132
+24	133
+60	134
+29	135
+40	136
+37	137
+37	138
+15	139
+43	140
+35	141
+36	142
+51	143
+57	144
+43	145
+42	146
+18	147
+36	148
+35	149
+26	150
+17	151
+32	152
+35	153
+31	154
+27	155
+13	156
+34	157
+19	158
+28	159
+24	160
+14	161
+19	162
+12	163
+53	164
+11	165
+44	166
+22	167
+10	168
+41	169
+12	170
+6	171
+6	172
+66	173
+7	174
+10	175
+7	176
+4	177
+8	178
+3	179
+2	180
+47	181
+4	182
+6	183
+2	184
+1	185
+3	187
+2	188
+2	189
+3	190
+1	191
+4	192
+1	193
+3	195
+2	196
+1	199
+1	200
+1	201
+1	202
+1	206
+1	213
+1	222
+
+It is little wonder that setsnap.pl indicates that "16" is the highest-frequency horizontal stem value, with 35,275 hits. (Keep in mind that the "Kanji" hint dictionary of this font includes glyphs for approximately 8,000 kanji.) In fact, the stem value of 16 is such a high frequency that we set only StdHW for this font, specifically a value of 16, and do not include a StemSnapH array. If I were to set a StemSnapH array, the stem value of 34 would be a likely candidate to include in it.
+
+Hopefully this helps to some degree...
+
+Dr. Ken Lunde
+Senior Computer Scientist, CJKV Type Development
+Adobe Systems Incorporated
+lunde@adobe.com</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-07-01 14:39:54"
+			itemprop="datePublished"
+		>
+			2009-07-01 14:39:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>lunde</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, Ken! I try again to comprehend and reproduce the standard stems of some Adobe fonts.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-07-01 16:44:14"
+			itemprop="datePublished"
+		>
+			2009-07-01 16:44:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You are overthinking this :)
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-07-01 17:00:08"
+			itemprop="datePublished"
+		>
+			2009-07-01 17:00:08
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Goran Soderstrom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Arno,
+
+Your goal should not be to reproduce the standard stems of some of our fonts, because there are no "correct" values. Rather, think of this exercise in terms of choosing one of many possible "correct" or "appropriate" values.
+
+Science is used to reveal candidate stem values, either through simplistic calculations (highest-frequency, for example), or more complex ones (as the "-o" option of setsnap.pl uses, which takes resolution and point size ranges into account).
+
+Philosophy is then used to pick from among the candidate values, and a good rule is that if you cannot decide between two relatively close values, choose the lower of the two.
+
+Art even comes into play. Experience is also another factor.
+
+I also agree that you should not overthink this.
+
+If you'd like me to take a stab at a font, feel free to send to me the stemHist output files, and I'll let you know what I think are appropriate stem values.
+
+Dr. Ken Lunde
+Senior Computer Scientist, CJKV Type Development
+Adobe Systems Incorporated
+lunde@adobe.com</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-07-01 17:15:27"
+			itemprop="datePublished"
+		>
+			2009-07-01 17:15:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>lunde</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>Bold or black fonts, in which the contrast is stronger, seem to need more values.</em>
+
+I don't think it's the contrast. There are often more quite distinct (numerically far apart) stem widths in the heavier weights.
+That's because with reference to the desirability of an overall even quality in text, "colour" (or notan) is more apparent and more instrumental in bold weights than the thickness of stems.
+For instance, Futura:
+[img:sites/default/files/old-images/FutET_5116.jpg]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-07-01 18:09:01"
+			itemprop="datePublished"
+		>
+			2009-07-01 18:09:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Nick Shinn</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">H
+H
+H
+H
+
+
+ChrisL</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-07-01 18:18:20"
+			itemprop="datePublished"
+		>
+			2009-07-01 18:18:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>If you’d like me to take a stab at a font, feel free to send to me the stemHist output files, and I’ll let you know what I think are appropriate stem values.</cite>
+
+Thanks, Ken. I would also send you a list of standard stems, from which I think, that they are well chosen.
+
+But another question: Imagine, that you have a font with the following real stem widths. (The font does not have any curves.)
+
+VERTICAL STEMS: 30 and 60
+HORIZONTAL STEMS: 40 and 50
+
+Then I would set the following vertical standard stems:
+30 and 60
+
+But I would think about deviding the sum of 40 and 50 for the one and only value of the horizontal standard stems, because the rasterizer tries to render in the width of the standard stems independent from the question, if their widths match with real stems. Would this be wrong? More to the point, there is no duty to choose standard stems, that really exist in the font, isn’t it? If, for example, the regular style and the italic style of a font are very similar in weight, I could use the same standard stems for both styles.
+
+And another thing with regard to bold and black styles: In my opinion it sometimes is better, not to provide any hints for those bold and black styles, but standard stems only. This often looks more smooth. Or alternatively vertical and horizontal standard stems, but vertical hints only. (Vertical hints hint horizontal stems.) Or as very elegant alternate way, vertical and horizontal standard stems and vertical ghost hints, that are exactly on the top and under the bottom of each glyph. I don’t know, whether that works, but I had this idea, when I saw the bar of a small t, which should align with the other small letters. I could not extend the alignment zone down to the top of the bar of the t, because there seems to be a maximum allowed width of alignment zones, but I have successfully aligned the bar of the t with the help of a ghost hint. (When I tried to extend the alignment zone down to the bar of the t, the alignment of all the other small letters did not work anymore.) And, surprise, if the ghost hint overlaps with the bar of the t and with the alignment zone, it will be additionally hinted.
+
+Yes, it may be, that I overthink this, but it really is hard to get detailed information about hinting without asking experts. The only tutorial with regard to PostScript-hinting seems to be David’s.
+
+----------
+
+Ken, I already have posted a bug report on the FontLab forum about the autohinting macro of the latest AFDKO. (The option "suppress hint substitution" does not work for sure and the option "allow changes in outlines" doesn’t seem to work.) But maybe it is better to contact the developers directly. Is there a better place, on which I can report bugs?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-07-01 20:25:34"
+			itemprop="datePublished"
+		>
+			2009-07-01 20:25:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><a href="http://forum.fontlab.com/adobe-fdk-for-opentype-afdko/bug-in-autohintscript-belonging-to-the-afdko-25-21898-t7057.0.html;msg23917#msg23917">My bug report of the autohinting macro, that is contained in the AFDKO.</a>
+I have fixed the bug and attached it there.
+
+I can edit my first message only. Why not the last one? That’s odd.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-07-01 21:44:29"
+			itemprop="datePublished"
+		>
+			2009-07-01 21:44:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Quoting myself
+<cite>(Vertical hints hint horizontal stems.)</cite>
+
+This is a point, in which I am not sure. In Fontographer hints of horizontal stems are displayed as vertical arrows. In FontLab they are displayed as two dashed horizontal lines. And in the FontLab terminology a vertical hint hints a vertical stem. On the one side the FontLab terminology is more intuitive. On the other side it is contradictory regarding to the alignment function of hints. And it ignores the difference between a normal and a ghost hint. So I prefer<strong>ed</strong> to call a hint, that hints a vertical stem, a horizontal hint. But I am relatively sure, that it is defined in a specification. I only have to find it.
+
+Edited:
+
+From the Type1 blackbook:
+
+<cite>The vstem hint, for each vertical stem (such as the legs of the
+letter “n” or the leftmost and rightmost sections of the letter “o”)
+takes two x values (expressed as x and delta-x) as arguments. These
+two x values indicate the horizontal range that the vertical stem’s
+width occupies in character space.</cite>
+
+I change my opinion and call vstem hints vertical hints in future. Or vstem hints.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-07-02 00:00:48"
+			itemprop="datePublished"
+		>
+			2009-07-02 00:00:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Sorry the hinting documentation is so limited. The tutorial I wrote so long ago was focused on Fontographer, and omitted things that FOG can't do. We are (more accurately: Miguel is) working on an expanded version, but it's a slow project and likely to take quite a while longer.
+
+Arno asked:
+<cite>But I would think about dividing the sum of 40 and 50 for the one and only value of the horizontal standard stems, because the rasterizer tries to render in the width of the standard stems independent from the question, if their widths match with real stems. Would this be wrong? More to the point, there is no duty to choose standard stems, that really exist in the font, isn’t it?</cite>
+
+There's no requirement that the standard stem weights match actual stems. Often the best result is more of an average of several closely-related values. But it does need to really represent the weight of the design.
+
+<cite>If, for example, the regular style and the italic style of a font are very similar in weight, I could use the same standard stems for both styles.</cite>
+
+This would be a bad idea. The rasterizer tries to make a visible difference between the regular and bold weights at small sizes (where both may have one-pixel stems), and uses the stem weight values to figure out what weights it's dealing with. If you lie to the rasterizer you're not likely to get good results.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-07-11 03:35:48"
+			itemprop="datePublished"
+		>
+			2009-07-11 03:35:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>DavidL</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ David or Miguel
+
+Is the expanded version already available? I even would be interested in it, if it is in a beta stadium.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-03-09 19:42:38"
+			itemprop="datePublished"
+		>
+			2010-03-09 19:42:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

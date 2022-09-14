@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Hustle with merging contours in FontLab | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Hustle with merging contours in FontLab" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/127281/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2017-12-03T14:16:38+00:00" />
+<meta property="article:modified_time" content="2017-12-03T14:16:38+00:00" />
+
+<meta itemprop="name" content="Hustle with merging contours in FontLab">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2017-12-03T14:16:38+00:00" />
+<meta itemprop="dateModified" content="2017-12-03T14:16:38+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Hustle with merging contours in FontLab"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Hustle with merging contours in FontLab</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2017-12-03T14:16:38Z">December 3, 2017</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Fabian Dornhecker</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hello everybody!
+First i hope i didn't overlook a specific topic where my question would fit better than in "general discussions".
+I have another "random" bug in FontLab i don't know how to deal with: I drew a font with 2 axes (4 masters) and before generating want to flatten all glyphs (means "merge contours"). But if i do so, the merged contour from e.g. master 1 will be applied to all other masters, which means i would have to draw these again. Also, this error applies randomly to some glyphs who don't even have 2 or more separate forms that could be merged.
+In an older project file this all works fine, so i really have no guess what this is about — has anyone of you ever dealt with this bug or some suggestions to fix it?
+Thanks in advance and have a nice sunday!</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">So, the short answer is, that won't work very well, for exactly the reason you describe. It's not a bug, it has to do with how MM fonts work. (FontLab VI deals with this a bit differently, but still, not something you want to do, normally/)
+There are two possible answers:
+- if you are going to make separate fonts, then remove overlap as part of your font-output routine AFTER you generate the instances. Generate instances, then remove overlap. 
+- if your ultimate output is variable fonts, then don't remove overlap. That's the whole reason variable fonts allow overlapping paths, because the consequences of overlap removal can be really problematic for your shapes.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2017-12-05 03:57:06"
+			itemprop="datePublished"
+		>
+			2017-12-05 03:57:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hey Thomas,
+thank you for your response — removing overlap in the generated instances is a brilliant idea and should work for me!
+Still i'm confused about the mechanics cause sometimes merging contours in the mm-file worked with obtaining all specific master instances. Is there anything besides the official manual to get some information about the mm-mechanics?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2017-12-06 16:54:55"
+			itemprop="datePublished"
+		>
+			2017-12-06 16:54:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Fabian Dornhecker</span
+			></span
+		>
+	</div>
+	 <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Well, you can ask questions... our user forums (https://forum.fontlab.com) are good for that. This place seems to have no spam controls, a shame for a once-amazing typographic forum.  :(
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2017-12-09 00:34:07"
+			itemprop="datePublished"
+		>
+			2017-12-09 00:34:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>New testbed for OpenType Layout features: Firefox 4 (beta 3) | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="New testbed for OpenType Layout features: Firefox 4 (beta 3)" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/73173/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-08-13T15:58:28+00:00" />
+<meta property="article:modified_time" content="2010-08-13T15:58:28+00:00" />
+
+<meta itemprop="name" content="New testbed for OpenType Layout features: Firefox 4 (beta 3)">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-08-13T15:58:28+00:00" />
+<meta itemprop="dateModified" content="2010-08-13T15:58:28+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="New testbed for OpenType Layout features: Firefox 4 (beta 3)"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">New testbed for OpenType Layout features: Firefox 4 (beta 3)</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-08-13T15:58:28Z">August 13, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">twardoch</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Firefox 4 (beta 3) has added OpenType Layout support, controllable through private CSS extensions. It works on Mac OS X by default, while in the Windows version of Firefox 4, you need to open the URL <code>about:config</code> and set the <code>gfx.font_rendering.harfbuzz.level</code> option to <code>1</code>.
+
+This is quite an interesting opportunity for font developers, and especially Python scripters. You could produce complex HTML renderings of your fonts including OpenType Layout feature previews, right out of your font editor such as FontLab Studio. Combined with the fact that Firefox supports webfonts in OTF and TTF formats, it's trivial to generate a simple web page. 
+
+The CSS property to use in <code>-moz-font-feature-settings</code>. The mechanism is <a href="http://hacks.mozilla.org/2009/10/font-control-for-designers/">documented</a> on the Mozilla Hacks blog. 
+
+Firefox 4 uses HarfBuzz, an opensource OpenType Layout library which provides a similar functionality to Uniscribe. HarfBuzz supports user-controllable OpenType Layout features as well as complex-script shaping rules. This all makes it a lightweight environment to test your OpenType Layout features. Unfortunately, Firefox currently does not <em>print</em> using webfonts, so you won't be able to get a PDF with your font showings out of Firefox easily. 
+
+<em>Correction: Firefox uses harfbuzz-ng, a "next generation" version of the library, which does not yet integrate complex-script shapers. So FF4 is, for now, good just for testing user-controllable OT Layout features.</em>
+
+Here's an example which renders "Hello small caps world!", in which "small caps" is rendered in OpenType small caps (with the "smcp" feature applied). 
+
+<code>
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;style type="text/css"&gt;
+		&lt;!-- 
+		@font-face {
+		font-family:'TestFamily';
+		src: url('MyTestFont.otf')  format("opentype");
+		} 
+		--&gt;
+		&lt;/style&gt;
+		&lt;title&gt;&lt;/title&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;p style="font-family:'TestFamily';font-size:36px;"&gt;
+			Hello &lt;span style="<strong>-moz-font-feature-settings:'smcp=1'</strong>;"&gt;small caps&lt;/span&gt; world!
+		&lt;/p&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</code>
+
+Enjoy!
+
+Best,
+Adam
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-08-13 21:52:19"
+			itemprop="datePublished"
+		>
+			2010-08-13 21:52:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>andreas</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">About freakin' time. Thanks to the people involved in pushing this very important aspect of text handling under HTML. It's there now, other browsers will follow if they know what time it is.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-08-14 00:45:41"
+			itemprop="datePublished"
+		>
+			2010-08-14 00:45:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>clauses</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">One thing I should point out: Firefox 4 uses "private" CSS extensions, with the prefix <code>-moz-</code>, which is the way to do it before new aspects of CSS have been standardized. 
+
+But the really good news is that an even more comprehensive mechanism for handling OpenType Layout features in CSS has been submitted for standardization at the W3 Consortium (I'm proud to say that I had a tiny little part in that). The current <a href="http://dev.w3.org/csswg/css3-fonts/">editor's draft of the CSS Fonts Module Level 3</a> specifies the "official" syntax, which is quite similar to that used by Firefox 4. Once the CSS3 Fonts draft is accepted, browser makers will be able to implement the official syntax. So things are on the way in the right direction. 
+
+And of course, it would be useful to provide a <a href="http://www.mozilla.com/en-US/firefox/beta/">link to the Firefox 4 beta</a> which does all this! :) On the Mac, you can copy <code>Firefox.app</code> from the <code>.dmg</code> to a temporary folder, rename it to <code>Firefox 4.app</code> and then move it to the <code>Applications</code> folder. This way, you'll be able to keep the release version of Firefox 3 untouched. You won't be able to run both versions at the same time, but you can quit one and run the other. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-08-14 14:53:59"
+			itemprop="datePublished"
+		>
+			2010-08-14 14:53:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This seems an opportune moment to remind people of the <a href="http://typophile.com/node/72477">CSS3 Fonts Module briefing/dialogue</a> in Los Angeles next week.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-08-14 16:54:16"
+			itemprop="datePublished"
+		>
+			2010-08-14 16:54:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm currently testing the latest beta of Firefox 4 (Mac). Overall good impression so far (faster, cleaner interface), but I've come across a problem:
+
+It seems that Firefox is doing some funky ppem-specific adjustment to spacing — automatically increasing tracking for bigger text sizes. (?)
+
+Is this behavior documented somewhere? Is there a way to turn this “feature” off?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-08-19 12:56:12"
+			itemprop="datePublished"
+		>
+			2010-08-19 12:56:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gferreira</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-08-19 16:17:58"
+			itemprop="datePublished"
+		>
+			2010-08-19 16:17:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Santiago Orozco</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I can't get my arbitraty fractions to work. And I've seen kerning do strange things too.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-08-19 19:35:34"
+			itemprop="datePublished"
+		>
+			2010-08-19 19:35:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>clauses</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">All the replacements I tried worked like a charme: http://opentype.info/blog/2010/08/14/better-web-typography-with-opentype-features/
+
+But I couln't use my CFF font with 2000 UPM - the spacing was all messed up.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-08-21 07:36:36"
+			itemprop="datePublished"
+		>
+			2010-08-21 07:36:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Typography.Guru</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Aha! My problem font was CFF with 2048 UPM too.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-08-21 12:01:45"
+			itemprop="datePublished"
+		>
+			2010-08-21 12:01:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>clauses</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Looking closer at the issue after a few weeks with the latest beta, it seems that Firefox is messing up with the space character only – stretching it for smaller PPEM sizes, and shrinking it as PPEM size increases.
+
+For a type designer this is quite annoying. The width of space characters is part of the design and should be respected by the rendering engine.
+
+This was probably intended as a feature (optical spacing), but it should be optional and not activated by default.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-09-10 12:47:34"
+			itemprop="datePublished"
+		>
+			2010-09-10 12:47:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gferreira</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The issue has been <a href="http://input.mozilla.com/en-US/search/?product=firefox&q=spacing+rendering">reported by users</a>, so let's hope Mozilla fixes it in the next release.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-09-10 13:22:45"
+			itemprop="datePublished"
+		>
+			2010-09-10 13:22:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gferreira</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

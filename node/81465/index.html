@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Opentype Features Order / Coding Question | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Opentype Features Order / Coding Question" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/81465/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-04-21T11:17:54+00:00" />
+<meta property="article:modified_time" content="2011-04-21T11:17:54+00:00" />
+
+<meta itemprop="name" content="Opentype Features Order / Coding Question">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-04-21T11:17:54+00:00" />
+<meta itemprop="dateModified" content="2011-04-21T11:17:54+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Opentype Features Order / Coding Question"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Opentype Features Order / Coding Question</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-04-21T11:17:54Z">April 21, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">bendy</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I'm trying to code my opentype features in the most efficient way, but not sure about what order they need to go in.
+
+Here's what I'm trying to achieve using dlig and salt.
+
+[img:sites/default/files/old-images/opentypeligs_6336.jpg]
+
+The first line is what appears by default, using just <code>liga</code>. The f has a slightly shorter hood.
+
+Second, the only difference is the descender, this should be a stylistic set.
+
+Third, using <code>dlig</code>, the crossbar or hood joins onto the next glyph.
+
+Fourth, if we want descending and joining ligatures, we can apply the stylistic set and the <code>dlig</code> feature.
+
+Codewise:
+
+<code>liga</code> 
+#something like
+sub f'f' by ff; #where ff is a tweaked composite of two fs.
+#etc for other ligs
+
+<code>ss01</code>
+#sub f' [b f h i j k l t] by f.alt; #where f.alt is the descending version.
+#plus some other substition to fix the double f ligs.
+
+<code>dlig</code>
+sub f' f' by f_f; #where f_f is the connected variant
+#etc for other ligs
+
+Now where do I stick the code that applies when both ss01 and dlig are applied? In both features? Is my code really messy?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It would only have to appear in one feature, and that would be whichever comes later, I would think.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-21 12:50:23"
+			itemprop="datePublished"
+		>
+			2011-04-21 12:50:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eliason</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">My first impression:
+
+—If you want the descender AND the ligatures in the same glyph, I’d say that you need to add some new glyphs to the font.
+—You could call those new glyphs using another stylistic alternate (ss02).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-21 12:55:45"
+			itemprop="datePublished"
+		>
+			2011-04-21 12:55:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Cristobal Henestrosa</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">[Not really sure about this, too early for me. I’ll come back in a couple of hours.]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-21 12:58:39"
+			itemprop="datePublished"
+		>
+			2011-04-21 12:58:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Cristobal Henestrosa</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">For something like this, my inclination is usually to do the stylistic variation first, and then the ligation. Since your ligatures seem to be all variants on the common f-ligature, I don't think 'dlig' is appropriate. I would use 'ss01' and 'liga', in that order. In other words, the input for the 'liga' feature will include output forms from the 'ss01' feature, e.g.
+
+'ss01'
+f -> f.ss01
+...
+
+'liga'
+f f -> f_f
+f.ss01 f.ss01 -> f_f.ss01
+...
+
+What you should consider is what behaviour would be appropriate if a user has turned on 'ss01' for only part of a ligating sequence, i.e. what should happen in 'liga' if the input sequence is
+
+f f.ss01
+
+or
+
+f.ss01 f</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-21 17:34:55"
+			itemprop="datePublished"
+		>
+			2011-04-21 17:34:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">And maybe the first f’s as calt (if they are shorter than the default f, that is)? </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-21 18:08:17"
+			itemprop="datePublished"
+		>
+			2011-04-21 18:08:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>Since your ligatures seem to be all variants on the common f-ligature, I don't think 'dlig' is appropriate
+
+John, thanks...well, I didn't put the other ligatures in that image, there are LOTS of them :)
+
+I'll try what you suggest and see what happens. I'll check what happens with the half-and-half situation too. Good catch.
+
+Frode, maybe, is calt on by default? My knowledge of this stuff is very patchy! First step is to make some classes to make the code neater...back soon.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-21 18:41:07"
+			itemprop="datePublished"
+		>
+			2011-04-21 18:41:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bendy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Calt is on by default in Indesign and Photoshop, but not in Illustrator (at least not CS3). The latter is a bug, I think. Although for me it is on for some wierd reason.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-21 19:09:40"
+			itemprop="datePublished"
+		>
+			2011-04-21 19:09:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Got it working. The descending f is in ss02.
+[img:sites/default/files/old-images/opentype-features_3774.gif]
+Thanks everyone!
+
+John, by the way, if the features are applied to one part of a sequence, all of it stays as the default glyphs. Not sure what would be best in that instance, and also where would the code go?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-22 15:53:07"
+			itemprop="datePublished"
+		>
+			2011-04-22 15:53:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bendy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite> > if the features are applied to one part of a sequence, all of it stays as the default glyphs […] and also where would the code go?
+
+Bendy, could you please post the code you finally used? This way it would be easier to think in complementary code…</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-22 20:46:36"
+			itemprop="datePublished"
+		>
+			2011-04-22 20:46:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Cristobal Henestrosa</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Sure Cristobal. Here we go. It's messy tho' ;)
+
+feature liga {#this tweaks glyphs for better fit. Should perhaps be calt rather than liga
+   sub f f f by fff;
+   sub f' f' [igrave icircumflex idieresis itilde imacron ibreve jcircumflex uni0209 uni020B uni01D0 uni1E2F uni1EC9] by f_f.short;
+   sub f' [igrave icircumflex idieresis itilde imacron ibreve jcircumflex uni0209 uni020B uni01D0 uni1E2F uni1EC9] by f.short;
+   sub f f by ff; #standard ligs for backward compatability. Small tweaks to shapes
+   sub f i by fi;
+   sub f l by fl;
+   } liga;
+
+feature dlig {#this joins up the ligatures and there are lots of them. I may move some to hlig
+  sub c b by c_b;
+  sub c h by c_h;
+  sub c i by c_i;
+  sub c k by c_k;
+  sub c l by c_l;
+  sub c t by c_t;
+  sub f f b by f_f_b;
+  sub ff b by f_f_b;
+  sub f f f by f_f_f;
+  sub fff by f_f_f;
+  sub f f h by f_f_h;
+  sub ff h by f_f_h;
+  sub f f i by f_f_i;
+  sub ff i by f_f_i;
+  sub f f j by f_f_j;
+  sub ff j by f_f_j;
+  sub f f k by f_f_k;
+  sub ff k by f_f_k;
+  sub f f l by f_f_l;
+  sub ff l by f_f_l;
+  sub f f t by f_f_t;
+  sub ff t by f_f_t;
+  sub f b by f_b;
+  sub ff by f_f.alt;
+  sub f f by f_f.alt;
+  sub f h by f_h;
+  sub f i by f_i.alt;
+  sub fi by f_i.alt;
+  sub f j by f_j;
+  sub f k by f_k;
+  sub f l by f_l.alt;
+  sub fl by f_l.alt;
+  sub f thorn by f_thorn;
+  sub f t by f_t;
+  sub g h by g_h;
+  sub g i by g_i;
+  sub g j by g_j;
+  sub g l by g_l;
+  sub g thorn by g_thorn;
+  sub i t by i_t;
+  sub j t by j_t;
+  sub o h by o_h;
+  sub o k by o_k;
+  sub o l by o_l;
+  sub p h by p_h;
+  sub p i by p_i;
+  sub p l by p_l;
+  sub p p by p_p;
+  sub s b by s_b;
+  sub s h by s_h;
+  sub s i by s_i;
+  sub s k by s_k;
+  sub s l by s_l;
+  sub s p l by s_p_l;
+  sub s p by s_p;
+  sub s thorn by s_thorn;
+  sub s t by s_t;
+  sub T h by T_h;
+  sub t t by t_t;
+  } dlig;
+
+feature ss02 {#descending f 
+  #non connected
+   sub f f f by fff.001;
+   sub fff by fff.001;
+   sub f' f' [igrave icircumflex idieresis itilde imacron ibreve jcircumflex uni0209 uni020B uni01D0 uni1E2F uni1EC9] by f_f.short.001;
+   sub f' f' [b f h i j k l t thorn] by ff.001;
+   sub f' [igrave icircumflex idieresis itilde imacron ibreve jcircumflex uni0209 uni020B uni01D0 uni1E2F uni1EC9] by f.short.001;
+   sub f' [b h i j k l t thorn] by f.alt;
+   sub ff by ff.001;
+   sub fi by fi.001;
+   sub fl by fl.001;
+   sub f f by ff.001;
+  #and for the connected ligatures
+   sub f_b by f_b.001;
+   sub f_f.alt by f_f.001;
+   sub f_f_b by f_f_b.001;
+   sub f_f_f by f_f_f.001;
+   sub f_f_h by f_f_h.001;
+   sub f_f_i by f_f_i.001;
+   sub f_f_j by f_f_j.001;
+   sub f_f_k by f_f_k.001;
+   sub f_f_l by f_f_l.001;
+   sub f_f_t by f_f_t.001;
+   sub f_h by f_h.001;
+   sub f_i.alt by f_i.001;
+   sub f_l.alt by f_l.001;
+   sub f_j by f_j.001;
+   sub f_k by f_k.001;
+   sub f_thorn by f_thorn.001;
+   sub f_t by f_t.001;
+} ss02;
+
+The code is messy because I thought I'd get very confused with everything in classes. 
+
+I haven't made connected glyphs for the f_igrave etc yet, not sure if that's really a good use of time...!
+
+Let me know if this needs more explanation; some of the glyph names are not immediately clear I know.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-23 00:16:17"
+			itemprop="datePublished"
+		>
+			2011-04-23 00:16:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bendy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You have some minor issues with glyph names. For example, "fff" is not a great glyph name, better off as "f_f_f"....
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-24 19:57:29"
+			itemprop="datePublished"
+		>
+			2011-04-24 19:57:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks Thomas, I wondered if that might be a problem, and already renamed some of them. I'll have to think up some alternative names as f_f_f is the connected form. Maybe it's best to call them f.dlig and f.ss02 for clarity's sake.
+
+I was also slightly wondering if the non-connected forms of fi should appear in a contextual alternate feature, but not sure why that would be better so left in the liga one.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-24 21:38:10"
+			itemprop="datePublished"
+		>
+			2011-04-24 21:38:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bendy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> f.dlig
+
+That would be an alternate of a single f, not a replacement for three f's. How about f_f_f.dlig?
+
+The main thing as far as what features to put things in, is whether the feature is on or off by default, and whether the user will be confused or comfortable with the groupings of alternates together in a single feature....
+
+cheers,
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-26 23:45:07"
+			itemprop="datePublished"
+		>
+			2011-04-26 23:45:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

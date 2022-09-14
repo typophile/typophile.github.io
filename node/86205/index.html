@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Duplicating kerning classes in Fontlab via script | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Duplicating kerning classes in Fontlab via script" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/86205/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-10-08T17:23:12+00:00" />
+<meta property="article:modified_time" content="2011-10-08T17:23:12+00:00" />
+
+<meta itemprop="name" content="Duplicating kerning classes in Fontlab via script">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-10-08T17:23:12+00:00" />
+<meta itemprop="dateModified" content="2011-10-08T17:23:12+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Duplicating kerning classes in Fontlab via script"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Duplicating kerning classes in Fontlab via script</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-10-08T17:23:12Z">October 8, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">butterick</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">So I see that a FL font object has a "classes" attribute that's a list of the classes in the font.
+
+1) Is there a way to filter this list to only see kerning classes?
+
+2) When I try to copy kerning classes via script, e.g. — 
+
+fl.font2.classes = fl.font1.classes
+
+This will copy the class members properly, but it loses the state of the left glyph / right glyph checkboxes in the class panel. Where does that data live?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Filter for kerning classes by matching the first character of each class with an underscore:
+<pre>
+classes = fl.font.classes
+for c in range( len(classes) ):
+  class_text = classes[c]
+  if class_text[0] == "_":
+    print class_text
+</pre></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-08 23:13:15"
+			itemprop="datePublished"
+		>
+			2011-10-08 23:13:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You can also save a copy of your classes as a text file from the "Classes" menu.  In the upper left corner of the window is a tiny icon which when clicked reveals the option to "Save classes".  You can  either import this file completely as a replacement classes file, append some parts of it, or copy paste from a text editor the things you want.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-08 23:41:10"
+			itemprop="datePublished"
+		>
+			2011-10-08 23:41:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The FontLab Font object offers the folowing methods to access class attributes:
+<dl>
+<dt><strong>SetClassFlags</strong>(int class_index, bool left, bool right)</dt> 
+<dd>allows to set 'left' and 'right' properties of the kerning class</dd>
+<dt><strong>SetClassFlags</strong>(int class_index, bool lsb, bool rsb, bool width)</dt>
+<dd>allows to set 'lsb', 'rsb' and 'width' properties of the metrics class</dd>
+<dt><strong>GetClassLeft</strong>(int class_index)</dt> 
+<dd>returns the 'left' property of the class</dd>
+<dt><strong>GetClassRight</strong>(int class_index)</dt>
+<dd>returns the 'right' property of the class</dd>
+<dt><strong>GetClassMetricsFlags</strong>(int class_index)</dt> 
+<dd>returns the tuple containing LSB, RSB and Width flags of the metrics class</dd>
+</dl></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-09 08:45:54"
+			itemprop="datePublished"
+		>
+			2011-10-09 08:45:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eigi</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks Eigi. Mission accomplished
+
+<pre>
+# copy kern class information from source
+kernClasses = []
+kernClassesToBooleans = {}
+for index, glyphClass in enumerate(sourceFLFont.classes):
+    if glyphClass.startswith("_"):
+        kernClasses.append(glyphClass)
+        kernClassesToBooleans[glyphClass] = (sourceFLFont.GetClassLeft(index), sourceFLFont.GetClassRight(index))
+
+# clear target; copy classes
+targetFLFont.classes = []
+targetFLFont.classes = kernClasses
+
+# copy booleans into target
+for index, kernClass in enumerate(targetFLFont.classes):
+    leftBool, rightBool = kernClassesToBooleans[kernClass]
+    targetFLFont.SetClassFlags(index, leftBool, rightBool)
+</pre></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-09 16:17:12"
+			itemprop="datePublished"
+		>
+			2011-10-09 16:17:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>butterick</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

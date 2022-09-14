@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MM Typeface and [FATAL] GPOS feature &#39;kern&#39; causes overflow of offset to a subtable | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="MM Typeface and [FATAL] GPOS feature &#39;kern&#39; causes overflow of offset to a subtable" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/97873/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-11-07T09:50:42+00:00" />
+<meta property="article:modified_time" content="2012-11-07T09:50:42+00:00" />
+
+<meta itemprop="name" content="MM Typeface and [FATAL] GPOS feature &#39;kern&#39; causes overflow of offset to a subtable">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-11-07T09:50:42+00:00" />
+<meta itemprop="dateModified" content="2012-11-07T09:50:42+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MM Typeface and [FATAL] GPOS feature &#39;kern&#39; causes overflow of offset to a subtable"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">MM Typeface and [FATAL] GPOS feature 'kern' causes overflow of offset to a subtable</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-11-07T09:50:42Z">November 7, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">kateliev</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi everyone,
+
+I’m am stuck in the following peculiar situation:
+
+I have a MM typeface, composed from two masters (weight – wt0 and wt1). After careful kerning  (started four times from scratch) I ended with 6000 kern pairs, which include Latin, Cyrillic, small caps for both, different numeral sets, fractions and etc. – it’s a big typeface. When building the kern feature and then compiling the font everything works just fine. But, if I split the typeface to the desired instances, for fine tuning and polishing, it seems that after updating the kern feature, every font does not compile (excluding the equivalent of wt0) - ending with “[FATAL] GPOS feature 'kern' causes overflow of offset to a subtable”. The peculiar thing is that, if I split the typeface only to the two masters wt0 and wt1, wt0 compiles ok with 6000 pairs. On the other hand wt1 does return “GPOS overflow..” every time, until I reduce the pairs to approximately 4420, which is -1600 pairs short. 
+
+Any ideas what could cause this kind of behavior?  Thank you in advance!
+
+note: I am using Fontlab 5.04 win. My class kerning is revolving around the idea to have class for every glyph (not shape type) that is part of composite + Cyrillic : A’ Atilte Adireseis…..cyrillic A…etc.  Classes are composed from mixed script characters, so I could only kern for differences.
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I've gotten this message, trying to generate fonts with far fewer kerning pairs. Maybe FontLab ought to pay more attention to fixing structural flaws, rather than adding a lot of new and unasked-for functions and features, which will probably involve a steep learning curve. IMHO.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-11-07 12:51:53"
+			itemprop="datePublished"
+		>
+			2012-11-07 12:51:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>oldnick</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You shouldn’n mix different scripts in one kerning class, it may cause an increasing of unnecessary kerning pairs when changing class kerning into plain kerning (because some applications don’t support class kerning). Also I remember Miguel Saosa wrote that when you have a large character set (more than 2000 glyphs) and different scripts you have to optimise kern feature, for example your classes for different scripts shouldn’t mix in the class panel: first all latin classes should go and after them all cyrillic ones or first cyrillic and then latin, but don’t mix them. I think this may be the reason for your kern feature overflow. I had kern feature overflow too, and after rearranging of classes my feature compiled. Also check if there any glyphs that belong to more then one class with one side. Hope it helps. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-24 12:26:42"
+			itemprop="datePublished"
+		>
+			2012-12-24 12:26:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Yulia</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This error generally occurs because the contents of the kern feature lookups overflow the size limit of the GPOS subtable. The way to fix it is to break up the kern feature into a number of smaller subtables. This can be done manually in the feature code, but for best results I recommend licensing Karsten Luecke's excellent <a href="http://www.kltf.de/kltf_otproduction.htm">KLTF Make Kern Feature</a> script, which analyses your kerning data and generates the most efficient kern feature code with appropriate subtable breaks.
+
+See also http://www.kltf.de/downloads/KLTF-MakeKernFeature.pdf</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-24 18:50:50"
+			itemprop="datePublished"
+		>
+			2012-12-24 18:50:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The experts at FSI -who were going to be doing the final production on Ernestine*- warned me early on to keep the kerning in my Armenian component lean, since the font overall had so many characters. I ended up staying under 300, which was a bit disappointing**. Somebody somewhere should fix this problem.
+
+* http://ernestinefont.com/
+
+** As a comparison, I ended up with about 800 in a third-party Armenian-component spacing & kerning job I just finished.
+
+John, I assume Luecke's script doesn't circumvent <em>all</em> such limits?
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-24 22:13:57"
+			itemprop="datePublished"
+		>
+			2012-12-24 22:13:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>I assume Luecke's script doesn't circumvent all such limits?</em>
+
+I'm not sure what you mean. It circumvents the kern subtable overflow limit, which is what it is designed to do. I've used it -- via the VOLT export option -- on some very large fonts with the class+exception equivalent of >100,000 flat kern pairs.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-24 23:09:46"
+			itemprop="datePublished"
+		>
+			2012-12-24 23:09:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">And the reason FSI for one doesn't use this technique/script?
+
+Sort of related:
+You know what's funny BTW? The guy who made Maven* being so proud that it has 6,500 kerns, except pretty much everything is (most likely auto) kerned... and it still sets like junk. Bah, who needs to worry about sidebearings anyway!  :-/
+
+* http://vissol.co.uk/mavenpro/
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-24 23:37:52"
+			itemprop="datePublished"
+		>
+			2012-12-24 23:37:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>And the reason FSI for one doesn't use this technique/script?</em>
+
+No idea. The other way to do it is manually, and most people use trial and error or best guess about where to put the subtable breaks.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-25 02:04:38"
+			itemprop="datePublished"
+		>
+			2012-12-25 02:04:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Was the kern subtable overflow limit set in the beginning before we had so many extremely large fonts to work with? 
+
+I have also used Karsten's script, he also recommends some particular naming conventions for classes which helps minimize the problem.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-25 02:11:17"
+			itemprop="datePublished"
+		>
+			2012-12-25 02:11:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Karsten"s script has saved my bacon for years! Best additional purchase I have made for Fontlab.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-27 16:19:45"
+			itemprop="datePublished"
+		>
+			2012-12-27 16:19:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Charles_borges_de_oliveira</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Chris: <em>Was the kern subtable overflow limit set in the beginning before we had so many extremely large fonts to work with?</em>
+
+It's not particular to the kern feature subtable, it just happens that this feature is the most common to exceed the subtable limit. The limit is part of the basic architecture of TrueType, in which there is a 64k size restriction on table size. The extension mechanism in the OpenType Layout tables enables this to be overcome, but each subtable within the mechanism is still limited to 64k.
+
+Recently, I hit the GPOS subtable limit with a mark positioning feature, and presently I have no tool to perform the kind of subtable break that Karsten does for the kern feature. I had to manually optimise my mark feature contents to fit within a single subtable.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-27 19:31:10"
+			itemprop="datePublished"
+		>
+			2012-12-27 19:31:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">ouch!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-27 20:33:20"
+			itemprop="datePublished"
+		>
+			2012-12-27 20:33:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>Somebody somewhere should fix this problem.</blockquote>
+
+Which is is what I did.
+
+<blockquote>John, I assume Luecke's script doesn't circumvent all such limits?</blockquote>
+
+It does not 'circumvent' any limits. It simply breaks up data into junks small enough to stay within subtable-size limitations, as a consequence, offset-value limitations.
+
+<blockquote>And the reason FSI for one doesn't use this technique/script?</blockquote>
+
+Only FSI knows.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-01-17 11:02:01"
+			itemprop="datePublished"
+		>
+			2013-01-17 11:02:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">"The limit is part of the basic architecture of TrueType..."
+
+All good, but it's immediately a limit on the sfnt that causes the overflow, so it's in the architecture of all the wrappers wrap.
+
+The less immediate issue is that the gpos provides control over glyph placement for sophisticated text layout and the rendering of each script and language system that a font supports, while the kerning table contains the values that control the inter-character spacing for the glyphs in a font.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-01-17 13:15:30"
+			itemprop="datePublished"
+		>
+			2013-01-17 13:15:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you Karsten!
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-01-17 14:21:48"
+			itemprop="datePublished"
+		>
+			2013-01-17 14:21:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks again, Karsten, for your many helpful tools and suggestions!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-01-17 15:27:15"
+			itemprop="datePublished"
+		>
+			2013-01-17 15:27:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">David, are you referring to the 'kern' table? That comes with numerous limitations of it's own, and trying to separate 'inter-character spacing for the glyphs in a font' from 'glyph placement for ... the rendering of each script and language system that a font supports' isn't an option for many of those scripts and languages. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-01-17 19:52:12"
+			itemprop="datePublished"
+		>
+			2013-01-17 19:52:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Is there another kind?
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-01-18 17:55:33"
+			itemprop="datePublished"
+		>
+			2013-01-18 17:55:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">There's GPOS kerning, hence my query as to your meaning, because your statement appeared to make a distinction between GPOS and kerning, and the phrase 'kerning table', as distinct from the specific 'kern' table, could refer to a GPOS kern feature subtable (the thing that goes boom and prompts threads like this one).
+
+As far as I'm concerned the 'kern' table is a legacy data format; it's been a decade since I've been asked to ship a font containing one, and even then it was only a subset of the kerning provided in the GPOS table, and only included for backwards compatibility. In most of the fonts I make, the kern table simply can't do what I need kerning to be able to do.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-01-18 19:23:14"
+			itemprop="datePublished"
+		>
+			2013-01-18 19:23:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">And what is that?
+
+As far as the name, I call it what MS documentation calls it "the kerning table". Hope that's clear. 
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-01-18 21:28:16"
+			itemprop="datePublished"
+		>
+			2013-01-18 21:28:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">For most of the scripts I work with, contextual kerning is a requirement, not an option. This is even the case in Latin fonts that support GPOS mark positioning. Consider that the kerning of the glyph pair <em>Te</em> is unlikely to be appropriate if the <em>e</em> is carrying a combining mark glyph above it. I'm also mostly working with glyph sets in which class kerning is essential to handle the number of glyphs involved; it isn't unusual for flattened kerning to be >65,000 pairs in one font.
+
+<em>As far as the name, I call it what MS documentation calls it "the kerning table".</em>
+
+Ah, you mean the Kerning table.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-01-18 22:16:22"
+			itemprop="datePublished"
+		>
+			2013-01-18 22:16:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

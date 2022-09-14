@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>OS X doesn&#39;t like my font | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="OS X doesn&#39;t like my font" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/90462/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-02-26T17:46:03+00:00" />
+<meta property="article:modified_time" content="2012-02-26T17:46:03+00:00" />
+
+<meta itemprop="name" content="OS X doesn&#39;t like my font">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-02-26T17:46:03+00:00" />
+<meta itemprop="dateModified" content="2012-02-26T17:46:03+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="OS X doesn&#39;t like my font"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">OS X doesn't like my font</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-02-26T17:46:03Z">February 26, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Theunis de Jong</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I created a CFF flavored OTF font with TTX, and it works <em>perfectly</em> in InDesign CS4 -- when placed into ID's own private Fonts folder, that is.
+
+But although OS X (Lion) gives me the option to "Open in FontBook" on the file, it just won't appear in there ... Manually copied it into ~/Library/Fonts and it still doesn't appear in the active font list.
+
+Could it be some arcane bits settings in the various tables that makes FontBook distrust it <em>so</em> much it doesn't even pop up the helpful "errors in font" dialog? Or is it perhaps as simple as the fact that this font only contains 9 lowercase characters ...? I.e., would adding 'A-Z' and 'a-z' but setting all references to them to <code>.notdef</code> solve it? (If so, what else characters are "required" cuz that won't make it an ANSI compatible font either.)</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Adobe's checkOutlines found some problems in my glyphs. After fixing these, I tried force-feeding this fontlet into FontBook's throat and <em>finally</em> got <em>a</em> result -- even though it's not really explaining the problem ...
+
+[img:sites/default/files/old-images/fontbook_3879.png]
+
+At least those cumbersome little tables seem to have "correct" values, now on to find what's wrong with the ones unmentioned: GSUB, and the CFF itself. I'm going to try to ditch the GSUB and see if that helps.
+
+<small>(Hey, I <em>can</em> upload an image using FireFox!)</small></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-26 22:11:33"
+			itemprop="datePublished"
+		>
+			2012-02-26 22:11:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Okay, that was <em>no</em> fun at all :-)
+
+After checking virtually <em>every</em> single bit in my source TTX and going over every line of <code>ftxvalidator</code> output I finally nailed the problem. FYI, this was PICNIC ("Problem In Chair, Not In Computer").
+
+It didn't help that <code>ftxvalidator</code> kept on telling me that a font with my Postscript name "is already installed". Running <code>atsutil databases -removeUser</code> a few times finally cleared that 'error', and only then something made me check the Postscript name in the 'name' table ... against the Postscript name in my CFF.
+
+Duh. None of the tools I tried (Adobe's own AFDKO suite, Apple's Font SDK, Font Book, Linotype Font Explorer, and TTX itself) thought it worth mentioning. InDesign probably ditches the 'name' table as soon as it can and uses only the CFF data; or possibly it's smarter than your average bear (hold on, I'm gonna check what it says as "Postscript name" ... the one in the 'name' table! A small surprise here, it actually ignores the one in the CFF part.) 
+
+(Good news is I learned about twenty other <em>possible</em> issues with my home grown font creator. And of course I learned how to use the above-mentioned dozen or so tools.)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-27 23:21:14"
+			itemprop="datePublished"
+		>
+			2012-02-27 23:21:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

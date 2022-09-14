@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Troubles with html entities referred to specific glyphs (HTML, FontLab) | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Troubles with html entities referred to specific glyphs (HTML, FontLab)" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/107392/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2013-11-21T23:55:43+00:00" />
+<meta property="article:modified_time" content="2013-11-21T23:55:43+00:00" />
+
+<meta itemprop="name" content="Troubles with html entities referred to specific glyphs (HTML, FontLab)">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2013-11-21T23:55:43+00:00" />
+<meta itemprop="dateModified" content="2013-11-21T23:55:43+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Troubles with html entities referred to specific glyphs (HTML, FontLab)"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Troubles with html entities referred to specific glyphs (HTML, FontLab)</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2013-11-21T23:55:43Z">November 21, 2013</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">P. Galihutson</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hello everyone,
+I try to explain you the problem.
+
+I created a typography that has both common (e.g. between "f" and "i") and custom (e.g. between "p" and "p") ligatures and used FontLab to export the font in ttf.
+Now I want an HTML page to display the font and I write & #xFB01 for common ligature between "f" and "i".
+But where should I operate to display custom ligature between "p" and "p"?
+
+Thank you in advance for your attention!
+Filippo</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This is most certainly not called “a typography”. I have no idea what that means. 
+
+Option 1: Give the pp ligature a unicode slot in the PUA area. This is the worst option, because it isn’t indexable, copyable or readable for the blind. So, some users may not be able to read it — but all users can see the decoration.
+
+Option 2: Write an OT liga feature to substitute two p’s for a pp ligature, and reference it with CSS. This is a somewhat better option. Text remains indexable, copyable and readable for all. Unfortunately, OpenType features are still not supported by all browsers. So, some users may not see the decoration — but all users can read it.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-11-22 01:26:17"
+			itemprop="datePublished"
+		>
+			2013-11-22 01:26:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I think, Frode, we can safely assume he meant typeface and font.
+
+Filippo: MUFI (the Medieval Unicode Font Initiative) assigned the PUA slots uniEED6 to the pp ligature and uniEEDD to the PP ligature in its character lists. So, if you take the first route, these slots are slightly better than others. They would, in HTML, be &amp;#xEED6; and &amp;#xEEDD; respectively.
+
+But as Frode says, the second option is better. Doing both may be even better, though.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-11-24 05:15:23"
+			itemprop="datePublished"
+		>
+			2013-11-24 05:15:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Té Rowan</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you guys and sorry for my English that is a bit unclear..! Yes I meant "typeface" instead of "typography".
+
+Returning to the problem I tried with the second option and discarded the first one! I created the glyphs (and ligatures) and kerning pairs in Fontlab and then activated them by css properties @font-face, text-rendering, font-variant-ligatures and font-feature-settings.
+The result?
+
+Google Chrome on Mac: Ok but some kerning pairs are missing (e.g. between lowercase o and superscript 1).
+Mozilla Firefox on Mac: Ok.
+Opera on Mac: Ok but some kerning pairs are missing (e.g. between lowercase o and superscript 1).
+Apple Safari on Mac: Fail, it does not render ligatures and, even more serious, kerning (!!!).
+Internet Explorer: Still not tested.
+
+Google Chrome on iPhone: Ok but some kerning pairs are missing (e.g. between lowercase a grave and z_z ligature).
+Opera on iPhone: Fail, it does not download .ttf font.
+Apple Safari on iPhone: Ok but some kerning pairs are missing (e.g. between lowercase a grave and z_z ligature).
+
+As you can see, it is difficult to identify the problem because, where there are minor problems, only some kerning pairs are missing. Any suggestion to fix this problem in cross-browsing?
+And what about desktop Apple Safari? Why doesn't it render kerning pairs?
+
+Thank you in advance for your attention!
+Filippo</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-11-24 12:11:58"
+			itemprop="datePublished"
+		>
+			2013-11-24 12:11:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>P. Galihutson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">To try to solve the problems I think I should tell you something more about my process in Fontlab, a software that I do not control very well yet.
+
+Here are the list of actions done:
+1) Created glyphs in Illustrator and imported to Fontlab (only a few glyphs).
+2) Specified the width of every glyph.
+3) Set the settings in "Font Info".
+4) Set the language system in the Open Type panel (languagesystem latn dflt;).
+5) Created the ligatures features in the Open Type panel (and compiled).
+6) Opened the Metrics panel and manually set the kerning between specific pairs of glyphs.
+7) Saved and exported font in .otf e .ttf formats (the one I tried on the html+css page is the True Type .ttf).
+
+I ask you experts if there is something wrong. Maybe the kerning problems in different browsers originates from the fact I set kerning in this way?
+
+Thank you for the attention!
+Filippo</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-11-24 15:52:28"
+			itemprop="datePublished"
+		>
+			2013-11-24 15:52:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>P. Galihutson</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

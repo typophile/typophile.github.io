@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>OT features problem | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="OT features problem" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/90819/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-03-07T18:28:25+00:00" />
+<meta property="article:modified_time" content="2012-03-07T18:28:25+00:00" />
+
+<meta itemprop="name" content="OT features problem">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-03-07T18:28:25+00:00" />
+<meta itemprop="dateModified" content="2012-03-07T18:28:25+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="OT features problem"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">OT features problem</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-03-07T18:28:25Z">March 7, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Vít Šmejkal</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hello everybody,
+I'm working on a new font and I would like to make few non-standard OT features. But I cannot figure out how to make them work:
+
+The First one should make a special underline or strikethrough effect. It would be most probably Stylistic set. I want it to insert a special zero-with "underline" character I made after every single glyph in my font except for space (and maybe few more glyphs). I have made a huge class including all characters but space, and tried to make some substitutions, but no success yet. 
+
+The second feature should make quite simple substitution for letter pairs like "oo" "ee" "ll" "gg". It would not be problem if there wasn't so many combinations to list them all individually. Let's suppose two classes are defined: @class01 (o e l g) and @class02 (o.alt e.alt l.alt g.alt). I thought something like <em>sub @class1 @class1 by @class1 @class2</em> but this kind of substitution does not work.
+
+This feature could also work in two ways: 
+- substitute just the same letter pairs like "o-o" to "o-o.alt" (and ignore "o-g"), or
+- substitute all combinations from defined classes, e.g also "o-g" to "o-g.alt"
+I would put this in Calt feature, but it also does not work yet :(
+
+Could anyone help, please?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">instead of 
+sub @class1 @class1 by @class1 @class2
+you should use
+sub @class1 @class1' by @class2
+
+The tick (') indicates the piece that should be substituted for.
+That should work whereas your "many-to-many" substitution won't.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-07 18:36:47"
+			itemprop="datePublished"
+		>
+			2012-03-07 18:36:47
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eliason</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you for the tip! It works :)
+This feature substitutes all the combinations (not just two identical characters one after another) which works quite well for me. 
+
+Any suggestions for the first Feature?
+What I want is actually to change the string like "abcd" to "aXbXcXdX" only with exception for space (or few more characters).
+
+I have been trying something like sub @All by @All X and few more, but still no success...
+
+Also is there any command which can "invert" current class to its opposite? This could help to avoid creating very huge classes. For instance my class @All would contain hundreds of glyphs while its negative only one or two. This could be very useful.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 16:07:05"
+			itemprop="datePublished"
+		>
+			2012-03-08 16:07:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Vít Šmejkal</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite> Any suggestions for the first Feature?
+What I want is actually to change the string like "abcd" to "aXbXcXdX" only with exception for space (or few more characters). </cite>
+
+One to many substitutions can only be applied to individual glyphs, not to glyph classes, so you'd need something like:
+
+sub a by a X;
+sub b by b X;
+etc.
+
+You might want to look at [[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html|the adobe feature file syntax guide]]
+
+As for 'inverting' classes, that's best done using the <code>ignore</code> keyword, also described in the above guide.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 16:50:41"
+			itemprop="datePublished"
+		>
+			2012-03-08 16:50:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you André,
+this should definitely work but in my specific case there would be hundreds of substitutions. I'm still hoping there could be a more sophisticated way to do this... ?
+
+(v)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 17:37:51"
+			itemprop="datePublished"
+		>
+			2012-03-08 17:37:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Vít Šmejkal</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Unfortunately, there's no shorter way of doing this of which I am aware.
+
+Also, be advised that a number of major applications (including the Adobe CS applications) don't actually support one-to-many substitutions so if you do go this route your font will not work for all users.
+
+You might achieve better results by simply including underlined variants of all applicable glyphs.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 21:03:15"
+			itemprop="datePublished"
+		>
+			2012-03-08 21:03:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>Also is there any command which can "invert" current class to its opposite? </em>
+
+Take a look at how “ignore” is used to substitute initial and final alternates, after or before a space/punctuation; this is primarily in script fonts.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 22:59:35"
+			itemprop="datePublished"
+		>
+			2012-03-08 22:59:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Nick Shinn</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">(It’s in the Fontlab manual.)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 23:01:16"
+			itemprop="datePublished"
+		>
+			2012-03-08 23:01:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Nick Shinn</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Vit, this topic should be in the BUILD forum.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 23:05:52"
+			itemprop="datePublished"
+		>
+			2012-03-08 23:05:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Nick Shinn</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for you explanation. 
+
+I think I will do it in slightly different way, however it wouldn't be as user friendly as I wanted. But it is not that principal "feature" to make so many alternates.
+
+To achieve the desired "underline" effect, the source string should be a_b_c_ and then simple substitution will change the underscore to its special.alt version. 
+
+Although it would be quite tedious for the user to write down all those underscores. It would be much pleasant just to select desired portion of text and then apply Stylistic set. On the other hand it would be mostly applicable just to one or few word, so it's not that big deal.
+
+Thank you anyway :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 23:12:41"
+			itemprop="datePublished"
+		>
+			2012-03-08 23:12:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Vít Šmejkal</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm sorry Nick, I will be more careful next time.
+
+(v)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 23:25:39"
+			itemprop="datePublished"
+		>
+			2012-03-08 23:25:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Vít Šmejkal</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The simplest thing to do is to create alternate glyphs that include the underscore, for every character. “Sophistication” would be needless complexity—featuritis—in this instance. 
+
+If you’re working in FontLab, the “new glyph” command will make your alternate glyphs with the original glyph vector paths and width, which is a huge timesaver.
+
+Class size is not an issue: if the end users have access to software that supports OpenType features, then their hardware is powerful enough to blast through fonts with large numbers of glyphs. That’s digitech synergy.
+I’ve made fonts with multiple alternates of every character (for pseudo-randomization), and they work just fine.
+
+The worst that happens is that documents with many pages and much text take a fraction longer to open, but that fraction is marginal, compared to, for instance, the lag caused by image files.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-09 00:22:38"
+			itemprop="datePublished"
+		>
+			2012-03-09 00:22:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Nick Shinn</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite> I think I will do it in slightly different way, however it wouldn't be as user friendly as I wanted. But it is not that principal "feature" to make so many alternates.</cite>
+
+<cite>To achieve the desired "underline" effect, the source string should be a_b_c_ and then simple substitution will change the underscore to its special.alt version.</cite>
+
+This seems like a misguided approach. Requiring the user to enter underscores will not only add extra work for them, but it will interfere with spellchecking, hyphenation, etc.
+
+Adding underlined alternates would require very little time or effort on your part since its a purely mechanical procedure which doesn't involve drawing any new glyphs -- just copying the old ones and then adding the underline.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-09 00:43:33"
+			itemprop="datePublished"
+		>
+			2012-03-09 00:43:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you both. 
+
+May I have one more question? If class size is not a big issue, do also features with lot of substitutions (let's say 400) work fine? It still seems to me better to solve this problem via features than add so many new glyphs for no "real" reason (even if the "auto-generation" would be quite easy) </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-09 15:17:14"
+			itemprop="datePublished"
+		>
+			2012-03-09 15:17:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Vít Šmejkal</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">My humble opinion is : simplicity is best. A new glyph is the simpliest solution to 99% of problems, and you can propose a single substitution feature with it, like calt, salt or clig, supported by the largest panel of softwares. More simple will be your font encoding, more easy (and enjoyed) will be your font to be used.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-09 16:37:46"
+			itemprop="datePublished"
+		>
+			2012-03-09 16:37:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>GLCfoundry</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Vit, it seems you are concerned over font file size vs. processing speed. Remember that <em>each of the characters</em> in the user's text in your font has to be processed. It takes only one step in the feature table to swap a glyph for an underlined one, or it takes a dozen steps to coax precisely the right "underline" character into position.
+
+Swapping one glyph for another is an extremely efficient operation due to the way Opentype feature tables are internally represented. One could say it's the cornerstone of the entire features idea.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-09 20:22:02"
+			itemprop="datePublished"
+		>
+			2012-03-09 20:22:02
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you all for you advices!
+I'll keep it on mind.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-10 19:25:24"
+			itemprop="datePublished"
+		>
+			2012-03-10 19:25:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Vít Šmejkal</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">André: what is your
+
+<cite>[..] be advised that a number of major applications (including the Adobe CS applications) don't actually support one-to-many substitutions so if you do go this route your font will not work for all users</cite>
+
+based on? InDesign CS4 seems to support this; a ligature 'fi', when put in small caps, changes to "small cap f, small cap i", <em>not</em> a single "f_i.smcap" character. It appears as a single selectable character inside InDesign but on exporting to PDF one can select each single character.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-10 21:18:46"
+			itemprop="datePublished"
+		>
+			2012-03-10 21:18:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Theunis,
+
+I'm actually still using CS3, so things may have changed. But in CS3 one-to-many substitutions are *definitely* not supported, as can be confirmed by simply adding random stylistic sets to a font which involve such substitutions and noting that they don't work.
+
+Even in CS3, though, hardcoded fi will be rendered as FI regardless of whether this glyph is included in any opentype feature. This is because InDesign does some preprocessing before applying a font's features. ﬁ (UFB01) will be converted to either fi (U0066+U0069) or FI (U0045+U0049) before any case-related GSUB features are applied to this sequence. This conversion is done by InDesign's type engine, not by any type-2 lookup defined by the font.
+
+André
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-11 14:33:50"
+			itemprop="datePublished"
+		>
+			2012-03-11 14:33:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

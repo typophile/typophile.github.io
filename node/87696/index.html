@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Calculating Bezier curve speed (= tangents), but something smells fishy | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Calculating Bezier curve speed (= tangents), but something smells fishy" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/87696/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-11-23T18:34:12+00:00" />
+<meta property="article:modified_time" content="2011-11-23T18:34:12+00:00" />
+
+<meta itemprop="name" content="Calculating Bezier curve speed (= tangents), but something smells fishy">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-11-23T18:34:12+00:00" />
+<meta itemprop="dateModified" content="2011-11-23T18:34:12+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Calculating Bezier curve speed (= tangents), but something smells fishy"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Calculating Bezier curve speed (= tangents), but something smells fishy</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-11-23T18:34:12Z">November 23, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">yanone</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Dear Bezier masters,
+
+I'm reposting this from [[http://typophile.com/node/86965|here]], because it's a different topic and problem now.
+
+I've tried to approach my problem (calculating curve speed) in a more general way, using the general cubic Bezier equation.
+I've constructed the first derivative, as suggested. Please correct me, if I made mistakes there. School was a looong time ago. But findings on the internet suggest that I did it right.
+The function solveCubic returns as the first argument p1234 (identical to the middle on-curve point calculated by the known splitCubicAtT function, I just skipped the other points for now), then the result of the first derivative.
+All are vectors (or coordinates).
+
+The segment used for the results posted below (with t in 0.1 steps) is a quarter of a circle, or a quarter of as close a circle as one can construct with Beziers. The first derivative should then have all equal (more or less) values, right, in case of a circle? In other words, curve speed should be steady at all positions in a circle. Shown in the results in the rightmost column is the absolute value of the vector returned by the first derivative.
+But the results differ by 8%. This doesn't look right. I've double-checked for a correct circle pie piece.
+
+Where is the mistake or the misunderstanding?
+
+<pre>
+import numpy, math
+
+def solveCubic(p0, p1, p2, p3, t):
+	p0, p1, p2, p3 = numpy.array((p0, p1, p2, p3))
+
+	a = -p0 + 3.0 * p1 - 3.0 * p2 + p3
+	b = 3.0 * p0 - 6.0 * p1 + 3.0 * p2
+	c = -3.0 * p0 + 3.0 * p1
+	d = p0
+	
+	# Cubic Bezier
+	f = a*t**3 + b*t**2 + c*t + d
+	
+	# First derivative
+	f1 = 3*a*t**2 + 2*b*t + c
+	
+	return f, f1
+
+
+g = CurrentGlyph()
+p1 = (g[0][0].points[0].x, g[0][0].points[0].y)
+p2 = (g[0][1].points[0].x, g[0][1].points[0].y)
+p3 = (g[0][1].points[1].x, g[0][1].points[1].y)
+p4 = (g[0][1].points[2].x, g[0][1].points[2].y)
+
+for t in range(11):
+
+        
+    f, f1 = solveCubic(p1, p2, p3, p4, t / 10.0)
+
+    print "t=%s" % (t/10.0), " -  f1=%s=abs %s" % (str(f1).ljust(17), int(math.sqrt( f1[0]**2 + f1[1]**2 )))
+</pre>
+
+The results are:
+
+<pre>
+t=0.0  -  f1=[-327.    0.]        =abs 327
+t=0.1  -  f1=[-312.93  -51.33]    =abs 317
+t=0.2  -  f1=[-294.72  -98.52]    =abs 310
+t=0.3  -  f1=[-272.37 -141.57]    =abs 306
+t=0.4  -  f1=[-245.88 -180.48]    =abs 305
+t=0.5  -  f1=[-215.25 -215.25]    =abs 304
+t=0.6  -  f1=[-180.48 -245.88]    =abs 305
+t=0.7  -  f1=[-141.57 -272.37]    =abs 306
+t=0.8  -  f1=[ -98.52 -294.72]    =abs 310
+t=0.9  -  f1=[ -51.33 -312.93]    =abs 317
+t=1.0  -  f1=[   0. -327.]        =abs 327</pre></div>
+
+  
+</article>
+
+    </main>
+    
+  </body>
+</html>

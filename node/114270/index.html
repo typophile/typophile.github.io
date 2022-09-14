@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>liga GSUB in webfont (otf-cff) works in Firefox, doesn&#39;t work in Chrome or IE | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="liga GSUB in webfont (otf-cff) works in Firefox, doesn&#39;t work in Chrome or IE" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/114270/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2014-02-18T05:04:24+00:00" />
+<meta property="article:modified_time" content="2014-02-18T05:04:24+00:00" />
+
+<meta itemprop="name" content="liga GSUB in webfont (otf-cff) works in Firefox, doesn&#39;t work in Chrome or IE">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2014-02-18T05:04:24+00:00" />
+<meta itemprop="dateModified" content="2014-02-18T05:04:24+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="liga GSUB in webfont (otf-cff) works in Firefox, doesn&#39;t work in Chrome or IE"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">liga GSUB in webfont (otf-cff) works in Firefox, doesn't work in Chrome or IE</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2014-02-18T05:04:24Z">February 18, 2014</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Pomax</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hey all,
+
+I'm working on an on-page glyphet font generator in JavaScript,  and am making decent headway, except I've run into a problem with GSUB ligature substitution...
+
+If you load [[http://pomax.github.io/CFF-glyphlet-fonts]] in Firefox, you'll note that the "small" font, without GSUB table, renders the character "~" as a rectangle with a cutout. The second font has a GSUB table for the 'liga' feature with a lookup type 4 to turn the sequence "c,u,s,t,o,m" into "~", [[http://github.com/Pomax/CFF-glyphlet-fonts/blob/gh-pages/binaries/with%20GSUB/customfont.gsub.ttx#L271]], which works in Firefox, but not in Chrome or IE (of course IE doesn't like plain .otf, so the fonts are repackaged as uncompressed WOFF as well, as fallback option).
+
+I tried running the larger font through TTX, as well as tried loading it in FontForge, to see if those found any obvious errors, but neither seem to complain about the shape and content of the GSUB table, so I'm not sure if I've done something wrong definition wise, or whether there are specific values that a font with GSUB ligatures needs to set before it'll work in Chrome/IE. I know [[http://symbolset.com|Symbolset]] works in all three browsers, and relies on GSUB tables for the icon ligatures, so I tried to see whether they did something different from what I implemented, but I couldn't really find anything (the TTX xml for symbolset is also quite huge!)
+
+Does anyone here have experience with cff-opentype fonts for webfont purposes, with GSUB liga features, and might they be willing to have a quick look at what I might be doing wrong?
+
+- Mike "Pomax" Kamermans</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">As it turns out, only Firefox understands a font with only the DFLT script, and with the ReqFeatureIndex value set to zero, to indicate the feature at offset index 0 must always be turned on.
+
+Chrome and IE, unfortunately, don't understand this at all, and need to also see a "latn" script (or whichever block covers your ligature source glyphs) in order to be able to apply any feature. And then they must also be told to enable the "liga" opentype feature specifically, through CSS, despite the ReqFeatureIndex value in the default LangSys table indicating that this feature should always be turned on.
+
+I've implemented these workarounds, and http://pomax.github.io/CFF-glyphlet-fonts should now show the custom glyph in the "with GSUB" section in all major OS/browser combinations.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-20 07:28:28"
+			itemprop="datePublished"
+		>
+			2014-02-20 07:28:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pomax</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

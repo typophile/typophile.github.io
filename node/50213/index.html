@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>TrueType hinting for the space glyph? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="TrueType hinting for the space glyph?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/50213/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2008-10-06T15:10:16+00:00" />
+<meta property="article:modified_time" content="2008-10-06T15:10:16+00:00" />
+
+<meta itemprop="name" content="TrueType hinting for the space glyph?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2008-10-06T15:10:16+00:00" />
+<meta itemprop="dateModified" content="2008-10-06T15:10:16+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="TrueType hinting for the space glyph?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">TrueType hinting for the space glyph?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2008-10-06T15:10:16Z">October 6, 2008</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Jens Kutilek</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi,
+
+I'm trying to hint the space glyph in a TrueType font and I'm not sure if the result I get is a bug in FontLab, or if there's some other reason for this ...
+
+I'd like to round up the width to the full pixel. This works using the same instruction on all glyphs which contain outlines, but in the space character the width always rounds to the closest pixel edge, as indicated by the light blue line in the image - and not the right edge as I would expect it to.
+
+Any ideas?
+
+Thanks,
+Jens</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I don't think the TrueType format supports hints on glyphs that have no contours (re-reading the OpenType spec for the 'glyf' table, I think it might be possible, but I don't know of any tools that support it).
+
+Try adding a single point to the glyph, if FontLab will allow it. This may produce some errors or warnings, but is legal per the OpenType specification and should allow hints to be stored for the glyph. That is assuming this operation is really necessary, which I'm a bit skeptical about, but you probably have a better sense of that than I do.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-06 19:26:23"
+			itemprop="datePublished"
+		>
+			2008-10-06 19:26:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>j.hadley</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I know the pure TT hinting tools generally available do not allow hinting from origin to set width and I cannot tell you why.
+I don't know what the hints from FL will look like. If you can write the hints by hand, they'd say:
+SRP0[], (Place number of origin point here)
+RUTG[flags], (Don't forget to set flag to round)
+MDRP[], (Place number of set width point here)
+
+You might also look into editing the horizontal device metrics table (hdmx), if you are targeting an application that uses it. 
+
+Cheers!
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-09 20:19:15"
+			itemprop="datePublished"
+		>
+			2008-10-09 20:19:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks ...
+
+it seems the instructions on an empty glyph as shown in the FL screenshot don't end up in the generated font at all.
+
+Does ClearType use the hdmx table? I don't think so, because the C-fonts don't have it. I tried editing it anyway.
+
+The idea in hinting the space glyph was to make sure the text is never wider on screen than in print with a certain application.
+
+Jens</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-10 15:58:04"
+			itemprop="datePublished"
+		>
+			2008-10-10 15:58:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I don't think CT makes use of the 'hdmx' table as it is contrary to the mechanism of ClearType. Even if you were able to apply hints to such a glyph, I think you might run into some problems under ClearType.
+
+
+As I mentioned, I think it is technically *possible* to have hints on a glyph with zero contours; the 'glyf' table definition would appear to allow it:
+<code>
+Type	Name	Description
+SHORT	numberOfContours	If the number of contours is greater than or equal to zero, this is a single glyph; if negative, this is a composite glyph.
+SHORT	xMin	Minimum x for coordinate data.
+SHORT	yMin	Minimum y for coordinate data.
+SHORT	xMax	Maximum x for coordinate data.
+SHORT	yMax	Maximum y for coordinate data.
+
+USHORT	endPtsOfContours[n]	Array of last points of each contour; n is the number of contours.
+USHORT	instructionLength	Total number of bytes for instructions.
+BYTE	instructions[n]	Array of instructions for each glyph; n is the number of instructions.
+BYTE	flags[n]	Array of flags for each coordinate in outline; n is the number of flags.
+BYTE or SHORT	xCoordinates[ ]	First coordinates relative to (0,0); others are relative to previous point.
+BYTE or SHORT	yCoordinates[ ]	First coordinates relative to (0,0); others are relative to previous point.</code>
+
+Such a glyph would/should look something like this:
+<code>
+0000 - numberOfContours, 0
+0000 - xMin
+0000 - yMin
+0000 - xMax
+0000 - yMax
+---- - no entry for endPtsOfContours since 'numberOfContours' = 0
+0004 - instructionLength, 4 bytes
+ii - instruction byte 0
+ii - instruction byte 1
+ii - instruction byte 2
+ii - instruction byte 3
+---- - no flag or x/yCoordinates since there are no contours, no points</code>
+
+
+
+I think the trouble begins further upstream than this, though, because it seems most font tools implement a rule that when there are no contours, a blank 'loca' table entry will be made; thus no space is allocated in the 'glyf' table for any instructions.
+
+
+I have been meaning to experiment and try editing a 'loca' and 'glyf' table to insert instructions on a zero-contour glyph, to see if it would be interpreted correctly.
+
+
+
+Did you try adding a single point to the glyph, then adding hints? Not sure whether FontLab allows this and haven't had time to play with that yet...
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-10 17:48:12"
+			itemprop="datePublished"
+		>
+			2008-10-10 17:48:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>j.hadley</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">"The idea in hinting the space glyph was to make sure the text is never wider on screen than in print with a certain application."
+If the application is using fractional metrics to approximate the appearance of print, this should not be a problem, should it?
+
+"Even if you were able to apply hints to such a glyph, I think you might run into some problems under ClearType."
+I'm not sure what you mean, unless it is that CT will ignore x hints that modify character widths, which is only a problem if you don't want it to, i.e. you are interested in the quality only on the screen. 
+
+Cheers!
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-13 14:31:14"
+			itemprop="datePublished"
+		>
+			2008-10-13 14:31:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>“The idea in hinting the space glyph was to make sure the text is never wider on screen than in print with a certain application.”
+If the application is using fractional metrics to approximate the appearance of print, this should not be a problem, should it?</em>
+
+Sorry, I got confused ... I meant "to make sure the text is never <strong>wider in print</strong> than on screen".
+
+It looks like this application is using the system renderer on Windows, but the width of text on screen changes even with different zoom levels. So, fractional metrics in theory when ClearType is turned on, but the application seems to do some strange things.
+
+<em>Did you try adding a single point to the glyph, then adding hints? Not sure whether FontLab allows this and haven’t had time to play with that yet...</em>
+
+FontLab seems to leave out open contours when generating the font, even though it asks whether it should export them. So the space glyph with one point and some instructions has neither a point nor any instructions in the generated font ... just an empty glyph.
+
+Jens</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-13 19:39:17"
+			itemprop="datePublished"
+		>
+			2008-10-13 19:39:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>FontLab seems to leave out open contours when generating the font, even though it asks whether it should export them. So the space glyph with one point and some instructions has neither a point nor any instructions in the generated font ... just an empty glyph.
+
+That is so irritating given the huge number of fonts that have been made with, duh, a single point in the space glyph which is obviously useful. It is interesting to note that the space glyph in Calibri is so tight that you can never be sure, on screen, if you have typed one space or two spaces. Whether that's a function of inept metrics or hinting, I don't know and haven't bothered to find out. 
+
+This is so typical of the trend today: build fonts with x thousand characters and xx thousand kern pairs, when you haven't yet mastered your problems below ASCII 128. 
+
+What do the DTL/URW IK-based tools do in this respect? And what do they do, for that matter, with the fractional handles that Fontlab can't deal with either? </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-16 01:24:24"
+			itemprop="datePublished"
+		>
+			2008-10-16 01:24:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>billtroop</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

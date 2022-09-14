@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>can I script the FontLab &#34;save as&#34; behavior? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="can I script the FontLab &#34;save as&#34; behavior?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/83820/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-07-16T02:24:09+00:00" />
+<meta property="article:modified_time" content="2011-07-16T02:24:09+00:00" />
+
+<meta itemprop="name" content="can I script the FontLab &#34;save as&#34; behavior?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-07-16T02:24:09+00:00" />
+<meta itemprop="dateModified" content="2011-07-16T02:24:09+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="can I script the FontLab &#34;save as&#34; behavior?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">can I script the FontLab "save as" behavior?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-07-16T02:24:09Z">July 16, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">butterick</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Using python in Fontlab, I understand how to save a currently open VFB, or save a currently open VFB under a different name.
+
+What I don't understand is how to get the "save as" behavior: keep the current VFB & its windows open, but give it a new filename.
+
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><code>fl.font.file_name = "your new path"
+fl.font.Save()</code>
+or 
+<code>fl.font.Save("your new path")</code>
+
+A.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-16 16:31:40"
+			itemprop="datePublished"
+		>
+			2011-07-16 16:31:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yep, I already tried that. What happens is that FL saves a duplicate of my open font at "your new path." But the filename on the open font doesn't change (and thus if I hit "save" again, any changes go into the old file.)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-16 17:25:24"
+			itemprop="datePublished"
+		>
+			2011-07-16 17:25:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>butterick</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">How about:
+<code>fl.font.file_name = "your new path"
+fl.UpdateFont(-1)
+fl.font.Save(fl.font.file_name)</code>
+?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-17 12:55:20"
+			itemprop="datePublished"
+		>
+			2011-07-17 12:55:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">That works. Thanks.
+
+Does a fontindex of -1 have a predictable result in other functions that ask for a fontindex, or is this a special behavior of UpdateFont()?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-17 22:01:29"
+			itemprop="datePublished"
+		>
+			2011-07-17 22:01:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>butterick</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Can also be done through Robofab
+
+new_file_path = [whatever you want]
+this_font.save(new_file_path)
+this_font.update()</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-17 23:36:44"
+			itemprop="datePublished"
+		>
+			2011-07-17 23:36:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>butterick</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">fl.UpdateFont(-1) is synonymous with fl.UpdateFont(fl.ifont) in this case, but it's not universal behavior, I think. Actually, using fl.UpdateFont(fl.ifont) is more elegant to use than fl.UpdateFont(-1). </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-03 17:17:36"
+			itemprop="datePublished"
+		>
+			2011-08-03 17:17:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Geez. Amusingly, what I *need* is the behavior Matthew B was trying to avoid. Here I was going through some extra contortions to get this behavior. Re-reading this just enabled me to drop a bunch of lines of code as unnecessary.  :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-11 23:29:03"
+			itemprop="datePublished"
+		>
+			2014-03-11 23:29:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Advanced OpenType features | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Advanced OpenType features" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/119069/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2014-08-30T01:39:53+00:00" />
+<meta property="article:modified_time" content="2014-08-30T01:39:53+00:00" />
+
+<meta itemprop="name" content="Advanced OpenType features">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2014-08-30T01:39:53+00:00" />
+<meta itemprop="dateModified" content="2014-08-30T01:39:53+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Advanced OpenType features"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Advanced OpenType features</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2014-08-30T01:39:53Z">August 30, 2014</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Martin Silvertant</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I'm wondering if it's possible to script any advanced features. Primarily I'm looking to solve a specific problem, but more generally I'm curious if more can be done with OT scripting than the standard "sub" script to replace one glyph with an other.
+
+I'm tired of people over-hyphens so I wanted to script a fix for that, so in the standard ligatures I put the following code:
+sub comma hyphen by comma_endash;
+
+This replaces the comma followed by a hyphen with a ligature glyph where I have a comma followed by a line which is in between the hyphen and the en dash in length, which is more appropriate for denoting prices ($50,–).
+
+Now I want to do the same fix for "x" after numbers, so every time an /x is typed after a number it's automatically replaced by a multiply symbol. Unfortunately I'm unable to script this accordingly. Every time I try to generate the font, it aborts because of an error in the script. Now, I'm not sure if my code is appropriate for numbers. I'm trying the following:
+sub one x by one multiply;
+
+I suppose it's possible to replace 1 followed by x by a '1×' "ligature" like in the comma/hyphen example but I need the code to be much more flexible because it's not realistic to create such a "ligature" for all numbers from all number sets, and with this method it's no longer affected by tracking. So is there a way to define that the /x is automatically replaced by the multiply symbol when preceded by a number? If I can't script this for all numbers automatically, is it possible to script it for each number specifically without having to rely on the ligature method described above? Is this function possible at all?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">1. What font editor are you using?
+2. What application(s) are you testing your font in?
+3. Have you read this: [[http://partners.adobe.com/public/developer/opentype/afdko/topic_feature_file_syntax.html | Adobe Feature File Syntax information]]
+
+Scripting should not be necessary. Substitution allows for more than one-to-one, but you have to write it correctly and more importantly the app you intend to use the font in must support it. Check the Adobe Developer site linked in #3 above and read up on the syntax. I think it will save you a lot of time and frustration.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-08-30 04:51:42"
+			itemprop="datePublished"
+		>
+			2014-08-30 04:51:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Thomas</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This is the newest Feature File Specification:
+http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html
+I think that type of automation is no good idea, unless you want to make your font unusable. In my example I used Stylistic Set, so user must chose this behaviour intentionally.
+Anyway:
+"sub comma hyphen by comma_endash;"
+better
+sub comma hyphen' by endash;
+"replace 1 followed by x by a '1×'"
+sub @numbers x' by multiply;
+[img:sites/default/files/old-images/Kerning_6721.jpg]
+
+full .fea file:
+languagesystem DFLT dflt;
+languagesystem latn dflt;
+@numbers=[zero one two three four five six seven eight nine];
+
+feature ss01 {
+sub @numbers x' by multiply;
+sub comma hyphen' by endash;
+} ss01;</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-08-30 12:24:06"
+			itemprop="datePublished"
+		>
+			2014-08-30 12:24:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">1. FontLab Studio
+2. FontLab Studio, Illustrator, InDesign
+3. I hadn't read it until now. It probably doesn't solve all my problems (I still prefer asking about specific problems and see best practices) but it does create new possibilities already.
+
+<cite>Scripting should not be necessary.</cite>
+What do you mean by this? I've seen that in some software like Glyphs the scripting is done for you, but somehow I still prefer to do it myself. At least I know what exactly is going on in the back end, and I would like to use the software most type designers use so that I can ask questions if necessary. There are already too few tutorial videos on FontLab. It might be worse for other software. However I'm interested in hearing what you might use to improve the workflow.
+
+<cite>I think that type of automation is no good idea, unless you want to make your font unusable.</cite>
+Why isn't it a good idea? How does it make the font unusable? I have no problem with putting the scripts in stylistic sets, but I thought it was a good idea to fix as many issues as possible with the standard ligatures set.
+
+<cite>sub comma hyphen' by endash;</cite>
+I read that the hyphen defines the glyph to be replaced. Does it ignore the comma in this case? I guess this is the better way to script because you can still perform tracking on the comma and endash, right?
+
+<cite>@numbers=[zero one two three four five six seven eight nine];</cite>
+Where would you put this line of code? Underneath the language statements or inside the stylistic set? I want the x to be replaced by a multiply symbol after any kind of number. Do I need to define all number sets in "@numbers=[]"?
+
+<cite>In my example I used Stylistic Set, so user must chose this behaviour intentionally.</cite>
+Why is it better in this case to choose it intentionally? Are there contexts in which you would want to use comma-dash and x inappropriately?
+
+Thanks a lot for the tips!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-08-30 14:57:16"
+			itemprop="datePublished"
+		>
+			2014-08-30 14:57:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It's generally a bad idea for a font to change the actual character codes instead of just changing glyph variation, even if this is done in an attempt to fix sloppy typesetting. Sometimes people really do intend the characters that they type. For example, consider an algebraic expression y = 3x + 15 
+
+There was a discussion of this some years ago here, with many useful comments on the problem: [[http://typophile.com/node/34108]]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-08-30 15:55:10"
+			itemprop="datePublished"
+		>
+			2014-08-30 15:55:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>DTY</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>For example, consider an algebraic expression y = 3x + 15</cite>
+I'm glad you mentioned this. I feel stupid for not having considered the use of x in mathematics. Even in a stylistic set, having x automatically replaced by the multiply symbol when placed after a number seems like a bad idea. I should define the context more clearly.
+
+Can someone tell me how to have the x replaced by the multiply symbol only when the x is both preceded and followed by a number or spaces and numbers? So only in these contexts:
+2x2=4
+2 x 2 = 4
+
+I will then also place it in a stylistic set so you can still turn the feature off.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-08-30 16:06:47"
+			itemprop="datePublished"
+		>
+			2014-08-30 16:06:47
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">"you can still perform tracking on the comma and endash, right?"
+Right
+"@numbers=[zero one two three four five six seven eight nine];
+Where would you put this line of code?"
+If you want to use this Class in another functions, declare it outside any features (globally). If it is to use only once - inside the feature.
+[named lookups behave differently - declared globally or locally are always available]
+"Do I need to define all number sets in "@numbers=[]"?"
+All 10 digits are defined already.
+Thanks DTY, excellent thread.
+
+"2x2=4
+2 x 2 = 4"
+feature ss02 {
+sub @numbers x' @numbers by multiply;
+sub @numbers space x' space @numbers by multiply;
+} ss02;
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-08-30 16:57:53"
+			itemprop="datePublished"
+		>
+			2014-08-30 16:57:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>If you want to use this Class in another functions, declare it outside any features (globally)</cite>
+That's the same panel where the language feature is defined, right?
+
+<cite>All 10 digits are defined already.</cite>
+I meant all number sets, not all digits. But I guess the code refers to all number sets.
+
+I have another question. I have disconnected ligatures for f?, ff? (where the /f is shorter so it doesn't blend with the question mark) and another two for an alternate question mark which is part of a stylistic set. Now I have learned some new tricks on scripting I want to get rid of these ligatures and substitute the /f instead. It works fine for a single /f, but what do I do for double glyphs? I tried the following:
+sub f' f' question by f_f.alt;
+
+It looks right when I test it in FontLab. Is it right? I'm just making sure I'm using the script appropriately</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-08-30 21:08:55"
+			itemprop="datePublished"
+		>
+			2014-08-30 21:08:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>I just realized you are referring to writing feature code as scripting while in my mind scripting is something along the lines of Python.</blockquote>
+They're all scripting languages, whether it's Python, OpenType, CSS, Javascript etc. What would you usually refer to writing OT code as?
+
+Thanks for the clarification on Adobe syntax.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-08-31 01:29:23"
+			itemprop="datePublished"
+		>
+			2014-08-31 01:29:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Just coding a feature. You are right though, it is scripting but on a small scale.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-08-31 04:40:22"
+			itemprop="datePublished"
+		>
+			2014-08-31 04:40:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Thomas</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>They're all scripting languages, whether it's Python, OpenType, CSS, Javascript etc.</blockquote>
+
+In a very broad sense, OpenType features could be seen as a form of scripting language as they define a set of rules for the interpreter to follow, but what is usually called a scripting language has many more characteristics than that and basically no one in this industry refers to OpenType features as such. It’s also why no one calls CSS a scripting language, but rather a style description language.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-08-31 14:15:35"
+			itemprop="datePublished"
+		>
+			2014-08-31 14:15:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Grzegorz Rolek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">To me, OT feature code feels more like a kind of advanced search and replace, like grep or regex, at least with GSUB. GPOS is more like a lookup table.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-08-31 16:49:14"
+			itemprop="datePublished"
+		>
+			2014-08-31 16:49:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote><em>Scripting should not be necessary.</em>
+What do you mean by this?</blockquote> 
+
+I just realized you are referring to writing feature code as scripting while in my mind scripting is something along the lines of Python. I suppose in the strictest sense of the word "scripting", feature code might be considered as such but I haven't previously seen it referred to that way. Thus the confusion on my part.
+
+<blockquote>sub comma hyphen' by endash;
+I read that the hyphen defines the glyph to be replaced. Does it ignore the comma in this case? I guess this is the better way to script because you can still perform tracking on the comma and endash, right?</blockquote> 
+
+The right quote marks the glyph or glyph group to be replaced, and yes, it is the better way.
+
+<blockquote>It works fine for a single /f, but what do I do for double glyphs? I tried the following:
+sub f' f' question by f_f.alt;</blockquote>
+
+That appears to work but it does not follow the Adobe syntax specs and may not always work everywhere. The Adobe specs say it should be written as:
+<em>sub [f f]' question by f_f.alt;</em>
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-08-31 17:11:01"
+			itemprop="datePublished"
+		>
+			2014-08-31 17:11:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Thomas</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">"sub [f f]' question by f_f.alt;"
+I believe this line works like this:
+IF \f \?  or \f \? is met THEN  \f  is substituted by \f_f.alt
+[nota bene: second \f !]
+so output is: \f \f_f.alt \question
+You probably want:
+sub f' f' question by f_f.alt
+(see OpenType Feature File Specification, 5.f.i. Specifying a Chain Sub rule and marking sub-runs, Example 4. [[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f.i|Link]])</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-08-31 22:49:04"
+			itemprop="datePublished"
+		>
+			2014-08-31 22:49:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>It’s also why no one calls CSS a scripting language, but rather a style description language.</blockquote>
+I've been calling it a scripting language. Apparently incorrectly so, although I appear not to be the only one when I search on Google.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-09-01 16:06:08"
+			itemprop="datePublished"
+		>
+			2014-09-01 16:06:08
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Not counting scripts written as add-ins for font editors, the only time I've seen anything pertaining to fonts referred to as "script" pertains to writing systems. For example, Latin, Cyrillic and Greek are all scripts.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-09-01 19:25:30"
+			itemprop="datePublished"
+		>
+			2014-09-01 19:25:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Thomas</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>I've been calling [CSS] a scripting language. Apparently incorrectly so, although I appear not to be the only one when I search on Google.</blockquote>
+You know, there are people that say HTML is a programming language, and this despite the <em>Markup</em> in its very name… But that’s just nomenclature. Really what matters is clear communication, and the misunderstanding you had with George speaks for itself. Regardless of what the reasons are, throughout those twenty years ‘scripting’ just never got it into the OpenType terminology.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-09-02 00:11:25"
+			itemprop="datePublished"
+		>
+			2014-09-02 00:11:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Grzegorz Rolek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>
+<blockquote><p>Now I want to do the same fix for "x" after numbers, so every time an /x is typed after a number it's automatically replaced by a multiply symbol.</p></blockquote>
+<p>A type designer's role, I think, should be to create a well-designed font, not to ensure that the end user adheres a preferred punctuation style.</p>
+</blockquote>
+Agreed. Add to it that there are plenty of instances where this can go wrong (and it will, as per Murphy's Law), and that there are few more infuriating things than software that tries to outsmart you...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-09-02 10:29:48"
+			itemprop="datePublished"
+		>
+			2014-09-02 10:29:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>riccard0</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>I'm tired of people over-hyphens so I wanted to script a fix for that, so in the standard ligatures I put the following code: sub comma hyphen by comma_endash;
+
+This replaces the comma followed by a hyphen with a ligature glyph where I have a comma followed by a line which is in between the hyphen and the en dash in length, which is more appropriate for denoting prices ($50,–).
+
+Now I want to do the same fix for "x" after numbers, so every time an /x is typed after a number it's automatically replaced by a multiply symbol.</blockquote>
+
+It's one thing to replace a sequence of letters with a ligature, but I question whether the type designer should fill the role of a copy editor any more than the layout application should do so. A type designer's role, I think, should be to create a well-designed font, not to ensure that the end user adheres to a preferred punctuation style.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-09-02 16:15:23"
+			itemprop="datePublished"
+		>
+			2014-09-02 16:15:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thylacine</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Agreed. Pretty much nobody calls writing OpenType code “scripting,” and doing so is likely to lead to confusion.
+
+Not saying it would be crazy to refer to it that way, just unwise.  :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-09-03 00:52:13"
+			itemprop="datePublished"
+		>
+			2014-09-03 00:52:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">What would one call writing OT features though?
+
+As for the punctuation fixes... I personally feel that to the extent that we can exert control over the typography we should do so. The graphic design course I'm following is completely lacking on typographic education and when I look at the typography on the streets I see errors all the time so apparently some solution is necessary. By the time we will graduate I'm convinced more than 90% still won't know the difference between a hyphen and an en-dash and still won't understand that the letter /x is not a multiply symbol. If the editors aren't preventing these errors, then who else should do it? I think an OT feature accessible by a stylistic set is a nice solution.
+
+<blockquote>but I question whether the type designer should fill the role of a copy editor any more than the layout application should do so.</blockquote>
+What about spell check for those who can't or refuse to spell correctly? Years ago you might have said this is the editor's job but an automatic solution is much more practical and elegant and I think you would have admitted to that then. To be honest I don't think the solution should be in the typeface but right now no one else is solving the problem, except for editors doing manual work but apparently many design agencies have no such editors. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-09-03 19:20:32"
+			itemprop="datePublished"
+		>
+			2014-09-03 19:20:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Regardless of whether writing OT features is considered scripting, it can be considered programming or coding.
+
+As an example of the complications that Riccardo mentioned, I thought of another case: y = 2x² (I used U+00B2 here as a Typophile interface hack, but in real life it would be set as an ordinary “2”, with superscript style applied either fake or through OT substitution.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-09-04 00:06:31"
+			itemprop="datePublished"
+		>
+			2014-09-04 00:06:31
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>DTY</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>Years ago you might have said [spell check] is the editor's job but an automatic solution is much more practical and elegant and I think you would have admitted to that then.</blockquote>
+
+Indicating a misspelling automatically is one thing, but autocorrection done in a way that you possibly don’t even notice is another. Riccardo’s right when he says that those things can really go wrong, just like autocorrection does these days. Either you or the editor would have to look through those substitutions each time the text changes anyway, so why not do it at the character level in the first place?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-09-04 00:57:48"
+			itemprop="datePublished"
+		>
+			2014-09-04 00:57:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Grzegorz Rolek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>What about spell check for those who can't or refuse to spell correctly? Years ago you might have said this is the editor's job but an automatic solution is much more practical and elegant and I think you would have admitted to that then.</blockquote>
+
+The more usable spell checkers highlight the word as you're typing to provide an immediate indication that a change was made and to give the author the option of changing it back. The author also has the option of turning off the spell checker or adding custom spellings.
+
+If someone could come up with a way to do much the same thing with the same kind of user control and sophistication on the kinds of problems that you're referring to, that would be great. For example, if I could chose to have my text checked and/or corrected against the <i>Associated Press Stylebook</i> or the <i>Chicago Manual of Style</i> I'd be all for it. Unfortunately, OpenType scripting (or whatever it might be called) isn't really robust or extensive enough for something this complex.
+
+Anyway, many of these kinds of issues really are just matters of style — they're not necessarily right or wrong. Also, many are contextual in the sense that they might not always be appropriate. For example, substituting an en dash for a hyphen between two numbers would be great if the en dash is meant to indicate the missing numerical range. On the other hand, an en dash would be inappropriate between, say, the numerals in a telephone number. Likewise, 633 - 244 might be part of an equation or it might be a sequence in a serial number. Similarly, the sequence of a comma and an end quote mark is typically reversed in British and American style.
+
+I'm intrigued by what you have in mind, but you'd need to be very judicious in the implementation and aware of the limitations. You wouldn't want to inadvertently cause a bigger problem than you solved.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-09-04 03:59:44"
+			itemprop="datePublished"
+		>
+			2014-09-04 03:59:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thylacine</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">One example of a similar mechanism not doing what it is supposed to do: When you type ' (U+0027), MS Word AutoCorrect will try to guess if this is supposed to be a single opening quotation mark (after a space) or a single closing quotation mark (after any character other than a space). Apostrophes are treated like closing quotation marks, but that’s not a problem—in English. In German, single closing quotation marks and apostrophes are not represented by the same character ’ (U+2019). Rather, apostrophes are ’ (U+2019), as in English, whereas single closing quotation marks are ‘ (U+2018). But AutoCorrect can’t tell. You could try to come up with a better substitution rule (based on the character that follows). As long as that doesn’t happen, each and every German-language document created in MS Word with AutoCorrect switched on will have the single closing quotation marks wrong.
+
+I would also advise against trying to improve the microtypography of a text through OpenType features, for two reasons: First, Murphy’s Law. Second, this kind of replacements will screw up the encoding of the text. It will lead to glyphs being replaced by other glyphs that don’t belong to the underlying character. This would also have the undesirable effect that, when you replace your typeface by another, all typographical ‘improvements’ will be lost. If you want to promote rule adherence on the microtypographical level, write a script for InDesign that performs replacements (like the ones you have in mind) on the character level. Many typesetters have created such scripts for themselves, but if you come up with something that’s cleverer and more comprehensive, there would certainly be a market for that.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-09-04 10:07:18"
+			itemprop="datePublished"
+		>
+			2014-09-04 10:07:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>R.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>Regardless of whether writing OT features is considered scripting, it can be considered programming or coding.</cite>
+
+I use the term 'Feature Coding' or 'OpenType Coding'.
+
+While the term 'programming' is frequently encountered, I personally think it is a bad idea to use this term in reference to OT coding because it ultimately can lead to all sorts of misconceptions about what you're actually doing when you code features. The language used by AFDKO (and, by extension, FontLab), describes static data tables. Thinking of it as a programming language can mislead people into thinking that they are creating algorithms rather than describing data, which will sometimes result in confusion over how a particular feature will actually behave.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-09-04 16:57:03"
+			itemprop="datePublished"
+		>
+			2014-09-04 16:57:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I would use "coding", not "programming" (which is something more serious).
+
+This is a domain-specific language (like CSS or HTML): 
+http://en.wikipedia.org/wiki/Domain-specific_language
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-10-22 08:21:56"
+			itemprop="datePublished"
+		>
+			2014-10-22 08:21:56
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>AlexanderKatt</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">That's rather illuminating. Thank you.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-10-22 18:43:25"
+			itemprop="datePublished"
+		>
+			2014-10-22 18:43:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

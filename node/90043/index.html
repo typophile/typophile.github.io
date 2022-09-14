@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>What is the OpenType Layout tag registry expected audience? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="What is the OpenType Layout tag registry expected audience?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/90043/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-02-14T13:25:28+00:00" />
+<meta property="article:modified_time" content="2012-02-14T13:25:28+00:00" />
+
+<meta itemprop="name" content="What is the OpenType Layout tag registry expected audience?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-02-14T13:25:28+00:00" />
+<meta itemprop="dateModified" content="2012-02-14T13:25:28+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="What is the OpenType Layout tag registry expected audience?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">What is the OpenType Layout tag registry expected audience?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-02-14T13:25:28Z">February 14, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">claudep</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">The list of OpenType features along with their specifications is listed here :
+
+http://www.microsoft.com/typography/otspec/featuretags.htm
+
+I'm having an hard time determining who this document is intended for especially when it comes to the "Feature interaction" field.
+
+For example, I paste here the documentation for hlig (historical ligatures)
+
+<blockquote>
+Tag: 'hlig'
+Friendly name: Historical Ligatures
+Registered by: Microsoft
+<b>Function</b>: Some ligatures were in common use in the past, but appear anachronistic today. Some fonts include the historical forms as alternates, so they can be used for a 'period' effect. This feature replaces the default (current) forms with the historical alternates.
+Example: The user applies this feature using Palatino Linotype, and historic ligatures are formed for all long s forms, including: long s+t, long s+b, long s+h, long s+k, and several others.
+Recommended implementation: The hlig table maps default ligatures and character combinations to corresponding historical ligatures (GSUB lookup type 1).
+<b>Application interface</b>: For GIDs found in the hlig coverage table, the application passes the GIDs to the hlig table and gets back new GIDs.
+<b>UI suggestion</b>: This feature should be off by default.
+<b>Script/language sensitivity</b>: None.
+<b>Feature interaction</b>: This feature overrides the results of all other features.
+</blockquote>
+
+The following is clear to me :
+"Function" is intended to be read, understood and complied to by the font designer.
+
+"Application interface" is intended to be for opentype shaping engine like Uniscribe or DirectWrite or perhaps applications that interpret themselves the opentype tables.
+
+"UI suggestion" is for the consuming applications like InDesign, Microsoft Word, etc...
+
+"Script/language sensitivity" I think this is for the font designer to limit the application of this feature only to certain languages.
+
+"Feature interaction" No idea : should it be the shaping engine that takes care of that, the consuming applications or the font designer?!!? Does anyone know?
+
+For hlig, it says : "This feature overrides the results of all other features." What does this means and who is responsible for enforcing it?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>What is the OpenType Layout tag registry expected audience?</cite>
+
+People working in type tech and techy type designers.
+
+<cite>For hlig, it says : "This feature overrides the results of all other features." What does this means and who is responsible for enforcing it?</cite>
+
+It’s also a suggestion. It means that it makes sense to place the <em>hlig</em> feature towards the end of the feature list, like the <em>kern</em> feature, the order of execution of which will be defined in the font file.
+You are responsible for ordering features. Nobody is responsible for enforcing anything.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-15 00:50:08"
+			itemprop="datePublished"
+		>
+			2012-02-15 00:50:08
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>yanone</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">If you subscribe to the opentype list
+
+subscribe: opentype-migration-sub@indx.co.uk
+unsubscribe: opentype-migration-unsub@indx.co.uk
+messages: opentype-migration-list@indx.co.uk
+
+you can then search the archives
+
+List archive: http://www.indx.co.uk/biglistarchive/
+
+for "features that override"; there are 5 posts on a related subject.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-15 02:52:06"
+			itemprop="datePublished"
+		>
+			2012-02-15 02:52:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks to both of you.
+
+Bonjour Michel!
+
+You seem to be aware of some open type resources I'm unaware of.
+
+Michel, your profile says that your occupation is "academic". Are you a font designer, and /or an application developer?
+
+I'm always looking for contacts that develop application text engines or that use shaping engine technology such as uniscribe or directwrite or anything else. There isn't much of these guys in the world and help is scarce.
+
+I'm one of these lonely guy :) I'm a software developer that works on the CorelDRAW's text engine.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-15 15:18:00"
+			itemprop="datePublished"
+		>
+			2012-02-15 15:18:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>claudep</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Bonjour Claude,
+
+I am neither a font designer nor an application developer. I had to learn a few things about fonts just to be able to use (debug or install) them, either to write my own (rather mathematical) texts with latex or to get a correct display with "exotic" languages or fonts on my Macintosh. 
+
+I think you should find the right people on the opentype list.
+
+Michel </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-15 17:10:20"
+			itemprop="datePublished"
+		>
+			2012-02-15 17:10:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

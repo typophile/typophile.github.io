@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>An odd (or perhaps even) problem with CALT coding | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="An odd (or perhaps even) problem with CALT coding" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/90095/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-02-15T17:43:51+00:00" />
+<meta property="article:modified_time" content="2012-02-15T17:43:51+00:00" />
+
+<meta itemprop="name" content="An odd (or perhaps even) problem with CALT coding">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-02-15T17:43:51+00:00" />
+<meta itemprop="dateModified" content="2012-02-15T17:43:51+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="An odd (or perhaps even) problem with CALT coding"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">An odd (or perhaps even) problem with CALT coding</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-02-15T17:43:51Z">February 15, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Andy Hullinger</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I'm working with a student on some experimental font designs and learning to code Opentype features. 
+http://ilovetypography.com/OpenType/opentype-features.html 
+http://forums.adobe.com/thread/395648
+
+While these two links were invaluable, we've got a simple snippet of code that is confusing when trying to sub many to one. The thinking was to swap out certain typed words with a single "word" glyph using more efficient coding than the letter at a time method Thomas described in his link. 
+
+<code>feature calt {
+<em>sub t' e' s' t' by test.word;</em>
+} calt;</code>
+
+The code below usually works fine except in the case that the word is immediately repeated. Then it appears to "oscillate" and only substitutes every other sequence of letters. Note that this happens whether a space is used or not to separate the repeating letter sequence. Our question is Why?
+
+[img:sites/default/files/old-images/screenshot_6326.png]
+
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Since this is a plain ligature, why using <code>calt</code> at all (I don't see you actually doing any contextual substitution), a plain <code>liga</code> should work just fine:
+
+<pre>
+feature liga {
+  sub t e s t by test.word;
+} liga;
+</pre></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-15 17:48:41"
+			itemprop="datePublished"
+		>
+			2012-02-15 17:48:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Khaled Hosny</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ha! thanks Khaled, we were so deep in <code>calt</code> experimentation we completely overlooked the obvious.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-15 18:15:17"
+			itemprop="datePublished"
+		>
+			2012-02-15 18:15:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Andy Hullinger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Andy, probably this didn't work because 'calt' expects some context:
+
+<cite>A Chain Substitution rule target sequence has three parts: backtrack, input, and lookahead glyph sequences. A glyph sequence comprises one or more glyphs or glyph classes.</cite>
+
+(<a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f">5.f. [GSUB LookupType 6] Chaining contextual substitution</a>, from Adobe's "OTF Feature File Specs)
+
+It appears to me you are replacing everything, always. Khaled is right, these are ligatures.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-15 18:57:57"
+			itemprop="datePublished"
+		>
+			2012-02-15 18:57:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">(Holy Double Posting Syndrome, Batman!)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-15 18:58:49"
+			itemprop="datePublished"
+		>
+			2012-02-15 18:58:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Using ligature would be right choice in this case, but this doesn't explain why contextual substitution didn't work. 
+
+Having empty backtrack and lookaheasequenceses should be perfectly valid. In fact, empty contexts are used to implement 'ignore' keyword in AFDKO syntax or EXCEPT in VOLT.
+
+If you have access to computer with Windows installed, you can try the same font and text in Notepad and see if it works there.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-18 16:34:45"
+			itemprop="datePublished"
+		>
+			2012-02-18 16:34:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>sergeym</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

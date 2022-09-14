@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Using full PostScript, not Compact Font Format (CFF) | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Using full PostScript, not Compact Font Format (CFF)" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/91167/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-03-17T19:58:58+00:00" />
+<meta property="article:modified_time" content="2012-03-17T19:58:58+00:00" />
+
+<meta itemprop="name" content="Using full PostScript, not Compact Font Format (CFF)">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-03-17T19:58:58+00:00" />
+<meta itemprop="dateModified" content="2012-03-17T19:58:58+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Using full PostScript, not Compact Font Format (CFF)"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Using full PostScript, not Compact Font Format (CFF)</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-03-17T19:58:58Z">March 17, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">mattlag</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Thanks to TTX and this forum post: [[http://typophile.com/node/67406]] I've been playing around with / trying to learn PostScript.  Through some reverse-engineering I've been able to create TTF fonts (Quadratic Bezier Curves... blargh), and even OTF fonts with the Compact Font Format, by editing the CharString entries in the CFFFont table.  A little tedious to do by hand, but I like it.  All fine so far.
+
+What i'd really like to do is use full PostScript to define characters in the font... for example, using strokes and line widths, which isn't possible with CFF.  All the fonts I find seem to be PostScript Level 2 - which I believe means they use CFF.  
+
+Is there a font format that uses full PostScript, as opposed to CFF?  Can somebody point me to an example file?
+<!--break-->
+I'm learning as I go here, so there is the possibility that my question doesn't make sense.  But at any rate, commentary from more knowledgeable individuals would be greatly appreciated.
+
+Thanks!
+
+::Matt</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Type 3 fonts can use everything Postscript can (oh, perhaps not issue an "endpage"). But support for these is rapidly dwindling -- <em>if</em> not already entirely gone --,  as it requires the font-using software to implement an entire Postscript interpreter.
+
+You are mixing up various parts of font technology, by the way. Postscript fonts do not use "Postscript Level 2"; they use a (very limited) subset of the original Postscript. Not a single Level 2 feature anywhere. The "Type 2" of CharStrings have nothing to do with Postscript levels.
+
+There are good reasons <em>not</em> to use line widths in a font, as a fixed line width would not change with the point size. There is a font Fill type that was meant to have single strokes as font definition, but the problems with these were so great it has also been removed from the official specification years ago.
+
+If all you want is train yourself with Postscript (and not particularly with fonts) , you should find a download of GhostScript. I learned Postscript programming by talking to a LaserWriter using modem software, but its modern variant, Acrobat Distiller, doesn't come with interactive features. If I'm correct, GhostScript still does, meaning you can interactively build up anything you like and see it appear on the screen.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-18 12:15:51"
+			itemprop="datePublished"
+		>
+			2012-03-18 12:15:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">When people refer to PostScript fonts, they are almost always referring to Type 1 fonts.
+
+If you really want to have fun, I suggest that you reference the [[http://partners.adobe.com/public/developer/en/font/T1_SPEC.PDF|Adobe Type 1 Font Format]], then use the [[http://www.adobe.com/devnet/opentype/afdko.html|AFDKO]] <em>type1</em> and <em>detype1</em> tools to compile and decompile Type 1 fonts. You can start by using the AFDKO <em>tx</em> tool to convert one of your existing fonts ("font.cff" in the command line below) into a Type 1 font:
+
+<code>% tx -t1 font.cff font.pfa</code>
+
+Then, use the <em>detype1</em> tool to decompile the Type 1 font into human-readable/editable form:
+
+<code> % detype1 font.pfa font.txt</code></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-18 14:03:27"
+			itemprop="datePublished"
+		>
+			2012-03-18 14:03:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>lunde</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">So, yes, using the full power of PostScript means using Type 3 fonts, which can only print to a PostScript device, and won't be WYSIWYG on screen, and at best will work in only some apps, and only on the Mac. Not really a good idea in this day and age, unless it's just for fun and you know it will work in the specific operating environment you want to use.
+
+Edit: of course you can also use Type 3 fonts and even get WYSIWYG if you have a NeXT computer.  :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-20 00:35:05"
+			itemprop="datePublished"
+		>
+			2012-03-20 00:35:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Awesome - thank you all for the input.  I knew I had some stuff right and some stuff was just off... always helps to ask some experts.
+
+As a result I think i'll stick with the outlining mechanism that the CFF provides.
+
+Thank you!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-20 01:53:52"
+			itemprop="datePublished"
+		>
+			2012-03-20 01:53:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>mattlag</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ghostscript. :-þ</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-20 19:44:28"
+			itemprop="datePublished"
+		>
+			2012-03-20 19:44:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Té Rowan</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

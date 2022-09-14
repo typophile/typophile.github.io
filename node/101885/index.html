@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Unicode console font | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Unicode console font" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/101885/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2013-03-31T19:39:57+00:00" />
+<meta property="article:modified_time" content="2013-03-31T19:39:57+00:00" />
+
+<meta itemprop="name" content="Unicode console font">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2013-03-31T19:39:57+00:00" />
+<meta itemprop="dateModified" content="2013-03-31T19:39:57+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Unicode console font"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Unicode console font</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2013-03-31T19:39:57Z">March 31, 2013</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">ilyaz</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I put the pre-alpha (but very usable for low enough resolutions) version of monospaced scalable variant of Unifont font to [[http://ilyaz.org/software/fonts]].
+<!--break-->
+It is constructed by a scanner/stroke-designer backend running over the 16×8, 16×16 bitmaps of Unifont.  The scanner/designer are written in Perl; the scanner is ready, the designer 70% ready.   (Of course, it turned out to be a much more complicated task than I expected at the start — 6 months ago!)
+The frontend converting strokes to a font is EXTREMELY primitive (cooked in a day, and hitting new and new bugs in FontForge — sigh…).  So I'm afraid any critique at this moment would be very premature…
+I'm hitting my head again and again with <code>.notdef</code>; it does not work in Windows console if I include U+0000 and U+0001 glyphs.  So currently I just omit these glyphs — is there any alternative?  The recommendations in [[http://www.microsoft.com/typography/otspec/recom.htm]] are not very helpful: how can one include <code>.null</code> into a monospaced font?
+Any help with this would be greatly appreciated.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I think .null and .notdef are perfectly valid in a monospaced font. Apparently Consolas includes them...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-04-01 01:28:54"
+			itemprop="datePublished"
+		>
+			2013-04-01 01:28:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ahyangyi</span
+			></span
+		>
+	</div>
+	 <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Maybe I just cannot find the magic incantation in FontForge.  If I use the sequence <code>.notdef/0002/0003/0004/0005/</code>etc, everything works OK.  Inserting glyphs named <code>0000/0001</code> after .notdef makes the glyph <code>0000</code> used instead of <code>.notdef</code>.
+
+Consolas has
+
+<blockquote>
+StartChar: .notdef
+Encoding: 65536 -1 0
+Width: 1126
+
+StartChar: glyph1
+Encoding: 0 -1 1
+AltUni2: 000000.ffffffff.0
+Width: 1126
+
+StartChar: uni000D
+Encoding: 13 13 2
+Width: 0
+
+StartChar: space
+Encoding: 32 32 3
+AltUni2: 0000a0.ffffffff.0
+Width: 1126
+</blockquote>
+
+which, on the surface, is contrary to M$ recommendations: CR should have non-0 width, second glyph should be named .null and it should have 0-width.  Moreover, M$ says that a console font should be monospaced — but above CR has width 0….</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-04-01 02:08:49"
+			itemprop="datePublished"
+		>
+			2013-04-01 02:08:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ilyaz</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">In a monospaced font, *all* glyphs should have the same advance width, and this overrides other recommendations such as that which says NULL should be zero-width. If a monospaced font contains glyphs that do not share the common width, it can cause major problems, because software tends to cache the width value for monospaced fonts.
+
+Note also that the proper name of this glyph is NULL, not .null. The only glyph in a font whose name begins with something other than A-z is .notdef.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-04-01 18:38:23"
+			itemprop="datePublished"
+		>
+			2013-04-01 18:38:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	 <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, John! The question remaining is: what you say, is it just “common knowledge”,  or is it documented somewhere? What I was quoting was the cited MS's document; one does not expect it to be even close to being perfect, but it would be nice if one knew something more authoritative, and still kind of comprehensive.
+
+I do not say that your word is less authoritative than the MS's document; it it just that what you say is one (or two) tidbits at a time ;-).
+
+Please bear with me, this is my first foray into non-bitmap world….  Of course, in what I released every char is of the same width — I just was not sure which card bits which when different recommendations are concerned.  ― And note that in Consola 000D has width 0, contrary to “consoleness” — which for me implies being monospaced; and the recommendation above says that 000D should be non-0 width….</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-04-01 21:13:03"
+			itemprop="datePublished"
+		>
+			2013-04-01 21:13:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ilyaz</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">On my mac (Office 2011, Consolas version 5.22), all glyphs in Consolas have width 1126 except the following (obtained from a ttx output with <code>grep '&lt;mtx' Consolas.ttx | grep -v 1126</code> and then some clean up):
+<PRE>
+    "afii299" width="0" lsb="-36"
+    "afii300" width="0" lsb="-431"
+    "afii301" width="0" lsb="-219"
+    "afii61664" width="0" lsb="-36"
+    "glyph00002" width="0" lsb="0"
+    "uniFEFF" width="0" lsb="0"
+</PRE>
+
+As for NULL, it is called <code>uni0000</code> according to ttx but Fontforge and DTL OT Master give me some different information... Hmm.
+
+And as for proper documentation, if you find any, please tell us.
+
+PS. <a href="http://levien.com">Raph Levien</a>'s font <a href="http://www.levien.com/type/myfonts/inconsolata.html">Inconsolata</a> defines no NULL character.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-04-02 00:15:11"
+			itemprop="datePublished"
+		>
+			2013-04-02 00:15:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	 <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><code><pre>
+    "afii299" width="0" lsb="-36"
+    "afii300" width="0" lsb="-431"
+    "afii301" width="0" lsb="-219"
+    "afii61664" width="0" lsb="-36"
+    "glyph00002" width="0" lsb="0"
+    "uniFEFF" width="0" lsb="0"
+</pre></code>
+Just to have reference nearby (from [[http://partners.adobe.com/public/developer/en/opentype/aglfn.txt]]):
+<code><pre>
+200E;afii299;LEFT-TO-RIGHT MARK
+200F;afii300;RIGHT-TO-LEFT MARK
+200D;afii301;ZERO WIDTH JOINER
+200C;afii61664;ZERO WIDTH NON-JOINER
+
+FEFF	ZERO WIDTH NO-BREAK SPACE                                    ; from NamesList.txt
+</pre></code>
+Do not know what glyph00002 is used for….
+
+<strong>Update:</strong> doing <code>grep -B 5 -A 5 "Width: 0" Consolas.sfd </code>, I see
+<code><pre>
+StartChar: uni000D
+Encoding: 13 13 2
+Width: 0
+GlyphClass: 2
+Flags: W
+LayerCount: 2
+EndChar
+</pre></code>
+which, by exclusion, must be what you see as glyph00002….</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-04-02 09:18:47"
+			itemprop="datePublished"
+		>
+			2013-04-02 09:18:47
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ilyaz</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">With regard to glyph names, Consolas, like the other CT fonts, has a format 3 post table, so does not contain any glyph names. The names you see in TTX or other tools are being generated by that software.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-04-02 01:15:04"
+			itemprop="datePublished"
+		>
+			2013-04-02 01:15:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Concerning <code>glyph00002</code>, the sfd file produced from Consolas on my mac gives this:
+<blockquote>
+
+StartChar: glyph1
+Encoding: 1 -1 1
+AltUni2: 000000.ffffffff.0
+Width: 1126
+GlyphClass: 2
+Flags: W
+LayerCount: 2
+EndChar
+
+StartChar: glyph2
+Encoding: 2 -1 2
+Width: 0
+GlyphClass: 2
+Flags: W
+LayerCount: 2
+EndChar
+
+StartChar: uni0009
+Encoding: 3 9 3
+AltUni2: 0000a0.ffffffff.0 000020.ffffffff.0 00000d.ffffffff.0
+Width: 1126
+GlyphClass: 2
+Flags: W
+LayerCount: 2
+EndChar
+</blockquote>
+and <code>glyph00002</code> is simply <code>glyph2</code>.
+
+The <code>uni0000</code> produced by ttx must come from <code>AltUni2: 000000.ffffffff.0</code>
+
+And concerning <code>uniFEFF  ZERO WIDTH NO-BREAK SPACE</code> it has width 1233 in DejaVuSansMono.ttf version 2.33. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-04-02 12:23:03"
+			itemprop="datePublished"
+		>
+			2013-04-02 12:23:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Update to my initial post:  [[http://ilyaz.org/fonts]] — now it contains the <strong>really</strong> working versions of the fonts (it was not so a year ago!).
+  •  3 flavors of the de-rasterized Unifont (latest, so it contains the full BMP of Unicode 6.3); including:
+  •  DejaVu with missing glyphs overlaid from Unifont (glyphs massaged to match DejaVu better);
+  •  Versions which work in Windows’ console, and versions for more flexible environments;
+  •  Now useful at, I would say, pixel sizes 8–40.
+
+Additionally, I put there a fixed version of George Douros’ Symbola v7.12.  A PREP table is added, so that it shows now nicely even in GDI applications on Windows.
+
+Enjoy,
+Ilya</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-06-13 05:35:35"
+			itemprop="datePublished"
+		>
+			2014-06-13 05:35:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ilyaz</span
+			></span
+		>
+	</div>
+	 <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">[[http://ilyaz.org/fonts|Yet another update released]].  The most important changes:
+  • I synced with Unifont 7.0.06.
+  • The non-monospaced version now includes non-BMP characters.
+  • The family names are changed to Unifont Smooth, Unifont Smooth Mono (hopefully, this is going to stay).
+Additionally, the merged-with-DejaVu version replaces several defective glyphs from DejaVu with the counterparts from Unifont Smooth.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-01-05 10:12:58"
+			itemprop="datePublished"
+		>
+			2015-01-05 10:12:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ilyaz</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>rebuilding corrupt fonts | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="rebuilding corrupt fonts" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/76603/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-11-22T23:58:54+00:00" />
+<meta property="article:modified_time" content="2010-11-22T23:58:54+00:00" />
+
+<meta itemprop="name" content="rebuilding corrupt fonts">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-11-22T23:58:54+00:00" />
+<meta itemprop="dateModified" content="2010-11-22T23:58:54+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="rebuilding corrupt fonts"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">rebuilding corrupt fonts</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-11-22T23:58:54Z">November 22, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Stephen Rapp</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I recently created a newer version of a connecting script font for a client who uses it as a cheaper alternative for wedding envelopes. The older version worked well and had loads of contextual ligatures with swash versions in stylistic sets. For the newer version I restructured the stylistic sets that were for caps so there are now 5 complete Uppercase sets.
+
+Problem now is that 3 sets of ligatures h_y l_y and p_y along with the ending and swash versions of each no longer work in InDesign. If I type in any of those combinations I get an empty glyph cell. In the glyph palette if I hover over it, the index numbers and such are all correct, but it appears empty and so stylistic sets of these also don't work. I don't think its a code problem, because its the same as the older version that works. I have other similar ligatures like t_y with the same format of feature code and they work fine. I also noticed in Font Explorer it showed no problems until I type one of the bad ligatures into the preview. Then I get a warning that the font is corrupt. 
+
+So now I'm thinking my only alternative may be to use a copy of the older vfb file before adding cap sets and updating it all again. That would probably take a long time. If I do that what is the best way to bring in kerning. Its a large font with 1054 glyphs, uses some class kerning, but since its fully connecting the kerning is not terribly extensive. I'm even wondering if I might be able to copy over and arrange all the glyphs and classes to match and then just copy over the entire kern feature. …or would that create a possible disaster? Any useful tips here would be most helpful.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Does the font have the same name as before? If so, it could be a font cache issue. Barring that...
+
+How does it look if you import the generated font back into FontLab?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 01:07:11"
+			itemprop="datePublished"
+		>
+			2010-11-23 01:07:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The name of the new version has pro at the end to distinguish it from the previous. I don't think it's a cache problem. I used the cache deleting features in Font Explorer and even tried restarting.
+
+I did open up the font itself in FontLab. That changes around the names of classes, but the code was essentially the same and the glyph slots were all intact. I tried copying just the affected ligatures back in and deleted all the contextual elements for them. The same ligatures still would not come in. Very frustrating. The older version that I tried that worked was a ttf version of OpenType. I'm wondering if that might make a difference, but I'm not sure. 
+
+When I made the updated version with all the stylistic sets for caps I rearranged the sets and changed orders around a bit. I don't see any for the lowercase where I've changed the hierarchy, but that's the one thing that I keep thinking might be involved. I also wonder if fonts just go corrupt sometimes without any noticeable changes that should affect them. When I worked at AG some of our old PS fonts would just stop working and I couldn't always find a clear answer even though an archived version still worked.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 01:41:21"
+			itemprop="datePublished"
+		>
+			2010-11-23 01:41:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Stephen Rapp</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>I also wonder if fonts just go corrupt sometimes without any noticeable changes that should affect them.</cite>
+
+I used to have this problem on Mac OS, when I still used PS fonts.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 02:00:27"
+			itemprop="datePublished"
+		>
+			2010-11-23 02:00:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It seems to me that it must be something you inadvertently did in the OT code. Something subtle that doesn't raise an error when you generate the font, but causes the behavior in InDesign. Just a hunch.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 04:25:38"
+			itemprop="datePublished"
+		>
+			2010-11-23 04:25:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, Mark. Yeah, I had never had problems before with OT fonts like PS ones. I'll keep trying to figure it out and see if I can find an error.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 04:53:38"
+			itemprop="datePublished"
+		>
+			2010-11-23 04:53:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Stephen Rapp</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">BTW, I say this because I'm pretty sure OT fonts can't get corrupted the way old PS fonts could. The reason they did (on the Mac, anyway) was to do with the fact that they were stored as resources (i.e., in the resource fork of a file). Because of the way resources worked on the old MacOS (pre-10.0), any font files that were installed had to be open (for read and write) while in use, and if a file was open when a system crash happened, it could be corrupted. Since installed fonts were always open, that made them vulnerable to corruption. Fonts don't work that way anymore on MacOS 10.0 and later (except in the Classic environment, but hardly anyone uses that anymore, and it's not even possible on 10.5 and later or on Intel-based Macs).
+
+That said, I have heard of FontLab .vfb files getting corrupted.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 05:04:39"
+			itemprop="datePublished"
+		>
+			2010-11-23 05:04:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">How does it look if you open the generated font in FontForge?
+(FF reports errors even in widely used fonts)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 13:13:42"
+			itemprop="datePublished"
+		>
+			2010-11-23 13:13:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>I have heard of FontLab .vfb files getting corrupted</em>
+
+I have experienced it, and it's no fun. Generally, the only way to correct the problem is to generate a font, and open it up in FontLab. This procedure usually removes the voodoo hidden deep inside the original .vfb, but you have to check your Font Info, Classes and Features to make sure that they haven't changed.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 16:42:05"
+			itemprop="datePublished"
+		>
+			2010-11-23 16:42:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>oldnick</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">OT Class names are likely to change when doing that, Nick.  They seem to default to some typical word followed by numbers to indicate which set gets swapped by which other.
+
+   sub @smcp1 by @smcp2;
+
+is typical.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 17:13:25"
+			itemprop="datePublished"
+		>
+			2010-11-23 17:13:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The reason that happens is because the feature source code is not stored in the generated font. It gets compiled. So when you import the font back into FontLab, it must decompile the feature code. Some of the original structure is lost, even though it is (usually*) functionally equivalent.
+
+One way to get around this is to export the classes and feature code from the original .vfb. Of course, if that's where the problem was, maybe not. It would be worth testing the OT features of the imported font in FontLab--as it interprets them--to see if the behavior in InDesign is present.
+
+* There are some OT features that FontLab doesn't know about that may be present if the font was not created in FontLab. But that's not going to be the case with your font.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 20:58:39"
+			itemprop="datePublished"
+		>
+			2010-11-23 20:58:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I learned the hard way to regularly save classes and features. FontLab giveth and FontLab taketh away.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 21:54:14"
+			itemprop="datePublished"
+		>
+			2010-11-23 21:54:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I've had similar problems with a 2500+ glyph font. TT worked fine, but CFF didn't. Turning of "compress outlines" did the trick. B.t.w. some of the errors would be that a blanc would show up, but was visible in a PDF. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 22:18:00"
+			itemprop="datePublished"
+		>
+			2010-11-23 22:18:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Micha Mirck</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>OT Class names are likely to change when doing that, Nick.
+
+I learned the hard way to regularly save classes and features. FontLab giveth and FontLab taketh away.</em>
+
+The generate font trick is better than starting from scratch and, as you noted later, saving classes and features is the way to go as Standard Operating Procedure.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 22:52:22"
+			itemprop="datePublished"
+		>
+			2010-11-23 22:52:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>oldnick</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">"The generate font trick is better than starting from scratch"
+
+Amen, brother ;-)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 22:54:23"
+			itemprop="datePublished"
+		>
+			2010-11-23 22:54:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">If you're using a Mac, Tal Leming's <a href="http://code.typesupply.com/wiki/FeatureProof">FeatureProof</a> utility could possibly be useful for debugging.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-23 23:20:31"
+			itemprop="datePublished"
+		>
+			2010-11-23 23:20:31
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I tried opening up the generated font, but only to look at it. What I ended up doing, howeve,r was really simple. Apparently the corruption only happened when I generated a PS flavor OT font. I did it as a ttf and now have no corruption. Not sure what caused the problem, but I found an older version that I had made as ttf before the upgrade and it worked so I tried that format.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-24 02:15:45"
+			itemprop="datePublished"
+		>
+			2010-11-24 02:15:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Stephen Rapp</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Have you tried Micha's suggestion? Sounds like that might be what's going on if the OT/TTF version works okay.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-24 03:38:54"
+			itemprop="datePublished"
+		>
+			2010-11-24 03:38:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, Micha and Mark.
+I was away awhile and missed Micha's comment.  I just tried that and it works! That's fantastic.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-24 11:56:35"
+			itemprop="datePublished"
+		>
+			2010-11-24 11:56:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Stephen Rapp</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Great! Now show it :)
+b.t.w. It seems to be related InDesign. Quark doesn't have this problem. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-24 14:27:00"
+			itemprop="datePublished"
+		>
+			2010-11-24 14:27:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Micha Mirck</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It is look like "dramatical dialog" with happy ending, :-)
+Thanks for all lesson inside.
+Best Regards.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-12-16 15:31:32"
+			itemprop="datePublished"
+		>
+			2010-12-16 15:31:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>andi aw masry</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

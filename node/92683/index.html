@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Point v Point | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Point v Point" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/92683/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-05-02T21:04:56+00:00" />
+<meta property="article:modified_time" content="2012-05-02T21:04:56+00:00" />
+
+<meta itemprop="name" content="Point v Point">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-05-02T21:04:56+00:00" />
+<meta itemprop="dateModified" content="2012-05-02T21:04:56+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Point v Point"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Point v Point</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-05-02T21:04:56Z">May 2, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Té Rowan</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I think this is technical enough for Build...
+
+I tossed this little conversion script together today to brush up on my (rather feeble) <code>awk</code> skills. All it does is convert points to mm and spew out some CSS classes. Might be useful for someone...
+
+<pre>#! /bin/sh
+
+# Only tested on ash and bash and with GNU awk.
+
+unset Pts
+while getopts pt: f
+do
+ case $f in
+  t) Pts="pt=$OPTARG" ;;
+ esac
+done
+shift `expr $OPTIND - 1`
+
+LC_ALL=C awk '
+BEGIN            { pts=0.352778 }
+pt=="DTP"        { pts=0.352778 }
+pt=="Postscript" { pts=0.352778 }
+pt=="TeX"        { pts=0.351460 }
+pt=="Pica"       { pts=0.351460 }
+pt=="Didot"      { pts=0.375972 }
+pt=="Cicero"     { pts=0.376065 }
+pt=="Berthold"   { pts=0.376000 }
+pt=="Imprimerie" { pts=0.400000 }
+
+NF==0 { print }
+NF>0 {
+ if ($3=="pt") { printf ".%-12s { font-size: %6.3fmm; }\n", $1, $2*pts } ;
+ if ($3=="mm") { printf ".%-12s { font-size: %6.3fmm; }\n", $1, $2 }
+}
+' "$Pts" <<_E_O_F_ >$1
+Kvartpetit   2 pt
+Brillant     3 pt
+Diamant      4 pt
+Perl         5 pt
+Nonpareille  6 pt
+Insertio     6.5 pt
+Kolonell     7 pt
+Petit        8 pt
+Borgis       9 pt
+Korpus       10 pt
+Brevier      11 pt
+Cicero       12 pt
+StorCicero   13 pt
+Mittel       14 pt
+LitenTertia  15 pt
+Tertia       16 pt
+Paragon      18 pt
+Tekst        20 pt
+DobbelCicero 24 pt
+DobbelMittel 28 pt
+LitenKanon   32 pt
+Kanon        36 pt
+StorKanon    42 pt
+LitenMissal  48 pt
+Missal       54 pt
+StorMissal   60 pt
+LitenSabon   72 pt
+Sabon        76 pt
+StorSabon    84 pt
+Real         96 pt
+Imperial     108 pt
+
+Perle        1.75 mm
+Fussnote     2.25 mm
+Tabelle      2.50 mm
+Legende      2.75 mm
+Zeitung      3.00 mm
+KleinBuch    3.25 mm
+GrossBuch    3.50 mm
+Foliant      3.75 mm
+Titel        4.25 mm
+
+haoba        5 pt
+haoqi        5.5 pt
+haoxiaoliu   6.5 pt
+haoliu       7.5 pt
+haoxiaowu    9 pt
+haowu        10.5 pt
+haoxiaosi    12 pt
+haosi        14 pt
+haoxiaosan   15 pt
+haosan       17 pt
+haoxiaoer    18 pt
+haoer        22 pt
+haoxiaoyi    24 pt
+haoyi        26 pt
+haoxiaochu   36 pt
+haochu       42 pt
+_E_O_F_</pre></div>
+
+  
+</article>
+
+    </main>
+    
+  </body>
+</html>

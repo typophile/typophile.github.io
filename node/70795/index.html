@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Understanding glyph selection | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Understanding glyph selection" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/70795/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-05-27T12:00:47+00:00" />
+<meta property="article:modified_time" content="2010-05-27T12:00:47+00:00" />
+
+<meta itemprop="name" content="Understanding glyph selection">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-05-27T12:00:47+00:00" />
+<meta itemprop="dateModified" content="2010-05-27T12:00:47+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Understanding glyph selection"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Understanding glyph selection</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-05-27T12:00:47Z">May 27, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Tuom Larsen</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hello,
+
+I'm trying to understand how TrueType works but I have some difficult time with how glyph selection works. I mean, a user types in a sequence of Unicode characters, i.e. Unicode code-points. TrueType cmap specifies various formats of mapping between code-points and actual glyphs data stored in .ttf (.otf). But sometimes there in font are ligatures, stylistic variants and what not - how are those selected? I assume Unicode does not define a code-point for 3rd swash of capital F.
+
+Related question, when I look at a font through MS ttfdump, there is different number of entries in cmap than the count of all the glyphs.
+
+Please, could someone explain to me how this works?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The translation from text string to displayed string is not <em>entirely</em> a Unicode procedure.
+
+High-level text APIs (such as Uniscribe) can interrogate the font for its features. This may return, for example, a list of glyphs forming ligature combinations. The high level API then creates a list of glyphs (Unicode or not) and displays them by itself.
+
+<cite>Related question, when I look at a font through MS ttfdump, there is different number of entries in cmap than the count of all the glyphs.</cite>
+
+Part of it is because the cmap may define glyphs more than once -- Carriage Return, Space, Non-breaking space all may map to the same glyph. Same with hyphen, non-breaking hyphen, and discretionary hyphen. So this accounts for <em>less</em> glyphs than cmap points.
+If the font contains Opentype features, the font file may have additional glyphs that cannot be mapped (just about anything, from Small Caps to composite characters to ligatures and alternates).
+
+It's also quite possible a font has glyphs that are not "meant" for regular use -- I think Cambria Math may be an example, as its extra glyphs cannot be accessed through the usual OTF features, and you need specialized software (which?) or manually insert the glyphs you want (meaning, you need a Glyph Selection panel such as in InDesign).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 12:11:59"
+			itemprop="datePublished"
+		>
+			2010-05-27 12:11:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">If I understood correctly, it might not be possible to access all the glyphs of a font via cmap, right? What should I do then, if I want to write "x^2" (x squared, "2" is superscript)? In other words, how does InDesign's Glyph Selection panel work? I assume it is possible to list all the glyphs of a font (i.e. output the content of glyf or CFF?), but how would such text look like (say, in memory)? Is it possible to e-mail "x^2" so that it displays correctly (if the font is available)?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 13:29:17"
+			itemprop="datePublished"
+		>
+			2010-05-27 13:29:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tuom Larsen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Tuom, 
+
+what you're talking about is OpenType Layout. 
+
+I recommend reading http://www.microsoft.com/typography/Glyph%20Processing/intro.mspx as a starter. 
+
+With OpenType Layout, the representation in memory must be formatted/styled text, not plain text. It's up to the software vendor to choose the appropriate representation. Unfortunately, RTF (a quite common cross-vendor format for styled text) does not have standard means to store OpenType Layout formatting, although Apple made some custom extensions to RTF that work within Mac OS X (so you can copy-paste between Pages or Keynote or TextEdit and retain OpenType Layout formatting). 
+
+HTML, being another cross-vendor format for styled text, also currently has no standard means to retain this information, but CSS3 has is planning to include properties that allow authors to turn specific OpenType Layout features on or off on a portion of text. There's an editor's draft available at 
+http://dev.w3.org/csswg/css3-fonts/
+
+In that case, your x^2 example would look like <code>x&lt;span style="character-transform:superscript"&gt;2&lt;/span&gt;</code>
+
+Microsoft's XML dialect XAML used in Windows Presentation Foundation also has extensive formatting clauses for OpenType Layout features. 
+
+Best,
+Adam
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 19:16:50"
+			itemprop="datePublished"
+		>
+			2010-05-27 19:16:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Very helpful Adam, thanks a lot!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 19:26:41"
+			itemprop="datePublished"
+		>
+			2010-05-27 19:26:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tuom Larsen</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

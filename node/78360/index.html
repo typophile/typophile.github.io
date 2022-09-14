@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>TrueType Hinting question | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="TrueType Hinting question" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/78360/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-01-24T22:55:32+00:00" />
+<meta property="article:modified_time" content="2011-01-24T22:55:32+00:00" />
+
+<meta itemprop="name" content="TrueType Hinting question">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-01-24T22:55:32+00:00" />
+<meta itemprop="dateModified" content="2011-01-24T22:55:32+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="TrueType Hinting question"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">TrueType Hinting question</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-01-24T22:55:32Z">January 24, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">apankrat</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Let me ask the question first and explain the context after that.
+
+<em>Is it possible to hint TTF in a way that would make a glyph render 1 pixel wider (at certain pixel size) than its unhinted version?</em>
+
+This is in the context of trying to reliably tell ClearType and Standard anti-aliasing apart in the confines of the HTML/CSS/JavaScript. 
+
+I figured out how to do it in Firefox and Chrome. In the IE I can detect CT in some cases, but not always and this relies on using Flash, which makes it am untidy hack. Here's a <a href="http://typophile.com/node/77635">thread</a> where it all started.
+
+One option that I'd like to explore is making a custom single-glyph TTF font and then hinting for ClearType so that the glyph would render with a different width depending on whether the CT is enabled. This difference can be detected by CSS and so I have my solution. 
+
+I have very rudimentary undertsanding of hinting, and I am looking for a simple "yes, possible" / "no, not possible" guidance. If it <em>is</em> possible, I will look into the hinting subject at detail and figure things out.
+
+Thanks
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It should be possible, by setting the stem's ppm2 value (the value at which it jumps from one to two pixels) to something very low. Although doing the opposite—hinting a glyph that renders 1 pixel wide at a certain size, but appears wider with ClearType enabled—might be an easier approach due to CT's natural tendency to add pixels to vertical stems.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-24 23:57:16"
+			itemprop="datePublished"
+		>
+			2011-01-24 23:57:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yes, you could do this. Since CT effectively ignores X hints, you could use an X delta hint to change the width of a stem or glyph (not sure which one you're trying to do), and the delta hint would be ignored by the CT rasterizer. In fact this would work with any X-hint, but a delta is probably the easiest way for you to do this. 
+
+For that matter, there are delta hints which are rasterizer-dependent, at least for the Win Rasterizers. For example, you could apply a delta to move a point a certain distance, but only if the current rasterizer was using "black and white" rendering. 
+
+Jason C</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-25 02:08:41"
+			itemprop="datePublished"
+		>
+			2011-01-25 02:08:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>jasonc</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Justin, Jason, thank you for the answers. 
+
+I read there were conditional (CT) instructions, and it really helps to know more specific areas to look at. What I was not sure about was if a glyph was pre-allocated a fixed space on the rasterization surface and if the hinting program was not allowed to push the glyph outside of such space. It sounds like it's not the case, which is great. Hence the next question :) -
+
+Is there a good starting place for learning more about hinting? I know general idea behind the hinting, but I come from the computer programming background, so some sort of condensed crash course on hinting would be ideal.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-25 04:26:07"
+			itemprop="datePublished"
+		>
+			2011-01-25 04:26:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>apankrat</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hang on, I don't think I was entirely clear on which width you're trying to manipulate. Do you mean the number of horizontal pixels used to fill the glyph, or the total number of pixels in the advance width of the glyph (including sidebearings)? The latter is more problematic, because ClearType in GDI typically renders glyphs using <a href="http://msdn.microsoft.com/en-us/library/aa480221.aspx#wp_topic6">"compatible widths"</a> that match the advance widths of black and white / grayscale rendering. While it's possible to <a href="http://www.microsoft.com/typography/cleartype/truetypecleartype.aspx#Toc227035734">query whether compatible widths or "natural widths" are being used</a> (and alter the hinting program accordingly), it's not possible to change the rendering mode from the within the font. So unless the GDI program has been set to use natural widths, the advance width of a ClearType-rendered glyph will always be the same as Standard smoothing.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-25 07:45:21"
+			itemprop="datePublished"
+		>
+			2011-01-25 07:45:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> <em>The latter is more problematic..</em>
+
+Hm. Say, we are in a compatible width mode, and the rasterizer is about to render a glyph. I am assuming that it allocates N pixels for the advance width of the glyph and - then what? - does it run the hinting program and then sort of squishes resulting curves into the allotted space? Does it have any threshold for how badly it can mangle the curves? 
+
+Or more generally - can you think of any condition under which the rasterizer would change the advance width <em>after</em> the hinting program is run?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-25 08:30:01"
+			itemprop="datePublished"
+		>
+			2011-01-25 08:30:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>apankrat</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">In the hinting process, the advance width and the em are rounded  before the hints are applied. Then the hints are based on the pre rounded solutions to em ht and set width. The instructions then can reference the rounded width to prevent the hints from smudging the glyph. The hints can also be used to change the widths and if they do, this is stored and may be referenced  in the horizontal device metrics table, per size. I don't know any thing that would change the width after the hinting, but if chaos is desired, as seems the case, it could be unwisely done. 
+
+>For example, you could apply a delta to move a point a certain distance, but only if the current rasterizer was using "black and white" rendering.
+
+Simon says not on windows, the only place it'd matter. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-25 09:27:29"
+			itemprop="datePublished"
+		>
+			2011-01-25 09:27:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">David, can you elaborate a bit on these two points?
+
+><em>The hints can also be used to change the widths and if they do, this is stored and may be referenced in the horizontal device metrics table, per size.</em>
+
+What should I be looking at in hinting instruction set here?
+
+><em>but if chaos is desired, as seems the case, it could be unwisely done.</em>
+
+I have a growing suspicion that it cannot be done. If I were implementing a compatible width mode in CT, I would've made damn sure the glyphs do not leak outside of their boundaries, because that would defeat the very purpose of the mode. Or in the worst case I would allow the glyph to spill out, but won't adjust the advance width (i.e. let the glyph overlap with the next one).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-25 19:33:43"
+			itemprop="datePublished"
+		>
+			2011-01-25 19:33:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>apankrat</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Apankrat, 
+
+By refining this method:
+http://www.useragentman.com/blog/2009/11/29/how-to-detect-font-smoothing-using-javascript/
+you can render a commonly-known font's glyph (such as Arial's "o") into HTML canvas, and then use JavaScript to analyze the pixels. Check for color pixels, grayscale pixels, or just black-and-white, plus potentially lots of other things. Or calculate the rendering's checksum and compare it against a number of pre-populated checksums to get a very precise lookup of the user's viewing environment. 
+
+(You can even send it per <code>canvas.toDataURL("image/png");</code> back to the server as a PNG and have it analyzed there.)
+
+Or are you trying to do this in IE7/IE8?
+
+A.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-25 20:17:07"
+			itemprop="datePublished"
+		>
+			2011-01-25 20:17:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">><em>Or are you trying to do this is IE7/IE8?</em>
+
+That would appear to be the case. Presently, querying IE's <code>screen.fontSmoothingEnabled</code> property seems to be the only reliable method for detecting font smoothing in IE, but it doesn't distinguish between Standard and ClearType.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-25 21:39:43"
+			itemprop="datePublished"
+		>
+			2011-01-25 21:39:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Adam, thanks for the comment. Yes, IE is the issue (surprise). 
+
+The canvas option is where I started. Subpixel smoothing is trivial to recognize by looking for non-gray pixels when rendering a gray glyph. No canvas in IE though.
+
+As Justin mentioned, IE has a <em>fontSmoothingEnabled</em> variable, but it is set to <em>true</em> for both CT and Standard smoothing. I then tried few other things including VML and Flash. VML doesn't appear to have any CT support. Flash rendering is a viable option, but it uses system CT setting and not browser's -- and these can be different as you probably know.
+
+I am scraping the bottom of the barrel here with TTF hinting option. If anyone has any other crazy ideas, do tell them.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-25 22:01:02"
+			itemprop="datePublished"
+		>
+			2011-01-25 22:01:02
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>apankrat</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">TrueType's <a href="http://developer.apple.com/fonts/TTRefMan/RM05/Chap5.html#GETINFO">GETINFO</a> instruction can <a href="http://www.microsoft.com/typography/cleartype/truetypecleartype.aspx#Toc227035732">query for ClearType rendering</a>, but I have no idea what kind of voodoo it would take to pass a value returned by a TT program over to javascript, if it's possible at all.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-25 23:39:12"
+			itemprop="datePublished"
+		>
+			2011-01-25 23:39:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">ActiveX controls can be queried through JavaScript. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-26 00:33:20"
+			itemprop="datePublished"
+		>
+			2011-01-26 00:33:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Actually... using the ability of the hinting program to query for ClearType rendering, combined with your initial idea of measuring the glyph width... that might lead to a solution. It would involve writing TT instructions that would run some kind of width-altering function <em>only if</em> the ClearType bit was set. But you'd need to get familiar with writing TT assembly code, or find somebody who is.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-26 00:46:46"
+			itemprop="datePublished"
+		>
+			2011-01-26 00:46:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Apankrat> Say, we are in a compatible width mode in CT
+
+I should point out, and this is my fault for not insisting MS do better documentation, that compatible mode CT is not there for developers to use on any font. It's strictly for MS and MS fonts that had a previous life with aliased metrics different from the metrics arrived at via CT rendering. Font developers are only to use natural mode, making compatible mode on non-MS fonts quite similar to using a light switch attached to a burnt out bulb. The documentation of this is terrible, as far as it's been explained to me, in that it implies otherwise.
+
+Also, the post above asks that hints change widths in CT mode, and this not possible as far as I know  for either the width of the glyph or the advance width.
+
+ But what if the hints changed the height of a glyph when CT was on?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-26 13:24:51"
+			itemprop="datePublished"
+		>
+			2011-01-26 13:24:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@db
+
+>But what if the hints changed the height of a glyph when CT was on?
+
+Does this already happen, to your knowledge? Measuring the height could work just as well. And if not, can it be forced with a font set up a certain way?
+
+@apankrat
+I understand your quest. My only problem is, if reliable detection can be acheived, then what? What remedy do you apply? Back to the system fonts in that environment?
+
+Rich
+
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-26 13:54:20"
+			itemprop="datePublished"
+		>
+			2011-01-26 13:54:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I yearn for the days when +300 PPI monitors become the standard…</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-26 16:51:20"
+			itemprop="datePublished"
+		>
+			2011-01-26 16:51:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Chris Dean</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> But what if the hints changed the height of a glyph when CT was on?
+
+Worth a try I guess, but I doubt it's going to work. If the line-height is 15px and a glyph wants to be 16px, it will be clipped. I saw it happened to some auto-hinted fonts on FontSpring.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-26 18:02:50"
+			itemprop="datePublished"
+		>
+			2011-01-26 18:02:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>apankrat</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>I yearn for the days when +300 PPI monitors become the standard…</cite>
+
+Which will alleviate but not solve the problem: at smaller sizes, hinting affects even the output of a laser printer.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-26 18:51:53"
+			itemprop="datePublished"
+		>
+			2011-01-26 18:51:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>riccard0</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Posted elsewhere, taken from http://prometheus.med.utah.edu/~bwjones/2010/06/apple-retina-display/
+
+"So, if a normal human eye can discriminate two points separated by 1 arcminute/cycle at a distance of a foot, we should be able to discriminate two points 89 micrometers apart which would work out to about 287 pixels per inch.  Since the iPhone 4G display is comfortably higher than that measure at 326 pixels per inch, I’d find Apple’s claims stand up to what the human eye can perceive."
+
+Also see:
+
+Curcio, C. A., Sloan, K. R., Kalina, R. E. & Hendrickson, A. E. (1990). Human photoreceptor topography. Journal of Comparative Neurology. 292, 497-523.
+
+Long short, there’s only so much detail the human eye is physically capable of detecting based upon physiology. Sure, if we get in an look at the type 1cm away we'll see a difference, but at 12 inches, ~300 DIP is our threshold.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-26 20:46:49"
+			itemprop="datePublished"
+		>
+			2011-01-26 20:46:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Chris Dean</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">><em>The documentation of this is terrible...</em>
+
+I guess so, since <a href="http://www.microsoft.com/typography/cleartype/truetypecleartype.aspx#Toc227035732">the documentation</a> implies that compatible widths and natural widths are rasterization modes dependent on the rendering environment (ie. GDI, WPF), which would be dictated by OS and application developers rather than font developers. The only direct control over ClearType rendering afforded to font devs is setting the interpreter to "native" mode using the INSTCTRL selector flag 3.
+
+><em>Also, the post above asks that hints change widths in CT mode, and this not possible as far as I know for either the width of the glyph or the advance width.</em>
+
+Per the [terrible] documentation:
+
+<blockquote>...additional instructions that may improve the rendering of ClearType may also be surrounded by a conditional IF that is executed only if ClearType is enabled.</blockquote>
+
+If this is accurate, would it not then be possible for the "additional instructions" to alter the width of a glyph?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-26 23:36:31"
+			itemprop="datePublished"
+		>
+			2011-01-26 23:36:31
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@christopher
+
+<em>"Long short, there’s only so much detail the human eye is physically capable of detecting based upon physiology. Sure, if we get in an look at the type 1cm away we'll see a difference, but at 12 inches, ~300 DIP is our threshold."</em>
+
+Hadn't thought about this. Does cap out, doesn't it?
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-27 01:00:52"
+			itemprop="datePublished"
+		>
+			2011-01-27 01:00:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>...that compatible widths and natural widths are rasterization modes dependent on the rendering environment (ie. GDI, WPF),
+
+I think the dependency is on a document's contents first.
+
+>If this is accurate, would it not then be possible for the "additional instructions" to alter the width of a glyph?
+
+Again, I'll say that CT does not use x direction hints, which width altering instructions among the ignored hints.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-27 11:38:36"
+			itemprop="datePublished"
+		>
+			2011-01-27 11:38:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">><em>I think the dependency is on a document's contents first.</em>
+
+I don't follow how the contents of a document would have any effect on compatible/natural widths. It was explained in <a href="http://www.typophile.com/node/62675#comment-373519">an older thread</a> that the widths mode is set by the application, not changeable by the font program.
+
+><em>Again, I'll say that CT does not use x direction hints, which width altering instructions among the ignored hints.</em>
+
+If that's always the case, then it should be easy enough to hint a glyph in such a way that its advance width is one value with Standard smoothing (which follows x-direction hints), and a different value with ClearType (since it ignores those hints). Problem solved. Except that GDI apps default to using compatible widths, making the advance widths identical between Standard and CT rendering. Thus, if the advance width of the glyph is altered through hinting, that altered width does in fact get carried over to ClearType when rendered using compatible widths.
+
+In any case, it's possible for a hinting program to query for ClearType rendering, and to query for compatible widths mode, and to limit the application of hints based on such conditions. That <em>may</em> provide enough flexibility to create a font that achieves the original goal, though not as easily as one might have hoped.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-27 17:11:12"
+			itemprop="datePublished"
+		>
+			2011-01-27 17:11:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@Richard: Yes, that is my understanding of the literature. There are a finite number of rods and cones an eye. As such, depending on viewing distance, there is a finite resolution that the eye is physically capable of detecting.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-27 18:16:21"
+			itemprop="datePublished"
+		>
+			2011-01-27 18:16:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Chris Dean</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> <em>@apankrat
+I understand your quest. My only problem is, if reliable detection can be acheived, then what? What remedy do you apply? Back to the system fonts in that environment?</em>
+
+Oh, my apologies, Rich. I thought I replied.
+
+Yes, the idea is to fallback to the system fonts. At least 25% of visitors I have to cater to are on XP, but designing around them is too limiting. Hence the trying to detect when I can have an expressive freedom and when I cannot :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-28 06:23:44"
+			itemprop="datePublished"
+		>
+			2011-01-28 06:23:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>apankrat</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Reviving this old thread: If telling Greyscale and Cleartype apart is the problem, why not just eliminate Greyscale with the GASP table? Or am I missing something here? And, btw: while I'm at it: I can see the script is up and running, but the statistics page is down. What are your numbers so far?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-19 13:07:39"
+			itemprop="datePublished"
+		>
+			2011-10-19 13:07:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You are looking at it from the wrong end. It is a matter of trying to decide if to use specific given font (that cannot be changed) when showing a page to a specific user.
+
+With regards to the stats - haven't got a chance to put the page up yet. Let me see what I can do, perhaps by hand. By the way, the detection script also collects the availability information for a handful of fonts, websafe and others - another interesting statistic to look at.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-27 14:26:59"
+			itemprop="datePublished"
+		>
+			2011-10-27 14:26:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>apankrat</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ah, sorry. I misread. Canvas doesn't work. I'd really like to see those numbers!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-27 14:45:47"
+			itemprop="datePublished"
+		>
+			2011-10-27 14:45:47
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

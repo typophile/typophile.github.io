@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Custom kerning in InDesign (GREP workflow writeup) | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Custom kerning in InDesign (GREP workflow writeup)" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/69252/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-04-10T22:44:07+00:00" />
+<meta property="article:modified_time" content="2010-04-10T22:44:07+00:00" />
+
+<meta itemprop="name" content="Custom kerning in InDesign (GREP workflow writeup)">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-04-10T22:44:07+00:00" />
+<meta itemprop="dateModified" content="2010-04-10T22:44:07+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Custom kerning in InDesign (GREP workflow writeup)"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Custom kerning in InDesign (GREP workflow writeup)</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-04-10T22:44:07Z">April 10, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">nina</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Problem:
+[img:sites/default/files/old-images/GREP-kern-1_6550.gif]
+
+Solution:
+While InDesign CS4 doesn't feature a kerning table, it does support GREP styles, which can be used to apply custom kerning values to extended text settings. Because I haven't seen this documented in a truly helpful way (not that I've looked <em>too</em> hard) and some peeps have asked about it, here's a quick writeup of a possible procedure. Maybe if some of you have corrections or suggestions how to do it better, we can put together a killer workflow. (Scuse the atypically looong post… I figured Typophile was still the best place to put this.)
+
+So in the text above, note the absence of a kern pair for «Tó» while «To» looks fine.
+
+<strong>Step 1: Kern the pair manually, once.</strong>
+[img:sites/default/files/old-images/GREP-kern-2_6377.gif]
+
+.
+.
+<strong>Step 2: Define character style for kern pair.</strong>
+It seems that this has to be done in a roundabout way, since custom kerning values cannot be entered in the Character Style dialog.
+It's interesting to note that while InDesign only lets you insert a kerning value when the cursor is between the 2 glyphs in question, it seems that the kerning value is treated as a <em>property assigned to the first glyph in the pair</em>. Thus, by selecting the first one of these 2 glyphs and then defining a «New Character Style» you will be able to make a character style that contains this kerning value. (You want to pay attention that it doesn't contain anything else.) I'd name it something telling, like kern_T_oacute in this case. 
+[img:sites/default/files/old-images/GREP-kern-3_6202.gif]
+
+.
+.
+<strong>Step 3: Apply this Character Style to all occurrences of the pair in question, via GREP.</strong>
+Make sure your text cursor is in one paragraph in question, then select «GREP Styles» from the Paragraph (not Paragraph Styles) palette flyout. Hit «NEW GREP Style…» and specify to assign the kern_T_oacute character style in case this condition is met:
+<code>T(?=ó)</code>
+The important thing is to only assign the character style to the "T" (as the kerning value is treated as a property of the <em>first</em> glyph in the pair), but <strong>only if it is followed by "ó"</strong> &ndash; this condition is what the (?=ó) specifies as a Positive Lookahead (cf. <a href="http://help.adobe.com/en_US/InDesign/6.0/WSa285fff53dea4f8617383751001ea8cb3f-6f59a.html">Adobe Guideline on Metacharacters</a>). If you want to include other possibilities too (like odieresis), you can specify a class of possible second glyphs in brackets, like in the screenshot below.
+When you hit Preview this baby should now automagically apply to all «Tó» pairs in the paragraph:
+[img:sites/default/files/old-images/GREP-kern-4_3891.gif]
+
+.
+.
+<strong>Step 4: Redefine Paragraph Style to include GREP style.</strong>
+Your Paragraph Style will now have a "+" added because the GREP style was added. Select «Redefine Style» to add the GREP style to the Paragraph Style definition. Now the custom kern pair should automatically be applied in all paragraphs based on this paragraph style. (Note that you'll have to do this for all paragraph styles you need the kern pair in.)
+
+Comments, suggestions, please shoot. I will add that in my case I actually solved it differently (via GREP Search&Replace) but found out later that this way would have been much more elegant.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">A number of book designers have complained about the lack of global kerning adjustment in InDesign, which is apparently possible in Quark XPress. This creates that capability in InDesign. Very nice, thanks!
+
+Now all Adobe has to do is build an interface for this :) </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-08 21:35:38"
+			itemprop="datePublished"
+		>
+			2010-04-08 21:35:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>William Berkson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Now that is clever, Nina. Thanks.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-08 22:31:27"
+			itemprop="datePublished"
+		>
+			2010-04-08 22:31:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tomi from Suomi</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-08 22:49:00"
+			itemprop="datePublished"
+		>
+			2010-04-08 22:49:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>andreas</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Back in Ye Olden Tymes, when "typesetter" was a profession, kerning was generally accomplished with a search-and-replace function after the text had been keyed in. Additions or exceptions to the standard pairs could easily be added to the swap file, so adjustments like this were no big deal. Sadly, the advent of desktop publishing and "idiot-proof" interfaces removed a certain level of control. This is one reason why--until Corel fouled up the works with Version 8--I always preferred WordPerfect to Microsoft Word: one had access to the underlying code, and global changes were easily accomplished with search-and-replace.
+
+Other things I miss from the days of yore: controllable vertical justification (one could add more or less space between selected elements) and Auto-tabs (the longest entry in an ordered or unordered list could be centered, and all other entries flush left with it). Sigh...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-08 22:53:54"
+			itemprop="datePublished"
+		>
+			2010-04-08 22:53:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>oldnick</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hey, Nina, great trick! I do have two additional remarks:
+
+To act upon <strong>each and every 'o'-like character</strong>, accented or not, you don't have to list the exact list. You can still use it if you need absolute control on which characters to include, but if you are positive you want to do this on all 'o' characters, you can use a <em>character class</em>: the command <code>&#91;&#91;=o=&#93;&#93;</code> will match on all o's, with and without accent. The only drawback is that a capital Oh is also an equivalent of plain 'o', so you have to find a way to exclude them. Well -- you can add <em>another</em> lookahead to include <em>only</em> lowercase characters!
+
+<code>T(?=\l)(?=&#91;&#91;=o=&#93;&#93;)</code>
+
+The first lookahead asserts only lowercase characters may follow; the second picks up all equivalents of plain ohs.
+
+The other thing is: Unfortunately, GREP styles are oblivious to <strong>formatting</strong>, so this same trick will be applied to italic, bold, and bold italic, and on every font as well. If you are applying italics formatting though a paragraph style, you can create a new character style for "italic T o" kerning, but for plain text you still have to apply manually workarounds to non-plain text.
+
+Given this constraint, it's still a great trick. I agree: it's about time Adobe copied the Quark Kerning Pair Editor. And does anyone else think it's weird you cannot enter a Kerning value in a Character Style definition? You can only insert one using Nina's trick: first apply, then "Define New Character Style". And if you got it wrong, you cannot <em>edit</em> it. (Perhaps it can be done with a Javascript -- I'll have to check that.)
+
+---
+ 
+† Malcolm McLaren (22 January 1946 – 8 April 2010) ...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-08 23:14:12"
+			itemprop="datePublished"
+		>
+			2010-04-08 23:14:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><quote><em> (Perhaps it can be done with a Javascript -- I'll have to check that.)</em></quote>
+
+Checked, and the answer is "No". Text objects in general have properties "kerningMethod" and "kerningValue", but Character styles only have "kerningMethod". Thus adding another riddle: how can it get defined with a certain value in the character style if that can't contain the value ...?
+
+---
+
+† Malcolm McLaren (22 January 1946 – 8 April 2010) ...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-08 23:20:27"
+			itemprop="datePublished"
+		>
+			2010-04-08 23:20:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for the responses. I'm glad if this is helpful to some.
+
+Theunis, thank you very much for the input! I'm actually quite a newbie at GREP so these more advanced syntax constructions are quite illuminating. 
+Using that blanket character class wildcard (like <code>=o=</code>) seems like a bit of a dangerous technique from a type design perspective no? I mean considering that say the oacute and odieresis might need quite different kerning values when following a "T", depending on the design.
+
+<cite>"Unfortunately, GREP styles are oblivious to formatting"</cite>
+Yes, this is really quite a bad constraint. I should have mentioned it. It's pretty stupid actually because if you do a GREP <em>search</em> then you <em>can</em> specify formatting (like in normal searches),* just not for GREP <em>styles</em>. Hmph.
+(* I'm not quite sure, but there seems to be a problem here too: In the GREP Search, if any formatting is specified, not only the search term proper needs to match this formatting at but also the Lookahead too. Which is exactly a problem for this technique, since you'd only want to match the first glyph of the pair in terms of formatting. So if you have a pair like say "Ví" and the "í" already has a custom character style applied, and you search for "V(?=í)" with standard formatting it's not going to be found. :-\ )
+The interface for these functions definitely needs refining, and I don't only mean a nice clickable GUI here, although that'd be rad too.
+
+<cite>"does anyone else think it's weird you cannot enter a Kerning value in a Character Style definition? You can only insert one using Nina's trick: first apply, then "Define New Character Style""</cite>
+I'm thinking my "trick" might be a loophole. This is likely not <em>meant</em> to be done this way (or at all). Otherwise there would be a better interface for it. But I might be wrong.
+
+<cite>"And if you got it wrong, you cannot edit it."</cite>
+Well you can edit it locally in one instance and then "Redefine Style". Which works, but is also a workaround. OK, hack. :-)
+
+Now of course the big question to the Adobe folks is, will any of this be improved in CS5?
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-09 00:16:42"
+			itemprop="datePublished"
+		>
+			2010-04-09 00:16:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>nina</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Correct -- the <code>&#91;&#91;=o=&#93;&#93;</code> <em>does</em> treat all variants of oh the same, and if you want to use different values for different ohs, you need to specify them in a <code>&#91;..&#93;</code> list.
+
+<cite>Now of course the big question to the Adobe folks is, will any of this be improved in CS5?</cite>
+
+It sure could use an overhaul. How many days left on that counter? (Checking ...) 3d 15h 25m 42 s ...
+
+(The main topic on <a href="http://cs5launch.adobe.com/">http://cs5launch.adobe.com/</a> appears to be a complete new set of Flash stuff, fresh out of adobe.labs. We can only hope not <em>all</em> of their programmers have been working on that.)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-09 00:36:43"
+			itemprop="datePublished"
+		>
+			2010-04-09 00:36:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Nick-
+
+Ye olden days are not all gone. While working with Finnish edition of Schott's Miscellany books me and publishers editor spent some hundreds of hours filling the paragraphs to avoid loose last lines. In those books most of the paragraphs needed to be truly rectangular, with no ragged last line. That took us a while.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-09 00:49:50"
+			itemprop="datePublished"
+		>
+			2010-04-09 00:49:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tomi from Suomi</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-09 07:59:22"
+			itemprop="datePublished"
+		>
+			2010-04-09 07:59:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">A very nice trick, though I'm still drawn to Peter Kahrel's <a href="http://www.kahrel.plus.com/indesign/kern.html">solution</a>, which puts all the changes in what amounts to a single kerning table covering a font's styles.  Kahrel's script can thus automate kerning for an italic f followed by a regular closing parenthesis.  But perhaps ID7 will make all such workarounds unnecessary.
+
+David</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-09 16:12:20"
+			itemprop="datePublished"
+		>
+			2010-04-09 16:12:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>David W. Goodrich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Nice link! Thank you for sharing.
+I wish there was a bit more documentation – I'd love to know how this script is implemented (JavaScript, after all)?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-10 11:31:21"
+			itemprop="datePublished"
+		>
+			2010-04-10 11:31:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>nina</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It runs as a "Adobe JavaScript Binary file": kern.jsxbin.  As the author notes in his link on installing scripts, *.jsxbin files cannot be modified.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-10 14:47:50"
+			itemprop="datePublished"
+		>
+			2010-04-10 14:47:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>David W. Goodrich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Has anyone seen Kahrel's <a href="http://www.amazon.com/GREP-InDesign-CS3-Peter-Kahrel/dp/B001O7HEPM/ref=sr_1_4/179-1285833-6473252?ie=UTF8&s=books&qid=1270988123&sr=1-4/">ebook (eDoc) on GREP</a>?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-11 17:05:42"
+			itemprop="datePublished"
+		>
+			2010-04-11 17:05:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ocular</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ocular: I've <em>heard</em> of it -- it has frequently been called "the best there is" for InDesign users, because it's specially targeted at using GREP in that environment. Peter Kahrel is a regular poster on <a href="http://forums.adobe.com/community/indesign">Adobe's own InDesign Forum</a> and sure knows a lot on the effective use of GREP with ID.
+
+And for its price -- under a tenner -- it is good value for money.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-11 17:18:34"
+			itemprop="datePublished"
+		>
+			2010-04-11 17:18:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, Theunis! Yeah, for ten US dollars, it isn't much of a gamble.
+
+By the way, there was a mention of an InDesign plugin called <a href="http://www.knowbody.dk/productbasement/index.asp?language=2&amp;PBSelProd=I000001&amp;PBSelMenu=Info">Cool Kerning</a> in <a href="http://typophile.com/node/27749">this thread from 2006</a>. Anyone tried it?
+
+EDIT: OK, now I found two more threads mentioning or discussing Cool Kerning: http://typophile.com/node/7608 and http://www.typophile.com/node/971</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-11 18:08:16"
+			itemprop="datePublished"
+		>
+			2010-04-11 18:08:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ocular</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I see on one of those threads that global kerning in InDesign is a thing that Thomas Phinney says is upcoming in future versions of InDesign—the post is 2003! I wonder what happened.  </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-04-11 19:48:55"
+			itemprop="datePublished"
+		>
+			2010-04-11 19:48:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>William Berkson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Do you know of a script that could export a text file detailing all the custom kerning values for each font as specified in an InDesign CS5 file? This would be the reverse of a script I found on Peter Kahrel's site that allows all the kerning pairs to be modified using a text file. (http://www.kahrel.plus.com/indesign/kern.html)
+
+I am working with a client on modifying a custom font used in a book. We kerned the font as used in the English version of the book, so the InDesign CS 5 file has lots of kerning information. Now that the publisher would like to publish in several other languages, we would like to take that kerning information and use FontLab to set up the kerning pairs within the font. So when the publisher translates and flows the new text into the file, we will not have to kern the whole book again.
+
+Any help or advice you could offer would be warmly appreciated.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-27 15:53:52"
+			itemprop="datePublished"
+		>
+			2011-09-27 15:53:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>moraitis</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I was so excited to find this! I just tried it in our CS5, but when I went to create the character style, instead of getting a specific manual kerning measurement, it says [None] + pair kern method: Optical.  Is this one of the "improvements" of CS5, to remove even that little bit of kerning adjustment functionality, or have I done something incorrectly?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-19 20:59:43"
+			itemprop="datePublished"
+		>
+			2011-10-19 20:59:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>julietcw</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-20 08:18:24"
+			itemprop="datePublished"
+		>
+			2011-10-20 08:18:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>PabloImpallari</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Huh, why Optical? That's odd. Did you set it to Optical?
+I don't have CS5 sadly so can't test. I'll be interested to hear what others can say. 
+I was sure hoping this would get easier, not harder, in newer versions! :-\</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-20 17:57:44"
+			itemprop="datePublished"
+		>
+			2011-10-20 17:57:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>nina</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Moraitis, if this is still an open question, here is a script to harvest custom kerning pairs inside an InDesign story. Save as a plain text file as "harvestKerning.jsx" in your InDesign scripting folder, click the text cursor in the running story that you want to harvest from, and run the script.
+
+It might run <em>very slow</em> as it has to inspect each and every single character ... perhaps you should try it first on a small amount of text.
+
+If the script encounters a manually kerned letter pair, it looks in its list if it already has encountered these before *with the same value*. If not, it will add them to the list. So beware! Some letter pairs may occur more than once in the list.
+The custom kerning pairs and their value are written into a file named "kerning.txt", which will be stored in your local My Documents folder.
+
+Enjoy.
+
+<code>results = [];
+text = app.selection[0].parentStory.characters;
+for (i=0; i&lt;text.length-1; i++)
+{
+	if (text[i].kerningMethod == "Manual")
+		addToList (results, [ String(text[i].contents)+String(text[i+1].contents), text[i].kerningValue] );
+}
+myFileObj = new File(Folder.myDocuments+"/kerning.txt");
+if (myFileObj.open("w"))
+{
+	myFileObj.write(results.join("\r"));
+	myFileObj.close();
+} else
+	alert ("unable to create file kerning.txt");
+function addToList (list, entry)
+{
+	var i;
+	for (i=0; i&lt;list.length; i++)
+		if (list[i][0] == entry[0] &amp;&amp; list[i][1] == entry[1])
+			return;
+	list.push (entry);
+}
+</code></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-20 21:39:06"
+			itemprop="datePublished"
+		>
+			2011-10-20 21:39:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Just wanted to update this old thread and say it’s officially outdated; I just tried to use this workflow  with CC2014 and found it doesn’t work anymore – in step (2) the pair kern will not be part of the character style. It was a useful loophole, I’m sad they closed it. JavaScript (or editing the fonts if possible) to the rescue, then.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-24 11:38:51"
+			itemprop="datePublished"
+		>
+			2014-11-24 11:38:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>nina</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>Just wanted to update this old thread and say it’s officially outdated</cite>
+
+It works fine when one uses a styling parameter which is actually a real character level parameter: tracking!
+The question how to do this came up on Typography.Guru, so I decided to put together a video explaining it step by step: 
+http://typography.guru/forums/topic/26-apostrophe-space-in-french-words/#comment-223</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-02 19:07:10"
+			itemprop="datePublished"
+		>
+			2015-03-02 19:07:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Typography.Guru</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you very much !
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-02 20:03:30"
+			itemprop="datePublished"
+		>
+			2015-03-02 20:03:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Anthony Barnett</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Brill typeface: Is this a Word issue, a typeface issue or a PDF creation issue? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Brill typeface: Is this a Word issue, a typeface issue or a PDF creation issue?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/103890/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2013-06-16T14:11:17+00:00" />
+<meta property="article:modified_time" content="2013-06-16T14:11:17+00:00" />
+
+<meta itemprop="name" content="Brill typeface: Is this a Word issue, a typeface issue or a PDF creation issue?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2013-06-16T14:11:17+00:00" />
+<meta itemprop="dateModified" content="2013-06-16T14:11:17+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Brill typeface: Is this a Word issue, a typeface issue or a PDF creation issue?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Brill typeface: Is this a Word issue, a typeface issue or a PDF creation issue?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2013-06-16T14:11:17Z">June 16, 2013</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Sylph</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">In my pursuit of finding the typefaces that correctly render both <strong>the combining diacritics</strong> and <b>Serbian versions of Cyrillic italics letters</strong> I've just checked how does <em>Brill</em> fare. Weirdly, it only fails to convert one letter properly, but what is weird is that even though the letters appear correctly in <em>Word</em>, they do not when one creates a PDF.
+
+<img src="http://s23.postimg.org/vsyn320ln/sshot_71.png">
+
+Why does it happen?
+
+The only typefaces that manage to do these things correctly are two SIL ones, even ALPHABETUM, which seems to have the most complete set of characters, does not have the correct italics. </div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Sylf, your question is a bit cryptic. I'll also be cryptic. There is in Brill Italic the substitution
+<PRE>
+    sub \uni043D by \uni043F.Serbian ;
+</PRE>
+where I would have expected <code>\uni043F</code> on the left hand side. Here are the roman and the corresponding italic obtained with XeLaTeX.
+
+[img:sites/default/files/old-images/brill_serb130613_6659.png]
+
+Added later on (I guess it is now less cryptic). 
+Also XeLaTeX does not accept selecting the Serbian language for the font family Brill; after calling
+<code>\setmainfont[Script=Cyrillic,Language=Serbian]{Brill}</code>
+XeLaTeX does not give the Serbian italic when using <code>\textit</code>, probably because Serbian is not defined for the regular. I had to declare a separate font for the italic to get it above. I don't know if this is a XeLaTeX bug or not but Arno has Cyrillic/Serbian also for the roman, avoiding such a problem (and giving a different looking output for cyrillic small letter p and cyrillic small letter n).
+
+[img:sites/default/files/old-images/arno_serb130616_3776.png]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-16 16:47:07"
+			itemprop="datePublished"
+		>
+			2013-06-16 16:47:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Sylph, I do not work with Serbian glyphs. But let me reference an older thread about PDFs made in Word 2010. The problem was that with Opentype Postscript flavor fonts, MS Word always converted to curves when going to PDF, regardless of the embeddability of the font.
+I do not know (but I would like to know) if this was fixed in Word 2013. I do not know what Word version you are using. I do not know if this is related to what you are seeing. Glad I could help!
+http://typophile.com/node/72404
+Read what Si_Daniels has to say in the middle.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-16 18:13:59"
+			itemprop="datePublished"
+		>
+			2013-06-16 18:13:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>J. Tillman</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you, Michel and J.!
+
+So judging by what you two wrote this is a typeface issue and a Microsoft Word issue. The Word I'm using is from the Office 2013. Which means that whatever the issue was, it isn't corrected.
+
+As for Brill: why would a Cyrillic <em>n</em> in italics produce a correct Serbian cursive Cyrillic <em>p</em>?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-16 19:59:32"
+			itemprop="datePublished"
+		>
+			2013-06-16 19:59:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Sylph</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">And also, I was wrong – there is only <strong>one typeface</strong> so far in the World that can both produce the correct italics and correctly combine the combining diacritics. That is what I meant by the line above. It is Gentium.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-16 20:03:23"
+			itemprop="datePublished"
+		>
+			2013-06-16 20:03:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Sylph</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>
+As for Brill: why would a Cyrillic <em>n</em> in italics produce a correct Serbian cursive Cyrillic <em>p</em>?
+</blockquote>
+Because the Unicode character <code>043D</code> is 
+<PRE>
+043D	CYRILLIC SMALL LETTER EN
+</PRE>
+and the substitution rule in Brill as extracted above from the italic using FrontForge says to substitute uni043D, i.e. cyrillic small letter en, with uni043F.Serbian i.e. the Serbian variant of Unicode character 043F, namely 
+<PRE>
+043F	CYRILLIC SMALL LETTER PE
+</PRE>
+That is how Unicode fonts work. The font contains substitution tables to apply for given scripts and languages. 
+
+How that particular substitution appeared that way in Brill is a bit mysterious to me.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-16 20:24:04"
+			itemprop="datePublished"
+		>
+			2013-06-16 20:24:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Definite bug in the OTL GSUB code for the Serbian pe. The VOLT source has a typo and the lookup currently reads
+<code>c.en -> c.pe.Serbian</code>
+when it should read
+<code>c.pe -> c.pe.Serbian</code>
+
+Thanks for catching that. I'll get a fix to Brill a.s.a.p.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-16 20:25:38"
+			itemprop="datePublished"
+		>
+			2013-06-16 20:25:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>
+&ldquo;there is only <strong>one typeface</strong> so far in the World that can both produce the correct italics and correctly combine the combining diacritics. That is what I meant by the line above. It is Gentium.&rdquo;
+</blockquote>
+What is the problem with DejaVu Serif?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-17 02:47:23"
+			itemprop="datePublished"
+		>
+			2013-06-17 02:47:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@Sylph: Your picture before &ldquo;Why does it happen?&rdquo; is 
+<img src="/files/sylf_sshot_71_4379.png">
+and contains the italic cyrillic small letter letter sha, &ldquo;<em>ш </em>&rdquo;. In the Wiki article <a href="http://en.wikipedia.org/wiki/Serbian_alphabet#Differences_from_other_Cyrillic_alphabets">Serbian alphabet</a> there is the following picture where the third column is meant to correspond to the Serbian italic.
+[img:sites/default/files/old-images/200px-Serbian_Cyrillic_Italic_6557.png]
+Is there any font with an underlined italic cyrillic small letter sha?  Is that underline documented?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-18 17:24:17"
+			itemprop="datePublished"
+		>
+			2013-06-18 17:24:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>
+Is there any font with an underlined italic cyrillic small letter sha?
+</blockquote>
+Ok, I found one in GNU's Free Serif Italic, http://ftp.gnu.org/gnu/freefont/, as a stylistic alternate.
+
+[img:sites/default/files/old-images/freeserifit_serb_alt_3917.png]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-18 23:06:53"
+			itemprop="datePublished"
+		>
+			2013-06-18 23:06:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">“The only typefaces…”: [[http://www.signographie.de/cms/front_content.php?idart=315|Andron Cyrillic]]
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-19 07:54:52"
+			itemprop="datePublished"
+		>
+			2013-06-19 07:54:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Andreas Stötzner</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">So is this fixed <i>Brill</i> getting released or is 2.02 the version available online?
+
+http://www.brill.com/about/brill-typeface/brill-fonts-end-user-license-agreement</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-08-02 11:55:01"
+			itemprop="datePublished"
+		>
+			2013-08-02 11:55:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Sylph</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">So, John Hudson, will this see the light of day or is it an internal fix?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-08-19 21:32:24"
+			itemprop="datePublished"
+		>
+			2013-08-19 21:32:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Sylph</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This has been fixed and Brill have the new fonts. They're testing some other changes I've made, so I'm not sure when the new versions will be released.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-08-20 00:39:17"
+			itemprop="datePublished"
+		>
+			2013-08-20 00:39:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Will Brill include all the Phonetic Extensions symbols?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-09-09 11:07:55"
+			itemprop="datePublished"
+		>
+			2014-09-09 11:07:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Sylph</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Brill version 2.06 available; read the EULA, of course:
+http://www.brill.com/about/brill-typeface/brill-fonts-end-user-license-agreement</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-04 17:37:48"
+			itemprop="datePublished"
+		>
+			2014-11-04 17:37:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>J. Tillman</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

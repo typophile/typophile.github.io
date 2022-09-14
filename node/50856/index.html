@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Opentype smcp and valt feature | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Opentype smcp and valt feature" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/50856/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2008-10-24T16:01:27+00:00" />
+<meta property="article:modified_time" content="2008-10-24T16:01:27+00:00" />
+
+<meta itemprop="name" content="Opentype smcp and valt feature">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2008-10-24T16:01:27+00:00" />
+<meta itemprop="dateModified" content="2008-10-24T16:01:27+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Opentype smcp and valt feature"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Opentype smcp and valt feature</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2008-10-24T16:01:27Z">October 24, 2008</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Tosche</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi, everyone.
+
+Right now I'm writing Opentype programs, and there are two things I don't get it.
+
+1.
+The font has small cap characters and Th ligature. Th is controlled by 'liga' feature (sub T h by TH;), but when the smcp feature is turned on, Th doesn't separate into T(cap) and h(smallcap) and remains still. How can I avoid this?
+
+2.
+I'd like to use 'valt' feature, which is used for vertical setting. It's supposed to controll vertical bearings(like moving g up or l down), but I have no idea how to write the code. It's very strange thing for Japanese people to ask about this, but I know almost nothing about Opentype things. If you know anything about this or any good books to learn these, please tell me.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">ad 1: 'smcp' should precede 'liga'. So if 'smcp' has done its job and replaced h by smallcap H, there is no T h left for 'liga' to replace by T_h.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-24 16:45:05"
+			itemprop="datePublished"
+		>
+			2008-10-24 16:45:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>k.l.
+Thank you very much for the information...but it actually happens.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-24 19:20:10"
+			itemprop="datePublished"
+		>
+			2008-10-24 19:20:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tosche</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You need to manually order your lookups so that the smcp lookup precedes the liga lookup. These kinds of features are applied simultaneously by the layout engine based upon the order of lookups in the font, not on a specified order of features hardcoded in the layout engine (as happens for some other kinds of features).
+
+If you are making your font in FontLab, you have to order the lookups by ordering the features to which that are associated. You do this in the OpenType panel by clicking on and dragging feature tags up and down in the feature list.
+
+[In Microsoft's VOLT tool, you can control the order of the lookups independently of the features with which they are associated, which is sometimes useful.]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-25 01:05:50"
+			itemprop="datePublished"
+		>
+			2008-10-25 01:05:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Could you post your actual liga/smcp code, in the order in which it appears in the OT Panel? And, of which application are you speaking? Do you test in FLS, or InDesign, or Illustrator, ...?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-25 01:10:04"
+			itemprop="datePublished"
+		>
+			2008-10-25 01:10:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>John
+I dragged smcp feature above liga tag, then everything went well. Thanks! I don't know how to use lookup, but anyway I don't need to use it this time.
+
+>k.l.
+I use FontLab5 on Mac and test the behavior on Illustrator and InDesign, but it's okay since the solution is found. Thank you very much.
+
+
+
+But I still don't know about valt feature...
+If anyone knows about this, please help me.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-25 07:22:23"
+			itemprop="datePublished"
+		>
+			2008-10-25 07:22:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tosche</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">When I wrote in my first post that "'smcp' should precede 'liga'" this meant that you need do reorder features as John described ...&nbsp;&nbsp;:)
+
+(Haven't seen John posts when posting my last one.)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-25 11:05:43"
+			itemprop="datePublished"
+		>
+			2008-10-25 11:05:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I've heard that most of applications don't support 'valt' feature.
+So all Japanese fonts control the positioning of full-width 'g' and 'y' for vertical setting with 'vmtx' table.
+
+I've tried to compile valt feature in FLS like this,
+
+feature valt {
+  pos A <0 -1000 0 0>;
+} valt;
+
+and then, FLS showed it correctly in Preview palet, but it didn't work with Illustrator CS3.
+valt feature might be for full-width Latin characters in CJKV font.
+
+Do you want to set your font vertically with Japanese fonts?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-25 14:37:52"
+			itemprop="datePublished"
+		>
+			2008-10-25 14:37:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Kunihiko_Okano</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>k.I.
+Oh, sorry. I didn't understand what you meant. I didn't think that 'smcp' feature visually needed to be placed avobe the 'liga' feature until I really did that.
+
+>Okano San
+>>Do you want to set your font vertically with Japanese fonts?
+Yes, I do. Maybe I'll ask you personally.
+By the way, I wanted to make a contact with you some time.
+I didn't imagine that I would see you in such occasion :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-26 15:04:45"
+			itemprop="datePublished"
+		>
+			2008-10-26 15:04:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tosche</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I should first state that the 'valt' GPOS feature is effectively deprecated, because there is a better way to achieve the functionality. Given that the context in which its functionality is expected to be used is vertical writing, and that it is also expected to be default behavior, we discovered that we could effect this through 'vmtx' table overrides.
+
+I developed a Perl script, several years ago, that takes two files as input. One is a coverage table, specifically a list of CIDs and CID ranges that are candidates for this treatment. This means anything that is classified as full-width Latin, full-width Greek, or full-width Cyrillic, including full-width symbols. The other is the AFM file for the font, which has the glyph-level BBox information. (The AFDKO tool called "tx" has a mighty convenient "-afm" option for generating AFM files from a font.)
+
+Consider the full-width Latin glyphs for a, b, and p. In Adobe-Japan1-6, the CIDs are 816, 817, and 831, respectively. For Kozuka Mincho Pr6N Regular, the AFM records for these glyphs are as follows:
+
+<CODE>C -1 ; W0X 1000 ; N 816 ; B 276 -12 754 514 ;
+C -1 ; W0X 1000 ; N 817 ; B 240 -12 762 772 ;
+C -1 ; W0X 1000 ; N 831 ; B 248 -257 775 514 ;</CODE>
+
+Given that the top and bottom of the design space is at 880 and -120, what we effectively want to do is to center the glyphs within that 1000-unit space. When I run my script, which I named mkvmtx.pl, the following is the output for these three glyphs:
+
+<CODE>table vmtx {
+&nbsp;&nbsp;&nbsp;&nbsp;VertOriginY \816 751;
+&nbsp;&nbsp;&nbsp;&nbsp;VertOriginY \831 628;
+} vmtx;</CODE>
+
+What happened to the entry for CID+817? Look at its Y-axis values, specifically -12 and 772. There is exactly 108 units between the edges and the edges of the design space, so the glyph is alrady centered, and no adjustment is necessary. The default value is 880, and thus is not necessary.
+
+The workhorse portion of my script, which iterates through AFM records, ignoring those not in the coverage table (%cidrange), is below:
+
+<CODE>$ybottomlimit = -120;
+$ytoplimit = 880;
+$ycenter = ($ybottomlimit + $ytoplimit) / 2;</CODE>
+
+<CODE>while ($line = &lt;STDIN&gt;) {
+&nbsp;&nbsp;&nbsp;&nbsp;if ($line =~ /^C.*/) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chomp $line;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($cid,$ymin,$ymax) = (split(/ /,$line))[7,11,13];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (exists $cidrange{$cid}) { 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$halfy = ($ymax - $ymin) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$yminnew = $ycenter - $halfy;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$pushy = round($yminnew - $ymin);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$pushy =~ s/^\+(\d+)/$1/;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf STDOUT "  VertOriginY \\$cid %s;\n",$ytoplimit - $pushy if $pushy !~ /^-?[0-4]$/;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</CODE>
+
+<CODE>sub round {
+&nbsp;&nbsp;&nbsp;&nbsp;my ($arg) = @_;
+&nbsp;&nbsp;&nbsp;&nbsp;if ($arg =~ /\.[0-4]\d*/) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$arg =~ s/\.[0-4]\d*$//;
+&nbsp;&nbsp;&nbsp;&nbsp;} elsif ($arg =~ /\.[5-9]\d*/) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$arg =~ s/(\d+)\.[5-9]\d*$/$1 + 1/e;
+&nbsp;&nbsp;&nbsp;&nbsp;} return $arg;
+}</CODE>
+
+If anyone would like the complete Perl script or the coverage tables for our CID character collections, or both, please feel free to drop me an email.
+
+Dr. Ken Lunde
+Senior Computer Scientist, CJKV Type Development
+Adobe Systems Incorporated
+lunde@adobe.com</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-27 20:27:00"
+			itemprop="datePublished"
+		>
+			2008-10-27 20:27:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>lunde</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks Dr.Lunde!
+I'm very curious about your script and like to use it.
+I'll get in touch with you after a while.
+
+Kunihiko</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-10-28 01:18:38"
+			itemprop="datePublished"
+		>
+			2008-10-28 01:18:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Kunihiko_Okano</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

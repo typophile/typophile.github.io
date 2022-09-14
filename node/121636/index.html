@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Robofont Alternate Characters | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Robofont Alternate Characters" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/121636/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2014-11-28T03:50:06+00:00" />
+<meta property="article:modified_time" content="2014-11-28T03:50:06+00:00" />
+
+<meta itemprop="name" content="Robofont Alternate Characters">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2014-11-28T03:50:06+00:00" />
+<meta itemprop="dateModified" content="2014-11-28T03:50:06+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Robofont Alternate Characters"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Robofont Alternate Characters</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2014-11-28T03:50:06Z">November 28, 2014</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">alternatematter</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I'm new to Robofont and opentype features. This is in fact my first foray in producing a font. I've got a base character set and and alternate characters for many of them. 
+
+At the moment I am using stylistic alternates, but am finding that when I try to use the font in Illustrator or InDesign I change a character to it's alternate and all the following characters I type are also alternates when applicable. This doesn't happen all the time, only at certain times.
+
+Tried using feature ss01 and ss02 to define the .salt1's and .salt2's but I got the same issue regardless.
+
+Any advice on how to properly code multiple alternate characters and not have them replace base characters when typing would be appreciated. 
+
+Thanks
+
+
+CODE:
+
+feature aalt{
+feature salt;
+feature liga;
+} aalt;
+
+feature salt { # my Stylistic Alternates
+		sub a from [a.salt];
+		sub A from [A.salt];
+		sub three from [three.salt];
+		sub four from [four.salt];
+		sub five from [five.salt];
+		sub B from [B.salt B.salt2];
+		sub D from [D.salt];
+		sub E from [E.salt E.salt2];
+		sub F from [F.salt];
+		sub H from [H.salt];
+		sub I from [I.salt];
+		sub R from [R.salt];
+		sub u from [u.salt];
+		sub z from [z.salt];
+		sub Z from [Z.salt];
+		sub T from [T.salt];
+		sub N from [N.salt];
+		sub ampersand from [ampersand.salt];
+	} salt;
+	
+feature liga { # my Ligatures
+		sub f f by f_f.liga;
+		sub f i by f_i.liga;
+		sub f l by f_l.liga;
+		sub f f i by f_f_i.liga;
+		sub f f y by f_f_y.liga;
+	} liga;</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I think the problem here is your apps rather than the font. In Illustrator when you select a .salt glyph while typing it switches the "salt" feature on from that point on unless you flip it back immediately. I find that kind of behavior annoying, but that's how it's set up. So I always recommend setting all of your text first. That will put in ligatures and contextual alternates by default unless you deselect those features. Then afterwards you can either switch on salt or any other available feature to the whole thing, or use the glyph palette to change individual letters. I don't use InDesign all that much, but I suspect it has similar behavior with stylistic sets.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-12-02 15:07:39"
+			itemprop="datePublished"
+		>
+			2014-12-02 15:07:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Stephen Rapp</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

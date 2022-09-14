@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Using kern2VOLT | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Using kern2VOLT" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/90363/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-02-23T18:29:13+00:00" />
+<meta property="article:modified_time" content="2012-02-23T18:29:13+00:00" />
+
+<meta itemprop="name" content="Using kern2VOLT">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-02-23T18:29:13+00:00" />
+<meta itemprop="dateModified" content="2012-02-23T18:29:13+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Using kern2VOLT"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Using kern2VOLT</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-02-23T18:29:13Z">February 23, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">satya</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hello everyone, 
+
+I was trying to import some kerning data from a FontLab file to the VOLT using 'kern2VOLT' tool; but somehow it's not working for me. Can someone here explain me how to use this tool, step-by-step? 
+
+Thanks in advance! 
+Satya</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">My memory is a little fuzzy, but I did this on two font families back in November. Here is what I did (I think…):
+
+1. First, generate the TTFs from FontLab (with the VOLT info box checked in the FL preferences, and the flat kerning, too)
+
+2. Copy the kern2VOLT.exe file into the same folder as your TTF on Windows
+
+3. Open the TTF up in VOLT. VOLT will tell you that all OT data will be overwritten. This is OK, OK, of course. Rename all of the glyphs using the Glyph Names. Save the TTF.
+
+4. I will presume that your font is named something like MyFont-Regular.ttf
+
+5. Open up the command line. Type:
+kern2VOLT.exe MyFont-Regular.ttf Kern.vtl
+
+6. This should generate a VOLT look-up file in the same folder as the .exe file and the TTF, called Kern (of course, it does not matter what you name the look-up … the name will be whatever you type before the .vtl extension in the command).
+
+7. In VOLT, you can import this look-up, and assign it to <kern> features
+
+
+Maybe someone will come along and correct any discrepancies I have here. Perhaps my order of stuff in the command line is off … I'm pretty sure that it is the .exe, then the .ttf, and finally the .vtl, though. Good luck!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-23 18:55:51"
+			itemprop="datePublished"
+		>
+			2012-02-23 18:55:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dan_reynolds</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Dan's explanation is basically correct. kern2volt requires as input a TTF with a) an oldstyle kern table containing all the kerning you want to import into VOLT and b) glyph names imported in VOLT. So generate a TTF with a kern table from FontLab, open it in VOLT, import the glyph names from the post table, save from VOLT, run kern2volt from the command line.
+
+Note that kern2volt has an option for right-to-left kerning, but if your project involves both LTR and RTL kerning you will need separate TTF sources for each. If a font contains multiple scripts, you might also want a separate TTF for each, so that you get separate VOLT lookups for different scripts rather than one giant one.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-24 04:35:35"
+			itemprop="datePublished"
+		>
+			2012-02-24 04:35:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you, Dan and John for your detailed explanation - however - I'm still unable to make it work. The Font 'TulikaBengali-Bold" contains Flat kerning and Post-script names (as you explained), but when I run the Commandline, this is what I get:
+
+[img:sites/default/files/old-images/Screen_5090.jpg]
+
+
+Any idea where I might be doing wrong?
+
+Thanks!
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-24 13:04:32"
+			itemprop="datePublished"
+		>
+			2012-02-24 13:04:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>satya</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Your running the command from the wrong directory.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-24 17:52:00"
+			itemprop="datePublished"
+		>
+			2012-02-24 17:52:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Janic</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">As Janic mentioned, I was running the command from a wrong directory, and that is why it was unable to located the script and font. But since I never used the command-line before, I didn't realized. Anyway, all sorted now. :)
+
+Thanks to you all for the great help and support.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-24 19:08:00"
+			itemprop="datePublished"
+		>
+			2012-02-24 19:08:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>satya</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It is also possible to add kern2volt to your Windows path variables, so that you can run it from any directory.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-24 21:45:34"
+			itemprop="datePublished"
+		>
+			2012-02-24 21:45:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for the tip, John! </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-25 09:46:13"
+			itemprop="datePublished"
+		>
+			2012-02-25 09:46:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>satya</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

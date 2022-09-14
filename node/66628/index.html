@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Beyond OpenType: font format for the future speculation and brainstorming | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Beyond OpenType: font format for the future speculation and brainstorming" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/66628/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-01-25T16:46:48+00:00" />
+<meta property="article:modified_time" content="2010-01-25T16:46:48+00:00" />
+
+<meta itemprop="name" content="Beyond OpenType: font format for the future speculation and brainstorming">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-01-25T16:46:48+00:00" />
+<meta itemprop="dateModified" content="2010-01-25T16:46:48+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Beyond OpenType: font format for the future speculation and brainstorming"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Beyond OpenType: font format for the future speculation and brainstorming</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-01-25T16:46:48Z">January 25, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Jongseong</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">OpenType is indisputably the font format of the present. It is cross-platform, and it is a free and open standard. It opened possibilities for smooth handling of advanced typography and better support for complex scripts.
+
+But limitations remain. They may not be obvious if you only ever design or use Latin text faces. But when you think about what the best solutions are for complex scripts such as Arabic, you realize that there are fundamental strictures of OpenType that make things less efficient than they could be. For example, do we really have to design innumerable glyphs for ligatures, conjuncts, and contextual variants when these are all combinations of simple building blocks? Here is a previous thread on the subject:
+
+[[http://www.typophile.com/node/16838|Critiques of the OpenType format?]]
+
+So for a while, I have been thinking about what could be improved in the future font format that will replace OpenType. I don't think it is too early to start brainstorming about just what we want to see. So here are some ideas I had about the future font format:
+
+1. Parametrizable outlines
+
+The idea is that the points and handles of outlines could be defined as equations, not just absolute coordinates. This covers everything that can be handled with Multiple Master fonts, such as weight, optical size, x-height, etc. that apply globally to the entire font, but does not stop there. Serifs of the "v" could be pulled in according to context, and an "fi" ligature could be widened harmoniously in accordance with tracking. Something like the Arabic Tatweel, a horizontal line segment used to stretch characters in an Arabic text when setting metal type and carried to the digital age, will be rendered obsolete as we gain the power to stretch any part of any glyph by any amount we desire.
+
+This is something that Metafont explored, but Metafont as a software never really caught on, because defining a font full of parameters simply wasn't worth the trouble for Latin type designers. Worse, Metafont uses pen strokes, which is a horrible idea if naively applied to type design. The usual filled-path approach is possible with Metafont, but I have a feeling many type designers were too turned off by the pen-stroke approach to give Metafont a chance, perhaps without realizing that you don't have to use it.
+
+Once a single instance of a Multiple Master font has been generated, or once a Metafont has been converted to a usable font format, no further parametrization is possible. But the future font format will interact with the future text engine to make full use of its parametrizability. 
+
+2. Take component handling to the next level
+
+The current model of font handling does not stray far from the paradigm of the glyph, most often representing a single character, as the basic unit of a font. You can assemble a glyph from components, as is often done for adding accents, but this could be made more powerful.
+
+Each Arabic character, for example, may be more efficiently viewed as being made of simple components arranged dynamically according to context. Different components may be selected according to where the character appears initially, medially, or finally; their dimensions and positions may also be adjusted according to context. As I understand it, Thomas Milo's groundbreaking work in Arabic typesetting with ACE and Tasmeem, which produces complex and natural designs with a simple architecture, is based on analyzing Arabic typography down to sub-character-level components&mdash;why not build such powerful component handling into the font format itself?
+
+My main motivation, however, is in handling hangul, the Korean alphabet. Despite hangul being an alphabet made up of two dozen basic letters, a hangul font needs thousands of glyphs, one for each hangul syllable, because of the way the writing system is organized around syllabic blocks. If we include archaic or non-standard syllables, then the number of glyphs needed becomes untenable. The consonants and vowels that make up a hangul syllable can each have a number of shape variants, and need to be fine-tuned in size, shape, and position to fit together harmoniously. This is why I would like to see parametrizable outlines and more powerful component handling.
+
+I have a (very) long-term personal project of designing hangul fonts using programming tools to apply the idea of automatic selecting the right shape variant, size, and position and to shape each syllable intelligently, but this is just a way of automating the design process. When I generate the font, it will still require thousands of glyphs, and it will still not support every conceivable syllable combination. A font format that can put together hangul syllables dynamically out of a small set of components will not only be much reduced in file size but also be unlimited in the syllables it can represent.
+
+3. Flexible spacing and positioning paradigm
+
+I owe this idea to [[http://typophile.com/node/66574|this previous thread]].
+
+The idea of each glyph occupying a fixed rectangle is a leftover from the days of type in physical metal. This inevitably introduces problematic combinations, which are currently tackled through kerning, which is just a digital analogue of physical kerning. Many people have thought that there must be a more efficient way to achieve good spacing than going through endless kerning pairs, and some ideas were offered in the thread. I haven't given this issue enough thought, but it's something to think about for the future font format.
+
+*    *    *
+
+You can probably see that supporting all these features requires a sophisticated text engine as well as a new font format, not to mention all the support needed from OS and application developers. Usable tools will have to be developed in order for people to be able to design fonts that support these features. I cannot imagine just how much work it will take to implement all this. Applications are still catching up on supporting OpenType, after all.
+
+We would be entering whole new levels of complexity, perhaps just to introduce features that most casual designers of Latin typefaces will have little need for. I myself can't really justify something like implementing parametrizable outlines for anything other than hangul or possibly Chinese (it would be nice to have for Latin, but there really isn't much that can't be done with alternate glyphs). So realistically, I don't expect much enthusiasm for such an undertaking.
+
+I really think however that something like this will be necessary and desirable at some point, when there is more demand for more natural text processing for complex scripts and more computing power is available for sophisticated text engines. This is not to say that OpenType will become obsolete; it should be perfectly possible to maintain backwards compatibility just like today's OpenType-savvy software supports previous formats like TrueType.
+
+What are your thoughts about these ideas? What would you look for in the font format of the future?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Maybe interacting with a font parameterized in the way you are talking about would be 'too' complex for the user, and requires 'too' abstraction from the type designers, but is a really interesting thing (I was trying to 'explore' a way to parametrize latin letters starting from the counter <a href="http://typophile.com/node/65456">here</a>.)
+For the flexible spacing: the metal type body paradigm has great limits but is also practical and 'seems' natural (and maybe this is one of the problems). I mean that to shift to another paradigm you have to break a very strong convention.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-01-25 17:54:04"
+			itemprop="datePublished"
+		>
+			2010-01-25 17:54:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>daniele capo</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yes, I think parametrization will be way too complex for most type designers dealing with Latin fonts, and I don't really see a pressing need. I can think of any number of ways such parametrization could be exploited for Latin designs, but I'm hard-pressed to think of any application that couldn't also be done with alternate glyphs using OpenType. Maybe some really complicated calligraphy/handwriting font?
+
+Really, it is only when you start thinking about hangul design that the cost-benefit analysis makes any sense. Packing a font with tens of thousands of glyphs for hangul syllables and still not being able to support every conceivable hangul syllable is the problem here, and a combination of parametrization and flexible component handling is the way forward, I think.
+
+As for the spacing, I think any new method will still have an option correspond to the rectangle model, probably as the default. No one will have to re-learn how to space; if designers want to space letters as they always have before, they will be able to.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-01-25 18:34:21"
+			itemprop="datePublished"
+		>
+			2010-01-25 18:34:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jongseong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">{To Read}</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-11 06:12:01"
+			itemprop="datePublished"
+		>
+			2012-02-11 06:12:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Somewhere out there in Typophile, I floated the idea of declarative fonts, i.e. of something like an XML font expression in which content and display are separated and in which glyph content is composed of extensible sets of labelled elements -- stems, arches, bowls, terminals, serifs -- arranged in relationship to each other. So, for instance, a lowercase roman <em>a</em> would be a particular arrangement of arch, stem, bowl, terminal and outstroke. The display -- weight, stroke type, transition type and proportion -- of each element would then be expressed as an attribute or through an external style sheet. A wide range of weights, widths and even styles of type could be produced from the same set of element relationships -- think of all the forms of roman <em>a</em> that can be described as having this basic relationship of parts --, and style attributes could be parameterised. One thing I like about this idea is that it introduces meaningful feature description into the font format, so that we actually have things that we can call serifs, rather than simply another kind of stem. This means we can apply changes to particular features across a range of glyphs while not affecting other features, e.g. modifying the weight of hairlines independently of the weight of serifs, or the weight of bowls independently of the weight of straight stems. [TT hinting enables similar independent control of labelled distances, which is one of the inspirations for this idea.]
+
+Crucially, as an extensible system in which the font developer decides what features should be tagged as which elements, it is flexible enough to handle all the world's writing systems, and is not hampered by inherited paradigms. The tricky part, I reckon, will be transitions, the places where elements connect, which probably needs to presume a well defined rendering engine model, i.e. the piece of software responsible for interpreting the font declaration.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-12 19:44:54"
+			itemprop="datePublished"
+		>
+			2012-02-12 19:44:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

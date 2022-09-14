@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>sub [Tcommaaccent] to [Tcedilla]? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="sub [Tcommaaccent] to [Tcedilla]?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/84168/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-07-30T05:23:52+00:00" />
+<meta property="article:modified_time" content="2011-07-30T05:23:52+00:00" />
+
+<meta itemprop="name" content="sub [Tcommaaccent] to [Tcedilla]?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-07-30T05:23:52+00:00" />
+<meta itemprop="dateModified" content="2011-07-30T05:23:52+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="sub [Tcommaaccent] to [Tcedilla]?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">sub [Tcommaaccent] to [Tcedilla]?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-07-30T05:23:52Z">July 30, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">andi aw masry</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Greetings
+
+Adobe has released in the AGL changes such as <strong>Tcommaaccent</strong> and <strong>Tcedilla</strong>, but I do not understand when and where its use. 
+
+I saw the unicode codepoint of the Tcommaacent uppercase (uni0162/uni021A) and uni0163/uni021B for lowercase
+
+I'm not native speaking of these glyphs, So can anyone explain the substitution of them?
+
+Thank you so much.
+
+Best regards</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm not clear on what you're asking here, but I suspect it actually concerns substituting Tcedilla with Tcommaaccent rather than vice versa.
+
+As far as I know, Tcedilla does not actually occur in any language. However, it is included as a distinct unicode code point for legacy reasons.
+
+In Rumanian, we find both Scommaaccent and Tcommaaccent. However, these were originally encoded as Scedilla and Tcedilla as the comma accent was viewed simply as an alternate form of the cedilla despite the fact that some languages (e.g. Romanian, Latvian) prefer the former form and others (e.g. Turkish) prefer the latter form.
+
+This means that originally Turkish scedilla and Rumanian scommaaccent were assigned the same code point despite the fact that they have a different appearance. These were later disunified and both scommacccent and tcommaaccent were given their own code points distinct from scedilla and (non-occuring) tcedilla.
+
+One will commonly include a substitution rule as follows:
+
+<code>feature locl {</code>
+
+<code>    script latn;</code>
+
+<code>        language ROM;</code>
+
+<code>            lookup Romanian {</code>
+<code>                sub Scedilla by Scommaaccent;</code>
+<code>                sub scedilla by scommaaccent;</code>
+<code>                sub Tcedilla by Tcommaaccent;</code>
+<code>                sub tcedilla by tcommaaccent;</code>
+<code>            } Romanian;</code>
+
+<code>        language MOL</code>
+<code>            lookup Romanian;</code>
+
+<code>} locl; </code>
+
+This will ensure that the form with the comma is used for Rumanian regardless of whether the actual text uses S/T cedilla or S/T comma accent.
+
+The Tcedilla should still be included despite the fact that no language uses it as its preferred form because a t with a commaaccent will look strange in rumanian if it occurs alongside an s with a cedilla.
+
+Not sure if this is very clear or if it addresses your question.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-30 19:18:57"
+			itemprop="datePublished"
+		>
+			2011-07-30 19:18:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks <strong>André</strong>, nice to know you.
+
+I have wrong question, but thoroughly answer:)
+
+Suspected you've shown that I was really blind in this matter. I do not even know what to substitute any glyphs;) I see the script OTLF roughly as you demonstrated in several fonts with extended codepage, but I really do not understand why I had to do that. I just know they need it.
+
+<blockquote><em>"This means that originally Turkish scedilla and Rumanian scommaaccent were assigned the same code point despite the fact that they have a different appearance. These were later disunified and both scommacccent and tcommaaccent were given their own code points distinct from scedilla and (non-occuring) tcedilla."</em></blockquote>
+
+Just confirm, whether this explains that the substitution occurs only at MOL and the ROM and not on the Azeri and TRK?
+
+Thanks
+Gretings to your family
+
+Best regards</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-30 20:58:22"
+			itemprop="datePublished"
+		>
+			2011-07-30 20:58:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>andi aw masry</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Since the original unicode codepoints now more explictly encode the cedilla-form rather than the comma-form of the diacritic, and since this is the preferred form of the accent in the Turkic languages, nothing needs to be done for Turkish, Azeri, etc.
+
+I'm still not 100% sure if I'm understanding what your question is.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-31 03:17:27"
+			itemprop="datePublished"
+		>
+			2011-07-31 03:17:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">That's my point.
+
+Please forgive me if there is a language barriers here. I have written inaccurate without the express reason that I have researched some fonts that did not substitute them for the script TRK and  Azeri on locl features. The example:
+
+<ul>feature locl { 
+ # Latin
+ language AZE  exclude_dflt; # Azeri
+    <ul>sub i by i.dot;</ul>
+ language TRK  exclude_dflt; # Turkish
+    <ul>sub i by i.dot;</ul>
+ language MOL  exclude_dflt; # Moldavian
+    <ul>sub [Scedilla scedilla] by [Scommaaccent scommaaccent];</ul>
+ language ROM  exclude_dflt; # Romanian
+    <ul>sub [Scedilla scedilla] by [Scommaaccent scommaaccent];</ul>
+ language CRT  exclude_dflt; # Crimean Tatar
+    <ul>sub i by i.dot;</ul>
+} locl;
+</ul>
+
+
+But your explanations meet my question.
+
+Thank you for your time and your willingness to share knowledge
+
+Best regards
+Andi</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-31 09:54:40"
+			itemprop="datePublished"
+		>
+			2011-07-31 09:54:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>andi aw masry</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The example you give looks almost correct to me. There's no reason for TRK, CRT, or AZE to include any substitutions involving Tcedilla or Scedilla in the locl feature. ROM and MOL, though, should include Tcedilla as well as Scedilla to deal with cases where the text includes uni0162/uni0163 rather than the preferred uni021A/uni021B.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-31 15:07:58"
+			itemprop="datePublished"
+		>
+			2011-07-31 15:07:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">If you're going to do those sorts of substitutions, better for text-preservation purposes to build a glyph named "Scedilla.alt" (or something like that) to get the comma accent form, rather than literally substituting the default glyph for one codepoint by the default glyph for another codepoint. The latter kind of substitution is considered bad form; that's why features such as 'crcy' and 'dpng' have been deprecated.
+
+Cheers,
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-01 22:01:56"
+			itemprop="datePublished"
+		>
+			2011-08-01 22:01:56
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thomas, in this case though, since the purpose of the substitution for ROM and MOL is to visually correct an encoding issue, one could make the argument that having the parseable glyph name point to the desired character rather than the originally encoded one makes some sense. This depends very much, however, on the desired behaviour of parsed PDF text and how it is likely to be used by native users: even if the newer disunified Unicode characters are technically preferred, they won't help anyone used to working with the older unified encoding.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-02 00:40:30"
+			itemprop="datePublished"
+		>
+			2011-08-02 00:40:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I would buy that argument more if all PDF creation would give the same results and if indeed the font could affect the underlying text in general. But that isn't the case here. When creating a PDF from a document using this font, you'll get a transform of the text encoding in some cases, but not others, depending on the workflow used to create the PDF. That seems undesirable.
+
+It seems to me that you don't want changes in what characters work in (for instance) a search when going from source document to PDF, and especially not if the occurrence of those changes is unreliable and inconsistent. (From a typical end user POV, at least; I know that you and I know how to trigger them.) So I'm suggesting is that "always give the desired visual appearance, but never change the text encoding" is a good rule of thumb. Let a sophisticated user do such transformations by search and replace if they need them, but don't sneak transformations in corner cases of PDF creation.
+
+Regards,
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-02 19:36:00"
+			itemprop="datePublished"
+		>
+			2011-08-02 19:36:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">One could conceivably have a Romanian text that includes a Turkish name that uses the S cedilla, like Şahin. In this case, the S cedilla would be the correct character and it would be wrong to replace it with the S comma. Indeed, it would be wrong even to change only its appearance to look like the S comma. Unfortunately, there's no way of dealing with this kind of thing automatically at the font level. Someone will just have to deal with the encoding of the text manually.
+
+It is indeed highly unfortunate that so much Romanian text is incorrectly encoded.
+
+<cite>As far as I know, Tcedilla does not actually occur in any language.</cite>
+
+That may be true, but it does occur in specialist contexts. The phonetician Luciano Canepari uses the small t cedilla in his own extension of the International Phonetic Alphabet (IPA) to represent the sound that would be written tʲ in the usual IPA. He similarly uses b, d, h, m, n, p, z, and some other phonetic symbols with cedilla.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-02 20:40:04"
+			itemprop="datePublished"
+		>
+			2011-08-02 20:40:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jongseong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> Unfortunately, there's no way of dealing with this kind of thing automatically at the font level. Someone will just have to deal with the encoding of the text manually.
+
+However, if the font is trying to be overly clever, it will mask that encoding with glyph substitutions. In such a case, the typesetter's only resort would be to explicitly label the one word as being Turkish, assuming they are in an environment that allows that (for example, InDesign).
+
+Regards,
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-03 22:35:57"
+			itemprop="datePublished"
+		>
+			2011-08-03 22:35:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">(Thomas, if [most/some] other fonts in the marketplace are doing character substitutions, wouldn't the <code>sub scedilla by scommaaccent</code> be rather practical?)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-03 22:59:56"
+			itemprop="datePublished"
+		>
+			2011-08-03 22:59:56
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bendy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Some fonts have character substitutions, but not most. Some fonts are really badly made in all sorts of ways; that doesn't make a good argument for making a new font badly, IMO.
+
+Though to be fair, this is a pretty small detail, really.
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-06 00:26:06"
+			itemprop="datePublished"
+		>
+			2011-08-06 00:26:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I see that uni0162/uni0163 reflected as Tcommaaccent and  tcommaaccent in glyph template. Though they were assigned as Tcedilla / tcedilla (at. NAM file). This became the initial source of my confusion. But now is clear.
+
+However I still need a little opinion for the conclusion.
+In your opinion which one is better: glyph Tcedilla (uni0162/uni0163) remained drawn and further substitution is still being done on the feature LOCL. Substitution tag looks something like tags:
+<ol>
+<code>
+feature locl {
+#Latin</code>
+
+<code>language MOL exclude_dflt; 
+    sub [Tcedilla tcedilla Scedilla scedilla] by [Tcommaaccent tcommaaccent Scommaaccent scommaaccent];</code>
+
+<code>language ROM exclude_dflt;
+    sub [Tcedilla tcedilla Scedilla scedilla] by [Tcommaaccent tcommaaccent Scommaaccent scommaaccent];</code>
+
+<code>} locl;
+</code></ol>
+
+Or only drawn as glyph Tcommaaccent at uni0162/uni0163 without substitution? So the tags were following are:
+<ol>
+<code>feature locl {
+#Latin</code>
+
+<code>language MOL exclude_dflt; 
+   sub [Scedilla scedilla] by [Scommaaccent scommaaccent];</code>
+
+<code>language ROM exclude_dflt;
+   sub [Scedilla scedilla] by [Scommaaccent scommaaccent];</code>
+
+<code>} locl;
+</code></ol>
+
+Thanks in advance
+Best regards
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-09 17:41:16"
+			itemprop="datePublished"
+		>
+			2011-08-09 17:41:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>andi aw masry</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Feedback from Microsoft's Romanian users indicated that they preferred consistency, so that if software is unable to correctly display S/s with comma-like accent it is judged best if the T/t is also not displayed with comma-like accent. So now I design
+
+U+015E S with cedilla
+U+015F s with cedilla
+
+U+0162 T with cedilla
+U+0163 T with cedilla
+
+U+0218 S with comma-like accent
+U+0219 s with comma-like accent
+
+U+021A T with comma-like accent
+U+021B t with comma-like accent
+
+and then I perform a ROM+MOL 'locl' substitution of the cedilla forms of both S/s and T/t to the comma-like forms.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-10 01:08:36"
+			itemprop="datePublished"
+		>
+			2011-08-10 01:08:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks <strong>John</strong>
+
+This is very helpful. 
+Also thanks to all who have contributed to this thread.
+
+Best regards
+AWM</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-10 15:26:20"
+			itemprop="datePublished"
+		>
+			2011-08-10 15:26:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>andi aw masry</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Metrics bug in Fontlab? - and what constitutes &#39;percentage&#39; of sidebearings? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Metrics bug in Fontlab? - and what constitutes &#39;percentage&#39; of sidebearings?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/54522/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-02-07T15:58:33+00:00" />
+<meta property="article:modified_time" content="2009-02-07T15:58:33+00:00" />
+
+<meta itemprop="name" content="Metrics bug in Fontlab? - and what constitutes &#39;percentage&#39; of sidebearings?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-02-07T15:58:33+00:00" />
+<meta itemprop="dateModified" content="2009-02-07T15:58:33+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Metrics bug in Fontlab? - and what constitutes &#39;percentage&#39; of sidebearings?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Metrics bug in Fontlab? - and what constitutes 'percentage' of sidebearings?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-02-07T15:58:33Z">February 7, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">billtroop</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Here's something really annoying. Suppose you have some small caps and you want to make a rough pass at spacing them more generously. 
+
+Fontlab, like Fontographer, has a provision for increasing spacing of selected or all glyphs by x units or x percent.
+
+You will obviously choose percent - - if you're me - - 
+
+Problem is, Fontlab, unlike Fontographer if my memory is correct, doesn't understand 0 or negative sidebearing values, so simply does nothing to these glyphs. Astonishing.
+
+OK. Just checked with Fog. Fog understands that decreasing Left SB of -10 by 30% results in a value of -7. But Fog doesn't do anything with 0. And a sidebearing of 1, decreased by 50%, results in a useless value of 0.5
+
+So maybe Fontlab is right to ignore these values?
+
+But that leaves a question: what <em>does</em> constitute my request: 'increase the spacing of A-Z by 30%' ? And how do I achieve it? Obviously the machines don't understand what 'percentage' means in this context, but then, neither do I, so I can't complain. But I would like to get there, just the same. Any ideas? </div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Here's one try at reasoning it out. Suppose you have H with sidebearings of 40 and 40, and you have V with sidebearings of 0 and 0. Increasing the value of 40 by 25% would give you 50. So how do we determine the percentage of increase for V? Do we have to consider V in relation to H? Should the 'percentage' be derived from H, with the left sidebearing being considered 100%? In which case where is 0%? Suppose we obtain our value by subtracting the SB with a 0 or negative value from the value of H? Would that work? 
+
+What happens when layout programs do tracking? For example, suppose you had the string HHVHVVH. How would Quark and InDesign apply positive tracking to this string? 
+
+I'm ashamed to admit that after all these years in font design I have no answers to these very basic questions! </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-07 16:37:16"
+			itemprop="datePublished"
+		>
+			2009-02-07 16:37:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>billtroop</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It's been a while since I messed around with this, and I seem to recall that FontLab was confused by negative values: it would adjust the value itself, which would make the spacing wider if you were trying to make it tighter and vice versa.
+
+One thing I would advise is to use the measurement line option when performing these kinds of operations, because then you can increase or decrease the sidebearings relative to stems and bowls, rather than to the extremes of the glyph. First position the measurement line at an appropriate height (typically a little more than halfway up the x-height for a Latin typeface) and then adjust metrics using the Action Set dialogue, checking the 'Use the measurement line option'. Note that some letters such as <em>a</em> and </em>c</em> will need either manual adjustment or a separate pass with the adjust metrics tool, since the measurement line won't intersect the outline in a useful place.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-07 16:38:33"
+			itemprop="datePublished"
+		>
+			2009-02-07 16:38:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Adjusting left and right sidebearings by 30% or -30% works fine on positive and negative sidebearings for me.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-07 16:40:32"
+			itemprop="datePublished"
+		>
+			2009-02-07 16:40:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Tracking adds a fixed amount to the advance width of each glyph, regardless of the shape of the glyph: the more tracking you apply the worse the relative spacing of divergently shaped glyphs becomes. It is a pretty crude mechanism.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-07 16:41:48"
+			itemprop="datePublished"
+		>
+			2009-02-07 16:41:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">James, yes, this seems to work in the current version of FontLab Studio. A negative percentage adjustment always decreases the sidebearing, even if the sidebearing is a negative value.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-07 16:45:07"
+			itemprop="datePublished"
+		>
+			2009-02-07 16:45:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">In the case of a zero sidebearing that generates no change I think that Fontlab should provide a warning and offer to mark those glyphs for the user to tweak manually. Finding a solution to this for sans, serifs, H, and V doesn’t seem possible, and in most fonts there will not be enough problem characters that this will really be an issue. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-07 17:00:18"
+			itemprop="datePublished"
+		>
+			2009-02-07 17:00:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>One thing I would advise is to use the measurement line option when performing these kinds of operations, because then you can increase or decrease the sidebearings relative to stems and bowls,
+
+But John, that won't work for V, W, X, etc. Nor will it work for O shapes, all of which vary according to where the line is. Or L. In fact it will only predictably work for H, I, etc. as far as I can see.
+
+>Adjusting left and right sidebearings by 30% or -30% works fine on positive and negative sidebearings for me.
+
+James, you're right about the negative values, I see, but only for <em>some</em> negative values. For example, try adjusting A sidebearings of 3,3 by 30%. Fontlab does nothing! (Fog would probably give you something close to a 1-unit change, which is not helpful.) That means when you select A-Z, and tell Fontlab (or another program) to add 30% to the amount of sidebearings, H will change a lot, and A not at all. If you use the measuring line for A, the value will change all over the map, depending on where the measuring line happens to hit the diagonal. So that doesn't work for me at all. All it means is that for larger values, there is a very large shift in units, whereas for small values, there is a disproportionately tiny shift in values. Whatever happens, you are <em>not</em> getting a proportional increase or decrease of spacing in the range of glyphs e.g. A-Z. 
+
+This leaves the question: what constitutes a percentage of metrics in terms that are useful to a typeface designer? 
+
+Again: I can't think of anything better, conceptually, than using the value of H in some sort of equation. But there must be something better!
+
+In the meantime, it is clear that doing percentage changes is almost valueless. I would have been better off just adding 10 units to everything.
+
+AH: I think I have it. Kind of. When we say we want A-Z with thirty percent more spacing, do we mean that we want the total width to be 30% greater? Even if we did (and I now begin to doubt this), we would still be faced with the problem of getting the glyph back into the proper proportional placement within the glyph. There are many glyphs that we don't want 'centred'. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-07 17:21:50"
+			itemprop="datePublished"
+		>
+			2009-02-07 17:21:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>billtroop</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Another illustration of the problem. Suppose F has sidebearings of 45,11. We apply a 30% change and get 58,14. So left side has changed by 13 units while right side has changed by only 3 units. Obviously something is wrong here, because these values are of no interest to a type designer. 
+
+Did I mention that this font is an old one of mine where I made the huge conceptual mistake of using Berthold-style kerning? Multiply that by four masters and you can see what kind of trouble I'm in. 
+
+When I was designing the font, I looked at many of the metrics files for the Adobe Berthold fonts. There wasn't a single one that didn't have at least one obvious kerning mistake -- and that was after they had fixed the pretty dodgy data that came from Berthold. Instead of accepting the reality that Berthold kerning is just too much trouble for anyone, I said to myself, well, I will just be more careful than Adobe and I won't make any mistakes. Hmph. I could not have been more wrong. 
+
+To add to the fun, 5.04/Vista just crashed when I attempted to export metrics - - I wanted to see what would happen when you export metrics from an MM - - oh yeah, you just get a binary .mmm file. Would be nice to have a wonderful MM-style AFM format. I wonder if anyone at Adobe ever worked on this? Or is there any way to convert a .mmm file into readable/editable ASCII?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-07 17:49:06"
+			itemprop="datePublished"
+		>
+			2009-02-07 17:49:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>billtroop</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I have been running into the exact same problem lately with my small caps spacing. I wasn't happy with the results of increasing by fixed units, so I thought percentages would be the better route. But as you point out, this method doesn't really help.
+
+One thing I'm curious is how InDesign tracks vs. adding or subtracting spacing the glyph data in Fontlab. It seems like if you track-in a set of caps 30 units in InDesign the result looks different than if you reduced your sidebearings in Fontlab 15 units on each side. I'd be curious to do a visual test of this and compare the lengths of lines done either way.
+
+I think when it comes to tracking new sidebearings you just have to do it manually. There is just a traditional look to how things should space wide vs tight that I don't think corresponds to any particular relation to sidebearing data, measurement line wise or otherwise. Without getting into ridiculous kerning schemes, there is a limit to negative metrics value you can have to glyphs like V and R. So these limits affect how tight you can make other letters. This is particularly true with all caps. The sidebearings of capital letters just don't relate in a linear way between loose and wide spacing schemes. Or so it seems to me.
+
+I have never worked with MM metrics and kerning... the thought frightens me!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-07 22:56:18"
+			itemprop="datePublished"
+		>
+			2009-02-07 22:56:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>nepenthe</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I think increasing or decreasing sidebearings by percentage is inherently problematic. I wouldn't do it.
+
+The way I think about spacing is this: The sidebearing is the sum of two fixed values: a constant amount of space between characters plus a positive or negative adjustment for optical alignment, which depends on the profile of each character. One of these is global, while the other varies from character to character. Both of these are fixed values, but they are not stored separately in a font, rather, they are stored as an aggregate value in the sidebearings. Changing the sidebearings by a percentage destroys the independent nature of these two values since it acts on both at the same time. You really want to only change the global inter-character space constant, not the optical adjustment of individual characters. Increasing or decreasing by a fixed amount (globally), in effect, does this.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-08 03:45:52"
+			itemprop="datePublished"
+		>
+			2009-02-08 03:45:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Bill, as I wrote, some letters need either manual adjustment or separate passes. But the measurement line, if set at an appropriate height, works well for both straight stems and bowls, presuming your glyphs are well spaced, relative to each other, to begin with. Even odd shapes like the right side of B will work pretty well; it is only shapes with deep distances such as C and L that are likely to be thrown massively out of whack.
+
+Also note that when I say 'pretty well', I mean in the context of automated spacing adjustment. I don't use automated spacing adjustment.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-08 03:55:09"
+			itemprop="datePublished"
+		>
+			2009-02-08 03:55:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">That's an interesting way of conceptualizing what's being done when spacing is being calculated for sidebearings. But unless you actually set these values numerically in a table somewhere, does this really help in making the calculations? I'm imagining that one would calculate the optical value relative to the minimum global spacing you can get away with? I'll have to try that and see how it works out.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-08 04:01:21"
+			itemprop="datePublished"
+		>
+			2009-02-08 04:01:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>nepenthe</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It's just a conceptual model. I brought it up as a way to explain what I think is the problematic nature of adjusting sidebearings by percentage.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-08 04:11:26"
+			itemprop="datePublished"
+		>
+			2009-02-08 04:11:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Mark's thinking about is also a view David Kindersley argued for in his writing about spacing.  </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-08 04:36:51"
+			itemprop="datePublished"
+		>
+			2009-02-08 04:36:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>William Berkson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Oh, interesting. I've heard that Kindersley had a method, but I've never actually looked it up. I think I got the idea from a book about lettering I saw in a book store years ago. I can picture the diagrams vividly, and it made a lasting impression, but I didn't buy the book and don't remember the title or author.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-08 04:47:17"
+			itemprop="datePublished"
+		>
+			2009-02-08 04:47:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm not sure if this will do the trick but this is how I scale sidebearings: 
+
+Make a copy of the font, scale the whole font. Copy and "paste special" right and left sidebearings back to the original font. I usually decompose the copy to prevent sidebearing freakouts on composites.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-11 09:08:42"
+			itemprop="datePublished"
+		>
+			2009-02-11 09:08:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Ray Larabie</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>scale the whole font
+
+That is absolutely brilliant! But if that copes with 0 and negative sidebearings properly, you would think the ordinary 'features' could. I am anxious to try it out. 
+
+Kerning import is another problem area . . . . </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-12 17:26:49"
+			itemprop="datePublished"
+		>
+			2009-02-12 17:26:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>billtroop</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">"But John, that won’t work for V, W, X, etc. "
+What will? Annoying Hu?
+
+"Make a copy of the font, [stop right there, take the needle out of your idea]:
+...scale a whole 'glyph group' in x (or x and y) from the center of each width at the baseline by T H E single variable (P) that brings the largest kern in the group to Zero side bearing... change new all positive sbs proportionally but a variable (N), and then scale up by the reciprocal of P from the same proportional spot in each glyph as the original P scale...
+
+That should theoretically work with N twiddling and would save time unless you actually have to  l o-o k  at it all anyway, (and, How Annoying is That!;)  If something's not right, or I'm aiming a design to another target, I select the first, last and in-between glyphs of the group, create and size a metrics window to see 'em all, and let my fingers do the math for my eyes to see and be done with it. 
+
+That's just one way of doing 't though, I can imagine preferring some magic button with glowing dials.
+
+Cheers!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-16 20:39:06"
+			itemprop="datePublished"
+		>
+			2009-02-16 20:39:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

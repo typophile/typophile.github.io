@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Transtype Pro 3 Removing Hinting When Font Data Changed | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Transtype Pro 3 Removing Hinting When Font Data Changed" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/117756/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2014-07-06T02:42:17+00:00" />
+<meta property="article:modified_time" content="2014-07-06T02:42:17+00:00" />
+
+<meta itemprop="name" content="Transtype Pro 3 Removing Hinting When Font Data Changed">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2014-07-06T02:42:17+00:00" />
+<meta itemprop="dateModified" content="2014-07-06T02:42:17+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Transtype Pro 3 Removing Hinting When Font Data Changed"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Transtype Pro 3 Removing Hinting When Font Data Changed</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2014-07-06T02:42:17Z">July 6, 2014</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Rick Allen</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I have a perplexing problem that has taken some time to nail down.  I was batch converting several fonts with Transtype Pro 3, and came across an oddity.  My effort was to group Postscript Fonts converted from TrueType in Suitcases that made sense.  
+In the process, many of the suitcases lost a substantial amount of data, but I discovered the program only removed the data if I changed any of the font's info, which was almost impossible to avoid in a process like this.  Upon experimentation, I discovered that the suitcase remained the same size as it's unconverted counterpart if I left the information untouched.  This would have left many a font orphaned from it's family, not to mention a lot of other housekeeping problems. 
+
+In my honest opinion, I don't understand why Transtype would alter a suitcase's bitmap font compliment when the font's info has been changed.  And mildly changed at that.
+
+To keep all this quite scientific,  I obtained a copy of a font that was distributed in Postscript Type 1 and Truetype.
+This is how I could be sure if the Suitcase had been "cheated".  I also compared the suitcase of the converted font (from Truetype) where I did not change any of the metadata, with that of the unconverted PS font.  I had to examine the suitcase in Mac OS 9 to be certain what point size bitmap fonts were in the individual suitcases, to be sure there was a match as well.  Upon opening the suitcase of an altered font (a font where I changed some info), ALL of the bitmap fonts were only 3k in size, whereas the copy of the font that was purchased as a Postscript font in the first place had bitmap fonts of various (larger) sizes, just like the converted font with no info changes.
+
+A symptom of this problem can be revealed by opening a document in the old Appleworks word processor.  If you highlight some text in the document and change the font to your converted font (with the changed data) the text nearly disappears into a tiny little smudge of black.  This does not occur in Pages.  I am guessing that Pages ignores the bitmap fonts in the suitcase and does it's own rasterization on the fly.
+
+Additionally, (I know you are going to ask this) I tried all of this with both the "default hinting" and "No hinting" options chosen.
+AND I was certain to clear the conversion window and drop the TT font in the window AFTER each time I changed these options.
+
+
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">WooHoo!
+
+I guess I get to answer my own question on this one!!  But seriously, for all of you who use Transtype 3 to meet some of your design needs, I would like to share what I have learned.  
+
+It has come to my attention that Mac OSX has it's own font rasterizer, much like that which has existed for Truetype fonts from  the beginning.   Thus, bitmap fonts in Postscript font suitcases are pretty much ignored under Mac OSX.  This makes the omission of the bitmap font data transparent under most circumstances in the Mac OS X environment.  For this reason I nearly missed this myself.  But I believe in thorough testing...
+
+What I found after closer examination is that Transtype creates "placeholder" 3Kb bitmap font files containing no data inside the suitcase built, but only if you change some of the font info prior to generating the new fonts.  Otherwise, proper bitmap fonts DO get generated using either the FreeType Rasterizer or (should you select it) the ATSUI rasterizer.
+
+So this explains why the converted fonts with blank bitmaps "disappear" in Appleworks.  These "blank" suitcases create even more havoc in the world of Mac OS 9.  So it goes that Appleworks, being of the "Classic" mindset, does not take advantage of Mac OS X's superior rasterizer.  Kudos to Apple on that newer system feature.
+
+I admit to feeling foolish for not having thought of this before, because it works flawlessly:  Just process the fonts thru Transtype a second time and Voila! the bitmaps are back.
+
+Now you are saying to yourself, why isn't he getting with the plan and converting to Opentype?  I am an old guy, am a big fan of postscript, and set in my ways.  So I too will someday go the way of the dinosaurs, and someone will throw all my treasured font CDs in the trash.
+
+It is my sincere hope that I have somehow been helpful in a technical way to you, dear reader.  Perhaps I may have even provided you with some amusement.  If so, then I have accomplished my goal.  Have an awesome day!!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-07-11 04:03:49"
+			itemprop="datePublished"
+		>
+			2014-07-11 04:03:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Rick Allen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Sorry I missed this! But I should also note that TransType Pro version 4 came out last year. I don't believe it has this bug.  :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-07-11 21:05:14"
+			itemprop="datePublished"
+		>
+			2014-07-11 21:05:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

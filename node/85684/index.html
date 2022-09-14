@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Fina &amp; end Opentype features | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Fina &amp; end Opentype features" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/85684/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-09-21T18:30:22+00:00" />
+<meta property="article:modified_time" content="2011-09-21T18:30:22+00:00" />
+
+<meta itemprop="name" content="Fina &amp; end Opentype features">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-09-21T18:30:22+00:00" />
+<meta itemprop="dateModified" content="2011-09-21T18:30:22+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Fina &amp; end Opentype features"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Fina & end Opentype features</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-09-21T18:30:22Z">September 21, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">JoanAlegret</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi, everyone,
+
+I'm working on understand the terrible and heavy world of some (and just some of them) Opentype features. And the most disturbance thing which I haven't understand already is the exception that makes possible to the "end" feature (in some of the Stylistic set) to work only in the last character, not in the middle of the word. After that, I discovered the *fina feature, I don't understand how it works, but it does what I was looking for. But at Myfonts.com there are just eight fonts with that feature, is not very common. Isn't it? Why?
+
+So, looking inside other fonts, like Minion. I've seen that it doesn't use the fina feature. It uses a combination between classes. Just that? The "space" character is included in the class, but how it works? Where's the script that allows that?
+
+In basic script some options would be (without classes)
+
+This is what it would not work:
+
+feature ss01 {
+     sub e by e.end;
+} ss01;
+
+The way that I've thought to work with some characters:
+
+feature ss01 { 
+    sub e space by e.end; 
+    sub e period by e.end; 
+    etc.
+} ss01;
+
+Obviosusly I'm sure that it's not the way to do it. (It would be a lot of unnecesary work) 
+
+Any idea? 
+Thanks!</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">End is not an OpenType feature, it is just an suffix used in whatever example you saw. Minion probably uses CALT rather than FINA because <a href="http://www.typotheque.com/fonts/opentype_feature_support">only five applications even support FINA.</a> Doing this with CALT checks to see if any glyph in (class of glyphs with terminal forms) is to the left of (class of glyphs that are spaces or certain punctuation marks) and if so, swap in the .end form of the letter.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-21 20:17:57"
+			itemprop="datePublished"
+		>
+			2011-09-21 20:17:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><code>fina</code> feature is generally used in Arabic and similar scripts and the Engines does the word analysis needed to determine where to apply it (in Arabic final forms can occur in the middle of the word), so it is implemented in the font as simple substitution lookup.
+
+Some engines (Adobe's only, I think) support in other scripts to mean end of the word, and the engine still have to do the word analysis. Some consider this an abuse as you can't then use it to mean end of word in Arabic which have it legitimate uses apart from the current use of <code>fina</code> in Arabic script, a different feature should have been added for that.
+
+Since the use of <code>fina</code> in Latin script not supported by most engines, fonts do use a bit more complex <code>calt</code> rules to implement it, searching typophile you should find several threads discussing this.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-21 22:35:10"
+			itemprop="datePublished"
+		>
+			2011-09-21 22:35:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Khaled Hosny</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">If <code>fina</code> is <cite>partially</cite> supported, should we put any final forms in <code>ss01</code> and then call ss01 from the <code>fina</code> feature for full compatibility?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-21 23:13:41"
+			itemprop="datePublished"
+		>
+			2011-09-21 23:13:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bendy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I wouldn’t bother with stylistic sets for the purpose of compatibility because they are also poorly supported. And end users are usually clueless about how stylistic sets work. I dealt with this in a recent font by calling all positional forms from AALT so that they can be accessed in any application with a glyph palette. Of course, that does not solve the problem in crap software like Photoshop that has no glyph palette for using AALT, but it’s all I can really do.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-22 01:20:52"
+			itemprop="datePublished"
+		>
+			2011-09-22 01:20:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"> Thank you guys!
+
+After taking a look to the Adobe OT feature spec:
+http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html
+
+I made classes for every alternate characters, and then use the ignore script.
+
+Something like this with the swashes feature:
+For example M has a swash for beginnings on the left. To avoid the cross with the right swash of Q in uppercase words and also to make M.swsh only shown in beginnings, I wrote:
+
+
+feature swsh { # Swashes
+     ignore sub @allswsh @swshl01';
+     sub @swshr01' by @swshr02;
+     sub @swshl01' by @swshl02;
+} swsh;
+
+Q is in swshr01 / Q.swsh is in swshr02
+M is in swshl.01 / M.swsh is in swshl.02
+
+While uppercase, lowercase, numbers and other characters are in allswsh class.
+
+
+It works fine for me, some better ideas?
+
+Thanks again
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-26 18:29:43"
+			itemprop="datePublished"
+		>
+			2011-09-26 18:29:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JoanAlegret</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

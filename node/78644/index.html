@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>programming ligatures | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="programming ligatures" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/78644/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-02-02T15:20:20+00:00" />
+<meta property="article:modified_time" content="2011-02-02T15:20:20+00:00" />
+
+<meta itemprop="name" content="programming ligatures">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-02-02T15:20:20+00:00" />
+<meta itemprop="dateModified" content="2011-02-02T15:20:20+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="programming ligatures"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">programming ligatures</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-02-02T15:20:20Z">February 2, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">matt_yow</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi all,
+First off, I have zero experience with coding and syntax for proper output.
+
+I have just finished a typeface with the usual ligatures (fl, fi, ffl, ffi, even st & ct) and I want to make the ligatures automatic instead of being forced to navigate to the glyphs palette and manually apply ligatures.
+
+I know the answer is in Robofab or Python but I do not have any experience with them and can't find a decent walk-through in the context of type design, specifically ligatures (since Python does all sorts of applications, type design being one).
+
+Is there not a standard snippet of code that applies to all typefaces that automates the ligatures? "when U+0066 & U+0066 appear consecutively with U+FB00"? 
+I presume not.
+
+Also, I use Fontographer 5.
+
+Thanks in advance.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">In a simple text editor, declare the liga feature in aalt:
+
+<code>feature aalt{
+  feature liga;
+} aalt;</code>
+
+Then program the ligatures thus:
+
+<code>feature liga {
+# Latin
+    sub f i by fi;
+    sub f l by fl;
+    sub X X by XX;
+    etc.
+} liga;</code>
+
+Then, SAVE AS your_file_name.fea. In FOG5, navigate to Element &gt; Font Info &gt; Encoding, then select the radio button for an external feature file, and browse for and select your feature file.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 16:42:57"
+			itemprop="datePublished"
+		>
+			2011-02-02 16:42:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>oldnick</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>I know the answer is in Robofab or Python…</cite>
+
+Nick’s answer is correct, but just to elaborate, character substitution is done with OpenType features. Robofab and Python are used to automate font design tasks; they don’t actually introduce any code into a font.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 16:59:19"
+			itemprop="datePublished"
+		>
+			2011-02-02 16:59:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Also, I'll mention that recommended glyph names for ligatures are "f_l", "f_i", "f_f", "s_t", "f_adieresis" etc. 
+
+So your code would look like
+
+<code>feature liga {
+# Latin
+sub f i by f_i;
+sub f l by f_l;
+sub f f by f_f;
+sub s t by s_t;
+# etc.
+} liga;</code>
+
+(after "sub" you type in sequences of glyph names that should be replaced, after "by" you type in the glyph name that is inserted).
+
+A.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 17:16:57"
+			itemprop="datePublished"
+		>
+			2011-02-02 17:16:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Adam, can Freefont pro be opened in Fog?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 17:24:57"
+			itemprop="datePublished"
+		>
+			2011-02-02 17:24:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Dunwich/James, 
+
+it's VFB, so it can — but since FOG doesn't have any UI for displaying the font features, the code won't be visible/accessible. 
+
+I do recommend installing the demo version of FontLab Studio along Fontographer 5. The demo version of FL Studio is free, and serves as an excellent in-depth font viewer. If you open an OpenType font in the FontLab Studio demo, you can export the font feature definitions from the OpenType panel into a .fea text file, edit it in a text editor and then use it in FOG 5 when generating the font. 
+
+FontLab Studio 5 can only export font feature definitions in the older AFDKO 1.6 syntax. If you want to export font feature definitions including things like mark attachment, ie. in the AFDKO 2.5 syntax, you need to use a different tool, such as DTL OTMaster, which is also available from fontlab.com. 
+
+Best,
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 18:12:13"
+			itemprop="datePublished"
+		>
+			2011-02-02 18:12:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I knew the answer would be as simple as this.
+Let me apply this text and see what my output is, etc and get back with more questions.
+
+Thanks so much all</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 20:04:47"
+			itemprop="datePublished"
+		>
+			2011-02-02 20:04:47
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>matt_yow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">ok, a basic problem I'm running into now. I have TextEdit, Adobe Reader & MSWord and none of them Save As... .fea
+What program or application can save a file as such?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 20:17:06"
+			itemprop="datePublished"
+		>
+			2011-02-02 20:17:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>matt_yow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">On a Windows system, you will likely have to set the directory display to show file endings. M$Vim defaults to hiding them.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 20:43:48"
+			itemprop="datePublished"
+		>
+			2011-02-02 20:43:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Té Rowan</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>What program or application can save a file as [.fea]?</cite>
+
+Use TextEdit, save as text, then change the extension from .txt to .fea in the name of the file.
+
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 20:45:48"
+			itemprop="datePublished"
+		>
+			2011-02-02 20:45:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>riccard0</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Matt, 
+
+in TextEdit, you need to choose Format / Make Plain Text before saving. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 20:48:34"
+			itemprop="datePublished"
+		>
+			2011-02-02 20:48:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Té, "TextEdit" is a dead giveaway :-)
+
+Matt, when using TextEdit, make sure to select menu "Format", then choose "Make Plain Text". Otherwise, you'll be looking in vain for the "Save as plain text" option ... (You'll get to choose what character encoding you want to use, but I'm guessing the default "UTF-8" is just fine for the plain text file that a .fea is.)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 20:48:44"
+			itemprop="datePublished"
+		>
+			2011-02-02 20:48:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">thanks riccard0,
+I saved it as a .fea, then applied to the encoding section.
+
+my text is exactly:
+
+feature aalt{
+feature liga;
+} aalt;
+
+feature liga {
+# Latin
+
+sub f i by f_i;
+sub f l by f_l;
+sub f f l by f_f_l;
+sub f f i by f_f_i;
+sub s t by s_t;
+
+# etc.
+
+} liga;
+
+and upon trying to Generate Font File,
+"cannon generate open type file due to an error in feature definition file."
+are the underscores necessary or will spaces clear the issue? (sub f i by fi;)
+
+I'll try copy/pasting the code from an established typeface with the ligature features until I know more.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 20:56:29"
+			itemprop="datePublished"
+		>
+			2011-02-02 20:56:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>matt_yow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">more detailed explanation: http://ilovetypography.com/OpenType/opentype-features.html</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 21:52:39"
+			itemprop="datePublished"
+		>
+			2011-02-02 21:52:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Santiago Orozco</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">#etc. should NOT be in your code: it was included in the examples only to show that the same format should be followed for any other ligatures you wished to include. The glyphnames for the ligatures should be EXACTLY the same as those entered in your feature file.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 21:53:26"
+			itemprop="datePublished"
+		>
+			2011-02-02 21:53:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>oldnick</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>The glyphnames for the ligatures should be EXACTLY the same as those entered in your feature file.</cite>
+
+Exactly. So, if your glyph in the font is named fi, it will have to be so named in the feature file.
+
+Better to change the name to f_i in the font -- and of course, use f_i in the feature file (as Adam suggested). The "fi" glyph hangs around in some fonts, and is in Unicode, to accommodate legacy issues. Sort of like corsets . . .</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-02 23:01:51"
+			itemprop="datePublished"
+		>
+			2011-02-02 23:01:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@theunis - I suspected a Windows box when I saw MSWord in the list, but TextEdit could just as well be a Mac program, as far as I'm concerned. Now, Notepad or Wordpad...
+
+Aside: I generally use only two editors: mewin (though it's not eight-bit clean) and mcedit. Meaning? Count me out of any editor jihad.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-03 11:51:47"
+			itemprop="datePublished"
+		>
+			2011-02-03 11:51:47
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Té Rowan</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

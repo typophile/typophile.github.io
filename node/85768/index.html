@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Switch glyphs in Fontlab | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Switch glyphs in Fontlab" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/85768/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-09-24T15:37:27+00:00" />
+<meta property="article:modified_time" content="2011-09-24T15:37:27+00:00" />
+
+<meta itemprop="name" content="Switch glyphs in Fontlab">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-09-24T15:37:27+00:00" />
+<meta itemprop="dateModified" content="2011-09-24T15:37:27+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Switch glyphs in Fontlab"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Switch glyphs in Fontlab</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-09-24T15:37:27Z">September 24, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Topy</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I've completed a three-weight font with class kerning and everything. The font has many glyphs with alternates, but now after looking the font for awhile, I'm having second thoughts. I'd like to switch the alternate as the main character, for example, /four with /four.alt and /S with /S.alt and so on. Is there any easy way to change all instances of a glyph and its name in a font (including kerning, classes, code, etc)? Any macros or scripts that could handle this? I'm working with Fontlab 5.04.
+
+EDIT: Anyone? Please help, it's a two days of manual work there, all very prone to mistakes.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Here's a small script I wrote for renaming glyphs. It assumes Robofab is installed. You type in two list of glyph names--the current ones and the ones you'd like to replace them with. With your particular task, you'd probably have to run it three times--once to change your standard names to a temporary name (e.g., a.temp), once to change your alt glyphs to standard names, and once to change the temporarily named glyphs to the alt names. (Describing this sequence, it's apparent that it wouldn't be too hard to write a script that does it all in one run, but I have other things I'm supposed to be working on. Even so, it should still be faster than doing it manually.)
+
+As for the class kerning, I'll assume you've created the kerning classes in FontLab's class panel. You could export your classes as a text file, do a round of search and replaces in a text editor (similar to the steps I described with the script), and then import the classes, replacing the existing ones. Note: the kerning will stay with the original glyphs, even when you rename them. Once you've done all this, rebuild the kern feature. There's probably an easier way to do this, but I've done it this way and it works.
+
+Here's the script:
+
+<pre>from robofab.world import CurrentFont, CurrentGlyph
+
+f = CurrentFont()
+
+tString = "a b c" # put your 'before' glyph list here
+listOne = tString.split(" ")
+
+tString = "a.1 b.1 c.1" # put your 'after' glyph list here
+listTwo = tString.split(" ")
+
+i = 0
+while i < len(listOne):
+	g = f[listOne[i]]
+	g.name = listTwo[i]
+	g.update()
+	g.autoUnicodes()
+	g.update()
+	i = i+1
+		
+fl.UpdateFont()
+
+print "All done."</pre></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-26 22:37:19"
+			itemprop="datePublished"
+		>
+			2011-09-26 22:37:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Wonderful Mark! Many thanks. I've installed Robofab earlier, but haven't got the time to learn how to use it. This certainly gives good motivation to it. 
+
+Just one thing: what should be defined to listThree? Should there be a line that counts the number of items in the two other lists and puts that into listThree? Or did I misunderstood something? Also, I tried to make a lists of 19 glyphs, but FL macro window crops the end of the lines. That's no problem really, I can run the script in several passes. 
+
+It did cross my mind to TextWrangle the kerning (it's all in the OT kern feature), but it is still a lot of work. Can't python access that data in the same way it changes the names and unicodes?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-27 22:11:27"
+			itemprop="datePublished"
+		>
+			2011-09-27 22:11:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Topy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, Mark!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-27 22:46:07"
+			itemprop="datePublished"
+		>
+			2011-09-27 22:46:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Scratch that script (unless it's useful for some reason). Here's a version that will swap any two lists of glyphs. Note: The lists (obviously) must be equal in length.
+
+<pre># Swap Lists of Glyphs
+
+from robofab.world import CurrentFont, CurrentGlyph
+
+f = CurrentFont()
+
+tString = "a b c" # <- put your first glyph list here
+listOne = tString.split(" ")
+
+tString = "A B C" # <- put your second glyph list here
+listTwo = tString.split(" ")
+
+listTemp = [] 
+for i in listOne:
+	listTemp.append(i + ".temp")
+
+l = len(listOne)
+
+def setGlyphNames(listA, listB):
+	i = 0
+	while i < l:
+		g = f[listA[i]]
+		g.name = listB[i]
+		g.update()
+		g.autoUnicodes()
+		g.update()
+		i = i+1
+		
+if len(listOne) == len(listTwo):
+	setGlyphNames(listOne, listTemp) # a -> a.temp
+	setGlyphNames(listTwo, listOne)  # A -> a
+	setGlyphNames(listTemp, listTwo) # a.temp -> A
+	fl.UpdateFont()
+	print 'Done! %d pairs of glyphs swapped.' % l
+else:
+	print "Can't run. Lists are not equal."</pre>
+
+Edit: I deleted the version I posted here earlier. This version is shorter and more efficient.
+
+The second part about class kerning stands.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-27 23:05:30"
+			itemprop="datePublished"
+		>
+			2011-09-27 23:05:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">listThree? I don't see that. In an earlier version I posted it may have been in there (that was the name I previously used instead of "listTemp"). "listTemp" is a copy of "listOne" with ".temp" appended to the glyph names. It's necessary to assign these temporary names to the first set of glyphs before assigning the first list names to the glyphs in the second list. Once that's done, then it's safe to assign the names from the second list to the glyphs in the first list. You can't just sort of say a=A and A=a or you end up with both having the same names (wich won't work anyway).
+
+It's up to you to make sure the two lists have the same number of items. (Presumably, you are swapping pairs of glyphs; one list has the first member of the pair, the other list has the other. So they should number the same.) Edit: I rewrote it to include code to check that the lists are the same length. It will tell you if they are not.
+
+Also, it is possible to put way more than 19 glyphs in the lists. You can make the macro window wider, and you can scroll to the right. (I have run into a limit before, but it was way higher than 19.)
+
+It's probably possible to access the OT features and class data with a script, but I haven't investigated that.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-27 23:07:03"
+			itemprop="datePublished"
+		>
+			2011-09-27 23:07:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">By the way, if you still have trouble with the length of the strings, you can build it in stages like this:
+
+<pre>tString = "a b c d e f "
+tString = tString + "g h i j k l m n "
+tString = tString + "o p q r s"</pre>
+
+The rest continues on as before. You just have to make sure that all but the last one have a space at the end.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-27 23:30:30"
+			itemprop="datePublished"
+		>
+			2011-09-27 23:30:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Great! The script works now and it switches the glyphs like it should. I did also manage to build up longer lists. I'm not sure if the code swaps the unicodes like it should. The .alt glyphs in my font don't have unicode values at all. After running the script, the both switched glyphs have the same unicode value. If I understand your script correctly, it actually switches the names of the glyphs, and then based on that name, it adds a unicode value. Could these unnecessary unicodes result from the autoUnicode function? 
+
+Maybe after I study Python a bit more, I can find out about accessing the OT features and class data. Considering also about starting a new thread for that :)
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-28 15:34:38"
+			itemprop="datePublished"
+		>
+			2011-09-28 15:34:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Topy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hmm. The "autoUnicodes" method should remove the unicode value if there isn't one that corresponds to the glyph name. You can fix it by selecting the affected glyphs in the Font window and using the Generate Unicode... command from the Glyph menu. If you try to generate a font without fixing it, FontLab may hang.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-28 16:09:05"
+			itemprop="datePublished"
+		>
+			2011-09-28 16:09:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Maybe clearing the unicode values before running autoUnicodes would ensure that existing values don't persist.
+
+Here's a short script that swaps names and unicodes for any two selected glyphs in the font window:
+
+<pre>#FLM: Swap Glyphs
+"""Swaps two selected glyphs."""
+
+f = fl.font
+fIdx = fl.ifont
+
+selGlyphs = [ f.glyphs[gIdx] for gIdx in range( len(f.glyphs) ) if fl.Selected(gIdx) ]
+if len(selGlyphs) == 2:
+  selGlyphs[0].name, selGlyphs[1].name = selGlyphs[1].name, selGlyphs[0].name
+  selGlyphs[0].unicodes, selGlyphs[1].unicodes = selGlyphs[1].unicodes, selGlyphs[0].unicodes
+  fl.UpdateFont(fIdx)
+</pre>
+
+And yes, it is possible to access classes and features through python via <code>fl.font.classes</code> and <code>fl.font.features</code>, but those require further parsing to manipulate the data. It'd be nice to have a python method similar to the "Rename Glyph" tool in the Glyph menu, but that functionality seems to be absent from the python API.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-28 16:51:44"
+			itemprop="datePublished"
+		>
+			2011-09-28 16:51:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Awesome script Mark! Thank you :)
+
+Been looking for something like this for a long time. And it works like a charm on FL 5.04.
+
+However on the new 5.1 I get an error saying can't find robofub.world or something.
+
+Have any idea why that is?
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-28 22:15:04"
+			itemprop="datePublished"
+		>
+			2011-09-28 22:15:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Angus R Shamal</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yeah, I have the same problem. I'm not sure if RoboFab is supported in 5.1 yet. Haven't had time to investigate.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 00:09:16"
+			itemprop="datePublished"
+		>
+			2011-09-29 00:09:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>> I'm not sure if RoboFab is supported in 5.1 yet.
+
+Apparently is possible (not easy) to install it, but it doesn’t work quite well yet. I’d say stick to 5.0.4 for now.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 01:16:38"
+			itemprop="datePublished"
+		>
+			2011-09-29 01:16:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Cristobal Henestrosa</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">BTW: I didn’t prove the script yet, but sounds awesome, so I’ll do it very soon. Thanks for sharing, Mark!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 01:28:33"
+			itemprop="datePublished"
+		>
+			2011-09-29 01:28:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Cristobal Henestrosa</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I asked about it on the RoboFab group ( http://groups.google.com/group/robofab ) and Tal Leming responded:
+
+<blockquote>Yes, with a caveat. The dialogs provided with robofab.interface.all.dialogs are misbehaving/not working in Mac OS 10.7. We're actively trying to resolve that but making a single API for all of the various OS, OS version and application combinations is frustrating. Other than that it works as far as we know. 
+
+You'll need to install RoboFab from source. To do this you need to figure out which Python FontLab is using. I'd tell you which it is, but it changes frequently and I'm not 100% sure where things stand at the moment. To figure out the Python version, run this in the macro panel: 
+
+<code>import sys 
+print sys.version</code> 
+
+Once you have this report, you can figure out which Terminal command you need. If you see 2.5, your command will be python2.5. If you see 2.6 and you are running OS 10.6, your command will be python. If you see 2.6 and you are running OS 10.7, your command will probably be python2.6 (I'm not running OS 10.7, so I'm guessing here). If you see 2.7, you are almost certainly running OS 10.7 (otherwise you really messed up your system) and your command will be python. 
+
+Now follow these steps, replacing yourpythoncommand with your Python command as defined above. 
+
+1. If you don't have it already, get the "RoboFab + FontTools + DialogKit Combo" zip here: http://robofab.com/download/index.html 
+2. Unpack the zip and put it in a location where you want the files to live. For example <code>/Applications/RoboFab</code>. 
+3. Open Terminal. 
+4. Type "<code>cd </code>" (the space is required) and drag the FontTools folder to the Terminal window. This should give you something like "<code>cd /Applications/RoboFab/FontTools</code>". Hit return. 
+5. Type "<code>sudo yourpythoncommand setup.py install</code>". Hit return. 
+6. A bunch of installation notes should appear. 
+7. Type "<code>sudo yourpythoncommand </code>" (the space is required) and drag the install.py file in the RoboFab directory to the Terminal window. Hit return. 
+8. "<code>Robofab is now installed.</code>" should appear along with some other text. 
+9. Type "<code>sudo yourpythoncommand </code>" (the space is required) and drag the install.py file in the DialogKit directory to the Terminal window. Hit return. 
+10. "<code>dialogKit is now installed.</code>" should appear along with some other text. 
+11. Restart FontLab if you have it open. 
+
+Hopefully this will work. We'll likely try to make this easier when the dust settles.</blockquote>
+
+This worked for me using MacOS 10.6 and FL 5.1. Scripts run noticeably faster, too.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 02:07:53"
+			itemprop="datePublished"
+		>
+			2011-09-29 02:07:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">OK, so it seems that the main problem is only with 10.7. Thanks again Mark!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 02:55:59"
+			itemprop="datePublished"
+		>
+			2011-09-29 02:55:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Cristobal Henestrosa</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, Mark and especially Tal!
+
+I am running Lion and will soon try your script with fingers crossed 
+
+Film at 11:00
+[1:58 AM after trying script]
+
+Got through fine and tried to run "export ufo" and got the following error message:
+
+Traceback (most recent call last):
+  File "<string>", line 29, in <module>
+ImportError: No module named robofab.world
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 07:01:03"
+			itemprop="datePublished"
+		>
+			2011-09-29 07:01:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">That probably means you weren't able to install RoboFab successfully.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 15:05:23"
+			itemprop="datePublished"
+		>
+			2011-09-29 15:05:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Argh :-/
+
+FAIL</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 17:02:00"
+			itemprop="datePublished"
+		>
+			2011-09-29 17:02:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I would suggest joining the RoboFab group ( http://groups.google.com/group/robofab ) and asking for help there.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 17:03:16"
+			itemprop="datePublished"
+		>
+			2011-09-29 17:03:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks,Mark, I just did.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 18:06:25"
+			itemprop="datePublished"
+		>
+			2011-09-29 18:06:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Mark's script works pretty well in Robofont as well. If I wasn't busy I'd figure out how to update the character set sorting. This would be great if I could pair it with groups and a gui. 
+
+<pre>
+# Swap Lists of Glyphs
+# Original version by Mark Simonson
+
+f = CurrentFont()
+
+tString = "A" # first glyph list
+listOne = tString.split(" ")
+
+tString = "B" # second glyph list
+listTwo = tString.split(" ")
+
+listTemp = [] 
+for i in listOne:
+	listTemp.append(i + ".temp")
+
+l = len(listOne)
+
+def setGlyphNames(listA, listB):
+	i = 0
+	while i < l:
+		g = f[listA[i]]
+		g.name = listB[i]
+		g.update()
+		g.autoUnicodes()
+		g.update()
+		i = i+1
+		
+setGlyphNames(listOne, listTemp) # a -> a.temp
+setGlyphNames(listTwo, listOne)  # A -> a
+setGlyphNames(listTemp, listTwo) # a.temp -> A
+
+print 'Done! %d pairs of glyphs swapped.' % l
+</pre></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 18:24:19"
+			itemprop="datePublished"
+		>
+			2011-09-29 18:24:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jackson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I tried to get it to work in RoboFont, but couldn't quite do it. It looks like the main difference is leaving out the import line?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 18:33:21"
+			itemprop="datePublished"
+		>
+			2011-09-29 18:33:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Many thanks to you too, gargoyle! But wait a second, doesn't the "Rename Glyph" -tool actually rename _ALL_ references to the glyphs including classes, kerning, opentype features? I could go one by one renaming my glyphs like this: S -> S.temp, S.alt -> S, S.temp -> S.alt. Shouldn't this do the job right? Ok, I have something like 40 glyphs per weight to switch but I could totally skip the TextWrangler. Now how come I never thought of the Rename Glyph -tool before. Duh!
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 18:59:23"
+			itemprop="datePublished"
+		>
+			2011-09-29 18:59:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Topy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Actually, that's what I use if there are not too many to change.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 19:05:19"
+			itemprop="datePublished"
+		>
+			2011-09-29 19:05:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Regarding the duplicate Unicode values when swapping with .alt or other non-coded glyphs— apparently Robofab’s <code>autoUnicodes</code> method doesn’t remove the value unless it finds a new one to substitute. Adding <code>g.unicodes = []</code> above <code>g.autoUnicodes()</code> will prevent coded glyphs from keeping their old values after swapping names with non-coded glyphs.
+
+As an exercise of my limited scripting abilities, I tried to extend my “Swap Two Selected Glyphs” macro to mimic Mark’s “Swap Lists of Glyphs”. This version is FontLab-only and does not require Robofab.
+
+<pre>
+#FLM: Swap Two Glyph Lists
+"""Swaps two sets of glyphs."""
+# (based on Mark Simonson's "Swap List of Glyphs")
+
+f = fl.font
+
+listOne = "a b c" # <- put your first glyph list here
+listTwo = "A B C" # <- put your second glyph list here
+
+listOne, listTwo = listOne.split(" "), listTwo.split(" ")
+
+if len(listOne) == len(listTwo):
+	for i in range( len(listOne) ):
+		g1 = f.glyphs[ f.FindGlyph( listOne[i] ) ]
+		g2 = f.glyphs[ f.FindGlyph( listTwo[i] ) ]
+		fl.SetUndo(g1.index)
+		fl.SetUndo(g2.index)
+		g1.name, g2.name = g2.name, g1.name
+		g1.unicodes, g2.unicodes = g2.unicodes, g1.unicodes
+	fl.UpdateFont()
+	print 'Done! %d pairs of glyphs swapped.' % len(listOne)
+else:
+	print "Can't run. Lists are not equal."
+</pre></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-29 20:23:14"
+			itemprop="datePublished"
+		>
+			2011-09-29 20:23:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Excellent, thank you all!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-30 18:44:12"
+			itemprop="datePublished"
+		>
+			2011-09-30 18:44:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Topy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><pre>g1.name, g2.name = g2.name, g1.name</pre>
+
+That's clever--I didn't realize that kind of statement worked in that way. Could have saved all that nonsense with "listTemp" in my version.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-30 19:12:49"
+			itemprop="datePublished"
+		>
+			2011-09-30 19:12:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

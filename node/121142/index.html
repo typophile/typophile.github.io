@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Lookup calls and lookup types | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Lookup calls and lookup types" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/121142/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2014-11-08T01:10:46+00:00" />
+<meta property="article:modified_time" content="2014-11-08T01:10:46+00:00" />
+
+<meta itemprop="name" content="Lookup calls and lookup types">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2014-11-08T01:10:46+00:00" />
+<meta itemprop="dateModified" content="2014-11-08T01:10:46+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Lookup calls and lookup types"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Lookup calls and lookup types</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2014-11-08T01:10:46Z">November 8, 2014</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">George Horton</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I think I'm getting to grips with OpenType coding -  I just birthed my first contextual one-to-many substitution, and am as proud as you'd expect - but I'm still puzzled by one thing and unsure about another.
+
+The puzzle is that when I define-and-run a lookup, the layout engine goes back to the start of the glyph run, as I'd expect. But when I call a lookup, it doesn't, at least in FontLab. Is that just how it is? 
+
+The uncertainty is over whether all kinds of lookup types are allowed in all features, or whether it's better to stick to the lookup types specified for features at [[http://www.microsoft.com/typography/otspec/features_ae.htm|the Microsoft OT spec site]]. I know FontLab is liberal, but are all apps?
+
+Thanks very much for any help!
+George</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">If you didn't read [[http://ansuz.sooke.bc.ca/entry/131|this article will help]]
+
+[[http://typophile.com/node/120773#comment-591468|not all apps, I think;]] InDesign accepts such wrong substitution in stylistic set (at least CS5).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-08 11:43:00"
+			itemprop="datePublished"
+		>
+			2014-11-08 11:43:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	 <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks JanekZ! I knew about that article, but it doesn't talk about the fact that the following snippet will turn all 'a's into 'c's: 
+<pre>
+sub a by b;
+lookup ReRun {
+  sub b by c;
+} ReRun;
+</pre> 
+whereas this snippet won't: 
+<pre>
+lookup DoesntReRun {
+  sub b by c;
+} DoesntReRun;
+sub a by b;
+lookup DoesntReRun;
+</pre> 
+
+Do you think the ban on lookup types in features where they're not specified only applies to substitutions that take or return the wrong number of glyphs? Or does it mean you also can't do contextual substitutions where only non-contextual are specified, or non-contextual where contextual are specified? There are places where bending the rules would be handy even for basic stuff: for instance, contextual substitutions in <code>locl</code> for Catalan punt volat; one-to-many in <code>smcp</code> for decomposing germandbls.smcp to s.smcp.DEU s.smcp.DEU; and many-to-one in <code>salt</code> or <code>ss01</code> for replacing s.smcp.DEU s.smcp.DEU with germandbls.smcp.alt.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-09 06:14:44"
+			itemprop="datePublished"
+		>
+			2014-11-09 06:14:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Horton</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-08 22:39:46"
+			itemprop="datePublished"
+		>
+			2014-11-08 22:39:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Horton</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Warning: this is only my opinion and it may or may not be true.
+
+"the following snippet will turn all 'a's into 'c's"
+It doesn't work that way for me, neither in FontLab nor in FontForge.
+1. Your example is equivalent* to:
+sub a by b; # 1st rule
+sub b by c; # 2nd rule
+2. It will work that way:
+-   "abc" -> "bbc" ["a" is substituted by "b"; no more "a"s] 1st rule
+-   "bbc" -> "bcc" [<strong>second</strong> "b" is substituted by "c"; no more "b"s] 2nd rule
+3. If your first example works as you described, then try:
+sub a by b;
+sub b by a;
+(or better not...)
+
+* "A lookup is a group of rules of the same type." Your feature has rules of the same type (one to one substitution) so no need to hide them in a lookups.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-09 00:38:33"
+			itemprop="datePublished"
+		>
+			2014-11-09 00:38:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	 <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Odd it doesn't work for you; it does for me in FL. But my first example isn't equivalent to 
+<code>
+  sub a by b;
+  sub b by c;
+</code>
+Those two lines just turn a string of 'a's into 'b's, not into 'c's (as you know) because without a separate lookup for the second rule the layout engine doesn't go back to the start of the glyph run. What puzzles me is that, in my second example, <code>lookup DoesntReRun;</code> doesn't send the layout engine back to the start in the same way as defining and running the lookup in place does. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-09 04:06:50"
+			itemprop="datePublished"
+		>
+			2014-11-09 04:06:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Horton</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It is my understanding that the  cursor never goes backwards (though contextual rules allow looking at left contexts). 
+
+If you have many substitution rules in a lookup, it is my understanding that the first that matches is applied. If you have many lookups they are applied in a row. So if the string is ab and the first lookup says to replace a by b and b by c, then you will endup with bc because the first rule matches a and will replace a by b and then the cursor moves forward one position and then the second rules applies for b. If you have a first lookup that replaces a by b and a second lookup that remplaces b by c, then a will be replaced by b by the first lookup and then b by c by the second lookup and then the cursor will move forward one position to the second character and then the second lookup will replace b by c to give cc as a result. If your first lookup replaces b by c and the second replaces a by b, then on ab the first lookup does nothing on a and the second replaces it by b and then the cursor moves to the second glyph that is replaced by c; the resulting string is bc. 
+
+I tried with FontForge with the following code: on ab, ss01 gives bc, ss02 gives cc and ss03 gives bc as expected.
+<PRE>
+feature ss01 {
+ lookup trysubboth {
+  lookupflag 0;
+    sub \a by \b ;
+    sub \b by \c ;
+ } trysubboth;
+  script DFLT;
+     language dflt ;
+      lookup trysubboth;
+  script latn;
+     language dflt ;
+      lookup trysubboth;
+} ss01;
+
+feature ss02 {
+ lookup subab2 {
+  lookupflag 0;
+    sub \a by \b ;
+ } subab2;
+ lookup subbc2 {
+  lookupflag 0;
+    sub \b by \c ;
+ } subbc2;
+  script DFLT;
+     language dflt ;
+      lookup subab2;
+      lookup subbc2;
+  script latn;
+     language dflt ;
+      lookup subab2;
+      lookup subbc2;
+} ss02;
+
+feature ss03 {
+ lookup subbc3 {
+  lookupflag 0;
+    sub \b by \c ;
+ } subbc3;
+ lookup subab3 {
+  lookupflag 0;
+    sub \a by \b ;
+ } subab3;
+  script DFLT;
+     language dflt ;
+      lookup subbc3;
+      lookup subab3;
+  script latn;
+     language dflt ;
+      lookup subbc3;
+      lookup subab3;
+} ss03;
+</PRE></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-09 04:13:42"
+			itemprop="datePublished"
+		>
+			2014-11-09 04:13:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	 <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks Michel. The [[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#7.a|Adobe Feature File spec]] says the cursor does go back with each lookup: "each lookup corresponds to one 'pass' over the glyph run". You can prove it by giving a string of 'a's to the following code, which returns not 'i's, as it would if the layout engine went through all lookups before moving on to the next glyph, but 'j's:
+<pre>sub a by b;
+lookup proof {
+  sub b' a by i;
+  sub b' b by j;
+} proof;
+</pre>That's why I expected <code>lookup DoesntReRun;</code> at the end of my second example to send the cursor back to the start, turning all the new 'b's produced by <code>sub a by b;</code> into 'c's. The following code does do what I'd expected, despite using only lookup calls rather than definition-and-execution in place: <pre>
+lookup sub_a {
+  sub a by b;
+} sub_a;
+lookup sub_b {
+  sub b by c;
+} sub_b;
+feature xxxx {
+  lookup sub_a;
+  lookup sub_b;
+} xxxx;</pre>
+
+But now I've noticed something else odd: the last piece of code does exactly the same thing if you swap the order of the lookup calls, but changes its behaviour if you swap the order of the lookup <em>definitions</em>. Specifically, given a string of 'a's, it returns 'b's instead of 'c's. This language is weird.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-09 15:38:26"
+			itemprop="datePublished"
+		>
+			2014-11-09 15:38:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Horton</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I had noticed that the order of the declaration affected the result. I could see it with the Fontforge grahical interface. That is why I declared twice the substitutions above. Weird.
+
+Your proof leaves me puzzled. In  Haralambous' <em>Fonts & Encodings</em>, section D 9.4.5 contains about 5 pages of explanations on how contextual substitutions work with accompanying xml code generated by ttx. I would first look there.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-09 11:41:18"
+			itemprop="datePublished"
+		>
+			2014-11-09 11:41:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The Terrible Secret of OpenType 2
+
+[7.b. Ordering of lookups and subtables]
+"Lookups will be created in the GSUB/GPOS table's LookupList in the same order as the corresponding named lookup blocks or runs of rules in the feature file"
+so if you have named lookups:
+<code>lookup sub_b
+lookup sub_a</code>
+in that order, then:
+<code>feature xxxx {
+  lookup sub_a;
+  lookup sub_b;
+} xxxx</code>
+is executed in order of named lookups.
+[img:sites/default/files/old-images/The Terrible Secret1_5528.jpg]
+[img:sites/default/files/old-images/The Terrible Secret2_6466.jpg]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-09 11:57:58"
+			itemprop="datePublished"
+		>
+			2014-11-09 11:57:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite> 2) Lookup definitions written outside a feature but called within one are copied in written order to the top of the feature's code.</cite>
+<cite>2) All lookup calls themselves are then deleted.</cite>
+
+This is incorrect. To understand what's going on you need to understand that the GSUB table within a font is a set of ordered lookups, and that feature tags simply indicate a set of lookups which are to be applied when that feature is active. To illustrate this, consider the following:
+
+feature xxxx {
+    sub a by b;
+    sub x by y;
+    lookup lookupA {
+        sub c by d;
+    } 1ookupA;
+} xxxx;
+
+feature yyyy {
+    sub a by c;
+    lookupA;
+} yyyy;
+
+The above code will create a GSUB table containing three lookups as follows, which appear in the order in which they are defined (implicitly or explicitly) in your code:
+lookup1 {
+    sub a by b;
+    sub x by y;
+} lookup1;
+lookupA {
+    sub c by d;
+} lookupA;
+lookup2 {
+    sub a by c;
+} lookup2;
+
+Feature tag xxxx will specify that lookup1 and lookupA are to be applied.
+Feature tag yyyy will specify that lookup2 and lookupA are to be called.
+
+The fact that the call to lookupA appears <em> after </em> the line <code> sub a by c; </code> does not override the fact that lookupA has been defined <em> before </em> lookup2 in the feature file.
+
+So, if you apply feature yyyy to the string 'abc' the output will be 'cbd' rather than 'dbd' since it is the order of the lookup definitions, not the order of the lookup calls which is relevant.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-11 06:24:53"
+			itemprop="datePublished"
+		>
+			2014-11-11 06:24:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I should also add that this is one reason I strongly object to attempts to treat opentype coding as a type of programming language, since it leads one to think of lookup calls as analogous to procedure calls which they really aren't (this issue came up recently in a different thread).
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-11 06:29:53"
+			itemprop="datePublished"
+		>
+			2014-11-11 06:29:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks André. You're right that the model I gave isn't the way things actually work, though I think it's behaviourally identical to the way things actually work. And it includes the fact that the position of lookup calls in the code of a feature still has semantic relevance, in that rules written above and below will be put into different lookups. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-11 17:44:55"
+			itemprop="datePublished"
+		>
+			2014-11-11 17:44:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Horton</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Type design is not in Kansas anymore ;-)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-11 18:45:18"
+			itemprop="datePublished"
+		>
+			2014-11-11 18:45:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">:-)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-11 20:06:58"
+			itemprop="datePublished"
+		>
+			2014-11-11 20:06:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Horton</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks both of you. My provisional understanding, after some more experimentation, is that it works as if 
+1) Sequences of rules outside explicit lookups within the same script and language, with the same lookupflag, and of the same lookup type (e.g. non-contextual one-to-one or reverse contextual) are converted to anonymous lookups. For this purpose, lookup calls are treated as boundaries between rule sequences.
+2) Lookup definitions written outside a feature but called within one are copied in written order to the top of the feature's code.
+2) All lookup calls themselves are then deleted. 
+Which is impressively user-hostile, but no more so than the fact that rules written after <pre>script latn;
+language dflt;</pre> are actually excluded from all latin-script languages not explicitly mentioned (hope I've got that right).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-11 20:07:50"
+			itemprop="datePublished"
+		>
+			2014-11-11 20:07:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Horton</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The <a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#7.a">opentype engine's layout algorithm</a> is indeed rather clear. Another "proof" that there is more than one pass is that with
+<PRE>
+feature calt {
+  script latn;
+     language dflt ;
+       sub  \a \a'   by \b;
+} calt;
+
+feature dlig {
+  script latn;
+     language dflt ;
+      sub \a \b by \c ;
+} dlig;
+</PRE>
+ 'aaaaaa' is replaced by 'ccc'  if calt and dlig are activated. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-12 04:02:24"
+			itemprop="datePublished"
+		>
+			2014-11-12 04:02:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

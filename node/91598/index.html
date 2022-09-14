@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Need help with language-specific substitutions | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Need help with language-specific substitutions" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/91598/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-03-30T12:18:28+00:00" />
+<meta property="article:modified_time" content="2012-03-30T12:18:28+00:00" />
+
+<meta itemprop="name" content="Need help with language-specific substitutions">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-03-30T12:18:28+00:00" />
+<meta itemprop="dateModified" content="2012-03-30T12:18:28+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Need help with language-specific substitutions"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Need help with language-specific substitutions</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-03-30T12:18:28Z">March 30, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Eimantas Paškonis</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">The font has class-based OT small caps and swashes.
+But Turkish /I letters are messing it up.
+I need an example on how to make language specific exceptions in the feature. FL manual doesn't provide one.
+<code>
+sub I to Dotlessi_smcp;
+sub I to Dotlessi_swsh;
+</code>
+etc.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I don't know if this answers your particular question, but this is how I handle fi ligatures for Turkish:
+
+<code>feature liga {
+# Latin
+    sub f i by fi;
+    sub f l by fl;
+  lookup NOFI { 
+    sub f l by fl;
+  } NOFI;
+  language TUR exclude_dflt;
+  lookup NOFI;
+} liga;
+</code></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-31 22:46:41"
+			itemprop="datePublished"
+		>
+			2012-03-31 22:46:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>oldnick</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You need to make up another glyph -- a small cap I with a dot. BTW, in naming it, you shouldn't use the underline. That is by convention reserved for ligatures. Use a period. For example:
+
+Idotted.sc, or even I.dotted.sc,
+
+Then, with c2sc, for the dotted capital I, substitute your new glyph. For the standard Capital I, substitute I.sc That works whether you have Turkish or not.
+
+Lower case (generally the smcp feature) is trickier -- the normal Latin dotted i has to be substituted with the new glyph,  Idotted.sc. The dottless i gets the regular I.sc
+
+Problem is, when & how to do it? Most anything will be a hack. I'd be tempted to use a stylistic set before the smcp feature, to be switched on when setting Turkish. Then the smcp feature gets the normal substitution, Latin lowercase "i" to "I.sc". As the stylistic set occurs before smcp, and is "on," it just won't be found in smcp, so won't cause a problem.
+
+Whether to make up a language-specific substitution depends -- most users won't put in language tags. And it could muck up your smcp feature for setting any other language. Remember that even though you write the code, the application program has to support it...
+
+ 
+BTW Nick, your treatment of ligatures makes no sense unless you also have the other characters needed for Turkish -- The dotted capital I (& small cap, if you want; the G,g breve; etc.If you don't have these, why worry about the ligaturing?
+
+& if there is room between x-heigth and ascender height, you can use ligatures. I made up a dotted "i" for a f_i ligature in Bembo once -- it worked just fine. The standard lig was used in Turkish with an undotted i.
+
+FWIW</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-01 03:55:56"
+			itemprop="datePublished"
+		>
+			2012-04-01 03:55:56
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>I'd be tempted to use a stylistic set before the smcp feature, to be switched on when setting Turkish.</cite>
+
+<cite>...most users won't put in language tags.
+</cite>
+
+So there is no clean solution then? I thought that programs detect language by chosen system input or selected spellcheck language.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-01 10:31:39"
+			itemprop="datePublished"
+		>
+			2012-04-01 10:31:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Eimantas Paškonis</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm no expert on this. Here's the reason I'm no expert: for over 30 yeas, our company has set books published by university presses. Even with OpenType, I have *never* seen language tags in a file. Moreover, there is often more than one language used, or more than one dialect of a language, or the text might be in English, with an occasional word or phrase in other languages.
+
+If you're an author creating a a final product -- web or print -- I guess language tags would work. If the document is going through an editor or designer or typesetter, you'd have a lot of talking to do with each. Esp. the designer, who's apt to choose a typeface that doesn't support the languages involved. Happens every damn day.
+
+If you use a stylistic set (above the scmp feature), all you need is a readme in the distributed font files. Then, as Dr. House would say, only idiots & morons would get it wrong...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-01 14:13:15"
+			itemprop="datePublished"
+		>
+			2012-04-01 14:13:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I always take care to set the correct language to texts of more than a single word long -- well, or at least to entire <em>paragraphs</em>. (If there are lots of single long foreign words in a text I just check the ones that get hyphenated.)
+InDesign supports "applied language" for Opentype features; and it behaves correctly with capitalized Turkish text as well as the dreaded "fi" ligature (of course only when the font designer did it right!).
+
+I'm curious, though, why designers think a clashing "fi" is bad in general but okay for Turkish! In the one single font I made, I created a short-topped "f" character specifically to use in this case.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-01 15:04:41"
+			itemprop="datePublished"
+		>
+			2012-04-01 15:04:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">On the ligatures -- no one's ever satisfied.
+http://typophile.com/node/34200
+
+So, Minerva, following that assumption, you can create a separate lookup for small caps in the smcp feature that is turned on only when the Turkish language tag has been applied.
+
+Theunis -- congratulation, by the way, for taking the time & having the knowledge to tag all the words in a long file with the correct language. Time is part of it -- we may have a book with 1,000 or more Spanish words --  all untagged coming in, and usually single words or short phrases. I just create an exception dictionary for the job which blocks hyphenation on words like barrio. We always create an exception dictionary that contains every word over five letters. Sadly, InDesign allows hyphenation before a single vowel in English, and that's a not allowed in our world, which is based on the Chicago <cite>Manual of Style<cite>. There are other reasons for the custom dictionary, of course.
+
+And I have to admit, as an American,  I'm not always sure, say,  what's Swiss & what's German; what's Danish or Norwegian, etc., unless an author's directly given the language.  The latter is esp. shameful for me, as my father's first language was Norwegian...
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-01 17:28:12"
+			itemprop="datePublished"
+		>
+			2012-04-01 17:28:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Are are always sure what's French and what's English?
+Like how do you decide to tag "œuvre"?
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-01 18:31:01"
+			itemprop="datePublished"
+		>
+			2012-04-01 18:31:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I set scholarly material, and I get a lot of manuscripts in *.doc or *.docx format with various language attributes set.  Sometimes this is useful, often not, but enough are useful that I preserve attributes when pulling the files into InDesign.  Early on, these seemed to be files from East Asian versions of MS Word, with "Japanese" or some variant of "Chinese" applied to text that was mostly alphabetic.  The most noticeable effect, of course, is to turn off ID's hyphenation; more subtle, ID picks up (and can re-use) language attributes that were not part of the original installation -- so far as I know, that's the simplest way to get the CJK attributes into English-language ID.
+
+More recently, as authors pull stuff in from all over the web, files show up with all kinds of attributes.  And it seems that if they continue typing from the insertion point without changing the language back to that of their main text, the typed additions pick up the insertion's language attribute.  Neither authors nor editors notice, of course.  For me, the the most noticeable effect is again on hyphenation.
+
+The trouble is, ID's search routine only works for specific language attributes.  The simplest way to find out which are used in an InDesign story must be Rorohiko's [[http://www.rorohiko.com/wordpress/indesign-downloads/framereporter/|Frame Reporter]].  (I confess I haven't tried this yet -- I keep thinking I'll move to IDCS5.5 as soon as Adobe fixes the pagination/indexing bugs).  Jongware was kind enough to note (over at InDesign Secrets) that scripting this task say to run quickly on entire ID files was "[[http://indesignsecrets.com/forum/indesign-add-ons-scripts-scripting-and-plug-ins/script-to-change-the-language-of-all-text-on-document?value=3291&type=8&include=0&search=1&ret=all#7657|tricky]]."  But he'd earlier provided a simple script over on the Adobe Forums [[http://forums.adobe.com/message/3279054#3279054|that can do it]], albeit slowly --  I go warm up my coffee in the microwave.
+
+David</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-01 18:34:45"
+			itemprop="datePublished"
+		>
+			2012-04-01 18:34:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>David W. Goodrich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">In my line of work -- linguistics and philosophy --, most authors have the decency to help me with determining the correct language ;-)
+<blockquote>.. as the Danish philosopher Julius Bestårnavn said,
+"bare en lang sætning at illustrere dette er en lang og ærlig talt ret kedeligt citat.."</blockquote></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-01 19:05:39"
+			itemprop="datePublished"
+		>
+			2012-04-01 19:05:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Mea Culpa. I just mentioned this thread to my business partner, who has to deal with manuscripts. He reports a situation similar to what David reports. The reason I've never seen a language tag in a file is they're all stripped out with our conversion scripts & never make it to comp. 
+
+He also mentioned that InDesign itself sometimes seems to throw in a spurious tag now & then -- for example (but probably not this one), it sees an egrave & decides we're in Japanese...
+
+Back in the days of PageMaker, we used TeX and were spared all the bugs. But InDesign 4, 5, etc. feel like what PageMaker 6 must have been like. There are bugs we reported with InDesign  2 that are still there. And more discovered every day...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-01 21:23:17"
+			itemprop="datePublished"
+		>
+			2012-04-01 21:23:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for elaborate help, but I still need a real-life code example.
+Stylistic set method I can do, but features-within-features are still level too high for me.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-02 09:15:24"
+			itemprop="datePublished"
+		>
+			2012-04-02 09:15:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Eimantas Paškonis</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The only feature-within-feature you have to use is an override for Turkish -- that is, if this indeed is the only language-specific feature you want to add!
+
+See <a href="http://typophile.com/node/33330">http://typophile.com/node/33330</a> for a real-world discussion, and references therein, such as <a href="http://typophile.com/node/29469">http://typophile.com/node/29469</a>.
+
+Note that Chris (dezcom) initially used the now deprecated tag "TUR" -- as Adam remarks lower in that thread,
+<blockquote>TRK, *not* TUR!</blockquote>.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-02 09:34:56"
+			itemprop="datePublished"
+		>
+			2012-04-02 09:34:56
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Eimantas: ‘<em>[…] I still need a real-life code example.</em>’
+
+Maybe <a href="http://www.fonttools.org/downloads/Typophile/features_2.1_New.txt">this ﬁle</a> is of some use to you. As I wrote before on <em>Typophile</em>, in DTL Bezier-, Ikarus-, and DataMaster (batch) the generation of OT Layout features can be done using a features ﬁle that contains as much info as possible. Features that are not covered by the character set of a font are removed during compiling. The same subsetting can be done with existing OpenType fonts in DTL OTMaster, but currently not in batch.
+
+FEB</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-04-02 13:49:14"
+			itemprop="datePublished"
+		>
+			2012-04-02 13:49:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blokland</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

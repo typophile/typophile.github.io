@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MakeOTF question: Why do the fontinfo files exist? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="MakeOTF question: Why do the fontinfo files exist?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/77088/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-12-09T22:18:25+00:00" />
+<meta property="article:modified_time" content="2010-12-09T22:18:25+00:00" />
+
+<meta itemprop="name" content="MakeOTF question: Why do the fontinfo files exist?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-12-09T22:18:25+00:00" />
+<meta itemprop="dateModified" content="2010-12-09T22:18:25+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MakeOTF question: Why do the fontinfo files exist?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">MakeOTF question: Why do the fontinfo files exist?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-12-09T22:18:25Z">December 9, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">blank</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I’m not trying to complain or start debate with this thread. I just want to understand the logic behind using individual fontinfo files with MakeOTF instead of putting that information into FontMenuNameDB. I’m assuming that there’s a very good reason for doing it this way and I should probably know what it is before I start doing font production with MakeOTF instead of Fontlab.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The "fontinfo" file (for name-keyed fonts; CID-keyed fonts use the "cidfontinfo" file) serves as a way to specify MakeOTF options without specifying them on the command line. The following are some examples:
+
+IsBoldStyle                 false
+IsItalicStyle               false
+PreferOS/2TypoMetrics       true
+IsOS/2WidthWeigthSlopeOnly  true
+IsOS/2OBLIQUE               false
+UseOldNameID4               false
+
+It is true that many of the fields in this file seem redundant, because the same information is present in the font.pfa (Type 1) files. Part of this is due to the former way in which we built Type 1 fonts that involved individual "bez" files in a "bez" directory, each of which represented a glyph.
+
+The "FontMenuNameDB" file is used only for setting the font's menu name strings for the 'name' table.
+
+I will ask read to chime in with additional details… …or to correct anything that wrote above. :-)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-12-10 15:37:41"
+			itemprop="datePublished"
+		>
+			2010-12-10 15:37:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>lunde</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I agree that it would be a nicer design to have a single file contain the data that it is now spread between the FontMenuNameDB file and the fontinfo file. The reason that makeotf has both  is becuase of history, not because of optimal de novo design. For some years, our old production workflow for Type 1 fonts needed to stay functional, while we were also running a new production workflow for OpenType/CFF fonts from the same sources. The old system required the fontinfo file. Since the fontinfo file had to exist for the old workflow and duplicating source data is always dangerous, we used the fontinfo file as the source for the relevant data for the new workflow, and made a separate FontMenuNameDB file for the new production workflow.
+
+We have now dropped Type 1 production, and are free combine the two files into one. However, software development is expensive, and you need strong motivation to spend a few days to change a design that is working without bugs to a more elegant design that, because it is new, probably will have bugs. 
+
+Ken's one error was in commenting that the fontinfo file contains info that is also in the Postscript font. This is true for some of the Adobe fontinfo files which have survived since the Type1 production days, when the fontinfo file was a source for the Type 1 font file data, but makeotf doesn't use that info. The only fields in the fontinfo that makeotf uses are not present in the Type1 source font file.
+
+- Read</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-12-10 17:32:45"
+			itemprop="datePublished"
+		>
+			2010-12-10 17:32:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Read Roberts</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">In addition to what Ken and Read added, we are also now starting to put hinting information in the fontinfo files. This allows the autohinter to hint classes of glyphs using only the hinting zones that apply specifically to those classes.
+
+So for Arno Regular, here is the hinting that lists the zones for the lower case:
+
+<code>begin FDDict LOWERCASE
+	BaselineYCoord 0
+	BaselineOvershoot -18
+	LcHeight 395
+	LcOvershoot 15
+	AscenderHeight 672
+	AscenderOvershoot 6
+	DescenderHeight -250
+	DescenderOvershoot -18
+	DominantV [75 86]
+	DominantH [36 41]
+	FlexOK false
+end FDDict LOWERCASE</code>
+
+and here is a hinting dictionary of the lower case, which consists of regular expressions that will capture all the production names of the glyphs to be hinted by the zones listed above:
+
+
+<code>begin GlyphSet LOWERCASE
+	#Latin
+		^(dotless)?[a-z](grave|acute|circumflex|tilde|dieresis|ring|caron|slash|cedilla|horn|breve|macron|ogonek|croat|dotaccent|commaaccent|hungarumlaut|dot|bar)?(.dup|.alt|acute|grave|tilde|hook|dotbelow)?(.swash)?(\.)?(begin|end)?(alt)?[0-9]?$
+		^(dcroat|eth|eng|yogh|germandbls|longs|i.dot|napostrophe|kgreenlandic|schwa.latin)(\.)?(swash)?$
+		^[adfilno][efijlz][il]*(acute|caron)?(.swash)?$
+		^(c|f|i|l|s|t|longs)_(b|f|h|i|j|k|l|p|r|t|longs)[_bhijklt]*(.alt|.swash)?$
+	#Greek
+		^(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)(iotasub)?(.alt|.end|.greek|.math|tonos|dieresis|lenis|asper|acute|grave|breve|macron|tilde)?(tonos|acute|grave|tilde)?(_gamma|_lambda)?(.swash)?$
+		^(stigma|koppa|sampi|digamma|iotaadscript|kai)(.alt)?$
+	#Cyrillic
+		^(a|e|i|o|u|ie|igrave|imacron|umacron|obar|schwa)(.cyr|cyr|.short|short|.ukran|ukran)(\.)?(straight)?(stroke)?(.swash)?$
+		^(be|ve|ghe|de|ie|zhe|ze|ka|el|em|en|pe|er|es|te|ef|ha|tse|che|sha|shcha|hard|yeru|soft|yu|ya|iegrave|io|dje|gje|dze|yi|je|lje|nje|tshe|kje|dzhe|yat|fita|izhitsa|shha|palochka)(\.)?(stroke|descender|up)?(\.)?(alt|ital)?(.swash)?$
+	#Punctuation
+		^(exclam|question)down$
+	#OSF
+		^(zero|one|two|three|four|five|six|seven|eight|nine)(\.)?(tab)?oldstyle$
+end GlyphSet LOWERCASE</code>
+
+snippets of code like this are also included for uppercase, figures, small capitals, &c.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-12-10 19:42:03"
+			itemprop="datePublished"
+		>
+			2010-12-10 19:42:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paul d hunt</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, guys. The autohinting information is particularly interesting; I had no idea that I can break it down like that. Are the two values for DominantV and DominantH for straight stems and wider curved stems? And is this detailed in FDK documentation? I checked 5900.RFMFAH_Tutorial.pdf and the autohinter’s built-in documentation and did not see anything. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-12-11 20:40:52"
+			itemprop="datePublished"
+		>
+			2010-12-11 20:40:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This one from Ken’s example is interesting:
+
+<em>UseOldNameID4 false</em>
+
+It doesn’t seem to have any effect in the current public version of makeotf. I guess it has something to do with the changed recommendations regarding name ID 4 on Windows?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-12-13 18:05:23"
+			itemprop="datePublished"
+		>
+			2010-12-13 18:05:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@James
+The current public version of the FDK can't do what Paul mentioned. You'll find the documentation in the autohint tool -- autohint -h -- once a new FDK version is out.
+
+@Jens
+Yes, you're correct.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-12-13 19:25:22"
+			itemprop="datePublished"
+		>
+			2010-12-13 19:25:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Miguel Sousa</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">My memory for all this is pretty much what Read said, in terms of reasons "back in the day."
+
+There was one other factor, which is that because font menu names tend to be coordinated across an entire family, and we were also converting the entire Adobe Type Library and trying to have consistency in how we handled menu names both within and between families, we found it very convenient to have all the font menu names in one file.
+
+This was also true when dealing with a font family, even when there wasn't a whole library conversion involved.
+
+Cheers,
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-09 06:05:01"
+			itemprop="datePublished"
+		>
+			2011-01-09 06:05:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Strange errors | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Strange errors" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/78925/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-02-10T00:16:45+00:00" />
+<meta property="article:modified_time" content="2011-02-10T00:16:45+00:00" />
+
+<meta itemprop="name" content="Strange errors">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-02-10T00:16:45+00:00" />
+<meta itemprop="dateModified" content="2011-02-10T00:16:45+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Strange errors"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Strange errors</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-02-10T00:16:45Z">February 10, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">magister</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I've created a new font using FL5 (Windows). When I generate the font, I get this error message:
+
+[WARNING] <Cardo-Italic> Glyph class @Cardo-Italic redefined [C:/Users/David J. Perry/Documents/FontLab/Studio5/fontlab.fea 21]
+
+and likewise for fea22.  The font installs without complaint into Windows and works fine in Word 2007, OpenOffice Writer, and Abiword.  If I open the generated font (the .otf or.tff file, not the original .vfb) in FL, everything looks OK.  BUT: When I test it in XeTeX, every letter is off by one; in other words, "Now" appears as "Opx".
+
+1) what does that error message mean?  is it serious?  how would I go about fixing it?
+2) is there any connection between the error message and the problem in XeTeX?  A problem like this would seem to indicate something seriously wrong with the font, yet it works fine in other apps.
+3) it may not be an accident that the one app in which the font does not work (XeTeX) is the only one I have that support OT features (the font contains ligatures, historical forms, and oldstyle numerals).  The OT features work correctly in FL's preview.
+
+Any help will be greatly appreciated!
+
+David
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I've had this message -- but not the phenomena you report -- happen to me. In every case, I have my classes defined in both the *class* window and the *features*. If there is a disagreement, you get the message.
+
+Pick one or the other. Since I write the features file off and use a text editor on them to do further work, I pick *features* as primary, and have all my classes there. When I get the message you got, it means I haven't cleared the separate *classes.* (with FL5 on a PC, I believe it is: window > panels > classes, then "reset".) 
+
+Alternatively, if you want to keep the classes file (panel), I suppose you should not also have them in your features file.  
+
+Try this on a copy first, of course.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-10 01:36:13"
+			itemprop="datePublished"
+		>
+			2011-02-10 01:36:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Not even if there is a disagreement. 
+
+When compiling feature definitions, FontLab Studio automatically copies the class definitions from the Classes panel to the OpenType panel. But if there are already class definitions in the OpenType FEA syntax in the lower-right part of the OpenType panel, then each class is being defined twice. If you don't need the class definitions in the OpenType panel, just remove them from there. 
+
+Formally speaking, the title of this thread is misleading. The thread is called "Strange errors" and the poster writes "I get this error message", but then cites a message that clearly says "[WARNING]", not "[ERROR]". So it's not an error message, it's a warning message. 
+
+A "warning" is not an "error". In FontLab Studio, an error message in the Output panel is prefixed with "[ERROR]", while a warning message is prefixed with "[WARNING]". 
+
+In most applications, errors lead to a technical fail while warnings lead to a technically successful completion. Warnings are issued when the application can complete the process but its internal logic indicates there "may" be something wrong, so it raises a potential problem to the user, and it's up to the user to decide whether it's a "real" problem or one that the user can ignore. Errors are issues when the application cannot successfully complete a process at all. 
+
+Based on this, it is evident that when it comes to seriousness, a warning message is less serious, and an error message is more serious. 
+
+A.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-10 03:37:46"
+			itemprop="datePublished"
+		>
+			2011-02-10 03:37:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Regarding XeTeX, there are some bugs in its underlying ICU Layout library, but I don't think any that would produce this kind of behavior. Did you use fontspec to access the font? If so, try accessing it directly (using plain XeTeX, not XeLaTeX) as in: 
+
+<code>\font\samplefont = "[/Library/Fonts/Cardo.otf]" at 72pt
+\samplefont</code>
+
+and see if the problem also occurs. If it doesn't, it would indicate some fontspec caching problem. 
+
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-10 03:41:59"
+			itemprop="datePublished"
+		>
+			2011-02-10 03:41:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Charles and Adam,
+Somehow (I don't know how -- I'm sure I didn't type them twice) the classes for numbers and oldstyle numbers appeared in both the classes and the OT panel. Removing them from the latter eliminated the warning.  Thank you.
+
+Adam,
+Thank you for clarifying FL's message types.  I have, fortunately, never encountered ERROR in FL so I didn't know the difference . . . WARNING looks bad enough!  I'll try plain XeTeX, without fontspec, per your suggestion.
+
+David</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-10 04:09:32"
+			itemprop="datePublished"
+		>
+			2011-02-10 04:09:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>magister</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

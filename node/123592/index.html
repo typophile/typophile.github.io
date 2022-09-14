@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>FontForge Quick Export OTF Script ? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="FontForge Quick Export OTF Script ?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/123592/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2015-03-03T17:47:25+00:00" />
+<meta property="article:modified_time" content="2015-03-03T17:47:25+00:00" />
+
+<meta itemprop="name" content="FontForge Quick Export OTF Script ?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2015-03-03T17:47:25+00:00" />
+<meta itemprop="dateModified" content="2015-03-03T17:47:25+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="FontForge Quick Export OTF Script ?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">FontForge Quick Export OTF Script ?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2015-03-03T17:47:25Z">March 3, 2015</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">hm711</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi!
+
+I'm relatively new to FontForge after I got some experience with FontLab Studio and so far I like it (especially going open source).
+While testing a design I noticed that creating OTF fonts for testing in InDesign can be a tedious task. In FontLab I was used to a script that automatically <strong>created a copy</strong> of the file, <strong>removed overlaps</strong> and prompted the <strong>export dialog.</strong> So exporting OTF for testing was done in one click. 
+
+I bet there is something similar in the FontForge world, but I couldn't find anything...
+How do you "quick export" test OTFs in FontForge?
+
+Thanks!
+
+Martin</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I just export them. If your OS's font engine isn't hosed, it should deal with overlaps intelligently. YMMV of course.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-03 19:46:50"
+			itemprop="datePublished"
+		>
+			2015-03-03 19:46:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ChristTrekker</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I use so one script (saved as file in my /.FontForge/python/ directory) for tests. 
+Script : save copy of my font as temp.sfd, remove overlaps, corect direction etc., generate font (without hints), copy it (or overwrite) to my local fonts directory (<strong>on Linux</strong>) and remove temp files.
+ 
+<pre>
+# -*- coding: utf-8 -*-
+import shutil;
+import os;
+
+def genTestOTF(arg, ft):
+   localFontdir='/.local/share/fonts/';
+   fDir=os.path.expanduser("~")+localFontdir;
+   ftActive=fontforge.activeFont();
+   ftActive.save('temp.sfd');
+   ft=fontforge.open('temp.sfd');
+   aLayer=ft.layers[ft.activeLayer].name;
+   ft.encoding='UnicodeBMP';
+   ft.selection.all();
+   for g in ft.selection.byGlyphs:
+      g.removeOverlap();
+      g.correctDirection();
+      g.canonicalStart();
+      g.canonicalContours();
+   fontNazwa = ft.fontname;
+   plik=fontNazwa+'_test.otf';
+   ft.generate(plik, flags=('opentype','dummy-dsig','apple','no-hints','no-flex'),layer=aLayer)
+   shutil.copy(plik,fDir+plik);
+   ft.close();
+   os.remove(plik);
+   os.remove('temp.sfd');
+
+fontforge.registerMenuItem(genTestOTF,None,None,"Font",None,"Generator","Quick test-otf");
+</pre></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-03 21:03:58"
+			itemprop="datePublished"
+		>
+			2015-03-03 21:03:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gluk</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you gluk, this is exactly what I was looking for. I installed the script and commented out the parts obviously responsible for installing the font to the OS font library, but I run into an error:
+
+<code>
+File "/Applications/FontForge.app/Contents/Resources/opt/local/share/fontforge/python/test-otf.py" line 9, in genTestOTF
+ftActive.save("temp.sfd")
+EnvironmentError: Save As "test.sfd" failed
+</code>
+
+I'm under Mac OS 10.9.5 running FontForge version "04:18 AEST 7-Jan-2015".
+I installed the script under /Applications/FontForge.app/Contents/Resources/opt/local/share/fontforge/python/ .
+
+How could that be fixed? 
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-04 09:32:28"
+			itemprop="datePublished"
+		>
+			2015-03-04 09:32:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hm711</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">another system, different FontForge version, most probably another Python version... :-)
+Ok,  
+most simplest way to make it, and avoid saveAs:
+script bellow first save your work, then remove overlaps etc., generate .otf and revert your original font file (ff should ask you).
+<pre>
+# -*- coding: utf-8 -*-
+import os;
+
+def genTestOTF(arg, ft):
+   ft.save();
+   ft.encoding='UnicodeBMP';
+   ft.selection.all();
+   for g in ft.selection.byGlyphs:
+      g.removeOverlap();
+      g.correctDirection();
+      g.canonicalStart();
+      g.canonicalContours();
+   plik=ft.fontname+'_test.otf';
+   ft.generate(plik, flags=('opentype','dummy-dsig','apple','no-hints','no-flex'));
+   ft.selection.none();
+   ft.revert();
+
+fontforge.registerMenuItem(genTestOTF,None,None,"Font",None,"Generator","Quick test-otf");
+</pre>
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-04 11:55:34"
+			itemprop="datePublished"
+		>
+			2015-03-04 11:55:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gluk</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Great workaround, although I have to get used to do these actions on my working file.
+I'll look into that! 
+
+BTW, is there a library / collection / community about FontForge scripts that I missed?
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-05 10:15:02"
+			itemprop="datePublished"
+		>
+			2015-03-05 10:15:02
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hm711</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

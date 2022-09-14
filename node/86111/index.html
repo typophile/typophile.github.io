@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Ordering of ccmp feature | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Ordering of ccmp feature" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/86111/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-10-05T12:21:00+00:00" />
+<meta property="article:modified_time" content="2011-10-05T12:21:00+00:00" />
+
+<meta itemprop="name" content="Ordering of ccmp feature">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-10-05T12:21:00+00:00" />
+<meta itemprop="dateModified" content="2011-10-05T12:21:00+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ordering of ccmp feature"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Ordering of ccmp feature</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-10-05T12:21:00Z">October 5, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">agisaak</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I recall reading somewhere but can't for the life of me remember where that the 'ccmp' and 'aalt' features are treated specially by software and are always processed before other features.
+
+§7.b of the OpenType Feature File Specification seems to confirm this is true for 'aalt', but I can't for the life of me find any discussion of 'ccmp' receiving special treatment. Adobe's discussion in their feature list indicates that "[ccmp] should be processed as the first feature processed, and should be processed only when it is called" but it isn't clear from this whether this means applications are expected to process it first, or that font developers are expected to implement it as the first feature in their feature file. (Also, it's unclear to me what the second part of that description means -- I'd assume that this feature should always be processed, and I've never run across an application which allows you to explicitly select it).
+
+Can anyone clarify this issue for me or provide a link to a source which discusses ccmp in more detail?
+
+Thanks,
+
+André
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Just to clarify, the reason I'm asking this is that in the past I've always placed 'ccmp' first. However, in the new FLS beta, standalone lookups need to be declared in the bottom pane which means in effect that all standalone lookups end up being placed before any features placed in the left hand feature pane. I'm unsure, therefore, whether I need to declare 'ccmp' (and possible 'aalt') in the bottom pane as well rather than declaring it in the left hand pane along with all other features.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-05 12:29:19"
+			itemprop="datePublished"
+		>
+			2011-10-05 12:29:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Typical feature ordering, in layout engines that apply features in discreet blocks rather than relying only on the order of lookups in the font, is
+
+locl
+ccmp
+[language shaping features, e.g. for complex script processing]
+[typographic layout features]
+
+aalt is a bit of an oddity, since it isn't really used in layout but, rather, is used to build glyph palettes.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-05 13:53:05"
+			itemprop="datePublished"
+		>
+			2011-10-05 13:53:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The order of lookup statements is irrelevant, what matters is the order of feature statements (speaking of feature files syntax), but even for ccmp and locl the engine will always applies them first regardless of their actual order in the font.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-05 15:17:39"
+			itemprop="datePublished"
+		>
+			2011-10-05 15:17:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Khaled Hosny</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, John, for the clarification.
+
+Hosny, I'm quite sure the the order of lookups takes priority over the order of feature declarations, particularly when lookups are declared outside of feature blocks.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-10-05 15:58:53"
+			itemprop="datePublished"
+		>
+			2011-10-05 15:58:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

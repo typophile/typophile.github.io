@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>How To Determine The Main (Dominant) Script / Language Of A Font | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="How To Determine The Main (Dominant) Script / Language Of A Font" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/115105/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2014-03-19T17:36:36+00:00" />
+<meta property="article:modified_time" content="2014-03-19T17:36:36+00:00" />
+
+<meta itemprop="name" content="How To Determine The Main (Dominant) Script / Language Of A Font">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2014-03-19T17:36:36+00:00" />
+<meta itemprop="dateModified" content="2014-03-19T17:36:36+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How To Determine The Main (Dominant) Script / Language Of A Font"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">How To Determine The Main (Dominant) Script / Language Of A Font</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2014-03-19T17:36:36Z">March 19, 2014</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">keving</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi.
+
+We are looking at building a WYSIWYG version of the font menu that appears in our application and we would like to follow a similar style to Indesign (i.e.: draw some sample text using each font rather than drawing the font name using each font).
+
+At the moment the only technical hurdle we have is determining which sample text translation to use. To do this we need to determine the main / dominant language of that font. For example, Baghdad would be Arabic, Hiragino Sans GB would be Simplified Chinese and Hiragino Kaku would be Japanese.
+
+I assume Indesign is using some an algorithm to determine the language rather than a long list of known fonts / languages but the question is how does it do it?
+
+We already have an algorithm in our application that can determine all of the scripts used in a font by checking for glyphs in different Unicode ranges but this can't tell us what the main language is. I have also looked at the code page information for various fonts but even when the data is correct it normally lists multiple code pages so that doesn't help either.
+
+Does anybody have any ideas on this?
+
+
+Thanks.
+Kev.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I worked with the engineer who developed the algorithm used by InDesign (it is in the CoolType module), and helped determine priorities. Originally the algorithm was used just to subdivide the menu into distinct sections.
+
+Showing sample text in a language is tricky because fonts support writing systems rather than languages. So a typical font supports at least a couple of dozen languages. Which one will you pick, and why?
+
+I thought it was a dubious exercise at the time, and I still believe that. But basically you can use one of several approaches:
+
+1) Strict priority. Use a prioritized list of writing systems, and as soon as you hit a writing system that the font supports, use that. So you might decide that your order is Chinese, Korean, Arabic, Hebrew, Latin, Cyrillic, Greek. If a font supports Chinese and some other languages, you'll show sample text in Chinese.
+
+2) Have some specific rules about combinations, and then fall back to priority.
+
+3) Have priority, but then afterwards, for some results, modify based on other rules. For example, let's say you come back with "Latin" as the writing system you want to display, but your rule is that if (1) the writing system found by priority is Latin, Greek or Cyrillic, AND (2) the user's system language is in one of the Latin, Cyrillic or Greek sets, AND (2) the user's system language is supported by the font, THEN show a string in that specific language.
+
+You might also want the user to be able to set a language or enter a string for display.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-19 21:43:11"
+			itemprop="datePublished"
+		>
+			2014-03-19 21:43:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Agreeing with Thomas Phinney. InDesign's system is not flawless:  Symbol, Wingdings, and Zapf Dingbats appear in the 'default' section, and huge fonts such as Arial MS Unicode appear (from memory) in the Chinese section.
+
+In general, ID seems to look at the Unicode ranges a font says it contains. Experimenting with these may reveal its actual algorithm --  chances are it's as simple as "first come, first serve", for a reasonable coverage of glyphs for a certain script.
+
+It's pretty useless to try and match glyph coverage to languages. If a font contains accented characters but not the letter 'k', would you infer it's intended to be used for Italian only? (Which only uses 'k' in loan words.)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-19 23:45:07"
+			itemprop="datePublished"
+		>
+			2014-03-19 23:45:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello Thomas & Theunis.
+
+Thanks for your replies, they were extremely helpful.
+
+After thinking about this more myself I had came to a similar conclusion that the solution would involve some prioritised list of writing systems. I think the prioritisation might also have to be based on the language that the user has set their operating system to.
+
+Our application already attempts to determine the scripts available in a font via Unicode glyph ranges so this could be used to determine major writing systems such as: Japanese, Korean, Thai, Arabic, Hebrew, Greek, Roman and Devanagari. We also need to handle Chinese but trying to split Simplified and Traditional will need more investigation.
+
+Once we know the writing system I guess we need to determine what localised text to display. For the languages we support in our application we would have translations for the sample text. For Roman scripts we would choose the text based on the operating system language with a fallback to English. For other writing systems we could choose the sample text based on the font writing system we determined or the operating system language. I guess some experimentation (and possibly user configuration) would be required here. 
+
+I know none of this is perfect but in the situation where we need to implement a WYSIWYG font menu I think this should produce a much better menu compared to just trying to display the font name using the font.
+
+
+Regards,
+Kev.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-20 12:48:53"
+			itemprop="datePublished"
+		>
+			2014-03-20 12:48:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>keving</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

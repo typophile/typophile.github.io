@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>How many variants of a character can you put in a OTF/TTF (web)font? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="How many variants of a character can you put in a OTF/TTF (web)font?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/108116/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2014-01-09T16:01:35+00:00" />
+<meta property="article:modified_time" content="2014-01-09T16:01:35+00:00" />
+
+<meta itemprop="name" content="How many variants of a character can you put in a OTF/TTF (web)font?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2014-01-09T16:01:35+00:00" />
+<meta itemprop="dateModified" content="2014-01-09T16:01:35+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How many variants of a character can you put in a OTF/TTF (web)font?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">How many variants of a character can you put in a OTF/TTF (web)font?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2014-01-09T16:01:35Z">January 9, 2014</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Pixelambacht</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I'm trying to figure out a way to get multiple variants of a character <i>in one single font file</i>. Or, to put it another way: can I put multiple font families (or weights) in one OTF/TTF file?
+
+My goal is to reduce the number of requests a site has to make in order to retrieve all the used fonts. I'd only need about 40 to 50 glyphs: the alphabet, the digits and the basic punctuation marks. I'm also willing to just use uppercase, so lowercase could be used for a different family.
+
+This is specifically for web use.
+
+To illustrate, I would like to apply one font familty to this container, and have each line show up in a different typeface:
+
+HELLO, USER 123!
+HELLO, USER 123!
+HELLO, USER 123!
+HELLO, USER 123!
+
+I think it's not possible, but before I give up on this idea I wanted to check with you guys.
+
+I thought about and experimented with the following ideas:
+
+<ol>
+<li>Give each line one of the basic styles with CSS (normal, bold, italic, bolditalic) and instead of bold, italic or bolditalic glyphs, just use normal glyps of three other fonts. Can't be done because these have to be four separate font files.</li>
+<li>Modify the text so a different character inside the same font is used. Basically, the idea of uppercase and lowercase. This can easily be done in CSS and would work for A to Z, but not for numerals or puncutation. Also, it would be limited to two variants.</li>
+<li>Expand on that idea by somehow transforming everything to accented letters, so I'd have a, A, ä and Ä. I guess this only works for valid characters (a, but not m for instance). Also, this isn't triggerable from CSS, you can't say "text-transform: umlaut"</li>
+</ol>
+
+I've also brainstormed about a way to merge these files into one with other tricks. I.e. use the same binary container but somehow only use part of the data. Kinda like mulit-part MIME, but for binary. But I guess a stable, cross-browser way to do this is impossible.
+
+The best solution I have now is to simply use four different font files, but BASE64-ing them and sticking them inside one CSS file. This actually works very well and caches nicely, the only disadvantage is the BASE64 overhead.
+
+But if there's a solution on OTF/TTF-level, I'd be very interested!</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I’m not sure if this is helpful and what you want, but you could use sequences of visible characters + zero-width characters (U+200B, U+200C, U+200D, U+FEFF) and define substitution tables with different glyphs in each case.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-09 16:20:55"
+			itemprop="datePublished"
+		>
+			2014-01-09 16:20:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>LiliCharlie</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">On second thought: a rather better idea is to define language-dependent substitution tables, which should give you full control via CSS <em>lang</em> and/or <em>xml:lang</em>.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-09 16:33:48"
+			itemprop="datePublished"
+		>
+			2014-01-09 16:33:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>LiliCharlie</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">A true OpenType solution, so no guarantees it will work "on every website, with every browser, on every computer", would be using stylistic sets.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-09 18:43:27"
+			itemprop="datePublished"
+		>
+			2014-01-09 18:43:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">As for a CSS-based solution, embedding data in the @font-face is a valid option. As I recall, Typekit distributes their webfonts that way. I think the syntax is
+
+url(data:font/truetype;base64,AAEAAAAKAIAAAwAgT1MvMgM2BUoAABCsAAAAYGNtYXCf+IBSAAAArAAABNxnbHlm9HMFtwAAESwA... and so on, until the end==);
+
+or owt like that.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-09 19:44:15"
+			itemprop="datePublished"
+		>
+			2014-01-09 19:44:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Té Rowan</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@LiliCharlie: That's a very interesting idea, using <code>:lang</code>. I'll have to dig into browser support for this. Am I correct to think it works like this: <code>< element lang="fr">abc< / element></code> will ask the render engine to get the glyphs for a, b and c, and the rasterizer/OTF will request these from the font, passing along the information that these should be the French version of these characters? If so: pretty cool.
+
+@Theunis de Jong: Very recent browsers are starting to support things like ligatures, alternates and swashes, but for now these are too experimental to rely on. But that would be a perfect solution for me. So this means you could technically put a normal and a bold version in one OTF file, and use bold by saying those are the historical forms, for instance?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-09 19:55:50"
+			itemprop="datePublished"
+		>
+			2014-01-09 19:55:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pixelambacht</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">(Ab)using the Historical Forms for Bold is certainly an option, and there must be a few other "common" features that you might use this way. Most OTF features should allow combining with each other -- say, Oldstyle Numerals combined with Swash would use a total different glyph set than each on their own.
+
+But the Stylistic Sets I was alluding to are a feature all on their own; twenty of them, in fact. They are unimaginatively named <code>ss01</code> to <code>ss20</code> (a fairly new option is a designer can give useful names to each) and they are specially defined for all  "whatever you can think of" glyphs and glyph combinations.
+
+Suppose you made 20 weights of your font, then you could assign one to each set.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-09 20:20:06"
+			itemprop="datePublished"
+		>
+			2014-01-09 20:20:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">That'd be absolutely perfect for the web. You could use <code>ss01</code> et al for different families and still have one single font file. [[http://www.w3.org/TR/css-fonts-3/#font-variant-alternates-prop|More about how this would work in browsers.]] Unfortunately it's still in the recommendation stage.
+
+Very interesting stuff, thanks everyone!!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-09 21:31:22"
+			itemprop="datePublished"
+		>
+			2014-01-09 21:31:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pixelambacht</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I think the cleanest solution would be to merge the fonts into a TrueType Collection file. The format is described here: http://www.microsoft.com/typography/otspec/otff.htm (scroll halfway down)
+
+If I remember correctly there's a tool to build TTC files available in Apple's font tools: https://developer.apple.com/fonts/
+
+And FontForge can apparently generated TTCs but I haven't tried it.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-10 08:50:08"
+			itemprop="datePublished"
+		>
+			2014-01-10 08:50:08
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	 <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">That'd be even cleaner. I found this [[http://lists.w3.org/Archives/Public/public-webfonts-wg/2013Oct/0041.html|recent discussion on the W3C mailing list]] and it looks like it's not supported yet. Also, it looks like there's a little support for fragmented identifiers for SVG — images at least. That could allow us to merge font files into one SVG-file and pick the appropriate one in our <code>font-face</code> declaration by adding <code>#1</code> for the first font, <code>#2</code> for the second, etc.
+
+Unfortunately, the conclusion seems to be that there's no reliable cross-browser way of doing this, so BASE64'ing into one CSS file still seems to be the best option.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-10 12:29:22"
+			itemprop="datePublished"
+		>
+			2014-01-10 12:29:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pixelambacht</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ah, bummer. I didn’t know TTC isn’t supported by browsers.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-10 13:15:13"
+			itemprop="datePublished"
+		>
+			2014-01-10 13:15:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

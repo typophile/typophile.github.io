@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Fontforge can&#39;t get TTF names via Scripting | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Fontforge can&#39;t get TTF names via Scripting" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/81351/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-04-18T20:13:14+00:00" />
+<meta property="article:modified_time" content="2011-04-18T20:13:14+00:00" />
+
+<meta itemprop="name" content="Fontforge can&#39;t get TTF names via Scripting">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-04-18T20:13:14+00:00" />
+<meta itemprop="dateModified" content="2011-04-18T20:13:14+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Fontforge can&#39;t get TTF names via Scripting"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Fontforge can't get TTF names via Scripting</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-04-18T20:13:14Z">April 18, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">msandersen</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I'm trying to convert a collection of Windows Postscript files to OTF on OSX. For that, I decided to go with Fontforge because I can batch-process them with scripts in the terminal. I know little bash-scripting and no Python, but have been able to modify a script on the Fontforge site to do this: http://fontforge.sourceforge.net/scripting-tutorial.html  
+However, as it is, I need to modify a lot of the files by hand to get the Style to display as I like it, like "Bold Italic" instead of "BoldItalic" with no spaces. So, I've looked into the documentation and tried to use the GetTTFName() and SetTTFName() functions to do this. I can get it to set the Style (subfamily) just fine, but I get an empty string when trying to read the existing style. Opening the font in the GUI, it displays the Style under the TTF section, so it is there. What I am experimenting with:
+
+style = GetTTFName(0x409,2)
+    Fontfamily=GetTTFName(0x409,1)
+    Print(Fontfamily)
+    Print(style)
+    if (style!="") #use 'case' ?
+    	if (style=="BoldItalic")
+    		style="Bold Italic"
+    	elseif (style=="BoldCondensed")
+    		style="Bold Condensed"
+    	elseif (style=="BoldCondItalic")
+    		style="Bold Italic Condensed")
+    	elseif (style=="SemiBoldItalic")
+    		style="SemiBold Italic"
+    	elseif (style=="BlackItalic")
+    		style="Black Italic"
+    	elseif (style=="ExtraBoldItalic")
+    		style="ExtraBold Italic"
+    	elseif (style=="MediumItalic")
+    		style="Medium Italic"
+    	elseif (style=="LightItalic")
+    		style="Light Italic"
+    	elseif (style=="HeavyItalic")
+    		style="Heavy Italic"
+    	endif 
+    	SetTTFName(0x409,2,style)
+    endif
+    Generate($argv[i]:r + format)
+
+I'm aware there would be cleaner ways of doing it, like using Case, if Bash supports it, or converting it to Python, but for now I'm keeping it simple. Ideally, the script would look for a capital letter in the Style string and add a space before it where it isn't the first letter.
+In any case, the above doesn't work, as GetTTFName() always returns an empty string. The parameters for the Set and GetTTFName() function is referring to is
+http://partners.adobe.com/public/developer/opentype/index_name.html#lang3
+and 
+http://partners.adobe.com/public/developer/opentype/index_name.html#enc4
+
+Does anyone here know enough Bash scripting, in particularly with Fontforge, to see the problem?
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">ok, I established that Fontforge uses its own form of scripting language, described here: http://fontforge.sourceforge.net/scripting.html
+but that still doesn't explain why GetTTFName(0x409,2) returns an empty string, when it clearly has the TTF subfamily set when you open it up. Fontforge also does Python scripting. but I know virtually nothing of it, and it would be too difficult and timeconsuming to learn it just for this.
+I guess there is nothing for it but to open up each newly-generated font and fixing it by hand.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-19 16:32:07"
+			itemprop="datePublished"
+		>
+			2011-04-19 16:32:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>msandersen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Postscript fonts don't have a names table, even for TTF names FontForge seems to return empty strings for TTF names corresponding to PostScript names (i.e. what you see in the PS Names tab), instead you can use the builtin variables:
+
+Open($1)
+Print($fontname)
+Print($fullname)
+Print($familyname)
+
+Style is usually what is after the hyphen in $fontname, you can then used SetTTFname() to set the new values as you like.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-19 17:52:59"
+			itemprop="datePublished"
+		>
+			2011-04-19 17:52:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Khaled Hosny</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You can get the English (US) "TTF Names" as seen by FontForge with the following bash script that calls fontforge on a python script (here FontForge is used as a Python interpreter):
+
+<code>---
+#!/usr/bin/env&nbsp;fontforge&nbsp;-lang=py
+#&nbsp;http://www.typophile.com/node/81351
+#&nbsp;
+import&nbsp;fontforge,sys
+fnt=fontforge.open(sys.argv&#91;1&#93;)
+nametbl=&nbsp;fnt.sfnt_names
+for&nbsp;N&nbsp;in&nbsp;nametbl:
+&nbsp;&nbsp;if&nbsp;(N&#91;0&#93;&nbsp;==&nbsp;'English&nbsp;(US)'):
+&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;"%-20s&nbsp;%s"&nbsp;%&nbsp;(N&#91;1&#93;+":",&nbsp;N&#91;2&#93;)
+---</code>
+
+Michel</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-20 14:38:44"
+			itemprop="datePublished"
+		>
+			2011-04-20 14:38:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">MS, 
+
+if you're on Mac OS X, you could just as easily use makeotf from the Adobe FDK for OpenType package. It's a console application, and you can specify the "name" table entries in the feature definition file or the project file. 
+
+Regards,
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-20 17:25:33"
+			itemprop="datePublished"
+		>
+			2011-04-20 17:25:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

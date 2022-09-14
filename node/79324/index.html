@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Automatically updating the font directory with revised OTFs (OS X) | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Automatically updating the font directory with revised OTFs (OS X)" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/79324/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-02-22T02:27:30+00:00" />
+<meta property="article:modified_time" content="2011-02-22T02:27:30+00:00" />
+
+<meta itemprop="name" content="Automatically updating the font directory with revised OTFs (OS X)">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-02-22T02:27:30+00:00" />
+<meta itemprop="dateModified" content="2011-02-22T02:27:30+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Automatically updating the font directory with revised OTFs (OS X)"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Automatically updating the font directory with revised OTFs (OS X)</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-02-22T02:27:30Z">February 22, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">butterick</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">When working on a font, I like to increment my source files with a two-digit version number (foobar 02.vfb, foobar 03.vfb) so I can generate test OTFs with a version number.
+
+The annoyance is that after I generate, I always have to drag the new version into Font Book and delete the old versions manually (because Font Book resolves duplicates erratically, usually preferring older files).
+
+In the past, I've tried to set up a Folder Action to process new fonts, but it takes too long for Folder Action to notice that I made a new file.
+
+No more. Now I've discovered Hazel, which is a little $20 program (preference pane) that's basically a much more attentive version of Folder Actions. Which makes it actually useful.
+
+I generate my test OTF to the desktop. (Because it's the easiest destination to navigate to from the FL generate-font dialog.) My Hazel script watches for OTF files to drop onto the desktop. If it sees one that was created in the last minute (and it will grab them within a few seconds of their appearance), it deletes the older versions of that font from my ~/Library/Fonts, and moves the newest version there. If Font Book is running, it will automatically notice the change.
+
+What's cool about Hazel is that you can embed shell scripts in your sequence of folder actions. So in this case, to do the "delete older versions" magic, I made a little perl script that looks at my new font & deletes anything in my font folder with the same filename prefix.
+
+You would want to adjust this for your naming scheme. (And as usual, be careful of any script with an rm in it.)
+
+<code>
+#!/usr/bin/perl
+
+use warnings;
+use strict;
+use File::Basename;
+
+# extract the filename from the pathname Hazel passes in
+my $filename = basename($ARGV[0]);
+
+# this matches a filename of the form:
+# prefix version number (optional version suffix).otf
+# like foobar 02a.otf
+($filename =~ m/(.+?)(\d{2,3})(.*?)\.otf/);
+
+# get the family name if it matched
+my $familyname = $1;
+
+# if there's no $familyname, abort
+exit(0) unless $familyname;
+
+# remove the fonts that have the same family name prefix
+my $output = `rm ~/Library/Fonts/'$familyname'*`;
+
+# Hazel continues after this, moving the new font into the directory
+
+exit(0);
+</code>
+<!--break-->
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Don’t install your test fonts at all. Just do all your proofing in Indesign and generate test fonts directly into /Library/Application Support/Adobe/Fonts directory using Ben Kiel’s font generator script, overwriting the old font. Indesign automatically detects new or changed fonts and loads them on the fly. This will you save many hours of time that would otherwise be wasted incrementing font versions, restarting applications, clearing font caches, rebooting, dealing with Fontbook, etc.
+
+And increment your entire working directory instead of individual files. It’s faster and this way you also end up archiving the related files you create for Superpolator, UFO Stretch, notes you take, etc. If multiple users are working on a design they should increment each round of changes with a date/version number and their initials.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-22 03:37:18"
+			itemprop="datePublished"
+		>
+			2011-02-22 03:37:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">To each his own.
+
+If you do things my way, you may like this trick.
+
+If you don't, you won't.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-02-22 04:57:34"
+			itemprop="datePublished"
+		>
+			2011-02-22 04:57:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>butterick</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

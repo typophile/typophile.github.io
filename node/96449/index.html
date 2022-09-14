@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Kerning Classes Stopped Working in All Files | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Kerning Classes Stopped Working in All Files" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/96449/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-09-18T05:27:48+00:00" />
+<meta property="article:modified_time" content="2012-09-18T05:27:48+00:00" />
+
+<meta itemprop="name" content="Kerning Classes Stopped Working in All Files">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-09-18T05:27:48+00:00" />
+<meta itemprop="dateModified" content="2012-09-18T05:27:48+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Kerning Classes Stopped Working in All Files"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Kerning Classes Stopped Working in All Files</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-09-18T05:27:48Z">September 18, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Stickley</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I've upgraded Fontlab to 5.1.2 and my Mac to 10.8.1 and (now?) no kerning classes are working.
+
+Existing files have stopped working; existing sets work for only the main glyph, and new/fresh attempts fail as well.
+
+Typical sets look like this for my existing file left-side classes:
+_VW_L: V' W Wacute Wcircumflex Wdieresis Wgrave
+
+This had been working perfectly for the last few years of development.
+
+So I've tried this:
+
+• Make a new file with only A, V, and W
+• Drew new shapes in each (no copy, all new info and shapes)
+• Built a kerning class called _V with _V: V' W as the class
+• Went to Kerning Mode and typed AVAWA
+• Dragged the second A towards the V
+
+The A is closer to the V as I moved it, but the third A doesn't move closer to the W
+
+Expanding the kerning classes fixes the missing pairs, but with errors so I cannot output successfully (and I shouldn't have to flatten to get this work, right?).
+
+All existing classes do not work for previous files—so I'm a bit out of sorts.
+
+Did I forget something? Miss the obvious code marker? Argh!
+
+Thanks.
+ </div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Try inserting…
+
+<code>subtable;</em>
+
+…into the compiled kerning feature code, occasionally.
+
+If the number of kerns gets too long in this table, they don’t all work, and the A_V is where it breaks down.
+At least, that’s what I recall from a similar issue I’ve come across in the past.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-09-18 17:41:58"
+			itemprop="datePublished"
+		>
+			2012-09-18 17:41:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Nick Shinn</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, Nick. The problem isn't with any particular set or class, it's all classes, in all cases now. The _V class was just a test example where the class had a set of five, for a total of five pairs in the entire test font, and it still failed.
+
+Flattening out isn't what I'm after as I cannot check any class kerning for accuracy for diacritics or like-style glyphs—which is the point of class kerning. My final projects have been successful with 50,000+ pairs, no errors; now that effort is not working.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-09-18 19:18:15"
+			itemprop="datePublished"
+		>
+			2012-09-18 19:18:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Stickley</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Perhaps a stupid question, but in your metrics window do you have 'class kerning' rather than 'individual pair kerning' checked?
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-09-18 19:54:19"
+			itemprop="datePublished"
+		>
+			2012-09-18 19:54:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">agisaak = genius
+
+Whew! I'm so relieved I don't care that I look nuts. After years with this program, you'd think I'd know 'bout that switch.
+
+Many, many thanks. I'd hoped it was just something I did.
+
+
+Mcs
+
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-09-19 03:12:44"
+			itemprop="datePublished"
+		>
+			2012-09-19 03:12:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Stickley</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

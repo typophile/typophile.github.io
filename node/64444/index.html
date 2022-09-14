@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Can anybody help me with a RoboFab script? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Can anybody help me with a RoboFab script?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/64444/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-11-19T13:42:29+00:00" />
+<meta property="article:modified_time" content="2009-11-19T13:42:29+00:00" />
+
+<meta itemprop="name" content="Can anybody help me with a RoboFab script?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-11-19T13:42:29+00:00" />
+<meta itemprop="dateModified" content="2009-11-19T13:42:29+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Can anybody help me with a RoboFab script?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Can anybody help me with a RoboFab script?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-11-19T13:42:29Z">November 19, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">rui abreu</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I'm tying to make a small script with robafab far a multiple master Font.
+Basically my script will move a component inside a diacritic glyph.
+
+For intance moving the "acute" accent inside "oacute".
+This is the script:
+____________
+
+from robofab.world import CurrentFont
+f = CurrentFont()
+
+g = f["oacute"]
+g.components[1].move((-100,-100))
+____________
+
+The problem is:
+Since my font is a multiple master with two weight masters, when I run this script, it moves the accent in the both masters.
+
+Is there any way to move the accent only in one of the masters?
+
+
+Thanks in advanced.
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">As far as I know, RoboFab is not able to deal with individual instances in a multiple master file. You might be able to achieve your goal by using FontLab’s native Python implementation instead.
+
+Otherwise, why not use anchors for placing accents? If done correctly it will save you the hassle of dealing with individual accented glyphs.
+
+-Paul van der Laan
+www.type-invaders.com</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-11-19 16:24:05"
+			itemprop="datePublished"
+		>
+			2009-11-19 16:24:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>pvanderlaan</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yes I think it is not possible to deal with individual instances with Robofab.
+
+I've never used ancors, but I check it out and it seems great. Thanks for the sugestion, this was something I didn't know.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-11-19 16:47:22"
+			itemprop="datePublished"
+		>
+			2009-11-19 16:47:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>rui abreu</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello,
+
+Couple of years too late, but maybe can help someone.
+It is possible to move component inside MM font. I made those based on typical fontlab scripts. Karsten Lucke have some nice MM helpers.
+
+Here comes code, dont forget indetation in the "for loop" and if/else.
+
+PS. Does someone have a good method how to "append" a component inside MM fglyph?
+I've tried many methods, but so far no luck. 
+Anton
+#--------------------------------------------------
+
+#FLM: Move MM compnt 1
+# made by AK 2010
+# to move component in single master
+
+from FL import *
+from robofab.world import CurrentGlyph
+rfg = CurrentGlyph()
+
+g = fl.glyph
+m = fl.master
+
+# here specify amount and what to move
+xmov = -50
+# first identify FL component index! Name wont work.
+compnt = 14
+
+print "master:", m
+
+for n in g.components:
+   if n.index == compnt:
+       print "there is specific compnt to move"
+       n.deltas[m].x += xmov
+   else:
+       print "use compo tester to get to know:"
+	
+fl.UpdateGlyph()
+print "manipul in action"	
+
+'''	
+## 
+'''</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-20 15:22:43"
+			itemprop="datePublished"
+		>
+			2011-01-20 15:22:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Anton_TF</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

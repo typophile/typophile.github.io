@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Extra high initials only with salt. | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Extra high initials only with salt." />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/81155/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-04-13T13:20:08+00:00" />
+<meta property="article:modified_time" content="2011-04-13T13:20:08+00:00" />
+
+<meta itemprop="name" content="Extra high initials only with salt.">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-04-13T13:20:08+00:00" />
+<meta itemprop="dateModified" content="2011-04-13T13:20:08+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Extra high initials only with salt."/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Extra high initials only with salt.</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-04-13T13:20:08Z">April 13, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Scriptor Abbatiſſæ</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Does anyone know of a way to enable special initial capitals only when 'salt' is selected? This is for a font that uses the 'salt' feature to produce extra high ascenders as for the first line of text. I know that I can simply include the substitutions for the extra high initial capitals in the 'salt' block, and then use a downstream 'calt' block to supress them whenever any of them might follow another upper case glyph, but that would require an enormous 'calt' block which I really want to avoid. If the OpenType formatt permitted an 'init' block to be subsumed inside a 'salt' block, this would be very easy, but unfortunately that is not permitted.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">To suppress neighboring initial caps in the 'calt' feature, would the following sort of code work in your situation?
+<code>
+sub @initialcaps' @initialcaps by @capitials;
+sub @capitals @initialcaps' by @capitals;
+</code>
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-13 14:46:48"
+			itemprop="datePublished"
+		>
+			2011-04-13 14:46:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Would I then name the initial forms [A.init - Z.init] ? How would that work? </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-13 23:09:44"
+			itemprop="datePublished"
+		>
+			2011-04-13 23:09:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Scriptor Abbatiſſæ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Those names seem appropriate. The initial cap glyphs would just need to be grouped into a class, and the regular capitals in another class, in the same order. They can be defined like you showed using <a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#2.g.i">ranges</a>, presuming every capital has an initial form. If you have any additional initial forms such as accented capitals, they can be added individually inside the brackets after the range.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-14 08:12:45"
+			itemprop="datePublished"
+		>
+			2011-04-14 08:12:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks gargoyle, that works very well -- and special thanks for the 'ranges' link.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-15 22:56:36"
+			itemprop="datePublished"
+		>
+			2011-04-15 22:56:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Scriptor Abbatiſſæ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks gargoyle, that works very well -- and special thanks for the 'ranges' link.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-15 22:57:35"
+			itemprop="datePublished"
+		>
+			2011-04-15 22:57:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Scriptor Abbatiſſæ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Scriptor, 
+
+I don't quite follow what you mean by "salt" block or "calt" block. 
+
+OpenType Layout works in the way that you define some lookups, and assign it to some features. Then, the OpenType Layout engine either applies some features automatically, or only upon user's discretion, to the entire text run, or (for some specific features) only in a particular context determined by the engine. 
+
+For example, "init" is only applied to the first glyph in a word. "calt" is applied to the entire text run, and is typically on by default. "salt" is applied to the entire text run as well, but is off by default. 
+
+You can assign the same lookup to multiple features, and the OpenType spec doesn't restrict you from performing any types of lookups within any features. You can use contextual substitutions in "salt", or non-contextual substitutions in "calt". You can use contextual or non-contextual substitutions in "liga" or "smcp" or whatever. Sure, it's not a good idea to confuse the font user by making features do something that the user doesn't expect. So a "smcp" feature that would substitute lowercase glyphs with variants that have long ascenders would be confusing — but there is nothing in the world to stop you from doing that. 
+
+But you're most certainly are not restricted from using contextual lookups in the "salt" or "ss01" features — if that's what works well with your font. 
+
+Best,
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-17 14:31:42"
+			itemprop="datePublished"
+		>
+			2011-04-17 14:31:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Gargoyle, 
+
+The "ranges" functionality is useful, but not quite so useful. Sure, you can do [A-Z] and [A.init-Z.init], but in the real world, you'd naturally want to make "initial" versions of the glyphs for all uppercase glyphs (both basic English letters and the accented letters with diacritics). In that case, in order for the "ranges" to work, you need to make sure that the glyph order of the "normal" uppercase glyphs and the variants is identical in the font. Defining a normal class that just enumerates all the glyphs by their names is much safer, because you don't need to have the same glyph order in the font. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-17 14:34:38"
+			itemprop="datePublished"
+		>
+			2011-04-17 14:34:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">From <a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#2.g.i">the spec</a>:
+<blockquote>For non-CID fonts, the ordering is independent of the ordering of glyphs in the font. &lt;firstGlyph&gt; and &lt;lastGlyph&gt; must be the same length and can differ...</blockquote>
+I took this to mean that that the order of the glyphs was not an issue, that ranges were expanded by simple incrementation of either the alphabetic name or a numeric suffix. Does this differ in FontLab 5, or am I misinterpreting the spec?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-17 14:52:44"
+			itemprop="datePublished"
+		>
+			2011-04-17 14:52:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gargoyle</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Oh, yes, sorry, you're right. Anyhow, the syntax is rather useless if you (which is rather likely) want to include Aacute, Adieresis etc. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-17 15:40:36"
+			itemprop="datePublished"
+		>
+			2011-04-17 15:40:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The regular capitals in the font include all the accented variants for most European languages, but the initial capitals are really only for the first glyph on the first line of a page, and coded as part of salt feature, so they only include the unaccented [A - Z] forms. They are the same height as the extra high ascenders which are also only for first line use, so I do not want to increase the height any more, nor do I see any real need to observe accents in decorative forms that function in a way similar to drop caps. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-17 19:43:09"
+			itemprop="datePublished"
+		>
+			2011-04-17 19:43:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Scriptor Abbatiſſæ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">What if someone would like to start the first line of a page with a word which starts with an accented character? Or, maybe, with Å?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-17 19:57:22"
+			itemprop="datePublished"
+		>
+			2011-04-17 19:57:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>riccard0</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Scriptor, 
+
+the accented letters in European languages are no different from the unaccented ones. A German phrase can start with the word "Änderungen" as much as it can with "Angriff". A Polish phrase can start with "Ławnicy" as often as it can with "Lamperia". 
+
+Only including a subset of letters as initial capitals makes as much sense as if you'd include initial capitals for A-K but not for L-Z. 
+
+Best,
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-18 01:13:13"
+			itemprop="datePublished"
+		>
+			2011-04-18 01:13:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Arguably so, but considering that 99% of my intended use would be for either Latin or English, and that the ordinary size capitals (which are provided in virtually all accented flavours) look almost as good with the extra high ascenders as the extra large initial capitals, an [A - Z] limit on the latter is not really any problem. 
+I am thinking, though, that the extra large initial capitals might better be coded as a separate feature from the extra high ascenders.
+[img:sites/default/files/old-images/somedayn_6184.gif]
+The above poem is done in cut and paste kalligraphy, but uses exactly the same extra high ascenders that the salt feature is intended to call up in the font.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-04-18 03:29:31"
+			itemprop="datePublished"
+		>
+			2011-04-18 03:29:31
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Scriptor Abbatiſſæ</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

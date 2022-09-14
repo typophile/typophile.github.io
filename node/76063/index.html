@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>script and language statements in OT features | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="script and language statements in OT features" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/76063/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-11-08T03:46:01+00:00" />
+<meta property="article:modified_time" content="2010-11-08T03:46:01+00:00" />
+
+<meta itemprop="name" content="script and language statements in OT features">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-11-08T03:46:01+00:00" />
+<meta itemprop="dateModified" content="2010-11-08T03:46:01+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="script and language statements in OT features"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">script and language statements in OT features</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-11-08T03:46:01Z">November 8, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Ken Krugh</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Trying to learn more about features, focusing on the kerning feature at the moment.
+
+In another post Jens Kutilek kindly offered the following feature as a suggestion to a problem I was trying to solve (http://typophile.com/node/72726):
+
+feature kern {
+script grek;
+language dflt;
+pos space <50 0 100 0>;
+} kern;
+
+What I'm wondering about is the script and language statements. I've read about them a bit on Adobe's site but, admittedly, will have to back and revisit to better understand. One thing I didn't see is how these statements get used or activated.
+
+Does the application call for them? If so the language statement makes some sense as most apps have a language setting. I don't, though, understand how the script command comes in to play. I've seen it in liga features without a language statement, but again, I don't understand how/when it is implemented.
+
+Also, does anyone know of a source that would be the equivalent to "Features for Dummies?"
+
+Thanks,
+Ken
+Dummy in Training</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">To answer this, it's probably best to consider some hypothetical feature:
+<code>
+feature test {
+  script latn;
+    language dflt;
+      sub X by Y;
+    language TRK include_dflt;
+      sub A by B;
+    language DEU exclude_dflt;
+      sub C by D;
+  script cyrl;
+    language dflt;
+      sub E by F;
+} test;
+</code>
+
+When you compile the above, the font will actually include four different versions of the 'test' feature, and it will be up to the application to determine which of those versions to use when the user activates the 'test' feature (assuming this is a feature which the application allows the user to (de)activate).
+
+The four versions of the feature are as follows:
+
+1. a version which will substitute A by B and X by Y which is intended to be used for Turkish
+2. a version which will substitute C by D which is intended to be used for German.
+3. a version which will substitute X by Y and which is intended to be used by other languages which employ the Latin script.
+4. a version which will substitute E by F and which is intended to be used by languages which use the Cyrillic script.
+
+You'll want to make sure to include appropriate <code> languagesystem </code> declarations at the beginning of your feature file if you want to make use of language tags. These are also described in the OT syntax spec.
+
+André
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 17:04:07"
+			itemprop="datePublished"
+		>
+			2010-11-08 17:04:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I think I understand the intent of the code, the part I think I'm missing is when each peice of code gets used.
+
+Where is the decision made as to which code gets used? Is it the norm that each peice only gets used when that language is selected in the application?
+
+Thanks again</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 19:21:10"
+			itemprop="datePublished"
+		>
+			2010-11-08 19:21:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Ken Krugh</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">In the example which I give, it is the responsibility of the application to correctly decide which version of the 'test' feature to use. If the user selects a run of text which is marked as being Turkish and then activates the 'test' feature, the application should apply the first version of the feature. If they subsequently apply this feature to a run of text marked as being English, the third version should be applied.
+
+How (or for that matter whether) an application allows a user to specify the language of a particular block of text isn't addressed by OpenType standard.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 19:31:19"
+			itemprop="datePublished"
+		>
+			2010-11-08 19:31:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

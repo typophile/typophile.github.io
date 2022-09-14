@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Draw paths in FontLab’s glyph window canvas? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Draw paths in FontLab’s glyph window canvas?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/77573/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-12-29T10:46:25+00:00" />
+<meta property="article:modified_time" content="2010-12-29T10:46:25+00:00" />
+
+<meta itemprop="name" content="Draw paths in FontLab’s glyph window canvas?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-12-29T10:46:25+00:00" />
+<meta itemprop="dateModified" content="2010-12-29T10:46:25+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Draw paths in FontLab’s glyph window canvas?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Draw paths in FontLab’s glyph window canvas?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-12-29T10:46:25Z">December 29, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">yanone</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi everyone,
+
+I’m trying to put FontLab’s super weak implementation of drawing things onto the glyph window canvas to some use. Y’now, the one that disappears once you move a toolbar over it or switch to another window or app.
+
+More specifically, I want to draw a path using a couple of LineTo-commands, but there seems to be no ClosePath implemented, or at least it’s not documented anywhere. So how do I close such a path to get a solid shape?
+
+And once we’re at it: Can one set drawing colors other than using the seven constants? They return integer values between 0 (black) and 16M (white), so could one set anything in between?
+Edit: I tried: yes one can.
+
+Thank you,
+Yanone
+
+<code>
+canvas = fl.GetCanvas()
+canvas.MoveTo(here)
+canvas.LineTo(there)
+canvas.LineTo(over there)
+# now what??
+</code></div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello Yanone,
+
+You can build a temporary glyph and use this glyph with the canvas.OutlineGlyph() or canvas.FillGlyph() method to draw on the canvas.
+
+Does this help?
+
+Regards
+
+Eigi</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-12-29 11:39:28"
+			itemprop="datePublished"
+		>
+			2010-12-29 11:39:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eigi</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello Yanone,
+
+Regarding the colors:
+
+You can use the FontLab build-in function RGB() to calculate the color values.
+It is defined in Studio5/Macros/System/init.py and looks like this:
+
+<code>
+def RGB(r, g, b):
+&nbsp;&nbsp;&nbsp;&nbsp;return long(r) | (long(g) << 8) | (b << 16)
+</code></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-12-29 11:58:02"
+			itemprop="datePublished"
+		>
+			2010-12-29 11:58:02
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eigi</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><code>
+def RGB(r, g, b):
+    return long(r) | (long(g) << 8) | (b << 16)
+</code>
+Nice. I’ve been looking for this for a while on the net, but only found the reverse Integer to RGB conversion. Thank you.
+But the b requires another long(), right?
+
+<cite>You can build a temporary glyph and use this glyph with the canvas.OutlineGlyph() or canvas.FillGlyph() method to draw on the canvas.</cite>
+
+I just tested that successfully with existing glyphs. I guess that constructing a glyph with my wanted path would work. But I couldn’t get to apply a color as opposed to the previously used single lines. Neither pen_color nor brush_color changed the fill color away from black. If it’s not possible to change the color, I might want to stick with the lines.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-12-29 12:45:10"
+			itemprop="datePublished"
+		>
+			2010-12-29 12:45:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>yanone</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">hi Yanone,
+if i would start messing with canvas i would look into these 2 Tool scripts. 
+Probably you know both.
+Erik's "measure glyph" has supernice colors and neat curves.
+http://groups.google.com/group/robofab/browse_thread/thread/9f1e292498d5c929/c85f485b0f463f6e?lnk=gst&q=measureglyph#c85f485b0f463f6e
+
+Gustavo's Pixelbrush draws filled shapes.
+https://github.com/gferreira/PixelBrush
+
+Theres one modification of that one by F.Berlaen, with stiches instead of boxes. Unfortunately on FL canvas it draws still rectangles (once i tried to make triangles, as well didnt work out to change the preview).
+Please update us. Post your tipps if you have any success with canvas.
+
+cheers,
+Anton</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-12-31 11:07:34"
+			itemprop="datePublished"
+		>
+			2010-12-31 11:07:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Anton_TF</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hi, oh i found it!
+
+I wrote this script to draw simple straight segment on FL canvas. For segments, curves and such... need to add few more lines. Basically FL canvas has no line thickness and no propper fill. So my solution: lets plot the image with geometric shapes that Fontlab supports. Rect and Ellipse. It runs instantly, thus: why not?
+
+http://anton.korkork.com/tech_work/scripts/Draw_Thick_line.py
+
+Hope this helps.
+
+Anton
+*Comments to improve are welcome. For example if i click on cavas my image disapears, in some other scripts it doesnt disappear so fast. I think it has to do with the code structure.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-03 13:17:24"
+			itemprop="datePublished"
+		>
+			2011-01-03 13:17:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Anton_TF</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hi Anton,
+
+thanks for hinting to the two tools, both of which I didn't know yet, and yours.
+But neither helps. Yours and Gustavo's draw rectangles, Erik's draws curves. I need a way to draw an arbitrary path, a polygon (I don't have curves for now).
+So the way I see it the only way to draw that is to iterate through the whole canvas using a Point In Polygon function or RoboFab's PointInside and draw one-pixel big Rectangles.
+But I tried. It drew one shape in several minutes, so that's kind of beyond reason.
+Looks like I might have to stick with the unfilled lines.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-03 13:29:36"
+			itemprop="datePublished"
+		>
+			2011-01-03 13:29:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>yanone</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Come on, guys. I just cannot believe that you implemented moveTo, lineTo and curveTo, but forgot the closePath. I'm not even asking for smooth outlines, just for the closePath. #fail</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-03 13:38:48"
+			itemprop="datePublished"
+		>
+			2011-01-03 13:38:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>yanone</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Just in case somebody needs it, I found this on the web:
+http://www.ariel.com.au/a/python-point-int-poly.html
+
+I cannot post the code here, the indentation get's screwed.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-03 13:45:14"
+			itemprop="datePublished"
+		>
+			2011-01-03 13:45:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>yanone</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Using a function to calculate the bounding box of a polygon prior to iterting through the canvas, I was able to speed up the process to an extent where I can now sit in front of the screen and watch the pixels draw (e.g. Blinkenlights). It now takes only 427 seconds (more than 7 minutes) to draw my outlines. The result is a piece of computer art that seems to come straight out of a time machine. Almost performance art!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-03 14:14:33"
+			itemprop="datePublished"
+		>
+			2011-01-03 14:14:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>yanone</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hi Yanone,
+
+This is "von hinten durch die Brust ins Auge" but it may work.
+
+You can draw with a 'ReportLabPen' from FontTools (works also with robofab) to create a reportlab.graphics.shapes.Group. Then render this vector graphic with reportlab.graphics.renderPM.drawToPIL() to an image. Finaly paste this image with the FontLab Canvas.PutImage() method into your canvas.
+
+Eigi</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-01-06 16:40:59"
+			itemprop="datePublished"
+		>
+			2011-01-06 16:40:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eigi</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

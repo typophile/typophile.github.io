@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Vertical Metrics Confusion | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Vertical Metrics Confusion" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/53308/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-01-10T01:26:39+00:00" />
+<meta property="article:modified_time" content="2009-01-10T01:26:39+00:00" />
+
+<meta itemprop="name" content="Vertical Metrics Confusion">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-01-10T01:26:39+00:00" />
+<meta itemprop="dateModified" content="2009-01-10T01:26:39+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Vertical Metrics Confusion"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Vertical Metrics Confusion</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-01-10T01:26:39Z">January 10, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">bvfonts</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I decided I wanted to configure the vertical metrics (TypoAscender, TypoDescender, etc.) instead of having fontlab do it manually. I'm very confused and after reading this: http://typophile.com/node/13081 even more confused.
+[img:sites/default/files/old-images/verticalmetrics_6577.jpg]
+Here's a picture of the metrics. One question I have is: should the TypoAscender + TypoDescender + TypoLineGap equal the UPM size of 1000? I have many other questions but I'll start there.
+
+Should I give up and go back to having it calculate the values automatically?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">After reading the pdf that Karsten wrote I think I got it.
+[img:sites/default/files/old-images/verticalmetrics_improved_6040.jpg]
+Maybe? Thanks for the pdf Karsten.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-01-10 02:16:56"
+			itemprop="datePublished"
+		>
+			2009-01-10 02:16:56
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bvfonts</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yes, this is ok (A). Possibly adjust values a bit as described in footnote **.
+
+Another way (B) is what John Hudson describes in the Vertical Metrics How-to:*
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>"ideal" values:</em>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TypoAscender = Ascender = 750
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TypoDescender = Descender = -250
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TypoLineGap = LineGap = 200**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>maximum extensions found in the font/family:</em>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WinAscent = 850**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WinDescent = -350**
+This is the way these values are defined in latest Adobe and Microsoft fonts.
+In this case, it is recommended*** to also set the OS/2 table fsSelection bit 7 and increase the OS/2 table's version to 4. This will tell applications -- those that understand this setting -- that they should use Typo... values rather than Win... values to calculate the default line-to-line distance. (Please note that as soon as OS/2 table’s version is 4, bits 7-9 need to be set or not set intentionally because whether these bits are 0 or 1 has a special meaning. More in the <a href="http://www.microsoft.com/typography/otspec/os2.htm" target="_blank">OS/2 table</a> and <a href="http://www.microsoft.com/typography/otspec/name.htm" target="_blank">name table</a> specs.)
+
+So both ways are possible, but for simplicity's sake I intend to either withdraw the PDF or change it so it reflects John Hudson's recommendation and Adobe's/Microsoft's practice, i.e. (B) -- much easier to describe and understand.
+
+* Especially see the "Update to the Update to the Update".
+
+** If you set WinAscent/WinDescent and Ascender/Descender e.g. to 800/-400 or 850/-350 (maybe future additional diacritic letters will get taller?), and TypoLineGap to 200, you get an "ideal" default line-to-line distance of 120%, comparable to setting 10/12pt.
+
+*** There are fonts that don't, and since your values match the equation
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TypoAscender - TypoDescender + TypoLineGap
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= WinAscent - WinDescent
+there's nothing to worry anyway.
+
+Karsten</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-01-11 11:05:51"
+			itemprop="datePublished"
+		>
+			2009-01-11 11:05:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm confused again. Maybe I should go back to selecting: Calculate values automatically. Does anyone know exactly how those values are calculated automatically? Can I trust the values that are calculated automatically?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-01-11 18:15:03"
+			itemprop="datePublished"
+		>
+			2009-01-11 18:15:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bvfonts</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Using ttx to see how fontlab calculates the vertical metrics. This is how it looks (I typed in manually what the ttx xml file printed out):
+[img:sites/default/files/old-images/verticals_rec_6081.jpg]
+If I follow the next to the last paragraph on pg 303 of the FL manual. I'm guessing it would look like this:
+[img:sites/default/files/old-images/verticals_man_4423.jpg]
+and the last line says as an alternative I could choose to set the LineGap to match the TypoLineGap
+Does anyone have a list of applications and operating systems that each vertical metric set is used in so that I can do my own testing?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-01-11 19:35:19"
+			itemprop="datePublished"
+		>
+			2009-01-11 19:35:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bvfonts</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">No need to be confused. In essence what you did in your second post was ok!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-01-11 19:58:19"
+			itemprop="datePublished"
+		>
+			2009-01-11 19:58:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Tracking the words of the eminent Mr Luecke.
+
+ChrisL</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-01-11 20:03:58"
+			itemprop="datePublished"
+		>
+			2009-01-11 20:03:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">"This is the way these values are defined in latest Adobe and Microsoft fonts."
+But not all Adobe and Microsoft fonts are defined thus, and future Adobe and Microsoft fonts may not be, and this ideal/default is also the same as it was in Fontographer 1.0.
+
+As I think we established some time ago, though I'm sure someone will correct me if I forgot, the Windows values were designed to inform applications of how much vertical space they have to write, (and erase) when composing text of a particular font. Some apps then took that for the em and confusion bestrode the issue. 
+
+bvfonts, there are two options for the type designer, not as clearly put forth as they could be. 
+
+Both are based first on the principle that the EM is split by the baseline at a ratio of 3 above and 1 below. Altering this ratio is done for all sorts of reidealizational purposes. And second that line gap is better expressed as "ideal leading"
+
+Then one option says; Design your font on the 3/1 em but Put Guides at yyy and -yyy and make sure all glyphs Stay Inside the Lines without much if any padding. I think this is the "something to worry about" option. 
+
+And the second option says; Design your font on the 3/1 em, make reasonably sized accents and other kerns as the y dimension is filled up and down, and then push the button for Windows values. And I think <em>this,</em> is the "nothing to worry about" option, if it's not too late. ;)
+
+Cheers!
+
+
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-01-13 20:22:07"
+			itemprop="datePublished"
+		>
+			2009-01-13 20:22:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">When you say "push the button" do you mean the recalculate button in fontlab and use those values for winasc and windesc? Do you think the Typoasc and Typodesc values should equal asc and desc in the key dimensions?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-01-13 22:09:50"
+			itemprop="datePublished"
+		>
+			2009-01-13 22:09:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bvfonts</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">D.B.: Yes! Vertical metrics -- or the relation of upm, ascenders, descenders, ideal leading -- were a trivial issue if type designers would only tame themselves and think of it before even starting to draw. But this seems more a wish than reality. You read the UPM=1100 thread too.&nbsp;&nbsp;:)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-01-13 22:38:39"
+			itemprop="datePublished"
+		>
+			2009-01-13 22:38:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">"...do you mean the recalculate button in fontlab..."
+
+...yes sir!
+
+"You read the UPM=1100 thread too..."
+
+...couldn't help it, voodoo is trying to eclipse reason. ;)
+
+Cheers!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-01-14 16:21:38"
+			itemprop="datePublished"
+		>
+			2009-01-14 16:21:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for the help Karsten & David. : ) </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-01-15 16:56:41"
+			itemprop="datePublished"
+		>
+			2009-01-15 16:56:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bvfonts</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

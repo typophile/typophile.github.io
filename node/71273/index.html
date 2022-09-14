@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>languagesystem, language and script statements -- a few questions | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="languagesystem, language and script statements -- a few questions" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/71273/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-06-12T10:04:29+00:00" />
+<meta property="article:modified_time" content="2010-06-12T10:04:29+00:00" />
+
+<meta itemprop="name" content="languagesystem, language and script statements -- a few questions">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-06-12T10:04:29+00:00" />
+<meta itemprop="dateModified" content="2010-06-12T10:04:29+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="languagesystem, language and script statements -- a few questions"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">languagesystem, language and script statements -- a few questions</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-06-12T10:04:29Z">June 12, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Arno Enslin</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">1. Does Serbian has to be registered with the languagesystem statement "languagesystem cyrl SRB"? I found a font, in which it seems to be registered with "languagesystem latn SRB".
+
+2. If I want to exclude a script from a feature, it seems, that I cannot write "script cyrl exclude_dflt" for example. At least this is not defined in the OpenType Feature File Specification. Or is "script cyrl" equivalent to "script cyrl exclude_dflt"? (If yes, this would be a bit inconsistent, because "language DEU" is equivalent to "language DEU include_dflt".)</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">On #1, doesn't it depend whether it is Latin Serbian or Cyrillic Serbian?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-12 10:47:49"
+			itemprop="datePublished"
+		>
+			2010-06-12 10:47:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>DTY</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ archaica
+
+I think you are right. All combinations are allowed, as far as I interpret the specs correctly, even something like "languagesystem cyrl DEU" or "languagesystem grek BUL".</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-12 13:32:00"
+			itemprop="datePublished"
+		>
+			2010-06-12 13:32:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Arno, 
+
+the "exclude_dflt" and "include_dflt" refer to languages only, because each script has a <code>DefaultLangSys</code> "language", i.e. within each script there is a set of languages plus a "default" language. As a font developer, you specify whether the lookups associated with the default language for a given script should be also registered in the "named" language ("include_dflt"), or whether they should be left out ("exclude_dflt"). 
+
+There is a "DFLT" script tag, but its concept on the script level is different than the DefaultLangSys on the language level. Also, it's a fairly new addition to the OpenType spec and not all layout engines support it. 
+
+So to give you a short answer: yes, the shorthand "exclude_dflt" and "include_dflt" only works for languages. Scripts are always mutually exclusive. 
+
+The following is a way to define an OpenType Layout feature <code>swsh</code> to be registered in all globally (i.e. for the entire font) declared languagesystems: 
+
+<code>languagesystem DFLT dflt;
+languagesystem latn dflt;
+languagesystem latn ROM;
+languagesystem cyrl dflt;
+languagesystem cyrl SRB;</code>
+
+<code>
+feature swsh { 
+  lookup swsh01 { 
+  sub a by a.swsh;
+  } swsh01;
+} swsh;</code>
+
+The following is a <b>valid</b> way to write the same but using locally declared languagesystems (in AFDKO 2.5 syntax). 
+
+<code>feature swsh { 
+  script DFLT; 
+  language dflt;
+  lookup swsh01 { 
+  sub a by a.swsh; 
+  } swsh01; 
+  script latn; 
+  language dflt; 
+  lookup swsh01; 
+  language ROM include_dflt;
+  script cyrl; 
+  language dflt; 
+  lookup swsh01; 
+  language SRB include_dflt;
+} swsh; </code>
+
+The following is an <b>invalid</b> way to write the same but using locally declared languagesystems (in AFDKO 2.5 syntax). I.e. it will not work with the current AFDKO syntax, although I guess it would be useful if such syntax were implemented. 
+
+<code>feature swsh { 
+  script DFLT; 
+  language dflt;
+  lookup swsh01 { 
+  sub a by a.swsh; 
+  } swsh01; 
+  script latn include_DFLT; 
+  script cyrl include_DFLT; 
+} swsh; </code>
+
+This way, all lookups defined in the script <code>DFLT</code> would be also registered with the scripts <code>latn</code> and <code>cyrl</code>. However, the default implicit value for scripts should be <code>exclude_DFLT</code> in order not to break backwards-compatibility. 
+
+Adam</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-12 17:58:41"
+			itemprop="datePublished"
+		>
+			2010-06-12 17:58:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Adam
+
+Thanks!
+
+<code>
+feature swsh {
+script DFLT;
+language dflt;
+lookup swsh01 {
+sub a by a.swsh;
+} swsh01;
+script latn;
+language dflt;
+lookup swsh01;
+language ROM include_dflt;
+script cyrl;
+language dflt;
+lookup swsh01;
+language SRB include_dflt;
+} swsh;</code>
+
+You were probably so detailed because of comprehensibility. The statement "include_dflt" can be omitted, because the language statement is set to include by default, right? And in case of the script statement it is just the other way around with the difference, that it can be exclusive only. And the statement "language dflt;" can be probably also omitted.
+
+It is much easier to keep the overview in your code.
+
+But this would result in the same, wouldn’t it?:
+
+<code>
+feature swsh {
+script DFLT;
+language dflt;
+lookup swsh01 {
+sub a by a.swsh;
+} swsh01;
+script latn;
+# language dflt;
+lookup swsh01;
+language ROM; # include_dflt;
+script cyrl;
+# language dflt;
+lookup swsh01;
+language SRB; # include_dflt;
+} swsh;</code>
+
+And how about this?:
+
+<code>
+feature swsh {
+# script latn;
+# language dflt;
+lookup swsh01 {
+sub a by a.swsh;
+} swsh01;
+language ROM; # include_dflt;
+script cyrl;
+# language dflt;
+lookup swsh01;
+language SRB; # include_dflt;
+script DFLT;
+# (?) language dflt;
+lookup swsh01;
+} swsh;</code>
+
+I ask, because if you open a font in FontLab, it does not display the statement "script latn; language dflt;".</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-12 19:09:45"
+			itemprop="datePublished"
+		>
+			2010-06-12 19:09:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Arno, you're right. If <code>include_dflt</code>, <code>script latn</code> and <code>language dflt</code> are omitted, they are implied. 
+
+You're also right that <code>languagesystem cyrl DEU</code> is allowed. Any mixture of valid script and language tags are permitted, except that for the <code>DFLT</code> script tag, named language tags are not permitted (only the special <code>dflt</code> language tag is allowed, which inside of the font file represents the DefaultLangSys). 
+
+Note that <code>languagesystem grek BUL</code> is not allowed because <code>BUL</code> is not a valid language tag. The language tag for Bulgarian is <code>BGR</code>. Similarly, <code>TUR</code> is an invalid language tag but it keeps popping up. The valid language tag for Turkish is <code>TRK</code>. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-12 19:31:03"
+			itemprop="datePublished"
+		>
+			2010-06-12 19:31:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>Arno, you're right. If include_dflt, script latn  and language dflt are omitted, they are implied.</cite>
+
+Even here (Second example from my previous message with the difference, that the statement "script latn;" is likewise commented)?:
+
+feature swsh {
+script DFLT;
+language dflt;
+lookup swsh01 {
+sub a by a.swsh;
+} swsh01;
+# script latn;
+# language dflt;
+lookup swsh01;
+language ROM; # include_dflt;
+script cyrl;
+# language dflt;
+lookup swsh01;
+language SRB; # include_dflt;
+} swsh;
+
+While I can understand, that the statement "script latn" is implied, when it is on the top of the feature, I wonder, how it can be implied, if it is not on the top, because the position "top" is the only marker, isn’t it? I mean, how can the compiler know, where it begins, when it is not on the top? (That was the reason, why I had posted the third example in my previous message. In that example the statement "script latn" is on the top [and commented].)
+
+<cite>BUL is not allowed because BUL is not a valid language tag. The language tag for Bulgarian is BGR.</cite>
+
+Thanks. It’s not my font, which I try to fix. You just have found another bug in it!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-12 19:54:20"
+			itemprop="datePublished"
+		>
+			2010-06-12 19:54:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">No, this won't work. Try compiling it and you'll see that only the script tags DFLT and cyrl have been registered. (In fact, FontLab Studio doesn't even properly register DFLT and uses four zero bytes instead). 
+
+http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.b explains how it works in detail. 
+
+I should revise my earlier statement: all lookups declared within a feature definition <i>before</i> an explicit <code>script</code> and/or <code>language</code> keyword are registered for all languagesystems specified globally. However, if you don't specify <i>any</i> global languagesystem, AFDKO will assume <code>languagesystem latn dflt;</code>.
+
+Adam</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-12 22:04:13"
+			itemprop="datePublished"
+		>
+			2010-06-12 22:04:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>I should revise my earlier statement: all lookups declared within a feature definition before an explicit script and/or language  keyword are registered for all languagesystems specified globally.</cite>
+
+And because of that the script tag "script latn" should not be omitted, if the languagesystem "DFLT dflt" is defined in the beginning:
+
+If you have the language system statement "DFLT dflt" in the beginning of the feature file, and if you have a language tag (except from dflt, BGR for example) in a feature without a script tag above, the AFDKO tries to register the language as languagesystem "DFLT language (in my example "BGR")"; but because DFLT is defined for dflt only (in the feature file specification), makeotf crashes. So my recommendation is, not to omit the script tag "script latn", if there is a language tag without another script tag above it in a feature.
+
+<cite>This way, all lookups defined in the script DFLT would be also registered with the scripts latn and cyrl. However, the default implicit value for scripts should be exclude_DFLT  in order not to break backwards-compatibility.</cite>
+
+I would prefer consistence and would sacrifice the backwards compatibility. Alternatively it should be required to add the exclude or include statement, which means, that the AFDKO should report an error, if the statement is missing, except there is no dflt statement. But I would prefer the first alternative. As motto: Keep it simple, but be consistent with the rules in specifications.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-13 10:47:31"
+			itemprop="datePublished"
+		>
+			2010-06-13 10:47:31
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> I would prefer consistence and would sacrifice the backwards compatibility.
+
+You're kidding me, right? A font that has extensive OpenType Layout features defined in the AFDKO syntax should compile fine in, say, FontLab Studio 6.0 but would fail to compile in FontLab Studio 6.5? 
+
+I think it would be horrible. 
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-13 17:51:58"
+			itemprop="datePublished"
+		>
+			2010-06-13 17:51:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Adam
+
+<cite>You're kidding me, right?</cite>
+
+No, this was my earnest. I am not kidding anybody, who is helping me, especially not in an unfair way. And you are a good teacher! I appreciate your explanations. I only disagree with you in that point. And the problem could be easily solved by exporting the feature file and replacing all tags "script xxxx (grek for example)" by "script xxxx exclude_DFLT".
+
+This could be automated. Is the FontLab Studio version stored in the vfb files? If yes, the next versions of FontLab could post a message, if a user opens a font with OT features: "The feature file syntax has changed. Shall the features be automatically corrected? YES/NO." If the user says "NO", then FontLab only should add a comment to the the script tags. Something like that.
+
+--------------
+
+Except from that I (think I) have understood the real meaning of the statement "exclude_dflt" today: It does not necessarily mean, that a language is excluded from the rules defined in dflt. It only means, that the rules are not additionally registered for that language, if there are no rules between that language tag and the following script tag, language tag or the end of the feature.
+
+And I think, that QuarkXPress 8 for Windows (and maybe also for MAC) has a slight problem to understand the difference. It can happen, that QuarkXPress does not make use of the rules defined for the languagesystem "latn dflt", if there is an exception for a Latin language in a feature. Then QuarkXPress ignores the following features, if that language is active in QuarkXPress. It’s hard to describe, what I mean , but the behavior is different from Indesign and I think, that Indesign handles the features much more correctly.
+
+--------------
+
+Typotheque does not seem to check their fonts in QuarkXPress (8 for Windows), at least not for all languages, in which the features should work. They seem to try reducing the size of features with either the statement "exclude_dflt", if the languagesystem for that language is defined at the top of the feature file, or, if it is not defined at the top, they define the rules for languages directly in the features, but in an inconsequent way.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-13 19:18:15"
+			itemprop="datePublished"
+		>
+			2010-06-13 19:18:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Quoting myself: <cite>Except from that I (think I) have understood the real meaning of the statement "exclude_dflt" today</cite>
+
+No, it seems to be, that in the moment, in which a rule is defined for a language in one of the features, but not in the others, the applications don’t make use of the script-dflt-rules anymore. In none of the features. Damn!
+
+Nevertheless QuarkXpress behaves differently.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-13 19:48:03"
+			itemprop="datePublished"
+		>
+			2010-06-13 19:48:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Arno, 
+
+the "include_dflt" or "exclude_dflt" rules are just shorthands for the AFDKO compiler as to which lookups to associate with which languagesystems. 
+
+The AFDKO code: 
+<code>feature swsh {
+script latn;
+language dflt;
+lookup swsh01 {
+sub a by a.swsh;
+} swsh01;
+language ROM include_dflt; # (include_dflt can be omitted)
+lookup swsh02 { 
+sub b by b.swsh; 
+} swsh02; 
+} swsh;</code>
+
+will produce the the following OpenType languagesystems-to-lookups associations: 
+latn/dflt — lookups: swsh01
+latn/ROM — lookups: swsh01 & swsh02
+
+while the AFDKO code: 
+<code>feature swsh {
+script latn;
+language dflt;
+lookup swsh01 {
+sub a by a.swsh;
+} swsh01;
+language ROM exclude_dflt;
+lookup swsh02 { 
+sub b by b.swsh; 
+} swsh02; 
+} swsh;</code>
+
+will produce the the following OpenType languagesystems-to-lookups associations: 
+latn/dflt — lookups: swsh01
+latn/ROM — lookups: swsh02
+
+It does work in Adobe InDesign CS4 for example. 
+
+If you mark your text as "U.S. English" in the Character palette's language selector, only "a" will be replaced with "a.swsh". 
+
+If your code is like in my first example and you mark the text as "Romanian", both "a" and "b" will be replaced with the ".swsh" counterparts, but if your code is like in my second example, then only "b" will be replaced. 
+
+I just tested it, it works as advertised. As I said, in InDesign CS4 and CS5 (and I think also in CS3) — but only if the language you want to use is in the Character palette's dropdown list for languages, and if you explicitly assign that language to your text. 
+
+In Uniscribe-based applications, it all comes to whether an application that uses Uniscribe "signals" to the library that a non-default language is used for a text string. That may be the case for complex scripts currently (I don't really know), but I doubt this is done for Latin-based scripts in any applications. John Hudson might know. 
+
+Best,
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-13 20:12:33"
+			itemprop="datePublished"
+		>
+			2010-06-13 20:12:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">(Edited. This message was written before I have read your previous message, Adam.)
+
+One more time:
+
+<code>languagesystem DFLT dflt;
+languagesystem latn dflt;
+languagesystem latn ROM;</code>
+
+<code>feature swsh {
+lookup swsh01 {
+sub a by a.swsh;
+} swsh01;
+} swsh;</code>
+
+<code>feature ss01 {
+lookup swsh0101 {
+sub b by b.alt;
+} swsh0101;
+script latn;
+language ROM exclude_dflt;
+} ss01;</code>
+
+results in the same as
+
+<code>feature swsh {
+script DFLT;
+language dflt;
+lookup swsh01 {
+sub a by a.swsh;
+} swsh01;
+script latn;
+language dflt;
+lookup swsh01;
+language ROM;
+} swsh;</code>
+
+<code>feature ss01 {
+script DFLT;
+language dflt;
+lookup ss0101 {
+sub b by b.alt;
+} swsh01;
+script latn;
+language dflt;
+lookup ss0101;
+} ss01;</code>
+
+And in the moment, in which a rule for a certain language is defined in feature A but not in feature B, the statement "language dflt" does not apply to feature B anymore, if the language is selected in the application.
+
+In my example b would not be substituted by b.alt in Romanian. I am getting headaches. I must build a test font, with the help of which I can better comprehend that. It may be, that I am irritated by the problem, that I had with QuarkXPress.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-13 20:44:37"
+			itemprop="datePublished"
+		>
+			2010-06-13 20:44:37
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Adam
+
+I could make out a part of the problem. Tested in Indesign CS3 for Windows.
+
+With the following code, the small caps would not work, if German is selected:
+
+<code>languagesystem latn dflt;</code>
+
+<code>feature smcp {
+	sub @smcp1 by @smcp2;
+	language DEU exclude_dflt;
+} smcp;</code>
+
+<code>feature ss01 {
+	featureNames {
+		name "censor";
+		name 1 "censor";
+	} ;
+	sub f u k c by asterisk; # Lol, the board software is humorless.
+	language DEU include_dflt;
+} ss01;</code>
+
+But with this code, the small caps work:
+
+<code>languagesystem latn dflt;</code>
+
+<code>feature smcp {
+	sub @smcp1 by @smcp2;
+	language DEU exclude_dflt;
+} smcp;</code>
+
+<code>feature ss01 {
+	featureNames {
+		name "censor";
+		name 1 "censor";
+	} ;
+	sub f u k c by asterisk; # Lol, the board software is humorless.
+	# language DEU include_dflt;
+} ss01;</code>
+
+Do you agree, that this is very irritating? My conclusions are, that the exclude_dflt statement works only, if the languagesystem of the questionable languagesystem (latn DEU in my example), that shall be excluded, is defined. And the languagesystem can be defined by putting an include_dflt statement (implied by the language tag without exclude_dflt statement) for the questionable language (DEU in my example) in a random feature (except from the feature with the exclude_dflt statement). Furthermore the OT programmer should define the languagesystems of all languages, that are defined in a feature – independent from the presence of an exclude_dflt or include_dflt statement in one of the features – above the first feature, because otherwise he may loose the overview and the features may not work as expected.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-14 10:36:16"
+			itemprop="datePublished"
+		>
+			2010-06-14 10:36:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">There is something suspicious in your code :) 
+
+<code>feature smcp {
+sub @smcp1 by @smcp2;
+language DEU exclude_dflt;
+} smcp;</code>
+
+Here, small caps should work for latn/dflt but not for latn/DEU. In your second example, no lookups are registered in latn/DEU at all. Perhaps then AFDKO is just throwing the whole latn/DEU tree out? (If there is no single lookup associated with it). 
+
+Adam</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-14 14:01:15"
+			itemprop="datePublished"
+		>
+			2010-06-14 14:01:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, Arno and Adam!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-14 15:02:00"
+			itemprop="datePublished"
+		>
+			2010-06-14 15:02:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Adam
+
+I understand, what you mean, but my examples from the previous message illustrate a trap, in which the user of the AFDKO easily can fall. I really love these examples. I will print the feature file specification, when I have made a better Stylesheet for it and I will attach the examples from my previous message and the examples from your first message in this thread.
+
+-----
+
+Hey, there is another thing, that I have to check: What happens, if I remove the ss01-feature? In this case there are probably also no lookups registered in latn/DEU at all. And this would probably mean, that at least a dummy feature (with the include_dflt statement for the questionable language [DEU in my example]) or any rule below the exclude_dflt statement would be required, if you want to exclude rules from a language in the remaining feature (smcp), wouldn’t it?
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-14 15:15:52"
+			itemprop="datePublished"
+		>
+			2010-06-14 15:15:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Arno, 
+
+If there are no global languagesystems defined explicitly, then AFDKO assumes latn/dflt. 
+
+Then, within each feature definition, if there are no explicit language and script statements, AFDKO assumes that that feature is registered into all globally defined languagesystems. That is, if there is no explicit definition, latn/dflt is assumed, otherwise all the languagesystems that you defined outside of the feature definitions. 
+
+If you have explicit language and script statements within feature definitions, you must start the feature definition with a script statement, and then you need to basically work through all the scripts and languages that you registered globally, and decide what needs to be done for each (using the include_dflt and exclude_dflt statements). 
+
+If you have a feature where you want script- or language-specific behavior, I for one always recommend spelling out all the scripts and languages, and even always use the include_dflt keyword if necessary. That is — for the sake of readability and predictability — do not use the implicit behavior but instead, always spell out what you want done. Then you have full control and know what you're doing. 
+
+Implicit definitions are sometimes tricky because they may confuse you more than they will help. 
+
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-14 15:21:57"
+			itemprop="datePublished"
+		>
+			2010-06-14 15:21:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I would have to admit this does seem to be suspicious. One would think that if one specified the Serbian language with the Latin script, what one would get is the Croatian language.
+
+But when it comes to computer systems, in general, backwards compatibility is an absolute requirement. If a new version of something is not backwards compatible, it is not really an upgrade; one might as well buy a new product entirely if it will be necessary to convert existing work, instead of, by upgrading the same product, retaining the ability to continue to use all of one's old work without change. Customers demand upwards compatibility, and, by and large, they get it.
+
+When backwards compatibility leads to complexities and inconsistencies, however, there is always the option of supporting the old way of doing things completely, but also offering the option of using a new way which is consistent and has room for additional features, and which might even incorporate some new features that don't fit well in the old system.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-14 18:19:19"
+			itemprop="datePublished"
+		>
+			2010-06-14 18:19:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>quadibloc</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> One would think that if one specified the Serbian language with the 
+> Latin script, what one would get is the Croatian language.
+
+The fact that the OpenType font format specification allows arbitrary assignments of languages to script does not mean that all such combinations must make sense in real-world use today. Croatian has its own OpenType language tag, "HRV", which is more appropriate to use when one wants to make a typesetting rule for Croatian. 
+
+But there are languages which use several scripts today, or have used various scripts in the past. For example, Turkish uses the Latin script since 1928, but Turkish texts also exist in the Ottoman Turkish variant of Arabic script. For them, it certainly makes sense to use the arab/TRK languagesystem (Arabic script, Turkish language). 
+
+There are also transliteration conventions which are being used. For example, one could imagine setting up some OpenType features for latn/ARA, i.e. Latin script, Arabic language, if the developer has in mind the Latin-script transliteration of the Arabic language. 
+
+Also, the system is more future-proof. Imagine that perhaps in 20 years, Serbia will decide to switch from the Cyrillic to the Latin alphabet (I'm not saying that is should, or that it may happen, this is just a hypothetical example) — then using latn/SRB will certainly make sense. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-14 18:52:40"
+			itemprop="datePublished"
+		>
+			2010-06-14 18:52:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It is also worth remembering that the script + language system tag combination actually represents a particular typographic convention for that script, which may or may not directly relate to natural language usage. In theory, the tags could be used to differentiate e.g. French and German classicist typographic conventions for the Greek script. While it is attractive to software makers to link OTL language system tags to spellcheck and hyphenation dictionaries for natural languages, as Adobe do in InDesign, ideally a user should be able to tag text directly with the OTL language system tags. This should be possible in CSS3.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-15 03:34:48"
+			itemprop="datePublished"
+		>
+			2010-06-15 03:34:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>One would think that if one specified the Serbian language with the Latin script, what one would get is the Croatian language.</cite>
+
+Maybe 30 years ago one could have said that, but it's hardly acceptable now. Although the Serbian government officially uses Cyrillic script, Serbo-Croatian speakers who self-identify as Serbs, and use Serbian linguistic forms where these differ from Croatian, quite frequently use Latin script as well, and one really can't tell them that they're writing in Croatian when they do this.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-15 04:11:21"
+			itemprop="datePublished"
+		>
+			2010-06-15 04:11:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>DTY</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

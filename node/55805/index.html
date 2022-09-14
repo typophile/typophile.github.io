@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Stylistic Alternative Character / Ligature | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Stylistic Alternative Character / Ligature" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/55805/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-03-12T19:57:55+00:00" />
+<meta property="article:modified_time" content="2009-03-12T19:57:55+00:00" />
+
+<meta itemprop="name" content="Stylistic Alternative Character / Ligature">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-03-12T19:57:55+00:00" />
+<meta itemprop="dateModified" content="2009-03-12T19:57:55+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Stylistic Alternative Character / Ligature"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Stylistic Alternative Character / Ligature</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-03-12T19:57:55Z">March 12, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Michael Jarboe</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Say you have a stylistic alternative character C.alt, but you also have the ligature CT, is there a way to, if you have the stylistic alternate character activated, AND the ligature feature activated that you end up with the CT.alt character…???</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Sure:
+
+feature liga { # Standard Ligatures
+ # Latin
+    sub C T by C_T;
+} liga;
+
+. . .
+
+feature ss01 {
+sub C_T by C_T.alt;
+} ss01
+
+Be warned I didn't try it. (This works only if your stylistic set feature(s) are below your *liga* feature. But as you described things, that is how they should be placed.)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-12 22:00:54"
+			itemprop="datePublished"
+		>
+			2009-03-12 22:00:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Presuming you have created the /C_T.alt/ ligature glyph, there are two ways you can do this. Which method you use depends on how you order your lookups (or, in FontLab, how you order your features, since FontLab won't allow you to order lookups independently of features).
+
+If you order your stylistic alternate substitution first, then you need to do this:
+
+feature ss01 {
+sub C by C.alt;
+} ss01
+
+feature liga { # Standard Ligatures
+# Latin
+sub C T by C_T;
+sub C.alt T by C_T.alt;
+} liga;
+
+If you order your ligature substitutions first, then you need to do this:
+
+feature liga { # Standard Ligatures
+# Latin
+sub C T by C_T;
+} liga;
+
+feature ss01 {
+sub C by C.alt
+sub C_T by C_T.alt;
+} ss01</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-13 05:56:59"
+			itemprop="datePublished"
+		>
+			2009-03-13 05:56:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">delete, misread the original post.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-13 12:42:52"
+			itemprop="datePublished"
+		>
+			2009-03-13 12:42:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> FontLab won’t allow you to order lookups 
+> independently of features.
+
+John, 
+
+FontLab (the company) doesn't really mind your business and certainly has no business in allowing or disallowing you to do something :) 
+
+FontLab Studio (the product, which I assume you were referring to) doesn't actually allow you to order features at all, because the order of features in the font has no relevance. It allows you to reorder lookups, but this indeed is done by changing the order of feature entries with which the lookups are associated with. But it is important to remember that by reordering the feature definitions in FontLab Studio's OpenType panel, you're actually reordering lookups. 
+
+I think what John means is that by following the simplistic notion introduced by Adobe FDK for OpenType 1.x that each lookup is defined within a feature definition, the flexibility in which you can order your lookups is limited. Fortunately, by my feature request Adobe implemented the ability to define lookups outside of feature definitions in the Adobe FDK for OpenType 2.x syntax, which will be used in FontLab Studio 6 (no release date yet). 
+
+Regards,
+Adam</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-13 14:22:00"
+			itemprop="datePublished"
+		>
+			2009-03-13 14:22:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Aw, Adam, if we stop to consider how product names are changed to meet marketing criteria, we would live in a world of even greater confusion.
+
+I have already had enough of Adobe calling the "Creative Suite" programs "CS" (a qualifying naming convention which is not based on ANY effective qualification), that you won't see me add a "Studio" each time I talk of FontLab (which I like, of course).
+It's the company name change (Pyrus > FontLab) that's no business at all for us users, I think… :=)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-13 16:04:05"
+			itemprop="datePublished"
+		>
+			2009-03-13 16:04:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>piccic</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Piccic, 
+
+the problem is not marketing criteria, the problem is potential confusion. 
+
+FontLab produces and sells many applications: FontLab Studio, FontLab Fontographer, FontLab TypeTool, FontLab TransType, FontLab ScanFont etc. Some users say "FontLab" when they mean "FontLab TypeTool", others say "FontLab" when they mean "FontLab Studio". 
+
+It's basically like saying "I test this font in Adobe", when one actually means "Adobe Acrobat" or "Adobe Photoshop" or something else. 
+
+I'm simply concerned with clarity and avoiding ambiguity. Old-timers may understand very well when one uses "mental shortcuts" or "abbreviations", but since this is a public forum with the idea of serving not only 1-to-1 communication but also allowing others to learn from what is being discussed here. 
+
+And realizing that Typophile has users from all over the world, for many of whom English may be the third language (like in my case) or perhaps second at best, I prefer to stay on the safe side when communicating, i.e. avoid confusion and misunderstandings. 
+
+> you won’t see me add a “Studio” each time I talk of FontLab
+
+Sure thing, you can call it whatever you want, "the rusty old thing", "the Russian pest", "лаборатория шрифтов" or "it". Some people will get it, others won't. One can never guarantee that there will be no misunderstanding but one can minimize its probability :) 
+
+Cheers,
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-13 16:45:38"
+			itemprop="datePublished"
+		>
+			2009-03-13 16:45:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>FontLab produces and sells many applications...</em>
+
+Yes, but when I started using ‘FontLab’ it was a piece of software produced and sold by a company called Pyrus. Old habits die real hard.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-13 19:56:02"
+			itemprop="datePublished"
+		>
+			2009-03-13 19:56:02
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>I think what John means is that by following the simplistic notion introduced by Adobe FDK for OpenType 1.x that each lookup is defined within a feature definition, the flexibility in which you can order your lookups is limited.</em>
+
+Yes, this is what I mean. It is essentially a syntax and UI issue. But it is interesting how is confuses people as to how OT actually works. I recently had an email from someone with a lot of experience making OT fonts in FontLab, ahem, Studio, who was shifting to VOLT for a particular project that needed GPOS mark positioning. He was very confused by the VOLT UI, because he couldn't figure out how to re-order the features. :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-13 19:58:41"
+			itemprop="datePublished"
+		>
+			2009-03-13 19:58:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> Yes, but when I started using ‘FontLab’ it was a piece 
+> of software produced and sold by a company called Pyrus. 
+
+Oh, I know what you mean. I realize that every time I talk to somebody from Linotype-Hell or Agfa Monotype, or when I use FutureSplash Animator. ;) 
+
+> He was very confused by the VOLT UI, because he 
+> couldn’t figure out how to re-order the features. 
+
+I think originally, the simplistic view of AFDKO did make sense. It's just like the one glyph-one glyph name-one Unicode thinking. Once you introduce the notion that some or all glyphs may not have names at all, and that some glyphs may be associated with none or with many Unicode codepoints, or may represent a sequence of Unicode codepoints, people's minds starts to drift off :) 
+
+We're working on the ideas for a FLS6 UI for OpenType Layout. 
+
+A.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-13 21:23:38"
+			itemprop="datePublished"
+		>
+			2009-03-13 21:23:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Well Adam, it has been <em>their</em> choice to change the company name to the one of their main product, not mine.
+If they wished to avoid confusion they proceeded exactly in the wrong direction, but on my part I will make the extra effort to call it "FontLab Studio"… :=)
+
+Besides, I have a big admiration for Pyrus/FontLab, so no need of linguistic jokes to prove your point. Right now, I'd rather live in Russia than in the US and if there's a person you need to convince about how difficult it's to communicate in another language (English), it's surely not me.
+I just appreciate English's flexibility, but I'd rather speak polish with you…
+<cite> 
+Dorastają przez miłość, i potem tak nagle dorośli
+trzymając się za ręce wędrują w wielkim tłumie -
+(serca schwytane jak ptaki, profile wzrastają w półmrok).
+Wiem, że w ich sercach bije tętno całej ludzkości.
+
+Trzymając się za ręce usiedli cicho nad brzegiem.
+Pień drzewa i ziemia w księżycu: niedoszeptany tli trójkąt.
+Mgły nie dźwignęły się jeszcze. Serca dzieci wyrastają nad rzekę.
+Czy zawsze tak będzie - pytam - gdy wstaną stąd i pójdą?
+
+Albo też jeszcze inaczej: kielich światła nachylony wśród roślin
+odsłania w każdej z nich jakieś przedtem nie znane dno,
+Tego, co w was się zaczęło, czy potraficie nie popsuć,
+czy będziecie zawsze oddzielać dobro i zło? </cite>
+
+:)
+Claudio</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-14 15:58:31"
+			itemprop="datePublished"
+		>
+			2009-03-14 15:58:31
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>piccic</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I think it ended up being as simple as just adding 
+
+sub CT by CT.alt;
+sub ct by ct.alt;
+
+to the salt feature…
+
+so that if the ligatures are activated
+
+and then the alt feature is activated the OG CT character swaps
+
+right?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-20 00:32:01"
+			itemprop="datePublished"
+		>
+			2009-03-20 00:32:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michael Jarboe</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

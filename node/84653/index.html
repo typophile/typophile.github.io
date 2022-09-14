@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Controlling spacing with TT hints | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Controlling spacing with TT hints" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/84653/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-08-17T11:47:00+00:00" />
+<meta property="article:modified_time" content="2011-08-17T11:47:00+00:00" />
+
+<meta itemprop="name" content="Controlling spacing with TT hints">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-08-17T11:47:00+00:00" />
+<meta itemprop="dateModified" content="2011-08-17T11:47:00+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Controlling spacing with TT hints"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Controlling spacing with TT hints</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-08-17T11:47:00Z">August 17, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Frode Bo Helland</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hinting in the x-direction have a tendency to introduce a lot of problems (rounding errors?) with the spacing. Things turn out very uneven, and unfortunately also uneven between the Standard rendering and Cleartype. 
+
+From what Beat told me, the best method is to round the left sidebearing with a single link tied to the left edge of the first stem, and leave the right sidebearing free. This yields relatively good results in CT, but looks like horseshit in greyscaled or bitmapped rendering.
+
+I could always go nuts with delta’s, but they have the same effect on all rendering outputs, so <em>I’m left with no way to fix something in Standard and keep it as is in Cleartype.</em>
+
+Can anyone shed some light on this? 
+
+I’m hinting with Fontlab, yes. I realize VTT is the next logical step, but is FL really that bad?
+
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Standard example
+[img:sites/default/files/old-images/gs_4199.png]
+
+Cleartype example
+[img:sites/default/files/old-images/ct_5310.png]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-17 22:04:11"
+			itemprop="datePublished"
+		>
+			2011-08-17 22:04:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">In FontLab at least, I don't think there is a solution you could apply to the Standard rendering that wouldn't also have some affect on the ClearType. But it seems to me from your screenshots that the places where you have spacing problems in Standard rendering are also problematic in the ClearType.
+
+As you note, you can delta the right sidebearing, but if you put x hints on the stem distances too, which I thought you would be doing for Standard rendering, then you have the option of putting a rounded link from the right side of the letter to the sidebearing.
+
+So, for example, you could do something like this (greyscale rendering, font smoothing on at all sizes):
+
+[img:sites/default/files/old-images/nhint_5202.png]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-18 00:10:55"
+			itemprop="datePublished"
+		>
+			2011-08-18 00:10:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The thing with the loose right edges (thank you db!) is not only a rendering that is more similar to the <em>real</em> weight in other environments (CT, Quartz), but also a counteract against the thinning you tend to see in rounds and circular glyphs with greyscale rendering. 
+
+Anyway, from how I understand the rounded single/double link logic in Truetype. I would get roughly the same results if I linked it to the right edge of the right stem, no? I’ll see if I can post examples of this later when I’m on the other PC, but it does not become any better. Just worse, for CT. Btw, most of my glyphs look like your n, only without the rounding on the stems. My n however looks just the same without them, and file size is crucial for web fonts.
+
+If you for example look at the a’s and n’s at 14 ppm, you’ll see the unconsistent results.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-18 01:53:39"
+			itemprop="datePublished"
+		>
+			2011-08-18 01:53:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>If you for example look at the a’s and n’s at 14 ppm, you’ll see the unconsistent results.</em>
+
+Actually, I think the inconsistency is in the h's and n's; the a's look comparable. Either your CT h and n counters are too wide or your greyscale h and n counters are too narrow. So one way to fix this would be to delta the right stem to make these counters wider in the greyscale, presuming these deltas are ignored by the CT renderers.
+
+<em>I would get roughly the same results if I linked it to the right edge of the right stem, no?</em>
+
+You probably want to avoid hinting inwards from both sides, because this will tend to squish letters at sizes where the sidebearings round inwards. This is why I always hint from left to right across the glyph. So if you link from the right edge of the right stem to the right sidebearing, you want the stem to be the origin of that link.
+
+<em>...a counteract against the thinning you tend to see in rounds and circular glyphs with greyscale rendering.</em>
+
+Your smaller sizes are much greyer than what I was achieving at those sizes by adding stem hints.
+
+<em>a rendering that is more similar to the real weight in other environments</em>
+
+I don't usually consider 'real weight' to be a hinting goal. Hinting is a means to adjust outlines to make them size specific in crude resolutions. Stem weight is one of the factors of type design that is properly size specific, so I use hints to try to achieve the best weight in terms of legibility, stem density and contrast for each size. Subpixel rendering environments take this ability away to a considerable extent (in the x direction in CT and in both directions in Quartz at most sizes), but so long as you are trying to target XP greyscale too, I would consider x stem hints important.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-18 18:32:51"
+			itemprop="datePublished"
+		>
+			2011-08-18 18:32:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

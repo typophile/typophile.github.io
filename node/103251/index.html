@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Change UnderlineThickness in compiled font via fontTools | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Change UnderlineThickness in compiled font via fontTools" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/103251/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2013-05-23T14:07:14+00:00" />
+<meta property="article:modified_time" content="2013-05-23T14:07:14+00:00" />
+
+<meta itemprop="name" content="Change UnderlineThickness in compiled font via fontTools">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2013-05-23T14:07:14+00:00" />
+<meta itemprop="dateModified" content="2013-05-23T14:07:14+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Change UnderlineThickness in compiled font via fontTools"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Change UnderlineThickness in compiled font via fontTools</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2013-05-23T14:07:14Z">May 23, 2013</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">yanone</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi everyone,
+
+I'd like to change the underline thickness in a compiled OT font automatically, since the AFDKO seems to have no keywords for this.
+My tool of choice is fontTools.
+
+When decompiling the font to XML via ttx, this is setting that at least InDesign reads the value from:
+<code>
+&lt;CFF>
+  &lt;CFFFont name="Antithesis-Regular">
+    &lt;UnderlineThickness value="90"/>
+</code>
+
+How to reach this setting via Python+fontTools?
+I've come as far as this:
+<code>
+ttf = TTFont(path)
+ttf['CFF '].cff
+</code>
+
+Ant now what? I can't find out how to reach the said setting.
+Thank you.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello,
+I found it here:
+<pre>ttf['CFF '].cff.topDictIndex.items[0].UnderlineThickness</pre>
+
+Eigi</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-05-23 18:26:24"
+			itemprop="datePublished"
+		>
+			2013-05-23 18:26:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eigi</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Eigi, you’re the man!
+
+It worked immediately on my interactive python session that was still open.
+
+But when I run this as a script from the beginning, unfortunately I can’t reproduce this funtionality.
+Then, <code>ttf['CFF '].cff.topDictIndex.items[0]</code> is <code>None</code>, and therefore also has no attributes.
+There must be some intermediate step to load/decompile something that I unknowingly typed and now can't reproduce. And now that previous session is gone, so I can't look up the steps that I made.
+I tried to load just <code>ttf['CFF ']</code> into a variable, to no effect.
+
+Thank you!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-05-23 19:06:27"
+			itemprop="datePublished"
+		>
+			2013-05-23 19:06:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>yanone</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You must just have made a typo or inadvertently switched from one installation of python to another. The version of fonttools that comes with AFDKO 2.5 works just fine for me. With the following bash script made executable and in your path, which I'll call <code>chthickns</code> (for short)
+<PRE>
+-------
+#!/usr/bin/env AFDKOPython
+
+from fontTools.ttLib import TTFont
+import sys
+
+f=TTFont(sys.argv[1])
+d=f['CFF '].cff.topDictIndex[0]
+d.UnderlineThickness = int(sys.argv[2])
+f.save(sys.argv[3])
+--------
+</PRE>
+the line command, after the % prompt,
+<PRE>
+% chthickns Myfont.otf 90 newfont.otf
+</PRE>
+replaces UnderlineThickness of MyFont.otf by 90 and saves the result in newfont.otf. For <em>in situ</em> modification, cf http://typophile.com/node/102671 <em>mutatis mutandis</em>.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-05-24 02:34:12"
+			itemprop="datePublished"
+		>
+			2013-05-24 02:34:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Editing this kind of stuff (and a lot of other things too) in .otf and .ttf fonts is IMHO <strong>much</strong> simpler with DTL OTMaster. And no, it's not for free, but it will save you a lot of time.
+
+FEB
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-05-24 09:16:45"
+			itemprop="datePublished"
+		>
+			2013-05-24 09:16:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blokland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you, Frank.
+But it can’t be automated, or can it, and is therefore not saving any time.
+
+So the <code>.items</code> was superfluous in Eigi’s line.
+It works with just <code>ttf['CFF '].cff.topDictIndex[0].UnderlineThickness</code>.
+
+Thanks, everyone.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-05-24 10:47:35"
+			itemprop="datePublished"
+		>
+			2013-05-24 10:47:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>yanone</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>
+So the <code>.items</code>  was superfluous [yanone]
+</blockquote>
+Oh, my bad, I had not even seen it (weird, since you repeat it in your post!). I should have read [more carefully].
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-05-24 12:55:26"
+			itemprop="datePublished"
+		>
+			2013-05-24 12:55:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@blokland   &nbsp; &nbsp; &nbsp; Can you batch process with DTL OTMaster?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-05-24 13:11:30"
+			itemprop="datePublished"
+		>
+			2013-05-24 13:11:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Should anyone be interested, here are all the values I’d like to see changed in compiled fonts that are impossible to influence through makeOTF. I didn’t find that any application would ever care about the first four values, which is a shame. But hey, they’re there.
+The last two lines overwrite this dreadful version string that the recent FDK creates.
+Are there any more suggestions?
+
+Lines may be soft-wrapped.
+<code>
+from fontTools.ttLib import TTFont
+ttf = TTFont(ttpath)
+ttf['post'].underlinePosition = int(instance.customParameters['underlinePosition'])
+ttf['post'].underlineThickness = int(instance.customParameters['underlineThickness'])
+ttf['OS/2'].yStrikeoutPosition = int(instance.customParameters['strikeoutPosition'])
+ttf['OS/2'].yStrikeoutSize = int(instance.customParameters['strikeoutThickness'])
+ttf['CFF '].cff.topDictIndex[0].UnderlineThickness = int(instance.customParameters['underlineThickness'])
+ttf['name'].getName(5, 1, 0).string = "Version %s.%s" % (f.versionMajor, f.versionMinor)
+ttf['name'].getName(5, 3, 1).string = "Version %s.%s" % (f.versionMajor, f.versionMinor)
+</code></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-05-25 12:36:23"
+			itemprop="datePublished"
+		>
+			2013-05-25 12:36:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>yanone</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Using DTL OTM Light I see, for ArnoPro-Regular.otf version 1.000, a value of -100 for float UnderlinePosition in the CFF table and the comment is "Underline stroke center y coordinate"; I see nothing similar in the ttx output. I also see in the post table, with DTL OTM Light, a value of -75 for FWORD underlinePosition with comment "Distance top of underline from baseline (negative = below baseline)". Is the value in the CFF table a calculated value derived from other parameters?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-05-25 17:32:47"
+			itemprop="datePublished"
+		>
+			2013-05-25 17:32:47
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This text from the <a href="http://www.microsoft.com/typography/OTSpec/post.htm">Microsoft spec of the post table</a> appears to answer my question
+<blockquote>
+FWord	underlinePosition	
+This is the suggested distance of the top of the underline from the baseline (negative values indicate below baseline). 
+The PostScript definition of this FontInfo dictionary key (the y coordinate of the center of the stroke) is not used for historical reasons. The value of the PostScript key may be calculated by subtracting half the underlineThickness from the value of this field.
+</blockquote>
+The value -100 is indeed ttf['post'].underlinePosition - ttf['post'].underlineThickness /2.0
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-05-25 21:14:28"
+			itemprop="datePublished"
+		>
+			2013-05-25 21:14:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>
+I didn’t find that any application would ever care about the first four values, which is a shame. &nbsp; [yanone]
+</blockquote>
+
+The fact is that FontForge cares about those values but 'underlinePosition' is interpreted differently. Here is the correspondence 
+<pre>
+import fontforge
+f=fontforge.open(path)
+f.os2_strikeypos     % ttf['OS/2'].yStrikeoutPosition
+f.os2_strikeysize    % ttf['OS/2'].yStrikeoutSize
+f.uwidth             % ttf['post'].underlineThickness
+</pre>
+The additional parameter handled by FontForge and corresponding to [Uu]nderlinePosition (I did not look at the source, I just experimented with values), is
+<pre>
+f.upos   % ttf['post'].underlinePosition + ttf['post'].underlineThickness/2
+</pre>
+in the cases I have tested (and the updates are correctly made with that interpretation). The interpretation of the Microsoft spec above may not, indeed, be crystal clear. The value of f.upos given by FontForge for ArnoPro-Regular.otf is neither -100 nor -75 but -50. (I am running the July 2012 version)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-05-26 03:49:15"
+			itemprop="datePublished"
+		>
+			2013-05-26 03:49:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I meant applications as in word processing, text setting applications. Only few seem to care to read the values from the fonts and apply them.
+Thanks for your investigations. Will need a few days to experiment and implement.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-05-26 09:35:26"
+			itemprop="datePublished"
+		>
+			2013-05-26 09:35:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>yanone</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Michel: <em>Can you batch process with DTL OTMaster?</em>
+&nbsp;
+Not really. OTM is basically a highly convenient tool for editing single fonts. The batch-stuff is in our production tools. 
+&nbsp;
+At the coming ATypI conference in Amsterdam DTL/URW++ will release a new edition of DTL OTMaster. Also there will be a new OTM <em>Light</em> version. For € 49.95 this version will allow the editing of OpenType and TrueType  fonts, but the ‘import’/‘export’ (OT Layout features, Character Layout ﬁles, et cetera) and the glyph-editing functions will be only available in the <em>full</em> version.
+&nbsp;
+FEB</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-11 20:30:09"
+			itemprop="datePublished"
+		>
+			2013-06-11 20:30:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blokland</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>OpenType feature to flip between two sets | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="OpenType feature to flip between two sets" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/59092/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-06-16T17:21:52+00:00" />
+<meta property="article:modified_time" content="2009-06-16T17:21:52+00:00" />
+
+<meta itemprop="name" content="OpenType feature to flip between two sets">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-06-16T17:21:52+00:00" />
+<meta itemprop="dateModified" content="2009-06-16T17:21:52+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="OpenType feature to flip between two sets"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">OpenType feature to flip between two sets</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-06-16T17:21:52Z">June 16, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Pieter van Rosmalen</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi all,
+
+I'm working on a typeface with two versions of each character. I made two sets and called them @set1 and @set2. Every set has five characters after which I like to 'swap' to the other set. The characters are C E J S Z and c e j s z. 
+For example. I like to go like this: ABCdeFGHIJklmnopqrsTUVWXYZabcDE etc
+I can't get the code working, can somebody help me?
+Thanks!
+
+Pieter</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This is the feature I wrote:
+
+<code>
+feature liga {
+# Latin
+	sub C @set1' by @set2;
+	sub E @set1' by @set2;
+	sub J @set1' by @set2;
+	sub S @set1' by @set2;
+	sub Z @set1' by @set2;
+	sub c @set2' by @set1;
+	sub e @set2' by @set1;
+	sub j @set2' by @set1;
+	sub s @set2' by @set1;
+	sub z @set2' by @set1;
+	sub @set2 @set1' by @set2;
+	sub @set1 @set2' by @set1;
+} liga;
+</code>
+
+Pieter</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-16 17:54:41"
+			itemprop="datePublished"
+		>
+			2009-06-16 17:54:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pieter van Rosmalen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You might need to show us what your classes are, but from the get go this doesn't look like it belongs in the liga feature, but rather calt.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-16 18:10:10"
+			itemprop="datePublished"
+		>
+			2009-06-16 18:10:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Stephen Rapp</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Are you saying you want to use those letters as a switch to change all the letters that appear after them? </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-16 18:11:35"
+			itemprop="datePublished"
+		>
+			2009-06-16 18:11:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jackson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Stephen: I know, but I choose the liga feature because it's on at default in a few programs.
+
+@ Jackson: Yes, that's what I like.
+
+classes:
+<code>
+@set1 = [A B C D E F G H I J K L M N O P Q R S T U V W X Y Z];
+@set2 = [a b c d e f g h i j k l m n o p q r s t u v w x y z];
+</code>
+
+Thanks!
+Pieter</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-16 18:53:29"
+			itemprop="datePublished"
+		>
+			2009-06-16 18:53:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pieter van Rosmalen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The main problem is that the trigger glyphs were in the classes you were switching. Try this:
+
+feature CALT {
+
+@set1 = [A B D F G H I K L M N O P Q R T U V W X Y];
+@set2 = [a b d f g h i k l m n o p q r t u v w x y];
+@trip1 = [C E J S Z];
+@trip2 = [c e j s z];
+
+sub @trip1 @set1' by @set2;
+sub @trip1 @set2 @set1' by @set2;
+sub @set2 @set2 @set1' by @set2;
+sub @set2 @set2 @trip1' by @trip2;
+
+sub @trip2 @set2' by @set1;
+sub @trip2 @set1 @set2' by @set1;
+sub @set1 @set1 @set2' by @set1;
+sub @set1 @set1 @trip2' by @trip1;
+
+} CALT;
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-16 19:24:52"
+			itemprop="datePublished"
+		>
+			2009-06-16 19:24:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jackson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello Jackson,
+
+Thanks for the code, but unfortunately it's not working: ABCdefghijklmnopqrstuvwxyz
+It's not flipping back to @set1 anymore.
+
+This is what I like to happen: ABCdeFGHIJklmnopqrsTUVWXYZabcDEfghijKLMNOPQRSTuvwxyzAB etc
+
+Pieter</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-16 21:23:51"
+			itemprop="datePublished"
+		>
+			2009-06-16 21:23:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pieter van Rosmalen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">feature CALT {
+
+@set1 = [A B D F G H I K L M N O P Q R T U V W X Y];
+@set2 = [a b d f g h i k l m n o p q r t u v w x y];
+
+@trip1 = [C E J S Z];
+@trip2 = [c e j s z];
+
+sub @set1 @trip1 @set1' by @set2;
+sub @set2 @trip2 @set2' by @set1;
+
+sub @trip1 @trip1' by @trip2;
+sub @trip2 @trip2' by @trip1;
+
+sub @set2 @set1' by @set2;
+sub @set2 @trip1' by @trip2;
+
+sub @set1 @set2' by @set1;
+sub @set1 @trip2' by @trip1;
+
+} CALT;
+
+I should've paid more attention to your string...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-16 22:28:49"
+			itemprop="datePublished"
+		>
+			2009-06-16 22:28:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jackson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Err.. needed one more thing: 
+
+feature CALT {
+
+@set1 = [A B D F G H I K L M N O P Q R T U V W X Y];
+@set2 = [a b d f g h i k l m n o p q r t u v w x y];
+
+@trip1 = [C E J S Z];
+@trip2 = [c e j s z];
+
+sub @set1 @trip1 @set1' by @set2;
+sub @set2 @trip2 @set2' by @set1;
+
+sub @trip1 @trip1' by @trip2;
+sub @trip2 @trip2' by @trip1;
+
+sub @set2 @set1' by @set2;
+sub @set2 @trip1' by @trip2;
+sub @trip1 @set1' by @set2;
+
+sub @set1 @set2' by @set1;
+sub @set1 @trip2' by @trip1;
+sub @trip2 @set2' by @set1;
+
+} CALT;</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-16 22:31:48"
+			itemprop="datePublished"
+		>
+			2009-06-16 22:31:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jackson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Err.. needed one more thing: 
+
+feature CALT {
+
+@set1 = [A B D F G H I K L M N O P Q R T U V W X Y];
+@set2 = [a b d f g h i k l m n o p q r t u v w x y];
+
+@trip1 = [C E J S Z];
+@trip2 = [c e j s z];
+
+sub @set1 @trip1 @set1' by @set2;
+sub @set2 @trip2 @set2' by @set1;
+
+sub @trip1 @trip1' by @trip2;
+sub @trip2 @trip2' by @trip1;
+
+sub @set2 @set1' by @set2;
+sub @set2 @trip1' by @trip2;
+sub @trip1 @set1' by @set2;
+
+sub @set1 @set2' by @set1;
+sub @set1 @trip2' by @trip1;
+sub @trip2 @set2' by @set1;
+
+} CALT;</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-16 22:31:50"
+			itemprop="datePublished"
+		>
+			2009-06-16 22:31:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jackson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">"@ Stephen: I know, but I choose the liga feature because it’s on at default in a few programs."
+
+So is calt.
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-17 07:59:34"
+			itemprop="datePublished"
+		>
+			2009-06-17 07:59:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello Jackson,
+
+It's working! Thank you very much! You made me a happy man.
+
+Pieter</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-17 08:31:27"
+			itemprop="datePublished"
+		>
+			2009-06-17 08:31:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pieter van Rosmalen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello Thomas,
+
+I didn't know that. Thanks!
+
+Pieter</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-17 08:32:04"
+			itemprop="datePublished"
+		>
+			2009-06-17 08:32:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pieter van Rosmalen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello Jackson,
+
+I like to thank you again! :) It's perfect!
+
+Pieter</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-17 13:20:51"
+			itemprop="datePublished"
+		>
+			2009-06-17 13:20:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pieter van Rosmalen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">No problem, that was a fun distraction on a lazy working day. 
+I'm curious how this is going to translate into a design, look forward to seeing it.  </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-17 14:23:48"
+			itemprop="datePublished"
+		>
+			2009-06-17 14:23:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jackson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello Jackson,
+
+I will show you later. It's for a client and I'm not allowed to show it before the official introduction.
+
+Pieter</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-17 15:15:36"
+			itemprop="datePublished"
+		>
+			2009-06-17 15:15:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pieter van Rosmalen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Awesome, good luck!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-17 15:47:18"
+			itemprop="datePublished"
+		>
+			2009-06-17 15:47:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jackson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">...
+ChrisL</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-18 16:24:01"
+			itemprop="datePublished"
+		>
+			2009-06-18 16:24:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Fontlab output errors | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Fontlab output errors" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/114295/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2014-02-19T02:08:00+00:00" />
+<meta property="article:modified_time" content="2014-02-19T02:08:00+00:00" />
+
+<meta itemprop="name" content="Fontlab output errors">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2014-02-19T02:08:00+00:00" />
+<meta itemprop="dateModified" content="2014-02-19T02:08:00+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Fontlab output errors"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Fontlab output errors</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2014-02-19T02:08:00Z">February 19, 2014</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Martin Silvertant</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hello, I'm working on a custom typeface for a Dutch design company and I just came across some problems I have no idea how to fix. Here's a part of the error messages I get:
+[WARNING] <MelkSans-Bold> Use of DFLT tag has been deprecated. It will work, but please use 'dflt' instead. [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 48]
+[ERROR] <MelkSans-Bold> If you don't want feature 'cpsp' registered under all the language systems you specified earlier on in the feature file by the "languagesystem" keyword, you must start this feature with an explicit "script" statement [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 84]
+[ERROR] <MelkSans-Bold> If you don't want feature 'cpsp' registered under all the language systems you specified earlier on in the feature file by the "languagesystem" keyword, you must start this feature with an explicit "script" statement [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 86]
+[ERROR] <MelkSans-Bold> If you don't want feature 'cpsp' registered under all the language systems you specified earlier on in the feature file by the "languagesystem" keyword, you must start this feature with an explicit "script" statement [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 88]
+...
+etcetera.
+
+[FATAL] <MelkSans-Bold> aborting because of errors
+
+
+So, what's going on here, how do I fix it and what's it trying to abort anyway? I'm able to generate a TT font, which features pixelated edges compared to an older version of the font I was able to generate in OTF format. I'm assuming the fact I can't generate OTF right now has to do with the errors. I have to have 2 fonts of the typeface finished by the end of the week so it's really appreciated if you can help me out with this. Can someone also tell me what I'm doing by specifying Greek, Latin and Romanian in the script? I assumed I need to specify Romanian to replace some accented characters, but I don't need Greek. I'm working on full language support for Latin.
+
+Here's an example of the script I'm working with:
+
+feature clig {
+ # DEFAULT
+    sub I J by Y.alt1;
+    sub I j by Y.alt1;
+    sub T h by T_h;
+    sub a e by ae;
+    sub a.alt1 e by ae;
+    sub f f by f_f;
+    sub f i by f_i;
+    sub f f i by f_f_i;
+    sub f j by f_j;
+    sub f f j by f_f_j;
+    sub f l by f_l;
+    sub f f l by f_f_l;
+    sub f t by f_t;
+    sub f f t by f_f_t;
+    sub f question by f_question;
+    sub f question.alt1 by f_question.alt1;
+    sub f_f question by f_f_question;
+    sub f_f question.alt1 by f_f_question.alt1;
+    sub g g by g_g;
+    sub i j by i_j;
+    sub f i j by f_i_j;
+    sub r r by r_r;
+    sub t t by t_t;
+    sub period period period by ellipsis;
+    sub comma hyphen by comma_endash;
+    sub comma endash by comma_endash;
+ script grek; # Greek
+    sub I J by Y.alt1;
+    sub I j by Y.alt1;
+    sub T h by T_h;
+    sub a e by ae;
+    sub a.alt1 e by ae;
+    sub f f by f_f;
+    sub f i by f_i;
+    sub f f i by f_f_i;
+    sub f j by f_j;
+    sub f f j by f_f_j;
+    sub f l by f_l;
+    sub f f l by f_f_l;
+    sub f t by f_t;
+    sub f f t by f_f_t;
+    sub f question by f_question;
+    sub f question.alt1 by f_question.alt1;
+    sub f_f question by f_f_question;
+    sub f_f question.alt1 by f_f_question.alt1;
+    sub g g by g_g;
+    sub i j by i_j;
+    sub f i j by f_i_j;
+    sub r r by r_r;
+    sub t t by t_t;
+    sub period period period by ellipsis;
+    sub comma hyphen by comma_endash;
+    sub comma endash by comma_endash;
+ script latn; # Latin
+    sub I J by Y.alt1;
+    sub I j by Y.alt1;
+    sub T h by T_h;
+    sub a e by ae;
+    sub a.alt1 e by ae;
+    sub f f by f_f;
+    sub f i by f_i;
+    sub f f i by f_f_i;
+    sub f j by f_j;
+    sub f f j by f_f_j;
+    sub f l by f_l;
+    sub f f l by f_f_l;
+    sub f t by f_t;
+    sub f f t by f_f_t;
+    sub f question by f_question;
+    sub f question.alt1 by f_question.alt1;
+    sub f_f question by f_f_question;
+    sub f_f question.alt1 by f_f_question.alt1;
+    sub g g by g_g;
+    sub i j by i_j;
+    sub f i j by f_i_j;
+    sub r r by r_r;
+    sub t t by t_t;
+    sub period period period by ellipsis;
+    sub comma hyphen by comma_endash;
+    sub comma endash by comma_endash;
+    language ROM ; # Romanian
+} clig;</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Try putting this in the OT Panel at the bottom right:
+
+languagesystem DFLT dflt;
+languagesystem latn dflt;
+
+I would also remove the statements referring to Greek and Romanian since they don't seem to be doing anything and/or don't make sense. (There are no Greek characters affected, and nothing following the Romanian statement. I can only see statements affecting Latin characters.)
+
+Also, clig is for contextual ligatures and all of these are simple substations, not contextual. So, change the feature to liga, instead of clig.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-20 04:02:36"
+			itemprop="datePublished"
+		>
+			2014-02-20 04:02:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The languagesystem scripts were included, plus one for Greek and Romanian. I just forgot to include those here.
+
+Greek I don't need, but I figured I might need Romanian. Aren't some cedillas different in Romanian from the Latin set? I remember something like that from a font I manually scripted a few years ago. This time I used an existing typeface's script to save time.
+
+As for clig, actually these are all contextual ligatures. I also have regular ligatures, discretionary ligatures and alternates, but in clig I have a specific set of contextual alternates.
+
+Anyway, I'm still getting the same list of errors.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-20 13:25:27"
+			itemprop="datePublished"
+		>
+			2014-02-20 13:25:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I just noticed a locl class with the following script:
+feature locl { # Localized Forms
+ script latn; # Latin
+ language ROM  exclude_dflt; # Romanian
+    sub [Scedilla Tcedilla scedilla tcedilla] by [Scommaaccent Tcommaaccent scommaaccent tcommaaccent];
+} locl;
+
+Can I remove the Romanian code from the other classes or do I still need to specify Romanian to make the locl class work?
+
+Also, do I need to specify Latin when the same script is already in DEFAULT? Do I need to specify it to make locl work?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-20 13:33:35"
+			itemprop="datePublished"
+		>
+			2014-02-20 13:33:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Never mind. I removed all codes which weren't DEFAULT and most errors are fixed now. The only issue which remains is that it tries to find .sc characters but I have no small caps and I also removed the caps2sc and sc classes. How do I stop it from trying to find these missing characters?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-20 13:44:01"
+			itemprop="datePublished"
+		>
+			2014-02-20 13:44:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I get these two messages currently (both alternating):
+
+[FATAL] <Melk Sans Extra Light> aborting because of errors:
+syntax error at "@_A1"
+[C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 1]
+
+Missing glyph: a.sc
+Missing glyph: aacute.sc
+Missing glyph: abreve.sc
+Missing glyph: acircumflex.sc
+Missing glyph: adieresis.sc
+Missing glyph: agrave.sc
+Missing glyph: amacron.sc
+Missing glyph: aogonek.sc
+Missing glyph: aring.sc
+Missing glyph: atilde.sc
+Missing glyph: ae.sc
+Missing glyph: b.sc
+Missing glyph: d.sc
+Missing glyph: eth.sc
+Missing glyph: dcaron.sc
+Missing glyph: dcroat.sc
+Missing glyph: o.sc
+Missing glyph: oacute.sc
+Missing glyph: ocircumflex.sc
+Missing glyph: odieresis.sc
+Missing glyph: ograve.sc
+Missing glyph: ohungarumlaut.sc
+Missing glyph: omacron.sc
+Missing glyph: oslash.sc
+Missing glyph: otilde.sc
+Missing glyph: q.sc
+Missing glyph: germandbls.sc
+Missing glyph: c.sc
+Missing glyph: cacute.sc
+Missing glyph: ccaron.sc
+Missing glyph: ccedilla.sc
+Missing glyph: cdotaccent.sc
+Missing glyph: g.sc
+Missing glyph: gbreve.sc
+Missing glyph: gcommaaccent.sc
+Missing glyph: gdotaccent.sc
+Missing glyph: oe.sc
+Missing glyph: h.sc
+Missing glyph: hbar.sc
+Missing glyph: k.sc
+Missing glyph: kcommaaccent.sc
+Missing glyph: m.sc
+Missing glyph: n.sc
+Missing glyph: nacute.sc
+Missing glyph: ncaron.sc
+Missing glyph: ncommaaccent.sc
+Missing glyph: eng.sc
+Missing glyph: ntilde.sc
+Missing glyph: p.sc
+Missing glyph: thorn.sc
+Missing glyph: r.sc
+Missing glyph: racute.sc
+Missing glyph: rcaron.sc
+Missing glyph: rcommaaccent.sc
+Missing glyph: e.sc
+Missing glyph: eacute.sc
+Missing glyph: ecaron.sc
+Missing glyph: ecircumflex.sc
+Missing glyph: edieresis.sc
+Missing glyph: edotaccent.sc
+Missing glyph: egrave.sc
+Missing glyph: emacron.sc
+Missing glyph: eogonek.sc
+Missing glyph: f.sc
+Missing glyph: i.sc
+Missing glyph: dotlessi.sc
+Missing glyph: iacute.sc
+Missing glyph: icircumflex.sc
+Missing glyph: idieresis.sc
+Missing glyph: igrave.sc
+Missing glyph: imacron.sc
+Missing glyph: iogonek.sc
+Missing glyph: j.sc
+Missing glyph: l.sc
+Missing glyph: lacute.sc
+Missing glyph: lcaron.sc
+Missing glyph: lcommaaccent.sc
+Missing glyph: lslash.sc
+Missing glyph: t.sc
+Missing glyph: tbar.sc
+Missing glyph: tcaron.sc
+Missing glyph: tcedilla.sc
+Missing glyph: tcommaaccent.sc
+Missing glyph: u.sc
+Missing glyph: uacute.sc
+Missing glyph: ucircumflex.sc
+Missing glyph: udieresis.sc
+Missing glyph: ugrave.sc
+Missing glyph: uhungarumlaut.sc
+Missing glyph: umacron.sc
+Missing glyph: uogonek.sc
+Missing glyph: uring.sc
+Missing glyph: v.sc
+Missing glyph: w.sc
+Missing glyph: wacute.sc
+Missing glyph: wcircumflex.sc
+Missing glyph: wdieresis.sc
+Missing glyph: wgrave.sc
+Missing glyph: y.sc
+Missing glyph: yacute.sc
+Missing glyph: ycircumflex.sc
+Missing glyph: ydieresis.sc
+Missing glyph: ygrave.sc
+Missing glyph: Scaron
+Missing glyph: s.sc
+Missing glyph: sacute.sc
+Missing glyph: scaron.sc
+Missing glyph: scedilla.sc
+Missing glyph: scommaaccent.sc
+Missing glyph: x.sc
+Missing glyph: z.sc
+Missing glyph: zacute.sc
+Missing glyph: zcaron.sc
+Missing glyph: zdotaccent.sc
+Missing glyph: cent.osf
+Missing glyph: exclam.sc
+Missing glyph: exclamdown.sc
+Missing glyph: question.sc
+Missing glyph: questiondown.sc
+Missing glyph: parenleft.sc
+Missing glyph: parenright.sc
+Missing glyph: cent.sc
+Missing glyph: ampersand.sc
+Missing glyph: acute.sc
+Missing glyph: hungarumlaut.sc
+[FATAL] <Melk Sans Extra Light> aborting because of errors:
+syntax error at "feature"
+[C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 65]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-20 13:52:59"
+			itemprop="datePublished"
+		>
+			2014-02-20 13:52:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You apparently have a class called _A1 that contains references to those glyphs. Remove those glyph names from that class (or remove the class if that's all it contains).
+
+Also, there's really only one error there. The second error message is a consequence of the first one.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-21 01:22:06"
+			itemprop="datePublished"
+		>
+			2014-02-21 01:22:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I don't see such a class anywhere. I'm still stuck. Could someone have a look at my file?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-10 03:33:54"
+			itemprop="datePublished"
+		>
+			2014-03-10 03:33:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Probably Mark Simonson is onto something, whether you can spot it or not.
+
+By the way, your clig statements are all messed up. First of all, as Mark says, they're not contextual, as written. Secondly, remember that instructions are performed in the order they're given. So with the order you have:
+
+sub f f by f_f;
+sub f i by f_i;
+sub f f i by f_f_i;
+
+the string "f f i" will never be found, because you've already changed part of that string, "f f" (i.e., a portion the string  "f f i") to f_f.
+
+Etc.
+
+You have to do it the other way, with the f f i  statement first.
+
+Here's a portion of the clig description (emphasis added)
+
+<blockquote> Example: The glyph for ft replaces the sequence f t in Bickham Script, <strong>except</strong> when preceded by an ascending letter.</blockquote> 
+
+<blockquote> Recommended implementation: The clig table maps sequences of glyphs to corresponding ligatures in a chained context (GSUB lookup type 8). <strong>Ligatures with more components must be stored ahead of those with fewer components in order to be found.</strong> The set of contextual ligatures will vary by design and script.</blockquote> 
+
+I'd remark that the usual way to debug a long list of statements is to cut things in half, and try each half. Keep cutting until things compile without errors. If you're lucky, you'll spot it. Safest is to just add one more statement at a time. And if the rest of your code is as scrambled as clig, I'd just start with one statement, get it to compile, then add each, one at a time. 
+
+Long ago & far away, I had to do logical proofs -- passed my PhD prelims in math logic. When I used the techniques learned there in trying to debug even little programs, my business partner -- a proper engineer -- finally convinced me of the error of my ways. He succeeded in large part because I kept failing, trying to be "logical..." 
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-10 05:53:14"
+			itemprop="datePublished"
+		>
+			2014-03-10 05:53:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks a lot for the tips. I will do as you said.
+
+I really have to clarify your statement about contextual ligatures though. I'm certain they ARE contextual ligatures. How can you tell me they're not contextual ligatures without having seen the design? I have standard ligatures with connected letters and contextual ligatures which feature an /f with a shortened terminal to improve the spacing without having to rely on genuine ligatures which may be obtrusive or unwanted in some contexts. If I'm still wrong about considering these contextual ligatures I would like to hear why.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-10 09:02:09"
+			itemprop="datePublished"
+		>
+			2014-03-10 09:02:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">By the way, I manually scripted a font a few years back but since I was on a tight deadline I thought I would safe time by using the script of an existing font. Turns out this wasn't a good idea as there seem to be some connections between glyphs and scripts I'm not noticing. It would have been cleaner to do it manually. Re-doing the script seems the way to go.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-10 09:04:48"
+			itemprop="datePublished"
+		>
+			2014-03-10 09:04:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Alright, I removed all scripts and compiled it and I'm still getting the same list of errors; it's still trying to find smallcaps although there are no smallcaps and no class for it. I'm starting to think that my script is actually correct, except for the order I put the ligatures in. Any thoughts?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-10 09:58:04"
+			itemprop="datePublished"
+		>
+			2014-03-10 09:58:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Where to start?
+
+It might be easier, if you are on deadline, to send your fonts so someone who can make the OpenType fearures work (and no, I don't do that work.) Many of the larger font publishers work this way, Adobe, FontFont, etc. You don't think Slimbach writes all the features for his fonts, do you?
+
+* * *
+
+I say they are not contextual because you have not included the context as a part of the substitution statement. OpenType features code is pretty simple in the sense that everything happens "right now." The items to be included in the substitution must be given in their entirety in the statement, as they exist "right now" -- as the instruction is processed.  
+
+And the order matters. So, if you have liga before clig, much of the "ligaturing" you're attempting in clig won't happen, because there will be no longer be any f i, f f i, etc. And if you put clig first, then what's available for liga to work on will be affected, of course.
+
+If you're working entirely in FontLab -- I suppose you know you can write off the features file, then alter it in a text editor, then read it back in to FL. I'd recommend that. I, anyway, also make sure all my classes are in that .fea file, then delete the "classses" from the FontLab vfb. This way, I have one file where everything is contained, and if I make a change to either an OT feature or class, when I bring the fie back into FontLab, I don't create an unintended conflict.
+
+How I'd start if I had to work on your font, starting now. 
+
+1. Make a copy  of the FoltLab .vfb, and work on that. Don't risk you original files.
+
+2. Write off all the features (making sure the classes are contained) to a plain text  .fea file. Clear the features and clases from FontLab; all you now have are the glyphs. See if you can generate a font. That's the starting point.
+
+3. Now add one thing at a time -- make up a small, test, ".fea" file. One feature only. Make sure any feature you put in it has all the classes it needs -- i.e., pair the classes in "test" to the features in "test.
+
+4. Read the "test.fea" back into Fontlab.  At first anyway, both compile the features and generate a font to test that all is well. 
+
+5. Keep adding things one at a time. You will soon discover what's not working.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-10 14:05:39"
+			itemprop="datePublished"
+		>
+			2014-03-10 14:05:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm not on a tight deadline anymore. I was supposed to deliver two working fonts with a basic set, and I did. Still, I obviously would like to get the OpenType features to work as soon as possible, because I do have to send updates on the fonts.
+
+"I say they are not contextual because you have not included the context as a part of the substitution statement."
+What do you mean by this? 
+
+"So, if you have liga before clig, much of the "ligaturing" you're attempting in clig won't happen, because there will be no longer be any f i, f f i, etc."
+Actually I got all of that to work in a previous font. I did do the order of the ligatures correctly, but I don't think I paid specific attention to the order of the ligature classes. Perhaps I accidentally got the order right though. In any case, this will probably avoid a lot of frustration.
+
+"I, anyway, also make sure all my classes are in that .fea file, then delete the "classses" from the FontLab vfb."
+I think I'm confusing features with classes. I hope so, because that will explain why my font keeps searching for small caps. I removed all features, but I guess I need to check classes as well.
+
+So I checked the classes and removed a few and I think my problem is solved. I will put the features back in later and see if it all still works.
+
+
+So, thanks a lot for the help. I was also wondering, when I change diacritics, some don't update to the letters and when I change the a plain letter, not all instances of that letter with diacritics are updated. I assume this is an issue with the classes? I find the class system to be confusing. I would follow a lot more tutorials on Fontlab but there are so few.
+
+Also, how do you go about making tabular figures? I have the design done and the glyphs are in FontLab but I put each number in the glyph window individually, and so the spacing isn't consistent throughout all figure sets. Is there a way to simply copy the default and oldstyle sets and make them tabular automatically? Or should I first create the tabular sets, copy those and modify the spacing for the proportional sets?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-10 17:54:13"
+			itemprop="datePublished"
+		>
+			2014-03-10 17:54:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">A contextual ligature goes like this: If these glyphs are preceded/followed by certain other glyphs (or glyph), substitute with this ligature glyph. 
+
+A normal ligature goes like this: substitute these glyphs with this ligature glyph.
+
+Every one of your "contextual" ligatures is just a normal non-contextual ligature, which should be placed in the liga feature. For what it's worth, contextual ligatures are rare in fonts, mostly used when you are trying to simulate very complex scripts.
+
+Regarding tabular figures, basically you need to make copies of your existing figures and modify them.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-11 23:56:12"
+			itemprop="datePublished"
+		>
+			2014-03-11 23:56:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">" I was also wondering, when I change diacritics, some don't update to the letters and when I change the a plain letter, not all instances of that letter with diacritics are updated. I assume this is an issue with the classes?"
+
+Are all your accented glyphs created by means of composites? That's the key thing. If some of them have the base letter or the accent or both decomposed, that could cause the problem.
+
+"Is there a way to simply copy the default and oldstyle sets and make them tabular automatically?"
+
+Not currently built into FontLab Studio. The Remix Tools (a paid add-on for FontLab) have this feature. http://remix-tools.com/monospacer
+But probably only worth buying the Remix tools if you find their other features valuable, just doing tabular numbers is a nice but minor feature.
+
+"Or should I first create the tabular sets, copy those and modify the spacing for the proportional sets?"
+
+Sure, or the other way around. Keep the glyphs as composites so that any change in the design of the base glyphs affects the other set as well. Also, in some typefaces, you might want to make the proportional and tabular "one" different designs.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-11 23:56:49"
+			itemprop="datePublished"
+		>
+			2014-03-11 23:56:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>Every one of your "contextual" ligatures is just a normal non-contextual ligature"</cite>
+
+I'm still not convinced. I know what a contextual ligature is. This is how it works in a serif typeface, and this is exactly the kind of thing I'm doing in my typeface:
+http://www.motaitalic.com/typefoundry/fonts/vesper/contextual-alternates
+
+It's a very different set of ligatures from the standard ones. How would I even script it if I were to put both sets in the same ligature set?
+
+<cite>A contextual ligature goes like this: If these glyphs are preceded/followed by certain other glyphs (or glyph), substitute with this ligature glyph.</cite>
+
+Does that mean I coded it wrong? The output seems to be the same though.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-12 20:58:16"
+			itemprop="datePublished"
+		>
+			2014-03-12 20:58:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>Are all your accented glyphs created by means of composites?"</cite>
+
+I don't know. How can I check and how can I make all accented characters adhere to their master characters and add diacritics automatically from the ones I already designed? Sometimes when I delete an accented letter (ê) and the box remains empty and I double click, the letter (ê) is created automatically from the standard letter (e) and the accent (^), but other times it's not. I'm wondering where the inconsistency comes from.
+
+And unfortunately I still can't compile without errors and generate an otf file. I deleted all features and all classes and still I get an error when I compile:.
+
+[FATAL] <MelkSans-ExtraLight> aborting because of errors:
+syntax error at "EOF"
+[C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 2]
+
+Also, the last file I saved without the features. I still have it in Notepad but I should have just saved the features with FontLab. I thought I would just load in the features from an earlier copy and then replace the script manually with what I have in Notepad, but when I do that and I compile it gives this error:
+syntax error at "feature"
+
+Does anyone know what's going on? I shouldn't get errors when I delete all features and classes, right? What am I missing?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-12 21:12:57"
+			itemprop="datePublished"
+		>
+			2014-03-12 21:12:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Without seeing your files, who can say what's wrong. Clean out your bank account & hire Jens Kutilek, he can fix them, I'm sure.
+
+As for "contextual," try this.
+
+You have an italic font. You want to be able to set the sequence "iogonek f i." If like most italic fonts, the swoop on the bottom left of the "f" will collide with the ogonek on the first i. What to do? Make up a special f with no swoop on the bottom -- kind of like a Sabon italic f.
+
+You swap it in with a contextual alternate
+
+sub iogonek f' by f.alt;
+
+but what about the i, and all the ligatures with the f?
+
+Well, if liga is above calt in the features file, all those will be missed. And if it's below, with the sequence "iogonek f i" you'll get the special f followed by a regular i, and those will collide.
+
+So, you need make up extra ligatures used in "context," but they're in the calt feature, not clig.
+
+Within calt:
+
+sub iogonek f' by f.alt;
+sub iogonek f_f_i' by f_f_i.alt;
+sub iogonek f'_i' by f_i.alt;
+sub iogonek f_f' by f_f.alt;
+
+That assumes liga is before calt. If calt is first, you have to figure our what's what when the program sees liga, namely (I think)
+
+sub f f i by f_f_i;
+sub f.alt f i by f_f_i.alt;
+etc.
+
+There might be a way to do this with clig, but it ain't what you've written. Moreover, you need "calt" in the example above, as there in one instance where no ligature is involved -- namely, "iogonek f".
+
+It's rumored that Bingham Script uses clig, but I don't have that at home to take a peek...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-13 00:46:34"
+			itemprop="datePublished"
+		>
+			2014-03-13 00:46:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm looking at the Vesper pages. Vesper uses ligatures (normal ones, not contextual) and contextual alternates to fix certain spacing problems. I don't see anything about "contextual ligatures".  
+
+"EOF" means "end of file" which suggests that there is some structure that's not closed. That could be a missing semicolon at the end of a feature, or a missing brace ("}") or something like that.
+
+How did you delete the features? If it's saying "syntax error at 'feature'" that suggests there is still at least one feature and that there is something wrong with it.
+
+It's pretty hard to tell what's wrong given the small amount of information you've provided. Can you post a screen shot of the OpenType and Classes panels maybe?
+
+Alternatively, I would suggest asking over at the FontLab forum, where there are a lot more FontLab users hanging out than here. http://forum.fontlab.com/index.php?board=5.0</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-13 04:25:05"
+			itemprop="datePublished"
+		>
+			2014-03-13 04:25:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I realized the confusion last night but you seem to have figured it out already; I've been using contextual ligatures and contextual alternates interchangeably. Last night I checked the script of the font I did a few years ago and noticed I'm using calt there and not clig. Aren't these activated by the same OT button though? In my previous font they were turned on with the contextual button. Thanks a lot for the information. I will have another look at my code.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-13 09:33:20"
+			itemprop="datePublished"
+		>
+			2014-03-13 09:33:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I will post screenshots later if I still can't manage to isolate the problem. Also thanks for referring me to the FontLab forum. For some reason I didn't even think of that.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-13 09:35:36"
+			itemprop="datePublished"
+		>
+			2014-03-13 09:35:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Regarding composites, you may want to read the section of the FontLab manual on composites, and the use of the "generate glyph" (Cmd/Ctrl - G) command. Basically, do Generate Glyph and type, say "a+acute=aacute" and you will get an aacute created as a composite referencing those two base glyphs. If you go in and try to edit the aacute you will see that these are references to the original glyphs, not editable outlines themselves. This way, changes to either component will affect the composite. Pretty nearly all your accented characters should use glyphs constructed this way.
+
+The glyphs generated when you click on an empty cell are created based on recipes in the "alias.dat" file. This is an editable plain text file used by FontLab (although I'd be careful to back it up before hacking it).
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-17 01:18:38"
+			itemprop="datePublished"
+		>
+			2014-03-17 01:18:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm aware of how it should work, but it's only half the times composites are created. Other times I have to copy the accent to the glyph. I haven't tried to generate new glyphs by combining a letter and an accent though, so thanks for that. I'm sure this will solve my issue. Hacking files seems the lesser option in this case.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-18 15:05:54"
+			itemprop="datePublished"
+		>
+			2014-03-18 15:05:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Martin Silvertant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Well, with FontLab, you never have to "copy" the accent. If you are in an active character window, use the sequence "alt" + "insert" (i.e, hold down the "alt" key whilst hitting "insert" -- at least, that is the sequence with Windows), to bring in any component glyph -- by name, Unicode number, or anything else on a long list of options displayed. Move it around the way you move any component around.
+
+Actually, you can bring in the base character that way, too. Just double click on a grayed-out cell, open it, select the base glyph with alt + insert (or Mac equivalent), and that will be the character the widths & sidebearings have. Same sequence again for any number of "accents." All these will be components -- unless you eventually decompose, which isn't recommended save for glyphs where the components overlap.
+
+When all the artwork is in place, make sure both the *name* and *Unicode* assignments are proper...
+
+May I gently suggest that part of your troubles is perhaps because you *don't* know how it should work?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-18 16:49:57"
+			itemprop="datePublished"
+		>
+			2014-03-18 16:49:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">My experience is like Charles’. All my glyphs that should be composites are; I never have a random failure.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-19 22:38:34"
+			itemprop="datePublished"
+		>
+			2014-03-19 22:38:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Automatic indexed numerals | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Automatic indexed numerals" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/71588/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-06-23T13:07:36+00:00" />
+<meta property="article:modified_time" content="2010-06-23T13:07:36+00:00" />
+
+<meta itemprop="name" content="Automatic indexed numerals">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-06-23T13:07:36+00:00" />
+<meta itemprop="dateModified" content="2010-06-23T13:07:36+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Automatic indexed numerals"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Automatic indexed numerals</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-06-23T13:07:36Z">June 23, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Frode Bo Helland</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I have a code that recognizes numbers with brackets around them ([1], [22] and [333]) and exchange the numbers and brackets with alternate forms that together form a sort of indexed number: a square around the numbers. I make use of a class called @figures to detect any kind of numeral. Singles and doubles are quadratic, the triples doesn’t need to be, so they use the same numbers as the doubles.
+
+Here’s the code (I have a similar one for inversed squares in ss02):
+<code>
+feature ss01 {
+  lookup mono_1 {
+  	sub bracketleft @figures bracketright' by bracketright.square;
+	} mono_1; 
+	lookup mono_2 {
+		sub bracketleft zero' bracketright.square by zero.mono;
+		sub bracketleft one' bracketright.square by one.mono;
+		sub bracketleft two' bracketright.square by two.mono;
+		sub bracketleft three' bracketright.square by three.mono;
+		sub bracketleft four' bracketright.square by four.mono;
+		sub bracketleft five' bracketright.square by five.mono;
+		sub bracketleft six' bracketright.square by six.mono;
+		sub bracketleft seven' bracketright.square by seven.mono;
+		sub bracketleft eight' bracketright.square by eight.mono;
+		sub bracketleft nine' bracketright.square by nine.mono;
+	} mono_2; 
+	lookup mono_3 {
+		sub bracketleft' @figures bracketright.square by bracketleft.square;
+	} mono_3; 
+	
+	lookup duo_1 {
+		sub bracketleft @figures @figures bracketright' by bracketright.square;
+	} duo_1; 
+	lookup duo_2 {
+		sub bracketleft @figures zero' bracketright.square by zero.multiple;
+		sub bracketleft @figures one' bracketright.square by one.multiple;
+		sub bracketleft @figures two' bracketright.square by two.multiple;
+		sub bracketleft @figures three' bracketright.square by three.multiple;
+		sub bracketleft @figures four' bracketright.square by four.multiple;
+		sub bracketleft @figures five' bracketright.square by five.multiple;
+		sub bracketleft @figures six' bracketright.square by six.multiple;
+		sub bracketleft @figures seven' bracketright.square by seven.multiple;
+		sub bracketleft @figures eight' bracketright.square by eight.multiple;
+		sub bracketleft @figures nine' bracketright.square by nine.multiple;
+	} duo_2; 
+	
+	lookup duo_3 {
+		sub bracketleft zero' @figures bracketright.square by zero.multiple;
+		sub bracketleft one' @figures bracketright.square by one.multiple;
+		sub bracketleft two' @figures bracketright.square by two.multiple;
+		sub bracketleft three' @figures bracketright.square by three.multiple;
+		sub bracketleft four' @figures bracketright.square by four.multiple;
+		sub bracketleft five' @figures bracketright.square by five.multiple;
+		sub bracketleft six' @figures bracketright.square by six.multiple;
+		sub bracketleft seven' @figures bracketright.square by seven.multiple;
+		sub bracketleft eight' @figures bracketright.square by eight.multiple;
+		sub bracketleft nine' @figures bracketright.square by nine.multiple;
+	} duo_3; 
+	lookup duo_4 {
+		sub bracketleft' @figures @figures bracketright.square by bracketleft.square;
+	} duo_4;
+	
+	
+	
+	
+	lookup trio_1 {
+		sub bracketleft @figures @figures @figures bracketright' by bracketright.square;
+	} trio_1; 
+	lookup trio_2 {
+		sub bracketleft @figures @figures zero' bracketright.square by zero.multiple;
+		sub bracketleft @figures @figures one' bracketright.square by one.multiple;
+		sub bracketleft @figures @figures two' bracketright.square by two.multiple;
+		sub bracketleft @figures @figures three' bracketright.square by three.multiple;
+		sub bracketleft @figures @figures four' bracketright.square by four.multiple;
+		sub bracketleft @figures @figures five' bracketright.square by five.multiple;
+		sub bracketleft @figures @figures six' bracketright.square by six.multiple;
+		sub bracketleft @figures @figures seven' bracketright.square by seven.multiple;
+		sub bracketleft @figures @figures eight' bracketright.square by eight.multiple;
+		sub bracketleft @figures @figures nine' bracketright.square by nine.multiple;
+	} trio_2; 
+	lookup trio_3 {
+		sub bracketleft @figures zero' @figures bracketright.square by zero.multiple;
+		sub bracketleft @figures one' @figures bracketright.square by one.multiple;
+		sub bracketleft @figures two' @figures bracketright.square by two.multiple;
+		sub bracketleft @figures three' @figures bracketright.square by three.multiple;
+		sub bracketleft @figures four' @figures bracketright.square by four.multiple;
+		sub bracketleft @figures five' @figures bracketright.square by five.multiple;
+		sub bracketleft @figures six' @figures bracketright.square by six.multiple;
+		sub bracketleft @figures seven' @figures bracketright.square by seven.multiple;
+		sub bracketleft @figures eight' @figures bracketright.square by eight.multiple;
+		sub bracketleft @figures nine' @figures bracketright.square by nine.multiple;
+	} trio_3; 
+	lookup trio_4 {
+		sub bracketleft zero' @figures @figures bracketright.square by zero.multiple;
+		sub bracketleft one' @figures @figures bracketright.square by one.multiple;
+		sub bracketleft two' @figures @figures bracketright.square by two.multiple;
+		sub bracketleft three' @figures @figures bracketright.square by three.multiple;
+		sub bracketleft four' @figures @figures bracketright.square by four.multiple;
+		sub bracketleft five' @figures @figures bracketright.square by five.multiple;
+		sub bracketleft six' @figures @figures bracketright.square by six.multiple;
+		sub bracketleft seven' @figures @figures bracketright.square by seven.multiple;
+		sub bracketleft eight' @figures @figures bracketright.square by eight.multiple;
+		sub bracketleft nine' @figures @figures bracketright.square by nine.multiple;
+	} trio_4; 
+	lookup trio_5 {
+		sub bracketleft' @figures @figures @figures bracketright.square by bracketleft.square;
+	} trio_5; 	 
+} ss01;
+</code>
+
+This works like a charm, I’m just wondering if I could simplify things somehow.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">And, another question while I’m at it. If I kern a glyph to overlap another, is there some way to make sure the overlap will be knocked out? It’s easily done with multiple shapes inside a glyph (ex: the inner shape of O is knocked out of the outer).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-23 13:15:22"
+			itemprop="datePublished"
+		>
+			2010-06-23 13:15:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Actually. This does not work as a charm, at least not in the application my client use to design: Word 2010. I’m not sure why.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-23 13:54:14"
+			itemprop="datePublished"
+		>
+			2010-06-23 13:54:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">&lt;code&gt;CODE&lt;/code&gt;
+empty line
+&lt;code&gt;CODE&lt;/code&gt;
+
+--------
+
+Would be easier to comprehend, if you would post a few images of the singles, the doubles and the tripples (after substitution).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-23 19:14:35"
+			itemprop="datePublished"
+		>
+			2010-06-23 19:14:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for responding, Arno. It was just an uninstalled old version of the font that caused problems in Word. The image below shows what I’m doing: 
+
+[img:sites/default/files/old-images/Indexed-Numerals_5939.png]
+
+Everything is working now, but the code feels rather heavy.
+
+Also, the frames are built from parts and the rendering of each part sometimes differs (only on screen). That’s the reason I’m asking about overlapping shapes. It would be so much easier if I could just keep the rectangles as whole shapes and kern them in place instead of piecing them together.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-25 00:46:25"
+			itemprop="datePublished"
+		>
+			2010-06-25 00:46:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Frode,
+
+you can simplify the code creating a class with all the alternate figures (I called this @figalts) and rearranging the lookups this way:
+
+<code>
+feature ss01 {
+ lookup figthree {
+  sub bracketleft @figures @figures zero' by zero.multiple;
+  sub bracketleft @figures @figures one' by one.multiple;
+  sub bracketleft @figures @figures two' by two.multiple;
+  sub bracketleft @figures @figures three' by three.multiple;
+  sub bracketleft @figures @figures four' by four.multiple;
+  sub bracketleft @figures @figures five' by five.multiple;
+  sub bracketleft @figures @figures six' by six.multiple;
+  sub bracketleft @figures @figures seven' by seven.multiple;
+  sub bracketleft @figures @figures eight' by eight.multiple;
+  sub bracketleft @figures @figures nine' by nine.multiple;
+ } figthree;
+</code><code>
+ lookup figtwo {
+  sub bracketleft @figures zero' by zero.multiple;
+  sub bracketleft @figures one' by one.multiple;
+  sub bracketleft @figures two' by two.multiple;
+  sub bracketleft @figures three' by three.multiple;
+  sub bracketleft @figures four' by four.multiple;
+  sub bracketleft @figures five' by five.multiple;
+  sub bracketleft @figures six' by six.multiple;
+  sub bracketleft @figures seven' by seven.multiple;
+  sub bracketleft @figures eight' by eight.multiple;
+  sub bracketleft @figures nine' backetright by nine.multiple;
+ } figtwo;
+</code><code>
+ lookup figone {
+  sub bracketleft zero' @figalts by zero.multiple;
+  sub bracketleft one' @figalts by one.multiple;
+  sub bracketleft two' @figalts by two.multiple;
+  sub bracketleft three' @figalts by three.multiple;
+  sub bracketleft four' @figalts by four.multiple;
+  sub bracketleft five' @figalts by five.multiple;
+  sub bracketleft six' @figalts  by six.multiple;
+  sub bracketleft seven' @figalts by seven.multiple;
+  sub bracketleft eight' @figalts by eight.multiple;
+  sub bracketleft nine' @figalts by nine.multiple;
+ } figtone;
+</code><code>
+ lookup figmono {
+  sub bracketleft zero' backetright by zero.mono;
+  sub bracketleft one' backetright by one.mono;
+  sub bracketleft two' backetright by two.mono;
+  sub bracketleft three' backetright by three.mono;
+  sub bracketleft four' backetright by four.mono;
+  sub bracketleft five' backetright by five.mono;
+  sub bracketleft six' backetright by six.mono;
+  sub bracketleft seven' backetright by seven.mono;
+  sub bracketleft eight' backetright by eight.mono;
+  sub bracketleft nine' backetright by nine.mono;
+ } figmono;
+</code><code>
+ lookup left {
+  sub bracketleft' @figalts by bracketleft.square;
+ } left;
+</code><code>
+ lookup right {
+  sub @figalts bracketright' by bracketright.square;
+ } right;
+} ss01;
+</code>
+
+As you can see, @figalts was created just to permit the replacement in an easier way.
+
+This code has a problem: it will change any text between brackets and beginning with two or three numbers, what may not be desired. Your original code also permits undesired substitution, although it restricts the field to [<em>1-3</em>x].
+
+As this is a stylistic set, the user probably will apply it throught a character style. So, he/she will hardly get undesired substitutions. If this is an issue, you can adopt another standard to indicate indexed numbers (as two brackets instead of one) and reduce to near zero the possibility to get wrong results.
+
+[I have no time to test this code now, but I plan to do this soon.]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-25 05:24:12"
+			itemprop="datePublished"
+		>
+			2010-06-25 05:24:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Frode and Freiberger
+
+Instead of a list like this
+
+<code>sub bracketleft @figures @figures zero' by zero.multiple;
+sub bracketleft @figures @figures one' by one.multiple;
+sub bracketleft @figures @figures two' by two.multiple;
+sub bracketleft @figures @figures three' by three.multiple;
+sub bracketleft @figures @figures four' by four.multiple;
+sub bracketleft @figures @figures five' by five.multiple;
+sub bracketleft @figures @figures six' by six.multiple;
+sub bracketleft @figures @figures seven' by seven.multiple;
+sub bracketleft @figures @figures eight' by eight.multiple;
+sub bracketleft @figures @figures nine' by nine.multiple;</code>
+
+you simply could write
+
+<code>sub bracketleft @figures @figures @figures' by @figures_Multiple</code>
+
+This only requires, that the order is the same in @figures and @figures_Multiple.
+
+<cite>It would be so much easier if I could just keep the rectangles as whole shapes and kern them in place instead of piecing them together.</cite>
+
+In this case you would replace the bracketleft by the whole square and the bracketright by a glyph with a width of zero? This should work, especially because not the outlines would overlap, but the glyphs only. But you even would not need kerning, if the square had a negative right sidebearing. You would need two squares. One for the singles and doubles and one for the triples.
+
+I assume, that your multiple and mono figures are actually over- and underlined. Correct?
+
+Edited:
+
+Misunderstanding. You mean the overlapping of the outlines of the brackets, right? This can indeed be avoided by replacing the left or the right bracket with a square and the other by an empty character with a width of zero.
+
+<code>sub bracketleft @figures' bracketright by @figures_mono;
+sub bracketleft @figures @figures @figures' bracketright by @figures_multiple;
+sub bracketleft @figures @figures' bracketright by @figures_multiple;
+sub bracketleft @figures' bracketright by @figures_multiple;
+sub bracketleft' @figures_multiple @figures_multiple @figures_multiple by bracketleft.rectangle;
+sub bracketleft' [@figures_mono @figures_multiple] by bracketleft.quadrat;
+sub [@figures_mono @figures_multiple] bracketright' by bracketright.EmptyAndZeroWidth;</code>
+
+bracketleft.quadrat and bracketleft.rectangle have a negative right sidebearing, that is almost as big as their width (exclusively the left sidebearing).
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-25 09:11:30"
+			itemprop="datePublished"
+		>
+			2010-06-25 09:11:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Freiberger
+
+I made a mistake in my code. I don’t think, that it would work, but I could correct it. But with the code from your last message I think, it is not needed anymore.
+
+<cite>I think this is not viable because one cannot center the numbers to the square size</cite>
+
+The multiple figures are smaller than the single figures. I think, you are right, if the figures are not monospaced.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-25 11:30:19"
+			itemprop="datePublished"
+		>
+			2010-06-25 11:30:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You're right, Arno. After defining @figures_mono and @figures_multiple we get a much smaller, elegant code:
+
+<code>feature ss01 {
+lookup figthree {
+sub bracketleft @figures @figures @figures' by @figures_multiple;
+} figthree;
+</code><code>
+lookup figtwo {
+sub bracketleft @figures @figures' by @figures_multiple;
+} figtwo;
+</code><code>
+lookup figone {
+sub bracketleft @figures' @figures_multiple by @figures_multiple;
+} figtone;
+</code><code>
+lookup figmono {
+sub bracketleft @figures' backetright by @figures_mono;
+} figmono;
+</code><code>
+lookup left {
+sub bracketleft' @figures_multiple by bracketleft.square;
+sub bracketleft' @figures_mono by bracketleft.square;
+} left;
+</code><code>
+lookup right {
+sub @figures_multiple bracketright' by bracketright.square;
+sub @figures_mono bracketright' by bracketright.square;
+} right;
+} ss01;
+</code>
+
+The overlapping idea is also possible, although I'd preffer the code above. It seems to be more complex to handle overlapping squares and numbers than to do straigthforward replacements.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-25 11:30:24"
+			itemprop="datePublished"
+		>
+			2010-06-25 11:30:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Arno, I edited my post and removed the observation about your overlapping code because I'm unsure if this is really not viable. Actually, I <em>guess</em> it's really possible, although more difficult to manage. I must do some tests before make this kind of assestment, sorry.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-25 11:33:33"
+			itemprop="datePublished"
+		>
+			2010-06-25 11:33:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Freiberger
+
+I think, that overlapping is problematical, if outlines overlap. For a few programs this may be problematical. But in my concept outlines are not overlapping. You could copy the square outline to a figure in FontLab and it would work. Path directions had not to be changed.
+
+I must logout now, but I will have a look on that thread later again.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-25 11:43:04"
+			itemprop="datePublished"
+		>
+			2010-06-25 11:43:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I have to digest these codes to see if I understand them :) Thanks! 
+
+Yes, the “outlined” numbers are over- and underlined. A square with negative sidebearing would work like a charm, but I can’t get the inversed numbers knocked out.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-25 11:46:36"
+			itemprop="datePublished"
+		>
+			2010-06-25 11:46:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Correction of my code at the bottom of the post, that I wrote 1.11am.
+
+<code>sub bracketleft @figures' bracketright by @figures_mono;
+sub bracketleft @figures @figures @figures' bracketright by @figures_multiple;
+sub bracketleft @figures @figures' bracketright by @figures_multiple;
+sub @figures @figures' figures_multiple by @figures_multiple;
+sub @figures' figures_multiple by @figures_multiple;
+sub bracketleft' @figures_multiple @figures_multiple @figures_multiple by bracketleft.rectangle;
+sub bracketleft' [@figures_mono @figures_multiple] by bracketleft.quadrat;
+sub [@figures_mono @figures_multiple] bracketright' by bracketright.EmptyAndZeroWidth;</code>
+
+I prefer coding, when I can test the code, but I am too lazy for creating a font just for testing code. I wanted to avoid, that figures are substituted, that are in context of more than two other figures. And it would be possible to create a code for the invers feature.
+
+However, I think the principle is clear enough. And maybe it already was a help, that you can put classes in brackets for building another set or that you can substitute classes. This probably does not work only in the features, but also, when you define classes. This was missing in the beginning, at least partly.
+
+By the way, why are the lookups in your code?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-25 18:25:07"
+			itemprop="datePublished"
+		>
+			2010-06-25 18:25:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><code>feature ss01 {
+featureNames {
+name "index";
+name 1 "index";
+} ; # because I love it so, but it can be build with OTMaster or Makeotf only. (That is AFDKO 2.5 syntax.)
+lookup Index {
+sub bracketleft @figures' bracketright by @figures_mono;
+sub bracketleft @figures @figures @figures' bracketright by @figures_multiple;
+sub bracketleft @figures @figures' bracketright by @figures_multiple;
+sub @figures @figures' figures_multiple by @figures_multiple;
+sub @figures' figures_multiple by @figures_multiple;
+sub bracketleft' @figures_multiple @figures_multiple @figures_multiple by bracketleft.rectangle;
+sub bracketleft' [@figures_mono @figures_multiple] by bracketleft.quadrat;
+sub [@figures_mono @figures_multiple] bracketright' by bracketright.EmptyAndZeroWidth;} Index;
+} ss01;</code>
+
+<code>feature ss02 {
+featureNames {
+name "index invers";
+name 1 "index invers";
+} ; # because I love it so, but it can be build with OTMaster or Makeotf only. (That is AFDKO 2.5 syntax.)
+lookup Index;
+sub bracketright.EmptyAndZeroWidth by bracketright.verticalStroke;
+sub bracketleft.rectangle by bracketleft.verticalStroke;
+sub bracketleft.quadrat by bracketleft.verticalStroke;
+sub [@figures_mono @figures_multiple] by [@figures_mono_invers @figures_multiple_invers];
+} ss02;</code>
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-25 18:53:32"
+			itemprop="datePublished"
+		>
+			2010-06-25 18:53:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Arno, thanks so much for helping me out. I will test these as soon as possible. I want to understand what I’m doing, not just copy someone’s code. Lookups: I’m far from an OT-wiz, the lookups just seemed like the best way to solve my problem — they are the closest thing to if/else statements.
+
+What do you mean by “the order is the same in @figures and @figures_Multiple”?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-25 22:38:16"
+			itemprop="datePublished"
+		>
+			2010-06-25 22:38:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><strong>Lookups: </strong> they are used to organize the code. Although you can use a unique sequence of substitutions, to group them into lookpus avoid mess.
+
+<strong>Same order :</strong> when you replace a class with other, OT engine uses the order of the glyphs in the class to make substitutions. Example:
+<code>
+class @this: a e i o u
+class @that: ä ë ï ö ü
+</code>
+When you do a command like  <code>sub @this by @that</code>,  if OT engine finds u in your text, it will replace this u by the glyph in the same position from the class @that. In this example, the 5th character, ü.
+
+<strong>Commented code :</strong> here is the code I posted above with some comments. When inserting this in your font, you can remove the lines with #.
+<code>
+feature ss01 {
+ lookup figthree {
+</code>
+# We must always begins with the more long/complex situation.
+# In your code, this is the [XXX] case, with three digits.
+# The reason is the same to text substitution: in a text editor, if you first
+# replace 'type' with 'font' and later tries to find 'typeface', you get
+# a problem as 'typeface' became 'fontface' due to the first substitution.
+<code>
+  sub bracketleft @figures @figures @figures' by @figures_multiple;
+ } figthree;
+</code>
+# This replaces the thrid digit when there is [XXX. This digit will be
+# the equivalent one from your figures_multiple class.
+<code>
+lookup figtwo {
+sub bracketleft @figures @figures' by @figures_multiple;
+} figtwo;
+</code>
+# The same above, now with two digits after [.
+# At this moment, we already replaced all occurrencies of [XX<strong>X</strong> and [X<strong>X</strong>.
+# Every digit in these positions came from @figures_multiple at this
+# point. We still have to substitute [X, the first digit. But in this case,
+# there are two possibilities: cases where you want a figure_multiple in the 
+# place of X and cases where you want a figure_mono, the [X].
+# So we need two commands to handle this.
+<code>
+lookup figone {
+sub bracketleft @figures' @figures_multiple by @figures_multiple;
+} figtone;
+</code>
+# This is the solution: as [XXX] and [XX] were already replaced
+# with digits from the @figures_multiple class, every
+# [X followed with a multiple is not a [X] case, but [XX] or [XXX].
+# This simplifies the code and reduces the number of procedures.
+<code>
+lookup figmono {
+sub bracketleft @figures' backetright by @figures_mono;
+} figmono;
+</code>
+# Finally, we replace the remaining [X] with the mono figures.
+<code>
+lookup left {
+sub bracketleft' @figures_multiple by bracketleft.square;
+sub bracketleft' @figures_mono by bracketleft.square;
+} left;
+</code>
+# This replaces the bracketleft. Note you have two situations: brackets 
+# followed by multiple and mono digits, so both of them are addressed.
+<code>
+lookup right {
+sub @figures_multiple bracketright' by bracketright.square;
+sub @figures_mono bracketright' by bracketright.square;
+} right;
+</code>
+# Exactly the same we made with bracketlefts, now we did with bracketrigths.
+<code>
+} ss01;
+</code>
+# To close the Stylistic Set.
+
+Note this order lets you ignore the bracketright when doing digit replacement. This also lets your code smaller and more clean. Hope this helps.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-25 23:13:25"
+			itemprop="datePublished"
+		>
+			2010-06-25 23:13:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Frode
+
+<cite>What do you mean by “the order is the same in @figures and @figures_Multiple”?</cite>
+
+Freiberger answered in the post above.
+
+<cite>And, another question while I’m at it. If I kern a glyph to overlap another, is there some way to make sure the overlap will be knocked out? It’s easily done with multiple shapes inside a glyph (ex: the inner shape of O is knocked out of the outer).</cite>
+
+Somehow I have misunderstood that question. You want to knockout paths of two <em>different</em> glyphs. This may work in some applications, but for sure not in all. I tried something similar <strong><a href="http://typophile.com/node/59648">here</a></strong> with a shape, that had the wrong path direction. I thought, that this shape would not be visible. So I assume, that you have to provide two sets of invers figures, mono_invers and multiple_invers.
+
+The other problem, that you had, are rounding inaccuracies. And I assume, that they are partly caused by the hinting. I think, that can be avoided only, if you let the glyphs overlap with the help of negative sidebearings or kerning with the intention, that the overlapping parts do <strong>not</strong> knockout. In other words you could close small vertical wholes with the help of overlapping the black shapes. This should work in almost all applications. And this behavior of the applications is good, because otherwise you had to shorten the serifs instead of a negative kerning for a letter combination like XA in E<strong>XA</strong>MPLE.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-26 08:42:38"
+			itemprop="datePublished"
+		>
+			2010-06-26 08:42:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I did this (kerning = +50 to show the overlapping parts)
+[img:sites/default/files/old-images/overlaps_6577.png]
+to take care of the worst overlap problems. 
+
+And here’s an example of the rendering.
+[img:sites/default/files/old-images/rendering_5336.png]
+As you can see, the over- and underlines sometimes disappear and might not land on the same vertical position. I guess this is just a hinting issue.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-26 11:57:21"
+			itemprop="datePublished"
+		>
+			2010-06-26 11:57:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Frode
+
+Do the over- and underlines and the horizontal strokes of the brackets lay in alignment zones and are they hinted? Normally that should solve the problem.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-26 13:11:07"
+			itemprop="datePublished"
+		>
+			2010-06-26 13:11:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">No, they’re not hinted. Guess I should look into it, although I’m a little scared too.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-26 13:36:16"
+			itemprop="datePublished"
+		>
+			2010-06-26 13:36:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><a href="http://docs.google.com/View?id=dhnxc5bs_21ggxfqxft">Adam’s new hinting tutorial</a>
+
+<a href="http://typophile.com/files/hinting.pdf">David Lemon’s PostScript hinting tutorial</a>
+
+With regard to TrueType hinting I actually can not help. But setting alignment zones for PostScript flavored fonts and individual hints, is not difficult.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-26 17:05:55"
+			itemprop="datePublished"
+		>
+			2010-06-26 17:05:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Could I have double brackets as triggers for the inversed glyphs instead of two stylistic sets? I tried that in my first code, but it just changed the innermost brackets and numerals leaving the outer intact.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-26 23:37:42"
+			itemprop="datePublished"
+		>
+			2010-06-26 23:37:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The way I immediately see to achieve this is to build two sequences of lookups (or two large lookups), beginning with all the substitutions with one bracket and later including all the substitutions with two brackets. So you don't have to use ss02.
+
+This procedure works but will cause two substitutions: all [nX] will be replaced in the first lookup, including the [ [nX] ]. After this, the [ [nX] ] are again replaced. Maybe there is a way to avoid two substitutions for [ [nx] ], but I have to check this later.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-27 01:09:23"
+			itemprop="datePublished"
+		>
+			2010-06-27 01:09:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Arno and Igor! Thanks a lot for the help.
+I understood the OT perfectly and when I fixed the typos it worked like a charm. I’m not sure if I get why you chose to ignore the bracketright until the end. In my case it doesn’t matter much, as my font only contain figures, but if I where to write “[24 and some text…]” the numbers would still substitute.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-27 01:41:30"
+			itemprop="datePublished"
+		>
+			2010-06-27 01:41:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>Why you chose to ignore the bracketright until the end?</cite>
+
+Because with bracketright you have more situations to replace and have to declare all of them:
+<code>
+[XX<strong>X</strong>]
+[X<strong>X</strong>X]
+[<strong>X</strong>XX]
+[X<strong>X</strong>]
+[<strong>X</strong>X]
+[<strong>X</strong>]
+</code>
+While ignoring the bracketright you reduce the situations:
+<code>
+[XX<strong>X</strong>
+[X<strong>X</strong>
+[<strong>X</strong>
+[<strong>X</strong>]
+</code>
+And the code also becomes smaller (as you ommit bracketright from it).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-27 02:16:14"
+			itemprop="datePublished"
+		>
+			2010-06-27 02:16:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Freiberger
+
+Your code also substitutes the first three figures in [n], where n is a non-negative integer.
+
+@ Frode
+
+<cite>Could I have double brackets as triggers for the inversed glyphs instead of two stylistic sets?</cite>
+
+At the bottom of ss01 instead of ss02-feature:
+
+<code>sub bracketright.EmptyAndZeroWidth' bracketright by bracketright.verticalStroke;
+sub bracketleft bracketleft.rectangle' by bracketleft.verticalStroke;
+sub bracketleft bracketleft.quadrat' by bracketleft.verticalStroke;
+sub [@figures_mono @figures_multiple] by [@figures_mono_invers @figures_multiple_invers];
+sub bracketleft' bracketleft.verticalStroke by bracketleft.EmptyAndZeroWidth;
+sub bracketright.verticalStroke bracketright' by bracketright.EmptyAndZeroWidth;</code>
+
+But you had to search and replace "[.[" by "[" and "].]" by "]", if you later decide to reinvert the index. If you use a second feature, you can avoid that. A second feature is more comfortable. (Remove the dots between the brackets. The board software is shit.)
+
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-27 10:43:18"
+			itemprop="datePublished"
+		>
+			2010-06-27 10:43:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I have to check, if I can call a lookup more than one time in a feature or if I can simply repeat a substitution rule. Then I could improve the code (See bottom "Improved, but unchecked, if valid"). But for the moment this is the most elegant, I was able to code. The special cases for the rectangle-brackets are removed, because I don’t think, that it was a good idea. The problem can be solved better with hinting.
+
+<code>feature ss01 {
+featureNames {
+name "index";
+name 1 "index";
+} ; # because I love it so, but it can be build with OTMaster or Makeotf only. (That is AFDKO 2.5 syntax.)
+lookup Index {</code>
+
+<code># [f] to [f.mono]
+sub bracketleft @figures' bracketright by @figures_mono;</code>
+
+<code># [fff] to [f f.multiple f]
+sub bracketleft @figures @figures' @figures bracketright by @figures_multiple;</code>
+
+<code># [ff] to [f.multiple f]
+sub bracketleft @figures' @figures bracketright by @figures_multiple;</code>
+
+<code># [f.multiple f] to [f.multiple f.multiple] AND
+# [f f.multiple f] to [f f.multiple f.multiple]
+sub @figures.multiple @figures' by @figures_multiple;</code>
+
+<code># [f f.multiple f.multiple] to [f.multiple f.multiple f.multiple]
+sub @figures' figures_multiple by @figures_multiple;</code>
+
+<code>sub bracketleft' [@figures_mono @figures_multiple] by bracketleft.square;
+sub [@figures_mono @figures_multiple] bracketright' by bracketright.square;
+} Index;
+} ss01;</code>
+
+<code>feature ss02 {
+featureNames {
+name "index invers";
+name 1 "index invers";
+} ; # because I love it so, but it can be build with OTMaster or Makeotf only. (That is AFDKO 2.5 syntax.)
+lookup Index;
+sub [@figures_mono @figures_multiple bracketleft.square bracketright.square] by [@figures_mono_invers @figures_multiple_invers bracketleft.squareInvers bracketright.squareInvers];
+} ss02;</code>
+
+-------------------------
+
+Improved, but unchecked, if valid:
+
+<code># [f] to [f.mono]
+sub bracketleft @figures' bracketright by @figures_mono;</code>
+
+<code># [fff] to [f f f.multiple]
+sub bracketleft @figures @figures @figures' bracketright by @figures_multiple;</code>
+
+<code># [ff] to [f f.multiple]
+sub bracketleft @figures @figures' bracketright by @figures_multiple;</code>
+
+<code># [f f.multiple] to [f.multiple f.multiple] AND
+# [f f f.multiple] to [f f.multiple f.multiple]
+sub @figures' figures_multiple by @figures_multiple;</code>
+
+<code># same rule as above
+# [f f.multiple f.multiple] to [f.multiple f.multiple f.multiple]
+sub @figures' figures_multiple by @figures_multiple;</code>
+
+And I have to check, whether a lookup can contain another lookup.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-27 15:09:41"
+			itemprop="datePublished"
+		>
+			2010-06-27 15:09:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">“The special cases for the rectangle-brackets are removed, because I don’t think, that it was a good idea.”? I don’t understand. I never adressed any rendering problems in the OT code. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-27 15:52:52"
+			itemprop="datePublished"
+		>
+			2010-06-27 15:52:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I meant the full shaped squares and reactangles and the empty character with a width of zero. The latest code, that I posted, is intended to use it in combination with hinting.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-27 16:09:00"
+			itemprop="datePublished"
+		>
+			2010-06-27 16:09:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ok. Yes, I think that’s the better solution as well. No reason to apply two different methods.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-27 16:54:35"
+			itemprop="datePublished"
+		>
+			2010-06-27 16:54:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>Your code also substitutes the first three figures in [n], where n is a non-negative integer.</cite>
+
+Arno, I'm not sure if I understood. This is the way it's supposed to act. Or am I missing something?
+
+There is the possibility to result undesired replacement of cases like [1993: Thing] or [12 cups]. I said in the post of 24.Jun.2010 9.24pm, this hardly would appears as the stylistic set demands character style, GREP style or manual formatting –and in all these cases user would apply it just to proper situations.
+
+Frode font has just figures, so this is not an issue here. But for other fonts this is possible and the type designer must evaluate if another trigger besides [] is adequate.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-27 17:11:35"
+			itemprop="datePublished"
+		>
+			2010-06-27 17:11:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Arno, your 2.43 makes no sense to me and your 10.53 does not work. 
+
+If I’ll keep two features, I’ll want both stylistic sets to work on it’s own, and as of now they do. I can send you the files if you’d like to look at it, but I’m more than happy with the help.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-27 17:27:34"
+			itemprop="datePublished"
+		>
+			2010-06-27 17:27:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Frode
+
+PM sent.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-27 19:44:30"
+			itemprop="datePublished"
+		>
+			2010-06-27 19:44:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I got the file. There are indeed bugs. I did forget an @, but that is not all. The bracketleft will not be replaced, but at the moment I don’t understand why. Enough for today.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-27 21:35:51"
+			itemprop="datePublished"
+		>
+			2010-06-27 21:35:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I don’t know, why, but the main reason, why it did not work, were the missing lookups, that I have added now. I have no explanation for that, but I am burning for an answer.<strong> Thanks for the opportunity to learn something new! I will improve the code probably tomorrow,</strong> but here it is. It works fine. Test it with the string "[1] [12] [123] [1234] [1 1] [12 12] [123 123]" in FontLab. (I did not change your classes, but I have added them to the feature file.) By the way, as far as I know, you should avoid names with two dots like seven.mono.inverse because of search and copy functions in PDF. I also will post code, that you can use for the calt feature instead of the two ss features.
+
+<code>@figures=[zero one two three four five six seven eight nine];
+@figures_mono=[zero.mono one.mono two.mono three.mono four.mono five.mono six.mono seven.mono eight.mono nine.mono];
+@figures_mono_inverse=[zero.mono.inverse one.mono.inverse two.mono.inverse three.mono.inverse four.mono.inverse five.mono.inverse six.mono.inverse seven.mono.inverse eight.mono.inverse nine.mono.inverse];
+@figures_multiple=[zero.multiple one.multiple two.multiple three.multiple four.multiple five.multiple six.multiple seven.multiple eight.multiple nine.multiple];
+@figures_multiple_inverse=[zero.multiple.inverse one.multiple.inverse two.multiple.inverse three.multiple.inverse four.multiple.inverse five.multiple.inverse six.multiple.inverse seven.multiple.inverse eight.multiple.inverse nine.multiple.inverse];</code>
+
+<code>feature ss01 {
+#featureNames {
+#name "index";
+#name 1 "index";
+#} ; # because I love it so, but it can be build with OTMaster or Makeotf only. (That is AFDKO 2.5 syntax.)
+lookup Index1 {</code>
+
+<code># [f] to [f.mono]
+sub bracketleft @figures' bracketright by @figures_mono;</code>
+
+<code># [fff] to [f f.multiple f]
+sub bracketleft @figures @figures' @figures bracketright by @figures_multiple;</code>
+
+<code># [ff] to [f.multiple f]
+sub bracketleft @figures' @figures bracketright by @figures_multiple;</code>
+
+<code># [f.multiple f] to [f.multiple f.multiple] AND
+# [f f.multiple f] to [f f.multiple f.multiple]
+sub @figures_multiple @figures' by @figures_multiple;
+} Index1;</code>
+
+<code>lookup Index2 {
+# [f f.multiple f.multiple] to [f.multiple f.multiple f.multiple]
+sub @figures' @figures_multiple by @figures_multiple;
+} Index2;</code>
+
+<code>lookup Index3 {
+sub bracketleft' [@figures_mono @figures_multiple] by bracketleft.square;
+sub [@figures_mono @figures_multiple] bracketright' by bracketright.square;
+} Index3;
+} ss01;</code>
+
+<code>feature ss02 {
+#featureNames {
+#name "index invers";
+#name 1 "index invers";
+#} ; # because I love it so, but it can be build with OTMaster or Makeotf only. (That is AFDKO 2.5 syntax.)
+lookup Index1;
+lookup Index2;
+lookup Index3;
+sub [@figures_mono @figures_multiple bracketleft.square bracketright.square] by [@figures_mono_inverse @figures_multiple_inverse bracketleft.square.inverse bracketright.square.inverse];
+} ss02;</code></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-27 22:29:53"
+			itemprop="datePublished"
+		>
+			2010-06-27 22:29:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">For some reason I’m having problems with Freibergers code from June 25, 3:13. From my client: “when I change the first number, the whole intelligence is lost and I have to start again with [….]. This does not happen in InDesign, obviously MS Word is acting different.”
+
+Any idea why this happens?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-28 12:58:30"
+			itemprop="datePublished"
+		>
+			2010-06-28 12:58:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Frode, I don't know why Word acts in a different way. It may be doing a 'blind' substitution (this is a suppostion, I'm at my job now and cannot test this):
+
+After user types [X, OT engine already finds the third case from the code and do the replace action. User follow typing XX but the OT engine does not understands the text is [XXX now and remains with the substituion already made.
+
+I <strong>guess</strong> this is not an issue to InDesign because it handles GREP styles and paragraph composer, so the text is always under evaluation by the program. Word seems not to go so far.
+
+If this is the situation, the code needs to be changed to be Word-compatible. So, the solution is to write a longer code like yours first try. The schema is
+<code>
+[XX<strong>X</strong>]
+[X<strong>X</strong>X]
+[<strong>X</strong>XX]
+[X<strong>X</strong>]
+[<strong>X</strong>X]
+[<strong>X</strong>]
+</code>
+To avoid Word to replace [X and mess up things, the code needs to find the whole situation, including the bracketright.
+
+I'll come back to this later, probably this night, and then post results here.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-28 14:54:48"
+			itemprop="datePublished"
+		>
+			2010-06-28 14:54:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Frode
+
+I have an <strong><a href="http://typophile.com/node/71723">attachement container now</a>.</strong>
+
+All the three feature files are tested in FontLab and work as intended there.
+<ul>
+			<li><a href="http://typophile.com/files/1_Features%20%5Bss01%20and%20ss02%5D.fea_.txt">1_Features [ss01 and ss02].fea_.txt</a></li>
+			<li><a href="http://typophile.com/files/2_Features%20%5Balternative%20ss01%20and%20ss02%5D.fea_.txt">2_Features [alternative ss01 and ss02].fea_.txt</a></li>
+			<li><a href="http://typophile.com/files/3_Features%20%5Bcalt%5D%20%5Bbased%20on%201%5D.fea_.txt">3_Features [calt] [based on 1].fea_.txt</a></li>
+		</ul>
+
+I did not check, if there are problems in Word with my features, but I assume, you are having the same problems with my features as with Freiberger’s.
+
+Furthermore I assume, that the problem with Word cannot be solved. Just instinct. But I haven’t installed Word, so I can’t help you.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-28 20:45:37"
+			itemprop="datePublished"
+		>
+			2010-06-28 20:45:37
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Frode:
+<em>From my client: “when I change the first number, the whole intelligence is lost and I have to start again with [….]. This does not happen in InDesign, obviously MS Word is acting different.” Any idea why this happens?</em>
+
+The Microsoftian logic: "We are one of the creators of the OpenType format, therefore we will not support it. Ok, ok, we are pulling your leg, we *will*, but we shall make it weird and unpredictable".
+
+<em>my font only contain figures</em>
+
+So why complicate things so much? Especially as you use a stylistic set. I've created  a very simple code and it works in Worn 2010. Here it is:
+___
+
+@cyfry = [ zero one two three four five six seven eight nine ];
+
+@cyfry.mono = [ zero.mono one.mono two.mono three.mono four.mono five.mono six.mono seven.mono eight.mono nine.mono ];
+
+@cyfry.multi = [ zero.multi one.multi two.multi three.multi four.multi five.multi six.multi seven.multi eight.multi nine.multi ];
+
+feature ss05 {
+### hacks for MS Worn 2010
+
+lookup cyfry.kwad1 {
+sub @cyfry by @cyfry.mono;
+} cyfry.kwad1;
+
+lookup cyfry.kwad2 {
+sub bracketleft by bracketleft.simple;
+sub bracketright by bracketright.simple;
+} cyfry.kwad2;
+
+lookup cyfry.kwad3 {
+sub @cyfry.mono' @cyfry.mono by @cyfry.multi;
+} cyfry.kwad3;
+
+lookup cyfry.kwad4 {
+sub @cyfry.multi @cyfry.mono' by @cyfry.multi;
+} cyfry.kwad4;
+
+} ss05;
+___
+
+
+and [[http://www.avenned.org/litterae/indexednumerals.avi|a short presentation]].
+
+.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-07-01 20:19:55"
+			itemprop="datePublished"
+		>
+			2010-07-01 20:19:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Przemysław</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This seems to require, that you select the strings, that you want to change, but not the whole text, because otherwise all figures would be substituted. As an additional feature it may be senseful, if Word 2010 has no problems with that. But the class @cyfry (or @figures) is needed only, if the figures from that class are intended to be used. So one could ask, why the font contains standard figures, but not only the mono and the multi figures and their inverse counterparts or two fonts, one with the mono and the multi figures and one with their counterparts or four fonts, in which all figure types are split.
+
+And if your code works in Word 10 as an addition, this also should work, shouldn’t it?:
+
+feature ss06 {
+### hacks for MS Worn 2010?
+
+lookup cyfry.kwad1 {
+sub bracketleft @cyfry' bracketright by @cyfry.mono;
+} cyfry.kwad1;
+
+lookup cyfry.kwad2 {
+sub @cyfry by @cyfry.multi;
+} cyfry.kwad2;
+
+lookup cyfry.kwad3 {
+sub [bracketleft bracketright] by [bracketleft.simple bracketright.simple];
+} cyfry.kwad3;
+
+} ss06;
+
+For the case, that Frode’s client wants to use the ss features, he also could select the text after reediting it and turn the features of and on. Maybe there is a keyboard shortcut in Word.
+
+My Media Player does not show your presentation, although it normally supports the format "avi". But there can be dozens of explanations for that.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-07-01 23:32:32"
+			itemprop="datePublished"
+		>
+			2010-07-01 23:32:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

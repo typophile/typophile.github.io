@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Glyph renaming | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Glyph renaming" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/103618/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2013-06-06T08:18:17+00:00" />
+<meta property="article:modified_time" content="2013-06-06T08:18:17+00:00" />
+
+<meta itemprop="name" content="Glyph renaming">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2013-06-06T08:18:17+00:00" />
+<meta itemprop="dateModified" content="2013-06-06T08:18:17+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Glyph renaming"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Glyph renaming</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2013-06-06T08:18:17Z">June 6, 2013</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">shahidr100</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi,
+
+I have around 2000 glyphs which needs to be renamed totally as most of them are more than 32 chars and truncated to 32 chars automatically by FontForge. This has created duplicate entries i think.
+
+What I need to do is give them a friendly name like GLYPH0001 - GLYPH2000.
+
+Is there any script which can do this. I will select the glyphs which i want to change and run the script in order todo so.
+
+Please help.
+
+Thanks & Regards
+
+NOTE: I am a newbie in fonts and fontforge.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">try maybe my quick script
+<pre>
+# -*- coding: utf-8 -*-
+import fontforge;
+
+def change_name_XXXX00001(arg1,font):
+   prefix=fontforge.askString("Prefix..","Prefix:",'GLYPH');
+   numer=1;
+   for i in font.selection.byGlyphs:
+      i.glyphname=prefix+("%04d" % numer);
+      numer+=1;
+
+def EnableSel(arg1,font):
+   for i in font.selection.byGlyphs:
+      return True;
+   return False;
+
+fontforge.registerMenuItem(change_name_XXXX00001,EnableSel,None,
+"Font",None,"Glyph_names","Change to XXXX00001");
+</pre>
+Save code to file or download it from:
+[[http://www.glukfonts.pl/temp/gluk_names.py|www.glukfonts.pl/temp/gluk_names.py]]
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-06 18:14:34"
+			itemprop="datePublished"
+		>
+			2013-06-06 18:14:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gluk</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I take it you don't need or care about glyph-to-Unicode mapping in situations where the original encoding is lost? (Notably PDF creation workflows where the PDF is created from a PostScript file without the original font.)
+
+If you *do* care about such things, glyph names are important and need to be done correctly.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-06 21:23:11"
+			itemprop="datePublished"
+		>
+			2013-06-06 21:23:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Thomas Phinney
+I've read that before, but I'm not certain exactly what correct naming conventions might be. I use, as a example, a.salt, a.salt2 a.salt3 etc, but what do you do with the glyph which has no parent glyph - so to speak. Does it really matter as long as you assign unicodes (from the private range.) </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-07 03:10:33"
+			itemprop="datePublished"
+		>
+			2013-06-07 03:10:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>phrostbyte64</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks a lot gluk. 
+
+I am new in FontForge. How do I run the script. I am using Windows 7 64 bit.
+
+Thanks
+Shahid
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-07 06:17:16"
+			itemprop="datePublished"
+		>
+			2013-06-07 06:17:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>shahidr100</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I selected 2000 glyphs. Selected "Execute Script" from File menu. Pasted the script above and pressed ok but nothing happened. I dont know whether I have done right or not??
+
+Thanks</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-07 07:00:38"
+			itemprop="datePublished"
+		>
+			2013-06-07 07:00:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>shahidr100</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">If You want make it through "Execute Script..", You should paste this:
+<pre>
+import fontforge;
+n=fontforge.activeFont();
+prefix=fontforge.askString("Prefix..","Prefix:",'GLYPH');
+numer=1;
+for i in n.selection.byGlyphs:
+   i.glyphname=prefix+("%04d" % numer);
+   numer+=1;
+</pre></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-07 07:55:53"
+			itemprop="datePublished"
+		>
+			2013-06-07 07:55:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gluk</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Wow...thanks so much gluk. It worked like a charm....you saved me lots and lots of time.  
+
+Is there any site where I can get more info on FontForge scripts. Their site does not cover in detail.
+Thanks once again.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-07 09:52:08"
+			itemprop="datePublished"
+		>
+			2013-06-07 09:52:08
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>shahidr100</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@shahidr100: you are welcome.
+
+Info about Python scripts in Fontforge:
+[[http://fontforge.org/python.html|fontforge.org/python.html]]
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-07 15:33:19"
+			itemprop="datePublished"
+		>
+			2013-06-07 15:33:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gluk</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> what do you do with the glyph which has no parent glyph - so to speak. Does it really matter as long as you assign unicodes (from the private range.)
+
+If they are private use area encoded, then they could have uniXXXX names.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-07 19:13:40"
+			itemprop="datePublished"
+		>
+			2013-06-07 19:13:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"> Hi all, I just posted [[http://typophile.com/node/104013|this]] and was wondering if anyone could help with a fontforge shell script that renames the Glyph Name from the Unicode?
+
+much thanks</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-21 12:46:04"
+			itemprop="datePublished"
+		>
+			2013-06-21 12:46:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hashiama</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Here is a script that renames all glyphs to uniXXXX
+<PRE>
+for g in fnt.glyphs():
+  if g.unicode != -1:
+    g.glyphname = "uni%04X" % (g.unicode)
+</PRE>
+
+Here is one that renames all afii to uni:
+<PRE>
+import string
+for g in fnt.glyphs():
+  if string.find(g.glyphname,'afii') == 0:
+    g.glyphname = "uni%04X" % (g.unicode)
+</PRE>
+I would personally not rename A to uni0041 but I rename all afii.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-21 13:22:19"
+			itemprop="datePublished"
+		>
+			2013-06-21 13:22:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Michel
+
+Thanks for your help, I ran the scripts, however they don't do the renaming required. 
+
+Let me clarify: I wanted to rename the "Glyph Name" (that's not the same as afii is it?) which currently is "uni0061" (instead of "a") and so on, back to "a" from reading the glyph's unicode number.
+
+thanks
+Wei</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-25 14:33:45"
+			itemprop="datePublished"
+		>
+			2013-06-25 14:33:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hashiama</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Oh, then you use
+<PRE>
+   g.glyphname=fontforge.nameFromUnicode(g.unicode)
+</PRE>
+on the glyphs <code>g</code> you want to rename; cf <a href="http://fontforge.org/python.html"> http://fontforge.org/python.html</a>.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-25 15:21:56"
+			itemprop="datePublished"
+		>
+			2013-06-25 15:21:56
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Of course that will not work for glyph names like <code>uni0061.sc</code> (or <code>uni0061_uni1DC8</code> or <code>u00611DC8</code>) that return <code>-1</code> as unicode value. You then need to parse the glyph name in order to rename it.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-25 18:20:46"
+			itemprop="datePublished"
+		>
+			2013-06-25 18:20:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote> I ran the scripts
+</blockquote>
+What I wrote  needs to be completed according to the way you use the code. I use such code in python scripts I call from bash shells. Above, Grzegorz wrote the script so as to call it from the GUI, using the "Execute script" window. Let me just add his lines to get a complete script to use that way:
+<pre>
+---
+fnt=fontforge.activeFont()
+for g in fnt.selection.byGlyphs:
+  if g.unicode != -1:
+     g.glyphname= fontforge.nameFromUnicode(g.unicode)
+---
+</pre>
+You first select the glyphs to rename and then, in the "Execute script" window with that script in it you click ok. That script renames according to the unicode value, not to the hex digits that follow the uniXXXX name; it does not look at the name at all.
+
+Now here is a script that looks at the uniXXXX name. It will  rename only glyphs with a name of the form uniXXXX and  it assumes glyph names that start with uni are followed by a valid hex number, nothing else;  it does not check that what follows uni is a valid hex number. 
+<pre>
+---
+import string
+fnt=fontforge.activeFont()
+for g in fnt.selection.byGlyphs:
+  name=g.glyphname
+  if string.find(name,'uni') == 0:
+    g.glyphname=fontforge.nameFromUnicode(int(name[3:],16))
+---
+</pre>
+Again, you select the glyphs to rename, and click ok in the "Execute script" window.
+
+When you have many scripts, it is not handy to copy them all the time in the "Execute script" window. What you can do is save them in some file, say <code>unicode2name.py</code> and <code>uniname2name.py</code>. You then click "File &gt; Preferences &gt; Script menu" and give a name for the menu name, say "Unicode to name"; then you click on the three dots, go to the folder containing the script, put "*.py" in the the line just above "Filter" and click "Filter"; you will see the files .py appear. You select the one you want to associate to the given menu name.
+
+After, you can execute the script on the selected glyphs by clicking on "File > Script Menu" and the appropriate name associated to the script. You can also execute with some key combination (it is control alt digit on my mac).
+
+A script that checks that the hex values are valid and that handles alternates (.sc, .alt, .ss02 etc) and also glyph names separated by an underscore requires splitting the glyph name and handling piecewise. Here is one that checks that the hex is valid and that can handle names of the form uniXXXXX.sc.ss02 i.e. alternames of uniXX...X
+<pre>
+---
+import string
+ff=fontforge
+fnt=ff.activeFont()
+
+def ishex(h):
+  return all(c in string.hexdigits for c in h)
+
+def gname(altname):
+  l = string.split(altname,'.')
+  name=l[0]
+  if string.find(name,'uni') == 0:
+    hexd=name[3:]
+    if ishex(hexd):
+      l[0]= ff.nameFromUnicode(int(hexd,16))
+      return '.'.join(l)
+  return altname
+ 
+for g in fnt.selection.byGlyphs:
+  g.glyphname=gname(g.glyphname)
+---
+</pre>
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-26 06:19:37"
+			itemprop="datePublished"
+		>
+			2013-06-26 06:19:37
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">btw, Michael
+<blockquote>
+[...] When you have many scripts, it is not handy to copy them all the time in the "Execute script" window [...]
+</blockquote>
+You can define own scripts in 'Tools' menu. For example first script:
+<pre>
+import fontforge;
+
+def rename_unival(arg1,font):
+  for g in font.selection.byGlyphs:
+    if g.unicode != -1:
+      g.glyphname= fontforge.nameFromUnicode(g.unicode);
+
+def EnableSel(arg1,font):
+   for g in font.selection.byGlyphs:
+      return True;
+   return False;
+
+fontforge.registerMenuItem(rename_unival,EnableSel,None,
+"Font",None,"Glyph_names","Rename to unicode value"); 
+</pre>
+
+Save them in change2uni.py in  .Fontforge/python/ directory, and now You have new menu item   'Rename to unicode value' in a submenu 'Glyph_names' of the 'Tools' menu (of the Font window).
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-26 15:12:38"
+			itemprop="datePublished"
+		>
+			2013-06-26 15:12:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gluk</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">That's certainly better looking than in the File menu but the documentation says there is then no shortcut. Those in "File &gt; Script Menu" have a shortcut. Unless you have lots of them, I don't see the advantage but, since I use scripts almost exclusively from the command line, maybe I am missing something expert GUI users appreciate.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-26 15:29:35"
+			itemprop="datePublished"
+		>
+			2013-06-26 15:29:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>Yo can define shortcut</blockquote>
+Oh, I had missed that; it is just the example in the doc that had none. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-26 15:50:11"
+			itemprop="datePublished"
+		>
+			2013-06-26 15:50:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yo can define shortcut (for example key / ) in last line:
+<pre>
+fontforge.registerMenuItem(rename_unival,EnableSel,None,
+"Font","/","Glyph_names","Rename to unicode value"); 
+</pre>
+I personally think, there are many advantages in 'Tools' menu.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-06-26 15:54:56"
+			itemprop="datePublished"
+		>
+			2013-06-26 15:54:56
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gluk</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Run this in a terminal window
+<pre>
+fontforge -lang=ff -c 'Print($haspython)'
+</pre>
+and if you get <code>0</code> then your FontForge was not compiled to use Python scripts. You should get <code>1</code> for python scripts to work.
+
+Also put your code between the tags &lt;pre&gt; and &lt;/pre&gt; else it is unindented and unreadable.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-07-04 15:11:47"
+			itemprop="datePublished"
+		>
+			2013-07-04 15:11:47
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Here is a native fontforge script that does the renaming
+<pre>
+Open($1)
+SelectWorthOutputting()
+foreach
+  SetCharName(NameFromUnicode(GlyphInfo("Unicode")))
+endloop
+Save($2)
+</pre>
+If you call it <code>renam.pe</code> then the call
+<pre>
+fontforge -lang=ff -script renam.pe infile.sfd outfile.sfd
+</pre>
+should do about the same as the python script you appear to be having trouble with. In fact, I just tried that script and it even renamed <code>uni004F_uni0045.sc</code> to <code>O_E.sc</code>. I don't know much native fontforge scripting and I am somewhat surprised that it did that.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-07-04 16:08:32"
+			itemprop="datePublished"
+		>
+			2013-07-04 16:08:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I would like to execute these scripts in the terminal as shell scripts... however something is wrong on my end (I'm using mf2pt1 to convert Metafonts into TrueType/Otf and FontForge is part of the process). When I try to run this script inside the FontForge gui as Execute Script:
+
+<pre><code>fnt=fontforge.activeFont()
+for g in fnt.selection.byGlyphs:
+  if g.unicode != -1:
+     g.glyphname= fontforge.nameFromUnicode(g.unicode)</code></pre>
+
+I get the following error:
+<code>No built-in function or script-file Called from...</code>
+
+If it helps this is the part of the perl script that executes FontForge:
+<code><pre>
+# Use FontForge to autohint the result.
+my $user_script = 0;   # 1=script file was provided by the user; 0=created here
+if (defined $ffscript) {
+    # The user provided his own script.
+    $user_script = 1;
+}
+else {
+    # Create a FontForge script file.
+    $ffscript = $filebase . ".pe";
+    open (FFSCRIPT, ">$ffscript") || die "${progname}: $! ($ffscript)\n";
+    print FFSCRIPT <<'AUTOHINT';
+Open($1);
+SelectAll();
+RemoveOverlap();
+#AddExtrema();
+#Simplify(0, 2);
+CorrectDirection();
+#Simplify(0, 2);
+RoundToInt();
+AutoHint();   
+Generate($1);
+Generate($1:r + ".otf");
+Generate($1:r + ".ttf");
+Quit(0);
+AUTOHINT
+    ;
+    close FFSCRIPT;
+}
+</pre></code>
+
+much appreciated.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-07-04 18:22:40"
+			itemprop="datePublished"
+		>
+			2013-07-04 18:22:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hashiama</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">My shell version of FontForge does run Python (not sure about my [[http://fontforge.github.io/en-US/downloads/mac/|Beta]] Packaged version though).
+
+The new script you wrote worked a treat though,
+Thanks Michel.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-07-04 18:33:29"
+			itemprop="datePublished"
+		>
+			2013-07-04 18:33:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hashiama</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The <a href="http://www.macports.org/ports.php?by=name&substr=fontforge">FontForge on Mac Ports</a> can be installed for python2.6 or python2.7. Of course, it is not as recent as the github version but it does what I need.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-07-04 19:04:30"
+			itemprop="datePublished"
+		>
+			2013-07-04 19:04:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

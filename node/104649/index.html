@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>InDesign find&amp;replace hebrew with nikud | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="InDesign find&amp;replace hebrew with nikud" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/104649/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2013-07-15T21:10:53+00:00" />
+<meta property="article:modified_time" content="2013-07-15T21:10:53+00:00" />
+
+<meta itemprop="name" content="InDesign find&amp;replace hebrew with nikud">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2013-07-15T21:10:53+00:00" />
+<meta itemprop="dateModified" content="2013-07-15T21:10:53+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="InDesign find&amp;replace hebrew with nikud"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">InDesign find&replace hebrew with nikud</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2013-07-15T21:10:53Z">July 15, 2013</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Bentzi Binder</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Is there a fast way in Indesign to change biblical text imported from the internet the includes nikud into the appropriate unicode sign.
+
+The imported text is built  - letter, nikud, dagesh
+I would like to change to - letter+dagesh glyph, nikud
+
+Bentzi</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I have never coded for InDesign, and I can't answer the question you are asking.
+
+In any case, I would just recode the input text (before feeding it to InDesign). But first, are you sure your input never contains a sequence like "shin shidot qamats dagesh" (for instance הַשָּׁמַיִם) that you would want to replace by "shin dagesh shindot qamats"? If so, the substitution "[letter][nikkud][dagesh]" to "[letter][dagesh][nikkud]" is not general enough. You need to accept [nikkud]+, i.e. one or more.
+
+If your input file is already utf-8 encoded, then the following Python code should do it (provided there is no cantillation mark between the letter and the dagesh). 
+
+<PRE>
+---- file reorddag.py ---- cut line
+#!/usr/bin/env python
+
+import re, sys
+reord = re.compile(ur'([\u05D0-\u05EA])([\u05B0-\u05BB\u05BD\u05BF\u05C1\u05C2\u05C7]+)\u05BC')
+
+if len(sys.argv) > 1:
+   f=open(sys.argv[1])
+else:
+   f=sys.stdin
+
+line = f.readline().decode('utf-8')
+while line:
+  print re.sub(reord, ur'\1\u05BC\2',line).encode('utf-8'),
+  line = f.readline().decode('utf-8')
+---- cut line
+</PRE>
+If you you save those lines to <code>reorddag.py</code>, then
+<PRE>
+python reorddag.py input.txt > output.txt
+</PRE>
+should perform the desired changes; if you are on a mac or linux, you can name the file reorddag, make it executable and it can be used with <code>reorddag input.txt</code> to get the output on stdout and it can also be piped.
+
+-- 16 Jul 2013 — 11:51am Added # that was missing before ! in the copy, on the first line 
+-- Something weird is happening:  starting on my mac with shin shindot qamats dagesh in הַשָּׁמַיִם, copying it  to typophile  and then copying from typophile to my mac I end with the sequence shin qamats dagesh shindot.
+-- 17 Jul 2013 — 3:35pm Added a missing comma at the end of the print line (was giving two CR for each line)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-07-17 23:36:25"
+			itemprop="datePublished"
+		>
+			2013-07-17 23:36:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you for your help, it took me a little time to figure out how to work a script in python and it works!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-07-28 08:38:27"
+			itemprop="datePublished"
+		>
+			2013-07-28 08:38:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Bentzi Binder</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

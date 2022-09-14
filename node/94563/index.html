@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Rendering crash in Mac OS X 10.6.8 with Cambria 5.97 | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Rendering crash in Mac OS X 10.6.8 with Cambria 5.97" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/94563/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-07-09T19:49:35+00:00" />
+<meta property="article:modified_time" content="2012-07-09T19:49:35+00:00" />
+
+<meta itemprop="name" content="Rendering crash in Mac OS X 10.6.8 with Cambria 5.97">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-07-09T19:49:35+00:00" />
+<meta itemprop="dateModified" content="2012-07-09T19:49:35+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Rendering crash in Mac OS X 10.6.8 with Cambria 5.97"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Rendering crash in Mac OS X 10.6.8 with Cambria 5.97</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-07-09T19:49:35Z">July 9, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">jcrippen</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I’m looking for some help on reporting a crash bug in Mac OS X and/or Cambria. I don’t know whether it’s the font or the OS (CoreText) or both that are at fault here, and I have no idea where to report this problem other than here.
+
+Here are the steps to repeat the bug:
+<ol>
+<li>Open TextEdit (happens in other apps too).</li>
+<li>⌘T, change font to Cambria (I have v. 5.97 installed).</li>
+<li>Enter the following characters <em>in order</em>:
+  <ol>
+  <li>U+00F3 Latin small letter O with acute</li>
+  <li>U+0328 Combining ogonek</li>
+  </ol>
+</li>
+<li>???</li>
+<li>Crash!</li>
+</ol>
+
+The crash happens inside of CoreText. It blows up inside of TGlyphComposer::ComposeGlyphs() as can be seen from the top few calls on the stack dump.
+
+<code>
+0   com.apple.CoreText            	0x00007fff830b6c9d TGlyphComposer::ComposeGlyphs(long, TStackBuffer<unsigned short, 30ul> const&) + 1701
+1   com.apple.CoreText            	0x00007fff830b5e7c TCombiningEngine::ResolveCombiningMarks() + 602
+2   com.apple.CoreText            	0x00007fff8309e5d7 TTypesetterRunArray::DoAttachments(TLine&) const + 73
+3   com.apple.CoreText            	0x00007fff8309e4c4 TTypesetterRunArray::TTypesetterRunArray(__CFArray const*, __CFString const*, void const* (*)(__CTRun const*, __CFString const*, void*), void*) + 228
+4   com.apple.CoreText            	0x00007fff8309e2d9 CTTypesetterCreateWithRunArray + 97
+</code>
+
+This only seems to happen with Cambria, and not with any other fonts. That’s why I’m not sure whether it’s an OS problem or a font problem. If it’s an OS problem, I have no idea where to report it. I guess can probably look forward to not hearing about it for a year or two, then being forced to upgrade to 10.7 or something. But If it’s a font problem, then maybe someone here can help. In either case, Apple has something to fix since a badly behaved font should still not cause a crash.
+
+The workaround is fairly simple, just using the other possible combination of diacritic and base character: U+01EB Latin small letter O with ogonek + U+0301 Combining acute accent. It’s annoying to have to remember to enter things in one way and not another, and I am wary of other combinations of diacritics giving me problems...</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">As far as I know, in order to report bugs for Apple software you need to register (for free) as an Apple developer (https://developer.apple.com/programs/register/) and filing a “radar” bug report (https://bugreport.apple.com/).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-09 20:46:25"
+			itemprop="datePublished"
+		>
+			2012-07-09 20:46:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>riccard0</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This isn't a bug per se in the font, but I can take a guess as to why it occurs with Cambria but not with other fonts. In order to limit the size and complexity of GPOS mark positioning lookups, Cambria contextually decomposes diacritic glyphs when followed by combining marks, enabling mark-to-mark positioning to be useable for stacked marks above or below. This decomposition takes place in the GSUB 'ccmp' feature. So, for example, rather than having to provide GPOS mark positioning for /acutecomb/ to /adieresis/ and all other precomposed diacritic glyphs, the latter is decomposed to /a/dieresiscomb/ when followed by /acutecomb/ or any other combining mark glyph. For the sake of lookup simplicity, this decomposition applies to all precomposed diacritics regardless of whether the following mark is above or below. So what happens in the case you describe is that /oacute/ is being contextually decomposed to /o/acutecomb/, triggered by the following /ogonekcomb/. I presume this is causing some problem for Apple's CoreText engine.
+
+Further evidence to support my presumption could be found by testing another font that is built in the same way as Cambria, e.g. <a href="http://www.brill.nl/promotions/brill-fonts-end-user-license-agreement">Brill Roman</a>.
+
+[We've also identified and confirmed a bug with fonts that work in this way in Adobe's text handlers, although this doesn't result in a crash: the contextual lookups simply are not applied. Adobe have confirmed this is a bug, but were unable to get it fixed in time for the CS6 roll-out.]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-09 22:52:12"
+			itemprop="datePublished"
+		>
+			2012-07-09 22:52:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for the detailed analysis! I verified that the same thing happens, in the exact same function, with Brill Roman.
+
+John, would you be willing to file report this bug to Apple? I am not enthusiastic about setting up a developer account just to file one bug.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-11 00:40:20"
+			itemprop="datePublished"
+		>
+			2012-07-11 00:40:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>jcrippen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'll bring this thread to someone's attention at Apple. I'm not a registered developer either, but have some friends there.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-11 02:32:32"
+			itemprop="datePublished"
+		>
+			2012-07-11 02:32:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I've heard back from Apple. My contact thinks this bug has been fixed by some work they did on OpenType processing for the next OS; he tested that code with Cambria 5.97 and was unable to reproduce your crash behaviour.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-11 05:25:40"
+			itemprop="datePublished"
+		>
+			2012-07-11 05:25:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Excellent. Hopefully the fix will be in a release soon. It’s kind of bothersome to have things crash because I typed the order of diacritics in wrong.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-12 09:24:03"
+			itemprop="datePublished"
+		>
+			2012-07-12 09:24:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>jcrippen</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

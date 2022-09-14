@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Contextual kerning (LookupType 8, chaining contextual positioning) | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Contextual kerning (LookupType 8, chaining contextual positioning)" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/95160/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-07-30T09:30:55+00:00" />
+<meta property="article:modified_time" content="2012-07-30T09:30:55+00:00" />
+
+<meta itemprop="name" content="Contextual kerning (LookupType 8, chaining contextual positioning)">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-07-30T09:30:55+00:00" />
+<meta itemprop="dateModified" content="2012-07-30T09:30:55+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Contextual kerning (LookupType 8, chaining contextual positioning)"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Contextual kerning (LookupType 8, chaining contextual positioning)</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-07-30T09:30:55Z">July 30, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Ramiro Espinoza</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi there,
+
+I am trying to solve some triplets kerning problems in a script font without designing more characters.
+I thought I could use contextual kerning (LookupType 8, chaining contextual positioning) but when I try to set something like 
+
+feature kern {
+position d space' 20 D ;
+} kern;
+
+I get the message "Cannot mark positioning glyphs". What is the problem? Is 'kern' not the proper feature to place such substitution? In this case, which should be the proper feature to set my contextual positioning?
+
+Thanks in advance.
+
+R.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You need "Single Positioning" used in your kerninglookup:
+
+lookup kernHorizontalKerninglookup2 {
+      pos \f  \space' \T  ;
+} kernHorizontalKerninglookup2;
+
+lookup SinglePositioninglookup3 {
+     pos \space <0 0 300 0 <device NULL> <device NULL> <device NULL> <device NULL>>;
+} SinglePositioninglookup3;
+
+if I understand it correctly...
+
+[img:sites/default/files/old-images/Kern1_6465.jpg]
+[img:sites/default/files/old-images/Kern2_5351.jpg]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-30 11:41:47"
+			itemprop="datePublished"
+		>
+			2012-07-30 11:41:47
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">In Fontlab your code gives:
+
+syntax error at ";"
+
+:S</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-30 12:28:38"
+			itemprop="datePublished"
+		>
+			2012-07-30 12:28:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Ramiro Espinoza</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">"FontLab Studio currently does not support:
+GSUB lookup type 2 (Multiple substitution, e.g. a b -> c d)
+GPOS lookup types 3 (Cursive attachment positioning), 4 (Mark-to-Base attachment positioning), 5 (Mark-to-Ligature attachment
+positioning), 6 (Mark-to-Mark attachment positioning), 7
+(Contextual positioning), 8 (Chaining contextual positioning)"
+Manual, p. 835
+So VOLT or FontForge...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-30 13:05:09"
+			itemprop="datePublished"
+		>
+			2012-07-30 13:05:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">OK, understood. Now I am trying to import my FL features into VOLT without success :S
+When I import my OT font to VOLT the features are lost. Any idea on how to keep FL features in Volt?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-30 13:41:10"
+			itemprop="datePublished"
+		>
+			2012-07-30 13:41:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Ramiro Espinoza</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ramiro,
+
+I <em>think</em> your code should work if you have FontLab Studio 5.1 because it uses a newer version of the Adobe FDK thank FLS 5.0.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-30 14:03:13"
+			itemprop="datePublished"
+		>
+			2012-07-30 14:03:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hi Jens,
+I tried running in FL 5.1 the following code
+
+feature kern {
+lookup one {
+position d space' <0 0 3000 0> D ;
+} one;
+} kern;
+
+and now it does not give error message BUT there is not effect on the addressed glyphs (either in the preview window or generating and testing the font).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-30 14:34:14"
+			itemprop="datePublished"
+		>
+			2012-07-30 14:34:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Ramiro Espinoza</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">my code in ttx syntax:
+[img:sites/default/files/old-images/55_3898.jpg]
+works in ID for sure!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-30 14:54:33"
+			itemprop="datePublished"
+		>
+			2012-07-30 14:54:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hereby I invoque the powers and wisdom of the omnipresent Adam Twardoch! 
+Please materialize and help us! :)
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-30 15:46:09"
+			itemprop="datePublished"
+		>
+			2012-07-30 15:46:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Ramiro Espinoza</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">VOLT does not decompile OTL tables, so the data needs to be either in the plain text formats used to store and transfer VOLT projects, lookups, groups or glyph set data (.vtp, .vtl, .vtg, .vtd) or in the private table binary format in which VOLT projects are stored within a source TTF). FontLab offers an option to 'Export VOLT data' when generating a TTF, which I think means it will try to write the private table, but I don't think it is very reliable. You would probably need to rebuild your features and lookups in VOLT.
+
+Alternatively, you should be able to use the AFDKO v.2 outside of FontLab to compile your feature code. Or you could use DTL OTMaster.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-30 18:57:25"
+			itemprop="datePublished"
+		>
+			2012-07-30 18:57:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for the help. I finally was able to run the code in Fontlab 5.1
+The preview does not show the results but testing a generated font, the effects can be seen.
+Great! Now I can set kerning for difficult triplets :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-31 06:54:13"
+			itemprop="datePublished"
+		>
+			2012-07-31 06:54:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Ramiro Espinoza</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ramiro, 
+
+sorry, I was on vacation :)
+
+Adam</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-08-14 00:22:39"
+			itemprop="datePublished"
+		>
+			2012-08-14 00:22:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">No problem Adam, I don't expect the Fontlab genie to materialize every time I invoke it :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-08-14 09:42:20"
+			itemprop="datePublished"
+		>
+			2012-08-14 09:42:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Ramiro Espinoza</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

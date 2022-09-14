@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ccmp and mark/mkmk - stacked diacritics | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="ccmp and mark/mkmk - stacked diacritics" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/95525/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-08-12T19:15:58+00:00" />
+<meta property="article:modified_time" content="2012-08-12T19:15:58+00:00" />
+
+<meta itemprop="name" content="ccmp and mark/mkmk - stacked diacritics">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-08-12T19:15:58+00:00" />
+<meta itemprop="dateModified" content="2012-08-12T19:15:58+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ccmp and mark/mkmk - stacked diacritics"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">ccmp and mark/mkmk - stacked diacritics</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-08-12T19:15:58Z">August 12, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">JanekZ</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I want to make to operate stacking diacritics, for example ocircumflex with breve above. First way to type it is: ocircumflex + breve, the second: o + circumflex + breve. I made it that way:
+1. ocircumflex is decomposed to o + circumflex
+2. o and circumflex are positioned via mark
+3. circumflex and breve are positioned via mkmk
+So whatever combination you type (o ̂ ̆) or (ô ̆) you get proper stacked letter. It works beautifully in FontForge but to my astonishment only in FF. What is going on? Please help with this enigma.
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">With no font to check (or at least feature code snippet, if you are writing feature files), it is hard to tell what is going on. 
+
+Staping in the dark, my first guess would be broken application(s), try testing in Notepad in Windows and/or Firefox, if still broken then make sure you have set script and language correctly for your feature.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-08-12 19:50:35"
+			itemprop="datePublished"
+		>
+			2012-08-12 19:50:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Khaled Hosny</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Janek,
+I've recently added the exact behavior you're describing to a font family on which I have been working. However, I compiled my fonts using the AFDKO. The resulting fonts have the correct behavior in MS Word (I tested version 10 on XP) and in InDesign CS6 with the World Ready composer applied (there seems to be a bug in this regard in the default composer). Those were the only instances that I tested. I've sent the font off to someone who does Jarai typography in XeLaTeX, I'll post back with his results, if interested.
+
+Here's my decomposition code in FDK syntax. Note the lookup titled DECOMPOSITION is outside of any feature block and before the <ccmp> feature. Also beware of the wrapping commented line below:
+
+
+<code>lookup DECOMPOSITION {
+		sub Ecircumflex by E circumflexcmb;
+		sub ecircumflex by e circumflexcmb;
+		sub Ocircumflex by O circumflexcmb;
+		sub ocircumflex by o circumflexcmb;
+} DECOMPOSITION;</code>
+
+<code>feature ccmp { # Glyph Composition / Decomposition</code>
+
+<code>	lookup GLYPH_DECOMPOSITION_CONTEXTUAL_2 {
+		#decomposes ecircumflex and ocircumflex forms when followed by combining breve: Jarai language support
+		sub Ecircumflex' lookup DECOMPOSITION brevecmb;
+		sub ecircumflex' lookup DECOMPOSITION brevecmb;
+		sub Ocircumflex' lookup DECOMPOSITION brevecmb;
+		sub ocircumflex' lookup DECOMPOSITION brevecmb;
+	} GLYPH_DECOMPOSITION_CONTEXTUAL_2;</code>
+
+<code>} ccmp;
+</code></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-08-12 20:15:00"
+			itemprop="datePublished"
+		>
+			2012-08-12 20:15:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paul d hunt</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">A bit shorter feature file with classes: (sub part only)
+<code>
+sub [Ecircumflex ecircumflex Ocircumflex ocircumflex]' lookup DECOMPOSITION [brevecmb uni0306];
+<code\>
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-08-12 21:22:54"
+			itemprop="datePublished"
+		>
+			2012-08-12 21:22:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Paul:
+"I've recently added the exact behavior..."
+Post on your blog inspired me to explore ccmp and mark/mkmk. Especially ccmp is modestly documented.
+"However, I compiled my fonts using the AFDKO."
+FontForge uses AFDKO syntax, so your fea file was merged without any problems and modifications. Probably every AFDKO feature is supported by FF.
+"(there seems to be a bug in this regard in the default composer)"
+What a pity! There are fonts (yours and Brill by John/Tiro at the very least) and InD does not fully support them.
+Thank you both for your prompt replies.
+regards
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-08-13 10:18:03"
+			itemprop="datePublished"
+		>
+			2012-08-13 10:18:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks a lot Khaled!
+Font works in FireFox as expected. I didn't expect I can write on Pablo Impallari test page, but it works.
+Then what about InD? [edit] Aha, I see... Thanks Paul!
+[img:sites/default/files/old-images/1C_5792.jpg]
+[img:sites/default/files/old-images/05_6504.jpg]
+in brackets is the input (with spaces) and glyphs on the right
+FireFox 14, http://www.impallari.com/testing/</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-08-13 10:48:30"
+			itemprop="datePublished"
+		>
+			2012-08-13 10:48:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

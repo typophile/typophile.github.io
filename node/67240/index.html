@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Python Q - replacing last glyph in each word | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Python Q - replacing last glyph in each word" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/67240/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-02-10T02:21:51+00:00" />
+<meta property="article:modified_time" content="2010-02-10T02:21:51+00:00" />
+
+<meta itemprop="name" content="Python Q - replacing last glyph in each word">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-02-10T02:21:51+00:00" />
+<meta itemprop="dateModified" content="2010-02-10T02:21:51+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python Q - replacing last glyph in each word"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Python Q - replacing last glyph in each word</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-02-10T02:21:51Z">February 10, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">HaleyFiege</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hey, I was wondering if anyone could help me with a python script. I'm making a script font, and would like to substitute out the final glyph in each word (with one that has a finishing flourish).
+
+I remember seeing something like that here before, but I can't find it now :(</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">By the way, the groups can be made either in the OT editor in FontLab, either just before the feature code, or in the lower pane of the OT editor panel. Or, you can use the Classes panel, select "New OpenType Class" from the pop-up, and use this syntax:
+
+group_name: <em>list of glyphs</em>
+
+I prefer putting it all in the OT editor. Seems easier to manage.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-02-10 03:23:04"
+			itemprop="datePublished"
+		>
+			2010-02-10 03:23:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Python? Do you mean coding an OpenType feature?
+
+If so, it goes like this:
+
+Make a few groups:
+
+@any_letter = [ <em>a list of all letters from your font that could be part of a word</em> ] ;
+
+@not_final = [ <em>a list of the non-final glyph forms</em> ] ;
+
+@final = [ <em>a list of the final glyph forms (same order, same number of glyphs) </em>] ;
+
+Here is the feature code, which should be put in the calt feature:
+
+feature calt {
+
+lookup fix_finals {
+ignore sub @not_final' @any_letter ;
+sub @not_final' by @final ;
+} fix_finals ;
+
+} calt ;
+
+The "ignore" part means skip the rest if another letter follows. If no letter follows, then the substitution happens.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-02-10 03:23:22"
+			itemprop="datePublished"
+		>
+			2010-02-10 03:23:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks Mark :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-02-10 03:34:34"
+			itemprop="datePublished"
+		>
+			2010-02-10 03:34:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>HaleyFiege</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">So it's working when I test in the fontlab opentype tester window, but not when I use it in Indesign or Illustrator. Is there a feature in opentype I have to turn on for this to work? (all my other scripts are working though)
+
+Or did I do something wrong :(</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-02-10 04:26:25"
+			itemprop="datePublished"
+		>
+			2010-02-10 04:26:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>HaleyFiege</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Is this the only feature in the font? There is a bug in InDesign where it ignores a feature if it is the only one.
+
+If that's not the case, it could be that you have contextual alternates unchecked in InDesign.
+
+It's also possible that you are not including OT features when you generate the font. There is a checkbox for this in the preferences.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-02-10 04:59:29"
+			itemprop="datePublished"
+		>
+			2010-02-10 04:59:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

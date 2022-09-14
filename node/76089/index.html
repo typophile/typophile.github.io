@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Unicode ligatures | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Unicode ligatures" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/76089/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-11-08T17:40:55+00:00" />
+<meta property="article:modified_time" content="2010-11-08T17:40:55+00:00" />
+
+<meta itemprop="name" content="Unicode ligatures">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-11-08T17:40:55+00:00" />
+<meta itemprop="dateModified" content="2010-11-08T17:40:55+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Unicode ligatures"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Unicode ligatures</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-11-08T17:40:55Z">November 8, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Eli</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hello typophiles:
+I'm writing the opentype code of a font, starting with ligatures I have some doubts about encoded ligatures and not encoded ones. In a previous thread http://typophile.com/node/35174 Miguel Sousa suggested to duplicate the encoded characters fi (FB01) and fl (FB02) for the liga feature and rename the duplicates as f_i, f_l. Then in small caps generate the glyphs fi.sc and fl.sc to replace fi and fl. And the OT code should look like this:
+
+feature smcp {
+sub fi by fi.sc;
+sub fl by fl.sc;
+} smcp;
+
+feature liga {
+sub f i by f_i;
+sub f l by f_l;
+} liga;
+
+My question is what about the other encoded ligatures? I dont know what is better, unencode them or keep the encoding and duplicate them as suggested. I also have these characters: ff (FB00), ffi (FB03), ffl (FB04), s_t (FB06) and longs_t (FB05). I have decided to duplicated them but i don't know if it is the right decision, here are my glyphs and my code. Could you advice me?
+
+Encoded: fi(FB01), fl (FB02), ff (FB00), ffi (FB03), ffl (FB04), st (FB06) and longs_t (FB05)
+Duplicated: f_f, f_f_i, f_f_l, s_t, longs_t.hlig
+Generated for smcp: fi. sc, fl.sc, ff.sc, ffi.sc, ffl.sc, st.sc
+
+feature smcp {
+sub ffi by ffi.sc;
+sub ffl by ffl.sc
+sub ff by ff.sc;
+sub fi by fi.sc;
+sub fl by fl.sc;
+sub st by st.sc;
+} smcp;
+
+feature liga {
+sub f f i by f_f_i;
+sub f i by f_i;
+sub f l by f_l;
+} liga;
+
+feature dlig {
+sub s t by s_t;
+} dlig;
+
+hlig {
+sub ſ t by longs_t.hlig;
+} hlig;
+
+As for the uppercase forms, should I generate especial glyphs to substitute the enconded ligatures when the user changes the text from lowercase to all caps? Thanks in advance.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm a bit unclear on why you think you need to create duplicates of your ligatures.
+
+You can encode (e.g.) your <code>f_i</code> ligature as UFB01, include a rule <code>sub f i by f_i</code>, and omit the duplicate <code>fi</code> character altogether. Note that either name (<code>fi </code> or <code> f_i</code>) is consistent with proper naming conventions (though personally I'd use the latter).
+
+Including capital versions of the ligatures is only necessary if you want to accommodate users who employ hard-coded ligatures in their text (something which I view as a bad practice).
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 18:04:01"
+			itemprop="datePublished"
+		>
+			2010-11-08 18:04:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">In theory, Unicode should not exist for ligatures, because they confound the distinction between character and glyph.
+
+However, Unicode accommodates many "legacy" typographic characters that were part of exisiting encodings -- and so, because "fi" was part of, for instance, the Mac OS Roman encoding, it is given its own Unicode.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 18:35:42"
+			itemprop="datePublished"
+		>
+			2010-11-08 18:35:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Nick Shinn</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Are your fi.sc a real ligature or a mere aggregation of f.sc and i.sc, if the later is the case, then I see no point in having an fi.sc glyph at all, it is just redundant. you can instead say:
+<code>
+sub fi by f.sc i.sc;
+</code>
+
+and the same goes for other similar ligatures.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 18:35:46"
+			itemprop="datePublished"
+		>
+			2010-11-08 18:35:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Khaled Hosny</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Is there such a thing as an uppercase long s?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 18:52:20"
+			itemprop="datePublished"
+		>
+			2010-11-08 18:52:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>oldnick</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><code>sub fi by f.sc i.sc</code> requires an application to support one to many substitutions which many currently do not.
+
+The issue of small capital f_i, however, only arises where the user actually enters uFBO1 instead of simply entering the sequence f i. I'd hope that with the advent of opentype, few users are choosing to do this. Given a legacy text which includes hard-coded ligatures, I'd think the user would be better off doing a search-and-replace to fix so that spell-checking, hyphenation, etc. actually work properly anyway, so supporting smallcap (or all cap) versions of ligatures doesn't seem like it should be a priority when coding features.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 18:56:11"
+			itemprop="datePublished"
+		>
+			2010-11-08 18:56:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@Oldnick.
+
+Yes. You can find it at u0053.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 18:57:25"
+			itemprop="datePublished"
+		>
+			2010-11-08 18:57:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hi André, this is what M.Sousa says about  duplicating ligatures:
+"The only reason why there's the need for smallcap versions of fi and fl is because they are characters, i.e. they have their own Unicode codepoints. In addition, these two characters are included in the MacRoman encoding and can be easily accessed from the keyboard, so there's a high chance to find them in texts."
+Thansk Nick, that's why I'm thinking about removing the encodings of my ligatures.
+Khaled, good point, thanks.
+Mr. Oldnick, I also would like to know about that, I think there isn't an uppercase form of long s.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 19:07:13"
+			itemprop="datePublished"
+		>
+			2010-11-08 19:07:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Eli</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Eli,
+
+Sousa's comments provide a reason for providing a f_i.sc glyph, but not a reason for providing both f_i and fi glyphs. That's the part I'm not getting.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 19:35:20"
+			itemprop="datePublished"
+		>
+			2010-11-08 19:35:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hi Eli!
+
+I’d say the only encoded ligatures you should include are fi and fl, because there is a fair chance that in some texts they were set as one single character:
+
+(US keyboard)
+<code>alt shift 5 = ﬁ
+alt shift 6 = ﬂ</code>
+
+(Spanish ISO keyboard)
+<code>alt shift f = ﬁ 
+alt shift g = ﬂ</code>
+
+Duplicate them as f_i and f_l is not mandatory, but doesn’t hurt anyway, since this way you are not depending on the Mac OS Roman encoding.
+
+At least, that is what I did for [[http://new.myfonts.com/fonts/estudio-ch/espinosa-nova/regular/characters.html|Espinosa Nova]] (check out slots 386, 387, 390 and 391).
+
+
+———
+
+About the uppercase long s:
+http://en.wikipedia.org/wiki/Capital_%C3%9F
+(Included in Espinosa Nova as well, see slots 88 and 195.)
+
+———
+
+And please Eli, let me see your typeface when it is done. I am intrigued about the long s. Are you working on an oldstyle typeface?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 19:56:24"
+			itemprop="datePublished"
+		>
+			2010-11-08 19:56:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Cristobal Henestrosa</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm curious what applications don't support one to many substitutions? looks so 80s to me.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 22:07:41"
+			itemprop="datePublished"
+		>
+			2010-11-08 22:07:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Khaled Hosny</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">André, I think the problem with encoded ligatures is that when you use them and make the feature liga with them you are not changing the glyph but the character itself and I think it can cause problems with your GSUB table, but I'm not sure about that.
+
+Cristobal thank you for your clarification, I think I'm going to do what you did with your beautiful Espinosa Nova. Correct me if I'm wrong, the eszet is a ligature between long s and s, I don't know if there is a capital form of long s alone. You may want to have a look at these links for more comments about the capital eszet: http://www.flickr.com/photos/elibaal/5039507654/ http://www.flickr.com/photos/hardwig/5087231570/
+And finally, I'm currently working on a humanist sans, I'll send you a sneak preview.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 22:31:53"
+			itemprop="datePublished"
+		>
+			2010-11-08 22:31:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Eli</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I stand corrected: yes, I was talking about an uppercase ß, not an uppercase long s alone. Sorry about that. :P
+
+Looking forward to see your sans serif long s!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 22:41:17"
+			itemprop="datePublished"
+		>
+			2010-11-08 22:41:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Cristobal Henestrosa</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">My take is you grudgingly support legacy characters, you never encourage their use.
+
+We don't sell fonts, we work them over only to set type. Maybe my views shouldn't count, then. But when I run into a font with a fi or fl character, (and a Unicode codepoint), I take them out. At some point, the fi character should be *deprecated.* Far as I'm concerned, that was as soon as we could employ a character-glyph distinction.
+
+As for F_I ligatures, whether small or full cap, why? How many texts come to people who use type where that's been an issue? I've never seen one -- can somebody remember one, or is this just a theoretical exercise? 
+
+What to do when small or full caps are both ligatures and letterspaced, esp. just below the point where any ligatures break into component characters? They're going to look dreadful. And both are commonly letterspaced.
+
+Etc.
+
+I say let a text show .notdef and salmon for any fi/fl etc. characters. Fix that text then & there, and we've gotten rid of one more bum situation. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-09 10:40:14"
+			itemprop="datePublished"
+		>
+			2010-11-09 10:40:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm not a German, but small eszet always looked like an upper letter to me, I like the one in this sign http://www.flickr.com/photos/hardwig/5087231570/ as it looks like a real small letter (and does not look like a B or small beta either).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-09 13:47:24"
+			itemprop="datePublished"
+		>
+			2010-11-09 13:47:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Khaled Hosny</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

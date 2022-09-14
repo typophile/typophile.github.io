@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Postscript font corruption | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Postscript font corruption" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/66267/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-01-15T15:52:09+00:00" />
+<meta property="article:modified_time" content="2010-01-15T15:52:09+00:00" />
+
+<meta itemprop="name" content="Postscript font corruption">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-01-15T15:52:09+00:00" />
+<meta itemprop="dateModified" content="2010-01-15T15:52:09+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Postscript font corruption"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Postscript font corruption</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-01-15T15:52:09Z">January 15, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Stephen Rapp</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I've seen this happen a few times now and am unsure what is causing the problem. So I could really use some help here from some of the brilliant typophiles here. :-)
+
+We have had several PS fonts that have become corrupt over the last year. They used to work fine and now in Illustrator come up at the bottom of the list enclosed like < font name >
+
+Our work environment changed this year and I suspect that is part of it. We use a server based font management system. Previously we were using Freehand for layout and Font Reserve for management. Now we are using Illustrator for layout and Universal Type Server for font management. 
+
+When I was asked to look into the problem for one of our proprietary fonts I first tested it by bypassing the font manager. I put the font in my home library collection (Mac) and tested in Illustrator. The results were the same as reported. I then reopened the font and the thing that seemed out of place was in the font info under encoding. For some reason at the bottom pull down menu for encoding where it says "Mac script and FOND ID" it was switched from Roman to Arabic. I've seen a couple other times where this has happened even with some commercially licensed fonts. Since Alphabetically Arabic would be the first entry I'm wondering if the encoding went haywire and so Arabic came up as default. 
+
+Any ideas or similar experiences?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The FOND ID controls what writing system ("Mac script") the Mac OS, and Illustrator, think the font belongs to.
+
+Because there is a relatively limited number of FOND IDs available, Mac OS can automatically re-assign FOND IDs to fonts in memory so as to avoid collisions. However, it shouldn't change which range the font is in (Latin vs Arabic).
+
+Additionally, there are tools that can be used to manipulate or correct FOND IDs.
+
+I'd suggest first opening the font up and checking what the FOND ID is in the physical file. If it's in the Arabic range of 17920-18431, change it to something in the Latin range of 00000-16383 (probably in the upper 3/4 of that).
+
+See also http://www.evertype.com/software/apple/fontnums.html
+
+Thanks for using Universal Type Server, btw.  :)
+
+Cheers,
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-01-15 20:04:08"
+			itemprop="datePublished"
+		>
+			2010-01-15 20:04:08
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks Thomas. Hope all is well for you there at Extensis.
+
+UTS is good in many ways… especially for a large studio environment. 
+
+My only real headache was the transition. When the Extensis rep came out here and did the font server migration the results became problematic. Font Reserve, our previous font mgr., had apparently been set up so that fonts on users end would not only be managed, but actually copied to the server. So there were many times more fonts on the server than we actually had license for. Then when she ran them through Font Doctor for the migration, multiple versions of font were then suitcased together. I had to hunt through old version on various servers and media to cobble together what we were licensed to use. Things are running much smoother now.
+
+Stephen</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-01-15 20:43:13"
+			itemprop="datePublished"
+		>
+			2010-01-15 20:43:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Stephen Rapp</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Here is a scren grab of encoding page. The numbers were like this before only it said Arabic instead of Roman.
+
+[img:sites/default/files/old-images/Fond_ID_5294.png]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-01-15 20:48:51"
+			itemprop="datePublished"
+		>
+			2010-01-15 20:48:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Stephen Rapp</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Huh. So, everything there is fine as far as I can tell. If you regenerate the font from there, and replace it on the server (remember, UTS will keep the old version unless you explicitly delete it), does that solve the problem?
+
+Also, before going that far, did you try clearing caches and the like? Latest FontDoctor (7.7) clears just about every kind of Mac font cache imaginable.
+
+Still, I have to admit I'm baffled as to what could cause this. Feel free to try our good folks in Extensis tech support as well, though I can't promise they'll think of anything else.
+
+Regards,
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-01-20 03:37:36"
+			itemprop="datePublished"
+		>
+			2010-01-20 03:37:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Danish OpenType Numerals | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Danish OpenType Numerals" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/100819/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2013-02-24T21:32:29+00:00" />
+<meta property="article:modified_time" content="2013-02-24T21:32:29+00:00" />
+
+<meta itemprop="name" content="Danish OpenType Numerals">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2013-02-24T21:32:29+00:00" />
+<meta itemprop="dateModified" content="2013-02-24T21:32:29+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Danish OpenType Numerals"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Danish OpenType Numerals</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2013-02-24T21:32:29Z">February 24, 2013</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Frode Bo Helland</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I wonder, could OpenType automatically convert regular numerals to <em>spelled-out</em> Danish numerals without a crazy number of ligatures? Can OT do one-to-many and many-to-many?
+
+More on the Danish counting system: http://www.olestig.dk/dansk/numbers.html
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">OT does one-to-many (type 2 GSUB lookup) easily enough. In theory, it can be made to do many-to-many, but in fact this is nowhere supported in either tools or apps. So you'd probably have to do some clever contextual one-to-many substitutions. In other words, you would have to analyse the decimal positions in the number, and substitute the appropriate word for the letters in each position. So, for an English example you might have a number '625', and you would need context to isolate the initial numeral and capture that it is in the hundreds position (followed by two integers), then substitute
+
+<code>six -> s i x space h u n d r e d space a n d</code>
+
+then you would capture the 2 in the tens position:
+
+<code>two -> t w e n t y hyphen</code>
+
+and finally the five in the ones position:
+
+<code>five -> f i v e</code>
+
+The biggest risk in this kind of approach is failure of context, which means you need to carefully think through all the permutations of situations in which a number might occur. I think the feature would need to be like the 'frac' feature, i.e. explicitly applied by a user to a selected string of characters, and not the sort of feature one could safely turn on for an entire document.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-24 21:40:46"
+			itemprop="datePublished"
+		>
+			2013-02-24 21:40:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Correct me if I’m wrong, but here’s an example: The number “78” in Danish is “otteoghalvfjers”. The ordinal version (the 78th) is “otteoghalvfjerssindstyvende”. It’s a bit complicated.
+
+(Edit: John, I wrote this before I saw your post.)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-24 21:43:32"
+			itemprop="datePublished"
+		>
+			2013-02-24 21:43:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">He he he.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-24 21:56:28"
+			itemprop="datePublished"
+		>
+			2013-02-24 21:56:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>clauses</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Nothing of substance, but the usual editorial style with English numbers spelled out does not use  "and," so the replacement string would be
+
+six -> s i x space h u n d r e d space 
+
+E.g., 625 written out is, "six hundred twenty five" ...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-24 22:10:14"
+			itemprop="datePublished"
+		>
+			2013-02-24 22:10:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hmm, there’s the flip: In Danish it’s not “seventy-eight”, it’s “eight and seventy”.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-24 22:21:43"
+			itemprop="datePublished"
+		>
+			2013-02-24 22:21:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">There is a problem with the zero in any language -- in English, 70 is not "seventy-zero," and I'd bet in Danish, it's not "zero and seventy."
+
+That aside, with some work, you could probably get the font to do the job, even in Danish. But if you're working on a document, it might be better to do search & replaces. If you do the work in the font, what's in the underlying document (say, the XML exported from an InDesign file...)?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-24 22:32:55"
+			itemprop="datePublished"
+		>
+			2013-02-24 22:32:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">BTW, I think this is a really bad idea. 'Six hundred twenty five' is not a glyph variant of the character string '625', it is a different character string, a different convention for recording a number in writing.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-25 06:23:26"
+			itemprop="datePublished"
+		>
+			2013-02-25 06:23:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">We all know it’s a bad idea, John. These are the very same people who decided to name the biggest ice flake in the world <em>Green</em>land.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-25 11:06:40"
+			itemprop="datePublished"
+		>
+			2013-02-25 11:06:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Even back then they knew a thing or two about marketing. Tip of the helmet gentlemen.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-25 13:14:50"
+			itemprop="datePublished"
+		>
+			2013-02-25 13:14:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>clauses</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">No way, it was called Greenland (or rather Grœnland) by its first settler, the Norwegian-born Icelander Eirikr hinn rauði (Erik the Red). But it was a marketing ploy, yes. 
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-26 13:02:36"
+			itemprop="datePublished"
+		>
+			2013-02-26 13:02:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Sindre</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for clearing that up, Sindre. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-26 14:08:09"
+			itemprop="datePublished"
+		>
+			2013-02-26 14:08:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">He was there.
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-26 14:25:17"
+			itemprop="datePublished"
+		>
+			2013-02-26 14:25:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Is there a way to change the order of glyphs?
+
+dnum {
+  sub @lnum' by @dnum;
+  sub @dnum' @dnum by @dnum_tens;
+  ??? swap @dnum for @dnum_tens and vice versa ???
+}</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-27 20:01:20"
+			itemprop="datePublished"
+		>
+			2013-02-27 20:01:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Reordering glyphs using GSUB is a bit tricky. I do it sometimes in order to be able to ligate reordered characters in Indic fonts, but I'm never entirely comfortable doing so. You have to do it in two steps: contextually insert the new glyph where you want it, and then contextually delete the old glyph from the unwanted location. Since there are no insert/delete GSUB lookup types per se, what you need to do is first use a one-to-many lookup, and then a many-to-one lookups. So, for example, let's say I want to reorder the glyphs in the sequence ABC so that they are BAC, I would first have a lookup (VOLT syntax; sorry the Adobe stuff makes no sense to me).
+
+<code>A -> B A
+|C</code>
+
+which would result in BABC; then a second lookup something like
+
+<code>A B -> A
+B|</code>
+
+resulting in BAC.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-28 22:13:10"
+			itemprop="datePublished"
+		>
+			2013-02-28 22:13:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I can’t seem to get one-to-many working with classes.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-03-01 09:03:02"
+			itemprop="datePublished"
+		>
+			2013-03-01 09:03:02
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Wait, didn’t I post a comment here about how Danish cheques are formatted in the Swedish style of cardinal numbers? Or was that on twitter? I can find it neither place, so let me put it up here again for posterity’s sake: On Danish cheques, when writing out the cardinal, eg. kr. 768,32 you would write <em>syvhundredesekstiottekronerogtretitoøre</em> (like in Swedish common use), and not <em>syvhundredeottetredskronerogtoogtrediveøre</em> (like in Danish common use).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-03-02 00:18:01"
+			itemprop="datePublished"
+		>
+			2013-03-02 00:18:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>clauses</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

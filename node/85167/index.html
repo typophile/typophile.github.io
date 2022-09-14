@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Better letter cycling code? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Better letter cycling code?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/85167/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-09-06T02:47:57+00:00" />
+<meta property="article:modified_time" content="2011-09-06T02:47:57+00:00" />
+
+<meta itemprop="name" content="Better letter cycling code?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-09-06T02:47:57+00:00" />
+<meta itemprop="dateModified" content="2011-09-06T02:47:57+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Better letter cycling code?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Better letter cycling code?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-09-06T02:47:57Z">September 6, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Thomas Phinney</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">(Cross-posted on the OpenType list, with apologies)
+
+I've been helping with production of a typeface, which cycles through alternate versions of its letters. The idea is that the next time the same letter shows up in a line, the font will select the next version of that letter. So essentially each letter needs to do its own independent cycling. In other words, if a user types "abbakang" they should they get a b b.1 a.1 k a.2 b.2 a.3 n g1.That is, each time a specific letter comes up, it needs to pick the next alternate, relative to the last one that came up.
+
+I have no problem coming up with code to do this, but the problem is the code is freakin' huge. I'm wondering if there is any more efficient approach that gets the same effect? (I do know easy ways to do this if one just cycles through a different alternate where each glyph is dependent on the immediately preceding glyph. But that's not the assignment here, unfortunately.)
+
+Of course, it may be that there is no more efficient way of doing exactly this, which would be why few if any fonts have used this style of letter cycling.  :/
+
+Here's what I have so far, in AFDKO/FontLab feature syntax. The "not_A" class contains every glyph *except* the A and its variant forms. Similarly the "not_B" class.
+
+<code>
+feature calt {
+  lookup AA useExtension {
+    sub A A' by A.1 ;
+	  sub A.1 A' by A.2 ;
+  	sub A.2 A' by A.3 ;
+  	sub A.3 A' by A ;
+	  sub A @not_A A' by A.1 ;
+	  sub A.1 @not_A A' by A.2 ;
+	  sub A.2 @not_A A' by A.3 ;
+	  sub A.3 @not_A A' by A ;
+	  sub A @not_A @not_A A' by A.1 ;
+	  sub A.1 @not_A @not_A A' by A.2 ;
+	  sub A.2 @not_A @not_A A' by A.3 ;
+	  sub A.3 @not_A @not_A A' by A ;
+	  sub A @not_A @not_A @not_A A' by A.1 ;
+	  sub A.1 @not_A @not_A @not_A A' by A.2 ;
+	  sub A.2 @not_A @not_A @not_A A' by A.3 ;
+	  sub A.3 @not_A @not_A @not_A A' by A ;
+	  sub A @not_A @not_A @not_A @not_A A' by A.1 ;
+	  sub A.1 @not_A @not_A @not_A @not_A A' by A.2 ;
+	  sub A.2 @not_A @not_A @not_A @not_A A' by A.3 ;    
+	  sub A.3 @not_A @not_A @not_A @not_A A' by A ;
+	  sub A @not_A @not_A @not_A @not_A @not_A A' by A.1 ;
+	  sub A.1 @not_A @not_A @not_A @not_A @not_A A' by A.2 ;
+	  sub A.2 @not_A @not_A @not_A @not_A @not_A A' by A.3 ;    
+	  sub A.3 @not_A @not_A @not_A @not_A @not_A A' by A ;  
+          ... and so on with more backtracking context  
+  } AA ;
+  lookup BB useExtension {
+    sub B B' by B.1 ;
+	  sub B.1 B' by B.2 ;
+  	sub B.2 B' by B.3 ;
+  	sub B.3 B' by B ;
+	  sub B @not_B B' by B.1 ;
+	  sub B.1 @not_B B' by B.2 ;
+	  sub B.2 @not_B B' by B.3 ;
+	  sub B.3 @not_B B' by B ;
+	  sub B @not_B @not_B B' by B.1 ;
+	  sub B.1 @not_B @not_B B' by B.2 ;
+	  sub B.2 @not_B @not_B B' by B.3 ;
+	  sub B.3 @not_B @not_B B' by B ;
+          ... and so on with more backtracking context
+  } BB ;
+... repeat  with one lookup for each letter
+} calt;
+</code>
+
+Suggestions welcome!
+
+T
+
+P.S. Despite my use of "code" formatting, my leading spaces are getting deleted. Oh well, I imagine it's clear enough.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">(Use "pre", not "code"...)
+
+This might be crazy, but what if you put each set of alternates into a class, e.g.:
+
+<pre>@alts1 = [A.1 B.1 C.1 ...];
+@alts2 = [A.2 B.2 C.2 ...];
+@alts3 = [A.3 B.3 C.3 ...];</pre>
+
+Then you (maybe) would need only one cascade. Not sure what the "@not_" classes would look like. Just a thought.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-06 05:36:03"
+			itemprop="datePublished"
+		>
+			2011-09-06 05:36:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hello Thomas,
+did you compiled your large code and after this opened the font into Fontlab?
+Did Makeotf optimized your code in a more simpler way?
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-06 12:38:07"
+			itemprop="datePublished"
+		>
+			2011-09-06 12:38:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>andreas</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Mark: I've done that before, and it's much simpler, but is not the effect the client is after. Or perhaps you have something different in mind...? Can you show me a snippet of the code using these classes?
+
+Andreas: No, we haven't actually tested a full-on implementation using the massive code approach. I think we are about to do that, however.  I wouldn't expect MakeOTF to generate anything noticeably better than FontLab, as FontLab is based on the same code as MakeOTF.
+
+Thanks!
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-09 20:43:33"
+			itemprop="datePublished"
+		>
+			2011-09-09 20:43:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It was just a hunch. I didn't follow through and actually try it out.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-09 21:12:43"
+			itemprop="datePublished"
+		>
+			2011-09-09 21:12:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I think only one @everything class is needed as the "wildcard" in the middle instead of the many @not_somethings... same length of lookup, but much fewer classes.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-10 23:05:41"
+			itemprop="datePublished"
+		>
+			2011-09-10 23:05:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ovaalk</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The problem with one @everything class is that the letter you are trying to cycle is then also part of it. That doesn't work....</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-11 22:56:35"
+			itemprop="datePublished"
+		>
+			2011-09-11 22:56:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">But the order of the lookup takes care of this, and you never end up with sub A A A' because the second A is already A.1... It does work!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-12 12:31:34"
+			itemprop="datePublished"
+		>
+			2011-09-12 12:31:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ovaalk</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Curious for a working demo.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-12 12:36:59"
+			itemprop="datePublished"
+		>
+			2011-09-12 12:36:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">ovaalk: Of course, good point. I should have seen that.
+
+I wonder how much that will reduce the compiled size....
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-14 19:58:10"
+			itemprop="datePublished"
+		>
+			2011-09-14 19:58:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The problem, though, is that presumably you also *would* need to include A.1 in your @everything class if you want it to work for your BB, CC, etc. lookups, so I suspect you will need to create separate @notB, @notC etc. classes, each of which would have to include the 'cycled' variants of the previous letters.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-14 20:39:07"
+			itemprop="datePublished"
+		>
+			2011-09-14 20:39:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I have tried a font cycling five sets of capitals (A-Z) with the code like Thomas posted, and it works very well with only one class containing all the capitals from the five sets, space and punctuation.
+The real limitation of this code though is that it doesn't look further than six steps back, and the code gets much longer with each additional step... And with each five new glyphs longer still. 
+You might want to add some more conventional 'shuffle' lookup before this code to avoid always starting with the same set of versions, and to help glyphs from different sets mix together more evenly. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-16 22:07:13"
+			itemprop="datePublished"
+		>
+			2011-09-16 22:07:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ovaalk</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

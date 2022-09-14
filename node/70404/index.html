@@ -1,0 +1,3831 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title> Webfont Obfuscation: An interim solution? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content=" Webfont Obfuscation: An interim solution?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/70404/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-05-14T06:30:41+00:00" />
+<meta property="article:modified_time" content="2010-05-14T06:30:41+00:00" />
+
+<meta itemprop="name" content=" Webfont Obfuscation: An interim solution?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-05-14T06:30:41+00:00" />
+<meta itemprop="dateModified" content="2010-05-14T06:30:41+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=" Webfont Obfuscation: An interim solution?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline"> Webfont Obfuscation: An interim solution?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-05-14T06:30:41Z">May 14, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">paul.irish</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">While we are waiting for WOFF support broadly, there are some protective measures available for webfonts to prevent them from being installed locally.
+
+There is a technique of obfuscating the <code>name</code> table, rendering it <strong>unusable as a system font, but fully functional as a webfont</strong>. Ethan Dunham of Font Squirrel and Fontspring has led much of the research below, based on some prior work from Peter Bilak of Typotheque and Philip Taylor with his Font Optimizer [0]
+
+Specifically, these are the modifications for a TrueType font:
+<!--break-->
+<ul><li>Delete all name entries except for platformID 3, platEncID 1, LangID 0x0409</ul>
+
+<ul><li>Set entry 1 (Font Family) to  '' (empty string)
+<li>Set entry 2 (Font Subfamily) to a unicode smiley:☺ [1]
+<li>Set entry 3 (Unique ID) to '' (empty string)
+<li>Set entry 4 (Full name) to smiley:☺
+<li>Entry 5 (Version) may optionally be changed. Ethan recommends inserting some verbage about the font being protected. It shows up in the get info window on Mac 
+<li>Set entry 6 (Postscript name) to smiley:☺
+<li>Entries 7-14 can remain as is
+<li>Delete entries 15+</ul>
+
+Create two Mac entries: platformID 1, platEncID 0, LangID 0x0
+<ul><li>Set entry 1 to blank (basically have an entry but no value)
+<li>Set entry 4 to the Font Name (optional but will show up in Get Info)</ul>
+
+
+When the Font Family name is an empty string, it is uninstallable in Windows. Meanwhile, the OpenType spec indicates that two-byte unicode characters (like the smiley) won't work in a font name on Mac at all. [2] As a result, it's rejected by OS X and not possible to install. Linux isn't able to cope with these modifications either. [3]
+
+These changes are done not only to the TrueType "naked" font, but can also be applied to the underlying TTF embedded in the EOT and WOFF files as well. It's also worth noting that Chrome's font sanitizing library OTS completely avoids the <code>name</code> table. [4]   
+
+<strong>I believe all non-free fonts should employ these changes as they are distributed for web use</strong>, essentially providing them with a similar "garden fence"-level of protection [5] as WOFF. Fontspring is already employing this technique, and you can test it out with the WebOnly option at the Font Squirrel generator [6].
+
+
+If you guys think this is worthwhile, I'd love to help draft this up into something more official so it's a documented standard that all foundries can use when preparing their work for sale as a webfont.
+
+
+[0] [[http://bitbucket.org/philip/font-optimizer/src/tip/obfuscate-font.pl]]
+[1] [[http://www.fileformat.info/info/unicode/char/263a/index.htm]]
+[2] [[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#9.e]]
+[3] [[http://paulirish.com/i/LinuxWebfont.png]]
+[4] [[http://code.google.com/p/ots/source/browse/trunk/src/name.cc#23]]
+[5] [[http://lists.w3.org/Archives/Public/www-font/2010AprJun/0061.html]]
+[6] [[http://www.fontsquirrel.com/fontface/generator]]
+
+Edit: Clarified the Windows installability reason. Worth noting: when the full name doesn't match Font Family + subfamily, it is uninstallable in Windows, however they match with this above technique, which is why the EOTs with this modification still work. (thx Ethan)</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">
+<br><hr><br>
+<b><a href="http://www.oakley-sunglasses.asia/">オークリー サングラス</a></b><br>
+<b><a href="http://www.oakley-sunglasses.asia/">オークリー ゴーグル</a></b><br>
+<b><a href="http://www.oakley-sunglasses.asia/">オークリー メガネ</a></b><br>
+<b><a href="http://www.oakley-sunglasses.asia/">オークリー</a></b><br>
+<b><a href="http://www.oakley-sunglasses.asia/">オークリー 激安</a></b><br></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-08-15 15:12:46"
+			itemprop="datePublished"
+		>
+			2013-08-15 15:12:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>diaoyudaosaf</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 09:29:59"
+			itemprop="datePublished"
+		>
+			2010-05-14 09:29:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>andreas</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Like Paul said, you can already do this with the <a href="http://www.fontsquirrel.com/fontface/generator">Generator</a> by selecting the "WebOnly" Option. I'm interested to hear your thoughts on it all. A more robust foundry service is in the works.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 13:18:34"
+			itemprop="datePublished"
+		>
+			2010-05-14 13:18:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Whoa, finally something on the subject.
+
+I've posted a question on the css-design google group, but, clearly, that was a wrong place to ask such a question (no replies).
+http://groups.google.com/group/css-design/browse_thread/thread/d3ccff333398096c
+
+Thank you guys.
+
+So, all the mentioned stuff is already being done if I use "WebOnly" from the Fontsquirell?
+
+Ethan, Paul, you rock.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 13:46:52"
+			itemprop="datePublished"
+		>
+			2010-05-14 13:46:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gryzzly</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 13:48:36"
+			itemprop="datePublished"
+		>
+			2010-05-14 13:48:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Typography.Guru</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for doing the research, guys. This is one to save, keep, and refer back to constantly. 
+
+Top work!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 13:52:28"
+			itemprop="datePublished"
+		>
+			2010-05-14 13:52:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>elliotjaystocks</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@Misha - Yes, all this is already being done in the generator.
+
+@Elliot - Thanks!
+
+One clarification to Paul's documentation: It is uninstallable on Windows not because the names don't match (they do and that is why the EOT works), but because the Family Name is <blank>.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 14:43:32"
+			itemprop="datePublished"
+		>
+			2010-05-14 14:43:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I think the problem with solutions like this is that a browser or OS would be well within its rights to reject such a font. We've seen security fixes for font-based attacks from Mozilla and Apple in recent months. As part of the hardening of apps and OS's against attack, support for hack fonts may disappear in an instant - through a security fix or browser update. That's probably okay for a service like Typekit that can react instantly, but for someone hosting their own EOTs or raw fonts that would appear to be a problem.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 16:19:57"
+			itemprop="datePublished"
+		>
+			2010-05-14 16:19:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@Simon - Agreed, it is a potential issue. But can you see any reason why they would suddenly start paying attention to the table if they aren't already?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 16:38:55"
+			itemprop="datePublished"
+		>
+			2010-05-14 16:38:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 16:50:11"
+			itemprop="datePublished"
+		>
+			2010-05-14 16:50:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Santiago Orozco</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@sii, Yeah, totally a legitimate concern. I've asked a friend who works on the Chrome team that developed OTS (arguably the most aggressive in-browser font security software) to look this over. My expectation is he'll give the thumbs up, but like you, I want to feel confident about it.
+
+Since OTS was started, it has had <a href="http://code.google.com/p/ots/source/browse/trunk/src/name.cc#23">this comment in the source</a>, which puts me at ease:
+<code>  // NAME is a required table, but we don't want anything to do with it. Thus,
+  // we don't bother parsing it and we just serialise an empty name table.</code>
+
+I'll also try to bounce this off John Daggett and Jonathan Kew of Mozilla. If you have contact with any webfonts engineers with IE, I'd love their input</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 17:16:48"
+			itemprop="datePublished"
+		>
+			2010-05-14 17:16:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paul.irish</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>would suddenly start paying attention to the table if they aren't already?
+
+If a documented exploit involved malformed name table entries, they may verify all entries not just the one associated with the exploit.
+
+>If you have contact with any webfonts engineers with IE, I'd love their input
+
+For sure, I'll point them at this thread.
+
+Cheers, Si</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 17:23:50"
+			itemprop="datePublished"
+		>
+			2010-05-14 17:23:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm curious what other browsers may have been tested besides IE, Firefox and Chrome. How about Opera? Anything else? Any obscure browsers known to NOT work?
+
+Cheers,
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 19:45:17"
+			itemprop="datePublished"
+		>
+			2010-05-14 19:45:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yes, Opera Mac works fine. And I don't care honestly about obscure browsers. What is the Extensis strategy for protecting fonts?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 19:55:27"
+			itemprop="datePublished"
+		>
+			2010-05-14 19:55:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> How about Opera? Anything else? Any obscure browsers known to NOT work?
+
+Opera Windows and Opera Mac work with these files. 
+
+Camino doesn't yet support @font-face but since they lean heavily on Gecko, it's safe to say the experience will match Firefox.
+
+I don't believe Epiphany or Konqueror either support @font-face yet (or really any of CSS3).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 20:13:13"
+			itemprop="datePublished"
+		>
+			2010-05-14 20:13:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paul.irish</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I heard back from one of the lead font engineers. He agreed with my assessment, but declined to speculate on the likelihood of Windows or IE changing their behavior. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-14 21:46:50"
+			itemprop="datePublished"
+		>
+			2010-05-14 21:46:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ethan (fontsquirrel) asked: <cite>What is the Extensis strategy for protecting fonts?</cite>
+
+In the current "technology preview" of our service, we do a bunch of measures at different levels, including a number of things relating to font processing, along these general lines.
+
+That being said, there's no question that this level of font crippling is more extensive than what we're currently doing. It's something we'll be looking at carefully.
+
+Cheers,
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-15 02:58:43"
+			itemprop="datePublished"
+		>
+			2010-05-15 02:58:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@paul and all:
+
+As you probably know, Ethan and I have discussed this a bit.
+And as TP will attest, I was on a quest for the "uninstallable font name" months ago (because of the local() problem) but you and Ethan beat me to it and I appreciate and salute the hack.
+
+My initial reaction was like Sii's - a general nervousness. There's something about it that seems frail, easily broken.
+
+However, after mulling, the bottom line is: if the naming scheme is legit as far as the OT spec is concerned, there is no reason that I can see that it is any more vulnerable - security wise - than any other combination of entries in the name table.
+
+(And remember, no security guy is ever, ever going to tell you that something is 100% rock solid safe. If we could predict what an attacker might come up with, there would be no ongoing need for security guys. The question is: is this less safe than any other set of naming entries? Not that I can see.)
+
+Which leads me to a whole other line of inquiry...
+
+All along, it has been assumed that the font delivered to the browser is easily installable in the OS. It's fair to say that this is what bothered commercial font vendors the most.
+However, you've shown that's not true. The uninstallable font already exists, de facto, you've found it. And all it requires is some particular comination of entries in the name table.
+
+All along, the focus has been on what browsers are going to to do with a font that was assumed to be installable when the real problem has always been what the OS was going to do if the user, let's say, extracted it out of the cache and tried to install it.
+Success at that has always been assumed.
+
+With all the brouhaha going on at the W3C working group over embedding bits and mandates about what browsers and WOFF conversion tools SHALL or MUST do, my question is, why not codify something like this? It already exists.
+
+What would be objectionable about a naming scheme that makes the font uninstallable by asking that the underlying OS should, pretty please, not install a font so named?
+
+I can't see the major players like MSFT or Apple objecting to this.
+
+I mean, this issue was the prime impetus behind EOT and, ultimately, WOFF so why not tackle it from this angle, as well?
+
+I dunno, just tossing out the idea. Worth thinking through, I think.
+
+Rich</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-15 14:47:30"
+			itemprop="datePublished"
+		>
+			2010-05-15 14:47:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Rich: <em>if the naming scheme is legit as far as the OT spec is concerned</em>
+
+There's the rub, I think. The proposed modifications of the name table are not really legit as far as the OT spec is concerned, at least as interpreted by the OS makers, which is precisely why the system will not install such fonts. This method of obfuscation is based on a current difference between the handling of web fonts and the installation of fonts on the system, and I don't see any grounds for either presuming that this difference will be maintained in its present state or that such a difference can be formalised.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-15 17:57:13"
+			itemprop="datePublished"
+		>
+			2010-05-15 17:57:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-15 18:01:05"
+			itemprop="datePublished"
+		>
+			2010-05-15 18:01:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Chris Dean</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for the summary, Paul!
+
+Non-complicance concerns aside, would it be worth trying to corrupt the font file even further so that it can't be fixed with a font editor?
+I played around a bit and managed to create a TTF that works as a web font in Safari but crashes FontLab when you try to open it; TTX doesn't work either but FontForge can open it. The problem is that it doesn't work in Chrome. It's just a quick attempt – maybe a TrueType file format wiz could devise something that works in browsers but can't be opened in editors?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-15 21:00:41"
+			itemprop="datePublished"
+		>
+			2010-05-15 21:00:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tim Ahrens</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Is there a way to make this more complicated, or are we now in a plateu-face looking at possible standards?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-15 22:49:03"
+			itemprop="datePublished"
+		>
+			2010-05-15 22:49:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tomi from Suomi</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@Tim- Chrome is the kicker because they are using a library to "qualify" a font. It must pass a myriad tests before it is considered safe. Obviously whatever you did raised a red flag. That is why the NAME table at this point is where our energy is focused.
+
+@Tomi- Ideally yes, but it is all undiscovered and untested. Likely there are few to none other alternatives right now. A font still has to behave like a font after all.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-16 02:40:19"
+			itemprop="datePublished"
+		>
+			2010-05-16 02:40:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@jh
+
+<em>This method of obfuscation is based on a current difference between the handling of web fonts and the installation of fonts on the system, and I don't see any grounds for either presuming that this difference will be maintained in its present state or that such a difference can be formalised.</em>
+
+Yes, it exploits a "blind spot" in the way Windows and OSX currently recognize a font.
+And there is no way to know if the blind spot will stay blind unless MSFT and Apple say it will.
+
+But going forward, how about a simple naming convention that signals to the OS that the font should not be installed?
+Be aware that commercial font producers and web designers may soon have a very common interest here.
+If I break my little tush re-hinting a font, playing with the outlines, converting it,  and subsetting it a certain way, I might very well want to sell the thing and not want it easily installable either.
+
+With the acquiescence of only two parties: MSFT and Apple, things can be made simple. And I can't see what beef anybody would or could have. Forget embedding bits and EPAR tables and all that sh-t. Why couldn't a simple naming convention be adopted that asks the OS not to install the font? Making it Browser Cache-Only.
+I mean, why not? Too simple?
+Not much of a garden fence, but about as good as WOFF. And the two together would be about all you could hope for.
+
+And since the internal name of the font is really irrelevant to @font-face, why not just decide on an internal keyword name that requests this non-installable treatment?
+There is precedence for it with the keyword font names in the CSS 2.1 draft, too.
+(cursive, serif, sans-serif, monospace - how about adding 'cache' to the list and asking user-agents to check for a match in the font's internal data and ask the platform providers to respect it?
+
+Sii, is this nuts?
+
+Just thinking out loud...
+
+(Have to figure out how to get backward-compatibility, though. Can Ethan's hack be merged with such a thing? Probably.)
+
+Rich</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-17 03:08:16"
+			itemprop="datePublished"
+		>
+			2010-05-17 03:08:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I doubt clients or OS’s would respect an unofficial keyword, not part of the OpenType standard. However, if the OpenType spec were rev'd to include a "do not install" bit, then I would expect that clients and OS’s would support it. 
+
+I think there would likely be push-back on standardization of such a bit. WOFF is already a “do not install” format, and depending on how clients temporarily install linked or embedded fonts they may run afoul of OS-level checks causing app compat issues. Add to this the ease of flipping the bit, it would seem to be a lot of work for little reward. 
+
+I think a more promising approach, one more likely to succeed, would be a fully spec’d permissions/electronic EULA table, where “do not install” is just one of several properties exposed.  
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-17 03:37:02"
+			itemprop="datePublished"
+		>
+			2010-05-17 03:37:02
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>Why couldn't a simple naming convention be adopted that asks the OS not to install the font? 
+
+Lol. 
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-17 11:07:05"
+			itemprop="datePublished"
+		>
+			2010-05-17 11:07:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>I think a more promising approach, one more likely to succeed, would be a fully spec’d permissions/electronic EULA table, where “do not install” is just one of several properties exposed.</em>
+
+Promising in a way, perhaps, but I have problems with what it promises.
+I'd rather it remain as is than go down that road.
+
+Rich</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-17 15:44:50"
+			itemprop="datePublished"
+		>
+			2010-05-17 15:44:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> I don't see any grounds for either presuming that this difference will be maintained in its present state or that such a difference can be formalised.
+
+Why not? 
+
+Here's a slice of the browsers in use and their marketshare:
+EOT (IE 6-8): 52.7%
+WOFF (FF3.5+, Chrome6): 20.8%
+TTF/OTF (FF<3.5, Chrome<6, Opera): 25.4%
+SVG or no support: 1.1%
+
+So there is still a good 25% of users completely unserved by a EOT/WOFF license like FontShop's.
+
+We still don't know for sure about Apple's plans to support WOFF. Last I heard, their lead engineer [[http://krijnhoetmer.nl/irc-logs/whatwg/20100303#l-194|said it's easier for them to make WOFF an installable format]], so that hardly solves the problem.
+
+But now we have a format, which has protection on the level of WOFF (and even better in some cases), and works in all browsers *today*. Simon, John, David: that doesn't interest you?
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-17 17:09:04"
+			itemprop="datePublished"
+		>
+			2010-05-17 17:09:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paul.irish</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">One issue with putting garbage data in a font is that it is hard to predict all the workflows which it might affect. Have you tested printing to PostScript and non-PostScript printers, and to PDF?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-17 17:42:58"
+			itemprop="datePublished"
+		>
+			2010-05-17 17:42:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Read Roberts</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>But now we have a format, which has protection on the level of WOFF (and even better in some cases), 
+
+I wouldn't describe what you've outlined as a "format", rather a set of obfuscation techniques. I find them interesting, but not that surprising - obfuscation is generally required by any font-maker considering font linking and embedding schemes, and the services (like Ascender's and Typekit) include obfuscation. 
+
+>works in all browsers *today*.  
+
+My only point was that they may not work tomorrow. In which case they'll evolve, or die. 
+
+>their lead engineer said it's easier for them to make WOFF an installable format
+
+I think it’s up to the W3C working group to ensure that <STRONG>compliant</STRONG> apps and clients do not treat WOFF as an installable font format. 
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-17 17:50:03"
+			itemprop="datePublished"
+		>
+			2010-05-17 17:50:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@davidberlow
+
+>lol
+
+Just a bit of giveback for all the amusement you've provided me!
+
+(Hey, will you be at Extensis' shindig in Boston this weekend?)
+
+rich</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-17 20:01:28"
+			itemprop="datePublished"
+		>
+			2010-05-17 20:01:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">PI>David: that doesn't interest you?
+
+Yes Paul it does. Thank you for the interesting material. We have adopted much like what you describe in some of our web font obfuscation technology to serve dressed naked fonts.
+
+I'm always a bit leery about doing any messing with the font names because they are so fragile to the user, and I can't help imagining that useful file and font names <em>with</em> meta data support is a good goal to seek for users now. 
+
+One of the classic issues we've been facing (all composers and users of digital type), for the last 30 years, is how to keep track of fonts, (from conception to uses), mostly by file name and font name. So, e.g. for years we've been shoehorning size and foundry info into names along with family, repertoire and style info. 
+
+As I understand it, I could have to ship fonts like: FBSavageGothicBoldCondensedItalicDisplayProWebForIPadSVG18PTnot4woff.svg, and the file name could be SHTHD211.
+
+Sii>My only point was that they may not work tomorrow. In which case they'll evolve, or die.
+
+Simon's point is well taken, but all obfuscation techniques must evolve or die of pressure from other, arguably, overriding forces as well. The point is, however, it is the combination of obfuscation and meta data, one for the garden and one for the court, that protect fonts from most manner of ill gotten gain. It is not the font format.
+
+Cheers!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-17 23:26:58"
+			itemprop="datePublished"
+		>
+			2010-05-17 23:26:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Sii>My only point was that they may not work tomorrow. In which case they'll evolve, or die.
+
+Sure. Though being future-proof isn't really a goal of this project. It looks pretty certain we'll have WOFF support across all browsers within 9 months. 
+
+This is stated as an interim solution, as I'd think foundries would be interested in licensing their fonts to work, securely, in 100% of supporting browsers today. :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-17 23:51:22"
+			itemprop="datePublished"
+		>
+			2010-05-17 23:51:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paul.irish</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>intentional poisoning of standard data formats is unconditionally evil
+
+[img:sites/default/files/old-images/poison_5110.PNG]
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 01:02:52"
+			itemprop="datePublished"
+		>
+			2010-05-18 01:02:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm absolutely astonished that all discussions so far are concentrated on the feasibility of this hack and nobody is making the principled argument that intentional poisoning of standard data formats is unconditionally evil, and security by obscurity really never works -- especially when the structure of the underlying format is public knowledge.
+
+Since any software that encounters the intentionally crippled data may behave in unpredictable ways and thus open up vectors for attack, this kinds of hack -- in an environment as fragile as the web no less -- puts the data integrity and system security of the user in great danger and is therefore utterly irresponsible. As an user, I would consider this kind of technique a willful act of intrusion and endangerment -- much like <a href="http://en.wikipedia.org/wiki/Sony_BMG_CD_copy_protection_scandal">rootkit DRM</a> -- and say to anyone who employs it: Go to hell!
+
+Some -- actually, many, as it seems -- people here need a computer security 101 lecture: The integrity of data exchanged in an open environment has -- by magnitude -- higher priority than a little bit more visual enhancement for your website.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 01:05:57"
+			itemprop="datePublished"
+		>
+			2010-05-18 01:05:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>henrypijames</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>One issue with putting garbage data in a font is that it is hard to predict all the workflows which it might affect. Have you tested printing to PostScript and non-PostScript printers, and to PDF?</cite>
+
+Still interested in an answer to Read's question.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 01:28:07"
+			itemprop="datePublished"
+		>
+			2010-05-18 01:28:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Christopher Slye</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>I'm absolutely astonished that all discussions so far are concentrated on the feasibility of this hack and nobody is making the principled argument that intentional poisoning of standard data formats is unconditionally evil, and security by obscurity really never works -- especially when the structure of the underlying format is public knowledge.</cite>
+
+You have to remember that this entire discussion is pretty much based on an inane fantasy in which intentional piracy is inevitable but users unintentionally pirate fonts by downloading web fonts and installing them without realizing that the a font license should be paid for somewhere along the way. So you really shouldn’t be surprised that the methods for preventing such a scenario are equally ridiculous.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 02:04:29"
+			itemprop="datePublished"
+		>
+			2010-05-18 02:04:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">James - Not sure I understand the tone of your post. What would you suggest? Typekit obfuscates, Fontspring obfuscates, Extensis, Ascender, Typotheque etc... To serve fonts on the web at this point has to involve a certain level of trust. None of the schemes offered by these services is unbreakable. I've easily downloaded fonts from all of the them. But if I was a "casual pirate" without the font tools, I would stumble here. Would you be comfortable with your naked fonts on the web?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 02:38:27"
+			itemprop="datePublished"
+		>
+			2010-05-18 02:38:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I suggest you stop messing with the standard formats and keep waiting for a standard-conform web font technology that you like. Not having web fonts is not a big deal -- having intentionally corrupted data is a huge deal.
+
+And yes, as an developer of several open source projects, I have absolutely no problem whatsoever giving away my work for free. But that's beyond the point.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 02:53:16"
+			itemprop="datePublished"
+		>
+			2010-05-18 02:53:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>henrypijames</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I am just continually confounded at how much thought and effort goes into trying to protect web fonts from being used as system fonts given that casual pirates will probably always take the casual route and just google “fontname font rapidshare OR torrent”. I don’t entirely love the idea of naked fonts on the web. But I don’t see a need for all these hacks because I think it silly to believe that anyone who will to make the effort to pirate web fonts would pay for fonts to begin with.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 04:54:09"
+			itemprop="datePublished"
+		>
+			2010-05-18 04:54:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">henrypijames >I suggest you stop messing with the standard formats 
+
+Thank you for your comments. My advice is that you should read more. Nothing poisonous is being done to the standard itself. The parts of the standard that are used for web fonts are unmolested when compared, e.g. to the glyph standards, etc. 
+
+Type developers tread a complex maze of non-standard interpretations of the standard formats where OS developers play every hidden card they have to improve the performance of fonts on their systems, often with disregard to; the standard, the courtesy of documentation, and the web. 
+
+You could consider this kind of technique a willful act of intrusion and endangerment and tell them to go to hell, fine. We prefer to work through these difficulties like agnostics, (and I admire you for how little you know on this topic). 
+
+Cheers!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 13:50:13"
+			itemprop="datePublished"
+		>
+			2010-05-18 13:50:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@paul irish
+
+<em>This is stated as an interim solution, as I'd think foundries would be interested in licensing their fonts to work, securely, in 100% of supporting browsers today.</em>
+
+I think you've unintentionally hit the nail on the head. I don't think font producers - in the main - are much interested in licensing their fonts to work in 100% of browsers today. I've never, ever heard any enthusiasm for providing web fonts at all. <strong>And I don't think there will be much enthusiasm for it after WOFF and EOT are ubiquitous, either.</strong>
+
+One thing I <em>have</em> heard regarding licensing for the web is that "We don't yet know what business model is going to work". And that therefore, judgment should be suspended while experimentation with different models goes forward.
+
+Yet, the one experiment I have yet to see tried by any established commercial font producer would seem to me to be the first choice/no-brainer: take a few fonts with good screen quality and offer to license them for web use and see what happens.
+Until such a test marketing occurs, anybody who waxes forth about "well, we don't know what will work" is simply full of hot air IMHO.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 18:12:55"
+			itemprop="datePublished"
+		>
+			2010-05-18 18:12:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">James: <em>I am just continually confounded at how much thought and effort goes into trying to protect web fonts from being used as system fonts given that casual pirates will probably always take the casual route and just google “fontname font rapidshare OR torrent”.</em>
+
+That's not my definition of 'casual piracy'. That's an intentional act to obtain a thing, not having a thing arrive on your computer because you visited a website.
+
+<em>But I don’t see a need for all these hacks because I think it silly to believe that anyone who will to make the effort to pirate web fonts would pay for fonts to begin with.</em>
+
+Exclusivity is a core value of a typeface. This is why clients pay more for exclusive use of a typeface than they do for non-exclusive use, and why retail licensors expect diminishing returns for a popular font: the more people who have a font, the less value it is perceived to have. Unlicensed use undermines this value, so whether the unlicensed user would or would not have paid for a license to begin with is irrelevant. It's especially irrelevant to my clients who are looking to use fonts on the web that are not available for licensing to other parties anyway. They are not interested in protecting sales, they are interested in protecting their investment in the exclusive value of those fonts.
+___
+
+Now, having said that, let me be clear that I'm not in favour of font obfuscation methods. The proper response to browsers that only support naked fonts for @font-face is not to support those browsers.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 18:49:02"
+			itemprop="datePublished"
+		>
+			2010-05-18 18:49:02
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Henry: <em>I suggest you stop messing with the standard formats and keep waiting for a standard-conform web font technology that you like. Not having web fonts is not a big deal -- having intentionally corrupted data is a huge deal.</em>
+
+I'd agree with that.
+
+One of the things that OpenType made possible was the cleaning up of a lot of hacked, non-standard font data that had proliferated during the 8-bit years.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 19:06:13"
+			itemprop="datePublished"
+		>
+			2010-05-18 19:06:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>I don't think font producers - in the main - are much interested in licensing their fonts to work in 100% of browsers today. I've never, ever heard any enthusiasm for providing web fonts at all. And I don't think there will be much enthusiasm for it after WOFF and EOT are ubiquitous, either.</cite>
+
+Wha?
+
+Monotype's new service, along with Typekit and all the others, provide fonts that are compatible with virtually all browsers. I'm sure Monotype, Ascender, FontShop, et al. are quite enthusiastic about it. Quite a while ago, Adobe joined Monotype in Microsoft to support standardization of EOT, the goal of which was to get web fonts working in all browsers.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 19:54:48"
+			itemprop="datePublished"
+		>
+			2010-05-18 19:54:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Christopher Slye</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">JH> Now, having said that, let me be clear that I'm not in favour of font obfuscation methods. 
+
+Me neither it all sucks. When OT is Safest, you know what I mean. 
+
+Jh> The proper response to browsers that only support naked fonts for @font-face is not to support those browsers.
+
+Now now. If we all felt that way about each browser maker's choice, we'd have nothing to @font-face to at all.
+
+Cheers!
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 20:08:46"
+			itemprop="datePublished"
+		>
+			2010-05-18 20:08:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">David: <em>...we'd have nothing to @font-face to at all.</em>
+
+I'd say that, at the present time, there is precious little to which to @font-face, but a lot of people pretending that there is and trying to make us think that there is some kind of pressing imperative that obliges us to do in a matter of a few months -- using whatever hacks and compromises will get us to market -- what has clearly not been a pressing imperative for more than a decade. It's surely a good thing that web type is finally moving, but between total inertia and running blindly off a cliff there is a lot of leeway for the kind of movement that goes places. There is going to be a cross-browser, standard web font format, and I don't see the point of compromising either principles or data to support what will quickly be, in the context of that format, non-standard legacy solutions affecting a minority of users. I see no more reason to support 100% of current browsers than I did to support 100% of word processing and page layout applications that didn't handle Unicode text or could only access variants using PUA mappings.
+___
+
+For me, web fonts present something of a novel situation. For a dozen years, I've been making a lot of fonts that in one way or another wouldn't work in current software. I'd make them, ship them, and wait for the applications to support the features. Sometimes I took the long road, and had to propose characters to Unicode, get them approved and published in the standard, and wait for them to be supported in software before the font would work.
+
+So it's quite amusing to be looking at a situation in which software makers have invented a web served font mechanism for which there are almost no fonts.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 21:50:05"
+			itemprop="datePublished"
+		>
+			2010-05-18 21:50:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Slightly off topic @John: I’ve seen way too many fonts designed with zero attention to how they behave in MS Office! That’s a definite dealbreaker for identities, at least if someone are going to use the fonts inhouse.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-18 23:23:17"
+			itemprop="datePublished"
+		>
+			2010-05-18 23:23:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This thread really makes me chuckle. Thanks guys.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-19 01:42:53"
+			itemprop="datePublished"
+		>
+			2010-05-19 01:42:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">FWIW John Daggett (editor of the CSS3 Fonts spec) and font maestro at Mozilla gave his feedback on the details above:
+
+<cite>Yeah, that should work fine I think.  I would try printing under OSX, since that's where swizzling the PS name might matter.  If the FF code changes in the future it will probably change towards the Chrome way of doing things, namely dropping the name table altogether so that we avoid all the nonsense associated with it on Windows.</cite></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-19 02:07:33"
+			itemprop="datePublished"
+		>
+			2010-05-19 02:07:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paul.irish</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">How is a a font identified without the name table? How is style linking handled without the name table?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-19 04:09:33"
+			itemprop="datePublished"
+		>
+			2010-05-19 04:09:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Frank, I think I can safely say that most of the fonts I have created have been made with altogether too much attention to how they behave in MS Office. :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-19 04:11:05"
+			itemprop="datePublished"
+		>
+			2010-05-19 04:11:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>How is a a font identified without the name table? How is style linking handled without the name table?</cite>
+
+You set this all up in the CSS and the font is just identified as a reference to a file. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-19 07:55:24"
+			itemprop="datePublished"
+		>
+			2010-05-19 07:55:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Typography.Guru</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, Ralf. I figured it was like that.
+
+Heh, I love the idea that one could set up CSS to style link italic text as letterspaced fraktur. :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-19 19:43:03"
+			itemprop="datePublished"
+		>
+			2010-05-19 19:43:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@johnhudson
+
+The future isn't what it used to be, that's for sure.
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-19 23:43:57"
+			itemprop="datePublished"
+		>
+			2010-05-19 23:43:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite> > Heh, I love the idea that one could set up CSS to style link italic text as letterspaced fraktur. :) </cite>
+
+Goudy would love it, eh? Sheepstealer.com anyone? ;-)
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-20 00:44:55"
+			itemprop="datePublished"
+		>
+			2010-05-20 00:44:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>kentlew</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">John: Currently my blog is using Raleigh for upright and Janson for italics....
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-21 02:28:15"
+			itemprop="datePublished"
+		>
+			2010-05-21 02:28:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Isn't this really just a cheap exploit and not truly obfuscation? I think these fonts could still be opened in Fontlab et al after conversion and regenerated as installable fonts making all your efforts in deleting fields a waste of time. I know of at least 2 glyph extractors that won't be affected by this already.  </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 10:44:24"
+			itemprop="datePublished"
+		>
+			2010-05-24 10:44:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>VBM</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thomas,
+
+In your css file http://www.thomasphinney.com/wp-content/themes/blog-one/style.css I got a link for you italic, "opened" it with Safari 4.0.5 in OS X 10.5.8, which in fact saved a file in Downloads, a file that I could open directly with my prefered font editor. I did not get Janson. I can see the opentype tables, etc. It would no doubt be easy to save it as an installable font.
+
+Can someone explain to me what the protection mechanism is supposed to be? If the file I saved had been encrypted with a random key sent by my browser and only known to it, that would have been a much better protection. No need for a safe encryption algorithm, something fast would be enough.
+
+Michel</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 11:59:01"
+			itemprop="datePublished"
+		>
+			2010-05-24 11:59:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>If the file I saved had been encrypted with a random key sent by my browser and only known to it, that would have been a much better protection.</cite>
+
+That’s not the job of the browser developers.
+
+-----------
+
+Changing the name table is idiotic. It is absolute no protection and easily to repair. It is so naive to think, that this could protect fonts against piracy. Even a font editor is not needed for correcting the name table, TTX is enough.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 12:10:53"
+			itemprop="datePublished"
+		>
+			2010-05-24 12:10:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">What you fellows don't get is that you are not the people this "hack" is aimed at. I too figured out the workflow to steal Typekit fonts, ascender, fonts.com etc. It isn't hard. But it is specialized knowledge and specialized tools. How many scrapbookers, web developers and even mildly sophisticated "hackers" know 1) What those tools are and 2) How a font is actually put together?
+
+This is not fortress-style protection. Isn't meant to be. It is garden fence protection. It keeps "normal people" off the grass.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 14:09:39"
+			itemprop="datePublished"
+		>
+			2010-05-24 14:09:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">FontSquirrel
+
+Do you really think it is harder than extracting a font from an unprotected pdf? </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 14:58:07"
+			itemprop="datePublished"
+		>
+			2010-05-24 14:58:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Well, I don't know. I've never tried. What do you do, extract the PDF through FontForge?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 15:09:34"
+			itemprop="datePublished"
+		>
+			2010-05-24 15:09:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Michel: <cite>Do you really think it is harder than extracting a font from an unprotected pdf?</cite>
+
+What's the relevance of this comparison?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 15:43:30"
+			itemprop="datePublished"
+		>
+			2010-05-24 15:43:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tim Ahrens</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>Do you really think it is harder than extracting a font from an unprotected pdf?
+
+I think you hit the nail on the head. 98.6% of font designers are okay with PDF embedding (unprotected or otherwise) so if these hacks provide a similar level of protection against truly casual drag-and-drop font re-use then they're okay with these @font-face schemes.  
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 15:46:34"
+			itemprop="datePublished"
+		>
+			2010-05-24 15:46:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">In fact, the fontname is also extracted from the unprotected pdf, so the font is ready to be saved (with missing characters, no kerning table etc). On the other hand, with what I got from font-face above, the hacker needs to adjust the names, which is more work indeed, and that also requires some knowledge; however, less characters are likely to be missing from the resulting font, if any, and the useful tables are there (GPOS: kern, GSUB: aalt frac, onum, lnum, pnum, etc.). I can't imagine a font producer that writes in his EULA that his font may not be embedded and then makes his font available with font-face unless there is something I am missing (some bit that needed to be checked and that the sofware I used did not check, for instance, because it is not up to date).
+
+edit: this post was written before the two previous posts.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 16:05:51"
+			itemprop="datePublished"
+		>
+			2010-05-24 16:05:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>I think you hit the nail on the head. 98.6% of font designers are okay with PDF embedding (unprotected or otherwise) so if these hacks provide a similar level of protection against truly casual drag-and-drop font re-use then they're okay with these @font-face schemes.</cite>
+
+Wow, I never made the connection, but Simon you are right. If the comparison holds up that PDF embedding is approximate to font-face embedding... well, that is big news for getting designers on board with this idea.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 16:07:31"
+			itemprop="datePublished"
+		>
+			2010-05-24 16:07:31
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Like clockwork, this straw man argument pops up: <cite>This will not stop piracy.</cite>
+
+Nobody is trying to stop piracy. We are trying to reduce piracy, and much piracy is unintentional, because people don't know what they're doing is prohibited. If I own 100 acres of open space and don't put a fence around it, should I be surprised when people wander onto my property? I can put up a simple fence with some signs and significantly reduce trespassing -- and I can now go up to someone I find on my property and be more confident that they know what they're doing is wrong.
+
+A message to the font geeks: Foundries are well aware that you can extract a font out of EOT or WOFF or PDF. It's not news.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 19:35:38"
+			itemprop="datePublished"
+		>
+			2010-05-24 19:35:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Christopher Slye</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite> I can put up a simple fence with some signs and significantly reduce trespassing </cite>
+
+Some people would also  put a lock on the gate.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 19:59:20"
+			itemprop="datePublished"
+		>
+			2010-05-24 19:59:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Christopher
+
+If someone downloads a web font, he either wants to use it as web font or as font installed on his system. If he wants to use it as web font, the messed up name table does not need to be corrected and the woff file not to be converted. But if he is able to convert the woff file, he also will make out, how to correct the name table. And if he does not make it out, he asks somebody to do that for him. Manipulating the name table as protection is useless. Except from that you violate specifications. It is not the job of the browser developers to care about violated specifications. There is no guarantee, that fonts with manipulated name tables work in all browsers (and other media/programs, that can access/display/print web content / CSS formatted markup languages), that support web font embedding.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 20:01:34"
+			itemprop="datePublished"
+		>
+			2010-05-24 20:01:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>Manipulating the name table as protection is useless. Except from that you violate specifications.</cite>
+
+Actually, AFAIK the technique described here is not a violation of the OpenType spec.
+
+It doesn't contribute much to the discussion to declare this approach "useless". I haven't tested it myself, but if it does indeed make the font useless on the desktop but useful in a browser, then that is perhaps useful to someone.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-24 23:16:23"
+			itemprop="datePublished"
+		>
+			2010-05-24 23:16:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Christopher Slye</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Christopher
+From the OpenType spec – Name ID 2 (Font Subfamily name): <em>The Font Subfamily name distiguishes the font in a group with the same Font Family name (name ID 1). This is assumed to address style (italic, oblique) and weight (light, bold, black, etc.). A font with no particular differences in weight or style (e.g. medium weight, not italic and fsSelection bit 6 set) should have the string “Regular” stored in this position.</em>
+
+From the TrueType spec 1.66 – Name ID 2 (Font Subfamily name): <em>for purposes of definition, this is assumed to address style (italic, oblique) and weight (light, bold, black, etc.) <strong>only</strong>. A font with no particular differences in weight or style (e.g. medium weight, not italic and fsSelection bit 6 set) should have the string “Regular” stored in this position.</em>
+
+The difference is the word <em>only.</em>
+
+If you follow the TT spec, you violate the specification. If you follow the OT spec, you violate the specification, because name ID 6 should be identically with the PS name in the CFF-table, if present.
+
+Except from that using empty strings is not in the intention of the specification.
+
+And with regard to name ID 6: <em>If no name ID 6 is present, then there is no defined method for invoking this font on a PostScript interpreter.</em>
+
+So, what happens, if I want to print a web page on a PS printer, especially if all web fonts have the same name string there and if the fonts are in the printer cache, which probably could happen?
+
+Manipulating the name table smells like trouble. You cannot know, if it works with all programs for which web fonts are intended to be used – all programs, that can display CSS-formatted markup. Those programs are not necessarily web browsers. (Well, Firefox is a browser, but its skin can be formatted with the help of CSS embedded web fonts. What is with other programs, that base on XUL and other markup languages?)
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-25 08:39:18"
+			itemprop="datePublished"
+		>
+			2010-05-25 08:39:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>...if I want to print a web page on a PS printer, especially if all web fonts have the same name string...
+
+Did PS become part of the web standard at some point, and I missed it?
+
+Cheers!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-25 11:57:15"
+			itemprop="datePublished"
+		>
+			2010-05-25 11:57:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ "Arno Enslin"
+Nitpicking. Name table obfuscation intends to produce fonts that are not entirely complete/correct and thus of limited use. Whether such fonts "violate" the spec or not is a moot point. Whether this is a good idea or not depends on whether or not you do or do not want to achieve certain effects.
+And the argument which you are using against Mr Slye and Mr Roberts, pointing to possible (mere hypothesis as of yet!) printing issues, is something that has been raised by Mr Roberts and Mr Slye first when they asked, "Have you tested printing to PostScript and non-PostScript printers, and to PDF?" See their comments above.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-25 12:05:15"
+			itemprop="datePublished"
+		>
+			2010-05-25 12:05:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>A message to the font geeks: Foundries are well aware that you can extract a font out of EOT or WOFF or PDF. It's not news.</cite>
+
+Christopher
+
+I was surprised that it was so easy to get those files on the desktop in the first place; if they had been in some hard to find cache, I would not have mentioned it. Now that I get instead of a file an "Access denied" with what a "naive user" could do, I feel much better about your scheme. Hard to believe that till yesterday the door had been left wide open!
+
+Michel  </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-25 12:52:32"
+			itemprop="datePublished"
+		>
+			2010-05-25 12:52:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>Did PS become part of the web standard at some point, and I missed it?</cite>
+
+Web standard? If you mean the specifications of CSS and HTML, it is possible to provide CSS for printers only. You even can format web documents in a way, that the content is visible in print only – except you turn of CSS.
+
+@ k.l.
+
+It is not a moot point, if you don’t know exactly the consequences of violating specifications. Except from that I miss the relation between the level of protection and the violation of specifications in this case. The hurdle to access a font is slightly higher only. The pirate still has to convert woff to ttf or otf (actually from the command line). If he is able to do that, he will also be able to edit the name table or to ask someone who is able to do that.
+
+I think I could write a small program, that makes use of TTX and automates the process of correcting the name table in a way, that the font is installable. Manipulating the name table is not a protection, but a joke.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-25 12:56:21"
+			itemprop="datePublished"
+		>
+			2010-05-25 12:56:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hey look! I can download the entire H+FJ library just by Googling "hfj fonts torrent." I think you are barking up the wrong tree Arno.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-25 16:12:21"
+			itemprop="datePublished"
+		>
+			2010-05-25 16:12:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ fontsquirrel
+
+Torrent? What’s that? I live in times of rapidshare and megaupload. But you are right. Sooner or later every font floats around. Only those people, that can’t wait and can’t get enough, extract and hack fonts. And for these people a manipulated name table is no hurdle.
+
+By the way, manipulating the name table can have the negative effect, that people, that correct the name table, don’t put the original font names in it. More people will learn, how to set font names. And, I may be wrong, in some countries primary the name is copyright protected. It may be, that it is harder to sue then.
+
+However, in my opinion web fonts are primary interesting for that, for which they are intended – embedding them in CSS, because if they are fragmented, their use outside the web is limited. And unfragmenting the parts requires much more knowledge than changing the name table. So, if the web fonts are pirated for the use in the web, there even is no need to correct the name table.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-25 18:00:52"
+			itemprop="datePublished"
+		>
+			2010-05-25 18:00:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Fragmented fonts were a clever hack devised by Typekit. It has several disadvantages however: 1) It breaks in Opera 2) Breaks some advanced CSS properties like text-shadow in Safari.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-25 19:35:10"
+			itemprop="datePublished"
+		>
+			2010-05-25 19:35:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@arno
+
+Thanks for doing the spec work - I was hoping someone would look closely and save me the trouble. But the problem is, now I have to double-check you. Responsible journalism lives. Sort of.
+
+@christopherslye
+
+<em>Monotype's new service, along with Typekit and all the others, provide fonts that are compatible with virtually all browsers. I'm sure Monotype, Ascender, FontShop, et al. are quite enthusiastic about it.</em>
+
+You are right. But please don't tell me there wasn't/isn't a lot of fear and apprehension. Resentment, too. I'm not judging, just commenting. And reacting.
+Did I miss something? Was the font community urging browser makers to implement @font-face?
+No. But the browser makers did and this forced decisions. Now that those decisions have been made, if there wasn't <em>some</em> enthusiasm about engaging with customers for web fonts I would wonder about the emotional health of those involved. Even though that engagement is a little tentative and skeptical and conditional - with the obfuscation and whatnot.
+
+But what if the skeptics are right? And the whole font services thing is just a ploy to lure font designers out into the open so all the "information wants to be free" types can shoot them down like a bunch of turkeys?
+
+Gobble gobble.
+
+One thing I can tell you for sure: if you want web designers to respect you, you have to respect them and every font designer who wants to do business on the web effectively needs to have a blog or some equivalent line of communication to field customer inquiries about their fonts. Independent of whatever mega-site or service might be selling your stuff. Look, I can't <em>prove</em> this - at least not yet - but it's my hunch that responsiveness and accountability is going to go a long way.
+
+@sii
+
+98.6%? 
+
+rich</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-26 13:11:28"
+			itemprop="datePublished"
+		>
+			2010-05-26 13:11:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>I think you are barking up the wrong tree Arno.
+
+I don't see the relationship between the acts required to protect ones fonts from free downloads and/or their use as unlicensed font software,     and the kinds of things one might do to protect ones fonts and licensed authoring users while ones font software products are being downloaded to unknowing end users?
+
+Cranberry Blog will cover this and other ways to steal fonts, if I have time after the kevlar feathers are finished. 
+
+Cheers!
+
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-26 18:54:05"
+			itemprop="datePublished"
+		>
+			2010-05-26 18:54:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">David, I have no idea what you just said. Heh.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-26 20:05:48"
+			itemprop="datePublished"
+		>
+			2010-05-26 20:05:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Maybe there <em>is</em> something to obfuscation after all! :-)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-26 20:15:47"
+			itemprop="datePublished"
+		>
+			2010-05-26 20:15:47
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eliason</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Nice Craig. You made me laugh out loud.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-26 20:31:20"
+			itemprop="datePublished"
+		>
+			2010-05-26 20:31:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>David, I have no idea what you just said. Heh.</cite>
+
+And I thought, it was my poor English.
+
+<cite>There shall in that time be rumors of things going astray, erm, and there shall be a great confusion as to where things really are, and nobody will really know where lieth those little things with the sort of raffia-work base, that has an attachment. At that time, a friend shall lose his friend's hammer, and the young shall not know where lieth the things possessed by their fathers that their fathers put there only just the night before, about eight O'clock.</cite></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-26 20:39:28"
+			itemprop="datePublished"
+		>
+			2010-05-26 20:39:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>But please don't tell me there wasn't/isn't a lot of fear and apprehension. Resentment, too. I'm not judging, just commenting. And reacting. Did I miss something? Was the font community urging browser makers to implement @font-face? No. But the browser makers did and this forced decisions.</cite>
+
+Just remember that @font-face was around for quite a long time in IE for EOT (and in Netscape Navigator, heh). To be quite honest I wasn't paying attention when that was rolled out, but I don't remember a lot of FUD over EOT. Of course you're thinking of @font-face for raw fonts, which did generate a lot of anxiety, but that was not because of web fonts generally, but because they weren't protected in Safari, et al. Would there have been anxiety if all the other browsers had suddenly rolled out support for EOT? I think not.
+
+The subscription services are, IMO, a great solution to the problems that foundries had with raw font linking. I think most foundries would have liked it if the other browsers added support for EOT, too, but it wasn't to be. If anything, the foundries weren't paying attention and should have done a better job of planning and campaigning for web fonts much earlier, but I don't think it was out of fear. I think it was just inertia.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 00:47:43"
+			itemprop="datePublished"
+		>
+			2010-05-27 00:47:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Christopher Slye</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Christopher
+
+Why are embedded fonts less protected with Safari? Do you think, base64 is any hurdle?
+
+This is from a Typekit CSS displayed in Firefox. What’s protected there?
+
+@font-face {
+font-family: "font-family-NumberOfBlablaFont";
+src: url(data:font/woff;base64,BlablaFontCode);
+font-style: normal;
+font-weight: 700;
+}
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 09:10:52"
+			itemprop="datePublished"
+		>
+			2010-05-27 09:10:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I think Christopher's point is that since Safari and Firefox support raw font linking, they offer no hurdles whatsoever. His point is that EOT files at least aren't installable and therefore less likely to be stolen. I agree with you that these hurdles are insignificant for anyone actively looking to steal fonts. But these people are not the ones we are protecting our fonts from.
+
+Permit me to classify end users in three categories.
+
+1. Honest end users who try hard to honor EULAs. They may *perhaps* download something to learn about it, but would never just steal and install. My experience tells me this is 70%-80%+ of the people out there.
+
+2. Casual thieves, who would take if the opportunity presented itself and there wasn't much work involved. 20%? (that seems too high)
+
+3. Dedicated hackers, who could run circles around you, laughing at your silly attempts to stop them. <1%
+
+Obviously foundries would love to control all theft, but realize that the digital nature of fonts makes that impossible. Therefore, move on to the next best thing and raise the difficulty in stealing them. I honestly think that this scheme covers 99%+ of end users.
+
+From what I understand, Mr. Berlow would also like to add detailed permissions to the font, so that he would have legal protection as well... (think of a Font Bureau font-sniffing bot, scouring the internet to see if you are honoring your EULA.) :-)
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 13:31:29"
+			itemprop="datePublished"
+		>
+			2010-05-27 13:31:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>...(think of a Font Bureau font-sniffing bot, scouring the internet to see if you are honoring your EULA.) :-)
+
+Not almost entirely incorrect I'm afraid; You might have me confused with someone in the in-crowd supporting woff's private data block?
+
+>From what I understand, Mr. Berlow would also like to add detailed permissions to the font, so that he would have legal protection as well... 
+
+What Mr. Berlow wants primarily to add is recommendations meta data, so authors can find out what fonts they need to use (to-the-property), and end users can sniff around at authorley type behavior. 
+
+It should be obvious to you, that when the tumult over goofy browser rendering ends, there will be a "next" tumult, or is one-tumult-at-a-time far enough for you to look? ;)
+
+As a 'commercial' vendor, I feel we have this already in hand, (preventing bad matches between users/use and fonts), and are likely to start swinging it around to our advantage. I'm wondering when the 'non-commercial' vendors are going to catch up otherwise, i.e. without a standard?
+
+Cheers!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 14:46:32"
+			itemprop="datePublished"
+		>
+			2010-05-27 14:46:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Does anyone here speak Berlow? 
+
+<cite>Not almost entirely incorrect I'm afraid; You might have me confused with someone in the in-crowd supporting woff's private data block?</cite>
+
+So am I right, or am I wrong? I am almost not entirely somewhat possibly sure what you mean :-)
+
+<cite>What Mr. Berlow wants primarily to add is recommendations meta data, so authors can find out what fonts they need to use (to-the-property), and end users can sniff around at authorley type behavior.</cite>
+
+Not following. Who are the authors and who are the end-users? If authors are font designers, then why do they need to "find out what fonts they need to use?" And what is "authorley type behavior?"
+
+<cite>It should be obvious to you, that when the tumult over goofy browser rendering ends, there will be a "next" tumult, or is one-tumult-at-a-time far enough for you to look? ;)</cite>
+
+I never was a good chess player. One tumult at a time for me, thanks.
+
+<cite>As a 'commercial' vendor, I feel we have this already in hand, (preventing bad matches between users/use and fonts), and are likely to start swinging it around to our advantage. I'm wondering when the 'non-commercial' vendors are going to catch up otherwise, i.e. without a standard?</cite>
+
+What is a 'non-commercial' vendor and where can I find one?
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 15:11:09"
+			itemprop="datePublished"
+		>
+			2010-05-27 15:11:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ethan —
+
+I think David is interested in having as much information and guidance as possible about what a font is intended and designed for — legal and typographical, equally — embedded in the font itself (i.e., self-contained, it goes everywhere with it), so that Ignorance is Never an Excuse, legally or typographically.
+
+People will still do what they do.
+
+From everything I’ve ever heard from David in this regard, enforcement is not necessarily a goal or, at least, is a completely separate issue. So, as far as a FB font-sniffing bot is concerned, you are wrong, I believe.
+
+How all this data is then used remains to be seen. Who knows what might be possible once its in there? 
+
+Simple kinds of questions frequently asked here on Typophile — like “Is this font good for ____?”,“What version should I use for ____?”, “Am I allowed to do ____ with this font?” — could simply be directed to the font itself.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 16:02:05"
+			itemprop="datePublished"
+		>
+			2010-05-27 16:02:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>kentlew</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><a href="http://lists.w3.org/Archives/Public/www-font/2010AprJun/0153.html">Meanwhile, the W3C WebFonts Working Group is considering to make access to woff metadata optional.</a>
+
+<a href="http://lists.w3.org/Archives/Public/www-font/2010AprJun/0235.html">I think this is a bad idea.</a></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 16:03:36"
+			itemprop="datePublished"
+		>
+			2010-05-27 16:03:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>gferreira</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>Meanwhile, the W3C WebFonts Working Group is considering to make access to woff metadata optional.</cite>
+
+There is really no stopping this from happening. Just as browser makers balked at standardizing EOT -- which would have required browsers to enforce EOT's security measures -- they are not interested in a requirement to present WOFF metadata. There is a large gap between technical requirements which ensure that fonts work properly, and other (desired) features which exist to "only" enlighten users or satisfy foundry interests.
+
+There was fairly strong pushback from browser developers over the use of the word 'should' with regard to metadata ("browsers SHOULD present users with information from metadata"). Right now it looks like it will be 'may'. It's definitely not going to be 'must'.
+
+As some have observed, the spec has to dictate to not just desktop browsers, but any user agent, which might be a lightweight mobile UA, for example. Requiring every UA to add a UI element to expose information in WOFF metadata was not considered realistic. This is disappointing to me personally, but I understand their objections.
+
+Despite the lack of requirement, I think all the browser developers are interested in adding this functionality. Foundries can cooperate to make metadata consistent, useful and predictable, so that browser developers will see value in adding such a feature for their users. Just because it's not required doesn't mean it won't happen.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 17:56:14"
+			itemprop="datePublished"
+		>
+			2010-05-27 17:56:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Christopher Slye</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>Who are the authors and who are the end-users? 
+
+Wait a minute. First bend your arm until your hand is right near your chin. See that pointy thing half way between your hand and shoulder? That's your elbow. Now... are you sitting down?
+
+Cheers!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 22:05:11"
+			itemprop="datePublished"
+		>
+			2010-05-27 22:05:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Christopher
+
+I may misunderstand you. Do you think, that metadata would be a kind of protection? Removing (personalized) metadata from woff files is probably easier than correcting font names. Convert woff to sfnt and then sfnt to woff and the personalized information is deleted. And again, it absolutely is not the job of browser developers to care about the private needs of foundries or any other software developers. Their only job is, to develop stably, comfortable programs, that strictly follow the specifications. I remember the decade, in which Microsoft has dominated the market with its shitty IE, that violated the specifications, and I am glad, that this time has gone. Browsers are not developed with the intention, that anyone can better sell his fonts with them.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-27 22:32:32"
+			itemprop="datePublished"
+		>
+			2010-05-27 22:32:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Arno: No, I don't think metadata is protection. Sorry, I wasn't clear with my analogy. I only mentioned the EOT protest because in that case, as with WOFF metadata, the browser developers wanted to avoid a requirement to deal with something that will come between simply fetching and rendering a font. In EOT's case, they would have had to verify EOT's security measures or be out of compliance. In the case of WOFF metadata, they would have to add a UI element to expose it or be out of compliance.
+
+True, the browser must follow the specifications. That's why they are trying to avoid putting something in the specification that they think makes no sense -- or that they think many user agents would ignore and cause them to be noncompliant.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-28 01:08:15"
+			itemprop="datePublished"
+		>
+			2010-05-28 01:08:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Christopher Slye</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm still a believer in server-side protections, like the one Typotheque uses. I wrote an open version using a combination of php sessions and filename obfuscation to block source downloads:
+http://subjectiveobject.com/2009/10/28/securing-font-face/</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-28 22:53:09"
+			itemprop="datePublished"
+		>
+			2010-05-28 22:53:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>aaron_carambula</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Aaron is on the right track.
+
+Protecting fonts from being installable in an OS will seem quaint and silly in a decade when using fonts for something other that the web will be a rarity. Install fonts on your OS? Whatever, grandpa! In the near future, nobody will even want to install a font on an OS. They'll want to hotlink them. I think that's what we should be working to prevent.
+
+Casual font pirates (the ones wearing chinos) won't share fonts. They'll share URLs to unprotected fonts, ripped right off of style sheets: all hotlinkable. If they change the font style in their Tumblr template, they've got any font you want. Design software, being web based, will allow you to link to an URL of a font. Font pirate sites will just be lists of hotlinkable URLs.
+
+Hosted fonts are a solution but it's not for everyone. Some people want to host the fonts themselves which I can understand. Perhaps this could be solution provided by font vendors.
+Let's say . . . when you buy a font for web use, you get few days of leeway to install and test the font. A few days later you get a reminder from the font vendor that your font needs to be "web activated" if it is to comply with the EULA. You send the URL to the vendor and it automatically checks to make sure you've taken measures to prevent hotlinking*. If the font isn't activated, the vendor lets you know that embedding/linking the font on the web is a violation the EULA but they can still use the font for other purposes.
+
+* like that Typotheque link in Aaron's post above</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-29 02:00:16"
+			itemprop="datePublished"
+		>
+			2010-05-29 02:00:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Ray Larabie</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Aaron
+
+With the help of the Firefox extension "Cache Viewer" it was no problem to safe the font. I only had to change the extension of SpoofFont.php (Size is 18.136 Bytes. Font contains 46 characters.). Except from that your font was displayed as Verdana in my Firefox (my default sans serif); this means, that Firefox was unable to make use of your font.
+
+However, I agree, that this is a better protection.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-29 06:17:21"
+			itemprop="datePublished"
+		>
+			2010-05-29 06:17:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Server-side protection also doesn't deserve the word "protection". The fonts ARE downloaded to the client and this successful request can always easily be rebuild to do a direct download or the fonts can be taken from the cache. 
+
+
+<cite>Casual font pirates (the ones wearing chinos) won't share fonts. They'll share URLs to unprotected fonts,</cite>
+
+Which doesn't work with the "Same-origin rule" in Firefox, which I hope will be included in other browsers as well. But leaving out all Firefox users, makes hot-linking kind of useless already. 
+
+
+I am kind of surprised this discussion comes up at the moment. We discussed all this in the last 2 years here on Typophile, including server-side protection and name table obfuscating. Now almost every day a new webfont service is announced. And they all use obfuscation. Even FSI who doesn't offer raw fonts directly, offers it via Typekit. There is no doubt that this IS the interim solution until WOFF is fully established. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-29 07:30:28"
+			itemprop="datePublished"
+		>
+			2010-05-29 07:30:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Typography.Guru</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>Even FSI who doesn't offer raw fonts directly</cite>
+
+Are you sure? I remember a discussion on Typophile, in which someone wrote, that he had licensed a raw for web embedding from FSI. I think it was Milo. It was very expensive in comparison to Typekit, especially because the license was for the web version of the font only, as far as I remember.
+
+However, up till now I haven’t seen a web font, that has beaten the MS system fonts with regard to legibility. Actually web font embedding is primary interesting with regard to deco fonts or if the webpages are intended for printing. In this case I would provide different CSS for different media.
+
+Except from that the best websites I have seen were not made by typographers. In my opinion some of you overestimate the meaning of commercial webfonts for the graphical quality of websites.
+
+This is still one of my favorite websites with regard to its style:
+http://www.fishmarketing.net/
+
+(Actually) a webfont could not really improve the site because of technical limitations.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-29 10:52:26"
+			itemprop="datePublished"
+		>
+			2010-05-29 10:52:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Arno:
+You are against everything and for nothing. How boring.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-29 11:38:58"
+			itemprop="datePublished"
+		>
+			2010-05-29 11:38:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tim Ahrens</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Tim
+
+<cite>You are against everything and for nothing.</cite>
+
+I don’t know, from what you conclude that. I am for a free web – a web with almost no control, for browsers that strictly follow the specifications, for OpenSource, for the CSS Zen Garden. For me the web is not primary a market place. I am interested in a web, that becomes attractive by private sites, investigative journalist, Wikileaks. If the web becomes more attractive, because private sites use commercial fonts without a license, yes, then I am even for font piracy. I am against piracy only in cases, in which pirates earn money in any way (with the pieces of work or with sales of the prey). I am against Steve Jobs, against the government of my country, for honey melons, for Mario Feliciano, for Honduran cigars, for Russian and Polish science fiction, for most blues – from cobalt blue to azure. And for women, that are unshaved in the intimate area (I am damn conservative with regard to that!).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-29 12:09:14"
+			itemprop="datePublished"
+		>
+			2010-05-29 12:09:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@arno
+
+>In this case [printing]I would provide different CSS for different media.
+
+I agree. On today's web, print style sheets are a rarity. But for those sites that feature certain kinds of content I believe that will change. And web fonts are a big step towards making that an attractive proposition. I mean, there's just so much Georgia and Times you can stand.
+My belief: the mix of HTML/CSS/JavaScript that powers the web will become the primary "desktop publishing" platform as well. Economics will drive it. There is simply no reason to spend the money printing and warehousing a print edition when the print edition can be contained within the "screen edition" and printed as needed by both the publisher OR the reader.
+
+>(Actually) a webfont could not really improve the site because of technical limitations. [http://www.fishmarketing.net]
+
+Untrue - IMHO. They are using background image replacement for headings. It's a pain in the ass compared to using a font. The text is unselectable by the user. And it can create accessibility and search issues. (But I admit, I'm not up on the latest about those two.) Any way you slice it, using images for text is a hack and I'll be glad to see it go.
+
+@ray
+
+>Protecting fonts from being installable in an OS will seem quaint and
+>silly in a decade when using fonts for something other than
+>the web will be a rarity.
+
+Yup.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-29 14:30:59"
+			itemprop="datePublished"
+		>
+			2010-05-29 14:30:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ralf
+Thanks, I didn't know about the same origin rule in Firefox.
+
+I'm still concerned hotlinking. I'm not concerned about a few fonts being hotlinkable. I'm concerned about what will happen after a decade of font linking with no protection. Unless it's actually illegal to make a browser that forbids hotlinking, browsers and other apps will eventually display hotlinked fonts. No?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-29 15:08:46"
+			itemprop="datePublished"
+		>
+			2010-05-29 15:08:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Ray Larabie</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-29 15:09:29"
+			itemprop="datePublished"
+		>
+			2010-05-29 15:09:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Richard
+
+In case of the website <a href ="http://www.fishmarketing.net">fishmarekting</a> and many of the styles for the CSS Zen Garden a web font could not much improve the impression, that you get from the site. (In case of fishmarketing the letters on the book, the hatchet and the label at the bottom right could not be replaced by a web font.) In all cases, in which letters are really fused with images, web fonts cannot replace image-replacement. Additionally you cannot create the same effects with CSS as with Photoshop. With regard to headlines in a linear design I agree. And if the hinting of body text webfonts is on the same level as the hinting of some of the MS system fonts, other fonts than the system fonts are useful for body text. But in case of the following site the webfont is not an improvement in my opinion: "http://www.engstfeld-weiss.de/". It is just the other way around in case of that site. Except from the font, that does not really look good in body text on screen, the site is ordinary and boring.
+
+With regard to Javascript: I try to avoid it.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-29 15:15:14"
+			itemprop="datePublished"
+		>
+			2010-05-29 15:15:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ray, I think hotlinking prevention is one of the smallest problems in this area of webfont protection. It is very easy to achieve this on the server side, and it is already widely practiced for images.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-29 17:23:53"
+			itemprop="datePublished"
+		>
+			2010-05-29 17:23:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tim Ahrens</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ray, Tim is right. Hotlinking is so 1990's. It is bad for leechers -- who knows when the resource will be cut off? It is bad for  the leechees as it sucks up their bandwidth. Leechers are easily caught and with a simple htaccess change you can shut it off. Nobody tolerates hotlinking as it amounts to stealing.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-30 01:01:15"
+			itemprop="datePublished"
+		>
+			2010-05-30 01:01:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I was already thinking about font hotlinking pranks. Imagine what you could do with ligatures - changing the leecher's words!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-30 09:27:55"
+			itemprop="datePublished"
+		>
+			2010-05-30 09:27:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tim Ahrens</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@typodermic
+>Thanks, I didn't know about the same origin rule in Firefox.
+
++1 to what fontsquirrel and Tim Ahrens said on this.
+Also, Firefox defends its same-origin restrictions as a matter of security. And it's running code. As long as even one major browser restricts in this way, hot-linking is severely hampered.
+If I had to bet, I think CORS will make it into the final W3C Fonts spec. At the least, it will be a "browsers may" kind of wording and FF will stick with its current policy, for sure.
+
+rich</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-30 13:00:48"
+			itemprop="datePublished"
+		>
+			2010-05-30 13:00:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I've done a hotlinking prank, long time ago, when someone was basically linking to all the graphics on fonthead.com. I seem to remember changing everything to really hot pink. Not surprisingly, they stopped.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-30 13:17:46"
+			itemprop="datePublished"
+		>
+			2010-05-30 13:17:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>fontsquirrel</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@arno
+
+All of what you say about the fishmarketing site is true. If oversimplified in spots.
+Web design is still largely about Photoshop and making things "pretty". And the site is very pretty. A digital advertising brochure. (At least the home page.)
+But I would ask, "Does it make smart use of the web as a medium?" What does the site look like on a mobile browser? What does it look like on an iPad? Whereas ten years ago it was different browsers that drove web designers crazy, now it's different devices and screen sizes.
+We could go on and on about this stuff. One good thing is that a lot of CSS3 is about getting rid of the need for slapping what amounts to a comp with bits of html text positioned on top and calling it a web page.
+I just got back from a web design conference and one speaker showed a page that used some of the advanced CSS3 features of Safari and it was great, really. The text looked as good as anything you could cook up in Photoshop and it was just plain HTML text and CSS. And Photoshop isn't going to help you with animations. I wasn't aware how advanced Safari had become.
+
+rich
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-30 13:52:57"
+			itemprop="datePublished"
+		>
+			2010-05-30 13:52:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ Richard
+
+Yes, the fishmarketing site is unflexible. It is a business card.
+
+I don’t know the advanced CSS3 features of Safari, because I had uninstalled it a while ago. Safari was storing its whole setup program with each update and without removing the old setups. And I did not like the rendering engine. So I did not use it for surfing, but for testing my webpages only. But it never was necessary to correct anything in my CSS for Safari, because Safari did make use of it correctly; and therefore I limited my checks to Firefox (my favorite browser), IE and Opera.
+
+I agree with you regarding to the theoretical possibilities, that you have with web fonts. But actually I am uncontended with the quality of most web fonts in body text sizes. Having a web font for body text, would be much more important for me, because with an embedded font you can better control line height, length and font size. But why not to embed Georgia, Verdana or Trebuchet MS? Actually not the new web fonts are interesting for me, but the possibility to embed system fonts. Although it is absurd in my opinion, if a private person, that does not sell anything in the web, shall license one of the MS system fonts. I assume, it is not allowed to embed a MS system font without a special license.
+
+<cite>The text looked as good as anything you could cook up in Photoshop</cite>
+
+But probably only, if the text is not fused with an image.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-30 14:39:01"
+			itemprop="datePublished"
+		>
+			2010-05-30 14:39:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@arno
+>But actually I am uncontented with the quality of most web fonts in body text sizes.
+
+Me too. But let's face it - there's just so many ways you can render a lowercase "a" at 12px. There are just so many pixels and sub pixels you have to work with. It's like designing icons.
+I've been scoffed at (yes, scoffed!) for suggesting that a lot would be accomplished if the MS Cleartype fonts would become ubiquitous either through licensing by Apple or by MSFT magnanimously making them available freely through @font-face.
+I'm not holding my breath waiting for either to happen.
+
+However, I'm confident that the dozen or so basic body text fonts that are needed will appear. It's just a matter of time now. Before @font-face, you could make them, but how would you distribute them? That's what's changed.
+
+rich</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-30 15:36:37"
+			itemprop="datePublished"
+		>
+			2010-05-30 15:36:37
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>I've been scoffed at [...] for suggesting that [...] if the MS Cleartype fonts would become ubiquitous[...] 
+
+Well, today there are scoff laws in effect so I'll tell you the truth. I have heard the pleas for text faces and responded as you'll soon see. Meanwhile... the CT collection is a fine group of fonts. But, in order for a font to actually work as text on "the web" it MUST be Sized and Hinted just right. Anyone with the CT collection and Verdana on the same computer can prove this for themselves. 
+
+Cheers!
+
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-30 19:26:00"
+			itemprop="datePublished"
+		>
+			2010-05-30 19:26:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@Ralf, serverside protection is protection like a condom: not foolproof, but better than nothing. Protection is not defined as absolute, unequivocally guaranteed security. That doesn't exist on earth, and certainly not on a computer.
+
+@Arno, you're right, it is hackable, but does require effort and know-how, can be made more difficult with obscure naming, and it voids hot-linking. What version of FireFox are you using? This works for mine (3.6.3) and in Windows, too.
+– update: I actually hadn't added the bit for no-cache, should be even stronger now.
+
+Legitimate accessibility is actually the best way to fight piracy. Great fonts available at an aggressive price point (ref. Steve Jobs) through a dead simple interface makes hacking unappealing/difficult/useless. It's a big web, go for volume, make your money, piracy won't matter as much. The goal should be to make legally licensing fonts for the web easier than hacking a site and cobbling together the bits. 
+
+If the only way someone can use a good font online is to use it outside of license, it will be done illegally or another font will be used, and foundries will lose that potential money. I'm glad to see so many good services attempting to take on the challenge, I hope more foundries make their work available, right now it's actually a competitive advantage. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-10 17:38:40"
+			itemprop="datePublished"
+		>
+			2010-06-10 17:38:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>aaron_carambula</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The first site (I don’t no many), from which I am impressed with regard to the use of a webfont for body text (although this does not mean, that it is very legible, but only surprisingly legible considering the background color): "http://blog.fefe.de/?css=ascii.css"</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-29 22:03:38"
+			itemprop="datePublished"
+		>
+			2010-06-29 22:03:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It all makes sense! @ff sole purpose is to bring the Amiga back to life. :-)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-30 01:41:34"
+			itemprop="datePublished"
+		>
+			2010-06-30 01:41:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">If I point my browser at a web site, and the web page accesses fonts on that web site, my browser won't give me a link to download those fonts, any more than it gives me a link to download the .css style sheet for the web page.
+
+So if @font-face refers to a font I were going to try to steal, I would need to look at the source of the web page to find the URL, and use a browser that wouldn't say "hey, this is a font, I don't handle that file type" to get it.
+
+That's not casual or accidental piracy already, so you are dealing with people to whom it will likely be trivial to pop the font into a font editor and give it a usable name again. Hence, I can't really see this suggestion as providing much in the way of benefits as an interim solution.
+
+The full-bore web font format where the browser reads encrypted web fonts keyed to a particular URL... is probably the only solution secure enough that fontmakers will find acceptable.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-02 23:03:26"
+			itemprop="datePublished"
+		>
+			2010-11-02 23:03:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>quadibloc</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">As I had prognosticated: Your violations of the specs were no hurdle. Meanwhile there are many fonts floating around the web, that were ripped from Typekit. With corrected name table! And during the correction of the name table some of the fonts were probably damaged in a way, that sullies your reputation, because there are many people, that just want to test fonts, before they license them. And if a font does not work as expected, they don’t know, whether the designer or the foundry is responsible for the bugs. Some of them may decide then, that they are better going to license another font from another foundry.
+
+By the way, in case of webfonts, that are illegally used in the web, it is much easier to to call the owner of the website to account. So, in a few years, when more people use webfonts, you can probably earn more money, if you surf a bit in the web and send those people, that illegally use your webfonts, a dissuasiveness. From this point of view you just could provide your webfonts for test purposes with the AIM, that they are illegally used. In other words: It may be, that you earn more money, if you do the contraction of that, what you actually are doing.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-02 23:04:06"
+			itemprop="datePublished"
+		>
+			2010-11-02 23:04:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">"If I point my browser at a web site, and the web page accesses fonts on that web site, my browser won't give me a link to download those fonts, any more than it gives me a link to download the .css style sheet for the web page."
+
+Urm, that depends on your browser and in some cases what plug-ins you have installed. As has often been discussed, Safari pretty much does hand you the files on a silver platter, including the fonts! For Firefox you can get add-ons to make it do darn near anything. Chrome is headed that way as well.
+
+Cheers,
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-03 08:11:12"
+			itemprop="datePublished"
+		>
+			2010-11-03 08:11:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I wonder at what point this all becomes old news?
+
+1) Few web authors know how to make @font-face work.
+2) By and large, the fonts provided by services or licensors don't look good.
+
+And yet there's endless discussion about how to keep the fonts that don't look good out of the hands of the people who don't know how to use them.
+
+It's an interesting phenomenon, really.
+
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 14:11:50"
+			itemprop="datePublished"
+		>
+			2010-11-08 14:11:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">There is no discussion such as you suggest going on here. In fact, we are about to make more good looking fonts available, and are going to show people how to use those too.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 19:25:32"
+			itemprop="datePublished"
+		>
+			2010-11-08 19:25:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>There is no discussion such as you suggest going on here. In fact, we are about to make more good looking fonts available, and are going to show people how to use those too.</em>
+I don't know who the "we" is, but I wish all concerned much success.
+
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 22:14:46"
+			itemprop="datePublished"
+		>
+			2010-11-08 22:14:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">And to your yorkies as well.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-08 23:43:59"
+			itemprop="datePublished"
+		>
+			2010-11-08 23:43:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">As I am hoping to apply the @font-face feature to my own web site - using an open-source font, so that there shouldn't be a licensing issue involved; my intention is to avoid requiring viewers of my web site to install a special font for mathematics - I did some web searching.
+
+I found a nice tutorial at
+
+[[http://www.miltonbayer.com/font-face/]]
+
+And I also see why there is a problem now.
+
+Internet Explorer supports only one font format - .eot - which is locked to a given web site, and thus which allows licensing. Fortunately for my purpose, I can download WEFT from Microsoft - and I will have to check the license terms of the open-source licenses, just in case I run afoul of a religious war.
+
+Firefox supports .woff which also has some sort embedding site lock feature, so IE and Firefox do both have safe solutions for licensed fonts. This being like 90%, I would think the problem almost is solved.
+
+Most browsers support .ttf and .otf fonts except for IE, which is good for my application.
+
+Chrome used to only support .svg fonts. I knew that .svg was a vector image format, but I had never even <em>heard</em> of .svg fonts. There's obfuscation for you! But that's been fixed, so one only needs .svg fonts to look good on an iPhone these days.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-21 20:23:37"
+			itemprop="datePublished"
+		>
+			2010-11-21 20:23:37
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>quadibloc</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">However, unlike .eot, I see that .woff doesn't involve encryption. This won't quite be good enough, I fear. It avoids open-source browser projects being frozen out, true, but some font companies just won't license for that format for that reason.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-22 02:10:26"
+			itemprop="datePublished"
+		>
+			2010-11-22 02:10:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>quadibloc</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Not sure I understand your question but EOT does not have to be bound to a URL. I has this feature but you don't have to use it.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-22 08:10:50"
+			itemprop="datePublished"
+		>
+			2010-11-22 08:10:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tim Ahrens</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Also, WOFF has no features to “lock” a font to use on a given URL.
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-25 00:21:08"
+			itemprop="datePublished"
+		>
+			2010-11-25 00:21:08
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Regarding Mobile Safari on the iPad/iPhone/iPod Touch, the newest version in iOS 4.2.1 seems to display .ttf/.otf webfonts (and not just .svg).  At least my Egyptian test page now works on my iPad.
+
+http://homepage.mac.com/thgewecke/webfontdemo.html
+
+This is useful, since there is no way for the user to add fonts to any of these devices.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-25 15:55:03"
+			itemprop="datePublished"
+		>
+			2010-11-25 15:55:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tom Gewecke</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>Regarding Mobile Safari on the iPad/iPhone/iPod Touch, the newest version in iOS 4.2.1 seems to display .ttf/.otf webfonts (and not just .svg). 
+
+How about WOFF? 
+
+Cheers, Si </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-25 15:58:28"
+			itemprop="datePublished"
+		>
+			2010-11-25 15:58:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>How about WOFF
+
+I think not.  Can you suggest a good test page where only WOFF is used?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-25 17:28:11"
+			itemprop="datePublished"
+		>
+			2010-11-25 17:28:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tom Gewecke</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Here's one... http://ie.microsoft.com/testdrive/Graphics/WebFonts/Default.html </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-25 17:46:43"
+			itemprop="datePublished"
+		>
+			2010-11-25 17:46:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, Sii.  WOFF seems definitely not supported yet.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-25 18:29:25"
+			itemprop="datePublished"
+		>
+			2010-11-25 18:29:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tom Gewecke</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for checking. I blame Murdoch :-) he's a bad influence of Steve. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-25 19:41:34"
+			itemprop="datePublished"
+		>
+			2010-11-25 19:41:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">...iOS supports the most interoperable format now. The trendiest format...not so much.
+
+and sii, iOS is to Murdoch as IE9 is to whom? Who should we blame for IE9's ttf support?  </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-26 12:13:12"
+			itemprop="datePublished"
+		>
+			2010-11-26 12:13:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>Who should we blame for IE9's ttf support?
+
+If you are a supporter of raw fonts then Apple clearly gets credit for being the first company to support the effort. Hakon Lie needs to get some credit for promoting the idea.
+
+But as the Murdoch blame was a joke, I'm goig to blame Tony Stark for IE9.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-26 17:02:52"
+			itemprop="datePublished"
+		>
+			2010-11-26 17:02:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Blame IEronman hu?;) and I'm not so much a supporter of raw fonts as I am a supporter of the ttf as payload for print and web. This is a big step in both the direction of apple respecting the tt spec again, and getting hopefully on the road to Woffing Cross..</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-27 00:21:17"
+			itemprop="datePublished"
+		>
+			2010-11-27 00:21:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Does anybody have more info about the Tony Stark - Rupert Murdoch - Steve Jobs connection? Is it true that Peter Parker's involved, too?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-27 14:08:18"
+			itemprop="datePublished"
+		>
+			2010-11-27 14:08:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">That would be Spiderman, Richard :-)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-27 14:39:19"
+			itemprop="datePublished"
+		>
+			2010-11-27 14:39:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Jeez, Chris, you're right! Does the Justice League Of America know about this?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-27 14:47:57"
+			itemprop="datePublished"
+		>
+			2010-11-27 14:47:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Only if they are Web people :-)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-27 16:38:36"
+			itemprop="datePublished"
+		>
+			2010-11-27 16:38:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Superman's gonna be pissed.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-28 14:36:49"
+			itemprop="datePublished"
+		>
+			2010-11-28 14:36:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">He can browse faster than a speeding bullet but not on the web ;-)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-28 17:28:46"
+			itemprop="datePublished"
+		>
+			2010-11-28 17:28:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">http://johndberry.com/blog/2010/12/06/web-type-at-last/</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-12-07 19:37:10"
+			itemprop="datePublished"
+		>
+			2010-12-07 19:37:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

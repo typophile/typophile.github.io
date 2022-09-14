@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Opentype Ranges Question | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Opentype Ranges Question" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/68925/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-03-30T07:57:50+00:00" />
+<meta property="article:modified_time" content="2010-03-30T07:57:50+00:00" />
+
+<meta itemprop="name" content="Opentype Ranges Question">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-03-30T07:57:50+00:00" />
+<meta itemprop="dateModified" content="2010-03-30T07:57:50+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Opentype Ranges Question"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Opentype Ranges Question</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-03-30T07:57:50Z">March 30, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">robarnow</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi, I'm dropping some substitution features into a new font, and I'm wondering about how to code OpenType ranges.
+
+For example: [a-z] will cover your basic alphabet, but won't cover accented characters. 
+
+Is there a way to write out a range that includes, for example, all lowercase characters?
+
+Is there any documentation on this, or basic principles involved?
+
+Obviously, I can do write out every character manually, but would rather do it efficiently if possib.e
+
+Rob</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Uppercase vs. lowercase is a somewhat fluid concept -- best illustrated by the <a href="http://typophile.com/node/48746">long-ongoing discussion</a> on where to put the eszet, and now it officially (or semi-officially) has an uppercase form, what to do with existing fonts, or indeed, with new fonts, and with new fonts in old software (and presumably also the other way around).
+
+The Unicode consortium lists per code point what they consider "lowercase" and "uppercase" (for an introduction, read <a href="http://unicode.org/reports/tr21/tr21-3.html">their view on Case Mapping</a>). You can safely refer to the Unicode lists to decide which characters are uppercase or lowercase.
+
+For example:
+U+2C60 LATIN CAPITAL LETTER L WITH DOUBLE BAR
+U+2C61 LATIN SMALL LETTER L WITH DOUBLE BAR
+
+(etc.) Once you have decided which characters to put into your font, define named glyph classes:
+
+@mylowercase = [ a b c ... x y z uni2C61 ];
+
+It sounds like a lot of work, but of course you only have to do this once. If you ever add an uppercase of lowercase glyph later on, you only have to add it to the right glyph class.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-03-30 20:57:49"
+			itemprop="datePublished"
+		>
+			2010-03-30 20:57:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

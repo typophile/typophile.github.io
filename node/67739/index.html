@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Using Unregistered Opentype Features | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Using Unregistered Opentype Features" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/67739/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-02-23T19:15:25+00:00" />
+<meta property="article:modified_time" content="2010-02-23T19:15:25+00:00" />
+
+<meta itemprop="name" content="Using Unregistered Opentype Features">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-02-23T19:15:25+00:00" />
+<meta itemprop="dateModified" content="2010-02-23T19:15:25+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Using Unregistered Opentype Features"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Using Unregistered Opentype Features</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-02-23T19:15:25Z">February 23, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">agisaak</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I've run into a bit of a feature-ordering dilemma, where two features can't be consistently ordered to produce the desired results. I'd thought of a rather ad-hoc hack to solve this, but was wondering whether this might potentially cause problems.
+
+What I'd thought of doing was something along the lines of the following, where a 'dummy' feature is declared simply as a placeholder for a lookup:
+
+<code> feature QRXC { # dummy feature
+
+   lookup X {
+      # do X
+   } X;
+
+} QRXC;
+
+feature ss01 {
+   # do Y
+} ss01;
+
+feature ss02 {
+
+   lookup X;
+  # do Z
+
+} ss02; </code>
+
+This would force the relevant lookups to be ordered such that feature 'ss02' would be able to do some stuff both before and after feature 'ss01' is applied. Feature 'QRXC' presumably would never be activated on its own since 'QRXC' isn't a registered feature and presumably therefore no application will be aware of it.
+
+Has anyone ever made use of this approach? Are there potential problems which might arise from using 'dummy' features (apart from the obvious problem that someone might someday register such a feature)?
+
+André</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Why not use a tool like VOLT that allows you to order lookups independently of features? This is how the GSUB and GPOS table architecture is actually arranged, so tools that force you to order features discreetly are putting a limitation on OpenType fonts that are not part of the format.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-02-23 22:18:29"
+			itemprop="datePublished"
+		>
+			2010-02-23 22:18:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm on a Mac, so VOLT isn't really an option (I tried to get it to run once under Darwine (a Mac version of wine), but without success). I'm aware that I can do this if I compile my features directly under the most recent AFDKO, but I'm more comfortable working within FontLab. As I said, the solution above is a cheap hack -- it works, but it results in a superfluous feature hanging around inside the font.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-02-24 03:08:53"
+			itemprop="datePublished"
+		>
+			2010-02-24 03:08:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-02-24 09:43:39"
+			itemprop="datePublished"
+		>
+			2010-02-24 09:43:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Having thought some more about this, I'm now finding myself tempted to create a dummy feature at the beginning of my feature list, and then declaring every single lookup used by the font within that lookup. This would overcome FontLab's limitation of tying lookup ordering to feature ordering.
+
+Looking over the opentype feature registry, it would appear that all registered features have names in lowercase. Does anyone know if this is an official naming convention? If so, then assigning my dummy feature an all-caps name would avoid the possibility of future conflicts arising.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-02-27 21:05:52"
+			itemprop="datePublished"
+		>
+			2010-02-27 21:05:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I don't know the answer to your questions, but you might get more knowledgeable responses on the OpenType discussion list. To join, just send an email to subscribe-opentype@indx.co.uk</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-02-27 21:46:09"
+			itemprop="datePublished"
+		>
+			2010-02-27 21:46:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

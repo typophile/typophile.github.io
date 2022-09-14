@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Simple Contextual Substitutions | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Simple Contextual Substitutions" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/51955/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2008-11-21T18:02:05+00:00" />
+<meta property="article:modified_time" content="2008-11-21T18:02:05+00:00" />
+
+<meta itemprop="name" content="Simple Contextual Substitutions">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2008-11-21T18:02:05+00:00" />
+<meta itemprop="dateModified" content="2008-11-21T18:02:05+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Simple Contextual Substitutions"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Simple Contextual Substitutions</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2008-11-21T18:02:05Z">November 21, 2008</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Robby Woodard</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I am setting up a font that I hope will look somewhat hand written when set. I have a stylistic alternate for every glyph with just slight changes in hand variance and attitude. 
+
+I would like to set up an OT feature where whenever two of the same glyphs are repeated side by side, the second glyph switches to the alternate.
+
+I have page 868 of the FontLab manual open. But it is not making a lot of sense to me right now.
+
+First, what would I call this feature in the OT window?
+
+Would the code look something like this?:
+
+Sub e e’ by e.alt;
+
+And then set that up for every glyph. Or am I confused?
+
+And then, how would that feature be turned on and off in the app?
+
+I have it set up to where I can switch out the alternates by hand, but other users will be lazier than me and I would love to see some kind of automatic feature.
+
+As long as my head doesn’t explode trying to code it…
+
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yes that's it, You have it right.
+
+There is also a alternate way of doing it with very large sets of substitutions and that is with classes.
+
+Basically you just drag and drop all the sets into classes and as long as they are in the correct order and size the code would be as follows:
+
+feature calt { # Or whatever feature you choose.
+  sub @letter @letter2' by @letter3 ;
+
+} calt;
+
+
+
+So you would make open type classes and drag all the first letters into one called 
+letter into it and make a new open type class called letter2 and drag all the second letters into it and then make a third class called letter3 and drag in all the replacement glyphs into that.
+
+Now that is not exactly correct but I'm pretty sure Fontlab will change and compile it correctly when you make the font. It will run in the open type preview correctly inside Fontlab as written just fine for debugging.
+
+If you do it your way I'm pretty sure Fontlab will make it sort of like my way on compiling the font. It will try to add them all to classes to make the code much smaller. You just have to make sure they are all in the correct order and that all three classes have the same exact amount of glyphs. It will not compile and give you a warning if that is not the case.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-11-21 18:29:09"
+			itemprop="datePublished"
+		>
+			2008-11-21 18:29:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mighty Pete</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I just finished a font like this. I used three of every glyph in the font (including punctuation, spaces, nonbreaking spaces, and soft hyphens) in three classes; default, alt1, and alt2. My code (<a href="http://www.adobeforums.com/cgi-bin/webx?50@755.561rfSM0Gas.1@.3bbc5ea4">based on older code by Tom Phinney and others</a>) is:
+
+feature calt {
+lookup rotate {
+  sub @default @default' by @alt1;
+  sub @alt1 @default' by @alt2;
+} rotate;
+lookup rotate;
+} calt;
+
+To make it work in Indesign one has to use CALT (contextual alternates), because Indesign does not support SALT (<a href="http://www.adobe.com/cfusion/mmform/index.cfm?name=wishform">complain about that here</a>).
+
+You also need to set up kerning classes to control interaction between the different character sets (unless all of the characters vary enough to require manual kerning of everything). I recommend that you set up all of the classes in a text editor, proof them, and then import them. Otherwise you’ll have to find your mistakes by looking at the errors the Opentype compiler generates, which can be a PITA because errors fonts with large classes can cause the compiler to mangle the classes.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-11-21 18:43:53"
+			itemprop="datePublished"
+		>
+			2008-11-21 18:43:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I think this is working....
+
+Thanks, guys!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-11-21 19:47:00"
+			itemprop="datePublished"
+		>
+			2008-11-21 19:47:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Robby Woodard</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

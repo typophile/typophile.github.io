@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Extracting font information | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Extracting font information" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/90356/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-02-23T12:30:44+00:00" />
+<meta property="article:modified_time" content="2012-02-23T12:30:44+00:00" />
+
+<meta itemprop="name" content="Extracting font information">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-02-23T12:30:44+00:00" />
+<meta itemprop="dateModified" content="2012-02-23T12:30:44+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Extracting font information"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Extracting font information</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-02-23T12:30:44Z">February 23, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">frederich</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hello everyone,
+
+I have been trying to create a PHP script to extract the information included in a font file. So far I have managed to get the information from the "name" table with success. 
+
+The next step would be to list the glyphs of the font. But as for now, I feel a little confused about where this information is located in the font file. If I consider this thread : http://typophile.com/node/16695#comment-99516
+
+I quote : "the glyph names are stored in the "post" table"
+
+This is the first question in my mind, to make sure where this information is.
+
+But to be completely honest, I don't get the structure of the "post" table, as seen <a href="https://developer.apple.com/fonts/ttrefman/rm06/Chap6post.html">here</a>. 
+
+What I don't really understand right now is the type of data (Fixed, and FWord) even though it's explained <a href="https://developer.apple.com/fonts/ttrefman/rm06/Chap6.html#Types">here</a>. As I use the unpack() function to get this information, I should specify a format, and this is where I'm confused.
+
+If anyone has any information about my questions, I would be really grateful :)
+
+Frederic
+
+
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Cor! That's old documentation!
+
+<cite>.. the information included in a font file ..</cite>
+
+There is No Such Thing as "a" font file. What sort of files are you referring to? DFONT? Type 1? Truetype? Opentype? Your mentioning a "name" table suggests the latter.
+
+Let's get the most important bits right first. I'm surprised you refer to that old page, because it's last updated around 2003 (and frankly even that late date surprises me). The reason for that is because that particular sub-site of Apple's deals with (their version of) Truetype, and Truetype fonts have long been abandoned by everyone in favour of the Opentype format. True, it's more or less the same, but you should be reading stuff like
+
+http://www.microsoft.com/typography/otspec/
+
+or
+
+http://www.adobe.com/devnet/opentype.html
+
+(the latter refers back to the Microsoft site for the main documents but still contains lots of useful additional info).
+
+Regarding the format of the 'post' table: this is, actually, still relevant for Opentype fonts. There are different <em>formats</em> in which the data can be stored; you should read the format first and then decide what else you need to know. <em>But</em> before I get your hopes up: one of the formats that is used frequently is type 3: 'explicit no-name table', which means there are <em>no</em> glyph names stored in the file (they might be stored as part of the CFF data in a Type 1 style OTF, which is yet something else).
+
+But yet again, this might be not what you were after. The 'post' table allows access to <em>unique glyph names</em> in a font, for example, a regular 'A' that is called 'A' and an alternate A called "A.alt". Perhaps what you describe would best be achieved by examining the <em>character map</em> instead -- <code>'cmap'</code>. (Read the documentation I referred to why I believe this.)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-23 13:59:25"
+			itemprop="datePublished"
+		>
+			2012-02-23 13:59:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you very much for your answer.
+
+You're right, that's some old documentation :) I had found the Microsoft one too, so I'll be using this one and the Adobe one from now on. Thank you for pointing this out and thank you for the links !
+
+Sorry for not being accurate on the font format. To be 100% honest with you I am still very confused about the file formats. I used to believe that .ttf stood for TrueType fonts, and .otf for OpenType fonts, but after reading a few documents about that, I feel kind of lost about that. That's it, I said it, and I'm not ashamed :) Well, maybe, just a little bit, but at least I admitted I didn't know something instead of trying to pretend.
+
+But let's go back to the last two paragraphs of your answer, admitting that it's OpenType I'm looking for. Concerning the 'post' table, when I open the font file I'm using for tests in a hexadecimal editor, I can locate the beginning of the 'post' table, and see the value of "version" (if that is what you are referring to by saying "formats" ?) and the value in my case is "2", which seems to be at least possible :) The only issue would be to mix it with PHP by finding the appropriate format to "unpack" the information.
+
+To be more accurate, I'd like to list all the characters that the font has. I'm sorry if I don't use all the appropriate terms, but as a non-native English speaker, when it comes to "technical" vocabulary I might not use all the correct words. Anyway, I've tried to locate the information in the 'cmap' table first before digging in the 'post' table. I can get the version, the number of subtables, then the platform ID, encoding ID, and offset for every subtable. In the font I was using, there were 3 subtables. The first subtable was in format 4. But then I got completely lost with the format 4 explanation and how to unpack the information. I managed to unpack the beginning, but the end doesn't make sense so I guess I've made a mistake somewhere. I also don't really understand the 'segment' part, to be honest.
+
+Yeah, I know, still a lot of work to do :)
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-23 14:49:38"
+			itemprop="datePublished"
+		>
+			2012-02-23 14:49:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Most of the documentation is this obscure (although probably not <em>intentionally</em>).
+
+I had similar experience doing my own investigations, I had to examine some of the tables one byte at a time before I finally understood (retroactively) what the documentation was trying to tell me :-)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-23 14:57:48"
+			itemprop="datePublished"
+		>
+			2012-02-23 14:57:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I guess I'm in the same position right now, and I think what I lack is in which "order" should I get all the information, am I right ? I'm sure I will see the light once :) 
+
+I believe the truth must be somewhere around here ?
+
+"1 . A four-word header gives parameters for an optimized search of the segment list.
+2. Four parallel arrays describe the segments (one segment for each contiguous range of codes).
+3. A variable-length array of glyph IDs (unsigned words)."
+
+But then again, I really have to figure out how to unpack this. If you have any trick :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-23 15:14:00"
+			itemprop="datePublished"
+		>
+			2012-02-23 15:14:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Wouldn't DTLs OTMaster give you what you are looking for?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-23 15:47:58"
+			itemprop="datePublished"
+		>
+			2012-02-23 15:47:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Chris, thank you so much for the advice, it will be perfect for checking where I'm going and what I'm "unpacking" :) I have downloaded a light version just to check and it seems really great.
+
+The only issue is that I would like to be able to get all this with PHP and gather the info in arrays. But DTL OTMaster is kinda comforting me in the fact that I'm going in the good direction :D So far, I have got the good info for the two first subtables of the font I'm testing - the third one has the same offset, I still have to figure this out. It doesn't help me to go further in the 'cmap' subtables though :D</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-23 17:25:10"
+			itemprop="datePublished"
+		>
+			2012-02-23 17:25:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You might also find TTX useful. It's a command line tool that takes an .otf or .ttf font as input and outputs a XML text file representation of the font (i.e., a .ttx file). It also works in reverse.
+
+More info here: http://www.letterror.com/code/ttx/</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-23 18:11:35"
+			itemprop="datePublished"
+		>
+			2012-02-23 18:11:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ah Mark, should have thought of that. Yup, that's what I'm comparing my output against.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-23 18:57:34"
+			itemprop="datePublished"
+		>
+			2012-02-23 18:57:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you Mark ! Having an output I can use is pretty interesting, also to check what I'm looking for :) Thanks to these two tools, it will be much easier to see through the font.
+
+Does anyone have any advice concerning the segments or the "unpacking" of the 'cmap' subtables ?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-23 19:20:18"
+			itemprop="datePublished"
+		>
+			2012-02-23 19:20:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>Does anyone have any advice concerning the segments or the "unpacking" of the 'cmap' subtables ?</em>
+
+Since you're a programmer, I'd recommend you look into the table decompiling code in the <a href="http://sourceforge.net/projects/fonttools/files/2.3/">FontTools</a> distribution. If you know PHP, Python shouldn't be too difficult ;)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-23 22:05:56"
+			itemprop="datePublished"
+		>
+			2012-02-23 22:05:56
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>i.e.</em> <code><strong>fonttools-2.3/Lib/fontTools/ttLib/tables/_c_m_a_p.py</strong></code></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-23 22:50:35"
+			itemprop="datePublished"
+		>
+			2012-02-23 22:50:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Jens, Michel, thank you thank you thank you so much :) I will give it a try right after posting this message :) In the meantime I have also found a script in C so both might be able to help me ! And it will be a good introduction to Python !
+
+Has anyone tried this around here before, extracting this kind of information with PHP ?
+
+Thank you very much to everyone who took the time to read my modest topic and to share their knowledge to help me improve mine :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-24 09:04:59"
+			itemprop="datePublished"
+		>
+			2012-02-24 09:04:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Maybe this could help you?
+http://pomax.nihongoresources.com/pages/Font.js/
+
+It's JavaScript but it might give you some inspiration.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-28 09:24:11"
+			itemprop="datePublished"
+		>
+			2012-02-28 09:24:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tim Ahrens</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you Tim for your help, it will be good to have all these examples !
+
+Thank to everyone, I have made significant progress since the beginning of my topic. I have now understood the way a format 4 subtable is organized, and was able to get the information I wanted. I will now continue with the format 6, and 0, which are other formats I have met on fonts I have tested.
+
+Once again, thank you very much to everyone !</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-28 13:16:36"
+			itemprop="datePublished"
+		>
+			2012-02-28 13:16:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Well, I allow myself to bounce back on my last answer.
+
+I have successfully extracted the data inside a format 6 subtable, that was also in the 'cmap' table of the font I am testing. Now I'm asking myself, is it relevant to do so ? Since the <a href="http://www.microsoft.com/typography/otspec/cmap.htm">documentation</a> says :
+
+<em>"All Microsoft Unicode BMP encodings (Platform ID = 3, Encoding ID = 1) must provide at least a Format 4 'cmap' subtable".</em>
+
+And
+
+<em>"If the font is meant to support supplementary Unicode characters, it will additionally need a Format 12 subtable with a platform encoding ID 10."</em>
+
+So, if I sum up this, the only "required" subtables would be a format 4, and eventually format 12. Since the format 4 'cmap' subtable is compulsory, all the information I need should be there, shouldn't it ? Or there are possibilities I might actually miss letters in my letters-listing process ?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-28 18:59:06"
+			itemprop="datePublished"
+		>
+			2012-02-28 18:59:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It's as fuzzy as all other wording on the subject ;-)
+
+The problem lies in the maximum number of bytes allowed for each <em>character code</em>. The oldest tables, for example, only allow a single byte; hence the long list of different "languages" for the Mac tables. The next generation of tables supported Unicode, a 2-byte character definition. It was thought at the time that "surely 65,536 codes are enough for everybody" (echoing what Bill Gates is said to have said on memory) ... So that's what Windows supports with its Platform 3 stuff.
+
+Now we know 65,536 codes is not merely enough -- on one end, the Unicode Consortium valiantly attempts to define a code for all existing glyphs so far, and on the other end people are making up new glyphs by the thousands (ie. Klingon, emoticons) and then <em>demand</em> to be taken seriously by the UC consorts and be included in the next "definitive list of all Human Glyphs" :D
+
+Back in the ol' 2-byte Unicode days, there was a system called Unicode Surrogates, that reserves a chunk of 2-byte codes to only be used in pairs, forming (gasp!) 4-byte codes. That was sort of a stop-gap solution, IIRC to make the 2-byte definition swallow a large extra lump of CJK characters without breaking the old definition. That's what you see in the format 4 definition.
+
+My understanding is format 4 only allows <em>some</em> 4-byte Unicodes, and format 8 and higher allows all of them, but I'd have to see an example before I can work out the difference.
+
+Note that just like you should not be confusing <em>glyps</em> and <em>character codes</em> (a distinction you seem to have learned by now), you also must make a distinction between encoding table ID's and its physical manifestation. A Platform 3 Encoding 1 table can appear in many different formats, the font creating software must find a table format best suited to its Unicode repertoire. So the more different table formats you can read, the better.
+
+Best advice is to test on as much fonts as you can find :-) I just tested a few of my Mac system fonts:
+
+华文细黑.ttf  ("STHeiti") -> 37256 glyphs, 3:0 is format 12, Unicodes up to U+2A6C7
+儷宋 Pro.ttf ("LiSong Pro") -> 22581 glyphs, also format 12, UC up to U+2F9D4
+ヒラギノ丸ゴ Pro W4.otf ("Hiragino Maru Gothic Pro") -> 20317 glyphs, 3:10 is format 12, UC up to U+2F9F4
+Ken Lund's "Unicode All" Stress Test font (see <a href="http://typophile.com/node/89519">An "Extreme" OpenType font for stress-testing</a>) -> 65,535 glyphs, platform 3, encoding 1, format 4; UC up to U+10FFFD (this is a 40 byte large table that spits out a massive 293,888 lines with 4 codes per line :D )
+
+I am not aware of a Best Practice to find the table with the <em>largest</em> repertoire of characters in a given set -- if I would need this, I think I would simply test all of the available tables and count the number of entries in each. (I *think* you need to iterate over each full table's contents to find the number of supported Unicodes because you cannot simply tell from the table header.) And to do so, you need to be able to parse every possible table format you can lay your hands on.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-29 00:21:13"
+			itemprop="datePublished"
+		>
+			2012-02-29 00:21:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Theunis, I'll never thank you enough for your incredible answers. I had to read it about 14 times because it is very complicated to me :D But now that my third black tea has kicked in, I can try some questions :)
+
+Thank you for the explanation and the history of formats :) If I sum up the first three paragraphs, do you mean that with the constantly growing number of glyphs, the actual table formats might not cover everything, and just like this might skip some because it doesn't know them yet ?
+
+About format 4, I was thinking that this format <em>"support Unicode ranges other than the range [U+D800 - U+DFFF]"</em> - according to the Microsoft documentation. So I guess, it must cover what I'm looking for ? It's my mistake, but I forgot to mention that I'm willing to get such information from fonts that would only have Latin and Cyrillic characters - I'm trying to list the characters to be able then to build the corresponding character map still with PHP, using a few fonts I have created.
+
+I'll test this "format 4 unpacking process" on several fonts to see if it makes sense. :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-29 14:09:12"
+			itemprop="datePublished"
+		>
+			2012-02-29 14:09:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>...  do you mean that with the constantly growing number of glyphs, the actual table formats might not cover everything, and just like this might skip some because it doesn't know them yet?</cite>
+
+Right. But that should not hold you back, as just about everything is transient -- and more so in the field of computers. What is Hot today is laughed at tomorrow. Does anyone remember "Second Life"? Or (back to type) doesn't anyone who still has to use Type 1 fonts wish they could upgrade these to the equivalent Opentype fonts?
+
+You can only support what is known now and wish for the best.
+
+<cite>About format 4 [...] I guess, it must cover what I'm looking for?</cite>
+
+You can't know in advance if that specific <em>format</em> is used. If the cmap data is best described in format 2, 6, 12 or 16, that's what you will <em>find</em>. But --
+
+<cite>.. I'm willing to get such information from fonts that would only have Latin and Cyrillic characters.</cite>
+
+-- those are pretty basic standards, and well inside the 'critical' range of 2-byte Unicodes. So even if you encounter a table formatting you cannot extract, one of the others will almost certainly contain these character codes.
+
+(Unless there is only one table in the file, but I think that's covered by the requirement you cited to have at least this format 4 table. I would have to check my fonts to be sure this one <em>is</em>, in fact, always included.)
+
+All of the above is guesswork based upon my personal experience, so anyone with more factual knowledge is hereby invited to point out any misconceptions I might be having :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-29 15:23:39"
+			itemprop="datePublished"
+		>
+			2012-02-29 15:23:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>Right. But that should not hold you back, as just about everything is transient -- and more so in the field of computers.</em>
+
+Oh it won't hold me back, where would be the fun otherwise if things didn't change all the time? :D
+While reading your answer, I had to ask myself when was the last time I heard someone talk about Second Life, so, like you say, "transient" :)
+
+<em>Unless there is only one table in the file, but I think that's covered by the requirement you cited to have at least this format 4 table. I would have to check my fonts to be sure this one is, in fact, always included</em>
+
+I have just spent some time checking a few fonts with TTX - a huge "thank you" again to Mark for making me discover TTX ! - and all of them included at least a format 4 'cmap' subtable, so I guess so far, I'll keep in this direction and see where it brings me.
+
+<em>All of the above is guesswork based upon my personal experience</em>
+
+So far, your personal experience and knowledge, as well as everyone's who helped me here, showed me the way to go :) Thank you once again for your precious help !</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-29 15:58:14"
+			itemprop="datePublished"
+		>
+			2012-02-29 15:58:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">There are very few TTF/OTF fonts you will encounter in the wild that do not have a format 4 cmap available.
+
+The next most important one is probably format 12. Though it is doubtless <1% of all TTF/OTF fonts out there that have any form of non-BMP characters in them.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-29 19:43:53"
+			itemprop="datePublished"
+		>
+			2012-02-29 19:43:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you Thomas for the confirmation ! I'll try to find a font with a format 12 cmap subtable and work on extracting the information inside to see how it works.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-29 21:09:36"
+			itemprop="datePublished"
+		>
+			2012-02-29 21:09:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ken Lund's Stress Test font contains a Format 12 table. It's a small table but don't let that deceive you :-/</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-29 22:06:46"
+			itemprop="datePublished"
+		>
+			2012-02-29 22:06:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">To clarify, my UnicodeAll.otf stress-test font includes a 40-byte Format 4 'cmap' subtable that supports only the BMP (U+0000 through U+FFFD, but excluding the 2,048 Surrogates from U+D800 through U+DFFF):
+
+format       =4
+length       =0028
+languageId   =0 [Default]
+segCountX2   =6
+searchRange  =4
+entrySelector=1
+rangeShift   =2
+--- endCode[index]=code
+[0]=55295 [1]=65533 [2]=65535 
+password=0
+--- startCode[index]=code
+[0]=0 [1]=57344 [2]=65535
+--- idDelta[index]=code
+[0]=1 [1]=1 [2]=1 
+--- idRangeOffset[index]=code
+[0]=0000 [1]=0000 [2]=0000 
+--- glyphId[index]=glyphId
+
+Its Format 12 'cmap' subtable, which is 232 bytes, supports all of Unicode, up through U+10FFFD, meaning 1,112,030 code points:
+
+format    =12
+length    =00e8
+languageId=0 [Default]
+nGroups=18
+--- Group[index]={startCharCode,endCharCode,startGlyphID}  
+[0]={0,55295,1} [1]={57344,65533,57345} [2]={65536,131069,1} [3]={131072,196605,1} [4]={196608,262141,1} [5]={262144,327677,1} [6]={327680,393213,1} [7]={393216,458749,1} [8]={458752,524285,1} [9]={524288,589821,1} [10]={589824,655357,1} [11]={655360,720893,1} [12]={720896,786429,1} [13]={786432,851965,1} [14]={851968,917501,1} [15]={917504,983037,1} [16]={983040,1048573,1} [17]={1048576,1114109,1}
+
+-- Ken
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-01 04:00:12"
+			itemprop="datePublished"
+		>
+			2012-03-01 04:00:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>lunde</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Excellent ! Thank you Ken for your explanation :) 
+
+Now, let's get my hands dirty :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-01 08:36:12"
+			itemprop="datePublished"
+		>
+			2012-03-01 08:36:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Below is an interpretation of the "spot -tcmap" output above, providing Unicode and CID ranges for the eighteen Format 12 mappings that support all 1,112,030 Unicode code points:
+
+[0]={0,55295,1} -> U+0000 through U+D7FF map to CIDs 1 through 55296
+[1]={57344,65533,57345} -> U+E000 through U+FFFD map to CIDs 57345 through 65534
+[2]={65536,131069,1} -> U+10000 through U+1FFFD map to CIDs 1 through 65534
+[3]={131072,196605,1} -> U+20000 through U+2FFFD map to CIDs 1 through 65534
+[4]={196608,262141,1} -> U+30000 through U+3FFFD map to CIDs 1 through 65534
+[5]={262144,327677,1} -> U+40000 through U+4FFFD map to CIDs 1 through 65534
+[6]={327680,393213,1} -> U+50000 through U+5FFFD map to CIDs 1 through 65534
+[7]={393216,458749,1} -> U+60000 through U+6FFFD map to CIDs 1 through 65534
+[8]={458752,524285,1} -> U+70000 through U+7FFFD map to CIDs 1 through 65534
+[9]={524288,589821,1} -> U+80000 through U+8FFFD map to CIDs 1 through 65534
+[10]={589824,655357,1} -> U+90000 through U+9FFFD map to CIDs 1 through 65534
+[11]={655360,720893,1} -> U+A0000 through U+AFFFD map to CIDs 1 through 65534
+[12]={720896,786429,1} -> U+B0000 through U+BFFFD map to CIDs 1 through 65534
+[13]={786432,851965,1} -> U+C0000 through U+CFFFD map to CIDs 1 through 65534
+[14]={851968,917501,1} -> U+D0000 through U+DFFFD map to CIDs 1 through 65534
+[15]={917504,983037,1} -> U+E0000 through U+EFFFD map to CIDs 1 through 65534
+[16]={983040,1048573,1} -> U+F0000 through U+FFFFD map to CIDs 1 through 65534
+[17]={1048576,1114109,1} -> U+100000 through U+10FFFD map to CIDs 1 through 65534
+
+-- Ken
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-01 15:31:10"
+			itemprop="datePublished"
+		>
+			2012-03-01 15:31:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>lunde</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks thanks thaaaanks :)
+
+I just love it here, you come up with a problem while thinking you're the only person asking yourself this kind of question, and all of a sudden, BOOM, everyone brings his own stone to my construction :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-01 21:37:11"
+			itemprop="datePublished"
+		>
+			2012-03-01 21:37:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Fredrich: here is an interesting tale. I went your route the other way around; given a range of Unicodes, how to build a Format 4 subtable.
+
+I tried the numbers given in the example on Microsoft's OpenType page for 'cmap' -- the hypothetical font with glyphs starting at 1 and UC ranges 10-20, 30-90, 153-480 ... and failed to reproduce their table <em>again and again</em>! Exasperated (which is a programmer's euphemism for "utterly disgusted and frustrated beyond reason") I turned back to the almighty Web, fully expecting to have to quick-read thousands of lines of FreeType code. Until I happened to come across that same example again, but this time by Apple: <a href="https://developer.apple.com/fonts/ttrefman/rm06/Chap6cmap.html">TrueType Reference Manual</a>. Yup, the very same one I laughed at as being, well, a decade old! However, <em>Apple's</em> example differs in one tiny detail. It is correct.
+
+The problem lies in Microsoft's slightly different "sample range".  Character codes from 10 to 20 are translated into glyphs with a delta of -9; that uses glyphs 1 to 11. Codes 30 up to 90, using delta -18, translate to glyphs 22 to 72. Then they claim "153 to 480", using a delta of -27, translate into "and so on", meaning the rest of the glyphs. BUT 153 minus 27 is 126, <em>not</em> 73 -- the "next used glyph".
+
+Apple's third range is "100-153", also with delta -27 -- and indeed, 100 - 27 = 73, the number I was looking for in MS's example.
+
+Morale of this tale: Give up quickly and first look for an easier solution :-)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-06 21:34:08"
+			itemprop="datePublished"
+		>
+			2012-03-06 21:34:08
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">(Holy Double Posting Syndrome, Batman!)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-06 21:35:51"
+			itemprop="datePublished"
+		>
+			2012-03-06 21:35:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">So, always trust the good old documentation seems to be the morale too, no ? :D
+
+Extracting the format 4 subtable is ok now. While testing my script with a few fonts, I came across one other thing. If the font has alternates characters, these are not listed in the cmap subtables. When I open the font file with the alternates characters with DTL OTMaster, the complete list is located in the 'CFF' part under the name 'CFF glyph list'. Now I don't think I will actually come across these kind of things that often - as I said, only required for basic operations - but as I was already there, I said, hey why not try this. So I have downloaded the Adobe Documentation regarding this, and I'm now trying to "decode" it - and I'd like to quote Theunis : "Most of the documentation is this obscure (although probably not intentionally)." :) - and to understand the structure of this CFF table.
+
+Still some work to do :)
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 12:53:12"
+			itemprop="datePublished"
+		>
+			2012-03-08 12:53:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yah, CFF is fun too -- that's where I get my glyph names from if they are not listed in the 'post' table. You have to write a small sort of PostScript interpreter, but (in hindsight 'cuz I got it working) it's all perfectly doable.
+
+Watch out for the ROS type Top Dict entries, 'cause any one of these indicate the font is so large there is no point in adding a name for each separate character, and so there these CFFs contains <em>none</em> at all.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 14:55:01"
+			itemprop="datePublished"
+		>
+			2012-03-08 14:55:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Theunis, thank you very much for the advice :) To be honest, I'm not this far at the moment, but I'll keep this in mind. I think I have found out how it works in TTX, thanks to the python scripts, but I am far, even very far, to actually writing a script in PHP. I also think I can see where the information is located in the font, when I open it in an Hexadecimal editor, so the whole adventure now is to understand how to make this "automatic" :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 15:18:55"
+			itemprop="datePublished"
+		>
+			2012-03-08 15:18:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>frederich</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ken, does your stress-test font also contain a format 14 cmap subtable?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 19:07:36"
+			itemprop="datePublished"
+		>
+			2012-03-08 19:07:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">John,
+
+No, it does not include a Format 14 'cmap' subtable. One would need standardized or registered variation sequences that make sense for the glyph set for that.
+
+-- Ken
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-08 23:34:43"
+			itemprop="datePublished"
+		>
+			2012-03-08 23:34:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>lunde</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ah, table format 14 is that one for Unicode Variation Sequences. One of the weirder "standards" put forth by the Unicode consortium, if I may say so ;-)
+
+Some of the (extremely large) Chinese and Japanese fonts on my Mac have these, and are even usable with InDesign. But if you have a modern version of Windoes, check out Cambria. It has a set of alternatives for several mathematical symbols. It seems these got added fairly recently to the specs so they don't work in my InDesign CS4.
+
+Remind me to check Apple's Color Emoji font. In some probably undescribable way the UC const. got press-ganged in including <em>different variations</em> for about the entire set of emoji.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-09 20:12:09"
+			itemprop="datePublished"
+		>
+			2012-03-09 20:12:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The only CJK fonts bundled with Mac OS X that include variation sequences are some of the Hiragino (Japanese) ones.
+
+The Format 14 'cmap' subtable was developed by Adobe, which was reviewed by Microsoft. The Unicode Consortium had nothing to do with it. They either standardize or register variation sequences. Thankfully, the Format 14 'cmap' subtable has become the default and preferred way in which to represent variation sequences in OpenType fonts.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-09 21:25:02"
+			itemprop="datePublished"
+		>
+			2012-03-09 21:25:02
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>lunde</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Okay, thanks Ken. (Uh. Were you perchance a member of that committee? In that case, apologies for my calling it "weird". I just can't grasp the idea of "prescribing allowed variations" -- wouldn't that circumvent the general idea of Unicode and rather be a case of glyph design, possibly used with an Opentype feature?)
+
+<cite>One would need standardized or registered variation sequences that make sense for the glyph set for that.</cite>
+
+It sounds like my version of InDesign indeed is hard-coded to recognize a fixed number of variation sequences, instead of inspecting the font first and *then* list the ones it finds. Possibly, both the Mongolian and Japanese were hardcoded at the time but not (yet) the Math ones. As I don't read Japanese and don't have any Mongolian font to test with, I can't check any further.
+
+My only not-system font with variations is Cambria Math, and that only contains the math variations. Check out, for instance, the "serifed' variations for U+2229 "INTERSECTION" and U+222A "UNION", glyph indices 6962 and 6963. Neither of these are available as regular alternates through an OpenType feature, which I would have guessed to be the preferable way.
+
+By the way, Apple's Color Emoji also does not contain variations of this particular kind.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-09 22:06:32"
+			itemprop="datePublished"
+		>
+			2012-03-09 22:06:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">AFAIK, variants selected by variation selectors serve a specific meaning that need to be encoded into the text, though I think they would have very well encoded them as different characters (like, say, the regular and final Greek sigma). Also, the variants are indeed hard coded, in the sense that conformant implementations should only support sequences registered by Unicode. See http://www.unicode.org/Public/UNIDATA/StandardizedVariants.html.
+
+BTW, if someone is the looking for a free font that implements the math variants, there is [[https://github.com/khaledhosny/xits-math|XITS]] (OK, that is blatant self promotion).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-09 23:22:06"
+			itemprop="datePublished"
+		>
+			2012-03-09 23:22:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Khaled Hosny</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Keep in mind that there is a difference between standardized and registered variants. The former are closely tied to the standard. The latter are part of a registry that is set up by the standard. The implementation is the same in fonts, meaning via the Format 14 'cmap' subtable.
+
+About Apple's Color Emoji font, keep in mind that the Standardized Variants for emoji were just accepted into the standard during last month's UTC and WG2 meetings. Apple obviously hasn't had time to revise their fonts accordingly. The proposal came from Apple.
+
+BTW, I am the [[http://www.unicode.org/ivd/|IVD]] Registrar.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-10 02:41:21"
+			itemprop="datePublished"
+		>
+			2012-03-10 02:41:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>lunde</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I think we can put up with you tooting your XITS horn, @Khaled. Well, I can. I've got my cuppa cha, even if it's 'just' CO-OP '99'.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-03-10 13:35:23"
+			itemprop="datePublished"
+		>
+			2012-03-10 13:35:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Té Rowan</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

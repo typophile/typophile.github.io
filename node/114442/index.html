@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>HOW do Illustrator and Indesign find the alternate glyphs in the font files? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="HOW do Illustrator and Indesign find the alternate glyphs in the font files?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/114442/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2014-02-24T15:19:07+00:00" />
+<meta property="article:modified_time" content="2014-02-24T15:19:07+00:00" />
+
+<meta itemprop="name" content="HOW do Illustrator and Indesign find the alternate glyphs in the font files?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2014-02-24T15:19:07+00:00" />
+<meta itemprop="dateModified" content="2014-02-24T15:19:07+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="HOW do Illustrator and Indesign find the alternate glyphs in the font files?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">HOW do Illustrator and Indesign find the alternate glyphs in the font files?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2014-02-24T15:19:07Z">February 24, 2014</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">glyphiac</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi everybody,
+
+do you know how Illustrator and Indesign "find" the otf glyphs in the font files(alternates which only can be accessed through the glyphs palette that both programs have)? I tried to find a technical specification, but wasn't successful.
+
+Cheers
+glyphiac (from germany)</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">As explained to me just today, InDesign finds characters based on Unicode and whether the .alt glyph(s) appear in an OTF feature within the font.
+
+My issue is that my .alt glyphs are showing up in the InDesign glyphs palette with the name "NULL", which I don't like since they do actually have names. I'm looking for a workaround to that today.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-24 16:00:06"
+			itemprop="datePublished"
+		>
+			2014-02-24 16:00:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Thomas</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>...and whether the .alt glyph(s) appear in an OTF feature within the font.</blockquote>
+
+That's the key. Ultimately, InDesign seems to have to associate a character name with a Unicode number. If a glyph itself does not have a Unicode number, it needs to use a feature definition to so associate.
+
+We've have trouble with this issue. Take a font where the lining numbers are not the deault -- that is, don't have any Unicode number. If they are not hooked up to the numbers with a feature -- say lnum, they wind up with the name NULL in the InDesign pallet. 
+
+Worse, if you enter one via the glyph pallet, it will give you the right character on that machine only. Put the file on another machine, and all NULLS being equal, there is no telling what you'll get, but it likely won't be what you want.
+
+We helped a customer track down a problem with a jacket they had prepared that had just this problem. Took me a while. Actually, all I really know is that as soon as I associated the glyph with another glyph that had a Unicode number via a OT feature, the problem went away. Take out the feature, it came back. QED...  </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-25 02:28:07"
+			itemprop="datePublished"
+		>
+			2014-02-25 02:28:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Glyphiac, a font contains a lot of information besides the glyphs. One of these is a set of OpenType features –actually, codes saying exactly what you asked: alternative glyphs, substitutions and specific styles.
+
+Features are pre-defined OpenType groups of commands. Take for example the <strong>hist</strong> feature. It is used to replace regular glyphs with its historical, archaic versions. A quite common code is:
+
+<pre>feature hist {
+    sub s by longs;
+} hist;</pre>
+
+The substitution above replaces the regular s with the old longs.
+
+Another feature is <strong>smcp</strong>, which means "small caps". It defines all substitutions the application should apply when the user set this style. A sample:
+
+<pre>feature smcp {
+    sub a by A.sc;
+    sub b by B.sc;
+    sub c by C.sc;
+} smcp;</pre>
+
+Here, you have the A.sc, B.sc, and C.sc glyphs in your font, and say they will replace a, b, and c when using small caps. Of course, a proper code will define this change for the whole alphabet, not just a-b-c. And the code must actually include some additional info, like the script used (Latin, Greek, etc.) and the language context.
+
+To make things easier, there is another portion of codes included in fonts: the OpenType <strong>classes</strong>. A class is just a reunion of several glyphs into a name. For example, you can create the class "lowercase" with all a-z alphabet and "smallcaps" with the corresponding A-Z small caps. Then, you abbreviate the <strong>smcp</strong> feature just referencing the class:
+
+<pre>feature smcp {
+    sub @lowercase by @smallcaps;
+} smcp;</pre>
+
+Font editors, like FontLab Studio, Glyphs and Robofont, offer a panel or window to let the designer edit these codes, which are embedded into the .otf file when the font is generated. Type designers must carefully choose the features the font will offer and include all needed glyphs into it.
+
+This is just a small explanation about OpenType codes. There are fonts with very few instructions like these and other with tons of replacements. You can find a lot of material regarding this on the web, especially here in Typophile. To find them, use the "site:typophile.com" as an argument in Google search:
+
+<code>OpenType features site:typophile.com</code>
+
+Hope this helps.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-26 07:55:27"
+			itemprop="datePublished"
+		>
+			2014-02-26 07:55:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Charles, you wrote: "Actually, all I really know is that as soon as I associated the glyph with another glyph that had a Unicode number via a OT feature, the problem went away."
+
+Can you give an example of how to accomplish this?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-27 20:51:20"
+			itemprop="datePublished"
+		>
+			2014-02-27 20:51:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Thomas</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">George: Sure.
+
+Let's suppose you're using the open source Alegreya bold (not the HT-Pro). You are using it for the chapter number in a book, just the numeral itself. But you want the lining figures, not the default, which are old style.
+
+So you click on it in the glyph pallet, notice that the lining figure has a GID number but is otherwise given as NULL. No matter, up it pops in the file, you screen it back, place it where you want the chapter number, and everything seems to be working.
+
+Now open the file on another machine. No telling just *what* NULL character you'll get.
+
+On the other hand, if you build a lnum feature, it works perfectly. I surmise that at some level, InDesign needs a Unicode number to function properly. By having the lining glyph "1" associated with 0031 via a OT feature (lnum, in this case), that is done. Without the feature, it's just another NULL character, and they're all the same -- NULL.
+
+You could use a stylistic set, or calt, or ccmp, whatever is appropriate. For something that is purely an ornament -- has no legitimate relationship to any character as given by Unicode -- we assign a private-use Unicode number.  At least that alerts anyone making further use of the file that some investigation is needed. 
+
+Some of the old Type 1 fonts are particularly problematic in this -- they'll have ornaments in Latin character positions. Of course, as soon as you change fonts, or create an XML file, etc., you get that Latin character. And sometimes adding a character results in a different word still in the language, which can be an oops (Say, for example, "P" is taken up by an ornament. So, you have "ornament" then "oops"...Indeed.
+
+The rule in our shop is any glyph in a font either (1) has a Unicode number or is, via a valid OpenType look-up, (2) associated with a character that has a Unicode number. Further, if it's an ornament, that will be a Private Use number, which has no syntactic meaning. In no case will any Unicode assignment be a "lie."</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-27 23:36:50"
+			itemprop="datePublished"
+		>
+			2014-02-27 23:36:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks Charles. I figured out how to do it using salt and it seems to work fine now -- at least for my ten or so .alt glyphs. The only remaining problem is that InDesign CS6 still lists dieresis and dotaccent as NULL. Given that they have their own Unicode number, that is very odd.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-28 02:33:12"
+			itemprop="datePublished"
+		>
+			2014-02-28 02:33:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>George Thomas</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">George, I suspect the font you're using is to blame for that. I opened up CS6, created a "new" document, and picked Minion Pro - regular as the font for the text block. 
+
+In the Glyph pallet, the dieresis shows as Unicode 00A8 (not what I'd use, but it is valid...). In the glyph pallet, even the case and small cap diereses showed, and <strong>not</strong> as NULL -- they were "associated" through the case and the c2sc & smcp features in the font.
+
+As far as accents go, when I remake a font, I take out this legacy encoding and have two diereses, one a spacing modifier, one a combining diacritic. (Our fonts aren't for sale, so "legacy" issues don't come up.) Again, both have the proper Unicode number assigned. I don't have the "case" associated, as I always make up a component glyph in FontLab and access it either directly (if in the Unicode index) or through ccmp. If you use mark and mkmk, you won't be making up precomposed characters, so you'd probably need to include any .case or .smcp accents in the appropriate OT features -- case, and  scmp & c2sc.
+
+In short, I still think that if <strong>in the font</strong> the glyphs have either the proper Unicode assigned, or are associated with such a glyph, all will work. Not had this approach fail me yet, and we do a lot of scholarly books that get into some strange languages, including Native American ones.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-28 03:16:41"
+			itemprop="datePublished"
+		>
+			2014-02-28 03:16:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Igor: ‘<em>Font editors, like FontLab Studio, Glyphs and Robofont, offer a panel or window to let the designer edit these codes, which are embedded into the .otf file when the font is generated. Type designers must carefully choose the features the font will offer and include all needed glyphs into it.</em>’
+
+At the risk of repeating myself on this subject (since 2002, when the ﬁrst edition of FM was released), I would like to point out here (again) that FM and OTM subset the OT Layout features (stored in a ﬁle like for instance <a href="http://www.fontmaster.nl/Downloads/Updates/FM/FEA_files_upd_1.zip">this one</a>) based on the characters available in the font.
+
+[img:sites/default/files/old-images/OTM_fea_subset_5694.jpg]
+
+FEB</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-01 10:33:34"
+			itemprop="datePublished"
+		>
+			2014-03-01 10:33:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blokland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Frank, I'm sorry for the omission. As I never used DTL FontMaster, I am unfamiliar with its features so I usually do not to mention it. But I think your repetition is –and will be– always welcome, especially considering the elegant procedure you pointed.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-01 15:51:56"
+			itemprop="datePublished"
+		>
+			2014-03-01 15:51:56
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">"We've have trouble with this issue. Take a font where the lining numbers are not the deault -- that is, don't have any Unicode number. If they are not hooked up to the numbers with a feature -- say lnum, they wind up with the name NULL in the InDesign pallet."
+
+Yes, that's right. InDesign uses the Unicode value, or the Unicode value plus the features, required to access the glyph via the glyph panel. If the glyph is unencoded AND not accessible via OpenType features, then InDesign stores just the glyph ID.
+
+Of course, that's not consistent across unrelated fonts, and unless the designer takes care, it may even change across different builds of the same font. But then, what would one expect?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-17 03:10:32"
+			itemprop="datePublished"
+		>
+			2014-03-17 03:10:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>Of course, that's not consistent across unrelated fonts, and unless the designer takes care, it may even change across different builds of the same font.</blockquote>
+
+Or, if  someone exports a pfd of a 4-color book jacket, & sends that off to a printer, guess how all the nulls will likely wind up...
+
+I could make an argument, based on the level of knowledge one might reasonably expect amongst InDesign users -- e.g., think graphic artists who design book jackets -- that no null characters show up in the glyph pallet. That way, they're not tempted. I'm aware an opposite argument could be made. 
+
+Before you call that "user error," where is anyone without those graphic artists who don't want, and don't think they should have to, understand the bowels of OpenType?
+
+It has to be on the people who offer type products. Perhaps we need yet another distinction, between "type designer" and "font designer," remembering it is the <strong>font</strong> that gets sold under license.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-17 21:37:39"
+			itemprop="datePublished"
+		>
+			2014-03-17 21:37:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> Or, if someone exports a pfd of a 4-color book jacket, & sends that off to a printer, guess how all the nulls will likely wind up...
+
+If the fonts are embedded in the PDF, as is almost always the case in professional work, then everything will be just fine.
+
+> Before you call that "user error," 
+
+All glyphs in a font should either be encoded, or accessible via features. Any error is on the part of the font maker. My comment was not intended to put any onus on the end user to deal with this stuff.
+
+> It has to be on the people who offer type products.
+
+Agreed—and even more specifically, on the people who produce the fonts.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-18 03:28:51"
+			itemprop="datePublished"
+		>
+			2014-03-18 03:28:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>If the fonts are embedded in the PDF, as is almost always the case in professional work, then everything will be just fine.</cite>
+
+I suspect I'm getting too far off topic, but this happened to a customer of ours, who asked for help diagnosing a problem with a book jacket she'd prepared. She had wanted a prime -- usually not included in fonts these days -- and had sort of found one, but it was neither encoded nor linked to an encoded character. It was caught in the printer's preflight as a strange character. Certainly not a "primey thing." When I looked at her files, it was there, as a NULL character. I assumed that was the problem.
+
+Now with a four-color jacket, the printer had almost certainly taken things apart to make the separations. What was sent to the printer was a (single) PDF. I assumed it occurred at that step, even though the printer was using the same fonts, but on a different system.
+
+We had a similar instance occur within our shop, no color work involved. I don't remember the character, but it was one glyph on one machine, a different one on another. We just made a rule that no NULL characters could appear in any final file.
+
+Of course, I had some tidying up to do as well, as I'd put things in the font file with no linkage, such as the .case accents I use only to make up glyphs within Fontlab. It's the sort of thing that can happen to anyone if they're not thinking about consequences. I fully understand it is hard for a small shop type designer to anticipate all this, esp. as I've done it myself.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-18 03:49:54"
+			itemprop="datePublished"
+		>
+			2014-03-18 03:49:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I certainly have a few unencoded glyphs in my current fonts in development. For example, I have a variant ff that is only used as a component in assembling triple ligs starting with ff. (ffh, ffl, ffk, etc.)
+
+So I sympathize as well. It is not crazy to have some detritus in font files.
+
+That said, the prime and double prime have legit unicodes, so I encode them.  :)
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-19 22:41:44"
+			itemprop="datePublished"
+		>
+			2014-03-19 22:41:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Charles, I find extremely important to learn from your experience. I was not aware of the editorial need of prime or acid-free paper symbol. Prime is already standard in my projects, but not acid-free symbol –until now.
+
+Are there other less-used-but-needed characters like these? Thanks!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-20 01:44:25"
+			itemprop="datePublished"
+		>
+			2014-03-20 01:44:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank  you very much!
+
+Yes, my "encoding" includes these blocks (combining diacritics, spacing modifiers) besides others I considered useful for complex, demanding editorial projects. But there is always space to learn and improve, like with the permanent paper symbol.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-20 05:18:20"
+			itemprop="datePublished"
+		>
+			2014-03-20 05:18:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Igor Freiberger</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>That said, the prime and double prime have legit unicodes, so I encode them</cite>
+
+Bless you. The prime appears in many Dewey classification numbers, found on the copyright page of most books, e.g.
+
+181&prime;.4--dc22
+2011006922
+
+Another character used frequently in books on the copyright page, almost always overlooked, is the archival paper symbol, 267E
+
+http://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Acid-free_paper_%28symbol%29.svg/330px-Acid-free_paper_%28symbol%29.svg.png
+
+It is usually found in close proximity to the copyright symbol, and should match in size, weight, etc.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-20 21:53:04"
+			itemprop="datePublished"
+		>
+			2014-03-20 21:53:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Igor, those two happen on a lot of copyright pages, and copyright pages are included in most books.
+
+^ ^ ^
+Moving on from there, I'd say the biggest lack in fonts today (though likely not yours) is a full set of combining diacritics, 0300 through 036F, and spacing modifiers, 02B0 through 02FF.
+
+It doesn't matter what a book is about, the author may want, say, to thank some Vietnamese guy in the acknowledgments. Or there may be a author or title in the bibliography where an accent is required. The comp can set these words, borrowing from another font if needed. But it's nice to have characters in the fonts used, to avoid losing a lot of time investigating size, weight, and to some extent, position.
+
+Precomposed characters aren't necessary if there are just two or three occurrences, but having the <strong>right</strong> bits & pieces is a real help. The files sent off to the printer for a book become the basis for any eventual XML files for archival or research purposes. They may well be the basis for any digital editions. As such, they should have the correct Unicode characters -- for example, not use U+2019 for a glottal stop, but preferably, U+20BC. (Or U+20BB in Hawai'ian [Polynesian]). A base character plus a combining diacritical is syntactically correct, even if there is also a Unicode assignment for a precomposed character.
+
+So, you can have a trade book on flower-growing and still run into a name or two needing such, and the author wants it right -- after all, they can get things "right" on their word processor, can't they.
+
+Beyond that, things can get pretty specialized, and may not be worth the type designers time.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-03-20 21:53:44"
+			itemprop="datePublished"
+		>
+			2014-03-20 21:53:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>charles ellertson</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

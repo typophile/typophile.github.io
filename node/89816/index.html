@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>iOS Postscript font bug | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="iOS Postscript font bug" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/89816/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-02-06T22:13:46+00:00" />
+<meta property="article:modified_time" content="2012-02-06T22:13:46+00:00" />
+
+<meta itemprop="name" content="iOS Postscript font bug">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-02-06T22:13:46+00:00" />
+<meta itemprop="dateModified" content="2012-02-06T22:13:46+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="iOS Postscript font bug"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">iOS Postscript font bug</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-02-06T22:13:46Z">February 6, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Frode Bo Helland</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi,
+
+
+[img:sites/default/files/old-images/prob_3470.png]
+
+I’ve come across a bug in iOS causing rendering errors with Postscript flavoured fonts. Some characters are rendered lighter than others in landscape mode (subpixels), but when you zoom in or switch to portrait mode (greyscale) they appear correctly again. Tim Brown (edit: Tim Ahrens) over at Typekit looked into the issue with the font in question (I’ve only tested Mobile Safari on iPad, but Tim also sees these problems on the iPod):
+
+<cite>
+I think you have discovered a rather weird bug in the iOS type rendering engine. I can reproduce this and have tried to figure out what exactly it is that causes the problem. It must be in the actual outline drawings of the letters in question, not the hinting, features or any other font metadata.
+It seems that the rasterizer is not 100% numerically stable and runs into problems when certain constellations of nodes and BCPs occur. It is difficult to pin down exactly what these constellations are, which is not too surprising considering it is a bug.
+I had a closer look at the v, which rendered strangely on my iPod. After a bit of playing around, it turned out that tweaking one curve is enough to make it render correctly (see the arrow on the attached image). Looking at this example, and how the other glyphs are drawn, I suspect that it could be related to "retracted" BCPs, although in some cases, they don't seem to cause any problems. I personally also work with retracted BCPs a lot and I am not aware of any rule or convention that forbids this. That said, the only fix I can think of right now would be to "extract" the BCPs.
+</cite>
+
+[img:sites/default/files/old-images/-1_5755.png]
+
+Have anyone else experience this? Can someone shed any light?
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">[img:sites/default/files/old-images/closeup_4599.png]
+
+A close up of the outlines. Disclaimer: This is a slightly different variant, but uses the same basic node set-up.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-06 22:23:36"
+			itemprop="datePublished"
+		>
+			2012-02-06 22:23:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Having BCPs on both ends of a curve is indeed
+good practice, I guess because some renderers
+assume that's the way it has to be. Annoying.
+
+BTW, holding down Shift-Alt while clicking a
+"half-dead" curve makes FL add/balance the
+BCPs, although it usually needs tweaking.
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-06 22:42:45"
+			itemprop="datePublished"
+		>
+			2012-02-06 22:42:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hmm... I've had a closer look at the font in question. All horizontal serifs have the same BCP configuration, like the 'v' in the close-up here, while only the diagonals have the rendering problems, right? That makes no sense at all, does it? 
+
+I think it's a highly unsatisfactory solution having to redefine all the serifs because of this, as this practice is not in any way non-standard. (At least, Font Audit does not think it is.) People need to write better renderers. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-06 23:16:13"
+			itemprop="datePublished"
+		>
+			2012-02-06 23:16:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Sindre</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Tangential FontLab question:
+Is there a modifier key or other method for grabbing such a fully-retracted handle? I'm used to option-click-and-drag to drag a handle out of a node that doesn't already have one, but if the node has a handle right on top, this sometimes doesn't work to grab it--it will often the node instead and leave the handle behind.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-06 23:46:49"
+			itemprop="datePublished"
+		>
+			2012-02-06 23:46:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>eliason</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hmm, I've thought that too, Craig, but isn't that behaviour only typical when you drag the mouse the wrong way, that is in the direction of the extended handle, by mistake? I didn't know about the method Hrant mentioned, but it works very well, though it changes the curve somewhat (but probably often for the better). </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 00:53:15"
+			itemprop="datePublished"
+		>
+			2012-02-07 00:53:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Sindre</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Due credit: I learned about it from Nina,
+who I think got it from the FontFont boys.
+
+It's a damn shame we have to do that,
+not least because "half-dead" curves are
+actually much more natural to modify.
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 01:04:15"
+			itemprop="datePublished"
+		>
+			2012-02-07 01:04:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">BTW, you know you have some other "issues" there, right?
+Like missing inflection points, and "crossing projection" BCPs.
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 01:08:21"
+			itemprop="datePublished"
+		>
+			2012-02-07 01:08:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Well, to be honest, no. Font Audit makes no red arrow, so I've done that now and then in Satyr, but perhaps I shouldn't trust Font Audit on that. I like to draw that way, but I guess I should insert inflection points. I just like to use as few as possible, as Satyr lacks lines, changes become more manageable that way.  </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 01:48:23"
+			itemprop="datePublished"
+		>
+			2012-02-07 01:48:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Sindre</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Actually those two things FontAudit is supposed to catch...
+
+And yes, as with half-dead curves, explicit
+inflection points should go in as late as
+possible, even after [any] trapping.
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 02:40:03"
+			itemprop="datePublished"
+		>
+			2012-02-07 02:40:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">»Half-dead curves«, I love that term :) We call them in-point bezier control points, quite prosaicly.
+
+We advise to avoid them because they will lead to distortions and extra points being inserted when the curves are converted to TTF:
+
+[img:sites/default/files/old-images/half-dead-ttf_3424.png]
+
+The PS curve is in the mask.
+
+FontAudit isn't very reliable. Some of the things it does find are more design hints than technical errors, and it doesn't find more severe errors like half-dead curves or self-intersecting outlines. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 11:53:08"
+			itemprop="datePublished"
+		>
+			2012-02-07 11:53:08
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>"Due credit: I learned about it from Nina, who I think got it from the FontFont boys."</cite>
+
+Wait, what? I got the «avoid in-point BCPs» rule from the FF boys (hello Jens!). The Alt-Shift-click technique was something I found more or less by accident while playing around in FL. I think what it does is make the curve [more] symmetrical, which isn't always what's needed. I basically ended up correcting all of my «half-dead curves» manually. :-\</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 14:52:40"
+			itemprop="datePublished"
+		>
+			2012-02-07 14:52:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>nina</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Frode (citing Tim Brown) – <cite>I suspect that it could be related to "retracted" BCPs</cite>
+
+hhp – <cite>Having BCPs on both ends of a curve is indeed good practice</cite>
+
+Jens – <cite>We advise to avoid them because they will lead to distortions and extra points being inserted when the curves are converted to TTF</cite>
+
+While you are not saying this explicitly, your comments can be read as "it's a font quality issue that needs to be address on font level" which would be the wrong message. Type designers and font producers cannot, and should not, offer workaround for all other parties' faults.
+If certain point constellations cause rasterization issues, it is a rasterizer bug which needs to be fixed. (Hello Apple.)
+If they cause issues with cubic to quadratic bezier conversion in one or another font editor, then the conversion mechanism needs to – and can – be fixed. (Hello FontLab.)
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 15:26:31"
+			itemprop="datePublished"
+		>
+			2012-02-07 15:26:31
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I agree. This is an Apple issue. I couldn't report a bug without a dev account. Any Apple people lurking here?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 15:54:38"
+			itemprop="datePublished"
+		>
+			2012-02-07 15:54:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> I found more or less by accident
+
+Ah, sorry, my memory failed!
+
+> Type designers and font producers cannot, and should
+> not, offer workaround for all other parties' faults.
+
+Cannot: Why not? Well, not all, but as many as possible.
+Should not: Who pays for that? The user... who then
+blames you and moves on to a font that "just works".
+
+The best designers <em>assimilate</em> problems.
+
+> This is an Apple issue.
+
+This might seem atypical coming from
+me, but you can't only blame Apple here.
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 17:39:43"
+			itemprop="datePublished"
+		>
+			2012-02-07 17:39:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You don't expect a reply to that, do you?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 20:05:24"
+			itemprop="datePublished"
+		>
+			2012-02-07 20:05:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It doesn't matter what I expect. Just do what
+you think is right. On my end I'm likely to
+benefit from a reply, since my purpose here
+remains to learn, and I'm sure you can teach
+me things.
+
+--
+
+Who benefits when one refuses to tweak
+curves that expose a flaw in a renderer?
+How much time are you saving? And what
+are the chances a large corporation will
+care enough (beyond its own products,
+which it can easily tweak to mask the flaw)
+to spend money fixing the problem? Maybe
+if you can get somebody of the stature of
+Matthew Carter to create a highly desirable
+font that exposes the flaw... What are the
+chances of that? Nobody can reach the top
+a profession without some pragmatism.
+
+Getting FontLab to improve the conversion
+would of course be much easier. On the other
+hand if the TT version of a font is removing an
+issue that the PS version might sporadically
+suffer from, maybe that's actually a disservice?
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 20:32:20"
+			itemprop="datePublished"
+		>
+			2012-02-07 20:32:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'll be happy to see this issue resolved. Thanks for pursuing a fix, Frode.
+
+Wanted to clarify something: the feedback Frode cites atop this thread is from <strong>Tim Ahrens</strong>. I am immeasurably flattered to have been mistaken for him; My knowledge and experience in this area pales in comparison.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 20:33:53"
+			itemprop="datePublished"
+		>
+			2012-02-07 20:33:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Tim Brown</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Tim & Tim! I’m so sorry!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-07 21:25:48"
+			itemprop="datePublished"
+		>
+			2012-02-07 21:25:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Frode Bo Helland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>While you are not saying this explicitly, your comments can be read as "it's a font quality issue that needs to be address on font level" which would be the wrong message.</em>
+
+Karsten is right, of course. It is definitely related to our own workflow. We need reproducible results when converting PostScript to TrueType curves, so we need to take that into account as early in the process as possible.
+
+Frode, does this bug occur also in Mac OS rendering? For all I know, it is the same rasterizer as on iOS (except for different settings for subpixel vs. greyscale antialiasing). The FreeType rasterizer is also related, you may want to test with it.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-08 13:03:28"
+			itemprop="datePublished"
+		>
+			2012-02-08 13:03:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@Jens<em>-We need reproducible results when converting PostScript to TrueType curves, so we need to take that into account as early in the process as possible.</em>
+
+As early in the process as possible, you would want to design your outlines as TT curves instead of PS. This is one reason why I've been pushing so hard (since 1989), for native TT drawing in font design apps!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-08 13:23:54"
+			itemprop="datePublished"
+		>
+			2012-02-08 13:23:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Question:
+Are there no observed "bad behaviors" among PS renderers*?
+I'm talking about bad behaviors that can be circumvented with
+simple tweaks as above.
+
+* Which I do realize are much more
+relevant in print than onscreen, and
+due to resolution less problematic.
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-08 14:17:10"
+			itemprop="datePublished"
+		>
+			2012-02-08 14:17:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The question of 'half dead' curve constructions is one that I've pondered for a while. So far as I recall, there is nothing in the PS font format specs to prohibit them, and yet Adobe seem to consistently avoid them in their own fonts.
+
+[I avoid them for the same reason that Jens gives: they muck up PS-to-TT conversion algorithms.]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-08 18:51:12"
+			itemprop="datePublished"
+		>
+			2012-02-08 18:51:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I assume someone let Apple know about this?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-08 19:29:07"
+			itemprop="datePublished"
+		>
+			2012-02-08 19:29:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">But that makes sense,Hrant. If adding xtremma points screws up the tiny curve but gives no problem to hinting, why not?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-08 19:44:07"
+			itemprop="datePublished"
+		>
+			2012-02-08 19:44:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I haven't seen it such that it would mess up the curve.
+And doesn't its absence mess up TT conversion?
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-08 19:52:19"
+			itemprop="datePublished"
+		>
+			2012-02-08 19:52:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">hhp – <cite>Prohibit is one thing, advise against is another.</cite>
+
+Exactly. And when a spec doesn't prohibit something, and all but one library are fine with it, there is no need to advise against it.
+
+A too big discussion for a too little thing.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-08 20:01:45"
+			itemprop="datePublished"
+		>
+			2012-02-08 20:01:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">> all but one library are fine with it
+
+I don't get it. There are many foundries that
+play along and tweak their curves to bypass
+renderer flaws. And I myself am sad to say,
+iGadget rendering isn't a "little thing".
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-08 20:07:17"
+			itemprop="datePublished"
+		>
+			2012-02-08 20:07:17
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Prohibit is one thing, advise against is another.
+Does TT even explicitly prohibit half-dead curves?
+What I'm wondering is, if we know that a given font will
+only ever be in PS, is it <em>safe</em> to leave in half-dead curves?
+
+BTW, Adobe does break some PS rules though - like
+Slimbach doesn't bother with explicit extrema for
+very small curves, like at the tips of bulgy serifs.
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-08 20:07:46"
+			itemprop="datePublished"
+		>
+			2012-02-08 20:07:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You can spend all day wrapping your head around it if you formulate it as vaguely as "many foundries that play along and tweak their curves to bypass renderer flaws". Which foundries exactly? And which renderer flaws, in plural, are you referring to? The original post is about a very specific one which, afaik, exists in a single renderer.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-08 20:21:25"
+			itemprop="datePublished"
+		>
+			2012-02-08 20:21:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">So you're saying only FontFont is überpicky, and the only flaw is this one?
+
+BTW, since you caused me to re-read the original post, I just
+realized that this flaw <strong>is</strong> with PS outlines! So that settles that.
+
+hhp
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-02-08 20:29:53"
+			itemprop="datePublished"
+		>
+			2012-02-08 20:29:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>hrant</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The adobe curveto command requires two off-curve points between two on-curve points.  
+
+‘’This operator draws a curve from the current point to the point (x3, y3) using points (x1, y1) and (x2, y2) as control points. The curve is a Bézier cubic curve. In such a curve, the tangent of the curve at the current point will be a line segment running from the current point to (x1, y1) and the tangent at (x3, y3) is the line running from (x3, y3) to (x2, y2).’’
+
+If you can read at least as well as me, There are No Exceptions, It is Deeply Baked into PS interpreters and the cff format. 
+
+Deeply, means there is as much chance of changing to “half-deadness” as there is of one being hit by lightning while being attacked by a shark in the middle of a hailstorm in the desert.
+
+If you read better than me, let us know.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2018-06-04 13:19:05"
+			itemprop="datePublished"
+		>
+			2018-06-04 13:19:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

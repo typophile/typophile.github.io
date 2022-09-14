@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Puzzling problem with CALT feature in VOLT | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Puzzling problem with CALT feature in VOLT" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/52033/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2008-11-24T20:01:08+00:00" />
+<meta property="article:modified_time" content="2008-11-24T20:01:08+00:00" />
+
+<meta itemprop="name" content="Puzzling problem with CALT feature in VOLT">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2008-11-24T20:01:08+00:00" />
+<meta itemprop="dateModified" content="2008-11-24T20:01:08+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Puzzling problem with CALT feature in VOLT"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Puzzling problem with CALT feature in VOLT</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2008-11-24T20:01:08Z">November 24, 2008</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">giasson</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi,
+I am currently building an arabic font with a number of contextual alternates lookups.
+In some of the lookups, I use groups as substitution targets and/or context.
+
+All my lookups and groups seem to follow the appropriate syntax; the font compiles just fine.
+However the "substitution behaviour" of those lookups which use groups (instead of a list of individual substitutions) is completely erratic. Per ex, in a lookup where I have:
+
+< Group1a > -> < Group1b > in the context of being followed by < Group99 >
+
+in which the elements of Group1a are: A and B (in that order)
+the elements of Group1b are: A.alt  and B.alt (in that order)
+
+We would normally expect A to be replaced with A.alt  and B with B.alt
+
+However it is not what is happening. Instead, A is replaced with B.alt and B is replaced with A.alt. 
+It is not simply an inversion [which itself would also be puzzling]; with larger groups, elements A, B, C, D are replaced randomly (ex: A by C.alt, B by A.alt, C by D.alt, D by B.alt)
+
+The randomness does not come from the glyph order in the classes. The glyphs in each respective class are enumerated to match the position of the substitute glyph in the other class. In the vtl and vtg files:
+
+
+DEF_GROUP "Group1a"
+ ENUM GLYPH "A" GLYPH "B" END_ENUM
+END_GROUP
+END
+
+--
+
+
+DEF_GROUP "Group1b"
+ ENUM GLYPH "A.alt" GLYPH "B.alt" END_ENUM
+END_GROUP
+END
+
+--
+
+
+DEF_LOOKUP "Calt01" PROCESS_BASE SKIP_MARKS DIRECTION RTL  [#this is an arabic script font]
+IN_CONTEXT
+ RIGHT GROUP "Group99"
+END_CONTEXT
+AS_SUBSTITUTION
+SUB GROUP "Group1a"
+WITH GROUP "Group1b"
+END_SUB
+END_SUBSTITUTION
+END
+
+-----
+
+The random substitution happens for a given lookup even when I delete all the other substitution lookups to make sure there is no unforeseen "interference" or problem of substitution order/sequence.
+
+Clearly if this is not working I must be doing something wrong, but I've checked again and again, notably by comparing with "Arabtype.volt.ttf", and I can't find where I'm erring.
+
+An inelegant way around this would be of course to explicitely enumerate each 'glyph to glyph' substitution individually (and it does work that way for the few lookups I've converted) but using groups *should* work and there are lookups which contain 30+ glyphs to substitute in the context of 6+ glyphs so I would not want to have to enumerate each combination individually.
+
+Any help would be much appreciated! Thanks,
+Patrick
+
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The <a href="http://www.microsoft.com/typography/VOLT%20Release%20Notes/gsub.mspx" target="_blank">VOLT Release Notes</a> (bottom of the page) say:
+
+<cite>NOTE: Glyphs in groups are always ordered by their glyph IDs and not by the order implied from the way a group is described.</cite>
+
+So what matters is not the order of glyph names in group definitions, but the order of glyphs in the font. The glyph order should be <cite>A B C ...</cite> and <cite>A.alt B.alt C.alt ...</cite>
+
+Karsten</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-11-25 00:10:14"
+			itemprop="datePublished"
+		>
+			2008-11-25 00:10:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yes, Karsten has it right: the GID orders of the two groups need to be cardinal. This limits the use of groups in substitution lookups. Generally, I recommend against the use of groups in this way anyway, since it doesn't provide any visual feedback on the substitutions in the lookup.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-11-25 05:38:23"
+			itemprop="datePublished"
+		>
+			2008-11-25 05:38:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">D'oh! 
+
+Thank you very much Karsten and John for your help
+
+Patrick
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2008-11-25 10:27:21"
+			itemprop="datePublished"
+		>
+			2008-11-25 10:27:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>giasson</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

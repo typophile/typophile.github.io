@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Several scripts in a font | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Several scripts in a font" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/85524/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-09-16T11:34:08+00:00" />
+<meta property="article:modified_time" content="2011-09-16T11:34:08+00:00" />
+
+<meta itemprop="name" content="Several scripts in a font">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-09-16T11:34:08+00:00" />
+<meta itemprop="dateModified" content="2011-09-16T11:34:08+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Several scripts in a font"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Several scripts in a font</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-09-16T11:34:08Z">September 16, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Saku</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi!
+
+As a newcomer to Typophile I am not sure whether there already is a relevant thread. I am finishing, for the first time, a font withtwo scripts, Latin and Cyrillic. I cannot find how to add the Cyrillic script so that it would show in the OpenType Preview panel – so that I could choose a script.
+
+I am including a picture of how Adobe Minion shows the scripts; that´s what I´d like to get!
+
+With best wishe, Saku.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You need to register the scripts using the languagesystem keyword. Include the following at the beginning of your code.
+
+languagesystem DFLT dflt;
+languagesystem latn dflt;
+languagesystem cyrl dflt;
+
+If you have any language-specific behaviours defined you will need to add those as well, e.g.
+
+languagesystem latn TRK; # Turkish
+languagesystem cyrl SRB; # Serbian
+
+etc.
+
+Note that none of this has any relevance to what text or script you type in the preview pane -- it only determines which behaviours that text will exhibit as determined by your opentype features.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-16 15:21:44"
+			itemprop="datePublished"
+		>
+			2011-09-16 15:21:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks!
+
+Er... shall I put that at the beginning of every feature script (small caps, kerning, etc)? Do I also need the script tag?
+And should there be some equivalent at the end of the code?
+The features actually work even now, without these, in InDesign.
+
+Saku.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-16 16:02:40"
+			itemprop="datePublished"
+		>
+			2011-09-16 16:02:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Saku</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">languagesystem commands should appear at the beginning of your file outside of any feature definition and before any feature definitions. You should minimally include DFLT dflt and latn dflt.
+
+You only need to specify the script and/or language within a feature if you want that feature to behave differently depending on the script or language. Your font works fine presumably because you have not defined any language- or script-specific behaviours within it.
+
+André
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-09-16 16:57:20"
+			itemprop="datePublished"
+		>
+			2011-09-16 16:57:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

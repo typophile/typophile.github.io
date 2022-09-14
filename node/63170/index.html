@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>How does one combine contextual gsub with gpos | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="How does one combine contextual gsub with gpos" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/63170/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-10-16T13:33:18+00:00" />
+<meta property="article:modified_time" content="2009-10-16T13:33:18+00:00" />
+
+<meta itemprop="name" content="How does one combine contextual gsub with gpos">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-10-16T13:33:18+00:00" />
+<meta itemprop="dateModified" content="2009-10-16T13:33:18+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How does one combine contextual gsub with gpos"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">How does one combine contextual gsub with gpos</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-10-16T13:33:18Z">October 16, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">martinplus</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi,
+
+I've tried but had no luck finding any references for what I'm trying to do: combining contextual gsub with gpos.
+
+I know that the following code example doesn't work but it should illustrate what I'm aiming for.
+
+feature calt {
+   # if a is followed by by b, shift a 100u y direction
+   sub a' b by pos a <0 100 0 0>;
+} calt;
+
+Does anyone have a hint if/how this can be done.
+
+Thanks,
+Martin</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">GSUB and GPOS are independently processed, with all GSUB being performed before any GPOS is applied. It is technically possible to mix GSUB and GPOS lookups in the same feature, and to include GPOS lookups in a GSUB feature such as ‘calt’, but this is very strongly discouraged. You can't rely on layout engines applying GPOS lookups that occur in a GSUB feature, because if the engine considers e.g. ‘calt’ to be a GSUB feature, as the feature description in the OT spex appendix indicates it to be, then that feature might not be processed during GPOS operations.
+
+What you seem to be describing is a GPOS operation involving a contextual single adjustment. I would experiment with putting this in the ‘kern’ feature, since it is fundamentally an adjustment involving the spatial relationship of two base glyphs. I don't use the Adobe FDK or FontLab for OTL work, so I don't know what limitations or assumptions might exist for the ‘kern’ feature in those tools, e.g. if they might presume all kerning lookups to be pair adjustments. I do know that in VOLT it is no problem to include any kind of GPOS lookup within ‘kern’, and I regularly use contextual single adjustments in that feature.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-10-16 19:40:34"
+			itemprop="datePublished"
+		>
+			2009-10-16 19:40:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yes, like in VOLT you can add a separate lookup to the kern feature, but need to compile with either the new AFDKO (not from within FLS5) or OTMaster.
+
+&nbsp;&nbsp;&nbsp;feature kern {
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lookup kern_jumpingGlyphs {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos a' <0 100 0 0> b;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} kern_jumpingGlyphs;
+
+&nbsp;&nbsp;&nbsp;} kern;
+
+The marked glyph is the input glyph to be repositioned, and the value record needs to follow immediately.
+
+But you need to be careful: Substitution can be executed only once on an input glyph (after substitution it does not exist any more in the glyph string). But if you reposition the same glyph again in other lookups, all of these adjustments will add up.
+
+Karsten</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-10-16 20:30:34"
+			itemprop="datePublished"
+		>
+			2009-10-16 20:30:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hi John, Hi Karsten,
+
+thanks for your very concise explanation.
+
+Very much appreciated,
+Martin</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-10-18 16:52:49"
+			itemprop="datePublished"
+		>
+			2009-10-18 16:52:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>martinplus</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">.
+
+ChrisL</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-10-18 21:57:29"
+			itemprop="datePublished"
+		>
+			2009-10-18 21:57:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

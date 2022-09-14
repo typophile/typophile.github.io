@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>InDesign CS6 Indic support explored | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="InDesign CS6 Indic support explored" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/94543/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-07-09T04:36:00+00:00" />
+<meta property="article:modified_time" content="2012-07-09T04:36:00+00:00" />
+
+<meta itemprop="name" content="InDesign CS6 Indic support explored">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-07-09T04:36:00+00:00" />
+<meta itemprop="dateModified" content="2012-07-09T04:36:00+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="InDesign CS6 Indic support explored"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">InDesign CS6 Indic support explored</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-07-09T04:36:00Z">July 9, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">John Hudson</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Following the recent discovery that the Gurmukhi writing system is supported in InDesign CS6 using only the legacy 'guru' script tag instead of the preferred 'gur2' tag, I set out today to determine  which script tags are used for each of the Indic scripts supported in InDesign CS6, and hence what will need to be implemented in fonts in order to get them to work in this environment. My method was first to test each script using a font that supports only the newer '---2' script tags (Nirmala UI) and if this failed to then test with a font that supports the legacy tags (mostly old MS fonts). The PDF results of the tests are attached.
+
+Some background on the two sets of script tags:
+Microsoft originally defined OTL script level tags for each of the Indic scripts in Unicode, and then proceeded to implement shaping engines for many (but not all) of these. Some time after Windows XP shipped with these shaping engines and corresponding fonts, Microsoft decided that certain bugs in the shaping engines would require fixes to those engines and corresponding changes to fonts, and that these changes would make the fonts non-backwards compatible with the Windows XP shaping engines. This was put forward for discussion on the <a href="http://www.microsoft.com/typography/otspec/otlist.htm">OT developer mailing list</a>, and I suggested that it would be possible to make fonts that worked with both shaping engine behaviours if Microsoft, instead of changing the behaviour associated with the existing script tags, registered a new set of script tags for each script. This is what they did, and as a result it is possible to create e.g. a Devanagari font that is backwards compatible with the 'deva' tag shaping in WinXP and with the 'dev2' shaping in Windows Vista and later. [I won't go into details here of the problems with the old shaping that prompted this change, or what needs to be done differently for each script tag in fonts.]
+
+When Adobe announced that InDesign CS6 would officially support a significant number of Indian writing systems (some unofficial support was provided in CS5 and 5.5 if one activated the World Ready Composer), I was thrilled. I also presumed that this support would utilise the newer '---2' script tags, since these have been around for almost a decade now, and I don't think I'm alone in considering the older tags 'legacy' software, i.e. not something for which I expected anyone to be rolling out new support in 2012! Indeed, Microsoft list the old Indic font specs on their website as '<a href="http://www.microsoft.com/typography/SpecificationsOverview.mspx">deprecated</a>'. I was also encouraged in this expectation by initial testing of Hindi fonts that revealed solid IS CS6 support for the 'dev2' script tag.
+
+So I was somewhat perplexed this past week, trying to figure out why my Gurmukhi 'gur2' font wasn't working in ID CS6, to discover that Gurmukhi support in the app seems to be via the old 'guru' script tag only. It was relatively easy to build a font supporting both script tags, and to confirm that this then worked in ID CS6, but I was left wondering which of the other supported scripts used which tags. Hence today's testing.
+
+This is the summary of my findings: three of the scripts use the newer '---2' tags, but the six others use the old, legacy, deprecated tags and corresponding shaping behaviour. One of the scripts, Malayalam, seems to use the newer tag, but has a bug affecting correct shaping of <em>chillu</em> forms.
+
+'dev2' Devanagari
+'mlm2' Malayalam *buggy*
+'ory2' Odia (Oriya)
+
+'beng' Bengali
+'gujr' Gujurati
+'guru' Gurmukhi
+'knda' Kannada
+'taml' Tamil
+'telu' Telugu
+
+I find this use of the old tags very disappointing. In recent years I have made a number of Indic fonts, and in no cases was the client concerned about backwards compatibility with Windows XP shaping. The only fonts in which I was requested to include support for both script tags for a script are the Adobe Devanagari fonts; ironically, Devanagari is one of the scripts for which Adobe use the newer tag in ID Cs6. I doubt if I am alone in presuming that the legacy tags would only be used for legacy purposes, and could be omitted from newer fonts targeting post-Vista environments. Now it looks like my clients and other users who have been waiting eagerly for many years for Adobe to officially support Indian writing systems will need to 'downdate' fonts in order to enjoy that support.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">PS. Sorry about any typos and infelicities in the above post; it's been a long hot day, and I forgot to proofread. I may go back and tidy it up in the morning.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-09 04:45:35"
+			itemprop="datePublished"
+		>
+			2012-07-09 04:45:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>it's been a long hot day</blockquote>
+
+I'm glad someone is getting those : ) Thanks for taking the trouble to do this research and post it!
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-09 18:43:09"
+			itemprop="datePublished"
+		>
+			2012-07-09 18:43:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Karl Stange</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'd been wondering about this. Were you able to test mymr/mym2? There's no OT spec at present, so I suspect neither works.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-09 18:53:22"
+			itemprop="datePublished"
+		>
+			2012-07-09 18:53:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>bendy</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I tested the full list of Indic scripts for which support is claimed. I suspect there might be some other, unofficial support for additional scripts, as was the case for most of these Indic scripts in CS5 and 5.5, but have not done tests and I strongly suspect that Burmese is not among these.
+
+I have tested Thai shaping, and this does appear to work correctly in InDesign CS6, even though it is not officially supported.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-09 19:32:29"
+			itemprop="datePublished"
+		>
+			2012-07-09 19:32:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>
+I don't think I'm alone in considering the older tags 'legacy' software, i.e. not something for which I expected anyone to be rolling out new support in 2012!
+</blockquote>
+I just installed on my Mac the very last version of <a href="http://www.tug.org/mactex/2012/">MacTeX</a> (1 July 2012)  (TeX Live 2012) and the files <code>fontspec-xetex.sty</code> as well as <code>fontspec-luatex.sty</code> appear to know nothing of the new <a href="http://www.microsoft.com/typography/otspec/scripttags.htm"><code>---2</code></a> script tags. Here is what they contain:
+<pre>
+  \newfontscript{Bengali}{beng}
+  \newfontscript{Devanagari}{deva}
+  \newfontscript{Gujarati}{gujr}
+  \newfontscript{Gurmukhi}{guru}
+  \newfontscript{Kannada}{knda}
+  \newfontscript{Malayalam}{mlym}
+  \newfontscript{Oriya}{orya}
+  \newfontscript{Tamil}{taml}
+  \newfontscript{Telugu}{telu}
+</pre>
+Michel</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-09 20:34:28"
+			itemprop="datePublished"
+		>
+			2012-07-09 20:34:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Sigh. I guess I've been fortunate in making Indic fonts almost exclusively for Microsoft environments for the past several years.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-07-09 22:40:20"
+			itemprop="datePublished"
+		>
+			2012-07-09 22:40:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">John, thanks for this. I found it about Gujarati some weeks ago (in CS 5). And you are certainly not alone who is sad about this. From our testing using IndicPlus plug-in (on CS3) for Devanagari it also relies on the older layout (deva). I am not sure about the version of the plug-ins, maybe there are some more recent which support dev2 (?). So I would say that Indic fonts need to be downdated if they are to be used in DTP.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-08-11 09:04:40"
+			itemprop="datePublished"
+		>
+			2012-08-11 09:04:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>David Brezina</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yesterday I learned, via the OT list, that Apple have added Indic support to CoreText in Lion and Mountain Lion. I've not tested this yet, but apparently it too uses the old script tag shaping.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-08-11 18:05:26"
+			itemprop="datePublished"
+		>
+			2012-08-11 18:05:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Adobe InCopy CS6 also offers the same Indic text processing support as InDesign. It isn't available by default when you first start InCopy: you have to turn on the World Ready Composer from the dropdown Justification menu.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-09-08 03:43:27"
+			itemprop="datePublished"
+		>
+			2012-09-08 03:43:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">David, 
+
+MetaDesign Solutions who developed Indic Plus say that from version CS4 onwards, that plugin exposes InDesign's built-in World-Ready composer rather than relying on MetaDesign's own composer. MetaDesign's own composer which was used in CS2 and CS3 was built upon ICU Layout, so it only used the old script tags. The World-Ready composer seems to do the same. 
+
+Other solutions such as InTools' World Tools Pro or Winsoft's ScribeDoor also "only" expose the World-Ready composer (World Tools Pro in addition exposes the Japanese composer). To my knowledge, no custom composer exists for the most recent versions of InDesign. 
+
+However, given that MetaDesign Solutions had developed their own composer in the past, I think they'd be the right place to send your concerns. You might convince them that it'd make sense for them to continue developing their own composer. They might consider switching from ICU Layout to HarfBuzz, though. Then, they'd get the most current support. Alternatively, they might also consider developing a composer for InDesign for Windows only, which would use the system Uniscribe library. 
+
+Whether such development could gather sufficient critical mass of potential customers so that it'd make business sense for somebody like MetaDesign Solutions to actually do it -- is another matter. 
+
+Perhaps Tiro Typeworks should just comission MetaDesign Solutions to do one of the options above, and market the plugins as Tiro. You could get some custom features in, then. You might even get them to port the XeTeX "MATH" engine to an InDesign plugin, effectively enabling OpenType MATH support in InDesign. (Oh, you could also get them to support JSTF, and a few other things... :) ). 
+
+Best,
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-09-12 11:49:26"
+			itemprop="datePublished"
+		>
+			2012-09-12 11:49:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">BTW, XeTeX is currently using ICU Layout, which, I believe, does not support the new Indic tags. HarfBuzz does support them, and there is reportedly some effort under way to replace ICU Layout with HarfBuzz in XeTeX. As I'm told, ICU Layout is basically "dead", which HarfBuzz is very much alive, under dynamic development and is said to already be quite mature. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-09-12 11:51:34"
+			itemprop="datePublished"
+		>
+			2012-09-12 11:51:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Just listening for now...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-11-30 20:45:50"
+			itemprop="datePublished"
+		>
+			2012-11-30 20:45:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paul d hunt</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">tel2 needs some serious improvement. All the vowel markers seem to overlap the default tick mark. Telu doesn't suffer from the above problems, but even it needs a lot of fine tuning. Both the fonts will make me blind if I read text created using them</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-02 03:15:30"
+			itemprop="datePublished"
+		>
+			2012-12-02 03:15:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Typogruffer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Chaitanya, yes, this is what the PDF illustrates: that 'tel2' layout is <em>not</em> supported in InDesign CS6. 'telu' layout is supported, but I agree that the font used in the illustration is not very good. The point was to demonstrate which layout model is used in CS6 for each script, so I needed to select fonts that employ differential layout tags, regardless of whether the fonts were any good.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-02 18:46:11"
+			itemprop="datePublished"
+		>
+			2012-12-02 18:46:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"> John, I was wondering if can you speak/read/understand Telugu?
+Also, did you find out the reason why Indesign can't support the ---2 tag for some languages (I see that Hindi dev2 is supported fairly well)? You have mentioned that ---2 tag is old and it shouldn't be implemented if it is superior?
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-02 20:22:38"
+			itemprop="datePublished"
+		>
+			2012-12-02 20:22:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Typogruffer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">No, I do not speak Telugu. I understand how the writing system works, and can tell from examining what happens as a result of particular layout engines and fonts what is being done technically, which was the point of this analysis. I didn't design either of the Telugu types shown, although I built the one that implements 'tel2' shaping that fails in CS6 (that font looks very much better in Win8, for which it was designed and in which the correct shaping is applied; it is a UI font, though, subject to a large number of technical restrictions that forced design compromises; a good text face would not be subject to the same constraints).
+
+The '---2' are not the old ones; they're the new ones. I don't know why CS6 uses the old shaping tags for most scripts. I believe the new '---2' tags is used for Devanagari because Adobe had their own 'dev2' Devanagari font, developed several years ago, and the ---2' tags for Odia and Malayalam are presumably used because, to my knowledge, no one ever shipped a shaping engine that used the old tags for those scripts. In other words, the old Odia and Malayalam shaping was defined by Microsoft but superseded by the new shaping before it was implemented anywhere.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-12-02 21:13:22"
+			itemprop="datePublished"
+		>
+			2012-12-02 21:13:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Good, if odd, news:
+
+Paul Hunt reported today that Malayalam chillu formation using the 'mlm2' script tag does work in InDesign CS6 <em>if the Malayalam language setting is applied to the text from the dropdown dictionary list</em>. I am able to confirm that this is true, so Malayalam support in ID CS6 seems to be complete with that caveat.
+
+[img:sites/default/files/old-images/mlm2cs6_6112.png]
+
+It's odd because chillu formation would seem to me to be a script shaping issue, not language-specific, and in any case the test font contains only 'dflt' language system tag. I don't understand why all aspects of Malayalam shaping other than chillus happen correctly without the language needing to be set.
+
+But hoorary that it works.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-02-07 17:48:02"
+			itemprop="datePublished"
+		>
+			2013-02-07 17:48:02
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

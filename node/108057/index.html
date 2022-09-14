@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Creating the smallest possible valid OTF/TTF font file | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Creating the smallest possible valid OTF/TTF font file" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/108057/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2014-01-07T09:56:40+00:00" />
+<meta property="article:modified_time" content="2014-01-07T09:56:40+00:00" />
+
+<meta itemprop="name" content="Creating the smallest possible valid OTF/TTF font file">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2014-01-07T09:56:40+00:00" />
+<meta itemprop="dateModified" content="2014-01-07T09:56:40+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Creating the smallest possible valid OTF/TTF font file"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Creating the smallest possible valid OTF/TTF font file</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2014-01-07T09:56:40Z">January 7, 2014</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Pixelambacht</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">This is my first post here and I'm still wet behind the ears when it comes much of the tech details of creating a font, so please excuse my noobness.
+
+I've created [[http://pixelambacht.nl/2013/font-face-render-check/|a little check to see if <code>font-face</code> is supported]] by a browser. For this I created a TTF file that contains one single glyph, which metrics I check with JavaScript to confirm it actually rendered. I created this font as follows:
+
+<ol>
+<li>I drew the glyp (a very wide rectangle) and created a one-glyph font with [[http://icomoon.io/|the Icomoon icon font application]]</li>
+<li>I stripped all metadata (or reduced mandatory metadata to a single character) using a free tool called TTFEdit</li>
+</ol>
+
+[[https://github.com/RoelN/font-face-render-check/tree/master/dev|This results in a TTF file of just 836 bytes.]] I was wondering if I could bring the file size down any further.
+
+I tried the following:
+
+<ol>
+<li>Set the glyph to the space character (as this is a mandatory "glyph" in the Icomoon tool, so it technically contains two glyps together with my custom one). But is seems Windows (or at least Chrome on Windows) doesn't allow for this and shows an empty space instead of the glyph you put in your font</li>
+<li>Convert to WOFF, which results in a file of 660 bytes but is supported by fewer browsers than TTF</li>
+<li>Edit the font in FontForge, some other freeware tools, and online apps in an attempt to strip more data. The resulting file was alwas bigger when saved.</li>
+</ol>
+
+I looked for (Linux command line) tools that would allow me to strip the space glyph, tables or further (meta)data from the file. The glyph doesn't have to be pretty, so I could sacrifice stuff like kerning or hinting data. But I can't find any tool that allows me to do this.
+
+Any ideas what else I could try? </div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This is a nice sport. My proposals are:
+Reduce em-size to, say, 8 and paint a triangle instead of a rectangle.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-07 10:56:57"
+			itemprop="datePublished"
+		>
+			2014-01-07 10:56:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>LiliCharlie</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You could look at Mike Kamermans' attempt to do something very similar. His attempt is documented on the page, [[http://processingjs.nihongoresources.com/the_smallest_font/|The Smallest Font]].</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-07 12:18:50"
+			itemprop="datePublished"
+		>
+			2014-01-07 12:18:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Karl Stange</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@LiliCharlie: Thanks, that would eliminate an anchor point! I'll give that a try.
+
+@Karl Stange: That looks very, very interesting! That's indeed very similar to what I want to accomplish, thanks!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-07 12:52:50"
+			itemprop="datePublished"
+		>
+			2014-01-07 12:52:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pixelambacht</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I added a WOFF version, it is only 24 bytes smaller than the TTF.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-07 13:39:14"
+			itemprop="datePublished"
+		>
+			2014-01-07 13:39:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I have another idea, do you really need an outline to measure the width of a glyph? If you use the space character, and make it very wide, you don’t need any contours and save one glyph. → 516 bytes TTF, 456 bytes WOFF</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-07 13:46:04"
+			itemprop="datePublished"
+		>
+			2014-01-07 13:46:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">For editing fonts on a code level, I use the <a href="https://github.com/behdad/fonttools/">Python fontTools</a>.
+
+By stripping out the TrueType instructions, empty name records and Mac cmap, and deleting the gasp table you can save some more size.
+
+A few bytes can be shaved off by using an <a href="http://www.microsoft.com/typography/otspec/os2ver1.htm">OS/2 table version 1</a> instead of <a href="http://www.microsoft.com/typography/otspec/os2.htm">version 3</a>, which is a little bit shorter.
+
+The glyphs can be made smaller too, actually as they are now they are invalid. The space should contain no contour, and the last point in the hyphen glyph is a duplicate of the first one.
+
+By changing all this I got the TTF size down to 572 bytes. I haven’t done any tests if this will break the font, but I think it shouldn’t.
+
+→ https://github.com/fsi-jens/font-face-render-check/commit/ac8b7dbd68813f2b4eb7b3fa692adf3061e80bdb</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-07 13:48:13"
+			itemprop="datePublished"
+		>
+			2014-01-07 13:48:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Oops, it looks like fontTools «optimize» away the glyf table when there are only glyphs without contours ... I committed a bugfix with a contour in the hyphen glyf, but a upm size of 16. → 568 bytes TTF, 528 bytes WOFF
+
+https://github.com/fsi-jens/font-face-render-check/tree/master/dev</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-07 14:11:22"
+			itemprop="datePublished"
+		>
+			2014-01-07 14:11:22
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for the great work Jens! The gods of free time have not been kind to me, so I haven't been able to really dig into the new font you created, but I want to give fontTools a spin as soon as I can. No easier way to hack a font than in plain text!
+
+You last TTF version is just 40 bytes bigger than the font Mike Kamermans was able to whip up, which is very impressive! I'll see if I can apply his binary hacking trick to your version, so the BASE64 string will be optimized for gzip compression.
+
+I'll also have to do some thorough checking if the font is still valid on all systems and browsers — a <code>font-face</code> check that fails because its test font is broken is kinda missing the point, of course.
+
+Thanks so much for all these insights, I really enjoyed digging into this stuff!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-09 10:35:55"
+			itemprop="datePublished"
+		>
+			2014-01-09 10:35:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pixelambacht</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Mike Kamermans’ findings are enjoyable indeed. You can see his effort put into practice in the [[http://github.com/Pomax/Font.js|Font.js]] library he wrote.
+
+I made a similar attempt but with TrueType on OS X. It’s called [[http://github.com/grzegorzrolek/null-ttf|Null.ttf]], weights 428 bytes, and still validates in Font Book.  It’s made with OS X Font Tools and the source files are commented word by word with all the hacks employed. It was meant as a base binary to build on with the Font Tools themselves, because they don’t create a font binary from scratch, only put into or take out stuff of an existing font file.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-12 15:02:39"
+			itemprop="datePublished"
+		>
+			2014-01-12 15:02:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Grzegorz Rolek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@Grzegorz Rolek: Nice work. Looks Windows doesn't want to render Null.ttf. I'm not sure if I'm understanding all the XMLs yet, but there one glyph in this font too? </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-15 12:07:53"
+			itemprop="datePublished"
+		>
+			2014-01-15 12:07:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pixelambacht</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yes, there’s a single glyph and it has no contour data. Those few null bytes are basically it; you can’t make the glyf table any shorter as this would make the table simply nonexistent and the font itself invalid. The glyph’s metrics are also set to zero, but only for the purpose of having as much of null bytes in a row as possible.
+
+It was also built specifically for OS X. This means that even the dedicated browsers, if employed with OpenType Sanitiser or other such mechanism, unfortunately won’t read it. Safari handles fonts directly at the system level, so no issues there.
+
+From the Windows side of things the lack of an OS/2 table would be the most obvious catch. There’s also no Microsoft’s bits in the cmap table. Not sure about other details, can’t really check without any Windows machine currently in my reach.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-15 22:50:11"
+			itemprop="datePublished"
+		>
+			2014-01-15 22:50:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Grzegorz Rolek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I did a similar experiment a while back for some embedded test-font work, with the write-up on it over at http://processingjs.nihongoresources.com/the_smallest_font
+
+I applied a few ttx-breaking, but OTF-legal hacks, with the resultant font being 528 bytes
+
+edit: I did not see someone else already linked to it, sorry for the double post =P</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-19 17:31:38"
+			itemprop="datePublished"
+		>
+			2014-01-19 17:31:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pomax</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Well, I've heard of code bumming before, even partaken in some a few times; but font bumming is the demm'dest queer thing so far.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-01-19 17:51:41"
+			itemprop="datePublished"
+		>
+			2014-01-19 17:51:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Té Rowan</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I’ve managed to cut 4 bytes from the cmap table down to a total of 16 with [[http://github.com/grzegorzrolek/null-ttf/commit/1067c65803cc55bc6a0fdd85935acf984f410676|this little dirty hack of overlaid entries]]. Here’s how it goes.
+
+If the only subtable is a subtable format zero and it has a length of 8 bytes (that’s the minimum on OS X at least), you get the whole cmap table as follows:
+
+<pre><code>0x0000 0x0001 Version, no. of subtables
+0x0000 0x0000 Platform, encoding
+0x0000 0x000C Offset to the subtable
+0x0000 0x0008 Subtable’s format, length
+0x0000 0x0000 Rest of the subtable</code></pre>
+
+Now here’s the trick: you can make the offset entry point onto the eighth byte, that is, back onto the offset entry itself, and reuse it as the subtable’s format and length. In other words, make the subtable overlap the offset entry:
+
+<pre><code>0x0000 0x0001 Version, no. of subtables
+0x0000 0x0000 Platform, encoding
+0x0000 0x0008 Offset / Subtable’s format, length
+0x0000 0x0000 Rest of the subtable</code></pre>
+
+This produces no complains both from Font Book and the Font Tools on OS X. It’s also completely valid as far as the spec is concerned. I’m curious how such backward-pointing offsets behave on other platforms as well if anyone is willing to do some experiments. Hand crafting in hex will be necessary, I suppose, as higher-level font assemblers normally don’t do this.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-02 15:30:11"
+			itemprop="datePublished"
+		>
+			2014-02-02 15:30:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Grzegorz Rolek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The fonts made by Pomax and Jens Kutilek are both rejected by Windows.
+
+The smallest font I could make with FontCreator which is still accepted by Windows is 552 bytes. Excluding the OS/2 and post tables could further reduce the size to 442, and Windows would still be happy with it, but I wouldn't go that far.
+
+http://forum.high-logic.com/viewtopic.php?f=16&t=4795</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-03 13:11:59"
+			itemprop="datePublished"
+		>
+			2014-02-03 13:11:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>erwindenissen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Nice! although your post mentions using a rectangle outline: you can further reduce that to a triangle and shave off a few more bytes.
+
+You wouldn't happen to have any docs or findings on what windows requires to be able to install a font? I ran into that problem when making my tiny font but couldn't find anything that allowed me to reach OS-installability.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-15 19:30:19"
+			itemprop="datePublished"
+		>
+			2014-02-15 19:30:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pomax</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">you can shave a few bytes by drawing your rectangle/triangle smaller, according to the TT specs. 
+If you keep all distances to under 256, you will use a byte instead of a short, and save a few when the font is constructed.  </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-16 01:50:59"
+			itemprop="datePublished"
+		>
+			2014-02-16 01:50:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>jasonc</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Is there actually a purpose to this exercise, other than trying to make the smallest possible valid font? I mean, is that a useful thing at all?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-16 08:13:57"
+			itemprop="datePublished"
+		>
+			2014-02-16 08:13:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">it certainly is for webfont purposes, which is what I needed it for. Browsers currently have no mechanism to tell you whether an @font-face font is genuinely ready for styling text with, so we use these tiny tiny fonts that we can bundle or generate on a page, rather than as download, to style a stretch of text as "desired font, tiny font". As long as the text dimensions match the tiny font's, we know the desired font -despite even possibly already being done downloading- is not available for text styling yet. Amusingly, even if a webfont is available for page styling, if it is also used inside a canvas, it will need to be checked for again because the browser now needs to load it into a different graphics context. Having the tiniest of fonts available there helps.
+
+And of course once you go down that path, seeing exactly *how* tiny you can legally make a font is a neat added exercise.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-16 16:54:05"
+			itemprop="datePublished"
+		>
+			2014-02-16 16:54:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pomax</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">As a secondary utility, they're also great for revealing bugs or incompletions in font libraries and text engines. Once you get to minimal-font levels, it turns out there are actually a lot of things that the OpenType specification allows, but that any number of text engines will reject. For instance: OTS, the sanitizer used in Firefox and Chrome, doesn't like tables that live inside other tables, despite only WOFF forbidding this due to the fact that it packs table data as gzipped blocks. Despite being 100% legal, it will claim the font is corrupted. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-16 17:04:33"
+			itemprop="datePublished"
+		>
+			2014-02-16 17:04:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pomax</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks. That all makes sense now.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-17 07:57:05"
+			itemprop="datePublished"
+		>
+			2014-02-17 07:57:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I suspect most validators assume you can't have a valid font if it contains overlapping font tables (or encapsulating tables), because with "normal usage" this is true, and it allows them to quickly filter bad/corrupt fonts before continuing with more advanced checks.
+
+Based on feedback from this discussion I've now further reduced the [[http://forum.high-logic.com/viewtopic.php?f=16&t=4795&p=21025#p21025|font file size to 544 bytes]].</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-17 10:47:32"
+			itemprop="datePublished"
+		>
+			2014-02-17 10:47:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>erwindenissen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>The fonts made by Pomax and Jens Kutilek are both rejected by Windows.</blockquote>
+
+Hm ... my latest file (https://github.com/fsi-jens/font-face-render-check/blob/master/dev/pixelambacht-dash.ttf) is installable at least in my Windows 7 machine.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-17 14:59:30"
+			itemprop="datePublished"
+		>
+			2014-02-17 14:59:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Another interesting take on the minimal font is one by Behdad Esfahbod, where he took the tofu detector font and made it universal for all of unicode by using a format 13 cmap subtable, over at https://github.com/behdad/tofudetector -- it's something I've been wanting to do since Adobe announced the "blank" font, but never got round to, and at 332 bytes, is impressively tiny for the power it has!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-17 15:55:40"
+			itemprop="datePublished"
+		>
+			2014-02-17 15:55:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pomax</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">332 bytes is indeed impressive, but unfortunately also unrealistic. The tofu.ttf font file is rejected by both Mozilla Firefox 27 and Windows 7. Among other tables it lacks a name table.
+
+Also be aware the format 13 cmap subtable was specified 4 years ago; that was after Windows Vista was released.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-18 10:33:24"
+			itemprop="datePublished"
+		>
+			2014-02-18 10:33:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>erwindenissen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">For the moment. As a webfont for detection it's a nice font: both Firefox and Chrome use OTS, which is seeing renewed attention by Behdad, amongst others, so OTS will be doing more santizing and less rejecting as time goes by. Plus, as the big browsers use their own shaping engines (Freetype/Harfbuzz/etc) that support the newer cmaps, it looks to become like quite a useful little font in the (hopefully near!) future</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-18 15:35:10"
+			itemprop="datePublished"
+		>
+			2014-02-18 15:35:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pomax</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@erwindenissen Very interesting. Does this single-node version still produce a wide glyph? I've been thinking about going the Pomax way and instead of checking for an extra wide glyph, just check for a zero width glyph. Map to the "W" and if it's 0 pixels wide, your custom font has loaded.
+
+@Pomax Does your check only test on canvas? Or also for "regular web use"?
+
+This has been a very informative thread so far — I learned so much since that first post. Thanks for all your input!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-25 15:27:38"
+			itemprop="datePublished"
+		>
+			2014-02-25 15:27:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pixelambacht</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The 540 bytes font contains a glyph mapped to the hyphen. The advance width of that glyph is 13, which is pretty normal for a 16 units per em font. But you can increase or decrease it if you wish.
+
+My intention was to make the smallest universal OpenType font file. It should be valid on all platforms, but right now I've only tested it on Windows.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-26 12:26:03"
+			itemprop="datePublished"
+		>
+			2014-02-26 12:26:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>erwindenissen</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Just in case this is useful for someone else: when I was testing for my article [[http://pixelambacht.nl/2014/multicolor-icons/|Super semantic multicolor font icons in pure CSS]] I came across [[http://browsershots.org/|Browsershots]]. If you create a simple HTML/CSS for your font, you can check all kinds of browsers (and OSes) to see if the font rendered.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-02-26 12:49:51"
+			itemprop="datePublished"
+		>
+			2014-02-26 12:49:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Pixelambacht</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

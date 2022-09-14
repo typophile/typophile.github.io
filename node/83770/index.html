@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Unique characters | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Unique characters" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/83770/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-07-14T11:13:56+00:00" />
+<meta property="article:modified_time" content="2011-07-14T11:13:56+00:00" />
+
+<meta itemprop="name" content="Unique characters">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-07-14T11:13:56+00:00" />
+<meta itemprop="dateModified" content="2011-07-14T11:13:56+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Unique characters"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Unique characters</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-07-14T11:13:56Z">July 14, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Natalie B</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hello
+
+I'm creating font for the first time and I need some help. 
+
+I'm using Fontlab. I need to add in some unique characters, but I'm not sure how to do it! The client wants to be able to write Mr normally, Mr with a small r, and Mr with a small r and " underneath the r! At first I thought ligatures but I'm not sure that they would then be able to write Mr normally or with Superscript?
+
+Also Fontlab doesn't seem to have a pound sign!?
+
+If anyone could help that would be great and if anyone wants to take the job off of me that would be awesome!
+
+thanks a lot!!
+[img:sites/default/files/old-images/Unique_characters_4397.jpg]</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>…a pound sign!?</cite>
+
+Natalie,
+in the middle top of Fontlab’s font window there are a few buttons to click on and just left to that is a popup menu to choose options from. I suggest you making yourself a little familiar with these.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-14 13:10:32"
+			itemprop="datePublished"
+		>
+			2011-07-14 13:10:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Andreas Stötzner</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Natalie, 
+
+if it's for Microsoft Word, you could use stylistic sets features (ss01, ss02) to turn on the different ligatures. You could go with something like that (provided that M_r.ss01 is the one variant and M_r.ss02 is the other): 
+
+<code>feature ss01 { 
+  sub M r by M_r.ss01; 
+} ss01;
+feature ss02 { 
+  sub M r by M_r.ss02; 
+} ss02;
+feature dlig { 
+  sub M r from M_r.ss01; 
+} dlig;
+feature salt { 
+  sub M r from M_r.ss02; 
+} salt;</code>
+
+Preferably, you might want to use some contextual substitutions so you don't have situations where "Stanley" would be written with a superscript "t". So perhaps: 
+
+<code>feature ss01 { 
+  sub M' r' [space period] by M_r.ss01; 
+} ss01;
+feature ss02 { 
+  sub M' r' [space period] by M_r.ss02; 
+} ss02;
+feature dlig { 
+  sub M' r' [space period] from M_r.ss01; 
+} dlig;
+feature salt { 
+  sub M' r' [space period] from M_r.ss02; 
+} salt;</code>
+
+Regards,
+Adam</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-17 13:52:39"
+			itemprop="datePublished"
+		>
+			2011-07-17 13:52:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

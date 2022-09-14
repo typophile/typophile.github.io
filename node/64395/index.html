@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>fontlab - dealing with alt# versions | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="fontlab - dealing with alt# versions" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/64395/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-11-18T15:47:33+00:00" />
+<meta property="article:modified_time" content="2009-11-18T15:47:33+00:00" />
+
+<meta itemprop="name" content="fontlab - dealing with alt# versions">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-11-18T15:47:33+00:00" />
+<meta itemprop="dateModified" content="2009-11-18T15:47:33+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="fontlab - dealing with alt# versions"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">fontlab - dealing with alt# versions</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-11-18T15:47:33Z">November 18, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">clankill3r</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Atm i got this code, i only need it 26 times (A to Z) and also with a lot more @all betweens it in case a 'j' is for example 100 chars away from the last 'j'.
+Also i got 100 alt versions for each letter.
+This would mean 26x100x100 = 260.000 rules of code..
+
+Atm the code looks like this and it works:
+
+[code]feature salt {
+lookup rotate {
+
+sub A.alt2 A' by A.alt3;
+sub A.alt2 @all A' by A.alt3;
+sub A.alt2 @all @all A' by A.alt3;
+sub A.alt2 @all @all @all A' by A.alt3;
+sub A.alt2 @all @all @all @all A' by A.alt3;
+sub A.alt2 @all @all @all @all @all A' by A.alt3;
+sub A.alt2 @all @all @all @all @all @all A' by A.alt3;
+sub A.alt2 @all @all @all @all @all @all @all A' by A.alt3;
+
+sub A.alt1 A' by A.alt2;
+sub A.alt1 @all A' by A.alt2;
+sub A.alt1 @all @all A' by A.alt2;
+sub A.alt1 @all @all @all A' by A.alt2;
+sub A.alt1 @all @all @all @all A' by A.alt2;
+sub A.alt1 @all @all @all @all @all A' by A.alt2;
+sub A.alt1 @all @all @all @all @all @all A' by A.alt2;
+sub A.alt1 @all @all @all @all @all @all @all A' by A.alt2;
+
+sub A A' by A.alt1;
+sub A @all A' by A.alt1;
+sub A @all @all A' by A.alt1;
+sub A @all @all @all A' by A.alt1;
+sub A @all @all @all @all A' by A.alt1;
+sub A @all @all @all @all @all A' by A.alt1;
+sub A @all @all @all @all @all @all A' by A.alt1;
+sub A @all @all @all @all @all @all @all A' by A.alt1;
+sub A @all @all @all @all @all @all @all @all A' by A.alt1;
+
+sub B.alt2 B' by B.alt3;
+sub B.alt2 @default4 B' by B.alt3;
+sub B.alt2 @default4 @default4 B' by B.alt3;
+sub B.alt2 @default4 @default4 @default4 B' by B.alt3;
+sub B.alt2 @default4 @default4 @default4 @default4 B' by B.alt3;
+
+sub B.alt1 B' by B.alt2;
+sub B.alt1 @default4 B' by B.alt2;
+sub B.alt1 @default4 @default4 B' by B.alt2;
+sub B.alt1 @default4 @default4 @default4 B' by B.alt2;
+sub B.alt1 @default4 @default4 @default4 @default4 B' by B.alt2;
+
+sub B B' by B.alt1;
+sub B @default4 B' by B.alt1;
+sub B @default4 @default4 B' by B.alt1;
+sub B @default4 @default4 @default4 B' by B.alt1;
+sub B @default4 @default4 @default4 @default4 B' by B.alt1;
+
+
+
+} rotate;
+
+lookup rotate;
+
+} salt;[/code]
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Damnit post was incomplete
+
+what i would like is something like this cuase it requeres a lot less code:
+
+<code>
+feature salt {
+lookup rotate {
+
+sub @alt3 @AN' by @alt4;
+sub @alt3 @all @AN' by @alt4;
+sub @alt3 @all @all @AN' by @alt4;
+sub @alt3 @all @all @all @AN' by @alt4;
+sub @alt3 @all @all @all @all @AN' by @alt4;
+sub @alt3 @all @all @all @all @all @AN' by @alt4;
+sub @alt3 @all @all @all @all @all @all @AN' by @alt4;
+sub @alt3 @all @all @all @all @all @all @all @AN' by @alt4;
+
+sub @alt2 @AN' by @alt3;
+sub @alt2 @all @AN' by @alt3;
+sub @alt2 @all @all @AN' by @alt3;
+sub @alt2 @all @all @all @AN' by @alt3;
+sub @alt2 @all @all @all @all @AN' by @alt3;
+sub @alt2 @all @all @all @all @all @AN' by @alt3;
+sub @alt2 @all @all @all @all @all @all @AN' by @alt3;
+sub @alt2 @all @all @all @all @all @all @all @AN' by @alt3;
+
+sub @alt1 @AN' by @alt2;
+sub @alt1 @all @AN' by @alt2;
+sub @alt1 @all @all @AN' by @alt2;
+sub @alt1 @all @all @all @AN' by @alt2;
+sub @alt1 @all @all @all @all @AN' by @alt2;
+sub @alt1 @all @all @all @all @all @AN' by @alt2;
+sub @alt1 @all @all @all @all @all @all @AN' by @alt2;
+sub @alt1 @all @all @all @all @all @all @all @AN' by @alt2;
+
+sub @AN @AN' by @alt1;
+sub @AN @all @AN' by @alt1;
+sub @AN @all @all @AN' by @alt1;
+sub @AN @all @all @all @AN' by @alt1;
+sub @AN @all @all @all @all @AN' by @alt1;
+sub @AN @all @all @all @all @all @AN' by @alt1;
+sub @AN @all @all @all @all @all @all @AN' by @alt1;
+sub @AN @all @all @all @all @all @all @all @AN' by @alt1;
+sub @AN @all @all @all @all @all @all @all @all @AN' by @alt1;
+
+
+} rotate;
+
+lookup rotate;
+
+} salt;</code>
+
+
+where @all contains all chars
+@AN has chars A to Z
+@alt1 has A.alt1 B.alt1 C.alt1 etc.
+@alt2 has A.alt2 B.alt2 C.alt2 etc.
+
+only problem is that if i type ABAB for example then the preview is:
+
+A/B.alt1/A.alt2/B.alt3
+
+but i want it to be
+A/B/A.alt1/B.alt1
+
+Is it possible to fix the problem?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-11-18 17:08:19"
+			itemprop="datePublished"
+		>
+			2009-11-18 17:08:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>clankill3r</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

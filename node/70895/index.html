@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Looking for clarification about kerning classes, and a couple of other technical issues... | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Looking for clarification about kerning classes, and a couple of other technical issues..." />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/70895/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-05-31T11:47:49+00:00" />
+<meta property="article:modified_time" content="2010-05-31T11:47:49+00:00" />
+
+<meta itemprop="name" content="Looking for clarification about kerning classes, and a couple of other technical issues...">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-05-31T11:47:49+00:00" />
+<meta itemprop="dateModified" content="2010-05-31T11:47:49+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Looking for clarification about kerning classes, and a couple of other technical issues..."/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Looking for clarification about kerning classes, and a couple of other technical issues...</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-05-31T11:47:49Z">May 31, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Duncan MacLeod</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hello,
+
+I am seeking some clarification on a couple of different subjects, if you can bear with me. [FYI: I am using FontLab Studio 5, and Microsoft's FontTools on Windows Vista in production of an OpenType TT font]
+
+First off, let's start at the beginning...of the font, that is; Microsoft's <a href="http://www.microsoft.com/typography/otspec/recom.htm"><em>Recommendations for OpenType Fonts</em></a> states that in TT(-OT) fonts, the first four glyphs must be .notdef, .null, CR and space to allow for the same version of the font to work on both Windows and Macintosh.
+
+However I haven't seen this followed in any of the other fonts I have referenced (ACaslonPro, ChaparralPro, and others of the sort). I haven't decompiled the font files and looked at the tables, I merely opened the font files in FontLab. Have I overlooked something (besides the fact that they are Adobe fonts and not Microsoft), or are these fonts really without the specified glyphs?
+
+I have added the above mentioned glyphs to my font already, but I was just wondering, for future reference (and dependent on the answer to the above): a) if FontLab Studio will add these glyphs automatically and in the correct placement if they are missing, or b) these requirements are only recommendations, and only need be followed for cross-platform compatibility? In other words, if one or more of these glyphs are omitted or missing, will that cause any problems (either for generation or usage)?
+
+My second question is also about the Microsoft Recommendations; it states <em>"Character U+000D (carriage return) should map to a glyph with a positive advance width."</em> This also is not present in the fonts I have referenced. Should I make CR's advanced width; a) just a couple of units wide, b) make it's width something like the space character for example, or c) just not worry about it and leave it at zero?
+
+My third question is in relation to building the kerning classes for an OT font. This is actually the question I wanted to ask, but I figured I would ask all of my silly questions at once in order to minimize your exposure to my ignorance. ;)
+
+Just out of curiosity, how do you folks set up your kerning classes? Do you follow the convention of setting up an 'alphabet' styled set of classes, like this:
+_a: a' aacute agrave adieresis
+_c: c' ccedilla
+_e: e' eacute egrave
+etc...
+
+Or do you follow Adam Twardoch's <a href="http://typophile.com/node/16413">theoretical example</a> and use something like this:
+_flatflat: n' m h u ntilde uacute ugrave
+_flatround: p' b
+_roundround: o' oacute ograve
+_roundflat: c' d e q ccedilla eacute
+
+I understand that it is largely a matter of preference, and I would probably use the first example myself [mainly for aesthetic reasons], but the second example seems to me to be just a bit more efficient.
+
+Also, Karsten, <a href="http://typophile.com/node/38773">in another thread</a>, stated the following:
+<em>"For my fonts, I strictly set up classes as either leftside or rightside classes in FLS, even if some leftside and rightside classes share the same set of glyphs -- and upon generating fonts I automatically 'merge' classes with identical content into a single class. This may illustrate that the separation helps avoid (or track down) errors during production but is not at all a requirement as regards OT fonts."</em>
+
+I am fairly comfortable with the concept and execution of classes in FontLab and I'm about to embark on creating my kerning classes, but was curious about the statement <em>"...I automatically 'merge' classes with identical content into a single class..."</em> above. I scoured the manual fairly well, but found no reference to this being a feature or option in FontLab Studio.
+
+Is Karsten referring to something done manually when preparing to generate the font, like if I said; <em>"I automatically go through each glyph and set the reference point to 0,0 as a fetish"</em>? Or is this actually a "feature" somewhere that I have missed? Having that done programmatically would save a lot of fussy work after the classes have been set up, and avoid classes like these (in case I forget to 'merge' them):
+_a_1st: a' aacute agrave adieresis
+_a_2nd: a' aacute agrave adieresis
+etc...
+
+Any clarification on any of the above would be most appreciated. Sorry for the huge post, and thank you for your time and your insight.
+
+-Duncan</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">In answer to your first question, about the required characters, FontLab will add them automatically by default if they are absent. The reason they were missing in the fonts you mention is because they were not TT-based.
+
+With regard to kerning classes, I think the important thing is to set them up in a way that makes the most sense to you. My own system is similar to what Adam describes, but I try to make the groupings easy to remember and avoid including glyphs with different ascender and descender attributes.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-31 16:11:29"
+			itemprop="datePublished"
+		>
+			2010-05-31 16:11:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">With classes, I set them up similar to your first example but using the theory of your second example whereas they aren't necessarilly letter dependent but shape dependent.
+
+_e_left: e' eacute egrave o oacute ograve c ccaron ccedilla
+_e_right: e' eacute egrave ae oe
+
+This is just a quick example and I think like Mark said it comes down to personal preference and working yourself through a process that makes sense for you.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-31 18:17:40"
+			itemprop="datePublished"
+		>
+			2010-05-31 18:17:40
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michael Jarboe</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@Mark: Thanks. Yeah, being non TT-based would make them not conform to the TT specs, I suppose. :) I knew I had missed something!
+
+Also, I went through the FLS5 manual again, and and found something I had overlooked in the "Font Header" section, under the TrueType Mapping Settings [cmap Table]:
+
+"If the <code>Automatically Add...</code> option is on, then FontLab Studio will analyse the font and add characters that are necessary for complete font compatibility. In Windows only two characters are really necessary: the ".notdef" and "space" characters. On the Mac a couple additional characters are required: "CR" and "NULL". Note that FontLab Studio will generate these characters only if they do not exist in the font, so you can create them manually and control their appearance. We recommend leaving this option on, especially if you are developing Macintosh fonts."
+
+So that clears that question up. Thanks a bunch.
+
+Concerning classes, I agree that it is largely a matter of preference, and I would probably use the first example myself, but would still like to hear everyone's preferences and particular techniques; you never know what you may pick up from a casual comment.
+
+Also, clarification on Karsten's <em>"automatically 'merge' classes"</em> comment above is something I am quite interested in.
+
+Regards,
+-Duncan
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-31 21:50:56"
+			itemprop="datePublished"
+		>
+			2010-05-31 21:50:56
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Duncan MacLeod</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I follow the "like shape" model.
+
+So I generally put  c, d, e, o, q, ð and œ in the same class.
+However, in a tightly-fitting style, d and q may be separated into their own class, if they aren't quite so round as the others.
+
+Accented characters are trickier, sometimes I have ended up with three classes each for the variants of a, e, i and o.
+In fact, I have on occasion kerned each i-accent character separately.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-05-31 23:00:59"
+			itemprop="datePublished"
+		>
+			2010-05-31 23:00:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Nick Shinn</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@Nick: Cool, thanks. That's the kind of thing I meant when I said 'you never know what you may pick up.' Separate classes for accented characters (and special treatment of i-accent characters) is something I probably would have never thought of.
+
+@Mike Jarboe (et al.): So you generally keep your 'left' and 'right' shape classes separated? What about when you get overlapping content? Do you just accept the redundancy in the code and keep the shape classes separated, or do you keep them separate during production and then go back and 'merge' the identical content into the same class?
+
+That's basically the heart of my inquiry; In order to keep the code as quick and clean as possible, is it acceptable to have redundancy in the [left/right] classes, or should the classes with identical content be merged whenever possible? (And is that a 'feature' in FLS5?)
+
+I tend to be excessively fastidious with my coding, so I may be sweating about nothing here. I just always look for the most efficient way to craft my code (efficient for the parser that is), even if it means a lot more work on my part.
+
+I also know that every typeface is treated differently, so I'm basically talking generalities, but any information is welcome.
+
+Regards,
+-Duncan
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-01 18:18:54"
+			itemprop="datePublished"
+		>
+			2010-06-01 18:18:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Duncan MacLeod</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Not quite sure what you mean by "overlapping content", but please note that a glyph may only be referenced in the kerning classes once for the left side and once for the right side, or once in a class that applies to both.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-01 20:06:58"
+			itemprop="datePublished"
+		>
+			2010-06-01 20:06:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yep, I got that, Mark, but thanks for pointing it out. What I mean by 'overlapping content' is basically redundancy in the code:
+
+_a_1st: a' aacute agrave adieresis
+_a_2nd: a' aacute agrave adieresis
+etc...
+
+That can be 'grouped' into one class of the 'both sides' [left/right] variety:
+
+_a: a' aacute agrave adieresis
+
+I guess better phraseology would have helped. Sorry for the confusion.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-01 21:56:24"
+			itemprop="datePublished"
+		>
+			2010-06-01 21:56:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Duncan MacLeod</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">If you have a class for the left and right that have the same exact glyphs, then go ahead and merge them into a single right/left class. However, doing so gives you less flexibility with regard to what can go in the class.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-01 23:25:30"
+			itemprop="datePublished"
+		>
+			2010-06-01 23:25:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Right, hence my original question. And I'm merely asking for your guys' opinion on how <em>you</em> would handle it, not what is permissible - I'm pretty comfortable with the concept of classes.
+
+To restate and clarify:
+
+Assuming that left/right classes are kept separate during kerning, do you just accept the redundancy in the code and keep the shape classes separated when you generate the font, or do you keep them separate during production and then go back and 'merge' the identical content into the same class when you are done kerning? (And is that a 'feature' in FLS5?)
+
+I apologize if I sound argumentative, that is not my intent. I'm just curious how you folks here, who have infinitely more experience than I, go about dealing with this little peculiarity. And again, sorry for the confusion.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-02 01:00:41"
+			itemprop="datePublished"
+		>
+			2010-06-02 01:00:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Duncan MacLeod</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Well, I don't think I would want to "merge" things after I've done kerning. It sounds like extra work. I try to plan out the best strategy for the kerning classes (usually based on identical or closely similar shapes) before I start kerning and then stick with it. The classes depend a lot on the genre of the type design.
+
+(That said, I've been using Metrics Machine to do the kerning in my more recent designs. In that program, there are only left and right groups (no groups with both), and there are no "key" glyphs.)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-02 01:58:27"
+			itemprop="datePublished"
+		>
+			2010-06-02 01:58:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ditto what Mark wrote above. Well, except that I haven't used Metrics Machine, myself.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-04 03:21:31"
+			itemprop="datePublished"
+		>
+			2010-06-04 03:21:31
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Sorry for not responding earlier.
+
+Mark Simonson wrote: 
+<cite>If you have a class for the left and right that have the same exact glyphs, then go ahead and merge them into a single right/left class. However, doing so gives you less flexibility with regard to what can go in the class.</cite>
+
+I completely agree. This is why, in my post which you cite, I wrote:
+<cite>... and upon generating fonts I automatically 'merge' classes with identical content into a single class.</cite>
+
+The important part is "upon generating fonts". Merging happens outside of the vfb and will leave the vfb's original leftside and rightside classes intact.
+It is not a feature of FLS5 but part of my own font generation method/automatism. When doing Litteratra which has a lot of kerning and classes I noticed that AFDKO would produce a slightly smaller GPOS table if classes are merged. I should test this again with newer versions of AFDKO. Most of the time merging is mere cosmetics and not worth the effort.
+
+So if you keep leftside and rightside classes separate this is fine and makes it easier to extend the glyph set later. In so far, as Mr Simonson said.
+
+    * * *
+
+As to the first four glyphs, the spec recommends them <em>only</em> for TT-OTFs (i.e. OTFs with TT-outlines, in a 'glyf' table), not for CFF-OTFs (or PS-OTFs in Adam's terminology, i.e. OTFs with PS-outlines, in a 'CFF' table). Adobe's fonts are CFF-OTFs, so they are not affected by the recommendation.
+With CFF-OTFs, the first glyph is expected to be '.notdef', usually followed by 'space'.
+
+If you make TT-OTFs, it may be better to add the first four glyphs manually rather than relying on FLS5. Then you have a chance to adjust their widths. Advance width of 'CR' usually is the same as with 'space'; '.null'/'NUL' has an advance width of 0; and advance width of '.notdef' is up to you.
+
+Best wishes, Karsten</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-04 12:59:20"
+			itemprop="datePublished"
+		>
+			2010-06-04 12:59:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I use shape based classes plus diacritics.  I later end up making "exceptions" with some of the diacritic combinations that crash,</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-04 14:53:55"
+			itemprop="datePublished"
+		>
+			2010-06-04 14:53:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I like to be thorough too. I've set up classes for every letter, per side (plus sets for punctuation and other glyphs), then broken them out into matching visual sets, while turning off redundant individual classes. This way classes can be brought into new designs and adjusted as necessary.
+
+For example, I can group all of my Es in to one for being on the right side, then drag them to be with the class "_BDEFHIKLNPR_R" to kern all of them the same, because the left side is exactly the same on all of these letters in my design. By keeping the individual classes too, I can always just go back if there are instances that need specific attention. VWY are a class, vwy are a class, but when working with this set as small caps I need vw and then y.
+
+[img:sites/default/files/old-images/classes_5769.png]
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-05 02:06:18"
+			itemprop="datePublished"
+		>
+			2010-06-05 02:06:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Stickley</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@all: Great information, thank you very much for your thoughts. You are all brilliant, and deserve the highest praise.
+
+@Mark Simonson: Thank you for the response, and for taking the time to help. I tend to ask the most peculiar questions in the most insufferable way possible. Your patience is most valued.
+
+@Stickley: Looks like I've found a kindred spirit in relation to coding. :) Thanks for the example. Lots of good stuff there.
+
+@Karsten: Thanks for the clarification on the statement from your other post, and all the other great stuff. By the bye, where did you acquire the information about the advance width of 'CR', et al.? Years in the business? I looked all over and found nothing but the Microsoft Typography <a href="http://www.microsoft.com/typography/developers/fdsspec/overview.aspx">Character design standards</a>, which didn't expand on the subject.
+
+Concerning kerning classes, it's good to know that in a font with a moderately sized GPOS table, fussing about merging the left/right classes is probably superfluous. And making it easier to extend the glyph set later, if required, is something that I need to remember, for many different reasons, not just this.
+
+Regards,
+-Duncan
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-05 04:02:01"
+			itemprop="datePublished"
+		>
+			2010-06-05 04:02:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Duncan MacLeod</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">In this case, inspecting fonts.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-06-05 10:40:15"
+			itemprop="datePublished"
+		>
+			2010-06-05 10:40:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I wrote:
+
+<cite>... and upon generating fonts I automatically 'merge' classes with identical content into a single class.</cite>
+
+Tested again. Merging left/right classes does <em>not</em> make a difference.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-07-23 21:38:29"
+			itemprop="datePublished"
+		>
+			2010-07-23 21:38:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

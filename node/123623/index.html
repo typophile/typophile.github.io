@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Is it possible to hint in OTF? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Is it possible to hint in OTF?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/123623/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2015-03-04T22:08:32+00:00" />
+<meta property="article:modified_time" content="2015-03-04T22:08:32+00:00" />
+
+<meta itemprop="name" content="Is it possible to hint in OTF?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2015-03-04T22:08:32+00:00" />
+<meta itemprop="dateModified" content="2015-03-04T22:08:32+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Is it possible to hint in OTF?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Is it possible to hint in OTF?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2015-03-04T22:08:32Z">March 4, 2015</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">ferfolio_2</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi there!
+
+I usually export 2 formats: OTF without hinting, and TTF for web (with TTFAutohint).
+A client asked me if I could send the OTF , with the TTF hinting for web.
+
+Is that possible? 
+
+When I open the TTF file created with TTFAutohint in FontLab I don't see any hinting insructions... so I can't copy them to the OTF file... but it still works perfect for the web... 
+
+Thank you guys.
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">TTF hints won’t work for OTF. They are completely different outline formats. 
+
+TTF uses TrueType quadratic Bézier curves, OTF (also known as CFF for Compact Font Format) uses PostScript cubic Bézier curves. They are related, but not the same, so the hints are not compatible or transferable.
+
+That said, you can autohint an OTF font using the autohint tool that comes with the AFDKO (Adobe Font Development Kit for OpenType) or the autohint command in FontLab. (You can also run the Adobe autohinter from within FontLab using a script that comes with the AFDKO.) The results won’t be the same as a hinted TTF font because the format and the way hinting works is different.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-05 04:59:28"
+			itemprop="datePublished"
+		>
+			2015-03-05 04:59:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>... OTF (also known as CFF for Compact Font Format) uses PostScript cubic Bézier curves.</blockquote>
+
+Ouch. The OpenType format is actually a <em>unification</em> of Microsoft/Apple's TrueType, and Adobe's Type 1 (CFF) format. The file header indicates what sort of outlines the font contains - it can be either one.
+
+With that in mind, "OTF without hinting, and TTF for web" makes no sense without specifying what kind of OTF it is.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-05 15:52:27"
+			itemprop="datePublished"
+		>
+			2015-03-05 15:52:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@Theunis 
+You are right in a technical sense, but 99% of fonts with the suffix OTF are in fact CFF-based, while TrueType flavoured fonts use TTF. So Mark’s comment just reflects what people understand when these terms and abbreviations are used. Also note that Mark actually said “OTF” (referring to the file suffix) — it was you who then talked about “OpenType format”. Those things belong together, but there effectively not the same thing.  
+
+<cite>A client asked me if I could send the OTF , with the TTF hinting for web.</cite>
+
+I would ask them what he is trying to achieve. I am pretty sure he is himself confused about those technical details and therefore makes this rather strange request. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-05 16:33:08"
+			itemprop="datePublished"
+		>
+			2015-03-05 16:33:08
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Typography.Guru</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Nope. The client will have to go with OTF hints instead.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-05 18:34:28"
+			itemprop="datePublished"
+		>
+			2015-03-05 18:34:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Té Rowan</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks everyone for the answers! 
+
+I have PC and Fontlab, and I've tried to do the AFDKO autohinting a couple of times, but it's a nightmare to install! But if it's the only option I guess I'll do it.
+
+What the client wants is to see my typeface in InDesign better while he works on screen.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-06 14:35:33"
+			itemprop="datePublished"
+		>
+			2015-03-06 14:35:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ferfolio_2</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">TTF fonts work perfectly fine in InDesign. Just sayin'...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-06 15:02:52"
+			itemprop="datePublished"
+		>
+			2015-03-06 15:02:52
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>riccard0</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yes riccard0, but he wants to use the OTF files, 
+because it's better for printing media and has all the OpenType features.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-06 15:08:26"
+			itemprop="datePublished"
+		>
+			2015-03-06 15:08:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ferfolio_2</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote><p>because it's better for printing media</p></blockquote>
+That's a self perpetuating myth which had no raison d'être for decades now.
+Moreover, as already mentioned by others, file extensions and outlines and features are different things. And, for what I know, TTF fonts can have OpenType features.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-06 15:34:26"
+			itemprop="datePublished"
+		>
+			2015-03-06 15:34:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>riccard0</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yes, the TTF format has opentype features, 
+But OTF PostScript curves are better for printing, since is the same language as most printers. Right?
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-06 15:51:24"
+			itemprop="datePublished"
+		>
+			2015-03-06 15:51:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ferfolio_2</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">No, for several reasons.
+
+First, I don't think "most" printers use PostScript natively. There is a thick layer of driver software between the font file and the printer.
+
+Second: font formats may be changed by the OS, by user-end software, or by printer drivers to suit the destination device.
+
+Third: native support for TrueType fonts has actually been added to PostScript, years ago :P
+
+For everyday practical purposes there really is no difference between TrueType and PostScript flavour fonts -- especially when both are wrapped inside an OTF. A designer may have a preference (me, I can't wrap my head around quadratic curves) and some older tools such as MS Volt work on a TTF format only -- but even that can be worked around.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-06 16:10:25"
+			itemprop="datePublished"
+		>
+			2015-03-06 16:10:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Theunis de Jong</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>I have PC and Fontlab, and I've tried to do the AFDKO autohinting a couple of times, but it's a nightmare to install! But if it's the only option I guess I'll do it.</cite>
+
+FontLab Studio can do autohinting without additional software. But the results depend on your setting on the font and character level. 
+
+<cite>But OTF PostScript curves are better for printing …</cite>
+
+I wouldn’t know why. There were a RIPs in the early 1990s which couldn’t handle TrueType, but that was a long time ago. 
+The only argument against TrueType outlines is that the designer has probably done the design in PostScript and the automatic conversion could lead to outlines which are not identical to the original. But that isn’t even a limitation of TrueType, but only a problem of the conversion process. 
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-06 16:14:02"
+			itemprop="datePublished"
+		>
+			2015-03-06 16:14:02
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Typography.Guru</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for the info guys! I guess my knowledge comes from books and websites that are 10 years ago.
+
+Perhaps the conversion from bezier to cuadratic might not be that bad if you use 2048 UPM's (that's what I'm using).
+
+Do you guys give your fonts to the clients only in TTF? 
+Perhaps it's the best option to do from no on. 
+How does TTF work in Office?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-06 16:25:21"
+			itemprop="datePublished"
+		>
+			2015-03-06 16:25:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ferfolio_2</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>How does TTF work in Office?</cite>
+
+Usually better! It’s the PS-OTs which regularly cause trouble outside of the DTP apps, e.g. font embedding in office apps, not printing or wrong glyph scaling in recent versions of Mac OS X. 
+TTF is still the standard format for companies such as Apple and Microsoft and it’s much better tested in software of these companies than PS-OTs. 
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-06 17:34:30"
+			itemprop="datePublished"
+		>
+			2015-03-06 17:34:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Typography.Guru</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The problem is that MyFonts and many other distributors ask for OTF & TTF.
+So yes... I do Fontlab Autohinting for OTF... and try instaling AFDKO for the autohint only
+
+Thanks guys</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-03-06 18:51:19"
+			itemprop="datePublished"
+		>
+			2015-03-06 18:51:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ferfolio_2</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Adobe added native support for TrueType fonts to PostScript Level 2 back in the early 90s, more than 20 years ago. Even ten-year-old sources are wrong to warn against TrueType, for the most part.
+
+It is Adobe's official position (which I used to spout on behalf of Adobe) that they support TrueType fonts and TrueType flavored OpenType equally with their PostScript-outline counterparts. That position is well founded in reality.
+
+There is a bias in the graphic arts against TrueType, but 99% of the time it has very little to do with reality.
+
+There are a very few devices and workflows, usually very old, where TrueType fonts are not supported. There are actually many more situations where PostScript or .otf fonts don’t work.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-04-04 05:01:29"
+			itemprop="datePublished"
+		>
+			2015-04-04 05:01:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

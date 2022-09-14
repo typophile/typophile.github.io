@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>TTX/FontTools &#43; GPOS Tables &#43; imagemagick | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="TTX/FontTools &#43; GPOS Tables &#43; imagemagick" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/80439/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-03-24T15:08:24+00:00" />
+<meta property="article:modified_time" content="2011-03-24T15:08:24+00:00" />
+
+<meta itemprop="name" content="TTX/FontTools &#43; GPOS Tables &#43; imagemagick">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-03-24T15:08:24+00:00" />
+<meta itemprop="dateModified" content="2011-03-24T15:08:24+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="TTX/FontTools &#43; GPOS Tables &#43; imagemagick"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">TTX/FontTools + GPOS Tables + imagemagick</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-03-24T15:08:24Z">March 24, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">TOM-MLL</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Has anyone ever found a way to output items like the GSUB Feature values, back out to say imagemagick? For example, sending unicode values is no problem, but since items like SALTS don't have a unicode value, how can you print those items to image in say imagemagick/php? Any ideas?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">http://lists.freedesktop.org/archives/harfbuzz/2011-January/001076.html</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-24 19:37:24"
+			itemprop="datePublished"
+		>
+			2011-03-24 19:37:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">My issue is with items not having unicode though...seems I need to apply unicode values first, with for example fontforge. Havent seen anydirect examples of this though...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-25 07:22:19"
+			itemprop="datePublished"
+		>
+			2011-03-25 07:22:19
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>TOM-MLL</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">BKKMLL,
+
+The rendering process should look like the following: 
+
+1. You feed in a Unicode string (for plain characters, not the alternates), the font and a set of OpenType Layout feature tags into an OpenType Layout library such as HarfBuzz, ICU Layout, Uniscribe or the Adobe Flash Text Framework.
+2. The OpenType Layout library analyzes the Unicode string and the font, and applies the transformation of Unicode codepoints to glyph IDs and their positions using the OpenType Layout rules included in the font's GSUB and GPOS tables. 
+3. The font information, the sequence of glyph IDs and their positions are then fed into the rasterizer such as FreeType or the system rasterizers, which produces a bitmap image (in a memory buffer). 
+4. The bitmap memory buffer is fed into a tool such as ImageMagick, PIL or any other image processing library, and a formatted image (e.g. in the PNG format) is produced. 
+
+This means that for use with PHP you need a tool that glues together HarfBuzz, FreeType and perhaps ImageMagick (or libpng or something similar). You should not deal with the unencoded glyphs in any way -- this is what the OpenType Layout layer (the first one, i.e. HarfBuzz) needs to take care of. 
+
+Unfortunately, the opensource community so far has failed to produce such a tool, while in fact it'd be a simple undertaking (probably some 2-3 days of coding tops). 
+
+This is why I've linked to the HarfBuzz mailing list, where I've been raising this issue regularly for quite a while. The developer of HarfBuzz Behdad Esfabod wrote in the linked thread that if he gets "kicked" regularly on this, he might finally do it -- so I recommend that you join that list and postulate this as well. 
+
+The only workable and simple enough solution I've found so far, which enables typesetting with OpenType fonts using OpenType Layout features is to employ XeTeX+XeLaTeX. The simplest way is to install the TeXLive distribution on the server, have PHP generate a .tex file, call xetex or xelatex, grab the output PDF and feed it into ImageMagick, GhostScript or other PDF-to-bitmap conversion utility. 
+
+XeTeX/XeLaTeX include an integrated version of the OpenType Layout library ICU Layout, which does all the processing of the GSUB/GPOS tables behind the scenes. The workflow is not superfast, but quite easy to implement. 
+
+I've put up some quickstart TeX samples here: 
+http://www.twardoch.com/tmp/xetex-typesetting-samples.zip
+I hope they're clear enough to follow and modify. 
+
+Best,
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-25 18:45:32"
+			itemprop="datePublished"
+		>
+			2011-03-25 18:45:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">BTW, the TeX samples I've posted product the following results (reduced in size): 
+
+<code>xelatex-multiline-1024x768.tex:</code>
+[img:sites/default/files/old-images/xelatex-multiline-1024x768_3778.png]
+
+and
+<code>xetex-sample-cropped.tex:</code>
+[img:sites/default/files/old-images/xetex-sample-cropped_3822.png]
+
+In XeTeX/XeLaTeX, you can easily specify the OpenType Layout features to be applied as in <code>+smcp,+onum,+pnum</code>. Unlike other primitive methods that try to read/process OpenType Layout tables directly (say using FontTools/TTX), this method also works with Arabic or Indic scripts which require special processing by the OpenType Layout library. ICU Layout is such a library that is quite full-featured in this regard.
+
+I think this might be what you need. (It's certainly what *I* need :) ). 
+
+Best,
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-25 19:20:38"
+			itemprop="datePublished"
+		>
+			2011-03-25 19:20:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This does look truly interesting, albeit slightly intimated as its yet another thing I have to try and learn or figure out. I feel I keep going in circles, as I have spent close to a year trying to resolve this, getting php to render opentype fonts the same as you could do in any Adobe application. But so far, using TeX as you show above looks truly amazing...I will look into this more, thanks. I wonder if Behdad Esfabod would develop the php extensions if he was paid?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-27 08:38:53"
+			itemprop="datePublished"
+		>
+			2011-03-27 08:38:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>TOM-MLL</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Behdad is already being paid. He just has lots of things on his hands. It's a matter of priorities. When enough people ask him to do it, he'll be more likely to do it. 
+
+You can write to him directly at behdad at behdad dot org. 
+
+A.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-27 16:49:23"
+			itemprop="datePublished"
+		>
+			2011-03-27 16:49:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">BKKMLL, 
+
+one more option could be to use Prince XML: http://www.princexml.com/
+
+It also supports Unicode and OpenType, and renders PDFs (which you can convert into PNGs). It works on a server and it takes HTML & CSS as input, rather than the specialized TeX syntax. 
+
+This means that you could make HTML+CSS page layouts that use OpenType fonts with features, run them through Prince XML on your server, get a PDF and convert it into PNG. Prince XML is a commercial application, though. 
+
+A.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-27 16:52:26"
+			itemprop="datePublished"
+		>
+			2011-03-27 16:52:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">HarfBuzz already have a command line tool that renders text to a png file, "hb-view", I think one can call that from PHP, no? it does not support font feature selection yet, but I think if few more people asked for it (I did already) it might get implemented.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-03-27 20:46:04"
+			itemprop="datePublished"
+		>
+			2011-03-27 20:46:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Khaled Hosny</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@twardoch 
+I am coming back to all this again, had to take a break from it, heh. So, I was looking at your TeX examples more, and all your info again, this is really looking amazing. I feel as though trying to just use PHP and some of these other type libs, is just not cutting it. In your multiline example, thats very nice, and it seems to be reading the font very well, seems set correctly, etc. I have noticed setting type in Imagemagick has its faults, many times with the kerning settings in a font.
+
+So makes me wonder, how difficult would it be to work with Tex as you mentioned. For example, having this run on our linux web server, setting up a layout like that, and then converting that TeX file to say a png as you mentioned (using IM I assume).
+
+I also like you idea about using just html and css to putput the charmap, and then use some php extension to render that page to a image (screenshot it per say). Before i jump into that though, can you output those "non-unicode" like values to html as of yet? Have you seen anything working like this yet?  
+
+I also took a gander at that mention of the Adobe Flash Text Framework. While I do not favor flash at all, I have to say I was impressed with how well that was performing in the examples.
+
+Thanks for the help so far, and sorry for all the questions. My coding levels only go as deep as web stuff, so this is sort of like walking down a dark alley right now..</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-05-26 05:48:28"
+			itemprop="datePublished"
+		>
+			2011-05-26 05:48:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>TOM-MLL</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">btw...I think this all this stem from, there doesn't seem to be any clear cut way to work with fonts on the web. I mean, I am all for options and choices, but it seems everything is all over the place. It would be nice to know, ok to do this you need: a b c = awesome font image  . I mean there are tons of silly php font-to-image scripts (which commonly only work with TTF), but they are actually quite awful for the fonts presentation, as they are typically not rendering the type as it should be set.
+
+:)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-05-26 05:51:29"
+			itemprop="datePublished"
+		>
+			2011-05-26 05:51:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>TOM-MLL</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Tom, 
+
+I have very good news for you. My laments have worked and Behdad Esfabod has written a small tool "hb-view" as part of the HarfBuzz project: 
+http://cgit.freedesktop.org/harfbuzz/tree/src/hb-view.cc
+
+You need to install or compile the following packages on your server: glib, cairo, freetype and the Git version of HarfBuzz from: 
+http://cgit.freedesktop.org/harfbuzz/
+
+The usage is very simple: 
+<code>hb-view --background=00000000 --features=onum=1,calt=1,dlig=1 --font-size=72 --foreground=FFFFFFFF --line-space=30 --margin=10 --output=test.png fontfile.otf "Text to display as UTF-8"</code>
+
+So you specify the font file (.otf or .ttf), the list of OpenType Layout features, the text and a few other parameters (--background and --foreground are RGBA where A is alpha transparency), and of course a PNG file (if you omit it, the tool will feed the PNG stream into stdout, which you can of course capture from PHP). There are a few more options (for script, language and direction if you deal with non-Latin), which you can look at in the source code of the tool. 
+
+The tool is actually very small and very clearly written. I don't read C++ at all, but I was able to read the source of hb-view and figure out exactly what each part is doing and how. By modifying the source of hb-view a bit, you're even able to replace the PNG output with SVG or PDF because the underlying graphics library (cairo) supports those backends. 
+
+Using hb-view way easier and much faster than using XeTeX. 
+
+Best,
+Adam</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-05-27 14:43:54"
+			itemprop="datePublished"
+		>
+			2011-05-27 14:43:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ah thats great to see! I will be checking this out real soon, I think my only concern is figuring out how to get it installed on our web server first. The commands do look fairly easily, excited to try it out!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-06-02 16:47:12"
+			itemprop="datePublished"
+		>
+			2011-06-02 16:47:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>TOM-MLL</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

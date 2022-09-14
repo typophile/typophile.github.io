@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Name table ID 19 and Font Validator | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Name table ID 19 and Font Validator" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/61032/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-08-16T11:28:58+00:00" />
+<meta property="article:modified_time" content="2009-08-16T11:28:58+00:00" />
+
+<meta itemprop="name" content="Name table ID 19 and Font Validator">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-08-16T11:28:58+00:00" />
+<meta itemprop="dateModified" content="2009-08-16T11:28:58+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Name table ID 19 and Font Validator"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Name table ID 19 and Font Validator</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-08-16T11:28:58Z">August 16, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">pvanderlaan</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi,
+
+Has anyone succeeded in defining the fields for sample text (ID 19) in the name table and have it successfully validated by Font Validator?
+
+It appears that when any arbitrary string is defined in the Macintosh part of that field (19 1 0 0), Font Validator will give the following error: "E2015 The sample string contains a character that is not mapped in the font name string(1, 0, 0x0000, 19), character at index 0 is not mapped."
+
+Looking at this error I get the impression that Font Validator expects the sample string to be identical to the font name? But this contradicts what the name table spec at http://www.microsoft.com/Typography/otspec/name.htm says: "ID 19 Sample text; This can be the font name, or any other text that the designer thinks is the best sample to display the font in."
+
+I checked the name table of the generated font file with spot to see if something else strange has happened during the generation of the font -- specifically the first character of that field -- but nothing...
+
+
+Thanks in advance,
+
+-Paul van der Laan
+
+www.type-invaders.com
+
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">We don't normally define name ID 19 strings for any platform, but I just tried a test and was able to make a font with a Mac name ID 19 string, which successfully validated.
+
+<cite>Looking at this error I get the impression that Font Validator expects the sample string to be identical to the font name?</cite>
+I am pretty sure that's <em>not</em> what it means. My understanding is that FontValidator expects all of the characters in sample text string to be mapped in the 'cmap' of the font, as I think the original idea for the sample text string was to render the string using the font where said string resides.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-08-18 01:58:18"
+			itemprop="datePublished"
+		>
+			2009-08-18 01:58:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>j.hadley</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Joshua: '[...] was able to make a font with a Mac name ID 19 string, which successfully validated.'
+
+My experience is that the nameID 19 string for platformID 1 in TTF flavored OpenType fonts can be successfully validated by Font Validator, while an identical entry in CFF variants will produce an error. I have always considered this to be a bug in FV.
+
+Of course, it makes no sense to put characters in the nameID 19 string that are not mapped in the ‘cmap’, but I don't expect anyone to do this.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-08-18 09:38:37"
+			itemprop="datePublished"
+		>
+			2009-08-18 09:38:37
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blokland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>My experience is that the nameID 19 string for platformID 1 in TTF flavored OpenType fonts can be successfully validated by Font Validator, while an identical entry in CFF variants will produce an error. I have always considered this to be a bug in FV.</cite>
+Thanks for the feedback, Frank.
+
+Then perhaps it would be nice when someone from MS could acknowledge this is a bug...
+
+-Paul van der Laan
+www.type-invaders.com</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-08-18 16:54:13"
+			itemprop="datePublished"
+		>
+			2009-08-18 16:54:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>pvanderlaan</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>My experience is that the nameID 19 string for platformID 1 in TTF flavored OpenType fonts can be successfully validated by Font Validator, while an identical entry in CFF variants will produce an error.</cite>
+
+Ahh...missed that detail (test font was TrueType).
+
+
+
+<cite>I have always considered this to be a bug in FV.</cite>
+
+I think I would concur with that if you've verified independently that all characters in the sample text string are indeed mapped in the cmap subtable corresponding to the name table entry.
+
+
+
+<cite>Then perhaps it would be nice when someone from MS could acknowledge this is a bug...</cite>
+
+Probably be nicer if a <em>fix</em> were released :-)
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-08-18 17:33:38"
+			itemprop="datePublished"
+		>
+			2009-08-18 17:33:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>j.hadley</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>I think I would concur with that if you’ve verified independently that all characters in the sample text string are indeed mapped in the cmap subtable corresponding to the name table entry.</cite>
+I’ll make some extra dumps from the tables to check this. But it seems strange that this error already occurs with a sample string of “abc” in a fully functional  font, right?
+
+<cite>Probably be nicer if a fix were released :-)</cite>
+I am trying to be realistic. :)
+
+
+-Paul van der Laan
+www.type-invaders.com</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-08-20 10:41:50"
+			itemprop="datePublished"
+		>
+			2009-08-20 10:41:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>pvanderlaan</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>I’ll make some extra dumps from the tables to check this. But it seems strange that this error already occurs with a sample string of “abc” in a fully functional font, right?</cite>
+
+Yes, that's what I'm getting at.
+
+But just to be clear: the rule that Validator purports to be following is to check that the characters in that string are mapped <em>in the cmap subtable corresponding to the string's platformID and encodingID</em>. So simply having the glyphs present in the font is not enough; for a Mac (platformID 1, encodingID 0) name string, they need to be mapped in a cmap subtable with platformID 1, encodingID 0. So if such a cmap subtable were not present or did not map those glyphs with the character codes in the 'name' string, that error could occur (and <strong>not</strong> be considered a bug in Validator).
+
+But assuming you do have an appropriate cmap subtable that corresponds to the 'name' entry, I suspect the nature of the Validator issue might be something like an error in converting text encodings between the name string to the cmap or something like that (e.g. assuming Unicode/UTF-16 but finding MacRoman,single-byte). That is really just a guess though. There are probably lots of ways that could get messed up :-)
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-08-20 18:14:51"
+			itemprop="datePublished"
+		>
+			2009-08-20 18:14:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>j.hadley</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"> I'm even more puzzled now. After more digging I discovered that the error only occurs when greek glyphs are included in the font... :/
+
+And I had a look at the cmap tables but it will take me at least a week of reading specs and disassembling fonts before I understand its structure. Not worth it.
+
+
+-Paul van der Laan
+www.type-invaders.com</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-08-25 14:37:35"
+			itemprop="datePublished"
+		>
+			2009-08-25 14:37:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>pvanderlaan</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

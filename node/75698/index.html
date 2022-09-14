@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Subsetting a TTF font - How to do efficiently. | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Subsetting a TTF font - How to do efficiently." />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/75698/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-10-27T16:44:42+00:00" />
+<meta property="article:modified_time" content="2010-10-27T16:44:42+00:00" />
+
+<meta itemprop="name" content="Subsetting a TTF font - How to do efficiently.">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-10-27T16:44:42+00:00" />
+<meta itemprop="dateModified" content="2010-10-27T16:44:42+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Subsetting a TTF font - How to do efficiently."/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Subsetting a TTF font - How to do efficiently.</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-10-27T16:44:42Z">October 27, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Richard Fink</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">How do I subset a font down to a custom codepage of glyphs? In other words, if I've got a font with 393 gylphs, and I want to bring it down to a particular subset of 228, how do I delete the glyphs I don't want efficiently? (Without saving to a new vfb file, and manually deleting them. Very laborious and prone to error.)
+
+Doesn’t seem to be anything in the FontLab manual about it and I've searched here on this site, too.
+I have FontLab, FOG, TTX, OTMaster, FontForge. (Anything else I should acquire for this purpose?)
+
+Is there some kind of export/import procedure that will get me there?
+
+Thanks.
+
+Rich</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">FontLab doesn't provide a means to do this, other than as you describe (manual deletion). To avoid possible errors in the deletion, you can define a custom encoding, sort glyphs by encoding, and delete any glyph that falls outside the encoding.
+
+Ideally, you want a dedicated subsetting function, that will not only subset the glyph set but will also recompile GSUB and GPOS and other tables.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-27 16:59:26"
+			itemprop="datePublished"
+		>
+			2010-10-27 16:59:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm not sure this is exactly what you're looking for, but FontSquirell's @font-face kit generator lets you create subsets from font files.
+FontSquirrel Generator : http://www.fontsquirrel.com/fontface/generator
+
+The tool is designed to create full @font-face kits but you can upload your TTF, choose TTF only as output format and use the “Expert” subset creation tool (which is very handy). It only takes 2 minutes so it won't be a huge waste of time if it's not what you're looking for :) Please note you have to tick the “Yes, the fonts I'm uploading are legally eligible for web embedding” check box even if it's not the case and you don't intend to use it on the Web. Otherwise it won't let you do what you want to do.
+
+Good luck!
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-27 20:02:13"
+			itemprop="datePublished"
+		>
+			2010-10-27 20:02:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mitternacht</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@jh
+
+<em>To avoid possible errors in the deletion, you can define a custom encoding, sort glyphs by encoding, and delete any glyph that falls outside the encoding.</em>
+
+This would not be so bad and had occured to me. But newbie me seems to be missing a way to spot what lies outside the encoding.
+Yes, the glyphs line up with the encoding, but where exactly does it end?
+Plus, there are usually some glyphs - spacing chars and such - that I want to preserve.
+Not straightforward, unfortunately. But I'll take a second and third look at it.
+
+@mitternacht
+
+Yes. Overall, the Generator does a quite excellent job. And you can customize it with a glyph list, too.
+However, in some cases it doesn't reconcile the other tables - like those that John Hudson mentioned - in exactly the way I want. That's why I'm looking for an alternate solution. And just to have it handy, offline, too.
+
+Clearly, fonts as a technology are designed with a bias towards growing larger, not scaling down!
+
+A friend of mine sent me a FontForge script that I'm going to play with today and will probably get working.
+
+If anybody else has any ideas, or scripts, or anything, I'm all ears.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-28 12:30:21"
+			itemprop="datePublished"
+		>
+			2010-10-28 12:30:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>...I'm all ears
+
+Subsetting is why I wanted to burn the former Appendix B & C of the WOFF spec. 
+
+Under what used to be best practices for WOFF producers, Appendix B said, WOFF makers must make WOFFs that are 100% compatible with the original font, or be outside of the W3C specification. (I'm not sure how this has changed since it was absorbed into other parts of this and other documentation). 
+
+Then, under the best practices for WOOF-using user agents, Appendix C said these agents could subset the font, leaving out whatever might not be needed. (and I'm not sure how this has changed since it was absorbed into other parts of this and other documentation). 
+
+The sad thing is, that UA's doing the subsetting on the user's machine is like refining petroleum in each homeowner's boiler. Even stranger, is that the W3C does not seem to appreciate, and RF, you obviously don't, that automatically subsetting a font, with its compressed kerning, glyphs and hints, will require a complete TT interpreter. 
+
+I know I'm a complete TT interpreter and can subset any font accurately, but I wonder how many others there are out there.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-28 13:35:30"
+			itemprop="datePublished"
+		>
+			2010-10-28 13:35:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">FontForge scripting does this in a snap:
+
+http://code.google.com/p/googlefontdirectory/source/browse/hanuman/menusubset.ff</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-28 22:42:14"
+			itemprop="datePublished"
+		>
+			2010-10-28 22:42:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>abattis</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">David: <em>Under what used to be best practices for WOFF producers, Appendix B said, WOFF makers must make WOFFs that are 100% compatible with the original font, or be outside of the W3C specification.</em>
+
+That's an understandable misinterpretation, and the text has been clarified. In this context, 'original font' meant the font that is placed into the WOFF wrapper, which must be losslessly wrappable and unwrappable. A tool that produces WOFF files might perform other functions to a font file, such as subsetting, before wrapping the resulting font data, but for WOFF purposes it is the font that goes into the wrapper that matters, not the font at the beginning of the process. This, as I say, has been clarified, and I believe the term 'original font' is avoided.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-29 07:26:55"
+			itemprop="datePublished"
+		>
+			2010-10-29 07:26:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@db
+<em>and RF, you obviously don't, that automatically subsetting a font, with its compressed kerning, glyphs and hints, will require a complete TT interpreter.</em>
+
+No, actually I *do* know. Surprise!
+There's no way in hell that user agents will be able to sub-set TTF files on the fly.
+They could do it badly, I suppose, and break them.
+
+But I don't think that's the intention of the WOFF spec. And I can't see anything like that being implemented or even entertained in the near term.
+The browser will process whatever is in the wrapper, and that's that.
+
+Keeping track of @font-face bug reports, browser makers seem to be having enough trouble as it is.
+
+rich
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-29 14:04:42"
+			itemprop="datePublished"
+		>
+			2010-10-29 14:04:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">a>FontForge scripting does this in a snap:
+
+Cool! (who knew it'd be so simple!) It says in the notes is that it's updated to grab the glyphs used by features, which means it's doing or getting an interpretation of those. In  previous developments, did subsetting of hinting and kerning get proven in proofs?
+
+J> ...the text has been clarified...
+
+Much to my delight. Now, is the dsig "in-scope", and if so how?
+
+J>...but for WOFF purposes it is the font that goes into the wrapper that matters...
+
+I can see that point of view, as far as the wrapper-lover should be concerned the feather has landed, mission accomplished! 
+
+All that remains now is the actual functioning of multi-dimensional industrial-strength typography amongst this herd of boons.
+
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-29 17:06:05"
+			itemprop="datePublished"
+		>
+			2010-10-29 17:06:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">David: <em>Now, is the dsig "in-scope", and if so how?</em>
+
+The dsig table is preserved in the WOFF-wrapped font data just like all the other tables.
+
+This does mean that if you want a valid dsig in your WOFF'd fonts, then you need to sign or re-sign the font that goes into the wrapper after you have performed any other operations, e.g. subsetting or adding custom data such as serialisation, permissions, etc.
+
+The workflow would be:
+
+1. Input font, i.e. the TTF master from which the specific WOFF'd font file will be derived.
+
+2. Font data processing, manipulation, augmentation, e.g. subsetting, serialisation, etc.
+
+3. Digital (re)signing.
+
+4. WOFF
+
+<em>All that remains now is the actual functioning of multi-dimensional industrial-strength typography amongst this herd of boons.</em>
+
+Indeed.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-29 18:49:38"
+			itemprop="datePublished"
+		>
+			2010-10-29 18:49:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>did subsetting of hinting and kerning get proven in proofs?
+Proven in proofs. Sounds like something my Dad would have said.
+
+Is there anything further, father? - No, that can't be right...
+Is there anything father, further?
+
+As DSigmund Freud said, "Never judge a cigar by its wrapper."
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-29 19:38:23"
+			itemprop="datePublished"
+		>
+			2010-10-29 19:38:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Kerning and (other) OT layout features are the tough parts for subsetting.
+
+Cheers,
+
+T
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-31 20:54:14"
+			itemprop="datePublished"
+		>
+			2010-10-31 20:54:14
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">TP>Kerning and (other) OT layout features are the tough parts for subsetting.
+
+Isn't there a biblical story where two mothers are trying to cut a baby in half, and the king comes along and shows them how to write "accredited" dsigs instead, or something?
+
+RF>Sounds like something my Dad would have said.
+
+Mine too. Coincidentally, he worked in the baby-saving business.
+
+>The workflow would be:
+
+<em>A work-flow</em>, maybe — but I think you are taking a tiny bit of an industrial strength work-flow out of context to unintentionally misunderstand the issue.
+
+I think, WOFF needs its own dsig, or to <strong>shut up</strong> about those of another format.
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-01 12:51:53"
+			itemprop="datePublished"
+		>
+			2010-11-01 12:51:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">>Kerning and (other) OT layout features are the tough parts for subsetting.
+
+Yup.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-01 13:15:30"
+			itemprop="datePublished"
+		>
+			2010-11-01 13:15:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thomas: <em>Kerning and (other) OT layout features are the tough parts for subsetting.</em>
+
+We have put subsetting on the list of planned functionality for (one of) the next release(s) of OTM.
+
+In an FM-based workflow, subsetting is not very complex because the exported characters are defined by a .cha file and &ndash;as everybody knows by now&ndash; the character set does not have to cover the stuff listed in the linked OT features file (because the rewritten HOT tool removes the obsolete features from the font during generation). Of course, everything can be done in batch via command files.
+
+FEB</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-01 14:21:21"
+			itemprop="datePublished"
+		>
+			2010-11-01 14:21:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blokland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">FYI, the FM-based workflow I built over time for DTL looks as follows:
+
+http://www.fonttools.org/downloads/DTL_workflow.pdf
+
+This is the result of building, i.e., stacking elements over time and it is quite possible that it could be made more compact if re-built from scratch, but it works fine and reliable for us.
+
+FEB</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-01 19:43:03"
+			itemprop="datePublished"
+		>
+			2010-11-01 19:43:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blokland</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Type design tools can do all the subletting. Why didn't I think of that. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-02 10:37:32"
+			itemprop="datePublished"
+		>
+			2010-11-02 10:37:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@blokland
+thanks for the info. Will look it over.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-02 14:12:51"
+			itemprop="datePublished"
+		>
+			2010-11-02 14:12:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">David: <em>I think, WOFF needs its own dsig</em>
+
+Can you explain why?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-04 09:14:31"
+			itemprop="datePublished"
+		>
+			2010-11-04 09:14:31
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">JH> Can you explain why (you think, WOFF needs its own dsig)?
+
+I finally got to read posts beyond September on the pertinent W3C lists. Whew! 
+
+(Lol...What made you all hate so much the TrueType upon which the web was launched and rides today: Bad Acid?;))
+
+To explain why WOFF needs a dsig? I rewrote its FAQ instead. I will say this, the "division" between "web fonts" and "print fonts", is really a W3C & UA construed faux-tech solution to get the foundries on board. The solution goes against the font behavior required by many of the coolest needs of modern publishing.
+
+This is Håkon's apparent, and repeatedly implied direction, and I agree completely. So if you have the time, talk to him about his vision and then what's the big deal!? put a damn dsig in and try to make the WOFF spec ignore the payload's dsig entirely, please. Pretty please :)
+
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-04 13:30:18"
+			itemprop="datePublished"
+		>
+			2010-11-04 13:30:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">David, isn’t the WOFF private data block a possible replacement for a dsig?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-04 15:20:57"
+			itemprop="datePublished"
+		>
+			2010-11-04 15:20:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Jens Kutilek</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Curious, 'cause I don't know: What's the benefit of a DSIG?
+I know that a lot of fonts have them. I know they add some bloat to the font.
+If you're looking to cut down on download size, getting rid of the the DSIG, if there is one, is step #1.
+What is or was its intended purpose? </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-04 17:10:25"
+			itemprop="datePublished"
+		>
+			2010-11-04 17:10:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Richard Fink</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">JK>David, isn’t the WOFF private data block a possible replacement for a dsig?
+
+That is an excellent point, the WOFF private data block is a possible functional replacement for a dsig. But every founder would then need to write an app to expose it to the user, or write what would amount to a standard dsig in the pdb. A WOFF-specific dsig, however, would open up all sorts of possibilities for expressions of information. 
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-04 19:16:20"
+			itemprop="datePublished"
+		>
+			2010-11-04 19:16:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>Curious, 'cause I don't know: What's the benefit of a DSIG?</cite>
+
+The only use that I've for DSIG is to force Windows to use OpenType icon for my TTF flavoured OpenType fonts, and I have been told some other dumb MS app checks for DSIG to decide wether the font is OpenType capable or not. Of course I just add a dummy DSIG table 9using FontForge).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-04 20:30:54"
+			itemprop="datePublished"
+		>
+			2010-11-04 20:30:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Khaled Hosny</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>A WOFF-specific dsig, however, would open up all sorts of possibilities for expressions of information.</em>
+
+David, what do you imagine that a digital signature is or does?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-04 21:35:30"
+			itemprop="datePublished"
+		>
+			2010-11-04 21:35:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Lol, I'll take that as a "No!"  a digital signature Is to WOFF as Mini-Me is to Dr. Evil? What it does is a smaller version of nothing?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-05 10:02:27"
+			itemprop="datePublished"
+		>
+			2010-11-05 10:02:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dberlow</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

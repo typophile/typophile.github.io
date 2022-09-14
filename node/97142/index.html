@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Adobe FDK compareFamily errors | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Adobe FDK compareFamily errors" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/97142/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2012-10-12T21:35:01+00:00" />
+<meta property="article:modified_time" content="2012-10-12T21:35:01+00:00" />
+
+<meta itemprop="name" content="Adobe FDK compareFamily errors">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2012-10-12T21:35:01+00:00" />
+<meta itemprop="dateModified" content="2012-10-12T21:35:01+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Adobe FDK compareFamily errors"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Adobe FDK compareFamily errors</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2012-10-12T21:35:01Z">October 12, 2012</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Topy</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I ran the widely recommended Adobe FDK's compareFamily with some errors and warnings. I tried to look for some documentation of these errors (how to fix them) but have found nothing or very little. Is there such documentation, or maybe a kind soul who's willing to explain? Quite a lot of points here, but clearing out at least the most critical ones would be a really great help!
+
+I ran the compareFamily to a bunch of bought fonts as well and got similar errors in them too so I'm wondering how relevant/critical these errors are? I understand the script was made for Adobe, so not all of the checks are relevant to others.
+
+I'm working in Fontlab.
+---------------
+Error: The first 32 chars of the Mac platform name ID 18 Compatible Full Name must be unique within Preferred Family Name group. 
+
+Names are unique, but not in the first 31 chars. Is it a problem?
+---------------
+Warning: Only Italic style bit set, Compatible SubFamily Name with Win Platform is not 'Italic' for Font
+
+All italics have the box checked. All italics are actually named Oblique. Does this mean that I should set "Italic" in the Style Name field even though all other appropriate name fields use "Oblique"?
+---------------
+Error: font does not have a BASE table. This is necessary for users who are editing in a different script than the font is designed for.
+
+Where is this BASE table defined?
+---------------
+Error: font has OS/2.ulUnicodeRange1 bit 3 set for Unicode block Latin Extended-B, but the test heuristics say it should not be set.
+
+Lots of similar errors found. Having limited knowledge, I used the Fontlab's green diamond to define the codepages. Should I trust the diamond or what?
+---------------
+Error: The BlueValues (and OtherBlues) pair have distance greater than the maximum limit.
+	Font
+	Pairs: -30 0
+	Distance (30) is greater than 1/BlueScale (25.24) 
+	BlueValues: [-30, 0, 504, 539, 697, 744]
+---------------
+Error: More than 4 fonts with the same nameID 1, compatible family name
+
+Is this related to the 31 unique character limit above?
+---------------
+Family Test 5: Check that style settings for each face is unique within Compatible Family group, in all languages.
+
+Error: These two fonts have the same italic and bold style setting
+	Font 1: Hairline
+		Italic Bit: 0 Bold Bit: 0
+	Font 2: Thin
+		Italic Bit: 0 Bold Bit: 0
+
+All italics have the box checked, no fonts have the bold checked. 
+---------------
+Error: More than two usWeightClass values in the Group
+	usWeightClass values: [250, 300, 350, 400, 450, 500, 550]
+
+Each of the weights have their own number, isn't that correct practice?
+---------------
+Family Test 12: Check that GSUB/GPOS script and language feature lists are the same in all faces, and that DFLT/dflt and latn/dflt are present.
+	Warning: font does not have script 'DFLT' language 'dflt' in table GPOS.
+	Warning: font does not have script 'DFLT' language 'dflt' in table GSUB.
+
+	GSUB Table - script:tag list.
+	latn:  MOL    ROM    dflt
+
+	lookup group ID to lookup index list:
+	ID 1:   maps to lookups [2].
+	ID 2:   maps to lookups [3].
+	ID 3:   maps to lookups [0, 1].
+	ID 4:   maps to lookups [20].
+	ID 5:   maps to lookups [22].
+	ID 6:   maps to lookups [19].
+	ID 7:   maps to lookups [18].
+	ID 8:   maps to lookups [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].
+	ID 9:   maps to lookups [42].
+	ID 10:  maps to lookups [44].
+	ID 11:  maps to lookups [17].
+	ID 12:  maps to lookups [43].
+	ID 13:  maps to lookups [47, 48].
+	ID 14:  maps to lookups [49].
+	ID 15:  maps to lookups [41].
+	ID 16:  maps to lookups [21].
+	ID 17:  maps to lookups [23].
+	ID 18:  maps to lookups [24].
+	ID 19:  maps to lookups [25].
+	ID 20:  maps to lookups [26].
+	ID 21:  maps to lookups [27].
+	ID 22:  maps to lookups [28].
+	ID 23:  maps to lookups [29].
+	ID 24:  maps to lookups [30].
+	ID 25:  maps to lookups [31].
+	ID 26:  maps to lookups [32].
+	ID 27:  maps to lookups [33].
+	ID 28:  maps to lookups [34].
+	ID 29:  maps to lookups [35].
+	ID 30:  maps to lookups [36].
+	ID 31:  maps to lookups [37].
+	ID 32:  maps to lookups [38].
+	ID 33:  maps to lookups [39].
+	ID 34:  maps to lookups [40].
+	ID 35:  maps to lookups [46].
+	ID 36:  maps to lookups [45].
+
+	GSUB Table - feature lookup groups by script:tag column headers.
+	(The lookup group ID assigned to each set of lookups is  an arbitrary - see list above for map to actual lookup indices.)
+	latn: MOL   ROM   dflt 
+	aalt  -     -     3     
+	c2sc  -     -     4     
+	case  -     -     5     
+	dlig  -     -     6     
+	dnom  -     -     7     
+	frac  -     -     8     
+	liga  -     -     9     
+	lnum  -     -     10    
+	locl  1     2     -     
+	numr  -     -     11    
+	onum  -     -     12    
+	ordn  -     -     13    
+	ornm  -     -     14    
+	salt  -     -     15    
+	smcp  -     -     16    
+	ss01  -     -     17    
+	ss02  -     -     18    
+	ss03  -     -     19    
+	ss04  -     -     20    
+	ss05  -     -     21    
+	ss06  -     -     22    
+	ss07  -     -     23    
+	ss08  -     -     24    
+	ss09  -     -     25    
+	ss10  -     -     26    
+	ss11  -     -     27    
+	ss12  -     -     28    
+	ss13  -     -     29    
+	ss14  -     -     30    
+	ss15  -     -     31    
+	ss16  -     -     32    
+	ss17  -     -     33    
+	ss18  -     -     34    
+	titl  -     -     35    
+	tnum  -     -     36    
+
+	GPOS Table - script:tag list.
+	latn:  dflt
+
+	lookup group ID to lookup index list:
+	ID 1:   maps to lookups [2].
+	ID 2:   maps to lookups [3].
+	ID 3:   maps to lookups [0, 1].
+	ID 4:   maps to lookups [20].
+	ID 5:   maps to lookups [22].
+	ID 6:   maps to lookups [19].
+	ID 7:   maps to lookups [18].
+	ID 8:   maps to lookups [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].
+	ID 9:   maps to lookups [42].
+	ID 10:  maps to lookups [44].
+	ID 11:  maps to lookups [17].
+	ID 12:  maps to lookups [43].
+	ID 13:  maps to lookups [47, 48].
+	ID 14:  maps to lookups [49].
+	ID 15:  maps to lookups [41].
+	ID 16:  maps to lookups [21].
+	ID 17:  maps to lookups [23].
+	ID 18:  maps to lookups [24].
+	ID 19:  maps to lookups [25].
+	ID 20:  maps to lookups [26].
+	ID 21:  maps to lookups [27].
+	ID 22:  maps to lookups [28].
+	ID 23:  maps to lookups [29].
+	ID 24:  maps to lookups [30].
+	ID 25:  maps to lookups [31].
+	ID 26:  maps to lookups [32].
+	ID 27:  maps to lookups [33].
+	ID 28:  maps to lookups [34].
+	ID 29:  maps to lookups [35].
+	ID 30:  maps to lookups [36].
+	ID 31:  maps to lookups [37].
+	ID 32:  maps to lookups [38].
+	ID 33:  maps to lookups [39].
+	ID 34:  maps to lookups [40].
+	ID 35:  maps to lookups [46].
+	ID 36:  maps to lookups [45].
+
+	GPOS Table - feature lookup groups by script:tag column headers.
+	(The lookup group ID assigned to each set of lookups is  an arbitrary - see list above for map to actual lookup indices.)
+	latn: dflt 
+	kern  <same>
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I ran the compareFamily to a bunch of bought fonts as well and got similar errors in them too so I'm wondering how relevant/critical these errors are? I understand the script was made for Adobe, so not all of the checks are relevant to others.
+
+_____________________
+<a href="http://www.dinariraqi.com/">Iraqi Dinar</a></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-10-14 12:37:30"
+			itemprop="datePublished"
+		>
+			2012-10-14 12:37:30
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>aiming528-spammer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">[[http://forum.fontlab.com/index.php?topic=313.0|Adam Twardoch's guide to font naming in FontLab]] should help you work out a naming scheme that is optimized for most platforms and applications.
+
+I always set naming manually using a combination of FontLab, TTX, FontForge and DTL OTMaster, the last two primarily for checking.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2012-10-14 06:55:55"
+			itemprop="datePublished"
+		>
+			2012-10-14 06:55:55
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Karl Stange</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

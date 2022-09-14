@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>OpenType Features order (related to Stylistic Sets) | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="OpenType Features order (related to Stylistic Sets)" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/55792/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-03-12T16:02:22+00:00" />
+<meta property="article:modified_time" content="2009-03-12T16:02:22+00:00" />
+
+<meta itemprop="name" content="OpenType Features order (related to Stylistic Sets)">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-03-12T16:02:22+00:00" />
+<meta itemprop="dateModified" content="2009-03-12T16:02:22+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="OpenType Features order (related to Stylistic Sets)"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">OpenType Features order (related to Stylistic Sets)</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-03-12T16:02:22Z">March 12, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">piccic</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Sorry, but I'm here with another (probably) semi-dumb question.
+
+I was reading a presentation by Christopher Slye about features, and while I see there is no single rule in the order in which OpenType features are placed (for an optimal behavior), I was wondering: is generally better to have the Stylistic Sets features (ss01, ss02 etc.) placed at the end of the Features, or at the beginning?
+I understand it all depends on how you want the other features to affect the already transformed glyphs, but if I have, let's say, a few ordinary features like [liga] or [smcp], do you usually place eventual ssXX sets after or before them?
+
+I am a born-bugger, I know…</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I know my questions are often embarassingly silly, but isn't there anyone willing to share his more common apporach? :=)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-13 15:52:57"
+			itemprop="datePublished"
+		>
+			2009-03-13 15:52:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>piccic</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It makes a difference if two different features affect the same glyphs. For example, let's say you have a normal and and alternate "f" and there is also a corresponding normal and alternate "fi" ligature. Let's say the alternate "f" is part of stylistic set 1. If <code>liga</code> comes before <code>ss01</code>, you would do it like this:
+
+<code>feature liga {
+  sub f i by fi ;
+} liga;
+
+feature ss01 {
+  sub f by f.alt ;
+  sub fi by fi.alt ;
+} ss01;</code>
+
+If <code>ss01</code> comes first, and you don't change the code, <code>ss01</code> would never encounter an "fi" ligature to transform. You would need to do it like this to get the same effect:
+
+<code>feature ss01 {
+  sub f by f.alt ;
+} ss01;
+
+feature liga {
+  sub f i by fi ;
+  sub f.alt i by fi.alt ;
+} liga;</code>
+
+Make sense?
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-13 16:52:48"
+			itemprop="datePublished"
+		>
+			2009-03-13 16:52:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">By the way, in the example above, I would put <code>liga</code> first because there are other ways to generate an "fi" ligature than via the OT feature. For instance, if someone types opt-5 on a Mac to get an "fi" ligature, the <code>ss01</code> code in the second example would have no effect on it.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-13 16:58:38"
+			itemprop="datePublished"
+		>
+			2009-03-13 16:58:38
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Ha! I see John Hudson said almost the same thing in a thread yesterday:
+
+http://typophile.com/node/55805</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-13 17:08:36"
+			itemprop="datePublished"
+		>
+			2009-03-13 17:08:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Piccic, 
+
+one rule of thumb is that the features that are more semantic, orthographic or linguistic should be processed as early as possible, while the features that are more visual or typographic should be processed later. 
+
+Another rule of thumb is that within the visual features, the features that perform a more dramatic visual change to the whole of text should be processed earlier than those that only perform minor changes. 
+
+For example, when a feature such as "locl", "sups", "sinf", "subs" or "frac" is applied, the underlying text changes its meaning in some way (there is linguistic adaptation through localized forms, or some scientific meaning induced through superscript or subscript or fraction etc.). This means that such features should be processed as early as possible and if multiple features are applies, those features should take precedence — so their features definitions should be placed higher in FontLab Studio's OpenType panel. 
+
+A feature such as "smcp" or "c2sc" is somewhat visual but also somewhat semantic — setting some text in small caps often conveys some change of meaning. And also, applying "smcp" or "c2sc" performs a more dramatic change to the text than, say, "liga". So when mixing "smcp" with "liga", you'd normally want "smcp" to take precedence — so the feature definitions should be placed higher in FontLab Studio's OpenType panel, but only AFTER the purely semantic features. For example, if the user applies both "smcp" and "sups" to a number, "superscript" will probably be more important to him than "small caps" because "superscript" is more semantic, i.e. it conveys a stronger change in meaning. 
+
+The same principle applies to ordering stylistic sets. If you have some stylistic sets that perform some linguistic or semantic actions (such as changing, say, "Russian" Cyrillic forms to "Bulgarian" forms), those should be placed tentatively higher. If you have some stylistic sets that completely exchange the uppercase letters with completely different shapes (e.g. engraved or ornamental), those should be tentatively high. And if you have some stylistic sets that only exchange your standard "R" and "Q" by variants with a long tail — which is a purely visual change, and fairly minor in its effect to the overall look of the text — those features should be further down the row. 
+
+I hope this helps. 
+
+Best,
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-13 17:22:16"
+			itemprop="datePublished"
+		>
+			2009-03-13 17:22:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Adam: thank you!
+
+I have no strong semantic features in my current typeface, since it's mostly for epigraphy and titling, so I'm just trying to avoid one Set "disturbing" the other.
+In fact I've seen that [dlig] [salt] and [calt] are better processed after my alternate sets that are not semantic, but in the end I see it's all related to which non-semantic set you wish to have precedence over the others (and in general ligatures affecting them should necessarily come after).
+
+Mark: thanks, precisely the more recurring problem I have, since the few ligatures I have are unusual and would not affect some combinations if placed first.
+
+Now I hope my "simple" question won't trigger another unending discussion over the Ultimate Logical Solution to Functional Problems™. :ROFL:</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-03-14 16:38:54"
+			itemprop="datePublished"
+		>
+			2009-03-14 16:38:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>piccic</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

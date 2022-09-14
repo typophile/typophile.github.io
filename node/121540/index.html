@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Mimicking old print | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Mimicking old print" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/121540/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2014-11-24T15:50:41+00:00" />
+<meta property="article:modified_time" content="2014-11-24T15:50:41+00:00" />
+
+<meta itemprop="name" content="Mimicking old print">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2014-11-24T15:50:41+00:00" />
+<meta itemprop="dateModified" content="2014-11-24T15:50:41+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Mimicking old print"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Mimicking old print</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2014-11-24T15:50:41Z">November 24, 2014</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">JanekZ</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">In this thread http://typophile.com/node/121385 OP put a scanned page from a 1961 book. Used types have somewhat twitched appearance. As I made earlier an OT feature which does that effect I modified a font (in that case Plantin) to recreate that look.
+
+1. FEA file:
+@class_alt1 contains UC and lc letters, space, comma, etc
+@class_alt2 contains as above, slightly displaced, names with .alt2
+etc up to @class_alt10 ( .alt10)
+
+2. I made new glyphs - and copied the references of original glyphs and add the .alt1 to their names
+3. Again the same with .alt2 names
+etc up to .alt10
+
+4. I moved glyphs of every class slightly up or down 
+<code>
+feature calt { # contextual Alternates
+sub @class_alt1 @class_alt1' by @class_alt2;
+sub @class_alt2 @class_alt1' by @class_alt3;
+sub @class_alt3 @class_alt1' by @class_alt4;
+sub @class_alt4 @class_alt1' by @class_alt5;
+sub @class_alt5 @class_alt1' by @class_alt6;
+sub @class_alt6 @class_alt1' by @class_alt7;
+sub @class_alt7 @class_alt1' by @class_alt8;
+sub @class_alt8 @class_alt1' by @class_alt9;
+sub @class_alt9 @class_alt1' by @class_alt10;
+sub @class_alt10 @class_alt1' by @class_alt1;
+} calt;<code\>
+
+As feature calt is applied, letters (and spaces, commas etc) are substituted and in effect their sequence is:
+x1, x2, x3, (etc), x10, x1, x2, x3 ...
+so every next letter belongs to the group moved in slightly different way.
+Because font is slightly thinner (and more contrasty) than lead types used I added some black stroke and - to compensate inter letter space - some tracking.
+[img:sites/default/files/old-images/book_3673.jpg]
+[img:sites/default/files/old-images/idd_5284.jpg]
+
+Advantage: -calt works almost everywhere
+Drawback:
+- in InD tracking about 40 switches off calt (why?!)
+- when you repeat lines the letters are moved in the same way (doesn't happen frequently in books)
+
+Special thanks to Adam Twardoch
+[[http://typedrawers.com/discussion/comment/10641/#Comment_10641|1]]
+[[http://sites.twardoch.com/typography/font-tech/gpos-stylistic-sets|2]]</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">InDesign turns off contextual features and ligatures for tracked text above a certain value, and in many, but unfortunately not all cases, this makes sense, since contextual substitutions are often used to avoid clashing letterforms or to effect better joins in script faces (though such faces probably shouldn't be tracked in the first place). However, InDesign's threshold is arbitrary and I've often felt it would be better if it were left to the designer to turn these features off.
+
+Andre</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2014-11-25 02:49:53"
+			itemprop="datePublished"
+		>
+			2014-11-25 02:49:53
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Agree, André.
+Stylistic Set can be used in that case - ssXX's are not turned off by tracking. But support is not that wide and in some environments only GSUB ssXX are allowed. See: https://www.microsoft.com/typography/otspec/features_pt.htm#ssxx "Each ssXX feature uses one-to-one (GSUB lookup type 1) substitutions."
+So precise adjusting of glyph's widths will help.
+
+[edit]
+I made an error in first post (and can't edit it)
+
+"2. I made new glyphs - and copied the references of original glyphs and add the .alt1 to their names"
+I did not change their names, the first class:
+<code>@class_alt1=[space exclam comma hyphen period colon semicolon question a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z];<code\></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-02-04 00:35:48"
+			itemprop="datePublished"
+		>
+			2015-02-04 00:35:48
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>JanekZ</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote>However, InDesign's threshold is arbitrary and I've often felt it would be better if it were left to the designer to turn these features off.</blockquote>
+
+Not quite arbitrary: it is based on a percentage of the /space/ glyph width in a font, which means that the tracking unit at which ligatures and contextual alternates is turned off is proportional to the width of the font: lower for a condensed font and higher for an expanded font.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-02-09 03:02:00"
+			itemprop="datePublished"
+		>
+			2015-02-09 03:02:00
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

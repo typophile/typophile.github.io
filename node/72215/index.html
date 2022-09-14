@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Firefox  Leading  Bug | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Firefox  Leading  Bug" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/72215/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-07-13T16:13:00+00:00" />
+<meta property="article:modified_time" content="2010-07-13T16:13:00+00:00" />
+
+<meta itemprop="name" content="Firefox  Leading  Bug">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-07-13T16:13:00+00:00" />
+<meta itemprop="dateModified" content="2010-07-13T16:13:00+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Firefox  Leading  Bug"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Firefox  Leading  Bug</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-07-13T16:13:00Z">July 13, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Arno Enslin</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Not yet fixed, but very bothering. Firefox tries to provide the CSS line-height as precise as possible with the result of an uneven line height. It rounds up <strong>and</strong> down.
+
+<ul>
+<li><a href="http://typophile.com/files/Firefox-Leading-Bug.html">Firefox-Leading-Bug.html</a></li>
+<li><a href="http://typophile.com/files/Firefox-Leading-Bug.gif">Firefox-Leading-Bug.gif</a></li>
+</ul>
+
+<code>&lt;style type="text/css"&gt;&lt;!--
+pre {
+line-height: 0.95em !important;
+font-size: 16px !important;
+font-family: Arial, Helvetica, sans-serif !important;
+}
+--&gt;&lt;/style&gt;</code>
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I think this bug is likely "by design". If you want pixel level control you should specify pixels?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-07-13 16:25:34"
+			itemprop="datePublished"
+		>
+			2010-07-13 16:25:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Pixel is a bad unit for the font-size (line-height, letter-spacing, padding and borders as substitution for text-decoration and so on). I used it here for demonstration purposes only. If you use pt or em, you cannot use px for the line-height anymore, because one pt is converted to different numbers of pixels dependent from the relative screen resolution. On a high resolution screen you would need more pixel for correcting the line height.
+
+(Typographers have the tendency to design web pages pixel precise. I think, that it is one of the reasons, why typographers are not the best web designers.)
+
+I have an untested workaround for the Firefox versions, that support @font-face: You could provide a font, that contains the space only, and put it into the first place of a font stack. You can correct the line height by the font dimensions of the space-only-font.
+
+But I would prefer it, if Mozilla would fix this bug. It is not directly a bug, but they had the specifications in mind only. They simply wanted to compute the height of the block as precise as possible. But the evenness of the leading is a thousand times more important. In case of the leading of body text one pixel is much.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-07-13 17:04:07"
+			itemprop="datePublished"
+		>
+			2010-07-13 17:04:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Logged in bugzilla.
+
+https://bugzilla.mozilla.org/show_bug.cgi?id=578615
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-07-14 08:09:27"
+			itemprop="datePublished"
+		>
+			2010-07-14 08:09:27
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>jdaggett</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">That was fast, John. Thanks! A few years ago I stopped my commitment to Mozilla, when I was suspended on mozillazine (because I wrote, that some changes of the skin of Firefox were “bullshit”, but that word seemed already too dirty for a few child protecting extremist moderators and a certain exorcist with a licence for being arrogant as bounty for more than 10000 posts). Well, my reaction was not less ridiculous. I thought, that anybody else would see the problem and report that bug, but I should have reported it by myself.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-07-14 08:38:05"
+			itemprop="datePublished"
+		>
+			2010-07-14 08:38:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The bug is not yet fixed in Firefox 4.0 beta 6.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-09-27 07:17:56"
+			itemprop="datePublished"
+		>
+			2010-09-27 07:17:56
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Maybe they need more people that confirm the bug.
+
+<strong><a href="https://bugzilla.mozilla.org/attachment.cgi?id=457497">Test case</a></strong>
+
+<strong><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=442139">Bug report</a></strong></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-09-27 07:40:25"
+			itemprop="datePublished"
+		>
+			2010-09-27 07:40:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Please register at Bugzilla and vote for the importance of that bug. Mozilla does not seem to be interested in fixing this bug. I cannot imagine, that you like uneven line spacing.
+
+https://bugzilla.mozilla.org/show_bug.cgi?id=442139</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-02 20:58:09"
+			itemprop="datePublished"
+		>
+			2010-10-02 20:58:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Firefox does this up and down rounding in other places, where it's actually a huge benefit compared to what the other browsers do (namely when dealing with horizontal percentage widths in a flexible container). 
+
+So I can see it being the 'norm' by design.
+
+That said, I can't see a reason for it remain that way for line spacing. So while it may not be a bug, it really is something that should be looked at and fixed. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-04 16:31:09"
+			itemprop="datePublished"
+		>
+			2010-10-04 16:31:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>aluminum</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">A "fix" would require subpixel baseline positioning, right? Anyone know which popular apps, OS, or frameworks don’t put text baselines on whole pixel boundaries? If InDesign or Acrobat can get away with it, then that might push browsers in the same direction.
+
+Cheers, Si 
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-04 16:52:42"
+			itemprop="datePublished"
+		>
+			2010-10-04 16:52:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Si_Daniels</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Subpixel baseline positioning? No, I don’t think, that this has to do with subpixel baseline positioning. 0.95 em are equal tp 15.2 px, if 1 em is 16 px. So, if the font size is 16 px and the line height 0.95 em, Firefox creates a line height of 16 px for every sixth line. And the height of the other lines is 15 px. Dependent from the fraction of em you have different line heights in the same text block. There is no other browser with that bug. I assume, it is a question of minutes to fix that bug! But it is not yet fixed, although it is documented since 2008.
+
+Again, the problem can also appear, if the unit for the font size is em or any other unit.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-04 17:32:24"
+			itemprop="datePublished"
+		>
+			2010-10-04 17:32:24
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">"I assume, it is a question of minutes to fix that bug!"
+
+Anyone that has ever written software will roll their eyes at you if you say that. ;)
+
+It may, though I have a hunch it's tied into the overall rounding algorithms used everywhere (see previous post). They likely don't see it as a bug, and perhaps a more useful approach would be to present to the Mozilla group as it being an exception that needs to be added. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-04 20:44:15"
+			itemprop="datePublished"
+		>
+			2010-10-04 20:44:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>aluminum</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@ aluminium
+
+About which algorthm are you talking?
+
+If the em is 16 px and the lineheight is defined as 0.95 em for the same element, then it has do be rounded down from 15.2 px to 15 px. That’s the whole "algorithm", isn’t it? If it exceeds 15.4 px, because the line height is defined as 0.975 em for example, it has to be rounded up to 16 px.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-04 21:14:47"
+			itemprop="datePublished"
+		>
+			2010-10-04 21:14:47
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You know, "font" people think the only complex (and the only important) piece of software are the fonts themselves, every thing else is trivial and its bugs can be fixed in minutes :p</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-04 21:54:13"
+			itemprop="datePublished"
+		>
+			2010-10-04 21:54:13
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Khaled Hosny</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@arno:
+
+It's just a hunch. I'm basing that hunch on how Firefox does rounding elsewhere. For instance, if you set up a horizontal layout with TDs or DIVs all set to percentage widths, it does the same thing...it rounds up AND down to make sure the total = 100%. This is different than other browsers. IE rounds everything up OR down (so you end up short or over). Opera rounds everything down (so you end up short).
+
+My thought was maybe it's a universal aspect of Firefox so not necessarily easy to change for one particular element (in this case line-spacing). 
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-10-04 22:31:16"
+			itemprop="datePublished"
+		>
+			2010-10-04 22:31:16
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>aluminum</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

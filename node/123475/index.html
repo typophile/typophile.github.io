@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Batch assign Windows names to Mac names? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Batch assign Windows names to Mac names?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/123475/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2015-02-25T02:21:17+00:00" />
+<meta property="article:modified_time" content="2015-02-25T02:21:17+00:00" />
+
+<meta itemprop="name" content="Batch assign Windows names to Mac names?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2015-02-25T02:21:17+00:00" />
+<meta itemprop="dateModified" content="2015-02-25T02:21:17+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Batch assign Windows names to Mac names?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Batch assign Windows names to Mac names?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2015-02-25T02:21:17Z">February 25, 2015</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">marty39</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I'm on a Mac, though I used to have lots of Windows machines, and still have one real and several virtual Windows machines.
+
+Among my thousands of uninstalled fonts are dozens of (mostly crappy) TTF fonts that have different file names, and have corresponding font names when listed in Windows, but are all listed as "New" in Mac OS X. I used ftxdumperfuser to dump the name table of one of them, and found table entries with type IDs 1 through 7, with the Microsoft platform names in platform ID 3 all filled in, but the Macintosh names in platform ID 1 all containing default values.
+
+If the fonts all have the same name I can't even view them in a font viewer. What's the easiest way (using free tools) to copy all seven names from platform ID 3 to platform ID 1 in all the fonts?
+
+FontForge might be able to do it in batch mode, but it would want to rewrite the whole font, including the glyph definitions, and it would complain at great length about the crappy outlines. Perhaps I could write a PERL script to edit the XML files, use a shell script to run it on all the files, and then use ftxdumperfuser to write the name table back into the files. Has such a script been written already?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I would rather use Python with the FontTools. You can get a working version with <a href="http://www.adobe.com/devnet/opentype/afdko.html">AFDKO</A>, the Adobe font development kit.
+
+Here is the kind of code that, once AFDKO is installed, would probably work with your files, given what you say:
+<PRE>
+---- cut here
+#!/usr/bin/env AFDKOPython
+
+from fontTools.ttLib import TTFont
+import sys
+
+filename=sys.argv[1]
+ofilename=filename[:-4]+"_new.ttf"
+
+idstocopy = [1,2,3,4,5,6,7]
+
+names={}
+f=TTFont(filename)
+for n in f["name"].names:
+  if n.nameID in idstocopy:
+    if n.platformID == 3 and n.platEncID == 1:
+       names[n.nameID] = n.string.decode('utf_16_be')
+for n in f["name"].names:
+  if n.nameID in idstocopy:
+    if n.platformID == 1 and n.platEncID == 0:
+        n.string = names[n.nameID].encode('mac_roman')
+f.save(ofilename)
+---- cut here
+</PRE>
+If you save that script in an executable file <code>adjnames</code>, then <code>adjnames font.ttf</code> creates a font <code>font_new.ttf</code> with the adjusted mac names.
+
+With a simple find, you can then batch process all your files.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-02-25 04:24:03"
+			itemprop="datePublished"
+		>
+			2015-02-25 04:24:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thank you, Michel, for pointing me in the right direction. AFDKO Python is the way to go.
+
+But there is a bug in your script, and I need an enhancement. I hope you can point me to documentation for Python and for its AFDKO extensions.
+
+The bug is that in the first table entry, for Copyright, the value is entered in the Macintosh version as "Copyright" instead of the name of the copyright holder as shown in the Windows version of the entry.
+
+The enhancement is that some of the files (I just chose another arbitrarily) have more than seven table entries, and the extra table entries don't have any Macintosh version at all. It would also be nice if the script could go through the whole folder of TTF files, operating only on the ones that have either no Macintosh entry for the name or have "New" as the Macintosh name.
+
+I could do it myself if I understood the language. Unfortunately, the only programming languages I ever learned to use were Fortran, C (without the ++) and BASIC. But I could learn another.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-02-25 19:00:32"
+			itemprop="datePublished"
+		>
+			2015-02-25 19:00:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>marty39</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The fact that some entries may be present for Windows and not for the OS X adds some difficulties. New records need be created. Moreover, if you create a record where there is already one, you get two records for the same parameters (I checked with TTX); that is probably not good. 
+
+The only documentation I could find is on the Microsoft site and I found snippets with Google. Not fantastic. Here is some improved code that handles missing records for the mac and takes care of the US English language. This time, the font file is overwritten. That means that if you put that script in your path and call it <code>adjmacnames</code> then
+<PRE>
+ find . -name "*.ttf" -exec adjmacnames "{}" \;
+</PRE>
+recursively modifies all the fonts in the current directory. You can add values to <code>idstocopy</code> without problem because the code now checks what can be overwritten and what record is to be added. If you find improvements (or some decent documentation), please tell us
+<PRE>
+#!/bin/sh
+
+echo "Processing $1 ..."
+AFDKOPython &lt;&lt;EOF
+from fontTools.ttLib import TTFont
+from fontTools.ttLib.tables._n_a_m_e import NameRecord
+import sys
+
+idstocopy = [1,2,3,4,5,6,7]
+
+winnames={}
+macnamerec={}
+
+f=TTFont("$1")
+
+for n in f["name"].names:
+  if n.nameID in idstocopy:
+    if (n.platformID,n.platEncID,n.langID) == (3,1,0x0409):
+      winnames[n.nameID] = n.string.decode('utf_16_be')
+    if (n.platformID,n.platEncID,n.langID) == (1,0,0x0):
+      macnamerec[n.nameID]=n
+
+for i in winnames:
+  if i in macnamerec:
+    macnamerec[i].string = winnames[i].encode('mac_roman')
+  else:
+    myRecord = NameRecord()
+    myRecord.nameID = i
+    myRecord.platformID = 1
+    myRecord.platEncID = 0
+    myRecord.langID = 0x0
+    myRecord.string = winnames[i].encode('mac_roman')
+    f['name'].names.append(myRecord)
+f.save("$1"+"tmp")
+EOF
+
+mv "${1}tmp" "$1"
+</PRE></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-02-25 20:42:45"
+			itemprop="datePublished"
+		>
+			2015-02-25 20:42:45
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	 <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Michel: thanks for the help.
+
+I found the bug: the list of "idstocopy" has to include 0 (zero) in order to overwrite the Copyright entry.
+
+Better yet: omit the list of "idstocopy" and the corresponding "if" statements; the script will overwrite any existing Macintosh entries and do nothing if the Macintosh entry does not exist.
+
+However: I will avoid complications and not try to create new Macintosh entries. The fonts won't be distributed outside my own computer and I don't need to have the designer, license, etc. in Mac format. Really, all I need is distinct names. Thanks anyway. In fact, thanks very much. You've been a great help.
+
+I still don't understand the import statements and the object member names, but that can wait till I need to know.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-02-25 20:45:57"
+			itemprop="datePublished"
+		>
+			2015-02-25 20:45:57
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>marty39</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The import statement simply allows using in your program  functions that are not provided by default by Python but are accessible via packages. For instance, to get the square root of 2, you may type in Python
+<pre>
+import math
+math.sqrt(2)
+</pre>
+or, if you want to type directly <code>sqrt(2)</code> without specifying each time that you are using the <code>sqrt</code> function of the <code>math</code> package, you can type
+<pre>
+from math import sqrt
+sqrt(2)
+</pre>
+You simply tell python where to fetch the functions you are using. Different packages could define functions with the same name but that provide different funtionalities.
+
+Michel</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-02-25 21:55:46"
+			itemprop="datePublished"
+		>
+			2015-02-25 21:55:46
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">One more comment. Some of the TTF files can't be processed by the adjnames script, giving errors like "UnicodeEncodeError: 'charmap' codec can't encode character u'\x99' in position 7: character maps to &lt;undefined&gt;", and a *_new.ttf file is not created. I propose to fix those by hand, by going into Windows and using my registered copy of Font Monster.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-02-25 22:03:35"
+			itemprop="datePublished"
+		>
+			2015-02-25 22:03:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>marty39</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Hmm... What about replacing <code>n.string.decode('utf_16_be')</code> by
+<pre>
+  n.string.decode('utf_16_be').strip(unichr(0x99))   ?
+</pre> 
+Or   add  <code>'ignore'</code> to <code>encode('mac_roman')</code> as follows: 
+<PRE>
+n.string = names[n.nameID].encode('mac_roman', 'ignore')
+</PRE>
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-02-26 00:01:15"
+			itemprop="datePublished"
+		>
+			2015-02-26 00:01:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Michel, that helped for a few font files, but it left about ten or fifteen of them still not properly named for the Mac.
+
+At that point, doing what works (even if it has to be done one file, one parameter at a time) is more efficient than trying to tweak a batch method. I went into Windows NT on a virtual machine and used Font Monster.
+
+Font Monster assigns one parameter at a time, but CTRL-C, CTRL-V made it easy to copy the MS values to the Mac parameters. Other than that, its main drawback is that (having been last updated in 1994) it doesn't do long file names. Since all the faulty font files have 8.3 file names (probably dating from the same period) that wasn't much of a problem.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-02-26 22:10:23"
+			itemprop="datePublished"
+		>
+			2015-02-26 22:10:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>marty39</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Good that you got it right.  Incidentally, there was also a way with FontForge, provided FontForge does what you want with the naming table. The idea is just to open your font, say <code>font.ttf</code> and generate a new ttf font, say <code>newfont.ttf</code> with fontforge. You can then extract from it the name table using ttx wich comes with AFDKO; the call
+<pre>
+ttx -t name newfont.ttf
+</pre>
+generates the file <code>newfont.ttx</code> wich contains only the generated naming table. You can then merge that table into the original font, so that only the naming table is modified.
+<pre>
+ttx -m font.ttf newfont.ttx
+</pre>
+generates the font <code>newfont#1.ttf</code> which is <code>font.ttf</code> with the new merged name table.
+Of course that process can be done in batch provided you can call fontforge from the line command (which is the often the tricky part). 
+
+Here is a script that does it provided the Python fontforge files are installed for python2.7 (the one I am personally using with FontForge) and you have <code>ttx</code> installed.
+<PRE>
+#!/bin/sh
+
+# given as parameter font.ttf
+# generates font_new.ttf 
+# with mac entries copied from
+# the win entries George Williams 
+# considered relevant
+
+python2.7 &lt;&lt;EOF
+import fontforge
+f=fontforge.open("$1")
+f.generate("$1"[:-4]+"_new.ttf")
+EOF
+ttx -t name "${1%.ttf}"_new.ttf
+rm "${1%.ttf}"_new.ttf
+ttx -m "$1" "${1%.ttf}"_new.ttx
+rm -f "${1%.ttf}"_new.ttx
+</PRE>
+If the fontforge package is installed for your default python, then call <code>python</code> instead of <code>python2.7</code>.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-02-27 01:35:21"
+			itemprop="datePublished"
+		>
+			2015-02-27 01:35:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	 <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Now that you mention it, Michel, I could have used FontForge without ttx. When FontForge opens a .ttf it copies the outlines exactly. When I generate a font I usually have the Validate box checked, but if I uncheck it and tell FontForge to generate a TrueType font it will (I think) simply spit out whatever outlines it read in. If it upgrades other tables, like hints or kerning, I wouldn't object. As I said, these are mostly crappy fonts.
+
+I did that with one font. The output looked the same as the original in the (low res) Font Book preview (bad spacing included), and the files were the same size (as reported in Kbytes). Font Monster, FontForge, and your Python script with "ignore" all ignored the 0099 character in the original Trademark field (which I identified because FontForge displayed it with little numbers).
+
+Next time....</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-02-27 14:14:06"
+			itemprop="datePublished"
+		>
+			2015-02-27 14:14:06
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>marty39</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

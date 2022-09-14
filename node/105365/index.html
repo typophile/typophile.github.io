@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Batch process fonts &gt; ufo? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Batch process fonts &gt; ufo?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/105365/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2013-08-09T18:56:45+00:00" />
+<meta property="article:modified_time" content="2013-08-09T18:56:45+00:00" />
+
+<meta itemprop="name" content="Batch process fonts &gt; ufo?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2013-08-09T18:56:45+00:00" />
+<meta itemprop="dateModified" content="2013-08-09T18:56:45+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Batch process fonts &gt; ufo?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Batch process fonts > ufo?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2013-08-09T18:56:45Z">August 9, 2013</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">hashiama</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Does anyone know a good way to batch process fonts into UFO format? I don't have RoboFont so unfortunately that's not an option.
+
+Thanks</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">from a VFB or from otf?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-08-09 20:12:09"
+			itemprop="datePublished"
+		>
+			2013-08-09 20:12:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>jasonc</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">What do you mean by batch "process"?
+batch generate? batch edit font info? batch rename?
+
+If batch Generate, you can use Area51
+if batch Edit Font Info, you can write some python scripts
+It depends on what you want to do...</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-08-09 21:05:26"
+			itemprop="datePublished"
+		>
+			2013-08-09 21:05:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>PabloImpallari</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Did you find a problem with FontForge? For me the script
+<PRE>
+---- fnt2ufo ----
+#!/usr/bin/env fontforge -lang=ff
+
+Open($1);
+Generate($1:r + ".ufo");
+Quit(0);
+---- cut here ---
+</PRE>
+appears to work. With linux or OS X, a simple
+<PRE>
+find . -name "*.otf" -exec fnt2ufo {} \;
+</PRE>
+should do the job for all otf font files in the current directory and subdirectories. If that is not fast enough (due to one call to fontforge for each file) you can reduce the number of calls to one reusing some code of http://fontforge.org/scripting-tutorial.html</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-08-09 21:20:15"
+			itemprop="datePublished"
+		>
+			2013-08-09 21:20:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Now I remember that you have been using the <a href="http://fontforge.github.io/en-US/downloads/mac/">github version of FontForge</a>. If so, and if FontForge.app is in /Applications then save the following lines in a file, say sfnt2ufo
+<PRE>
+#!/Applications/FontForge.app/Contents/Resources/opt/local/bin/fontforge -lang=ff
+Open($1);
+Generate($1:r + ".ufo");
+</PRE>
+Then execute the command
+<PRE>
+chmod 755 sfnt2ufo
+</PRE> and put the file <code>sfnt2ufo</code> somewhere in your path (one of the folders listed when you type <code>echo $PATH</code>). Then, and only then, you can execute (in any folder)
+<PRE>
+find . -iname "*.[ot]tf" -exec sfnt2ufo {} \;
+</PRE>
+to process all ttf and otf files or simply use
+<PRE>
+sfnt2ufo &lt;fontfile&gt;
+</PRE>
+to get the corresponding ufo of one particular font file.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-08-10 00:25:08"
+			itemprop="datePublished"
+		>
+			2013-08-10 00:25:08
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I just tried on a MacBook Air with no programmer tool installed (no X code), just XQuartz and github FontForge and applications from the mac store. The input was 486 western fonts from Adobe Type Classics (something of about 10 years ago). It took about 2 minutes to generate the ufo, but FontForge would not process back some of the UFO files, telling it could not process the features in the ufo and scrapping them.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-08-10 22:21:09"
+			itemprop="datePublished"
+		>
+			2013-08-10 22:21:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Please post the exact error message so I can get this fixed :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-10-27 19:13:28"
+			itemprop="datePublished"
+		>
+			2013-10-27 19:13:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>abattis</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">More that two months afterwards! You are lucky I did not scrap those files. Here is the answer I had prepared for your post.
+
+----
+Here is a trace searching for a particular problem in the .fea files that were generated
+<PRE>
+ find . -name "*.fea" -exec grep 'by[ ]*;' {} \; | sort | uniq -c
+ 102        sub [\uniF661 ]' [\slash \fraction \uni2215 ]' [\uniF661 ]'  by ;
+  12        sub [\uniF661 ]' [\slash \fraction ]' [\uniF661 ]'  by ;
+ 128        sub [\zero ]' [\slash \fraction ]' [\zero ]'  by ;
+</PRE>
+This found all feature files and searched in them for lines where 'by ;' is written. There is a total of 102 + 12 +128 =242 lines. Those are the 242 lines that cause the problem with the 242 ufo files. 
+
+After executing 
+
+<PRE>
+find . -name "*.fea" -exec sed -i .orig '/by[ ]*;/d' {} \;
+</PRE>
+
+to remove those lines, FontForge accepted the ufo files as input without scrapping the features.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-10-27 19:56:58"
+			itemprop="datePublished"
+		>
+			2013-10-27 19:56:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><cite>Please post the exact error message so I can get this fixed :)</cite>
+
+Here is the stderr file that was generated when reading in the .ufo file for Utopia Standard Regular
+<blockquote>
+Copyright (c) 2000-2012 by George Williams. See AUTHORS for contributors.
+ License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+ with many parts BSD <http://fontforge.org/license.html>. Please read LICENSE.
+ Executable based on sources from 12:29 EST 18-Jul-2013-ML-NoPython-D.
+ Library based on sources from 12:29 EST 18-Jul-2013.
+ Based on source from git with hash:f8dc0063ea93c64e70e5ab1402a840e8c9801cc8
+No substitution specified on line 583 of /Users/boyer/Desktop/Western Fonts/Utopia Std Opticals/UtopiaStd-Regular.ufo/feature.fea
+There were errors when parsing the feature file and the features have not been applied
+</blockquote>
+Line 583 is
+<pre>
+    sub [\uniF661 ]' [\slash \fraction \uni2215 ]' [\uniF661 ]'  by ;
+</pre></div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2013-10-27 21:36:58"
+			itemprop="datePublished"
+		>
+			2013-10-27 21:36:58
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

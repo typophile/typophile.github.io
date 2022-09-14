@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Replicating Malthus with text-replace | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Replicating Malthus with text-replace" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/124371/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2015-04-05T12:53:01+00:00" />
+<meta property="article:modified_time" content="2015-04-05T12:53:01+00:00" />
+
+<meta itemprop="name" content="Replicating Malthus with text-replace">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2015-04-05T12:53:01+00:00" />
+<meta itemprop="dateModified" content="2015-04-05T12:53:01+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Replicating Malthus with text-replace"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Replicating Malthus with text-replace</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2015-04-05T12:53:01Z">April 5, 2015</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">howcome</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I'm working on a project which other may find interesting. I'm trying to replicate a publication from 1798 (Malthus' Essay on the Principle of Population as it affects the future improvement of society). The source files are HTML (from Project Gutenberg) and I've added a CSS style sheet to produce a PDF file as close to the printed edition as possible, while still keeping the HTML in a browsable form. Here are links to my edition:
+
+http://css4.pub/2015/malthus/essay.html
+http://css4.pub/2015/malthus/essay.pdf
+
+And here's the original from 1798:
+
+https://archive.org/details/essayonprincipl00malt
+
+The PDF is produced with <a href=http://www.princexml.com>Prince</a>.
+
+The printed first edition uses long s. I didn't feel like changing the HTML source files for this purpose and instead uses the 'text-replace' property in CSS to achieve this:
+
+  text-replace: "s" "\017F"
+
+Now, the long s should not be used at the end of a word, so exceptions must also be coded:
+
+  text-replace: "\017F\20" "s\20"    
+
+There are more such exceptions, see the HTML source for the set I've been using. I know that some fonts also encode these substitutions. However, I believe it is easier for authors/replicators to edit the CSS source. Changing font files is frowned upon, no? Also, some other interesting substitutions are encoded. For example, to change "etc." to "&c.", one can use:
+
+  text-replace: "etc." "\26 c." 
+
+And "economist" to "œconomist":
+
+  text-replace: "economist" "\153 conomist"  
+
+The 'text-replace' property is described here:
+
+[[https://books.spec.whatwg.org/#character-substitution]]
+
+It would be interesting to hear of similar projects and how presentational substitutions are encoded. 
+
+In the past, I've also replicated Henrik Ibsen's poems from 1871 in the same manner, it's linked from here:
+
+[[http://css4.pub]]
+
+Cheers, Håkon</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Very interesting project!
+In a perfect world, the right form of |s| would be automatically handled via OpenType features in the font, but support in applications is still spotty (https://www.typotheque.com/fonts/opentype_feature_support), more so in browsers (http://caniuse.com/#feat=font-feature).</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-04-06 19:25:09"
+			itemprop="datePublished"
+		>
+			2015-04-06 19:25:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>riccard0</span
+			></span
+		>
+	</div>
+	 <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@riccard0
+
+I can see two reasons against encoding this in the font files. First, is it acceptable/legal for users like me to edit the font files if a font doesn't have the feature I need? Second, I'm not sure that the rules for handling longs are set -- they may vary from language to language or era to era. Having several features in every font file may be an option, but using the human-readable (albeit with unicode code point) 'text-transform' property seems like a more compact and editable solution?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-04-07 11:57:44"
+			itemprop="datePublished"
+		>
+			2015-04-07 11:57:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>howcome</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I’ve put an OpenType feature which follows the 18th century English language convention for long s, in several of my typefaces—but none of them are revivals from that era.
+<code>
+    sub longs' f by s;
+    sub longs longs' by s;
+    sub f longs' by s;
+    ignore sub longs' @hist1;
+    sub longs' by s; </code>
+
+(@hist1 = lower case characters)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-04-06 21:32:59"
+			itemprop="datePublished"
+		>
+			2015-04-06 21:32:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Nick Shinn</span
+			></span
+		>
+	</div>
+	 <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@Nick,
+
+I'm trying to understand your code. Don't you also need to have a "sub s by longs;" at the beginning to perform the majority of subsitutions? And, the last line seems to revert all substitutions? How to you express that an "s" at the end of a word should remain "s"?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-04-07 11:52:23"
+			itemprop="datePublished"
+		>
+			2015-04-07 11:52:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>howcome</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><blockquote><p>First, is it acceptable/legal for users like me to edit the font files if a font doesn't have the feature I need?</p></blockquote>
+Not unless the license allows it, but you can select an appropriate font and serve it as webfont.
+<blockquote><p>the rules for handling longs [...] may vary from language to language or era to era</p></blockquote>
+They do. That's why you have both language and historical related features.
+As I said, that would be the right solution for the user in a perfect word, where copying the text and pasting it using a different font would not end up with characters either missing or rendered with yet another different font.
+Today, especially for the creator, your solution is probably the best, and indubitably a very clever one.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-04-07 13:51:25"
+			itemprop="datePublished"
+		>
+			2015-04-07 13:51:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>riccard0</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">What Nick used is <a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.e">Contextual substitutions</a> i.e. substitutions that occur only in a specified context (for example substitute an s only when followed by a letter).  LuaTeX allows using <code>.fea</code> (Adobe feature) files to do that so as to get the functionality without modifying the font.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-04-07 15:32:33"
+			itemprop="datePublished"
+		>
+			2015-04-07 15:32:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">My AlQuds Arabic font featured a nicely extended letter /ra but it clashed with the following mark in a couple of  specific cases. To correct it I used a contextual Marks feature to change the mark position when that combination occurs, implemented as an OpenType feature in MS VOLT tool. Iffue solved.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-04-07 16:36:05"
+			itemprop="datePublished"
+		>
+			2015-04-07 16:36:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Vladimir Tamari</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@howcome: The "ignore sub" takes care of that. It details when a substitution is <em>not</em> to happen. The net effect is that 'longs' is substituted by 's' <em>unless</em> it is followed by a lower-case character.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-04-07 18:40:47"
+			itemprop="datePublished"
+		>
+			2015-04-07 18:40:47
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Té Rowan</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">@howcome: true, there is no standard for long s usage.
+I based my code on studying this excellent resource:
+http://babelstone.blogspot.ca/2006/06/rules-for-long-s.html</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-04-07 21:47:10"
+			itemprop="datePublished"
+		>
+			2015-04-07 21:47:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Nick Shinn</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks to all for enlightening me. I've now also found an inconsistency in the original 1798 edition: "necessity" is spelled with double ss, on page 35; however, on page 42 it is written "neceſsity". So the practice must have caused some confusion, even back then.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-04-07 22:52:36"
+			itemprop="datePublished"
+		>
+			2015-04-07 22:52:36
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>howcome</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Either that, or the setter had run out of 'ſ'.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-04-08 23:13:05"
+			itemprop="datePublished"
+		>
+			2015-04-08 23:13:05
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Té Rowan</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">For some reason, the links in the original posting have been removed. Here's another attempt:
+
+http://css4.pub/2015/malthus/essay.html
+http://css4.pub/2015/malthus/essay.pdf
+http://archive.org/details/essayonprincipl00malt
+http://www.wiumlie.no/2014/ibsen/digte.html#english
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2015-04-28 10:50:34"
+			itemprop="datePublished"
+		>
+			2015-04-28 10:50:34
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>howcome</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

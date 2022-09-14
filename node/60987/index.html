@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Problem with contextual replacements - suggestions? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Problem with contextual replacements - suggestions?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/60987/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-08-14T17:16:01+00:00" />
+<meta property="article:modified_time" content="2009-08-14T17:16:01+00:00" />
+
+<meta itemprop="name" content="Problem with contextual replacements - suggestions?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-08-14T17:16:01+00:00" />
+<meta itemprop="dateModified" content="2009-08-14T17:16:01+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Problem with contextual replacements - suggestions?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Problem with contextual replacements - suggestions?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-08-14T17:16:01Z">August 14, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">agisaak</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Hi all,
+
+I'm currently working on a face which implements a joining behaviour using contextual alternates. However, problems can occur at boundaries if the '[[calt]]' feature is turned on for only part of a string, as illustrated below:
+
+[img:sites/default/files/old-images/AGIByzCaltSample_5250.gif]
+
+I've avoided this by including the following at the beginning of my 'calt' feature:
+
+    sub A by A.calt;
+    sub B by B.calt;
+    <em> etc. </em>
+
+The contextual rules then refer only to *.calt forms rather than the base glyphs from which they are derived.
+
+Here's the problem: I'd wanted to split my replacement rules into several distinct groups so the user could choose to apply some or all of them depending on how elaborate they wanted the joining to be. Unfortunately, if I do this I have to deal with more than a single type of boundary. For example, in the word 'affable', a user might apply 'ss01' to <em> affa, </em> 'ss02' to <em> fab, </em> 'ss03' to <em> fabl, </em> &c.
+
+While in principle, I could adopt a similar solution -- creating *.ss01, *.ss02, and *.ss03, in practice this simply isn't workable  -- when you consider that I'd have to duplicate not only the base glyphs (including all forms with diacritics), but also the contextual alternates created by every feature which applies before the feature in question, I suspect I'd run up against FontLab's glyph limit, not to mention the headaches involved in creating all those duplicates and debugging all the code which deals with them.
+
+I'm wondering if there is a simpler solution to this which I just haven't thought of.
+
+Thoughts?
+
+André</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Apparently no one has any thoughts on this matter.
+
+I've come up with a tentative solution which involves a set of 'clean-up' substitutions at the end of each of the relevant features, i.e.
+
+sub @hasnorightjoin @hasleftjoin' by @hasnoleftjoin;
+sub @hasrightjoin ' @hasnoleftjoin by @hasnorightjoin;
+
+This seems unaesthetic to me though since it involves changes of the form X -> Y -> X and it also increases the size of the font's tables.
+
+So as a follow-up question, should boundry issues of this sort be the font's responsibility or the application's responsibility?
+
+On the one hand, I did a quick check of several OT fonts with contextual alternates, and I couldn't see anything in their GSUB code which looked like it was there to deal with boundary issue (though admittedly I find it more difficult to follow other people's decompiled tables then to follow my own where I am familiar with the classes involved), suggesting that other designers may not be worried about this issue.
+
+On the other hand, InDesign (CS3) clearly passes the context to the font when applying the calt feature even if that context doesn't have calt active for it.
+
+Is there an 'official' position on this issue? 
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-08-21 13:55:29"
+			itemprop="datePublished"
+		>
+			2009-08-21 13:55:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I don't think users should be encouraged to apply stylistic sets in a piecemeal manner.
+IMO stylistic sets are to be used globally, e.g. in style sheets applied to paragraphs.
+The "calt" feature is most certainly global, on by default.
+
+If you provide a variety of stylistic sets which have different looks (e.g. degrees of complexity), then the user can try them out on a piece of text and see which looks best. They may even be applied cumulatively.
+
+If users are really dissatisfied with the options available, then they can cherry-pick from the glyph palette, with no features applied.
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-08-21 21:15:09"
+			itemprop="datePublished"
+		>
+			2009-08-21 21:15:09
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Nick Shinn</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I agree with you regarding how stylistic sets should be used. It isn't my intention that users should apply the features to partial words, but I've become bogged down in the possibility that they <em> might </em>. So perhaps a better way of phrasing my question would be: "how much effort should one employ in dealing gracefully with strange things the user might do?"
+
+BTW in my earlier post I was fixating on features which created joining variants of characters, but of course final or initial variants are also possible, so it cannot be left up to the the application to simply ignore context which doesn't have the feature selected. Any attempts to deal gracefully with contextual features applied to partial words would have to be dealt with by the font rather than the application. But is it worth the effort?
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-08-22 13:34:33"
+			itemprop="datePublished"
+		>
+			2009-08-22 13:34:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">No.
+
+BTW, that looks like AFFARLE.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-08-22 14:37:39"
+			itemprop="datePublished"
+		>
+			2009-08-22 14:37:39
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Nick Shinn</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

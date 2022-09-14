@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Font metrics issue affecting Microsoft Word layout | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Font metrics issue affecting Microsoft Word layout" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/76045/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2010-11-07T07:59:39+00:00" />
+<meta property="article:modified_time" content="2010-11-07T07:59:39+00:00" />
+
+<meta itemprop="name" content="Font metrics issue affecting Microsoft Word layout">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2010-11-07T07:59:39+00:00" />
+<meta itemprop="dateModified" content="2010-11-07T07:59:39+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Font metrics issue affecting Microsoft Word layout"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Font metrics issue affecting Microsoft Word layout</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2010-11-07T07:59:39Z">November 7, 2010</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">ColinBowern</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I have a font called Estrya's Handwriting that has particularly interesting font metrics.  When using it in Word it seems to behave in a very strange way, especially when you compare it to PowerPoint.
+
+In PowerPoint when I lay out it seems to auto-clip the whitespace at the bottom. The Save as PDF produces what I would expect.
+
+But in Word it's a different story where it seems to put in some extra space (or is not intelligent enough to remove unnecessary space). Word's PDF output is even worse.  I had to do a really strange hack with a textbox to get it to output correctly in PDF and print formats.
+ 
+Any thoughts on what about the font may be causing this?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">This may be an issue with how the font renders in the PDF. MS Office most likely exports the words as <em>text</em> rather than <em>outlines</em>. In better layout programs you have the option to export the shapes of the letters rather than embedding the text. This will ensure your exported PDF looks the same as your original layout.
+
+There is a great free program called [[http://inkscape.org/|Inkscape]] that is easy to learn and will let you have more control over the PDF output. </div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-07 14:03:59"
+			itemprop="datePublished"
+		>
+			2010-11-07 14:03:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>ezrakatz</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">No offense intended to Ezra, who doubtless was trying to be helpful, but the above post is >50% nonsense. Please beware.
+
+Exporting text in PDF as text rather than converting to outlines is usually preferable, and results in better rendering of the text on low-res devices, including on screen.
+
+Your problem almost certainly has to do with the vertical metrics built into the font being a bit odd. 
+
+(1) The font has large bounding box settings, quite possibly legitimately (because it has some capitals which extend a whole lot further up or down than the most common letters). Some "office" type applications use this information for spacing, and will clip anything that extends beyond that. You can override the default spacing in Word by setting spacing to be a specific number of points instead of "auto." This may result in clipping, however.
+
+(2) Additionally, there may be something else weird about the vertical metrics which is causing some odd shifting between what you see on screen and creating the PDF. Bringing it into FontLab Studio or the like and regenerating it with "auto" settings for metrics will probably fix the problem.
+
+(3) What are you using to create the PDF?
+
+It is true that more advanced applications will tend to do a better job of line spacing on screen, without clipping on screen, but this has little to do with PDF output per se.
+
+Post your original misbehaving Word doc and I'll be curious to check it out.
+
+Regards,
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2010-11-07 21:31:54"
+			itemprop="datePublished"
+		>
+			2010-11-07 21:31:54
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

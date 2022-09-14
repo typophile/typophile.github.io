@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Glyph order for Discretionary Ligatures | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Glyph order for Discretionary Ligatures" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/54499/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-02-06T19:26:24+00:00" />
+<meta property="article:modified_time" content="2009-02-06T19:26:24+00:00" />
+
+<meta itemprop="name" content="Glyph order for Discretionary Ligatures">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-02-06T19:26:24+00:00" />
+<meta itemprop="dateModified" content="2009-02-06T19:26:24+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Glyph order for Discretionary Ligatures"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Glyph order for Discretionary Ligatures</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-02-06T19:26:24Z">February 6, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Stephen Rapp</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I tried looking this up but didn't see it. I'm creating ligatures for a titling font and since I don't want them to come on by default I'm putting them in the Discretionary Ligature feature.
+
+When I compiled them they came in, but this feature seems to ignore the glyph order. For instance if I put T_T before E_T in the feature code and type E T T it still renders E_T first. Is there any way around this? I take it that dlig doesn't function like the standard liga.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You need to use two lookups: 
+
+<code>feature dlig { 
+  lookup dlig1 { 
+    sub T T by T_T;
+  } dlig1; 
+  lookup dlig2 { 
+    sub E T by E_T;
+  } dlig2; 
+} dlig;</code>
+
+With each pass of the text, one lookup is executed. 
+
+Within one pass, the layout engine tries to match all the substitution rules within that lookup against the current text, one glyph after another. Whenever a match occurs, the substitution rule is executed. So if you put both the E_T and T_T rules in one lookup, the E_T rule will be the best match in the first pass (in the glyph string E T T), and it will be executed (so the result is the glyph string E_T T). 
+
+But with multiple lookups, they are executed in consecutive passes on the full glyph run (typically one line of text), and the output of one lookup becomes the input of the next one. So if you define the substitutions in two lookups as shown above, with the T_T rule being first, the first pass will substitute E E T with E T_T, and then the second lookup will have nothing to match. 
+
+If you don't define lookups explicitly in the <a href="http://forum.fontlab.com/adobe/afdko/">AFDKO</a> / FontLab Studio syntax, one lookup per feature definition is implicitly created, and each feature definition gets a separate lookup (so while you reorder the feature definitions in FontLab Studio's OpenType panel, you are in fact changing the order of lookups in the font). 
+
+In <a href="http://forum.fontlab.com/adobe/afdko/">Adobe FDK for OpenType (AFDKO) version 2.5</a>, which will also be part of FontLab Studio 6, it is possible to define lookups outside of feature definitions, which allows creating more complex scenarios useful in feature cross-interaction. If two features are active at the same time, your code might then execute the first lookup of the feature A, then feed the output into the first lookup of the feature B, and then feed the output into the second lookup of the feature A. This is currently not possible in FontLab Studio 5. 
+
+Adam
+
+Ps. No, I don't have any specific release details for FontLab Studio 6 to announce yet :)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-06 23:05:59"
+			itemprop="datePublished"
+		>
+			2009-02-06 23:05:59
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks Adam.
+
+I should have though about writing lookups. Your explanation makes it much clearer to understand how it works too.
+
+Stephen</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-02-06 23:55:29"
+			itemprop="datePublished"
+		>
+			2009-02-06 23:55:29
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Stephen Rapp</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

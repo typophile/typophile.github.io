@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Strange happenings in liga feature when opening generated OTF in FL5 | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Strange happenings in liga feature when opening generated OTF in FL5" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/59326/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-06-24T02:59:38+00:00" />
+<meta property="article:modified_time" content="2009-06-24T02:59:38+00:00" />
+
+<meta itemprop="name" content="Strange happenings in liga feature when opening generated OTF in FL5">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-06-24T02:59:38+00:00" />
+<meta itemprop="dateModified" content="2009-06-24T02:59:38+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Strange happenings in liga feature when opening generated OTF in FL5"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Strange happenings in liga feature when opening generated OTF in FL5</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-06-24T02:59:38Z">June 24, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">paragraph</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">Something weird's going on with my fonts: if I open a font that has been generated, and passed trough autohint, the contents of the liga feature changes, and FL5 refuses to compile (Fatal Error). This seems to be sticky, so fonts opened afterwards acquire the same problem (or I might just be going nuts). The only real change other than numberin simplified seems to be that "script dflt;" becomes "script ;"
+
+Is it another of the FL5 little surprises or does autohint simplify/edit liga? Please see transcript below:
+
+Before:
+
+feature liga { # Standard Ligatures
+ # Latin
+lookup liga16 {
+    sub f f i by ffi;
+    sub f i by fi;
+} liga16;
+lookup liga17 {
+    sub f f j by f_f_j;
+    sub f f l by ffl;
+    sub f f by ff;
+    sub f j by f_j;
+    sub f l by fl;
+} liga17;
+ language AZE  exclude_dflt; # Azeri
+lookup liga17;
+ language CRT  exclude_dflt; # Crimean Tatar
+lookup liga17;
+ language MOL ; # Moldavian
+ language ROM ; # Romanian
+ language TRK  exclude_dflt; # Turkish
+lookup liga17;
+ script dflt;
+lookup liga16;
+lookup liga17;
+} liga;
+
+After generating OTF and passing through FDK autohint:
+
+feature liga { # Standard Ligatures
+ # Latin
+lookup liga1 {
+    sub f f i by ffi;
+    sub f i by fi;
+} liga1;
+lookup liga2 {
+    sub f f j by f_f_j;
+    sub f f l by ffl;
+    sub f f by ff;
+    sub f j by f_j;
+    sub f l by fl;
+} liga2;
+ language AZE  exclude_dflt; # Azeri
+lookup liga2;
+ language CRT  exclude_dflt; # Crimean Tatar
+lookup liga2;
+ language MOL ; # Moldavian
+ language ROM ; # Romanian
+ language TRK  exclude_dflt; # Turkish
+lookup liga2;
+ script     ;
+lookup liga1;
+lookup liga2;
+} liga;
+</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Mind that the AFDKO feature file syntax as used in FLS5 and FM is a higher level language and does not match binary layout tables one-to-one. There is some "translation" involved which shows when you re-import layout tables. With some lookup types, differences are more drastic than in your example.
+
+The "dflt" (lowercase) keyword is only used in combination with "language". The default "script" is designated by "DFLT" (uppercase).
+If you want to address "script DFLT", you need to run FLS5-generated .otfs or .ttfs through Adam Twardoch's script <a href="http://www.silesian.com/software/FixDFLTScriptTagSL.zip">Fix DFLT Script Tag</a>. (He also made helpful remarks about script DFLT in a more recent Typophile discussion, you need to google for it.)</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-24 09:18:04"
+			itemprop="datePublished"
+		>
+			2009-06-24 09:18:04
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>k.l.</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, Karsten. I'll thank you properly when I shall have understood this and had fixed it. Strewth, I'm out of me depth!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-24 10:45:26"
+			itemprop="datePublished"
+		>
+			2009-06-24 10:45:26
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paragraph</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I still have some mischief in there somewhere. I tried to install the Fix DFLT ... script but no luck so far:
+
+Locating OpenType fonts in /Users/Jan/process...
+Traceback (most recent call last):
+  File "<string>", line 108, in ?
+  File "/System/Library/Frameworks/Python.framework/Versions/2.3/lib/python2.3/codecs.py", line 205, in __getattr__
+AttributeError: stdout_hook instance has no attribute 'flush'
+
+I installed Python 2.6.2 as well. What is NumPy, btw?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-26 02:52:10"
+			itemprop="datePublished"
+		>
+			2009-06-26 02:52:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paragraph</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Numpy is a set of Python libraries. If you install the big Robofab package it includes Numpy.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-26 03:54:23"
+			itemprop="datePublished"
+		>
+			2009-06-26 03:54:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Oh bugger. Now my Python is too new for Robofab. It says I need 2.3. My brand new Numpy is the wrong version too (MAC OS 1.5, I am still running Leopard (10.4) on iMac 1.8 PowerPC G5). Help, squeek?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-26 07:44:21"
+			itemprop="datePublished"
+		>
+			2009-06-26 07:44:21
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paragraph</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Sorry about this mess: now I have installed Python 2.5.4, installed numpy 1.3.0, all's well, the script still does not run.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-26 09:14:12"
+			itemprop="datePublished"
+		>
+			2009-06-26 09:14:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paragraph</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks to Karsten, the script now works. The best way to install the Python and NumPy to make this work:
+http://www.robofab.org/install.html</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-27 07:46:01"
+			itemprop="datePublished"
+		>
+			2009-06-27 07:46:01
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paragraph</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">paragraph
+
+You can decompile the GSUB-table of your Font, generated with FontLab. Autohint the font with the AFDKO and then merge the decompiled GSUB-table back into the autohinted font. But somehow I doubt, that the autohint program messes up the GSUB-table. However, it is worth to try. I often correct fonts in this way, when I want to keep changes at the minimum.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-07-01 20:37:11"
+			itemprop="datePublished"
+		>
+			2009-07-01 20:37:11
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Arno Enslin</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks, Arno. It is clearly a FLS5 bug, nothing to do with ADFKO.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-07-02 02:17:18"
+			itemprop="datePublished"
+		>
+			2009-07-02 02:17:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>paragraph</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

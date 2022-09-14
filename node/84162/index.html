@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Using fontlab to create a type that substitutes the first letter of a sentence with a different glyph. | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Using fontlab to create a type that substitutes the first letter of a sentence with a different glyph." />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/84162/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-07-29T23:43:10+00:00" />
+<meta property="article:modified_time" content="2011-07-29T23:43:10+00:00" />
+
+<meta itemprop="name" content="Using fontlab to create a type that substitutes the first letter of a sentence with a different glyph.">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-07-29T23:43:10+00:00" />
+<meta itemprop="dateModified" content="2011-07-29T23:43:10+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Using fontlab to create a type that substitutes the first letter of a sentence with a different glyph."/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Using fontlab to create a type that substitutes the first letter of a sentence with a different glyph.</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-07-29T23:43:10Z">July 29, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">pixelscript</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I don't know much about the use of conditions in creating a font. To try and get this to work I generated a glyph for the letter A and called it A.begin. I then changed the glyph and added this rule in the Open Type console:
+
+feature diff {
+ substitute period space A' by A.begin;
+} diff;
+
+But it didn't work.
+
+I'm a programmer so I get logical conditions but I just can't find the documentation for this. Any pointers will be much appreciated.</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Use CALT: http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.e</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-30 00:00:51"
+			itemprop="datePublished"
+		>
+			2011-07-30 00:00:51
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Wow, I take it back, that documentation is like a different language.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-30 00:35:15"
+			itemprop="datePublished"
+		>
+			2011-07-30 00:35:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>pixelscript</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Sorry, I didn't realize that the feature file spec doesn't explain CALT specifically. Here's what your code should be:
+
+feature calt {
+    sub period space A' by A.begin;
+} calt;
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-30 01:24:25"
+			itemprop="datePublished"
+		>
+			2011-07-30 01:24:25
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">And the sub line needs to be indented, but typophile kills my spaces.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-30 01:25:42"
+			itemprop="datePublished"
+		>
+			2011-07-30 01:25:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Thanks for that! Is there something to indicate the beginning of a paragraph? Because obviously there is no period space for those cases....</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-30 02:32:42"
+			itemprop="datePublished"
+		>
+			2011-07-30 02:32:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>pixelscript</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody"><em>And the sub line needs to be indented, but typophile kills my spaces.</em>
+
+Enclose the code within the html tags
+
+<code>&lt;code&gt;
+  &nbsp;   &nbsp; spaces&lt;/code&gt;</code>
+
+and pad with non-breaking spaces, i.e., &amp;nbsp;</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-30 16:42:35"
+			itemprop="datePublished"
+		>
+			2011-07-30 16:42:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>oldnick</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It's not possible to test for things like paragraphs and sentences in OT feature code. You can only test for glyphs or runs of glyphs. This makes it possible to test for words because they usually only contain letters and are surrounded by non-letters. Paragraphs and sentences are not as clear cut, plus you can't test for return or line feeds.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-30 17:15:15"
+			itemprop="datePublished"
+		>
+			2011-07-30 17:15:15
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Use "ignore".
+It's in the FontLab manual.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-30 18:20:20"
+			itemprop="datePublished"
+		>
+			2011-07-30 18:20:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Nick Shinn</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Is there a way of saying always substitute A' with A.begin unless there is 'any character' space A' ?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-30 19:04:07"
+			itemprop="datePublished"
+		>
+			2011-07-30 19:04:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>pixelscript</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">James, you must be thinking of Python. Indents don't matter in (AFDKO) feature syntax, except to make it easier to follow for humans. In fact, you can lay it out any way you like as long as you get your curly braces and semicolons in the right places.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-30 20:49:28"
+			itemprop="datePublished"
+		>
+			2011-07-30 20:49:28
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">nailed it
+
+<code>
+feature calt {
+&nbsp;&nbsp;&nbsp;	@IGNORE = [A-Z a-z A.begin - Z.begin ampersand quotedbl numbersign dollar percent ampersand |craploads more here| ];
+&nbsp;&nbsp;&nbsp;	@CAPS = [A-Z];
+&nbsp;&nbsp;&nbsp;	ignore sub @IGNORE @CAPS';
+&nbsp;&nbsp;&nbsp;	ignore sub @IGNORE space @CAPS';
+&nbsp;&nbsp;&nbsp;	sub A' by A.begin;
+&nbsp;&nbsp;&nbsp;	sub B' by B.begin;
+&nbsp;&nbsp;&nbsp;	sub C' by C.begin;
+&nbsp;&nbsp;&nbsp;	sub D' by D.begin;
+&nbsp;&nbsp;&nbsp;	sub E' by E.begin;
+&nbsp;&nbsp;&nbsp;	sub F' by F.begin;
+&nbsp;&nbsp;&nbsp;	sub G' by G.begin;
+&nbsp;&nbsp;&nbsp;	sub H' by H.begin;
+&nbsp;&nbsp;&nbsp;	sub I' by I.begin;
+&nbsp;&nbsp;&nbsp;	sub J' by J.begin;
+&nbsp;&nbsp;&nbsp;	sub K' by K.begin;
+&nbsp;&nbsp;&nbsp;	sub L' by L.begin;
+&nbsp;&nbsp;&nbsp;	sub M' by M.begin;
+&nbsp;&nbsp;&nbsp;	sub N' by N.begin;
+&nbsp;&nbsp;&nbsp;	sub O' by O.begin;
+&nbsp;&nbsp;&nbsp;	sub P' by P.begin;
+&nbsp;&nbsp;&nbsp;	sub Q' by Q.begin;
+&nbsp;&nbsp;&nbsp;	sub R' by R.begin;
+&nbsp;&nbsp;&nbsp;	sub S' by S.begin;
+&nbsp;&nbsp;&nbsp;	sub T' by T.begin;
+&nbsp;&nbsp;&nbsp;	sub U' by U.begin;
+&nbsp;&nbsp;&nbsp;	sub V' by V.begin;
+&nbsp;&nbsp;&nbsp;	sub W' by W.begin;
+&nbsp;&nbsp;&nbsp;	sub X' by X.begin;
+&nbsp;&nbsp;&nbsp;	sub Y' by Y.begin;
+&nbsp;&nbsp;&nbsp;	sub Z' by Z.begin;
+} calt;
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-07-30 20:55:12"
+			itemprop="datePublished"
+		>
+			2011-07-30 20:55:12
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>pixelscript</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You know, if you are careful to keep each block of GIDs contiguous, you can shorten 26 lines of that code to:
+
+sub [A - Z]' by [A.begin - Z.begin];
+
+See: http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#2.g.i
+
+Cheers,
+
+T</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-01 01:21:43"
+			itemprop="datePublished"
+		>
+			2011-08-01 01:21:43
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Thomas Phinney</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">By the way: If you post OT feature code here and use non-breaking spaces (i.e., &amp;nbsp;) to force display of indents, the code will not compile if it is copied and used as is.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-01 03:35:33"
+			itemprop="datePublished"
+		>
+			2011-08-01 03:35:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Mark Simonson</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

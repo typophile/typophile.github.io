@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Ligature substitution sequencing not working | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="Ligature substitution sequencing not working" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/84357/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2011-08-05T16:59:43+00:00" />
+<meta property="article:modified_time" content="2011-08-05T16:59:43+00:00" />
+
+<meta itemprop="name" content="Ligature substitution sequencing not working">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2011-08-05T16:59:43+00:00" />
+<meta itemprop="dateModified" content="2011-08-05T16:59:43+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ligature substitution sequencing not working"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">Ligature substitution sequencing not working</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2011-08-05T16:59:43Z">August 5, 2011</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Eimantas Paškonis</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I have 3 ligatures: FU, TU and UT. The latter being more important than the rest.
+
+<strong>Current situation:</strong>[img:sites/default/files/old-images/Current_situation_5569.JPG]
+<strong>Desired result:</strong>[img:sites/default/files/old-images/Desired_result_5447.JPG]
+<strong>The code (take note of the sequence):</strong>[img:sites/default/files/old-images/The_code_3944.JPG]
+
+What am I doing wrong?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">I'm not sure why this isn't working given the order of your substitutions, but if you want to guarantee that U_T takes priority over T_U, you could always explicitly place the two in separate lookups, e.g.
+
+feature dlig {
+
+    lookup HigherPriority {
+        sub U T by U_T;
+    } HigherPriority;
+
+    lookup LowerPriority {
+        sub T U by T_U;
+    } LowerPriority;
+
+} dlig;
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-05 17:43:44"
+			itemprop="datePublished"
+		>
+			2011-08-05 17:43:44
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Here's the thing that I couldn't figure out: what are lookups inside features?
+
+It's interesting that if I disable FU, the UT ligature gets the priority. 
+What's more interesting is that if I disable TU instead, nothing changes...
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-05 17:49:42"
+			itemprop="datePublished"
+		>
+			2011-08-05 17:49:42
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Eimantas Paškonis</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">GSUB lookups are sets of substitutions of the same type which are invoked when a particular feature is activated. All of the substitutions in a particular lookup will be applied before any substitutions in subsequent lookups. Each opentype feature is associated with one or more lookups.
+
+You don't need to explicitly declare lookups within your feature blocks since FontLab will automatically group your substitutions into lookups of the appropriate type (in this case it should combine all of your substitutions into a single lookup since they are all type 4 GSUB substitutions, i.e. ligature replacement rules).
+
+However, sometimes it is advantageous to declare lookups yourself, and this might be one of those cases. You don't have to name your lookups like I have done above, but doing so allows you to refer to them in other feature blocks if needed.
+
+see http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.e for more details.
+
+André
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-05 19:15:18"
+			itemprop="datePublished"
+		>
+			2011-08-05 19:15:18
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">The f_U comes in first because of what André said. The GSUB looks for the first applicable sub in the text chain, so F U even though its further down the feature code list is the first instance of a substitution. If you have conflicting usages like this with ligature sets a simpler solution might be to create a longer ligature and put that before the others in code. 
+So like:
+sub F U T U by F_U_T_U;
+sub F_U by F_U; 
+
+You could break it up however works best for you, but a longer ligature ahead of the rest should repair any conflicts.
+Stephen</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-05 21:19:20"
+			itemprop="datePublished"
+		>
+			2011-08-05 21:19:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Stephen Rapp</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Minerva,
+
+Lookups are little procedures that are defined as a list, and then features refer to certain lookups. Multiple features can refer to the same lookup, and one feature can refer to multiple lookups. Lookups are always processed in the order they are defined.
+
+Each lookup processes a glyph run from the beginning (for simplicity, let’s assume that a glyph run is a line of text). Within one lookup, the OpenType Layout engine looks for <strong>one best</strong> (longest) match, executes it and it proceeds to the next glyph and looks for the best match again — until the end of the glyph run. Then the next lookup is processed, with the resulting glyph run from the previous lookup as input.
+
+Features always refer to lookups. In the AFDKO syntax, there is a simplification that allows you to write:
+
+<code>feature dlig {
+  # (all other substitutions)
+  sub U T by U_T;
+  sub F U by F_U;
+  sub T U by T_U;
+  # (all other substitutions)
+} dlig;</code>
+
+but what it actually means is:
+
+<code>feature dlig {
+  lookup dlig1 {
+    # (all other substitutions)
+    sub U T by U_T;
+    sub F U by F_U;
+    sub T U by T_U;
+    # (all other substitutions)
+  } dlig1;
+} dlig;</code>
+
+or, more precisely (using AFDKO 2.5 syntax which is not implemented in FontLab Studio 5.0 but is implemented in Fontographer 5 and in the upcoming FontLab Studio 5.1):
+
+<code>lookup dlig1 {
+  # (all other substitutions)
+  sub U T by U_T;
+  sub F U by F_U;
+  sub T U by T_U;
+  # (all other substitutions)
+} dlig1;</code>
+
+<code>feature dlig {
+  lookup dlig1;
+} dlig;</code>
+
+The simplified AFDKO syntax blurs that reality, but it’s good to remember that that’s how it works: lookups are defined separately from features, and features refer to lookups. In other words, lookups define what happens with different portions of the glyph run and in which order, and features define when it should happen (i.e. under which circumstances, e.g. when the user expresses a certain typographic preference). Yet another method of looking at this would be to say that features provide the “user interface” to the OpenType Layout mechanism in the font, and lookups provide the “implementation”.
+
+So, if you have the glyph run <code>/F/U/T/U/R/E</code> and your “<code>dlig</code>” feature refers to just one lookup (as shown above), the OpenType Layout engine proceeds like this:
+
+1. Start processing lookup “<code>dlig1</code>” referred by feature “<code>dlig</code>” with input glyph run <code>/F/U/T/U/R/E</code>:
+<code>/F/U/T/U/R/E</code> — no match
+<code>/F/U/T/U/R</code> — no match
+<code>/F/U/T/U</code> — no match
+<code>/F/U/T</code> — no match
+<code>/F/U</code> — match! substitute <code>/F/U</code> by <code>/F_U</code>, and proceed to the next unprocessed glyph
+<code>/T/U/R/E</code> — no match
+<code>/T/U/R</code> — no match
+<code>/T/U</code> — match! substitute <code>/T/U</code> by <code>/T_U</code>, and proceed to the next unprocessed glyph
+<code>/R/E</code> — no match
+<code>/R</code> — no match, proceed to the next unprocessed glyph
+<code>/E</code> — no match, end processing lookup
+
+2. End processing lookup “<code>dlig1</code>”, resulting glyph run is <code>/F_U/T_U/R/E</code>
+
+3. Start processing further active lookups with the resulting glyph run (there is none, but there would be if e.g. “<code>lnum</code>” were active as well).
+
+4. End processing: resulting glyph run is <code>/F_U/T_U/R/E</code>.
+
+If you want some substitutions happen earlier, you need to define it in a separate lookup earlier in the feature definition code — either by using the AFDKO keyword “<code>lookup</code>” or by defining it in a separate feature that is placed earlier.
+
+If you write your code as:
+
+<code>feature dlig {
+  lookup dlig1 {
+    sub U T by U_T;
+  } dlig1;
+  lookup dlig2 {
+    # (all other substitutions)
+    sub F U by F_U;
+    sub T U by T_U;
+    # (all other substitutions)
+  } dlig2;
+} dlig;</code>
+
+or (using AFDKO 2.5 syntax) as:
+
+<code>lookup dlig1 {
+  sub U T by U_T;
+} dlig1;
+lookup dlig2 {
+  # (all other substitutions)
+  sub F U by F_U;
+  sub T U by T_U;
+  # (all other substitutions)
+} dlig2;</code>
+
+<code>feature dlig {
+  lookup dlig1;
+  lookup dlig2;
+} dlig;</code>
+
+then your input glyph run <code>/F/U/T/U/R/E</code> will be processed as follows:
+
+1. Start processing lookup “<code>dlig1</code>” referred by the “<code>dlig</code>” feature with input glyph run <code>/F/U/T/U/R/E</code>:
+<code>/F/U/T/U/R/E</code> — no match
+<code>/F/U/T/U/R</code> — no match
+<code>/F/U/T/U</code> — no match
+<code>/F/U/T</code> — no match
+<code>/F/U</code> — no match
+<code>/F</code> — no match, proceed to the next unprocessed glyph
+<code>/U/T/U/R/E</code> — no match
+<code>/U/T/U/R</code> — no match
+<code>/U/T/U</code> — no match
+<code>/U/T</code> — match! substitute <code>/U/T</code> by <code>/U_T</code> and proceed to the next unprocessed glyph
+<code>/U/R/E</code> — no match
+<code>/U/R</code> — no match
+<code>/U</code> — no match, proceed to the next unprocessed glyph
+<code>/R/E</code> — no match
+<code>/R</code> — no match, proceed to the next unprocessed glyph
+<code>/E</code> — no match, end processing lookup
+
+2. End processing lookup “<code>dlig1</code>”, resulting glyph run is <code>/F/U_T/U/R/E</code>
+
+3. Start processing lookup “<code>dlig2</code>” referred by the “<code>dlig</code>” feature with input glyph run <code>/F/U_T/U/R/E</code>:
+<code>/F/U_T/U/R/E</code> — no match
+<code>/F/U_T/U/R</code> — no match
+<code>/F/U_T/U</code> — no match
+<code>/F/U_T</code> — no match
+<code>/F</code> — no match, proceed to the next unprocessed glyph
+<code>/U_T/U/R/E</code> — no match
+<code>/U_T/U/R</code> — no match...
+
+4. Etc. until all active lookups have been processed on the glyph run.
+
+I hope you get the idea.
+
+Best,
+Adam
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-08 16:08:41"
+			itemprop="datePublished"
+		>
+			2011-08-08 16:08:41
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>twardoch</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Wow. That was impressive post. Thanks!</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-09 08:05:07"
+			itemprop="datePublished"
+		>
+			2011-08-09 08:05:07
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Eimantas Paškonis</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">So I fixed the UT problem with a help of lookups, but the war's not over.
+The only thing "ignore" function seems to be ignoring is me...
+
+
+[img:sites/default/files/old-images/Singing_6541.JPG]
+[img:sites/default/files/old-images/singing_code_3701.JPG]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-09 11:34:35"
+			itemprop="datePublished"
+		>
+			2011-08-09 11:34:35
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Eimantas Paškonis</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Tried like this too.
+[img:sites/default/files/old-images/text_3483.JPG]</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-09 21:04:23"
+			itemprop="datePublished"
+		>
+			2011-08-09 21:04:23
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Eimantas Paškonis</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Try the following:
+
+feature test {
+    ignore sub n' g' exclam;
+    sub n' g' by n_g;
+} test;
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-10 07:16:32"
+			itemprop="datePublished"
+		>
+			2011-08-10 07:16:32
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It worked! So apostrophes are the key?</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-10 09:24:10"
+			itemprop="datePublished"
+		>
+			2011-08-10 09:24:10
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Eimantas Paškonis</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Yes, apostrophes are the key here. The reason for this is that <code> sub n g by n_g </code> will be interpreted as a simple ligature substitution rule and will therefore be assigned to a type 4 GSUB lookup. However, your previous line <code> ignore sub n' g' exclam </code> specifies a contextual exception which is only appropriate for type 6 GSUB lookups. This means they end up in separate lookups in which case your ignore line won't have any effect.
+
+By adding the apostrophes to the substitution rule, you force it to be interpreted as a contextual rule (even though no context is provided) which will allow the compiler to place these within a single type 6 lookup.
+
+André</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-10 13:35:33"
+			itemprop="datePublished"
+		>
+			2011-08-10 13:35:33
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>agisaak</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">It's strange that apostrophes aren't mentioned in the manual.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-10 14:42:50"
+			itemprop="datePublished"
+		>
+			2011-08-10 14:42:50
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Eimantas Paškonis</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">You can see them on Adobe's site:
+
+http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f.ii
+
+</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2011-08-10 16:01:20"
+			itemprop="datePublished"
+		>
+			2011-08-10 16:01:20
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>Michel Boyer</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

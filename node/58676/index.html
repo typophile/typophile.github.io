@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>How should I configure a font with extreme ascenders/descenders? | Typophile Archive</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.91.2" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="How should I configure a font with extreme ascenders/descenders?" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://typophile.github.io/node/58676/" /><meta property="article:section" content="node" />
+<meta property="article:published_time" content="2009-06-03T15:46:30+00:00" />
+<meta property="article:modified_time" content="2009-06-03T15:46:30+00:00" />
+
+<meta itemprop="name" content="How should I configure a font with extreme ascenders/descenders?">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2009-06-03T15:46:30+00:00" />
+<meta itemprop="dateModified" content="2009-06-03T15:46:30+00:00" />
+<meta itemprop="wordCount" content="0">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How should I configure a font with extreme ascenders/descenders?"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+      <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Typophile Archive</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+ 
+    <main class="pb7" role="main">
+      
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">How should I configure a font with extreme ascenders/descenders?</h1>
+    <p class="text-muted">
+              
+      <time class="f6 mv4 dib tracked" datetime="2009-06-03T15:46:30Z">June 3, 2009</time>
+      
+        
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">blank</span></span>
+      
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">I am working on a simple font of signatures and corporate graphics, and I would like to keep them all at a similar scale, but some of the signatures will shoot a few hundred units far above or below a standard 1000-unit em quad. What is the best practice for configuring a font like this to work properly—specifically with the MS Office apps?</div>
+
+   <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Make sure that the WinAscent and WinDescent values in the OS/2 table metrics exceed the height of the tallest glyphs in the font. This will prevent the extenders from being clipped.
+
+By default, most apps on Windows will also use the WinAscent and WinDescent values to calculate default linespacing. You probably want to make the TypoAscender + TypoDescender + TypoLineGap (and corresponding hhea metrics) sum to the same number of units as WinAscent + WinDescent. This will give you the best all-round compatibility between different apps and platforms. The neatest way to do this is to make the TypoAscender + TypoDescender sum to the UPM value (treating all values as positive for the purpose of this calculation), and then set the TypoLineGap to equal the difference between the UPM value and the sum of the WinAscend + WinDescent.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-03 18:51:03"
+			itemprop="datePublished"
+		>
+			2009-06-03 18:51:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>John Hudson</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Perfect summary by John Hudson just as you would expect from him ;-)
+
+ChrisL</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-03 19:19:03"
+			itemprop="datePublished"
+		>
+			2009-06-03 19:19:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>dezcom</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Is there some sort of practical limit to how big the Winascent, Windescent, HHEA Ascender and HHEA Descender can actually be? Mine are 1325 and -1290. The font appears to be fine, it works in TextEdit and Indesign, it validates as fine in Fontbook, but if I try using the font in Word it insists that the font is bad and disables it.</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-03 19:35:49"
+			itemprop="datePublished"
+		>
+			2009-06-03 19:35:49
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+  <div class="comment card m-3">
+	<div class="card-body">
+		<div class="commentbody">Nevermind. It turns out that my problems have something to do with Mac Word going bonkers when it sees extremely wide/complex characters that pop up in logo fonts. There’s a day I’m never getting back…</div>
+	</div>
+	<div class="card-footer text-muted post-meta text-end">
+		<time
+			class="dt-published"
+			datetime="2009-06-03 21:51:03"
+			itemprop="datePublished"
+		>
+			2009-06-03 21:51:03
+		</time>
+		•
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span class="p-author h-card" itemprop="name"
+				>blank</span
+			></span
+		>
+	</div>
+	
+</div>
+ 
+</article>
+
+    </main>
+    
+  </body>
+</html>

@@ -1,0 +1,35 @@
+{{ define "header" }} {{/* We can override any block in the baseof file be
+defining it in the template */}} {{ partial "page-header.html" . }} {{ end }} {{
+define "main" }}
+<article class="container">
+  <header class="post-header py-3">
+    <h1 class="post-title p-name" itemprop="name headline">
+      {{- .Title | safeHTML -}}
+    </h1>
+    <p class="text-muted">
+              {{ if not .Date.IsZero }}
+      <time class="f6 mv4 dib tracked" {{ printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safeHTMLAttr }}>
+        {{- .Date | time.Format (default "January 2, 2006" .Site.Params.date_format) -}}
+      </time>
+      {{ end }}
+        {{ with .Params.author.name | default .Site.Params.author }}
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">
+        {{- if reflect.IsSlice . -}}
+            {{ delimit . ", " | markdownify }}
+        {{- else -}}
+            {{ . | markdownify }}
+        {{- end -}}
+        </span></span>
+      {{end}}
+
+    </p>
+  </header>
+  <div class="post-content e-content" itemprop="articleBody">
+    {{- .Params.body | safeHTML -}}
+  </div>
+
+  {{ range $comment := .Params.comments }} {{ partial "comment.html" . }} {{ end
+  }}
+</article>
+{{ end }}

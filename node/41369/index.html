@@ -1,0 +1,299 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>OpenType in InDesign via scripting | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="OpenType in InDesign via scripting">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/41369/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2008-01-25T23:10:51+00:00">
+<meta property="article:modified_time" content="2008-01-25T23:10:51+00:00">
+<meta itemprop=name content="OpenType in InDesign via scripting">
+<meta itemprop=description content><meta itemprop=datePublished content="2008-01-25T23:10:51+00:00">
+<meta itemprop=dateModified content="2008-01-25T23:10:51+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="OpenType in InDesign via scripting">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">OpenType in InDesign via scripting</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2008-01-25T23:10:51Z>January 25, 2008</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>Hey, I just compiled a list of all the JavaScript commands to apply/remove OpenType features in InDesign through scripting. They should work in both CS2 & CS3, except the ones marked as 'CS3 only'.
+<code><strong>myObject</strong></code> can be anything that accepts the properties, from a whole Story to a single Character. So, if you want to apply the properties to the first story in the document, you'll need to declare 'myObject' as:
+<code>var myObject = app.documents[0].stories[0];</code>
+If you only want to change the first line of text in a document, 'myObject' should be declared like:
+<code>var myObject = app.documents[0].stories[0].lines[0];</code>
+And if what you want to change is the first character in a document, 'myObject' should be:
+<code>var myObject = app.documents[0].stories[0].characters[0];</code>
+The properties can also be applied to paragraphs, text frames, words, etc.
+Happy coding!!
+<code>################
+// All Caps (case+cpsp)
+myObject.capitalization = Capitalization.ALL_CAPS;
+// Small Caps (smcp)
+myObject.capitalization = Capitalization.SMALL_CAPS;
+// All Small Caps (c2sc+smcp)
+myObject.capitalization = Capitalization.CAP_TO_SMALL_CAP;
+// to reset capitalization
+myObject.capitalization = Capitalization.NORMAL;
+// Ligatures (liga)
+myObject.ligatures = false; // to turn off
+myObject.ligatures = true; // to turn on
+###
+// Discretionary Ligatures (dlig+hlig)
+myObject.otfDiscretionaryLigature = true;
+// Fractions (frac)
+myObject.otfFraction = true;
+// Ordinal (ordn)
+myObject.otfOrdinal = true;
+// Swash (swsh+cswh)
+myObject.otfSwash = true;
+// Titling Alternates (titl)
+myObject.otfTitling = true;
+// Contextual Alternates (calt+clig)
+myObject.otfContextualAlternate = true;
+// Slashed Zero (zero)
+myObject.otfSlashedZero = true;
+// Stylistic Sets (ssXX)
+myObject.otfStylisticSets = 8; // to apply Set 3 (ss03)
+/*
+0 = None
+2 = ss01
+4 = ss02
+6 = ss01+ss02
+8 = ss03
+10 = ss01+03
+12 = ss02+03
+14 = ss01+02+03
+16 = ss04
+32 = ss05
+64 = ss06
+128 = ss07
+...
+OR
+1 = None
+3 = ss01
+5 = ss02
+7 = ss01+02
+9 = ss03
+11 = ss01+03
+13 = ss02+03
+15 = ss01+02+03
+17 = ss04
+19 = ss01+04
+21 = ss02+04
+...
+*/
+// Positional Forms (init, medi, fina, isol) -- CS3 only
+//// General Form
+myObject.positionalForm = PositionalForms.NONE;
+//// Automatic Form
+myObject.positionalForm = PositionalForms.CALCULATE;
+//// Initial Form
+myObject.positionalForm = PositionalForms.INITIAL;
+//// Medial Form
+myObject.positionalForm = PositionalForms.MEDIAL;
+//// Final Form
+myObject.positionalForm = PositionalForms.FINAL;
+//// Isolated Form
+myObject.positionalForm = PositionalForms.ISOLATED;
+###
+// Superscript/Superior (sups)
+myObject.position = Position.OT_SUPERSCRIPT;
+// Subscript/Inferior (subs if present, else sinf)
+myObject.position = Position.OT_SUBSCRIPT;
+// Numerator (numr)
+myObject.position = Position.OT_NUMERATOR;
+// Denominator (dnom)
+myObject.position = Position.OT_DENOMINATOR;
+// to reset position
+myObject.position = Position.NORMAL;
+###
+// Tabular Lining (tnum+lnum)
+myObject.otfFigureStyle = OTFFigureStyle.TABULAR_LINING;
+// Proportional Oldstyle (pnum+onum)
+myObject.otfFigureStyle = OTFFigureStyle.PROPORTIONAL_OLDSTYLE;
+// Proportional Lining (pnum+lnum)
+myObject.otfFigureStyle = OTFFigureStyle.PROPORTIONAL_LINING;
+// Tabular Oldstyle (tnum+onum)
+myObject.otfFigureStyle = OTFFigureStyle.TABULAR_OLDSTYLE;
+// Default Figure Style
+myObject.otfFigureStyle = OTFFigureStyle.DEFAULT_VALUE;
+### Not available through the UI
+// Historical Forms (hist)
+myObject.otfHistorical = true;
+// Localized Forms (locl) -- CS3 only
+myObject.otfLocale = true;
+// Mark Positioning, Required Ligatures,
+// Glyph Composition / Decomposition
+// (mark, mkmk, mset, rlig, ccmp) -- CS3 only
+myObject.otfMark = true;
+// Access any feature available in the font
+// and specify the index of the alternate glyph
+myObject.opentypeFeatures = [["salt", 0]]; // default glyph
+myObject.opentypeFeatures = [["salt", 1]]; // 1st alternate glyph
+</code></div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Not sure what these do, Miguel, but thanks for sharing!
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-25 23:30:50" itemprop=datePublished>
+2008-01-25 23:30:50
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Hey thanks!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-26 00:12:02" itemprop=datePublished>
+2008-01-26 00:12:02
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>You're welcome!
+BTW, I've added a few lines to the Stylistic Sets section.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-26 00:27:08" itemprop=datePublished>
+2008-01-26 00:27:08
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><cite>I've added a few lines to the Stylistic Sets section.</cite>
+You didn't even give me a chance to ask.&nbsp;&nbsp;:)&nbsp;&nbsp;Indeed
+<cite>2 = ss01&nbsp;&nbsp;/&nbsp;&nbsp;4 = ss02&nbsp;&nbsp;/&nbsp;&nbsp;6 = ss01+ss02</cite>
+makes more sense to me than
+<cite>3 = ss01&nbsp;&nbsp;/&nbsp;&nbsp;5 = ss02&nbsp;&nbsp;/&nbsp;&nbsp;7 = ss01+02</cite>
+because 2+4=6 looks fine, while 3+5=7 ...</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-26 21:26:15" itemprop=datePublished>
+2008-01-26 21:26:15
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The list with even numbers is the "official" one (Thanks Eric!). I kept the other list just for the sake of completeness.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-27 08:21:19" itemprop=datePublished>
+2008-01-27 08:21:19
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Miguel, does <code>opentypeFeatures</code> allow the use of fully arbitrary features such as <code>pcap</code> or <code>unic</code>?
+A.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-27 13:39:57" itemprop=datePublished>
+2008-01-27 13:39:57
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Eric,
+which version of InDesign was first to support the opentypeFeatures property?
+A.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-28 12:05:03" itemprop=datePublished>
+2008-01-28 12:05:03
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Yes, you can use any OpenType feature and InDesign will apply them blindly. However, you can have trouble if you apply a feature (example 'swsh') that InDesign has an alternate way of applying -- in this case, InDesign may turn it off. Both GPOS & GSUB features should work. Of course, any 1:many glyph substitutions will still fail.
+Also, you can create character or paragraph styles and modify them via scripting to add features using the code above -- a style is another "text target" for these commands. Or, you can apply the feature to text and it the "new style" button which will load these attributes into the style, even though the UI doesn't support them.
+WARNING: this is a way to confuse less savvy users who may get the documents later...</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-28 16:41:33" itemprop=datePublished>
+2008-01-28 16:41:33
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>emenninga</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>There was an older mechanism that was replaced by the syntax above in CS2. I think the older one was "OpenTypeFeatures" (not sure how the capitalization is done between the different scripting systems). It specified 2 integers instead of a string & an integer, so it would be harder to use.
+New
+<code>myObject.opentypeFeatures = [ ["salt", 0], ["pcap", 0] ];</code>
+Old (something like this)
+<code>myObject.openTypeFeatures = [0x81617282, 0, 0x7a63617a, 0];</code>
+I made up those hexadecimal numbers, but you get the drift.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-28 16:51:38" itemprop=datePublished>
+2008-01-28 16:51:38
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>emenninga</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

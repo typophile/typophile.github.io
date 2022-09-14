@@ -1,0 +1,183 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>More on word spaces | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="More on word spaces">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/32338/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2007-03-18T02:40:04+00:00">
+<meta property="article:modified_time" content="2007-03-18T02:40:04+00:00">
+<meta itemprop=name content="More on word spaces">
+<meta itemprop=description content><meta itemprop=datePublished content="2007-03-18T02:40:04+00:00">
+<meta itemprop=dateModified content="2007-03-18T02:40:04+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="More on word spaces">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">More on word spaces</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2007-03-18T02:40:04Z>March 18, 2007</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>I still think determination of the spaceband values is the comp's responsibility, but I've had to work on making a couple of OpenType fonts from old Type 1's the past couple of days, and did a little testing.
+Background: From 1985 to 2006, we set type using our own implementation of TeX, where you could specify not only the wordspace and min-max values, but also program various penalties to control how TeX worked. Even with the paragraph composer, InDesign obviously uses different "penalties," and much less is programmable than TeX. So with InDesign, when we use the same ideal and min-max equivalent values, the line-ending decisions were different from the same text set using our old version of TeX -- essentially, the type set to tight, but when the "min" was adjusted upwards to limit the number of too-tight lines, the whole page set looser.
+I decided to take a different tack, and tried to determine the best "ideal" value by setting ragged right, vary the "ideal" spaceband value with a couple of fonts to see what was the smallest value that would still look good with 11/13 Bembo and 11/13.5 Fournier. These were re-worked fonts even in Type 1, & I may well have changed sidebearings as well as given them more weight & reduced the contrast, so no claims are made about the fonts as they set out-of-the-box. I will note that the Bembo now has a fair bit of the feel of hot-metal Monotype Bembo (we compared it to a Bembo setting by Stinehour for a paper given at the AAUP meeting in 2003).
+In both cases, this worked out to be about 200 units, or a 5-to-em space. This due to my notion that if we use a higher minimum value (seems to be necessary with InDesign), the smaller "ideal" value will still lead to fairly tight lines. I'm not sure about this yet; if anyone cares, I'll report when some printed books come back.
+This 5-to-em is tighter than classical settings. If you read Dowding's <cite> Factors in the Choice of Typefaces</cite> (London: Wace, 1957) -- I believe the appendix, but don't remember for sure, he recommends a 4-to-em space for Bembo. And anyone who has looked at the Wace edition (London, 1954) of <cite> Finer Points in the Spacing and Arrangement of Type</cite> knows Dowding will compromise anything except tight spacing. This doesn't show in the later Hartley & Marks edition, but Dowding supervised the composition of the original Wace edition, and there are lines in there set so tightly that no editor would allow them.
+So what is going on? Well, first of all, the H&J algorithm of InDesign is a bit odd, but that's what got Adobe a patent, I guess.
+More importantly, we are kerning type now in ways that were not possible with older hot-metal Monotype (Linotype, dropping molds, could not have kerning in any case). With kerning, the letterfit is often tighter, so the spaceband can be smaller while preserving the appearance of the line.
+A contrasting factor, with several commercial OpenType fonts, is the kerns used with the space character itself (this is a factor that reduces the minimum space value that can be used). For example, with Minion (or maybe Adobe Garamond Pro), there is a positive kern between "f" and "space" -- about 30 units, as I remember. But there is a whopping negative kern between "space" and "quotedblleft", so much so that the string ["f" "space" "quotedlbleft" "one"] has more optical space between the "quotedblleft" and "one" (oldstyle) than between ["f" "space" "quotedblleft"], even though a wordspace intervenes.
+I think one shouldn't use pairs kerning around a space. You need triplets, not supported, to my knowledge, with any OT features. So, for example, ["a" "space" "y"] can use a kern because of the letterforms. ["f" "space" "W"] cannot, though ["period" "space" "W"] can -- and a hefty one, to boot.
+We put these in when setting type, but is by preprocessing & looking for triplets, not pairs kerning in the font.
+Anyway, such "space" kerns limit the minimum space value that can be used in InDesign. I'll note this was not a factor in the re-worked Bembo or Fournier, since I don't use such "space" kerns but rely on preprocessing.
+And thinking on it, as I remember, Quadraat (which also sets tightly) uses a small space value in the font, about 6-to-em.
+Finally, I also had to convert an old Type 1 bold & ultra font today. While the sidebearings of the letters were smaller than their roman counterparts, the "space" value was larger. And to my eye, about right.
+FWIW</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks for your detailed notes! All very interesting.
+I'm writing a little typesetting program (for OS X), and will borrow (if okay with you) the idea of externalizing the various penalties & settings used in the linebreaking algorithm.
+--John</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-03-18 06:17:04" itemprop=datePublished>
+2007-03-18 06:17:04
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>jslabovitz</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Charles Ellertson wrote:
+<cite>I think one shouldn’t use pairs kerning around a space. You need triplets, not supported, to my knowledge, with any OT features. So, for example, [“a” “space” “y”] can use a kern because of the letterforms.</cite>
+This is an interesting idea. But instead of using contextual kerning (i.e. of triplets in this case) I would suggest a slightly different approach:
+If the layout engine finds a space, it should examine if there is a kerning value for the pair glyph-preceding-space glyph-following-space, and the apply this value to the glyph-preceding-space. (Technically, kerning is the adjustment of the advance width of the first glyph of a pair. I.e., if a pair "A" "V" is kerned at -50, this means that the original total width of "A" is decreased by 50.)
+Reasons for this approach:
+(1) Working with triplets would double the kerning table because in theory every kerned pair could be "disturbed" by a space inbetween them. It would be much easier to have the layout engine perform this task.
+And, I am not sure if every layout engine would apply contextual kerning (context including the "space" character) if the text uses non-break-, em-, en- or another kind of space. Proper behavior may not be granted.
+(2) If spacing adjustment is required between two glyphs, then it is also required if the space inbetween is wider (at the amount of the "space" glyph). Luckily, most of the time the additional "space" inbetween two glyph makes the mal-spacing almost invisible.
+Charles Ellertson wrote:
+<cite>[“f” “space” “W”] cannot, though [“period” “space” “W”] can — and a hefty one, to boot.</cite>
+Have you tried this? For the OT feature, it does not make a difference whether a glyph is an "f" or a "period". [edit: Or do you say this with design rather than technology in mind?]</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-03-18 13:52:03" itemprop=datePublished>
+2007-03-18 13:52:03
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><cite>If the layout engine finds a space, it should examine if there is a kerning value for the pair glyph-preceding-space glyph-following-space, and the apply this value to the glyph-preceding-space. (Technically, kerning is the adjustment of the advance width of the first glyph of a pair. I.e., if a pair “A” “V” is kerned at -50, this means that the original total width of “A” is decreased by 50.)</cite>
+It sounds like it might work, though I have found -- the hard way -- that a number of my ideas solve one problem at the expense of creating another. Further, an "f" "W" kern wouldn't be one I would normally write, since it wouldn't come up very often. Such a plan, for the greatest efficacy, would require kerns for many unlikely lower-case/upper-case pairs.
+For the particularly troublesome letters, like the lower-case "f", I've found it better in OT to create a ".terminal" which is used whenever a the letter is followed by a word space. For an "f.terminal" for example, the right sidebearing is increased a bit, and the upper stroke of the "f" shortened a bit. Seems to work.
+Before OT, we would look for "f" "space" "next letter" combinations & adjust with the preprocessing routine. Candidates were all letters that had an element at the upper left corner, such as b, l, h, k, bracketleft, quoteleft, and a series of caps, B,D,E,F,H,I,K,L,M,N,P,R,T,V,W,X,Y. We would then add a kern in the file to adjust the spacing. And we may go back to this if the '.terminal" doesn't work as well as I hope -- we have to preprocess anyhow, as there is no way to adjust spacing with some other constructions, such as when an italic "l" is followed by a roman close paren, or roman close quote (or roman anything, for that matter).
+But the preprocessing of files is a typesetter's solution & nothing a font designer can help with. A few terminal letters, on the other hand, could be a good font feature.
+<cite>Charles Ellertson wrote:</cite>
+[“f” “space” “W”] cannot, though [“period” “space” “W”] can — and a hefty one, to boot.
+<cite>Have you tried this? For the OT feature, it does not make a difference whether a glyph is an “f” or a “period”.</cite>
+Yes and no. I've used these constructions with preprocessing text, and would usually add about -(75/1000) to the "W" following a space preceded by a period or comma. But these preprocessing routines do have some font-specific elements, and sitting at home on a Sunday morning, I can't remember if that is one. Moreover, we do re-kern most of our text fonts, and one character that gets a lot of attention is the "period". I'm old school enough to think that a period should not be too tightly kerned to a preceding letter; it is not a diacritic. So in most of our fonts, esp. with lower case letters, a period will optically be at least at the right edge of the preceding letter. The lower-case "f" is a possible exception, depending on the "f". But another principle we have, adopted before OT gave us the possibility of automatic contextual substitutions, was to give the "f" a more natural right sidebearing, say -(90/1000) or so, and accept the need to kern many following lower-case letters.
+Given that the period extends at least a bit beyond a preceding letter, then yes, a "period" "space" "W" can take a negative kern, whereas an "f" "space" "W" cannot.
+I have sometimes found it helpful to go back & think through how compositors worked with hand-set foundry type. You put in the smallest value you're willing to use for a word space, then when you add space to justify the line, you can skip adding space (or adding as much space) certain places.
+Computer-assisted composition changes this; instead of skipping a point when adding space to justify the line, the spaces are all the same, so you must make a different kind of change (a kern) to get the same optical effect. But the points you select would be the same.
+And in case it matters, I do think that computer comp, particularly with OT fonts, can give us better typesetting that was ever achieved with metal type, either hot or cold. Getting the printing right with offset presses and modern papers is one issue, getting a certain variableness in the letterforms themselves may be an issue for some, but that too is quite possible.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-03-18 15:22:09" itemprop=datePublished>
+2007-03-18 15:22:09
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><cite>If the layout engine finds a space, it should examine if there is a kerning value for the pair glyph-preceding-space glyph-following-space, and the apply this value to the glyph-preceding-space. (Technically, kerning is the adjustment of the advance width of the first glyph of a pair. I.e., if a pair “A” “V” is kerned at -50, this means that the original total width of “A” is decreased by 50.)</cite>
+I remember a problem with this one now -- it was an idea my business partner also came up with back in the TeX days.
+One of my pet peeves was the period in abbreviations such as U.S.A. and D.C -- in certain sequences, the period following the letter was closer to the letter that followed it than it was to the letter it preceded -- such as the period between "S" and "A", so I would kern the pairs "period" and "S" and "period" and "A" and a few others.
+If you do this, then on the system you propose, this positive kern between the period and a following capital would be applied when a space intervened, and that would usually be unfortunate.
+Doesn't mean it won't work, but the compositor's would need to come up with another solution to the "periods in abbreviations" matter.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-03-18 15:40:52" itemprop=datePublished>
+2007-03-18 15:40:52
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>About "f" "W" and unlikely pairs, this is true and was subject of the <a href=http://typophile.com/node/30960 target=_blank>Brute Force Testing</a> thread. (The type designer does not know for which language his typefaces will be used, he may test a couple of them, but there are very likely languages, and letter combination, that he has not even thought of; so it's better to kern more than less -- many combinations I mean, not tight kerning.
+What you write about the "f" and a special ".terminal" alternate is interesting. In fact, for my own typefaces I always make two "f"s, one with a short, another with a longer terminal. The first is the standard form, also used if space follows, while the latter is used if following letters' shapes allow. (Similar for "g" with shorter and longer ear.) Tim Ahrens does this in Lapture, his digital interpretation of Kapr's Leipziger Antiqua; also, he uses a "v" with shorter right serif if e.g. an "i" follows, so the two serifs don't connect.
+<cite>Given that the period extends at least a bit beyond a preceding letter, then yes, a "period" "space" "W" can take a negative kern, whereas an "f" "space" "W" cannot.</cite>
+Ah, you speak of design/spacing, not technology.
+As to the U.S.A. example, this is true. I consider kerning letter--punctuation to be as important as kerning punctuation--letter, for the example you give, but also for email addresses or urls where a lowercase letter may both precede and follow e.g. a period.
+Then the method I propose may indeed replace certain inconveniences by others. As I find the time, I will make an experiment and add, for every kerning pair in a font, an equivalent contextual kerning pair (letter--space--letter), to see how many problematic combinations will arise. Now I am curious.
+Out of interest, did I understand you correctly that you gave up using TeX? If so, why?
+Best wishes, Karsten</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-03-18 21:25:47" itemprop=datePublished>
+2007-03-18 21:25:47
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Karsten,
+We stopped using TeX (like last month) for a number of reasons. The basic program was Berthold Horn's Y&Y TeX, and Berthold got out of the TeX business. He and my business partner, Larry Tseng, had been working on some problems with TeX's imbedding color images, and that was never really resolved.
+The whole matter of color space, both the K-plate (grayscale) and CMYK is an issue for us, as academic publishing has changed so much. And with TeX, there was no swapping out low-res images with hi-res ones by the printer. Though we prefer to prepare any art ourselves, there are times when we don't have enough manpower, or when the client doesn't have the budget.
+Then there was the mortality issue -- after a certain point, only Larry can do the programming (he wrote the pagination program we used), and after a certain point, only I can do the type. Maybe if one of us had an extended hospital stay the other could fill in, but it seemed smarter to move to a situation where out of the box programs <cite>could</cite> be used. In short, we're getting old. No one else in the company can easily fill in, and it would be worse with TeX.
+Finally, book design itself is changing -- more like magazines, I suppose. There are things easy to do with InDesign that are hard to do in TeX -- like drawing -- and seem to be on the increase. Ah, for the days when the designer only had tracing paper.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-03-19 01:58:04" itemprop=datePublished>
+2007-03-19 01:58:04
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

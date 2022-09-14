@@ -1,0 +1,518 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Fractions and nut fractions in the same opentype font? | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Fractions and nut fractions in the same opentype font?">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/28608/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2006-10-05T18:38:19+00:00">
+<meta property="article:modified_time" content="2006-10-05T18:38:19+00:00">
+<meta itemprop=name content="Fractions and nut fractions in the same opentype font?">
+<meta itemprop=description content><meta itemprop=datePublished content="2006-10-05T18:38:19+00:00">
+<meta itemprop=dateModified content="2006-10-05T18:38:19+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Fractions and nut fractions in the same opentype font?">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Fractions and nut fractions in the same opentype font?</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2006-10-05T18:38:19Z>October 5, 2006</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Sebastian Nagel</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>Dear Typophiles,
+is it possible to have two types of fraction (slashed and nuts) in the same font? I have the slashed ones implented via frac-feature in opentype, so I can have fractions like 2323423/34575685 or 15/4. This works fine in Indesign CS2 already.
+How do I implement additional nut fractions? Is it possible via Opentype, and if yes, what is best practice?
+Thanks for your help
+Sebastian
+Here is the code I used for slashed fractions (I think I got it from here, because I can't imagine that I invented this on my own...)
+feature frac {
+lookup FRAC {
+sub [zero zero.onum zero.superior zero.subscript zero.denominator] by zero.numerator;
+sub [one one.onum onesuperior one.subscript one.denominator] by one.numerator;
+sub [two two.onum twosuperior two.subscript two.denominator] by two.numerator;
+sub [three three.onum threesuperior three.subscript three.denominator] by three.numerator;
+sub [four four.onum four.superior four.subscript four.denominator] by four.numerator;
+sub [five five.onum five.superior five.subscript five.denominator] by five.numerator;
+sub [six six.onum six.superior six.subscript six.denominator] by six.numerator;
+sub [seven seven.onum seven.superior seven.subscript seven.denominator] by seven.numerator;
+sub [eight eight.onum eight.superior eight.subscript eight.denominator] by eight.numerator;
+sub [nine nine.onum nine.superior nine.subscript nine.denominator] by nine.numerator;
+} FRAC;
+sub zero.numerator' slash' zero.numerator' zero.numerator' by perthousand;
+sub zero.numerator' slash' zero.numerator' by percent;
+sub one.numerator' slash' two.numerator' by onehalf;
+sub one.numerator' slash' three.numerator' by onethird;
+sub two.numerator' slash' three.numerator' by twothirds;
+sub one.numerator' slash' four.numerator' by onequarter;
+sub three.numerator' slash' four.numerator' by threequarters;
+sub one.numerator' slash' five.numerator' by onefifth;
+sub two.numerator' slash' five.numerator' by twofifths;
+sub three.numerator' slash' five.numerator' by threefifths;
+sub four.numerator' slash' five.numerator' by fourfifths;
+sub one.numerator' slash' six.numerator' by onesixth;
+sub five.numerator' slash' six.numerator' by fivesixths;
+sub one.numerator' slash' eight.numerator' by oneeighth;
+sub three.numerator' slash' eight.numerator' by threeeighths;
+sub five.numerator' slash' eight.numerator' by fiveeighths;
+sub seven.numerator' slash' eight.numerator' by seveneighths;
+sub [slash @FIG_DNOM @FIG_FRAC] @FIG_NUM' by @FIG_DNOM;
+sub [slash] by fraction;
+} frac; </div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Check out the alternative fractions feature definition at:
+http://www.microsoft.com/typography/otspec/features_ae.htm
+but since I don't think there's much support for that feature, I'd also include the nut fractions in a style set and in stylistic alternates.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-05 18:49:56" itemprop=datePublished>
+2006-10-05 18:49:56
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Nolan</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Hmmm can you tell me what a nut fraction is?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-05 19:39:06" itemprop=datePublished>
+2006-10-05 19:39:06
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Datura513</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thank you John.
+Stylistic Sets was my thought too, but I wanted to hear it from somebody else...
+Datura513: you can see them in this thread:
+http://typophile.com/node/2897
+fifth posting
+left: slashed fractions
+right: nut fractions
+"nut" because it's as wide as an en-space, which was called "nut" in lead-times.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-05 20:32:14" itemprop=datePublished>
+2006-10-05 20:32:14
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Sebastian Nagel</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Oh, that's what I thought you were talking about. I've been using MathMagic Personal to insert nut fractions into Indesign.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-05 20:37:46" itemprop=datePublished>
+2006-10-05 20:37:46
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Datura513</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I have nut fractions as the default fraction feature in Austin, which I am publishing next year.
+http://typophile.com/node/28517
+Here's the code:
+sub @FIGURES' slash by @numr2;
+sub slash' @FIGURES @FIGURES by nut2;
+sub @FIGURES @numr2' nut2 by @sups;
+sub slash by nut;
+sub [nut2 nut] @FIGURES' by @sinf;
+sub @numr2' nut by @sups;
+sub @FIGURES' @numr2 by @sups;
+sub @sinf @FIGURES' by @sinf;
+sub @sups @numr2' by @sups;
+There are two "negatively-sidebearinged" nut bars, one for single-digit denominators, and one for two-digit denominators. There is a class of numerator characters with extra sidebearing width, to centre over double-digit denominators. This system works perfectly for everything from 0/0 to 99/99, but only in InDesign!
+In the same font, users can build slash fractions by selecting numerator and denominator features. (This is possible, because the nut fractions use the smaller superior and inferior figures). I have also included the basic fractions in the font, as composite characters, in the nut configuration.
+The reason I put the nut fractions first is because they are appropriate to the style of the typeface (a scotch modern revival).</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-05 21:56:55" itemprop=datePublished>
+2006-10-05 21:56:55
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>For all those interested, the current best practice at Adobe regarding the 'frac' feature, is to NOT access pre-composed fractions (onehalf, onethird, etc.) via OpenType layout substitutions. The glyphs are included in the fonts (where applicable) and assigned Unicode values accordingly, but there is not reference to them in the features.
+Our goal for taking this approach is to preserve the character stream as it was input by the user, i.e. <strong>U+0031 U+002F U+0032</strong> (1/2) won't be replaced by <strong>U+00BD</strong> (&#189;). This means that all fractions are by default arbitrary, and therefore the elements that compose them need to kerned as needed.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-08 11:50:21" itemprop=datePublished>
+2006-10-08 11:50:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks Nick and Miguel for your input.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-08 14:23:47" itemprop=datePublished>
+2006-10-08 14:23:47
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Sebastian Nagel</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I'd include the diagonal (slashed) fractions in the "frac" feature, and the vertical ("nut") fractions in the "afrc" feature and in the "salt" and "ss01" features for the glyphs that are produced in "frac". The code may be a bit tricky if you want to support vertical fractions with more than one digit in the numerator or in the denominator. </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-19 08:05:38" itemprop=datePublished>
+2006-10-19 08:05:38
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em>the vertical (“nut”) fractions in the “afrc” feature and in the “salt” and “ss01” features for the glyphs that are produced in “frac” </em>
+Is there any point in making an "afrc" feature, if it is not supported by layout applications?
+It's like the "hist" feature in that sense.
+***
+It would be good if font developers could name their "salt" features, and have those names appear in the OpenType menu.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-19 21:54:24" itemprop=datePublished>
+2006-10-19 21:54:24
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em>It would be good if font developers could name their “salt” features, and have those names appear in the OpenType menu.</em>
+you mean your ss01-ss20 features?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-19 22:06:03" itemprop=datePublished>
+2006-10-19 22:06:03
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Yes.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-20 18:32:18" itemprop=datePublished>
+2006-10-20 18:32:18
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>"It would be good if font developers could name their “salt” features, and have those names appear in the OpenType menu."
+Nick,
+are you prepared to ship names for your stylistic sets in 30-40 or so different languages into which applications are localized these days? Or would you expect that users for some reason accept that portions of their user interfaces use a foreign language?
+A.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-25 16:10:59" itemprop=datePublished>
+2006-10-25 16:10:59
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Good point, Adam.
+Yes, I would get the translation made.
+Alternatively, icons would be useful. Certainly to distinguish between nut and slash fractions would be easy.
+After all, if Adobe thinks it's OK to clutter up my OS X desktop with their dysfunctional CS icon candy, I wouldn't mind cluttering up their InDesign interface with a few icons of my own :-). Actually, if that is the issue, perhaps Adobe/MS could commission someone to design a set of icons for OpenType features.
+Thanks for getting me thinking on this -- looks like I will have to provide multi-lingual PDF manuals for my OpenType fonts. </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-26 22:20:50" itemprop=datePublished>
+2006-10-26 22:20:50
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Adam's recommendation is mine as well, for most fonts.
+As for why include features that aren't supported by current applications, we've talked about this before. Many applications are revised every 1.5 to 2 years. The lifespan of a font is five or ten times that, so it's shortsighted to only deal with what's supported by the apps that are shipping this month.
+Cheers,
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-29 01:45:14" itemprop=datePublished>
+2006-10-29 01:45:14
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Nick,
+the problem is that *you* would commission translations for maybe 25 languages, somebody else would do so for just 7 languages, and yet someone else would only provide English names. In the end, there would be always the danger that the user in a non-English locale would get a random mix of translated and untranslated names depending on the selected font. This is not the kind of user experience that is desirable in today's world. These days, the user expectancy is "translate well or not at all". A localized application with one of the menus appearing untranslated looks unprofessional.
+A.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-29 06:25:17" itemprop=datePublished>
+2006-10-29 06:25:17
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Your logic is impeccable as ever Adam, but given the scenario you describe, I think that the tendency would be towards word-free icons, as in the Illustrator OT menu. And I really do prefer words -- as I mentioned, I have never warmed to the OS X interface, and still rely on the pop-up words to distinguish InDesign from Photoshop in the "Dock". I am still confused between "paragraph leading" and "paragraph indent" in the InDesign menu, despite many years of almost daily use.
+What I would really like to see:
+* First, the Fraction features should be properly conceived, named as "sfrc" and "nfrc", not "frac" and "afrc". In other words, they should be Slash and Nut, not with a designation that assumes the Nut is the alternate.
+*Secondly, I'd like to see two options in the OT menu, Slash and Nut, with icons and pop-up names, as in Illustrator.
+*Thirdly, where a feature is absent from a font, no greyed-out or unchecked menu item, just nothing.
+Even if fonts don't have an arbitrary nut fraction feature, which is problematic to implement, it would still be feasible for foundries to include the basic fractions (halfs, quarters, eights and thirds) as composite glyphs, programmed to the "nfrc" feature.
+While I appreciate the logic of standardization, I also find that typographically it makes too many assumptions about what the default feature should be. Why does every typeface have to have tabular lining figures as the default? Why does every typeface have to have slash fractions as the default? Why not two figure styles instead of one or four?
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-29 17:37:20" itemprop=datePublished>
+2006-10-29 17:37:20
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>/track that</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-07-26 17:28:37" itemprop=datePublished>
+2009-07-26 17:28:37
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Michael Hernan</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>"“translate well or not at all”. "
+As far as Stylistic Sets go, I would rather see a poorly translated descriptive name than a meaningless number. Showing nothing, tells me nothing.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-07-26 18:06:18" itemprop=datePublished>
+2009-07-26 18:06:18
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I read this in tandem to another thread (Dan Reynolds') on a superior alignment in which Thomas Phinney asks of other fonts with nut fractions.
+http://typophile.com/node/16879
+For your interest, here is their provisional placement in Pseudo Text.
+[img:sites/default/files/old-images/Pseudo-nut-fraction_5178.png]
+_________________________________
+Michael Hernan</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-07-27 00:23:33" itemprop=datePublished>
+2009-07-27 00:23:33
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Michael Hernan</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I really like the solution found in Underware's new Liza Pro fonts: so that nut fractions are applied when the fractions feature + tabular figures feature are applied together. </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-07-28 02:23:57" itemprop=datePublished>
+2009-07-28 02:23:57
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>What if someone wanted nut fractions with proportional figures?
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-07-28 05:10:16" itemprop=datePublished>
+2009-07-28 05:10:16
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Here is the info on Underware (Cheers Paul)
+http://www.underware.nl/site2/index.php?id1=liza&id2=features
+
+[Show all opentype features and expand more info]
+I like this, as it makes absolute sense to have have nut fractions for tables... BUT...
+@Nick - I don't quite understand your question.
+From my perspective which currently is: use inline in a set text- I am working on fractions themselves that will consist of numbers approximate in design to (scaled down) lining Figures. These wouldn't naturally line up with Text Lining figures as shown above. If they were to do so, would make the nut fraction too small (surely [untested]). I know it would be difficult to beef up the small numbers to match the density of Lining Figures. [I would hope there is no need for nut fractions in Bold surly]
+There lies the challenge.
+However this is exactly how the Liza Pro has them for table use... which I like the idea of.
+I have just seen in the User Guide PDF that the nut fractions extend both up (above the Cap height) and down (below the base line) by quite a bit, making them not so good for annual reports but great for 50s style advertising vernacular ephemera.
+I was thinking this is also the way (Nut-style) to have fractions for a titling alternative style.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-07-28 20:39:49" itemprop=datePublished>
+2009-07-28 20:39:49
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Michael Hernan</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>@ nick, then don't apply the tabular figures feature to your figures, just the fractions.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-07-29 00:48:15" itemprop=datePublished>
+2009-07-29 00:48:15
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>@paul, that would be a lot of work. Shouldn't figure and fraction features be global?
+IMO, the alternative fraction style, whether slash or nut fractions, should be independently applicable to figure styles.
+As "afrc" is not yet supported by layout apps, that means the alternate fraction style should be put in a stylistic set or the titling feature.
+@michael, I've made nut fractions the default for the Modern Suite fonts--all weights and styles--extending below the baseline. I don't see why this depth would be a problem anywhere that fractions are used; in fact, it means that mathematical operators are vertically centred on the nut fractions. The alternative fractions (arbitrary slash) are available in the titling feature.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-07-30 05:04:38" itemprop=datePublished>
+2009-07-30 05:04:38
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>some features probably shouldn't be applied globally. IMO fractions is one of these cases.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-07-30 18:26:37" itemprop=datePublished>
+2009-07-30 18:26:37
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>IMO fractions is a perfect example of a feature that should be global, so that it can be put in a style sheet for, say, recipe ingredients in a cook book, or the size captions in a catalog. Somewhat North American, of course, as metric not favored for such things here.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-08-02 19:14:07" itemprop=datePublished>
+2009-08-02 19:14:07
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Even if the code is very clever, it can't distinguish between a real fraction and a date using a slash separator (that doesn't include the year). 9/11 anyone? Is 2/3 = Feb 3rd, 2nd Mar, or two thirds?
+Ergo, being in the habit of using fractions globally would be dangerous, even if the fractions were coded as well as possible for that purpose.
+Of course, one could do fraction code in a manner more forgiving to users than Adobe's approach, but it would get pretty complex.
+Cheers,
+T
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-08-02 21:18:51" itemprop=datePublished>
+2009-08-02 21:18:51
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

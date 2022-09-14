@@ -1,0 +1,251 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Standards for Unicode Private Use Area? | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Standards for Unicode Private Use Area?">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/16858/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2005-12-18T05:01:31+00:00">
+<meta property="article:modified_time" content="2005-12-18T05:01:31+00:00">
+<meta itemprop=name content="Standards for Unicode Private Use Area?">
+<meta itemprop=description content><meta itemprop=datePublished content="2005-12-18T05:01:31+00:00">
+<meta itemprop=dateModified content="2005-12-18T05:01:31+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Standards for Unicode Private Use Area?">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Standards for Unicode Private Use Area?</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2005-12-18T05:01:31Z>December 18, 2005</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ishamid</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>Dear typophiles,
+What are the standards for using the Unicode Private Use Area's? For example, comparing Adobe Garamond Pro and Adobe Minion Pro:
+1. old-style numeral zero is represented in both by F730;
+2. For E04E, Garamond has Sacute.titling, while Minion Pro has orn.001 (an ornament).
+Are there any guidelines for this or is it just the wild west? (Context: working on an Arabic expert font, need a sane encoding scheme for alternates, swashes, etc.)
+Best
+Idris</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Great post. Check this out <a href=http://www.wiredworx.net>Press Release Service</a>.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2013-07-26 05:18:26" itemprop=datePublished>
+2013-07-26 05:18:26
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>jakemiller70</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>It is the wild west, in more ways than one. You don't need to encode glyph variants in your fonts, and I strongly recommend against using PUA codepoints for any text. In you case, though, it is a moot point, because all PUA codepoints have a presumed left-to-right directionality, so they are useless for Arabic.
+Adobe and some other developers have used PUA codepoints for glyph variants so that there was a way to access them in applications that do not support OpenType Layout. I think this is a terrible idea, because PUA codepoints are a kind of textual infection: once you introduce them to text, you lose the ability to search, sort, spellcheck, etc., and if you try to display the text in a different font there is no way to know what glyphs you will get, if any, for the PUA codepoints.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-12-18 05:38:26" itemprop=datePublished>
+2005-12-18 05:38:26
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thank you very much for your insights-)
+So what do I do for alternate glyphs in an Arabic font? I am not talking about the usual contextual variants (ini, med, end, and iso) or ligatures, but rather alternates (like swashes). So, e.g., [nun]-iso (0646) may have a usual glyph and a swash variant [nun.swash] (generally used to improve paragraph and line spacing). How do I encode [nun.swash]?
+Related question: If Adobe Accrobat 7.05 (which claims better Arabic support) opens the opentype font, will it be able to tell that [nun.swash] is to be treated like [nun]?
+Don't know too much about OTF; in the TeX world we can use them, but don't make direct use of the tables; we mostly use our own encoding files instead.
+Thnx again and
+Best
+Idris</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-12-18 19:56:25" itemprop=datePublished>
+2005-12-18 19:56:25
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ishamid</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Just an aside: I think that encoding Arabic ligatures (As in Arabic Presentation Forms A) was a really bad idea. The list is not exhaustive and many of these are virtually never used.
+Indeed, the whole concept of ligatures with respect to Arabic is generally very poorly thought out. When one works on highly vowelized classical text (as I do->) the limitations of this approach becomes very apparent. I am working on an alternate approach, which maintains the beauty of Classical Arabic-script while disposing of ligatures (except for a couple or so).
+Best</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-12-18 20:10:12" itemprop=datePublished>
+2005-12-18 20:10:12
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ishamid</span></span>
+</div>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Is there anything wrong with me using Minion Pro's PUA codepoints in my fonts?
+(Other than promulgating a bad idea, John.)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-12-18 19:13:39" itemprop=datePublished>
+2005-12-18 19:13:39
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>In an Open Type Arabic font, you don't need to encode the variants at all. The variants will be accessed through OpenType Layout features, which use glyph IDs in their lookups. So the underlying codepoint in text for the <em>nun</em> will always be U+0646, regardless of the variant shape used and the layout features applied. Most of the Arabic presentation form codepoints in Unicode were a political inclusion that provided a temporary method of doing basic Arabic shaping while waiting for smart font technology like OpenType, AAT and Graphite to come along. If applied in a pure way, the Unicode character/glyph model would have prohibited inclusion of any presentation form codepoints: all you should need are the characters for the Arabic letters. Everything else can be handled at the glyph processing level.
+I tend to agree with you about Arabic 'ligatures'. Have you read Tom Milo's essay in the book <em>Language Culture Type</em>? It is an excellent analysis of the Arabic writing system and mounts a compelling argument against the whole notion of ligatures in Arabic. You might find my essay in the same book helpful in terms of understanding OpenType language processing (although I'm still embarassed about the Arabic-related typo in one of my examples: I really do know the difference between <em>kaf</em> and <em>lam!</em>)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-12-19 04:22:04" itemprop=datePublished>
+2005-12-19 04:22:04
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I will look up <em> Language Culture Type </em>. I am quite pleasantly surprised that I apparently came to the same conclusion as Milo, without having read any of his work-)***
+Actually, there is arguably one true "ligature" in Arabic: the lam-alif combination. It is interesting that some of the earliest Islamic sources refer to the lam-alif combo (pronounced "laa") as a single character of the Arabic alphabet!
+Thnx for all of the explanations.
+***Milo's naskh, of course, is one of the very best, perhaps superseded only by Mishafi (www.diwan.com)
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-12-19 04:42:36" itemprop=datePublished>
+2005-12-19 04:42:36
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ishamid</span></span>
+</div>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em>Actually, there is arguably one true “ligature” in Arabic: the lam-alif combination. It is interesting that some of the earliest Islamic sources refer to the lam-alif combo (pronounced “laa”) as a single character of the Arabic alphabet!</em>
+When talking about type, especially in regard to smart digital fonts, I tend to use the term ligature to refer to a specific display solution, i.e. the rendering of more than one character as a single glyph. This is the level at which analysis of the Arabic script and implementation meet, and hence where it gets interesting. If one's analysis of the script is that the form of each letter varies according to adjacent context, i.e. is determined by the particular shape of the preceding and/or following letter, then one can describe the lam_alif 'ligature' in the same terms: this is the form that the lam takes when followed by alif, and this is the form that alif takes when preceded by lam. What confuses the analysis is trying to determine where the lam ends and the alif begins, which is probably why this combination has been taken as a singular textual element. But the analysis is valid enough for some fonts to implement the writing of lam+alif using two glyphs, rather than one ligature.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-12-19 20:36:51" itemprop=datePublished>
+2005-12-19 20:36:51
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em> What confuses the analysis is trying to determine where the lam ends and the alif begins, which is probably why this combination has been taken as a singular textual element.</em>
+Actually, the primordial reason is more cosmological/numerological. The word [laa] (symbolized by [laam]-[alif]) means "no", as in, "No god but Allah". The symbol for the negation is counted as a single "letter" of the alphabet. It is also significant that the Arabic for "No god but Allah" is composed only of alif's and laam's (with a haa at the end). Phenomenologically "laa" symbolizes the stage of mystical or unitary consciousness where all discrimination ceases. At the same time the name for this character/letter is just [laam-alif]. The point is that no other letter combination is reified as such in Classical Arabic other than this one: It is often and traditionally counted as the second-to-last letter of the alphabet. Thus one could make a strong argument for maintaining it as a ligature in the Unicode main Arabic block. [laam-alif] is in the interesting (and perhaps unique) situation of being both a ligature and a single character at the same time
+Of course, for type design and typography purposes this is all <em>practically</em> irrelevant-) But on philosophical grounds I would place U-FEFB in the U-0600 block...
+Best</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-12-21 20:13:37" itemprop=datePublished>
+2005-12-21 20:13:37
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ishamid</span></span>
+</div>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Great stuff, Idris.
+Are you familiar with the background of the Hebrew alef_lamed ligature? It isn't as interesting cosmologically as the Arabic lam_alif, but is fascinating nonetheless. See this thread: http://www.typophile.com/node/3306
+One of the most interesting images I've seen in the last few years is a photograph of an early mediaeval manuscript of Hebrew language text writtin in the Arabic alphabet but with Hebrew vowel marking. How's that for a cultural statement!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-12-22 07:17:52" itemprop=datePublished>
+2005-12-22 07:17:52
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thank you very much for pointing out that thread, John.
+My medium term project includes a font for Arabic written in Hebrew characters (common in the middle ages: some Islamic philosophy (like Averroes) was transmitted to the Latin world that way), so this is of great interest to me.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-12-23 02:58:20" itemprop=datePublished>
+2005-12-23 02:58:20
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ishamid</span></span>
+</div>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>So, I guess the answre to the first question in the thread would be: "there aren't any"?
+Is it perfectly all right to stuff the private use area with whatever random glyphs that are not encoded elsewhere, with no regard to order or popular consensus?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-05-08 22:08:16" itemprop=datePublished>
+2007-05-08 22:08:16
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>cuttlefish</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>It depends on what you intend your font to be used for. For example, if your font is going to include a large number of mediaeval variants forms, ligatures, and symbols, it might be a good idea to follow the standards laid out by a group so that your font can be used on all documents that previously used theirs, and vice versa. Basically, PUA is a sort of neutral-zone, where anyone can define their standard using standard code point references (as opposed to adding encoding slots which most likely won't be reproducible in all applications). A number of groups have collaborated to define these spaces but they are hardly required. For an example of how these work try reading more about the Medieval Unicode Font Initiative at http://gandalf.aksis.uib.no/mufi/ .
+On the other hand, if you're including dingbats, ornaments, or other features that can't or have no need to be transcoded (transliterated? transgraphemed? transcoded?) to another font, then feel free to fill it up as haphazardly as you'd like.
+<em>«El futuro es una línea tan fina que apenas nos damos cuenta de pintarla nosotros mismos». (La Luz Oscura, por Javier Guerrero)</em></div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-05-08 22:59:33" itemprop=datePublished>
+2007-05-08 22:59:33
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>guifa</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Scaling up an entire font | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Scaling up an entire font">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/42930/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2008-03-07T15:07:25+00:00">
+<meta property="article:modified_time" content="2008-03-07T15:07:25+00:00">
+<meta itemprop=name content="Scaling up an entire font">
+<meta itemprop=description content><meta itemprop=datePublished content="2008-03-07T15:07:25+00:00">
+<meta itemprop=dateModified content="2008-03-07T15:07:25+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Scaling up an entire font">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Scaling up an entire font</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2008-03-07T15:07:25Z>March 7, 2008</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>blank</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>The font design I am currently working on is too short within the em quad and I want to enlarge it. I think that the easiest way to do this is to determine the new cap height, what percentage to enlarge the letters to fit the new height, have Fontlab scale all the letters from the lower-left corner to meet the new height, and then fix the letters with descenders and space the font. Is this a good way to proceed?</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>That should work.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-03-07 16:13:46" itemprop=datePublished>
+2008-03-07 16:13:46
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>You could also just reduce the size of the em, i.e. set the UPM value to a smaller size. If you are making a TTF or OTF, the UPM value can be any positive integer value. This approach avoids outline scaling rounding errors within your font source.
+If taking this approach, be sure to turn OFF the option to scale all glyphs to the new UPM in the FontLab FontInfo dialogue.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-03-07 19:34:10" itemprop=datePublished>
+2008-03-07 19:34:10
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>When scaling, there is always the concern for rounding errors so check your outlines after scaling for consistency.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-03-07 19:37:57" itemprop=datePublished>
+2008-03-07 19:37:57
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Reducing the UPM without scaling the outlines will have the same optical effect as scaling up the outlines without changing the UPM, but it will be much easier to do (just change one number) and you won't have to fix up outlines etc.
+A.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-03-11 11:17:46" itemprop=datePublished>
+2008-03-11 11:17:46
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Yeah, what John and Adam said. If you scale the glyphs, there will be rounding errors such that some stems that were formerly the same thickness will become different.... if you have a lot of glyphs already, it can be pretty painful to check and correct.
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-03-14 06:35:41" itemprop=datePublished>
+2008-03-14 06:35:41
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I’ll tweak the UPM. Thanks for the help!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-03-14 15:31:28" itemprop=datePublished>
+2008-03-14 15:31:28
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>blank</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>When I change my UPM nothing happend! Why could be that? 24pt feels the same size!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-06 21:03:22" itemprop=datePublished>
+2009-02-06 21:03:22
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>mkoning</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>James, if you have time:
+- leave the em at 1000,
+- place a brute-scaled copy of each glyph in its background,
+- and scale/move the parts of each glyph manually to match the brute-scaled one.
+One day you might need a 1000-em version
+in a pinch, and then you'll lose mondo sleep.
+hhp
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-06 21:29:12" itemprop=datePublished>
+2009-02-06 21:29:12
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>hrant</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Michael, make sure you don't check "Scale all glyphs according to UPM size change" when you change the UPM. Otherwise, the relative size of the glyphs to the UPM will remain the same and the font will appear exactly the same size as before in applications. With the box checked, changing the UPM, in effect, simply changes the resolution of your font. With the box unchecked, changing the UPM changes the size of the glyphs relative to the type size.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-06 22:28:43" itemprop=datePublished>
+2009-02-06 22:28:43
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks!!! it works... and how can I avoid the cut problem on the top of each letter? In the preview mode, I realize that all the letters goes up and them are cutted :(
+Thanks!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-06 22:42:51" itemprop=datePublished>
+2009-02-06 22:42:51
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>mkoning</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Move the ascender line (and possibly the descender line) up. </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-08 14:53:48" itemprop=datePublished>
+2009-02-08 14:53:48
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Cool, thanks - is there any way to move ascender / descender lines in all glyphs at a time?
+Thanks!!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-08 21:12:44" itemprop=datePublished>
+2009-02-08 21:12:44
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>mkoning</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>That's what it does. You can't alter the vertical metrics for only one glyph. The entire font is affected. </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-08 21:20:29" itemprop=datePublished>
+2009-02-08 21:20:29
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Is that in Font Info? Can you tell me where exaclty? Thanks!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-08 22:16:28" itemprop=datePublished>
+2009-02-08 22:16:28
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>mkoning</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Michael, type design isn't something you should try to pick up and brush off in ten minutes. I think you're asking for too much hand-holding, and instead you should just read the manual and/or fool around for a while. You'll learn other things along the way too!
+hhp
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-08 22:22:18" itemprop=datePublished>
+2009-02-08 22:22:18
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>hrant</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Michael, it's in the Font Info box under Key Dimensions, but you can also change it in the Glyph editing window (assuming you haven't locked the vertical measurements layer). I also second Hrant's advice.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-08 23:11:03" itemprop=datePublished>
+2009-02-08 23:11:03
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>"I’ll tweak the UPM. Thanks for the help!"
+(well maybe) It depends if you want the scaling to be accomplished under your watchful eye, or any old way.
+The bottom line is that if your details, or the target resolution is going to create scaling artifacts, be careful: "Reducing the UPM without scaling the outlines will have the same optical effect as scaling up the outlines without changing the UPM"
+This is, after all what hinting is for so if the Adam statement is always true, hinting would never be required.
+Cheers!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-11 12:22:53" itemprop=datePublished>
+2009-02-11 12:22:53
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dberlow</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>So what you're basically saying, David, is not to scale UPM, right? Not that I would ever do such a thing. Wasn't there some calligraphic font that was scaled to 256 or something nuts like that? And caused a lot of problems? It's the only commercial PS font I can think of that did that. For what it's worth, and I think it's worth a lot, Robert Slimbach uses scaling constantly in his editing. Not just scaling characters, but using scaling to widen, narrow, to alter selected features, etc. He's marvellously creative with it, and never seems to worry about the artefacts.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-12 21:37:06" itemprop=datePublished>
+2009-02-12 21:37:06
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>billtroop</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> never seems to worry about the artefacts.
+Is it possible he had what is affectionately called a "bezier monkey" who only needs to be told what the stem widths etc. are supposed to be and so scaling artefacts become somebody else's problem?
+hhp
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-12 23:40:28" itemprop=datePublished>
+2009-02-12 23:40:28
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>hrant</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Bill wrote: <cite>"For what it’s worth, and I think it’s worth a lot, Robert Slimbach uses scaling constantly in his editing. Not just scaling characters, but using scaling to widen, narrow, to alter selected features, etc. He’s marvellously creative with it, and never seems to worry about the artefacts."</cite>
+This is still true today, and it's probably the only aspect of type design in which Robert is more cavalier and less anal-retentive than I am (usually it's vice versa).
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-14 17:37:28" itemprop=datePublished>
+2009-02-14 17:37:28
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>>told what the stem widths etc. are supposed to be
+Having uniform stem widths may be less important than you think. When I first presented the rather raw data of my 'Valerie' typeface to Adobe, I said, well, you know, this is pretty rough, so I guess the first thing to do is to measure the stem widths and regularize them. Robert and Carol were horrified and forbade it. 'Leave the stems as they are; they look OK to us; trust your eye' basically sums up what they said. Obviously this approach will not work for all typefaces, but it is amazing how many it <em>will</em> work for. </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-15 16:56:17" itemprop=datePublished>
+2009-02-15 16:56:17
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>billtroop</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Please Don't ever measure my stem widths, Bill! They may start off the same but migrate to some visual correction along the way :-)
+The cap B is a prime example.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-15 17:07:41" itemprop=datePublished>
+2009-02-15 17:07:41
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>My suspicion is that perfectly consistent stem widths are a non-issue at imagesetter resolutions and much more of an issue at screen resolution. But perhaps even then tiny inconsistencies can result in a more organic and less sterile typeface.
+That being said, I think the average would-be type designer would benefit from first learning the discipline of consistency and then later figuring out when, how, and how much to deviate from it. Sort of like learning how to balance letters, where first you need to figure out what makes letters seem optically balanced and then decide when it's okay to be a bit off-balance to increase the liveliness of the typeface.
+Cheers,
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-15 21:19:33" itemprop=datePublished>
+2009-02-15 21:19:33
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>or else to just make differing glyphs look optically balanced when making them arithmetically balanced doesn't work well enough.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-15 21:34:21" itemprop=datePublished>
+2009-02-15 21:34:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>But most people don't use imagesetters! They use
+600dpi lasers, and sometimes print in small sizes.
+Even at 1200dpi uneven stems can ruin everything
+if you have footnotes or such.
+Organic? All fine and dandy for some designs, but
+one shouldn't use that as an excuse to save time, or
+as a form of misguided rebellion.
+Are the stems in Kepler uneven?
+hhp
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-15 23:42:30" itemprop=datePublished>
+2009-02-15 23:42:30
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>hrant</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Although hinting can of course correct most potential problems, in many cases one is best off avoiding creating any potential issues in the first place. So I guess I'm not inclined to disagree with any Hrant's comments above.
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2009-02-16 02:46:32" itemprop=datePublished>
+2009-02-16 02:46:32
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

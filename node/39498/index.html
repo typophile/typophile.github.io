@@ -1,0 +1,170 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Python Script for FontLab - Copy Metrics/Kerning Across Weights | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Python Script for FontLab - Copy Metrics/Kerning Across Weights">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/39498/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2007-11-27T19:07:13+00:00">
+<meta property="article:modified_time" content="2007-11-27T19:07:13+00:00">
+<meta itemprop=name content="Python Script for FontLab - Copy Metrics/Kerning Across Weights">
+<meta itemprop=description content><meta itemprop=datePublished content="2007-11-27T19:07:13+00:00">
+<meta itemprop=dateModified content="2007-11-27T19:07:13+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Python Script for FontLab - Copy Metrics/Kerning Across Weights">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Python Script for FontLab - Copy Metrics/Kerning Across Weights</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2007-11-27T19:07:13Z>November 27, 2007</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>amv</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>I'm getting close to the point where I'll be adding the next weight to my current typeface project. Ideally, I've always wanted to be able to set the kerning and metrics for the Regular weight, and then automatically apply that to the Light and Bold weights, with the values being adjusted accordingly to accomodate the new glyph widths.
+As a result, I'm thinking about writing a script that will copy the metrics and kerning values from one font to another, expanding or contracting them by the difference in glyph widths on a per-glyph basis. Theoretically, assuming the fonts are simply different weights of the same typeface, this SHOULD work; there shouldn't be any need for additional hand tweaking, as the results should essentially be a perfect version of what I might have originally tried to do manually. Ultimately, since the glyphs are all identical aside from their heavier or lighter weights, the kerning and metrics should be identical too; just narrower or wider. In other words, it should all be relative.
+Before I get started though, am I missing anything obvious? Is there any reason why this wouldn't work as smoothly as I'm assuming? I don't mean technical/coding concerns, I just mean problems with the overal strategy from a designer's perspective. I wanted to do a sanity check on the idea before I wasted my time actually implementing it.</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>depending of the nature of the glyphs it can be hard to "calculate" values for very small (weak) metrics values like 0 to 10 em or just negative values.
+--<a href=http://www.astype.de target=_blank>astype.de</a>--</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-11-27 23:15:31" itemprop=datePublished>
+2007-11-27 23:15:31
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>andreas</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I don't think that would work, at least not better than copying exactly the kerning values. The kerning depends not on the advance width but on the shape of the glyphs.
+Another question: which glyph of the pair would you use as a reference, the left or the right one? Probably the average, I guess.
+Btw, if you want to scale all kerning equally, disregarding the individual glyph widths, you can do that by changing the UPM value of the font. That probably brings better results than on a per-glyph basis.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-11-28 00:25:02" itemprop=datePublished>
+2007-11-28 00:25:02
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Tim Ahrens</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Well this is operating under the premise that you're copying the kerning from one weight of the same typeface to another. Just to be clear, I'm not suggesting this would have any use if one were to copy the kerning and metrics from one typeface to an entirely different typeface. In other words, the shape of each glyph is the same; it's merely wider due to widened strokes and proportions. The idea isn't that the shapes are exactly identical, but rather that they're so similar, aside from their differences in width, that kerning and metrics from one weight to another are essentially the same, differing only by said difference in width.
+For instance, the kerning distance between A and V in a bold weight should be the same as the light weight; this script would allow that to be ported over, adjusting the kerning numerically to compensate for the wider glyphs but ultimately producing the same visual distance. Likewise, the space between letters based on sidebearings should also be the same from one weight to another; it merely needs to be adjusted when copied to take into account the wider glyph the sidebearings are surrounding.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-11-28 02:39:16" itemprop=datePublished>
+2007-11-28 02:39:16
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>amv</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Alex, I suggest you check other fonts that have some relation to yours stylistically.
+In general, bolder weights are spaced more tightly. For example, Minion's regular O has side bearings on both sides of 44. The bold O has 42 left and 41 right. According to Tracy's "Letters of Credit" this is recommended because the letter space should be related to the counter width, and the counters are generally narrower in bolder weights of the same type family. So Tracy does not accept your view that similar exterior shapes always take the same spacing.
+I think Tracy's view is accepted by most type designers today. </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-11-28 03:00:55" itemprop=datePublished>
+2007-11-28 03:00:55
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>William Berkson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Makes sense. Looks like I was approaching the problem with too clinical a mindset. Oh well, my aim was to ensure consistency among weights, not to save myself work, so I have no problem performing the kerning manually in each case. It also saves me the time of writing the script. :)
+Thanks for the insight, guys.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-11-28 03:25:31" itemprop=datePublished>
+2007-11-28 03:25:31
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>amv</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Same question at http://typophile.com/node/38719 -- some answers may be interesting to you.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-11-28 09:39:37" itemprop=datePublished>
+2007-11-28 09:39:37
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Alex, I think your theory does not work for regular/bold.
+It would work for copying between different widths of the same weight. Here, the slope of the A and V would actually change with the width of the letter. The "sideways-pointing" shape and width coincide.
+However, the fact that bold weights are generally wider does not mean that the "sideways-pointing" shape is any different. In fact, the A and V of a bold font can easily have precisely the same angle as in the regular – the only reason for the increase in width being the increase in stem weight. And if the angles of A and V stay the same you should probably not scale their kerning.
+But as William mentioned, the bold is spaced more tightly, which changes everything anyway.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-11-28 10:26:23" itemprop=datePublished>
+2007-11-28 10:26:23
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Tim Ahrens</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>In case you still want to try the method you described, here's a tiny <a href=http://www.kltf.de/downloads/KLTF-KerningTools.zip>Expand Master's Kerning</a> script. Use it like this:
+Do some kerning for one master in the Kerning Panel. Then run the script to 'expand' the current master's kerning to all other masters. Switch to another master and do some kerning. -- Each time you switch to another master, run this script first.
+Only if you find that kerning is ok in all masters (remember: as of yet a pair has the same kerning value throughout all masters!), you adjust individual masters' kerning <em>without</em> running the script.
+Karsten</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-12-20 19:32:02" itemprop=datePublished>
+2007-12-20 19:32:02
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

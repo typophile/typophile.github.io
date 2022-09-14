@@ -1,0 +1,215 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>newbie question: adding opentype feature (onum)... | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="newbie question: adding opentype feature (onum)...">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/19365/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2006-04-19T22:28:54+00:00">
+<meta property="article:modified_time" content="2006-04-19T22:28:54+00:00">
+<meta itemprop=name content="newbie question: adding opentype feature (onum)...">
+<meta itemprop=description content><meta itemprop=datePublished content="2006-04-19T22:28:54+00:00">
+<meta itemprop=dateModified content="2006-04-19T22:28:54+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="newbie question: adding opentype feature (onum)...">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">newbie question: adding opentype feature (onum)...</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2006-04-19T22:28:54Z>April 19, 2006</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>boole</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>OK, so I have a font with all the lc and uc, lining numerals and old-style numerals designed. Lining numerals have their usual names, and I named the old-styles so that they have the ".onum" suffix (e.g. "one.onum").
+How do I go about implementing an open type feature for the old style numerals? I'd assume that I go to the open type panel, hit "+", and the new "xxxx" feature appears. But what next? When I try renaming the "xxxx" feature so that it says:
+feature onum {
+sub by ;
+} onum;
+I get compile errors. Where & how do I add the numbers? I was checking the FL manual, but I'm not getting far with it. Can somebody point me to any resoruce or explain how adding an OT feature such as old-style numerals works in a nutshell?
+I'm using FL 4.6 on a Mac
+Thanks
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Have a look at Minion Pro's feature file
+http://www.adobeforums.com/cgi-bin/webx?50@@.3bb58628</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-20 01:23:13" itemprop=datePublished>
+2006-04-20 01:23:13
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The code that is inserted into the OpenType panel when you hit the "+" button is a stub--it's incomplete and you are expected to complete it. You got halfway there by changing "xxxx" to "onum," but you've got to finish the job. "sub by ;" needs to say something like "sub one by one.onum ;". This is what is called a one-to-one substitution in OpenType feature speak. What it means is that the normal "one" will be substituted by "one.onum" when the user asks for old style numerals. You have to add a line like this for every number. It should look something like this:
+<code>feature onum {
+sub one by one.onum ;
+sub two by two.onum ;
+sub three by three.onum ;</code>
+and so on, finishing up with:
+<code>} onum;</code>
+It can get more complicated than this--for instance if you have both proportional and tabular figures--but that's basically it. (It's all covered in the manual, by the way.)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-20 02:48:15" itemprop=datePublished>
+2006-04-20 02:48:15
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Or make a class for num and a class for onum and sub the class.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-20 22:11:56" itemprop=datePublished>
+2006-04-20 22:11:56
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Here is the code:
+feature onum { # Old style numerals
+sub @num by @onum;
+} onum;
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-20 22:14:11" itemprop=datePublished>
+2006-04-20 22:14:11
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks a lot everyone. Figured it out. I would have had it earlier if I had only scrutinized the manual :).
+And subing classes seems like THE way to go.
+I posted Kaled Sans for the cirtique over <a href=http://typophile.com/node/19445>in the neighborhood</a>. You can see my old style's feature at work <a href=http://ebukva.cidamon.com/type/Picture4.png>in this image</a>.
+Now, one more question: Are there advantages to doing the kerning as an OT feature as opposed to the kerning table in metrics? Since I'm jsut starting to kern, should I just go for the OT kern feature?
+Emir
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-23 06:04:47" itemprop=datePublished>
+2006-04-23 06:04:47
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>boole</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>That depends. The spec for PostScript-flavored OT (CFF) fonts says that a kerning table is not supported, meaning you must use class kerning. TrueType-flavored OT (TTF) fonts may have either or both. In fact, FontLab will let you include either or both in both flavors of OT fonts.
+That said, class kerning is the way to go. It takes a bit more planning, but it's more efficient and thorough.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-23 15:56:21" itemprop=datePublished>
+2006-04-23 15:56:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>It seems there was another aspect to your question:
+For direct visual control, you should use the Metrics Window for kerning. This also allows you to use classes. Then -- whether you used classes or not -- you go to the Metrics Assistance panel and hit the "update kern feature" button which generates a kern feature for you.
+This way, your plain kerning table and the kern feature are (or at least: could be) equivalent for one is generated from the other.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-23 17:17:44" itemprop=datePublished>
+2006-04-23 17:17:44
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I think you need both because some apps don't read the opentype kern feature and need the table. That is why I think Karsten's solution is best. It gives you both and they are the same. Also, you can see it well in the metrics window as you do it.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-25 02:14:26" itemprop=datePublished>
+2006-04-25 02:14:26
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Here's the deal, though: With CFF fonts, the old-style kern table will never get used. OT-savvy apps will use the kern feature; non-OT-savvy apps get a synthesized kern table based on the kern feature. So, even though you <em>can</em> include a kern table in an OT CFF font using FontLab, it will simply be taking up space.
+Incidentally, there was recently a discussion about this on the OpenType list. Adam Twardoch was advocating that kern tables should be supported in OT CFF fonts just as they are in OT TTF fonts. Judging from the discussion, it doesn't sound like it will likely happen.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-25 04:55:41" itemprop=datePublished>
+2006-04-25 04:55:41
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><cite>Here’s the deal, though: With CFF fonts, the old-style kern table will never get used. OT-savvy apps will use the kern feature; non-OT-savvy apps get a synthesized kern table based on the kern feature.</cite>
+Oh yes, I only addressed one question, how to get consistent results among kern table & kern feature.
+
+You are right, according to the current specs, only the kern feature should be present in PS-flavored OTFs. Personally, I stick to this. Too much redundant information in OTFs already ... (Also, in an earlier test I had the impression that some application ignored kerning completely if both table and feature were present, but forgot the details and cannot -- nor do I want to -- reproduce this.)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-25 12:42:57" itemprop=datePublished>
+2006-04-25 12:42:57
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

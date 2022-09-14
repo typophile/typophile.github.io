@@ -1,0 +1,133 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>OT vkrn feature | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="OT vkrn feature">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/13410/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2005-07-02T23:01:34+00:00">
+<meta property="article:modified_time" content="2005-07-02T23:01:34+00:00">
+<meta itemprop=name content="OT vkrn feature">
+<meta itemprop=description content><meta itemprop=datePublished content="2005-07-02T23:01:34+00:00">
+<meta itemprop=dateModified content="2005-07-02T23:01:34+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="OT vkrn feature">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">OT vkrn feature</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2005-07-02T23:01:34Z>July 2, 2005</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>levonk</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>I am learning some OT features, and the vkrn feature is very interesting, but I am having some problems.
+1. when I check the feature in FontLab 4.6, it raises all the glyphs following the one I want raised.
+feature vkrn { pos \uni053B \uni055E 120;} vkrn; should raise one \uni055E when it is after \uni053B, but everything that comes after it is also raised.
+2. I cannot get it to work outside FontLab. The feature should be on by default, but I don't know how to do it.
+Anyone knows how to resolve these problems?
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><cite>feature vkrn { pos \uni053B \uni055E 120;} vkrn; should raise one \uni055E when it is after \uni053B, but everything that comes after it is also raised.</cite>
+I think you have to change your lookup to something like this:
+<code>pos \uni053B \uni055E &lt;0 120 0 0>;</code>
+http://partners.adobe.com/public/developer/opentype/afdko/topic_feature_file_syntax.html#2.e.iv</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-07-03 15:14:59" itemprop=datePublished>
+2005-07-03 15:14:59
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>eomine</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Eduardo, I tried your suggestion, it gave me an error when I compiled:
+>Pair positioning rule must specify only a single metric
+>aborting because of errors</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-07-03 18:22:06" itemprop=datePublished>
+2005-07-03 18:22:06
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>levonk</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The <vkrn> feature is intended for use in vertical setting of East Asian scripts. It is not intended for raising or lowering glyphs in the context of horizontal text. The feature is not applied by any applications outside of vertical setting of East Asian text, e.g. in the Japanese version of InDesign.
+If you want to contextually raise or lower glyphs in horizontal text, you should use the normal <kern> feature. I'm not sure if you can do this with FontLab, though, because of the limitation that you encoutered. You can do it with the MS VOLT tool.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-07-04 21:00:45" itemprop=datePublished>
+2005-07-04 21:00:45
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks John.
+But I have a problem. First, I am creating OT-CFF fonts. MS VOLT says it is for TT fonts.
+Second, I am using a Mac not a PC, and MS VOLT is a PC app.
+Is there a Mac app. that will work with CFF fonts? Maybe from Adobe?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-07-04 22:12:57" itemprop=datePublished>
+2005-07-04 22:12:57
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>levonk</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The Adobe FDK has the same limitations as FontLab, unsurprisingly as FontLab's current OT generation is built on the Adobe FDK code.
+You can run VOLT under Windows emulation on the Mac.
+It is possible to use VOLT to develop CFF fonts. See my old Typophile post No.510 in this thread: http://typophile.com/node/13042#comment-75498
+{link updated by moderator}</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-07-05 02:22:00" itemprop=datePublished>
+2005-07-05 02:22:00
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

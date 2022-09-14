@@ -1,0 +1,400 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>IVR | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="IVR">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/48057/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2008-08-04T10:11:09+00:00">
+<meta property="article:modified_time" content="2008-08-04T10:11:09+00:00">
+<meta itemprop=name content="IVR">
+<meta itemprop=description content><meta itemprop=datePublished content="2008-08-04T10:11:09+00:00">
+<meta itemprop=dateModified content="2008-08-04T10:11:09+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="IVR">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">IVR</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2008-08-04T10:11:09Z>August 4, 2008</time>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>I'm immersed in the IVR technoloy these days, I love it, so I'll introduce it to you!
+<strong><a href="http://www.voicent.com/ivr.php?a=8223">IVR</a> Introduction</strong>
+Interactive Voice Response, <a href="http://www.voicent.com/ivr.php?a=8223">IVR</a>, is a phone technology that allows a computer to detect voice and touch tones using a phone call. The system based on <a href="http://www.voicent.com/ivr.php?a=8223">IVR</a> can respond with pre-recorded or dynamically generated audio to further direct callers on how to proceed. <a href="http://www.voicent.com/ivr.php?a=8223">IVR</a> enable callers to interact with any software,such as query or modify database information, over the normal phone or internet phone(like Skype). So callers can use their touch-tone pad to input request or just say what then want to do, such as requesting account balance information. Then the <a href="http://www.voicent.com/ivr.php?a=8223">IVR</a> will use the text-to-speech software to read information back.
+Overall, the <a href="http://www.voicent.com/ivr.php?a=8223">IVR</a> can enable you to make hundreds of personalized calls with a single click.
+<a href="http://www.voicent.com/ivr.php?a=8223">IVR</a> telephone notification software broadcast voice messages by phone. Ideal for group event reminders, marketing, lead generation, political campaign promotions, school fundraising, church communications, emergency notifications, and much more.
+You can also use <a href="http://www.voicent.com/ivr.php?a=8223">IVR</a> Studio to develop your IVR applications. This tool enables flexible application development without any knowledge of VoiceXML. All you need is point and click to draw a call flow diagram.
+<strong>Using the <a href="http://www.voicent.com/ivr.php?a=8223">IVR</a> API</strong>
+Since all these functions are implemented as a HTTP client communicating directly with a gateway, they can be run on any machine that has a connection to the host running the gateway.
+Because my application will use the CallText methods only, so I'll introduce other methods briefly.
+SYNOPSIS
+string CallText(string phoneno, string text, bool selfdelete)
+DESCRIPTION
+Make a phone call and play the specified text message. The text message is convert to voice by Voicent Gateway's text-to-speech engine.
+The options are:
+phoneno The phone number to call
+text The message for the phone call
+selfdelete Ask the gateway to automatically delete the call request after the call is made if it is set to '1'
+The return value is the call request id <reqid>.
+EXAMPLE
+CallText("123-4567", "Hello, how are you doing", true);
+Make a call to phone number '123-4567' and say 'Hello, how are you doing'. Since the selfdelete bit is set, the call request record in the IVR will be removed automatically after the call.
+string reqId = CallText("123-4567", "Hello, how are you", 0);
+Make a call to phone number '123-4567' and say 'Hello, how are you'. Since the selfdelete bit is not set, the call request record in the gateway will not be removed after the call. You can then use CallStatus to get the call status, or use CallRemove to remove the call record.
+Here is the other methods, there is detail in the Voicent Gateway Simple Outbound Call Interface.
+SYNOPSIS
+string CallAudio(string phoneno, string audiofile, bool selfdelete)
+EXAMPLE
+CallAudio("123-4567", "C:\my audios\hello.wav", true);
+SYNOPSIS
+string CallStatus(string reqId)
+EXAMPLE
+string status = CallStatus("11234035434");
+SYNOPSIS
+void CallRemove(string reqId)
+EXAMPLE
+CallRemove("11234035434");
+SYNOPSIS
+void CallTillConfirm(string vcastexe, string vocfile, string wavfile, string ccode)
+EXAMPLE
+CallTillConfirm(
+"C:\Program Files\Voicent\BroadcastByPhone\bin\vcast.exe",
+"C:\My calllist\escalation.voc",
+"C:\My calllist\escalation.wav",
+"911911");
+<strong>Source Code</strong>
+This application must be based on a gateway.here, we use the Voicent Gateway for the server, because I haven't find any free gateway by now. And you also can visit this website for more information about the IVR.
+<code>
+----------------
+File Voicent.cs:
+----------------
+using System;
+using System.Net;
+using System.IO;
+namespace Voicent
+{
+/// <summary>
+/// Interface class for making telephone calls using the simple
+/// API of Voicent Gateway.
+/// </summary>
+public class Voicent
+{
+/// <summary>
+/// Default constructor use http://localhost:8155
+/// </summary>
+public Voicent()
+{
+m_host = "localhost";
+m_port = 8155;
+}
+/// <summary>
+/// Constructor with host and port
+/// </summary>
+/// <param name=host>Hostname of Voicent Gateway</param>
+/// <param name=port>port number of Voicent Gateway</param>
+public Voicent(string
+host, int port)
+{
+m_host = host;
+m_port = port;
+}
+/// <summary>
+/// Call the specified phone number and play the text using
+/// text-to-speech engine
+/// </summary>
+/// <param name=phoneno>telephone number to call</param>
+/// <param name=text>text message to play</param>
+/// <param name=selfdelete>if set to one, automatically
+remove call record on
+/// gateway after the call is made</param>
+/// <returns>Call Request ID on gateway</returns>
+public string CallText(string
+phoneno, string text, bool selfdelete)
+{
+// call request url
+string urlstr = "/ocall/callreqHandler.jsp";
+// setting the http post string
+string poststr = "info=Simple Text Call " +
+phoneno;
+poststr += "&phoneno=" + phoneno;
+poststr += "&firstocc=10";
+poststr += "&selfdelete=";
+poststr += (selfdelete ? "1" : "0");
+poststr += "&txt=" + text;
+// Send Call Request
+String rcstr = PostToGateway(urlstr, poststr);
+return GetRequestID(rcstr);
+}
+/// <summary>
+/// Call the specified phone number and play the audio file
+/// </summary>
+/// <param name=phoneno>telephone number to call</param>
+/// <param name=filename>audio file path name</param>
+/// <param name=selfdelete>if set to one, automatically
+remove call record on
+/// gateway after the call is made</param>
+/// <returns>Call Request ID on gateway</returns>
+public string CallAudio(string
+phoneno, string filename, bool selfdelete)
+{
+// call request url
+string urlstr = "/ocall/callreqHandler.jsp";
+// setting the http post string
+string poststr = "info=Simple Audio Call " +
+phoneno;
+poststr += "&phoneno=" + phoneno;
+poststr += "&firstocc=10";
+poststr += "&selfdelete=";
+poststr += (selfdelete ? "1" : "0");
+poststr += "&audiofile=" + filename;
+// Send Call Request
+String rcstr = PostToGateway(urlstr, poststr);
+return GetRequestID(rcstr);
+}
+/// <summary>
+/// Get call request status
+/// </summary>
+/// <param name=reqID>Call request ID</param>
+/// <returns>status code</returns>
+public string CallStatus(string
+reqID)
+{
+// call status url
+string urlstr = "/ocall/callstatusHandler.jsp";
+string poststr = "reqid=" + reqID;
+// Send Call Request
+String rcstr = PostToGateway(urlstr, poststr);
+if (rcstr.IndexOf("^made^") != -1)
+return "Call Made";
+if (rcstr.IndexOf("^failed^") != -1)
+return "Call Failed";
+if (rcstr.IndexOf("^retry^") != -1)
+return "Call Will Retry";
+return "";
+}
+/// <summary>
+/// Remove the call request on the gateway
+/// </summary>
+/// <param name=reqID>Call Request ID</param>
+public void CallRemove(string
+reqID)
+{
+// call status url
+string urlstr = "/ocall/callremoveHandler.jsp";
+string poststr = "reqid=" + reqID;
+// Send Call Request
+PostToGateway(urlstr, poststr);
+}
+/// <summary>
+/// Invoke Voicent BroadcastByPhone and start the
+call-till-confirm escalation process
+/// </summary>
+/// <param name=vcastexe>BroadcastByPhone executable file
+path</param>
+/// <param name=vocfile>BroadcastByPhone call list file
+path</param>
+/// <param name=wavfile>Audio file, must be PCM 8KHz,
+16bit, mono wave file format</param>
+/// <param name=ccode>Confirmation code, numbers only</param>
+public void CallTillConfirm(string
+vcastexe, string vocfile, string wavfile, string ccode)
+{
+// call request url
+string urlstr = "/ocall/callreqHandler.jsp";
+// setting the http post string
+string poststr = "info=Simple Call till Confirm";
+poststr += "&phoneno=1111111"; // any number
+poststr += "&firstocc=10";
+poststr += "&selfdelete=0";
+poststr += "&startexec=" + vcastexe;
+string cmdline = "\"" + vocfile + "\" -startnow";
+cmdline += " -confirmcode " + ccode;
+cmdline += " -wavfile " + "\"" + wavfile + "\"";
+// add -cleanstatus if necessary
+poststr += "&cmdline=" + cmdline;
+PostToGateway(urlstr, poststr);
+}
+protected string PostToGateway(string urlstr, string poststr)
+{
+Uri url = new Uri("http://" + m_host + ":" +
+m_port.ToString() + urlstr);
+HttpWebRequest HttpWRequest = (HttpWebRequest)
+WebRequest.Create(url);
+HttpWRequest.Headers.Set("Pragma", "no-cache");
+HttpWRequest.Timeout = 60000;
+HttpWRequest.Method = "POST";
+HttpWRequest.ContentType =
+"application/x-www-form-urlencoded";
+byte[] PostData =
+System.Text.Encoding.ASCII.GetBytes(poststr);
+HttpWRequest.ContentLength = PostData.Length;
+Stream tempStream = HttpWRequest.GetRequestStream();
+tempStream.Write(PostData,0,PostData.Length);
+tempStream.Close();
+HttpWebResponse HttpWResponse = (HttpWebResponse)
+HttpWRequest.GetResponse();
+Stream receiveStream =
+HttpWResponse.GetResponseStream();
+StreamReader readStream = new
+StreamReader(receiveStream);
+string rcstr = "";
+Char[] read = new Char[256];
+int count = 0;
+while ((count = readStream.Read(read, 0, 256)) >
+0) {
+rcstr += new String(read, 0, count);
+}
+HttpWResponse.Close();
+readStream.Close();
+return rcstr;
+}
+protected string GetRequestID(string rcstr)
+{
+int index1 = rcstr.IndexOf("[ReqId=");
+if (index1 == -1)
+return "";
+index1 += 7;
+int index2 = rcstr.IndexOf("]", index1);
+if (index2 == -1)
+return "";
+return rcstr.Substring(index1, index2 - index1);
+}
+private string m_host;
+private int m_port;
+}
+}
+--------------------
+File TextVoicent.cs:
+--------------------
+using System;
+using System.Threading;
+using Voicent;
+namespace csapi
+{
+/// <summary>
+/// Simple class to test Voicent C# Simple Interface
+/// </summary>
+class TestVoicent
+{
+/// <summary>
+/// The main entry point for the application.
+/// </summary>
+[STAThread]
+static void Main(string[] args)
+{
+string phoneno = "8147838"; // Replace it with
+your number
+Voicent.Voicent voicent = new Voicent.Voicent();
+// Test CallText
+string reqId = voicent.CallText(phoneno, "Hello,
+how are you", true);
+Console.WriteLine("Call request ID = " + reqId);
+// Test CallAudio
+reqId = voicent.CallAudio(phoneno, "C:/Program
+Files/Voicent/MyRecordings/sample_message.wav", false);
+Console.WriteLine("Call request ID = " + reqId);
+// try to get status
+while (true) {
+Thread.Sleep(20000); // wair for 20
+seconds
+string status =
+voicent.CallStatus(reqId);
+Console.WriteLine("Call Status: " +
+status);
+if (status.Length != 0)
+break;
+}
+// remove the call request on the gateway
+voicent.CallRemove(reqId);
+// Test call-till-confirm
+voicent.CallTillConfirm("C:/Program
+Files/Voicent/BroadcastByPhone/bin/vcast.exe",
+"C:/temp/testctf.voc",
+"C:/Program
+Files/Voicent/MyRecordings/sample_message.wav",
+"12345");
+}
+}
+}
+</code>
+<strong>Points of Interest about <a href="http://www.voicent.com/ivr.php?a=8223">IVR</a></strong>
+Ideal inbound & Outbound IVR solution
+	<li>Self-service
+Allow callers to get answers to standard inquiries simply and easily, and in seconds, without the need for an agent
+<li>Reach the right agent
+Automatically capture relevant information from your callers and direct them to the appropriate agent to handle their call
+<li>24/7 customer service
+Enable your customers to get the information they need, when they need it. Your <a href="http://www.voicent.com/ivr.php?a=8223">IVR</a> application is working even when you’re not, or it can transfer calls to your cell phone.
+<li>Automated Outbound <a href="http://www.voicent.com/ivr.php?a=8223">IVR</a>
+Fully integrated with BroadcastByPhone Autodialer. Fully automated interactive outbound call applications to generate sales leads and keep in touch with your customers.
+Inbound & Outbound <a href="http://www.voicent.com/ivr.php?a=8223">IVR</a> Solution Key Features
+<li>Point-and-click call flow design
+<li>Deployed on any PC with Windows 2000/2003/XP/Vista
+<li>Transfer call to any phone, such as your cell phone
+<li>Interactive touch tone response
+<li>Speech command response
+<li>Automatically convert text to speech
+<li>Easy integration with your website
+<li>(Developer feature) Integrate with any program through Java
+<li>Support Skype or voice modems for making calls
+<li>Support single phone line or multiple phone lines
+<li>Natural Text-to-speech engine for playing any text over the phone
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>SPAM</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-08-04 14:52:50" itemprop=datePublished>
+2008-08-04 14:52:50
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>aluminum</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>>Interactive Voice Response, IVR, is a phone technology
+Hilarious, they don't even list a phone number... :-)
+http://www.voicent.com/contact.php
+Maybe they were getting telemarketing calls? ;-)
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-08-04 15:57:18" itemprop=datePublished>
+2008-08-04 15:57:18
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Si_Daniels</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

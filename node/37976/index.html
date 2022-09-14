@@ -1,0 +1,132 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>'Two sided' OpenType Script Question (Calt) | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="'Two sided' OpenType Script Question (Calt)">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/37976/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2007-10-11T02:40:29+00:00">
+<meta property="article:modified_time" content="2007-10-11T02:40:29+00:00">
+<meta itemprop=name content="'Two sided' OpenType Script Question (Calt)">
+<meta itemprop=description content><meta itemprop=datePublished content="2007-10-11T02:40:29+00:00">
+<meta itemprop=dateModified content="2007-10-11T02:40:29+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="'Two sided' OpenType Script Question (Calt)">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">'Two sided' OpenType Script Question (Calt)</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2007-10-11T02:40:29Z>October 11, 2007</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>I have started to experiment with code to support special glyph forms based on shapes of neighboring glyphs. For example:
+Round Left, x, Round Right
+Round Left, x, Flat Right
+Flat Left, x, Round Right
+Flat Left, x, Flat Right
+Diagonal Left, x, Round Right
+Diagonal Left, x, Flat Right
+Diagonal Left, x, Diagonal Right
+Round Left, x, Diagonal Right
+Flat Left, x, Diagonal Right
+Note: x= is the glyph to be modified
+Note:
+Round Right = o,b,e etc
+Round left = o,d,q etc
+Flat Right = n,d,u etc
+Flat Left = n,b,u
+Diagonal Right= v,w,y
+Diagonal Left= v,w,y
+I understand how to do the classes now but I am not sure in a calt expression how you would best order things. I suspect that you would pick a standard say for instanace 'Flat' and make that the default. Then it's a matter of making the class' for Round, Diagonal, and for ligatures and special cases. That is fine.
+What I don't seem to be able to do is to effectively figure out is what is the smart way of doing this.
+This is what I did so far was this. I did it for an 'f' whose crossbar I am altering gently. It seems to be working.
+sub @rnd.rt f' @rnd.lft by f.rnd.bth;
+sub @rnd.rt f' @flat.lft by f.rnd.lft;
+sub @flat.rt f' @rnd.lft by f.rnd.rt;</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>On first read, what you have there seems fine. Once you get all your variations in there, maybe some trouble would reveal itself -- but I think what you're sketching out here is basically simple.
+<em>But</em>... things will get squirrely pretty fast if you're going to change the third glyph after the second one changes. Will the third glyph's change affect what the second glyph should be? Then you'll have a sort of reverse cascade. Ow. My head is hurting now.
+This is the kind of thing that can drive one crazy when figuring out contextual substitution. Perhaps you don't intend to get that sophisticated about it, which would save you a lot of trouble!
+As a general remark, I once read something about programming (which might be elementary to any programmer, but maybe not so obvious to font developers): Concentrate first on writing code that just works, without worrying about efficiency or elegance. Once you have something that does what you want, you can then turn to distilling the code into something more efficient or less messy.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-10-11 17:38:56" itemprop=datePublished>
+2007-10-11 17:38:56
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Christopher Slye</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks Christopher! Happily there are only a few glyphs that I think benefit from this kind of treatment but yes, it is the combinations that could get me. Things like a the double o where the second o changes and is followed by for instance an f. I think that probably just expanding the class' members should sort out any problems but I can imagine an unforeseen circumstance biting me later. Next time I will probably sketch out a list of likely targets/combinations ahead of time!
+Has anybody else been down this road already?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-10-11 20:46:43" itemprop=datePublished>
+2007-10-11 20:46:43
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Did I send you a pdf on the Calt workshop I gave at TypeCon Boston?
+It might be good to make "round left" the default, as that will come in handy for when there is no lower case letter to the left-- e.g. following a capital, figure, punctuation or space. </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-10-11 21:29:58" itemprop=datePublished>
+2007-10-11 21:29:58
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Yes you did. Thanks for the reminder! This thing is not actually a script but I imagine the code there will be useful all the same.
+I will post some examples when it's starting to gel enough to make sense.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-10-12 00:55:53" itemprop=datePublished>
+2007-10-12 00:55:53
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

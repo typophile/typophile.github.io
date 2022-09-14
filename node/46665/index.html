@@ -1,0 +1,168 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Adding combining accents? | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Adding combining accents?">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/46665/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2008-06-21T17:09:44+00:00">
+<meta property="article:modified_time" content="2008-06-21T17:09:44+00:00">
+<meta itemprop=name content="Adding combining accents?">
+<meta itemprop=description content><meta itemprop=datePublished content="2008-06-21T17:09:44+00:00">
+<meta itemprop=dateModified content="2008-06-21T17:09:44+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Adding combining accents?">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Adding combining accents?</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2008-06-21T17:09:44Z>June 21, 2008</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>gthompson</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>Combining accents
+I'm wondering how many people are adding the combining accents to their fonts and how they're being added. Are you creating additional characters for those unicode points or merely double coding the existing accents?
+And what sorts of problems, if any, are you finding with implementing the mark feature, besides combining accents not being placed correctly?
+George
+http://nobodoni.com</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> <em>Are you creating additional characters for those unicode points or merely double coding the existing accents?</em>
+You mean, use the same glyph for <code>U+00B4 ACUTE ACCENT</code> and <code>U+0301 COMBINING ACUTE ACCENT</code> ? AFAIK that shouldn't be done because combining diacritics are supposed to have 0 (zero) advanced width, whereas the standalone diacritics should have some advanced width.
+> <em>And what sorts of problems, if any, are you finding with implementing the mark feature, besides combining accents not being placed correctly?</em>
+If the combining accents are not being placed correctly, it suggests that either a) the anchors aren't placed correctly, b) the 'mark' feature is not well implemented, or c) both. How are you putting the 'mark' feature into your fonts?
+It's not possible to do the 'mark' feature with the current public AFDKO, but I'm using an internal version that does it, and I'm getting the expected results when the font is used in InDesign CS3.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-06-22 00:11:49" itemprop=datePublished>
+2008-06-22 00:11:49
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><cite>I’m getting the expected results when the font is used in InDesign CS3.</cite>
+You are? I had a nasty surprise using [[http://home.kabelfoon.nl/~slam/fonts/fonts.html|Legendum]] -- in CS3, the mark function ceased to work properly whenever there was a font change at the next character. Very nasty, because I intended to use marktobase and marktomark for positioning <em>lots</em> of linguistic accents on almost every character conceivable.
+I settled for a PS-type OTF with contextual alternates for the accents.
+ID ME user Harbs said he didn't have any problems using that same Legendum; then again, the ME version has far better OTF support...</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-06-22 00:58:15" itemprop=datePublished>
+2008-06-22 00:58:15
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Theunis de Jong</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em>If the combining accents are not being placed correctly, it suggests that either a) the anchors aren’t placed correctly, b) the ’mark’ feature is not well implemented, or c) both. How are you putting the ’mark’ feature into your fonts?</em>
+It's been mainly a problem that a particular anchor doesn't quite work for all accents. Some come out looking fine, some are a little off. For example the anchor point one one glyph works well for several accents, but not all, and moving the anchor for those accents creates problems with another glyph. So I'm wondering if it's a matter of compromise as to position or if I'm missing something obvious in setting the anchors.
+<em>AFAIK that shouldn’t be done because combining diacritics are supposed to have 0 (zero) advanced width, whereas the standalone diacritics should have some advanced width.</em>
+I guess my question is if I'm pre-building accented characters according to unicode how necessary is it to have the zero width combining accents in addition to the standalone if I'm setting anchors for placement? And if the zero width is necessary why do some fonts not do it, eg. Arno Pro?
+George
+I felt bad because I had no shoes, until I met a man who had no Bodoni</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-06-22 05:09:53" itemprop=datePublished>
+2008-06-22 05:09:53
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>gthompson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> <em>You are? I had a nasty surprise using Legendum — in CS3, the mark function ceased to work properly whenever there was a font change at the next character.</em>
+I didn't know about that problem. It's nasty indeed. Everything works as expected if no other font is used, though.
+> <em>ID ME user Harbs said he didn’t have any problems using that same Legendum; then again, the ME version has far better OTF support...</em>
+It's true that the ME version supports more languages and OT features, but it's not immune to bugs. And I've seen a really nasty one too, where upon applying 'smcp' or 'c2sc' to a font containing proper small caps (e.g. Garamond Premier Pro), the Latin small caps would come out correct, but the Greek and Cyrillic small caps would simply be scaled down caps.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-06-22 09:46:57" itemprop=datePublished>
+2008-06-22 09:46:57
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> <em>So I’m wondering if it’s a matter of compromise as to position or if I’m missing something obvious in setting the anchors.</em>
+You don't have to necessarily compromise. You can always add one more anchor to the base glyph, if that's required. But your problem might be related with the position of the anchor in the combining accent.
+> <em>And if the zero width is necessary why do some fonts not do it, eg. Arno Pro?</em>
+That particular one is a known bug. But Arno has no 'mark' feature. Those combining mark characters are only there for the 'ccmp' feature.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-06-22 09:57:41" itemprop=datePublished>
+2008-06-22 09:57:41
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><cite>So I’m wondering if it’s a matter of compromise as to position or if I’m missing something obvious in setting the anchors.</cite>
+As Miguel said.
+My impression is that if the positioning in a particular base/mark combination is wrong, then anchors may not be placed ideally in either base or mark glyph or both. It's like with spacing letters -- the better the sidebearing are, the less kerning is required. (And mark positioning <em>is</em> a form of spacing, not only in x-direction but in x/y-direction. Think of an anchor's position as defining a "sidebearing". Also, an anchor defines not a mere x/y but a Dx/Dy, relative to the glyph's outlines.)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-06-22 11:02:57" itemprop=datePublished>
+2008-06-22 11:02:57
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks for the info / help.
+George
+I felt bad because I had no shoes, until I met a man who had no Bodoni</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-06-23 22:27:06" itemprop=datePublished>
+2008-06-23 22:27:06
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>gthompson</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

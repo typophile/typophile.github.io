@@ -1,0 +1,320 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Pointers on OpenType font hacking | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Pointers on OpenType font hacking">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/40431/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2007-12-30T07:20:10+00:00">
+<meta property="article:modified_time" content="2007-12-30T07:20:10+00:00">
+<meta itemprop=name content="Pointers on OpenType font hacking">
+<meta itemprop=description content><meta itemprop=datePublished content="2007-12-30T07:20:10+00:00">
+<meta itemprop=dateModified content="2007-12-30T07:20:10+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Pointers on OpenType font hacking">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Pointers on OpenType font hacking</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2007-12-30T07:20:10Z>December 30, 2007</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>jcrippen</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>I need to do some low level hacking on Charis SIL for some linguistics texts that I’m writing. Charis SIL has all the weird diacritics, phonetic symbols, and other characters that I need for the basic text, but it lacks functional small caps, there are a bunch of kerning problems, and there are a few glyph shapes that I want to adjust (the super- and subscript numbers were obviously just scaled down and are thus too light, for example). I’ve never done serious font design, so the only thing I know how to do is add glyphs and tinker with outlines. But now I’m faced with doing some OpenType stuff that I have no understanding of. Are there any good references on how to go about adding small caps, alternate forms, and other OpenType things to a font? Better references than just reading the standard and trying to figure it out on my own?
+I’m probably going to use FontForge for the job, since I’m already somewhat familiar with it. I could use FontLab, but I don’t know my way around it at all.
+Any suggestions on where to start?</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The first thing to consider is, "What are you after?" Any document you prepare should not violate good Unicode practice; that is, if it is to have any life beyond what you are preparing. A <cite>manuscript</cite> -- I suppose now more properly termed a <cite>typescript</cite> -- usually has a further life. For example, if if is to be published, the files used to print your typescript will be edited by a publisher -- usually using a computer with a different operating system & perhaps a different text editor than you used (Murphy's law). Then those files will be passed on to a typesetter. It really helps if the files that will be worked on by the editor and typesetter use proper Unicode.
+So, what you are after is making OpenType features that let you typeset and print your typescript as you want it to appear, using Charis as a font. Unless you are providing "camera-ready copy" (i.e., the publisher requires you pay the typesetting bill, & you're getting around that by setting it yourself), I can almost guarantee you Charis will not be the font the publisher's designer finally picks. It likely won't even be Charter.
+Nor are you designing a typeface for sale -- it will be just for your own use.
+So it seems to me that likely the only person you have to please is yourself, and you can hack the code anyway you want.
+If that's right, aside form finessing the glyphs the way you want, all you need do is write some features. For small caps, just look at how Adobe does it.
+Best I can tell, Adobe doesn't usually provide (foot)note calls (I'd guess what you are terming "superiors"). These should be made up just like the small caps, i.e., named something like "zero.super" with no Unicode index, then use a feature -- you can use the InDesign "superscript" feature -- to set them. If you have the numbers as superscripts in your file (i.e., U+2070-U+2079 plus 00B9, 00B2, and 00B3), then using any other font that lacks these characters means they drop out. Not what you want. Use regular 0-9 in the file & write a feature to get the "superscript" glyphs in your typescript.
+Also see the thread
+http://typophile.com/node/16879
+For kerning, there are many posts on this forum on writing class-based kerning. There are -- or at least were --pretty good threads on small caps & other number forms too, but most of these were back before the server was changed, & I don't have a reference.
+
+Hope this helps. If you are trying to turn Charis into a font that can be used for general bookwork, I'd be interested -- even to the point of helping -- but my time is pretty much committed. We would also have to take a good look at the license & make sure we are adhering to it. And I have to say, I'm only a typesetter, there are a lot better code-writers & glyph designers out there.
+
+FWIW
+Charles</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-12-31 17:06:19" itemprop=datePublished>
+2007-12-31 17:06:19
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>About English smallcaps, all of them but four are defined in Unicode, and also in Charis. You find their unicode position by searching for the string 'LATIN SMALL CAPITAL LETTER' in the file http://www.unicode.org/Public/UNIDATA/NamesList.txt. You can design those that are missing ("F", "Q", "S" and "X") in some corporate position, say uniF7xx.
+<p>
+To make them "functional" i.e. get them to work with <code>\textsc{}</code> in xeLaTeX, you need to fill the GSUB 'smcp' subtable that already figures in CharisSIL but was left empty. With FontForge, you click on <a href=http://fontforge.sourceforge.net/fontinfo.html#Lookups><code><strong>Element > Font info > Lookups</strong></code></a>, then <code><strong>GSUB</strong></code>, open the tab <code>'smcp' Lowecase to Small Capitals lookup 28</code> and double click on <code>'smcp' Lowercase to Small Capitals lookup 28 subtable</code> and fill the subtable by repeatedly clicking on <code>&lt;New></code>, putting the lowercase on the left and the name of the corresponding smallcap on the right. Here is what it looks like after filling the smallcaps from 'a' to 'c'.
+[img:sites/default/files/old-images/smcp_gsub_4139.jpg]
+When you are finished, you click OK for the subtable, OK for the lookups.
+For kerning you click on <code><strong>Windows > New Metrics Window</strong></code> and do as told <a href=http://fontforge.sourceforge.net/metricsview.html><strong>here</strong></a>.
+Michel
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-04 21:14:11" itemprop=datePublished>
+2008-01-04 21:14:11
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Michel Boyer</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>While most small caps are now *defined* in Unicode (after some version number), whether or not you want to use the ones with a Unicode number in a document is another question. It is the same problem as putting the Unicode superiors in the file for (foot)note calls. If you open that file with a different font which lacks the small caps or superiors in Unicode, they will not show; and you can't apply any scaling or sizing tricks to characters that don't show. And using the Private Use area does not make the document any more transparent.
+For a document that will have further uses, I still think small caps should be presented in a particular instance (i.e., the book) via a feature. What should be in the file are full caps or lower-case letterforms, whichever is the (second) best choice. </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-04 21:56:34" itemprop=datePublished>
+2008-01-04 21:56:34
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> <cite>For a document that will have further uses, I still think small caps should be presented in a particular instance (i.e., the book) via a feature.</cite>
+This is exactly why the feature 'smcp' needs to be well defined, so as to be able to get this in TextEdit for instance when typing "Charis"
+[img:sites/default/files/old-images/charis_6385.jpg]
+There is a cheat here beause the "s" is not smallcap, it is just the small "s", the smallcap "s" not being defined and not being in the 'smcp' table.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-04 22:52:30" itemprop=datePublished>
+2008-01-04 22:52:30
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Michel Boyer</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I realize that FontForge is having troubles with Charis' features. On the other hand, from <a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=DoulosSILfontFAQ#a4076803">this link</a> at SIL, I understand there is a bug in Charis causing trouble with Small cap substitution; unfortunately I could not make their fix work on OS X 10.4 with XeLaTeX.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-05 03:20:05" itemprop=datePublished>
+2008-01-05 03:20:05
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Michel Boyer</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em>Important note</em> : although Unicode includes a number of 'LATIN SMALL CAPITAL LETTER' characters, these are not intended for use as typographic smallcaps. These are phonetic transcription characters, and are encoded because, unlike stylistic smallcaps, they need to be unambiguously distinguished from uppercase or lowercase characters in plain text. Typographically, these characters need to align to the font x-height and spaced to fit with lowercase letters, so are typically shorter than stylistic smallcaps would be and more tightly spaced.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-05 06:17:30" itemprop=datePublished>
+2008-01-05 06:17:30
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>John, thanks for the note. I had somewhat guessed that this was the case. Is it however not possible just to scale a bit those smallcaps to get acceptable typographic smallcaps? They look like a good starting point.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-05 13:54:53" itemprop=datePublished>
+2008-01-05 13:54:53
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Michel Boyer</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Jcrippen,
+you may not be aware that Charis is in fact an extended version of Charter, a typeface designed by Matthew Carter for Bitstream and later licensed to ITC. There are OpenType versions of Charter that include typographic small caps, olstyle numerals and other characters that may be of your interest.
+There is the an excellent <strong>[[http://www.font.org/ptCharter|ParaType "multilingual"]]</strong> version of Charter in OpenType PS format with 866 glyphs per font, including Latin Extended, Cyrillic Extended (very well designed, much better than the one in Charis), Latin smallcaps, Cyrillic smallcaps and oldstyle numerals, but not superscripts.
+Then, there is the <strong>[[http://www.font.org/mf/fonts/bitstream/charter-bt-pro/|Bitstream "Pro"]]</strong> version of Charter in OpenType PS format with 603 glyphs per font, including Latin Extended, Latin smallcaps, oldstyle numerals, superscripts but no Cyrillic.
+There is also the <strong>[[http://www.font.org/fc/FindFonts/RecentReleases/2007/CharterPro.htm|Monotype ITC "Pro"]]</strong> version of Charter in OpenType PS format that includes Latin Extended, Latin smallcaps, subscripts and superscripts, but no Cyrillic.
+Finally, there is the <strong>[[http://www.font.org/mf/fonts/linotype/itc-charter/|Linotype ITC "Com"]]</strong> version of Charter in OpenType TT format with 383 glyphs per font, including Latin Extended.
+You may consider using one of those versions (e.g. the ParaType version) in conjunction with Charis, rather than trying to expand Charis yourself.
+Regards,
+Adam
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-05 14:01:46" itemprop=datePublished>
+2008-01-05 14:01:46
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Adam, (he said, jumping in again), thanks for the information. I use Charter a fair bit, & if I get a project and want to use Charter where Cyrillic is needed, I'll certainly get the Paratype version.
+But for a linguist, esp. one doing work with an orthography for languages that never had a written form, phonetic symbols are usually needed, as are the full compliment of combining accents and space-modifying diacriticals. These are in Charis, & while I don't have access to the versions of Charter from the foundries you mention, I'd doubt they are included.
+Moreover, the licenses of Monotype & Linotype seem to prohibit an end user from modifying the font for their own use.
+Mixing Charter & Charis is possbile, but the size & weight of Charis is a bit greater than Charter, at least the versions I have. It would be quite a lot of work to make them mix in a document, but you could do the work once & add them to the font, licensing permitting.
+The world really needs a few typographically good Open Source Fonts with the character complement of Charis.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-05 14:21:57" itemprop=datePublished>
+2008-01-05 14:21:57
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Charles:
+I looks like the Paratype version allows mods (Paratype EULA: "If you have developed your own fonts on the basis of the given font, transformed the given font, partially or completely, in any other format, you have a right to use them in accordance with the restrictions indicated in current agreement.") That's good news.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-05 15:42:57" itemprop=datePublished>
+2008-01-05 15:42:57
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Nolan</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Charles: <em>The world really needs a few typographically good Open Source Fonts with the character complement of Charis.</em>
+Just be patient, we'll get there soon enough :-)
+--
+Regards,
+Dave</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-05 16:11:07" itemprop=datePublished>
+2008-01-05 16:11:07
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>abattis</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Everyone,
+Thanks bunches for all the comments and recommendations. I’m going to tinker with Charis for a while until I’m either satisfied or fed up with it. As charles_e pointed out, my needs tend towards the phonetic symbology more than anything, but I’m also trying to be sensitive to good typography and book design, something that is all too frequently ignored in linguistics, waved away by the claim that “all those funny symbols are hard enough”. So I’m trying to put together a typeface that has both good body text quality as well as good appearance in complex tables and which still supports difficult phonetics typesetting problems (like tone bars and multiple stacked diacritics, for example). Hopefully I’ll be able to put together something good enough for personal use, if not public scrutiny.
+BTW, I would never trust some faceless publisher to prepare my work. I’ve seen far too many ugly disasters from supposedly well-informed publishers in the linguistics world. I’ve put many years into learning how to hack TeX/LaTeX and now Xe(La)TeX, so I much prefer delivering camera ready copy rather than relying on random grad student drones cut-pasting text into ancient kluged up templates and munging the resultant mess to fit some heartless “Times Roman or Nothing” requirement. I’ve seen some decidedly awful muck published by supposedly respectable publishers (I’m looking at you, Mouton de Gruyter), with letters swapped in from various fonts with different x-heights, and worse yet, obviously rescaled versions of raw Word documents blithely disgorged onto a press and then sold to libraries at usurious prices. I’ve no intent to repeat such monstrosities.
+Also, as a regular user of XeTeX, as well as being fairly well versed in various text encoding problems, I’m acutely sensitive to the misuse of characters. I’d never abuse assigned characters just for their appearance, and much prefer having proper features in the font. Since Charis is open-licensed, I figured I’d just hack in the features I wanted and wouldn’t have to worry overmuch about licensing issues. I’d much rather be using, say, Aldus & Palatino, but then I’d have to create all the phonetic glyphs and other symbols on my own and then subsequently worry about the legality of it. I figure that adding features and tweaking a few shapes is probably somewhat easier than designing a complete set of IPA glyphs and a bunch of obscure diacritics.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-08 01:41:24" itemprop=datePublished>
+2008-01-08 01:41:24
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>jcrippen</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> <cite>I realize that FontForge is having troubles with Charis' features.</cite>
+Charis contains both AAT and OpenType tables, with some that are shared and, thanks to George Williams, the <a href="http://sourceforge.net/project/showfiles.php?group_id=103338">last version of FontForge</a> can now tackle that cross bred beast. What I described above gives a font that seems to work well with TextEdit provided the font is saved with both "Apple" and "OpenType" tables (I tried with charis-4.012).</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-11 18:44:49" itemprop=datePublished>
+2008-01-11 18:44:49
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Michel Boyer</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>James,
+I rely quite heavily on Charis SIL as well, for similar reasons. If your endeavors are successful, I hope you'll let everybody know, including SIL. I think many people within the linguistics community would welcome the improvements you propose.
+Best regards,
+Aric</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-11 19:43:37" itemprop=datePublished>
+2008-01-11 19:43:37
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>aric</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>James,
+When it comes time to publish a book, let me know. I'm not sure which university presses have a publishing program that includes linguistic studies (check the AAUP website), but I do know a number of university presses that use typesetters who will not commit any of the atrocities you mention. I'm not going to get into particular presses on a public forum. Of course, you have to get them to accept the manuscript -- easier with a subsidy, BTW.
+For commercial publishers, you're on your own, but they may be quite happy to take camera-ready copy.
+In passing, we used TeX for almost 20 years -- our implementation was called Buffalo Tex, so named by my business partner who wrote the macros & pagination program. He was originally from Borneo, and felt this implementation was as good a workhorse as a water buffalo, & I agree. The problem was color management. I don't know if the other, more popular TeX-based programs have dealt with this -- esp. for color images. Color management (profiling a printer's press & paper) for B&W was possible with our TeX, but color images were a nightmare. Could be done, but "danger lurked at every twist & turn." If your work involves images, you need to pay attention to this aspect.
+Good luck with it.
+BTW, Aldus metal was wonderful, Aldus PostScript Type 1 was pretty bad. I don't know if any foundry has reworked it since then. Charis with longer descenders & a touch higher ascenders, ligatures, etc. would be a nice font for linguistics. I can't off the top of my head remember the parentheses, but they can be more of a problem in linguistics than some other fields -- dramatic plays are another type of work where the parenthesis are important, esp. how italic letters fit following (or preceding) a roman paren. Etc.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-12 02:19:23" itemprop=datePublished>
+2008-01-12 02:19:23
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> Aldus metal was wonderful, Aldus PostScript Type 1 was pretty
+> bad. I don’t know if any foundry has reworked it since then.
+Well, there is <a href=http://www.font.org/lt/109957/aldusnova-family.html>Aldus Nova</a>.
+A.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-01-12 17:00:37" itemprop=datePublished>
+2008-01-12 17:00:37
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,1471 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Opentype Contextual glyph replacement | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Opentype Contextual glyph replacement">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/15724/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2005-10-18T19:49:34+00:00">
+<meta property="article:modified_time" content="2005-10-18T19:49:34+00:00">
+<meta itemprop=name content="Opentype Contextual glyph replacement">
+<meta itemprop=description content><meta itemprop=datePublished content="2005-10-18T19:49:34+00:00">
+<meta itemprop=dateModified content="2005-10-18T19:49:34+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Opentype Contextual glyph replacement">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Opentype Contextual glyph replacement</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2005-10-18T19:49:34Z>October 18, 2005</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>Has anybody done this yet? Contextual replacement in OpenType using Kerning as the context.
+I would like to offer a version of my font Army Pool Tiles ( which has kerning pairs ) in a reverse mode. Originally I thought I could just reverse the tiles but then I found I was getting unacceptable overlaps and gaps when the kerning was used ( suprise suprise) - so I need to create context dependent alternatives that fit correctly for the reverse font/s.
+Has anybody here done this?
+I am also just starting to learn this aspect of Fontlab. Does anybody have opinions about if it is better to code for contextual substitution in fontlab or with some 3rd part tool?
+******
+Update. I added an image which shows the kerning result. What the blue highlight is showing is the area I am concerned with in a reverse version of my font. In a reverse version the blue area would be mostly filled with tiles. When I apply a kern between the 'V' & 'a', the 'a' comes closer to the 'V'. Without substitution part of the V would be overlapped. What I plan to do is create an 'a' which has it's first line of tiles removed to substitute in when it occurs after 'V' (and some other glyphs). I have 298 pairs total.
+If I get this working I will show the results.</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>i'm confused... can you make your meaning a bit clearer. (for dummies like me)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-18 20:16:01" itemprop=datePublished>
+2005-10-18 20:16:01
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>You can't use kerning per se as the context, i.e. there is no way to change whether a lookup is applied depending on whether or not kerning is active, but you can certainly substitute special glyphs to resolve spacing issues. I'm doing this in one of my current projects: I have special glyphs of some lowercase letters to use after g and r, so that they don't collide.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-18 20:16:35" itemprop=datePublished>
+2005-10-18 20:16:35
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I think Cambria uses a special 'f' when placed next to 'i' instead of a traditional ligature.
+Cheers, Si </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-18 22:04:04" itemprop=datePublished>
+2005-10-18 22:04:04
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Si_Daniels</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I am attempting to use a special "r" when next to "i" in a typeface I am working on. That part works fine. The problem I am having is when I get a double r next to an i. I can't get the script to compile. I want to get 2 alternnate r's next to the i but instead I get two different kinds of r. Anybody have any ideas why? The font is in the Critique section here:
+http://typophile.com/node/15626
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-18 22:36:51" itemprop=datePublished>
+2005-10-18 22:36:51
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Aha! So you guys are doing this!
+Sorry Paul, I am sure the fault is with my explanation. I will post an visual example of why I want to do this - the best way no doubt.
+John, I didn't think I could get the font's kerning table to talk to the replacement engine in open type - but I can look at my kerning table & see where I might want to make substitutions and then make them based on context ( V next to a or A) etc.
+Chris, & John: You are using Fontlab to make your substitution scripts right?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-19 00:04:54" itemprop=datePublished>
+2005-10-19 00:04:54
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Eben,
+I am using FontLab 4.6 on a Mac. I am not an expert by any means. I am just plodding through the opentype resourse PDFs available from Adobe and Microsoft. John Hudson and Thomas Phinney are very good resources though.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-19 00:50:48" itemprop=datePublished>
+2005-10-19 00:50:48
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Eben, no, I'm not using FontLab for my substitutions. I do all my OpenType Layout work in MS VOLT.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-19 02:18:12" itemprop=datePublished>
+2005-10-19 02:18:12
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>How did each of you decide? MS Volt is windows only right? </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-19 09:16:33" itemprop=datePublished>
+2005-10-19 09:16:33
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Eben, I use FontLab for my own substitutions. VOLT is more powerful and definitely worth learning if you have access to a Windows machine. (Which you also want anyway because FontLab Studio 5 is Windows-only so far, and because soon you'll want to test OpenType font behavior in Avalon applications.) I have not learned VOLT yet because I don't do complex script type design. (Yet.) Er, and because I'm sorta lazy.
+OpenType is supposed to have contextual kerning at some point in the future. At present, only <a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&cat_id=RenderingGraphite">Graphite</a> can do that. So far Graphite is only used in a <a href=http://sila.mozdev.org/screenshots.html>limited range of applications.</a></div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-19 11:43:42" itemprop=datePublished>
+2005-10-19 11:43:42
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>johnbutler</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Update ^ up top.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-19 22:56:25" itemprop=datePublished>
+2005-10-19 22:56:25
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Eben,
+I use a Mac so VOLT is not an option. I am more of a visual person and VOLT may be more geeky than I want albeit very powerful.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-19 23:13:49" itemprop=datePublished>
+2005-10-19 23:13:49
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Eben,
+If you can define your context as a particular glyph following a particular glyph or glyphs, it should work fine. The substitution won't be due to a degree of kerning but the pairing of stated glyphs in sequence.
+In my case, I am subing r when it precedes i or j. Here is my script:
+feature calt { # contextual alternate
+sub r' [i j] by r.alt;
+} calt;
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-19 23:21:24" itemprop=datePublished>
+2005-10-19 23:21:24
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Wow. Thats cool. Very cool.
+Actually making the *preceding* character change seems X-TRA cool!
+Do you know if there are web pages which offer example code so I can start to deduce what is going on in the code? And maybe make off with some that is relevant too? For some reson I get MEGO when I read directions meant for programmers. But I can code CSS & HTML just fine because I can look at the code & look at what it makes & make the intuitive leap. This probably means I won't be coding javascript but maybe I can manage some Opentype code with time. It doesn't look too hairy.
+I did find this example from Adam Twardoch @ fontlab's MSN help site:
+feature calt {
+sub n o' by o.calt1;
+sub b o' by o.calt2;
+} calt;
+It is for 'The first substitutions means: if the "o" glyph is preceded by "n", substitute the "o" with the "o.calt1" glyph. The second means: if the "o" glyph is preceded by "b", substitute the "o" with "o.calt2" '.
+So... I think I could maybe say:
+feature calt {
+sub V a' by a.calt1;
+} calt;
+And as long as I have a glyph named 'a.calt1' then it should work.
+Does anybody know what apps support what open type 'calls' now (eg. 'calt') - or is there a master list somewhere? I imagine that 'calt' is a basic call supported by all apps that support open type - but is this right?
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-20 01:01:56" itemprop=datePublished>
+2005-10-20 01:01:56
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Right now the Adobe apps but more will come next year. Microsoft maybe 2007.
+You might look at the .fea files of sample fonts from FontLab or peak at the Opentype window of the font to see coded features.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-20 02:09:23" itemprop=datePublished>
+2005-10-20 02:09:23
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The freeware <a href=http://www.abisource.com/>AbiWord</a> activates contextual alternates automatically in Windows XP Service Pack 2, once you go into international settings and turn on complex script support.
+On Mac OS X, the inexpensive <a href=http://www.redlers.com/mellelscreenshots.html>Mellel</a> supports contextual alternates plus a number of other OpenType features.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-20 17:19:37" itemprop=datePublished>
+2005-10-20 17:19:37
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>johnbutler</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>short sidebar:
+Dez said: "more geeky".
+I question that. At what point is working with scripting less geeky in general?
+;^)
+as you were.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-20 17:57:41" itemprop=datePublished>
+2005-10-20 17:57:41
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miss Tiffany</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em>Do you know if there are web pages which offer example code so I can start to deduce what is going on in the code? And maybe make off with some that is relevant too?</em>
+I started a bit of a OpenType crash course in the [[typowiki|wiki]] at [[OT_How-To]]. There it links to some sample code from Adobe that you can look at and learn from.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-20 18:28:54" itemprop=datePublished>
+2005-10-20 18:28:54
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>"I question that. At what point is working with scripting less geeky in general?"
+When you are not working in a text editor :-)
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-20 20:58:08" itemprop=datePublished>
+2005-10-20 20:58:08
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>"...The problem I am having is when I get a double r next to an i. I can’t get the script to compile. I want to get 2 alternnate r’s next to the i but instead I get two different kinds of r. Anybody have any ideas why? ..."
+KUDOS to Paul Hunt for helping me with this one! It is now working fine thanks to Paul showing me the proper placement of the single quote and space.
+ChrisL
+[img:sites/default/files/old-images/thanksCowboy.jpg]</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-20 23:42:43" itemprop=datePublished>
+2005-10-20 23:42:43
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Ah, I'm late to the party, I see.
+I've posted some unusual code examples of contextual substitutions on the Adobe User Forum for our OpenType FDK (same code works in FontLab, too).
+http://www.adobeforums.com/OpenType%20Font%20Developers%27%20Kit%20(FDK)/160
+I'm also working on an article on contextual subs for my blog. I'll let you know when it's up.
+Cheers,
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-21 03:47:26" itemprop=datePublished>
+2005-10-21 03:47:26
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Awesome.
+I end up grabbing the .AFM from a postsctipt version of my Font to get a complete pair listing. Then I massaged the text in preperation for merging it with the 'Calt' function set.
+I noticed that I ma going to want to substitute both glyphs in a character pair in one case
+I was wondering how this code looks to 'yall.
+The pair is: F J
+feature calt { #
+sub F’ J’ by F.calt3 J.calt3;
+} calt;
+Also, The code that Chris showed us uses this phrase : [ij]
+Is that bracket set effectively saying 'including'?
+Is so, can you transalte this:
+feature calt {
+sub n o’ by o.calt1;
+sub b o’ by o.calt1;
+} calt;
+(Meaning: if you have 'no' or 'bo' sub the o to the glyph o.calt1)
+to this:
+feature calt {
+sub [n b] o’ by o.calt1;
+} calt;
+?
+Thanks!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-21 04:13:05" itemprop=datePublished>
+2005-10-21 04:13:05
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>John Butler: <em>OpenType is supposed to have contextual kerning at some point in the future. At present, only Graphite can do that.</em>
+I don't think this is accurate, unless you are thinking of contextual kerning in some different sense. I do contextual kerning lookups for Arabic OpenType pretty regularly, e.g. adjusting the kerning between two letters when a mark on the second provides context. As far as I know, this is one of the things that you need to use VOLT for, as the Adobe FDK code used by FontLab doesn't support contextual GPOS.
+Eben, the main reason I use VOLT for all my OT stuff is that it is much more powerful than what FontLab has available: it supports a wider range of lookup types, including the GPOS mark positioning that I need in most of my projects.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-21 05:40:35" itemprop=datePublished>
+2005-10-21 05:40:35
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Chris Lozos: <em>I use a Mac so VOLT is not an option. I am more of a visual person and VOLT may be more geeky than I want albeit very powerful.</em>
+Ironically, one of the things I like about VOLT is that it is <em>more</em> visual than FontLab. You can see the input and output for every lookup directly in the lookup window as you are working.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-21 05:43:40" itemprop=datePublished>
+2005-10-21 05:43:40
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Hmmm That sounds like a ringing endorsement to me!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-21 07:28:04" itemprop=datePublished>
+2005-10-21 07:28:04
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em>I don’t think this is accurate, unless you are thinking of contextual kerning in some different sense. I do contextual kerning lookups for Arabic OpenType pretty regularly, e.g. adjusting the kerning between two letters when a mark on the second provides context. As far as I know, this is one of the things that you need to use VOLT for, as the Adobe FDK code used by FontLab doesn’t support contextual GPOS.</em>
+I'm talking about Latin script fonts as rendered in the applications used by most Latin-script OT font buyers by a wide margin.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-21 12:52:16" itemprop=datePublished>
+2005-10-21 12:52:16
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>johnbutler</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I found a way of doing a two letter calt switch.
+Example 'FJ' I want altrenate glyphs for both F & J in this case
+
+here is how I did it.
+sub F' J by F.calt3;
+sub F.calt3 J' by J.calt1;
+originally I had tried
+sub F’ J’ by F.calt3 J.calt1;
+but that didn't work.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-21 21:11:59" itemprop=datePublished>
+2005-10-21 21:11:59
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> sub F’ J’ by F.calt3 J.calt1;
+> but that didn’t work.
+You may try next code:
+feature clig {
+sub @anyletter F' J' by FJ.clig;
+} clig;
+where
+@anyletter — special class contains all letters
+FJ.clig — specially prepared ligature
+or more simple, as usual "ligature"
+It really works, tested with electronics! ;)))</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-25 15:14:18" itemprop=datePublished>
+2005-10-25 15:14:18
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Henyk</span></span>
+</div>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Eben, the F' J' sub was never going to work, as the ' means "in this contect, change this one", and having two of them goes against the syntax. Doing it as two lines is definitely the right way, and you'll have to make sure that the F' J comes before the F.alt J' in the feature.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-21 22:06:21" itemprop=datePublished>
+2005-10-21 22:06:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>"Ironically, one of the things I like about VOLT is that it is more visual than FontLab. You can see the input and output for every lookup directly in the lookup window as you are working."
+So John, anyone plan to port that puppy to the Mac :-)
+My fontLab is acting freaky lately, everytime I close and reopen a file, the five features get all jumbled and strung out as one entry. I have to re-build my features everytime I open a file. My .fea files seem to have vanished too. Maybe it is just Adam messing with my mind:-)
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-21 22:27:17" itemprop=datePublished>
+2005-10-21 22:27:17
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>"http://www.adobeforums.com/OpenType%20Font%20Developers%27%20Kit%20(FDK)/160"
+Hi Thomas, welcome to the frey. I am going to look at your site as soon as I can decifer your URL :-)
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-21 22:29:40" itemprop=datePublished>
+2005-10-21 22:29:40
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The URL looks like that because it is on a mac I think. The % signs are directories like / are more usually. It does go somewhere - but somewhere needing a password... for now.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-22 00:10:05" itemprop=datePublished>
+2005-10-22 00:10:05
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The % signs indicate a character that would not normally be allowed in a URL. %20 is a space; %27 is a single quote. Nothing to do with Macs, I don't think.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-22 00:15:50" itemprop=datePublished>
+2005-10-22 00:15:50
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>It seemed like for a while when people were serving web pages from macs the directories were separated by % signs too. I think when macs went unix/osx this went away but I am not sure...
+Now I am curious! Mark, How did you find out about the %20?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-22 01:55:03" itemprop=datePublished>
+2005-10-22 01:55:03
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Mac users for many years could use space characters in their file names. When they started naming web pages and directories, the space habit was still there, Web servers replaced spaces with %20 because spaces are a no-no in URLs. Mac users have since learned not to use spaces in their URLs and that is why you don't see it anymore. It had nothing to do with OS-X. Iknew about %20 for years but didn'y know about %27 'til Mark's post tonight.
+I was joking with Thomas by the way.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-22 03:41:50" itemprop=datePublished>
+2005-10-22 03:41:50
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The % thing is a Unix thing. It indicates that a character code (in hexadecimal) will follow. It's like an escape character. Every programming and scripting language has something like it. In Javascript, it's the backslash. </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-22 06:40:26" itemprop=datePublished>
+2005-10-22 06:40:26
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>“Curiouser and curiouser!” Cried Alice </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-22 07:23:39" itemprop=datePublished>
+2005-10-22 07:23:39
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Note that you can do many-to-one subs (contextually or not), or one-to-many, it's just many-to-many that's not supported. However, you can usually get equivalent results by doing one or both of the other two.
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-22 21:08:57" itemprop=datePublished>
+2005-10-22 21:08:57
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>John Butler: <em>I’m talking about Latin script fonts as rendered in the applications used by most Latin-script OT font buyers by a wide margin.</em>
+Ah, understood. From the way you stated it originally, it sounded like a limitation of OpenType, rather than a limitation of applications and font some development tools.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-22 21:16:29" itemprop=datePublished>
+2005-10-22 21:16:29
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Tom Phinney: <em>Note that you can do many-to-one subs (contextually or not), or one-to-many...</em>
+In FDK? As far as I know, one-to-many (type 2 GSUB lookups) are not still supported in FDK/FontLab, although it is a long time since I tried it.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-22 21:18:58" itemprop=datePublished>
+2005-10-22 21:18:58
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>John H: You're probably right that Type 2 lookups aren't currently supported in the FDK and FontLab. If so, it should be fixed in another two FDK releases, some time next summer.
+(UPDATE: more likely spring 2007)
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-22 21:23:04" itemprop=datePublished>
+2005-10-22 21:23:04
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I have figured out how to do this
+sub [Yacute F T V X Y f florin] a' by a.calt1;
+This let's me change my 'a' glyph to 'a.calt1' if it is preceded by Yacute 'F T V X Y f' or 'florin'
+Which is great. I should be able to get the list down to a somewhat more manageable size and find and edit errors/omissions more easily now.
+Speaking of which - I had started to think that it might not be a bad idea to look at the .afm of a similar font to see what pairs are being kerned. I found my original kerning info was best accessed in my own .afm file. Since my face is modular but not a monospace it ends up having a slightly different set of kerning needs than is typical. I am not sure what font I would look to.
+Any suggestions?
+Also, Does anybody have any suggestions on how to organize the calt code further? Any common traps to avoid?
+Any favorite pairs?
+And last but certainly not least: Now that I have created 30 or so altrenates glyphs I need to figure out the best way to test them in pairs - especially where they precede another glyph. So for instance I need to include F.calt3 in my 'a' lists like this:
+sub [Yacute F F.calt3 T V X Y f florin] a' by a.calt1;
+Any suggestions on managing this kind of echo effect in the code?
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-24 21:24:39" itemprop=datePublished>
+2005-10-24 21:24:39
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Why not just do it as a simple liga feature:
+<code>feature liga {
+sub F J by F_J;
+} liga;</code>
+where F_J is your ligature.
+Seems like a lot of unnecessary trouble to use clig for it.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-25 15:45:48" itemprop=datePublished>
+2005-10-25 15:45:48
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> Seems like a lot of unnecessary trouble to use clig for it.
+May be, or may not to be ;)
+From my own experience: clig working perfectly (Adobe CS/CS2 products)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-26 09:47:59" itemprop=datePublished>
+2005-10-26 09:47:59
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Henyk</span></span>
+</div>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I think I understand liga already - but I don't know what clig does yet. I will have to dig into the code references again. Thanks for the examples! Looking into it I found that one good reason to go with Liga aside from simplicity is that it is more broadly supported
+http://www.typotheque.com/fonts/opentype_feature_support/
+Simon, Thomas, what code have you eneded up using the most? Liga? There are tons of code ellements out there but for roman type at least it seems like 3-4 bits would be good for up 98% of the time. This idea of mine is admittedly naive - but is it wrong?
+Also, I see that the code I have been using 'calt' is not supported as widely as Liga. Maybe I aught to reverse course & use liga for all my combinations. It would make for fewer altrnate glyphs - thats for sure!
+Henadij, Which ones do you use & why?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-25 16:59:00" itemprop=datePublished>
+2005-10-25 16:59:00
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Man, it's riveting to see my childhood friend Code
+so tangibly showing up in a typographic forum...
+hhp
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-25 17:03:57" itemprop=datePublished>
+2005-10-25 17:03:57
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>hrant</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Does VOLT help you track/manage combinations? Fontlab is great at lots of things but tracking kerns & Opentype code - and the interaction between them doesn't seem to be one of them.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-25 17:45:38" itemprop=datePublished>
+2005-10-25 17:45:38
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I said before 'It would make for fewer altrnate glyphs - thats for sure!' This is false. Actually it increases the # by tenfold or so. I still haven't decided which model makes the most sense. I am leaning towards liga because Photoshop 6 & 7 use it. But I haven't decided. Also, which is easier to deal with and manage - the 300 combinations of 30 glyphs or so or the 300 glyphs? The visual and kerning management of 300 glyphs would be easier because each combination is directly represented. Testing would be faster because of a reduced # of characters to change for each test. However the # of tests will be the same. But 30 glyphs makes a lighter font in terms of data size.
+I am not sure how so many non-standard glyphs would be accepted into an opentype font - alot to be sure but maybe not an infinite amount.
+My case is atypical because I am using the liga or calt to help me past a problem in the reverse version of the font.
+Henadij, how many instances end up being created in your work? IS it a large number? What is your method for managing them?
+Mark, how about you?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-26 17:07:33" itemprop=datePublished>
+2005-10-26 17:07:33
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I don't know. I just saw a simpler way to do what Henadij was doing with the clig definition. I don't have any good ideas how to solve your problem. Seems like you have painted yourself into a corner with this particular design concept. You may be better off not kerning at all.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-26 19:56:43" itemprop=datePublished>
+2005-10-26 19:56:43
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Oh, I don't know. It's not so bad. It's a day or two's work once I decide what I want to do and it's an interesting technical & mental excersize for me. 
+
+One thing I am still unclear about is is how clig is more complex than Liga. Liga is more widely supported and is invoked no matter the context. Whereas in some ways Henadij is getting around the point of having the Clig feature at all ( context ) with his 'sub @anyletter'. Appart from support differences the code is pretty similar in length. The one advantage i see in using Clig is that if you decided to start invoking special cases later on you could do so more quickly/easily with the clig code... On the other hand, Mark, you are right in that Clig code isn't quite orthodox. But all of this is shades of grey.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-26 20:26:00" itemprop=datePublished>
+2005-10-26 20:26:00
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Hi, all!
+I think that clig using is really extreme way, particularly in case
+sub @anyletter :)
+If I need many instances of “ligature”, constructing it from two alternate glyphs seems more logically, but in case of only few instances I prefer clig, particularly if calt definition is complicated and contains constructions such as
+sub a b c’ by c.alt;
+which may be not generated with FL 4.x :(
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-27 11:07:25" itemprop=datePublished>
+2005-10-27 11:07:25
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Henyk</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The definition of "contextual" (as in 'clig' and 'calt') is that some glyphs, other than those being substituted, provide the context. There's no reason to use 'clig' when it's not contextual; you might as well use 'liga', 'dlig' or 'hlig' as appropriate.
+You can of course use what's supported by current applications as a guiding factor as well. But beware that using inappropriate features will just confuse things later when future applications do implement the more "correct" features. Remember, fonts last almost forever.
+Cheers,
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-28 22:45:55" itemprop=datePublished>
+2005-10-28 22:45:55
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks, Tom!
+But please answer on question: how to call hlig replacement in InDesign CS/CS2 manually? I don't see it in OT-menu...</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-31 09:54:21" itemprop=datePublished>
+2005-10-31 09:54:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Henyk</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Henyk,
+InDesign does not support "hlig" but Mac OS X 10.4 Tiger does (so it works in TextEdit, Keynote, Pages and other Cocoa applications).
+Adam
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-31 10:22:30" itemprop=datePublished>
+2005-10-31 10:22:30
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Czesc!
+> but Mac OS X 10.4 Tiger does
+But I'm working with WinXP-SP2, and haven't another way then InDesign now :)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 10:21:49" itemprop=datePublished>
+2005-11-01 10:21:49
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Henyk</span></span>
+</div>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Actually, in InDesign turning on "discretionary ligatures" activates both the 'dlig' and 'hlig' OT layout feature tags.
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-31 18:33:09" itemprop=datePublished>
+2005-10-31 18:33:09
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>
+> Actually, in InDesign turning on “discretionary ligatures” activates both the ‘dlig’ and ‘hlig’ OT layout feature tags.
+Oh my, how complicated! ;)
+Thanks, Tom.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 10:36:44" itemprop=datePublished>
+2005-11-01 10:36:44
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Henyk</span></span>
+</div>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Is there a way to globally use alternates? Let's assume you have an alternate "g" and want to use it in a column of text. Is there a way of doing this without using the Glyph palette a hundred times? What I do now is the the alternate as Swash and use the Swash feature in InD. It works but it is kind of false advertising sing the alternate g is not swash by any means.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-10-31 18:58:00" itemprop=datePublished>
+2005-10-31 18:58:00
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>You could always do the old fashioned thing and offer ant alt font...
+What I want OTF to do is to let us specify color. It wouldn't be *that* hard surely!.
+And it would open up a whole new market! Think of what you could do with overlays!
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 00:49:45" itemprop=datePublished>
+2005-11-01 00:49:45
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> Actually, in InDesign turning on “discretionary ligatures” activates both the ‘dlig’ and ‘hlig’ OT layout feature tags.
+but not in PhotoShop. Down with discrepancies!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 14:26:20" itemprop=datePublished>
+2005-11-01 14:26:20
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em>Is there a way to globally use alternates?</em>
+In InDesign, you can apply a stylistic set. There can be up to 20 of them.
+Personally, I think the mechanism for choosing alternate characters in OT fonts is flawed and limited.
+Let's say you always want to use a certain alternate "e" in a certain font.
+You could insert it manually every time an "e" appears, but that would be extremely tedious.
+Or, you see that the alternate "e" is part of Stylistic Set 2, so you select all the text and apply that. But then you notice that Stylistic Set 2 also contains a bunch of other alternates that you don't want. The only recourse is to apply the Stylistic set just wherever an "e" appears, but that's almost as tedious as the first method. (You get a similar problem when you put the alternates in a separate font.)
+It seems like you ought to be able to look at a list of alternates for a particular character and set a preference for which one to use in a particular text selection or style sheet. This would be a sort of user-defined "stylistic set."
+(Yet something else for Adobe's feature request page. Not that Adobe should be the only one listening.)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 14:34:39" itemprop=datePublished>
+2005-11-01 14:34:39
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>It does seem like setting preferences for use by the user - and being able to offer these preferences pre-set as part of the font design would be a far more practical addition. I agree. In the meantime, although it takes up more space than is ideal you can release several versions of a font with the features set that you think most likeley to be of use. Even if it's just 1 2 or 3 glyphs. </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 16:34:25" itemprop=datePublished>
+2005-11-01 16:34:25
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Imagine, though, if you had a font with even just five alternate characters (corresponding to five normal characters). With five alternates, there are 31 possible stylistic sets using 1 to all 5 alternate characters. Add one more alternate character and you get 63 possible sets. Ad one more and you get 127, and so on. How do you decide which are the most likely combinations? What if the user wants some other combination? Having a UI in which the user can choose alternates <em>à la carte</em> and apply them to an entire range of text seems like it would be a less cumbersome approach.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 17:32:09" itemprop=datePublished>
+2005-11-01 17:32:09
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em>Having a UI in which the user can choose alternates à la carte and apply them to an entire range of text seems like it would be a less cumbersome approach.</em>
+i agree. i think it would be great if there were some type of panel that let you basically build your own OT rules, something like stylesheets but actual user defined stylistic sets would be awesome.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 17:47:19" itemprop=datePublished>
+2005-11-01 17:47:19
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Mark, I agree of course - I just meant that in some cases, not even the majority, it could make sense (and be practical) to have a regular & then an alt 1 set & maybe an alt 2 set where a few glyphs are changed either with OT script/feature or simply by using different outlines. Chris' new font to be being one possble case. His font has both a double bowl g & a single bowl g and it makes a big difference to how the face comes across. Given the change in feeling he perhaps cound redesign or tweak 2-3 other characters in a version of his font and create a different feeling. Like I said it is no panacea. But he could do it today without waiting for improvements to the OT standard.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 18:05:13" itemprop=datePublished>
+2005-11-01 18:05:13
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I just noticed something about InDesign's implementation of stylistic sets: You can apply more than one at a time. A type designer could put just one alternate character in each set, thereby getting the "à la carte" effect that I described. You would still be limited to 20 sets, but it would work if you had a limited number of alternates. If have more than 20 alternates, and there are certain alternates that, as a rule, should go together, you could put them in the same set to get them into the 20 available sets...</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 19:37:37" itemprop=datePublished>
+2005-11-01 19:37:37
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>In fact, I think this is such a great idea, I'm going to do an update to Proxima Nova. I wish I'd though of this before I released it.
+(Free update for licensed users--you will be notified when it's ready.)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 20:53:28" itemprop=datePublished>
+2005-11-01 20:53:28
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>"...Given the change in feeling he perhaps could redesign or tweak 2-3 other characters in a version of his font and create a different feeling..."
+The problem is also educating the user of how to do it and even letting them know it is available as a selling point.
+I know you can get into rapid growth with the factorial of variables. Twenty factorial is a large number. Many font users don't even try the basic alternates. I guess we have to be satisfied we are at least offering many possibilities to the very type savvy designer.
+I like the "Alternate style Sheet" idea. This would be a universal tool which would not have to be redefined for each and every typeface.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 21:51:26" itemprop=datePublished>
+2005-11-01 21:51:26
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>"(Free update for licensed users—you will be notified when it’s ready.)"
+Thanks Mark!
+Also, I'd be interested in how you do it. This seems like something of universal value to type designers.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 21:54:12" itemprop=datePublished>
+2005-11-01 21:54:12
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Note: You can apply one or more Stylistic Sets to a character- or paragraph-level style sheet in InDesign.
+I will provide a user guide with Proxima Nova on how its Stylistic Sets work when the new version is out.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 21:56:22" itemprop=datePublished>
+2005-11-01 21:56:22
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>What I intend to do is this:
+There are four alternate characters in Proxima Nova: A more geometric (Futura-like) G, a one-story a (and corresponding two-story a in the italic), an l with a tail, and a curved y (similar to a one-story g). Note: The normal roman a is two-story; the normal italic a is one-story.
+There will be seven stylistic sets:
+Set 1: Alternate a, l, and y in the roman; Alternate l, and y in the italic. This is the "primer" or "schoolbook" set, intended for early reader books.
+Set 2: Alternate G and a in the roman; Alternate G in the italic. This is the "Futura-like" set.
+Set 3: Alternate G.
+Set 4: Alternate (one-story) a (roman only).
+Set 5: Alternate (two-story) a (italic only).
+Set 6: Alternate l.
+Set 7: Alternate y.
+The first two are Stylistic Sets in the way (I think) the feature is intended to be used. The rest are effectively <em>à la carte</em> alternate character styles which can be mixed and matched to taste. You could actually recreate the first to sets using the others like this:
+Equivalent to Set 1: Apply Set 4, Set 6, and Set 7.
+Equivalent to Set 2: Apply Set 3 and Set 4.
+And so on.
+(By the way, the current version of Proxima Nova has two Stylistic Sets, basically the same as the first two of the proposed sets, except that the alternate (two-story) a is included in the italic. This was ill-conceived, I realize on hindsight.)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-01 22:22:53" itemprop=datePublished>
+2005-11-01 22:22:53
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>"By the way, the current version of Proxima Nova has two Stylistic Sets, basically the same as the first two of the proposed sets, except that the alternate (two-story) a is included in the italic. This was ill-conceived, I realize on hindsight.)"
+Now I'll have to take another look it.
+Thanks so much for sharing your wisdom on this Mark! I see I have much to learn about opentype features.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-02 00:37:35" itemprop=datePublished>
+2005-11-02 00:37:35
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>InDesign CS2 was the first application (that I'm aware of) to support Stylistic Sets. I didn't have a copy of it until about a week before I released Proxima Nova, and didn't realize the program supported them until even later. Consequently, I put the features in before I really understood how they would be implemented on the user end.
+I'm still learning, too.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-02 01:31:40" itemprop=datePublished>
+2005-11-02 01:31:40
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Mr Simonson --
+but don't forget the manual! ;-)
+Karsten</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-02 12:10:41" itemprop=datePublished>
+2005-11-02 12:10:41
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>http://www.kltf.de/downloads/KLTFTiptoeManual.pdf
+I'm impressed! (Nice font, too.)
+There was a time when even PostScript Type 1 fonts came with printed manuals and disks. Of course, the prices were quite a bit higher back then. (In 1986, for a three-weight font family like Goudy Oldstyle, Adobe charged $185--equivalent to $317 in 2005 dollars.)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-02 14:01:36" itemprop=datePublished>
+2005-11-02 14:01:36
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Great idea Karsten!
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-02 14:35:18" itemprop=datePublished>
+2005-11-02 14:35:18
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Wow, Karsten - impressive, on many counts.
+hhp
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-02 15:25:22" itemprop=datePublished>
+2005-11-02 15:25:22
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>hrant</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Oh thanks.
+But it will turn out useful manuals really are. I doubt anyone will save fonts and manual together.
+My first idea was to use ssXX features consistently throughout my typefaces, so, ss01 for certain substitutions, ss02 for certain others &c. But with the second and now third type it turns out the idea is unrealistic.
+Now I read that a font's Description [in FL's FontInfo / Name ID 10 in the specifications] was also intended for feature descriptions which may be a nice idea. Then information are part of the font. Provided however that apps or font management tools would display these information ... But I haven't made use of this myself yet. Maybe you can do this for an updated Proxima Nova?
+Karsten</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-02 15:35:31" itemprop=datePublished>
+2005-11-02 15:35:31
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Nice to see you on typophile Karsten!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-02 22:30:21" itemprop=datePublished>
+2005-11-02 22:30:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I agree that Stylistic Sets are the best solution for the problem Chris proposes when he writes: "Is there a way to globally use alternates? Let’s assume you have an alternate “g” and want to use it in a column of text...."
+Also, Stylistic Sets can perfectly legitimately be used much as Mark has suggested for Proxima Nova. The typeface I'm working on right now has quite a few of them, and in much this way. They can be mutually exclusive, or they can be mix-and-match.
+Regards,
+T
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-05 02:58:20" itemprop=datePublished>
+2005-11-05 02:58:20
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thomas, good to hear you say that. Part of me worried that my proposed use of Stylistic Sets was a sort of hack.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-11-05 04:34:22" itemprop=datePublished>
+2005-11-05 04:34:22
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I've been reading through this interesting thread and have a question...
+The book publisher I work for had this custom font developed years ago. It's a cursive font designed to teach children cursive writing. It's quite an amazing piece of work, each character has the ability to connect with the next character at either a high, middle, or low connector.
+Originally the type 1 font was a 3-piece font: screen, printer, and some sort of executable that had to be downloaded to the postscript printer to control the contextual connections. This method caused 2 problems: 1) the font would sometimes get kicked out of the PostScript RIP if another font was downloaded, 2) You could not save to postscript for making PDFs.
+Later this was all combined in to one font with built-in contextual intelligence. so that on postscript output from Quark Xpress (in OS 9) had all the processed contextual characters in place and PDFs could be made properly.
+Well, we haven't used the font in awhile, have upgraded to OS X and InDesign and it occurred to a couple of us the other day that perhaps this special font will no longer work.
+After a few tests we found that not only does it not work in OS X, but it only worked with QuarkXpress 4.11 in OS 9... Even a dusty copy of InDesign 2.02 in OS 9 would not work properly with the font.
+Given all this back history, anyone have a clue as to how this font was made? We outsourced the original design of the font, so no one here knows how it was done.
+At any rate, we have Font Lab on order and hopefully soon enough I'll be re-constructing the font in OpenType, and perhaps asking for hints along the way on this here messageboard...
+Cheers,
+/ed
+[img:sites/default/files/old-images/cursive.jpg]</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-13 19:11:13" itemprop=datePublished>
+2006-04-13 19:11:13
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>vizzie</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>You can create an Opentype font from it and it will work on all your Opentype savvy apps. Nick Shinn and Thomas Phinney gave a class at last years NYC TypeCon on exactly such a face.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-13 22:08:56" itemprop=datePublished>
+2006-04-13 22:08:56
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Cool! Thanks for the info...
+Will Font Lab be able to make the conversion? I was reading the Font Lab 5 user manual yesterday and it stated that Font Lab didn't support the positioning lookup required to get the connectors to connect each glyph.
+there wouldn't happen to be any sort of archive of the class from the NYC TypeCon, a PDF or powerpoint presentation kicking around, would there?
+Thanks again for getting back so quickly.
+cheers,
+/ed</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-14 15:19:44" itemprop=datePublished>
+2006-04-14 15:19:44
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>vizzie</span></span>
+</div>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I don't think it would be a straightforward conversion, but it's unlikely you will need to use the positioning lookup.
+You would probably have to examine the glyph sets, make them into classes, and learn how to implement the "Contextual Alternates" feature.
+I figured out how to do it using the Fontlab manual.
+Contact me and I will send you a reference PDF I made for the workshop.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-14 18:57:42" itemprop=datePublished>
+2006-04-14 18:57:42
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em>Font Lab didn’t support the positioning lookup required to get the connectors to connect each glyph.</em>
+<em>it’s unlikely you will need to use the positioning lookup.</em>
+Here you're looking for substitution lookups (not positioning lookups, which FontLab <em>does</em> support) that happen contextually. I recently did a connecting script using these types of lookups. I could post some code here if you're interested.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-14 19:30:21" itemprop=datePublished>
+2006-04-14 19:30:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Please, Paul, do share!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-14 21:42:59" itemprop=datePublished>
+2006-04-14 21:42:59
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Nolan</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>this may be able to be condensed somehow, but this works for letters that connect low and high (no middle connections).
+OT Code:
+<code>feature calt {
+lookup calt1 {
+sub @lc_highexit @lc_all' by @lc_highentry;
+} calt1;
+lookup calt2 {
+sub @bovw_default' by @bovw_natural;
+} calt2;
+} calt;</code>
+Classes:
+<code>@lc_highexit: b o v w b.high o.high v.high w.high
+@lc_all: a b c d e f g h i j k l m n o p q r s t u v w x y z
+@lc_highentry: a.high b.high c.high d.high e.high f.high g.high h.high i.high j.high k.high l.high m.high n.high o.high p.high q.high r.high s.high t.high u.high v.high w.high x.high y.high z.high
+@bovw_default: b o v w
+@bovw_natural: b.calt o.calt v.calt w.calt</code>
+just to explain a bit, if it doesn't all make sense on it's own: x.high is a lc character which has a high entry stroke, b.calt has a low entry stroke and a high exit stroke, b.high has high entry and exit strokes. This is an abbreviated chunk of code, leaving out diacritic forms (or else the class info would be much longer, but the OT coding would be the same). Critiques to this method are welcome.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-14 22:36:50" itemprop=datePublished>
+2006-04-14 22:36:50
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thank you Paul!
+We unearthed some more info on our special cursive font... it was actually a type1/type3 postscript hybrid.
+and thank you for posting the code. I look forward to diving in to FontLab real soon.
+cheers,
+/ed</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-05-02 16:25:17" itemprop=datePublished>
+2006-05-02 16:25:17
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>vizzie</span></span>
+</div>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thank you Paul!
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-04-27 04:14:20" itemprop=datePublished>
+2006-04-27 04:14:20
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>ebensorkin</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

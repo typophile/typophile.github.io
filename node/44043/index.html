@@ -1,0 +1,172 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Glyphname extension problems | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Glyphname extension problems">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/44043/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2008-04-08T23:59:44+00:00">
+<meta property="article:modified_time" content="2008-04-08T23:59:44+00:00">
+<meta itemprop=name content="Glyphname extension problems">
+<meta itemprop=description content><meta itemprop=datePublished content="2008-04-08T23:59:44+00:00">
+<meta itemprop=dateModified content="2008-04-08T23:59:44+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Glyphname extension problems">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Glyphname extension problems</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2008-04-08T23:59:44Z>April 8, 2008</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>olho</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>I've got some odd behaviour testing my PostScript flavoured OpenType that I suspect is down to the naming of certain glyphs. I wondered if anybody could shed some light on where I've gone wrong. I spent a long time matching my glyphs to the exact spec in the FontLab manual too, so I'm a bit frustrated.
+In InDesign some of my oldstyle numbers are jumbled. If I add a 1, say, I get a 2!
+It could be down to bad Unicode names too. I used FontLab's Generate Unicode tool to populate as many Unicode points as possible. I'm wondering if that was my bum move.
+Testing with FontQA does bring up naming issues though, listing the following as errors.
+All my small caps, which are named, <em>A.smcp</em> etc.
+All my proportional lining numbers, named <em>zero.fitted</em> etc.
+All my tabular oldstyle numbers, named <em>zero.taboldstyle</em> etc.
+And all my proportional oldstyle numbers, named <em>zero.onum</em> etc.
+Looking now, <em>zero.taboldstyle</em> seems to be an erroneous format, but then, the others fail the FontQA test too. Maybe <em>zero.taboldstyle</em> and <em>zero.onum</em> are in fact equivalent, which may explain InDesign's confusion.
+Hmm. I'm stuck I suppose. Anyone able to suggest what the names should actually be?</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>While I don't much care for your naming scheme, I don't think that is it. I think it is simply that you have a mixup in your classes, so that "two.something" is the second member of one class, where "one.somethingelse" is the second member of the others.
+Just a WAG.
+For what it is worth, I (following John Hudson, I believe) use one.op (for one, oldsyle proportional), one.lp (for one, lining proportional), one.lt (one, lining tabular), and of course, one.ot (for one, oldstyle tabular)
+There is a limit to the total length of the names, and if you get too prolix, you'll hit it fast.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-04-09 01:00:22" itemprop=datePublished>
+2008-04-09 01:00:22
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The glyphname extension test in FontQA is tied to FontShop's internal glyphname standards. Your glyphnames are perfectly fine.
+A.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-04-09 10:46:33" itemprop=datePublished>
+2008-04-09 10:46:33
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>You say:
+<cite>All my small caps, which are named, A.smcp etc.</cite>
+I think small caps are supposed to be mapped to lowercase character names (e.g., "a.smcp" instead of "A.smcp"), since that's how they are generally used in text. I could be wrong.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-04-11 03:43:11" itemprop=datePublished>
+2008-04-11 03:43:11
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>cuttlefish</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><cite>I think small caps are supposed to be mapped to lowercase character names (e.g., “a.smcp” instead of “A.smcp”), since that’s how they are generally used in text. I could be wrong.<cite>
+I'd say you're wrong. As I understand it, the point is when, say, text is extracted from a PDF, the period & what follows drop out. So, if you had n.smcp c.smcp a.smcp a.smcp, you'd get ncaa. But N.smcp C.smcp A.smcp A.smcp would go to NCAA. Kansas would be happier.
+Most small caps should map to caps if small caps aren't available. </div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-04-11 15:27:21" itemprop=datePublished>
+2008-04-11 15:27:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>But thats just in the special case of initials/acronyms that for whatever reason are not written in all caps separated with periods (the grammatically correct but typographically ugly way). Any other situation where small caps are used for various sorts of emphasis or what have you, where they might appear along side a regular cap in proper nouns (or any noun in German), should the small caps then not map to the lower case?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-04-11 16:36:40" itemprop=datePublished>
+2008-04-11 16:36:40
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>cuttlefish</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> <em>Most small caps should map to caps if small caps aren’t available.</em>
+Small caps should map to whatever case they started from. If you're getting small caps by styling lowercase, then the glyphs should map to lowercase. The same applies to uppercase. This is the reason why our fonts have two sets of small cap glyphs, which in terms of features are treated like this,
+<code>
+feature c2sc { # Small caps from caps
+sub A by A.sc;
+} c2sc;
+feature smcp { # Small caps from lowercase
+sub a by a.sc;
+} smcp;
+</code>
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-04-13 04:32:27" itemprop=datePublished>
+2008-04-13 04:32:27
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Well, you've convinced me that my suffixes aren't the problem. In the end I've opted for A.sc zero.ot etc. I appreciate the brevity.
+Having changed these and recompiled the font my issues have resolved. Mind you I think the glyph palette in InDesign CS3 (Mac) is a bit buggy as it has crashed the entire app more than a couple of times now –- and not just using my own font.
+I've learnt, too having seen the discussion about small caps. So, thanks all.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-04-13 21:24:31" itemprop=datePublished>
+2008-04-13 21:24:31
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>olho</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

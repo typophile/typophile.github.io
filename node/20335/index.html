@@ -1,0 +1,156 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Font variation mechanism in Mac OS 10.4 | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Font variation mechanism in Mac OS 10.4">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/20335/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2006-05-31T03:58:27+00:00">
+<meta property="article:modified_time" content="2006-05-31T03:58:27+00:00">
+<meta itemprop=name content="Font variation mechanism in Mac OS 10.4">
+<meta itemprop=description content><meta itemprop=datePublished content="2006-05-31T03:58:27+00:00">
+<meta itemprop=dateModified content="2006-05-31T03:58:27+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Font variation mechanism in Mac OS 10.4">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Font variation mechanism in Mac OS 10.4</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2006-05-31T03:58:27Z>May 31, 2006</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>raph</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>I was browsing through the Carbon documentation, and found that as of 10.4, there are <a href=http://developer.apple.com/documentation/GraphicsImaging/Reference/CGFont/index.html>API calls</a> for font variations. It kinda has the flavor of [[MultipleMaster]] technology to me. Does anybody know more about this (that they can talk about publicly)?
+In a related question, does anyone know whether InDesign CS2 will automatically select the correct optical size when a suite is installed? I tried it in CS1 and it didn't seem to work, but now that they're shipping (bundling even) Garamond Premier Pro, it would make sense as a showcase feature.
+In any case, I was both surprised and pleased to see this supported natively in the OS.</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Raph, TrueType variations fonts have been around for a long time, but are not at all widely supported and there are few examples of them. They are considerably more versatile than MM fonts, and theoretically less work to produce. Another of Apple's brilliant ideas backed by a lack of implementation commitment. The necessary gvar and fvar tables are documented on the Apple font developer site:
+http://developer.apple.com/textfonts/TTRefMan/RM06/Chap6gvar.html
+http://developer.apple.com/textfonts/TTRefMan/RM06/Chap6fvar.html
+Regarding the InDesign preferences option to automatically select correct optical size, this is actually an MM-specific preference, not an OpenType preference. I don't have any MM fonts with optical axes installed, so can't test it, but in theory it will select the appropriate instance to use. I don't know whether you need to have created such instances ahead of time, or if InDesign does it on the fly.
+The OpenType size feature doesn't work anywhere, and is a really little more than an ugly hack of the OTL tables. David Lemon at Adobe mentioned last year that they are working on a spec for a new 'size' table, which would be welcome and a much better approach. Maybe now that the OT 1.4 spec is largely finished making its way through the ISO standardisation process we will see more work on a new version.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-05-31 04:45:42" itemprop=datePublished>
+2006-05-31 04:45:42
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>John: you rock. Thanks, that's <em>exactly</em> the information I was looking for.
+I'm all for refining the OT spec, but I don't see what's so terribly <a href=http://www.adobeforums.com/cgi-bin/webx/.3bbe4ce2>wrong</a> with the size feature, or why it would be particularly difficult for Adobe to implement it (my guess is that the main issue here is knowing the grouping of the instances into one logical size-variant font, but in the worst case it seems to me that can be done heuristically from the names). The "automatically use correct optical size" feature (using MM variation) has been documented since InDesign 1.5 (update, according to Thomas commenting in <a href=http://www.typophile.com/node/3999>this thread</a>, it's actually been there since 1.0).</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-05-31 05:39:51" itemprop=datePublished>
+2006-05-31 05:39:51
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>raph</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>1) Note that TrueType variations are part of AAT (GX before that), and are supported in much the same ways/places as AAT.
+2) Regarding MMs with optical size axes, InDesign will do it on the fly - it does not require creation of instances in advance.
+3) The OT 'size' feature is indeed a bit of a hack in terms of where it's placed (in GPOS). Adobe has looked at alternatives, but it would be an exaggeration to say that we are working on something right now.
+Regards,
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-05-31 06:02:33" itemprop=datePublished>
+2006-05-31 06:02:33
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks for the clarifications and additions, Thomas. Always welcome.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-05-31 08:19:42" itemprop=datePublished>
+2006-05-31 08:19:42
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> Note that TrueType variations are part of AAT
+> (GX before that), and are supported in much
+> the same ways/places as AAT.
+There is one Mac TrueType font that ships in Mac OS X that includes variations -- it's Skia. Normally, AAT features are available through the system font selector -> Typography palette in applications such as TextEdit, Keynote, Pages and others. Note however that the standard Cocoa text API does *not* expose variations so these applications won't give you access to the variations. In order to see how the variantions work, you need to call ATSUI directly. There is a demo application that does that in the developer add-ins of Mac OS X (look for "ATSUI" there).
+A.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-05-31 14:59:26" itemprop=datePublished>
+2006-05-31 14:59:26
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Just wanted to post the <code>size</code> feature included in MinionPro-Regular, to 'illustrate' this thread. (In case anyone missed it, it's at the very bottom of the feature file that was made public.)
+<code>
+feature size {
+parameters
+110 # design size (decipoints)
+3 # subfamily identifier
+84 # range start (exclusive, decipoints)
+130 # range end (inclusive, decipoints)
+;
+sizemenuname "Regular"; # Windows Unicode menu name
+sizemenuname 1 "Regular"; # Mac Roman menu name
+} size;
+</code></div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-06-02 01:57:03" itemprop=datePublished>
+2006-06-02 01:57:03
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

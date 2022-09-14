@@ -1,0 +1,294 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Creating dialect-specific alternates in opentype font? | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Creating dialect-specific alternates in opentype font?">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/33087/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2007-04-16T20:17:05+00:00">
+<meta property="article:modified_time" content="2007-04-16T20:17:05+00:00">
+<meta itemprop=name content="Creating dialect-specific alternates in opentype font?">
+<meta itemprop=description content><meta itemprop=datePublished content="2007-04-16T20:17:05+00:00">
+<meta itemprop=dateModified content="2007-04-16T20:17:05+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Creating dialect-specific alternates in opentype font?">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Creating dialect-specific alternates in opentype font?</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2007-04-16T20:17:05Z>April 16, 2007</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>When creating dialect-specific alternates in an opentype font, is the locl feature the only one that needs to be addressed? I have 5 serbian alternates to Cyrillic glyphs. I thought they might also be part of aalt or salt as well. I made a couple of small classes and made subs by class. Is there a “better” way to do this?
+ChrisL</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Strictly speaking, they are language-specific substitutions, which are activated by the language tag. Here's how I'm doing it.
+language SRB exclude_dflt; # Serbian
+sub afii10066 by be.serb;</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-16 21:19:06" itemprop=datePublished>
+2007-04-16 21:19:06
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks Nick!
+It seems not much different than what I did:
+feature locl { # Localized Forms
+# Latin
+language MOL exclude_dflt; # Moldavian
+sub [Scedilla scedilla Scedilla.smcp] by [Scommaaccent scommaaccent Scommaaccent.smcp];
+language ROM exclude_dflt; # Romanian
+sub [Scedilla scedilla Scedilla.smcp] by [Scommaaccent scommaaccent Scommaaccent.smcp];
+language SER exclude_dflt; # Serbian
+sub @ru2serb by @serbalt;
+} locl;
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-16 21:55:13" itemprop=datePublished>
+2007-04-16 21:55:13
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Chris, some of the preferred Serbian forms may also be accepted as stylistic variants for non-Serbian language, including Russian. The Serbian be and italic de are both forms that are found in some Russian typefaces, and could be made available via 'salt' or one of the stylistic set features.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-17 00:38:21" itemprop=datePublished>
+2007-04-17 00:38:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks John! Then having them in both 'locl' and 'salt' would be OK?
+Great! I'll do it.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-17 03:10:52" itemprop=datePublished>
+2007-04-17 03:10:52
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Chris, I believe the language tag is SRB, not SER.
+At least that's what was in the online resource I checked; but I didn't keep a record of where it was, and haven't checked back.
+AFAIK, in Serbia they would be using a keyboard driver that specified "SRB", and that would activate the features tagged thusly in a font.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-17 20:16:01" itemprop=datePublished>
+2007-04-17 20:16:01
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks Nick! Glad you caught that! It was a screwup, not a position :-) SER might be an entirely different language.
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-17 20:23:50" itemprop=datePublished>
+2007-04-17 20:23:50
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The keyboard driver is usually unrelated to activating features and does not need to know anything about OT language tags. All it does is pass codepoints in to the OS. The OS or application needs to tag the text with the appopriate language. The OS or app could derive the language from the keyboard selection, but what then about cases where a single keyboard can be used for multiple languages? Or text is imported or copied and pasted from some other source?
+Some applications may try to derive the script and/or language from the particular codepoints being used. This is obviously prone to error, particularly if it's language rather than script that is driving the processing.
+So the most reliable method is to have the end user needs specify the language. InDesign CS3 relies on this; when the end user specifies the language for spelling and hyphenation purposes, that also serves to tell InDesign what language tag applies.
+The downside of InDesign CS3's approach is that currently users can't specify a language they don't have a dictionary for. I hope to see this limitation removed in a future version of InDesign. But for now I'm pretty glad to have language-specific OT feature processing.
+Regards,
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-17 20:26:43" itemprop=datePublished>
+2007-04-17 20:26:43
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>"The downside of InDesign CS3’s approach is that currently users can’t specify a language they don’t have a dictionary for. "
+Is a stop-gap measure possible where more dictionairies could be produced? I don't know if it would be quicker to add more dictionaries than to wait for CS4?
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-17 20:31:59" itemprop=datePublished>
+2007-04-17 20:31:59
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>So is it a good idea to also produce a "plain" language-specific version of fonts for Serbia or Bulgaria, for users there who aren't using CS3? Such fonts would have the "alternate" glyphs at the standard code points.
+Thomas, does CS3 have a Bulgarian dictionary?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-17 20:34:39" itemprop=datePublished>
+2007-04-17 20:34:39
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>[[language system tag]]
+<em>does CS3 have a Bulgarian dictionary?</em>
+or, a better question: can we find a list of what dictionaries DO ship with InD CS3?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-17 22:45:05" itemprop=datePublished>
+2007-04-17 22:45:05
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>My [InDesign CS3] installation lists these. I think that's all.
+[img:sites/default/files/old-images/IDCS3_dict_6036.png]</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-18 00:53:35" itemprop=datePublished>
+2007-04-18 00:53:35
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Is making a dictionary difficult and once made, is it easy to install without recoding InD?
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-18 00:56:30" itemprop=datePublished>
+2007-04-18 00:56:30
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><a href=http://www.typophile.com/node/17681>Adding language/hyphenation dictionaries to InDesign</a></div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-18 00:59:03" itemprop=datePublished>
+2007-04-18 00:59:03
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>And here's the list for InDesign CS2.
+[img:sites/default/files/old-images/IDCS2_dict_4934.png]</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-18 01:18:30" itemprop=datePublished>
+2007-04-18 01:18:30
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>There was a bug in CS2 that made adding the exception dictionary to a document unworkable -- we did send in a bug report, but Adobe doesn't acknowledge them as policy, so we have no way of knowing what the final disposition was. Has this been fixed in CS3? If not, then you can only have an "application" exception dictionary. This means if there are variables for a particular job, you have to change the dictionary, write it off, save it with the job, & reinstall it in the system for each job when proof comes back.
+Since the bug occurred with differences in word endings following an apostrophe (OK with one letter following the apostrophe, not OK with more than one letter), this may or may not affect some of these languages.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-18 02:28:54" itemprop=datePublished>
+2007-04-18 02:28:54
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks Miguel, that's very impressive.
+Are there font ramifications for the variants in English, French, Norwegian, German and Portuguese?
+I note there is no Moldavian dictionary, despite the Moldavian tags in Adobe Pro fonts.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-18 05:14:02" itemprop=datePublished>
+2007-04-18 05:14:02
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Nick Shinn</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Problems with adding ligatures to Warnock Pro | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Problems with adding ligatures to Warnock Pro">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/27314/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2006-07-28T21:33:12+00:00">
+<meta property="article:modified_time" content="2006-07-28T21:33:12+00:00">
+<meta itemprop=name content="Problems with adding ligatures to Warnock Pro">
+<meta itemprop=description content><meta itemprop=datePublished content="2006-07-28T21:33:12+00:00">
+<meta itemprop=dateModified content="2006-07-28T21:33:12+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Problems with adding ligatures to Warnock Pro">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Problems with adding ligatures to Warnock Pro</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2006-07-28T21:33:12Z>July 28, 2006</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>We have to typeset a book where the designer specified the font Warnock Pro (light) for the text. The book has a bibliography, and of course, in a bibliography where there are multiple books written by a single author, the second, third, etc. entries start with a dash three ems long (a three-em-dash) instead of repeating the author’s name.
+There is no threeemdash in Warnock Pro (light). And the emdash itself has sidebearings, so setting three dashes in a row also doesn’t work. Nor were multiple dashes kerned in the foundry font.
+OK, In FontLab 5, I can make a threeemdash and a twoemdash for the font, so named, with no Unicode index (I take U2015 to be something else).
+Then go into the features file and add:
+sub emdash emdash emdash by threeemdash;
+sub emdash emdash by twoemdash;
+right after the f_j ligature.
+Did this, recompiled, and went to the Preview panel:
+Everything appears fine, all the other ligatures still work, and three emdashes in a row give the “threeemdash” character.
+BUT: the ligaturing doesn’t work in InDesign, either through using the three em dashes via the Glyph pallet, or by typing three Alt_shift_hyphens (where there is no intervening code). I can add the glyph directly via the glyph pallet of course, but that is a lot of work – first erase the existing dashes, then insert the “threemdash,” for every such entry in the bibliography.
+There should be a way to take the existing three emdashes in the supplied MS Word file & wind up with a threeemdash in the InDesign file, right?
+I’m pretty sure this is due to some complexities in Warnock Pro, since we’ve gotten this ligaturing feature (multiple em dashes to a single long dash) to work in fonts we’ve created from scratch.
+Anybody know what’s going on?
+Thanks,
+Charles</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Charles,
+I don't have a whole lot of time to open up FontLab right now and try and come up with a more dependable answer, so here are just a couple of quick thoughts:
+(a) In my experience, problems such as these are often due to silly little mistakes that are difficult to catch exactly because they're so minor. For instance, have you checked that the new glyph you created has exatcly the same name as the one you're using in the ligature substitution code?
+(b) If you decide that you've already spent too much time trying to solve the problem in FontLab, why not just set the whole book in InDesign, then run find/change and have the program replace all occurrences of three consecutive dashes with your new m-dash? I imagine you've had this idea before -- what's stopping you from using it?
+Erik</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-07-29 17:49:56" itemprop=datePublished>
+2006-07-29 17:49:56
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Erik Fleischer</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Instead of customizing the font, I believe it'd be easier and more reliable to accomplish the task with InDesign, like Erik suggested. <strong>Nested Styles</strong> might do the trick; just google for it or read InDesign's own Help.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-07-29 18:29:33" itemprop=datePublished>
+2006-07-29 18:29:33
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>One could also simply apply a little tracking to the emdashes to eliminate the thin sidebearings. You could even do a search and replace so as to apply the tracking just once per document.
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-07-29 18:43:38" itemprop=datePublished>
+2006-07-29 18:43:38
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>As Eric, Miguel and Thomas have pointed out, this is simple to address in InDesign. I have to use 3-em dashes all the time for setting bibliographies, so I've just built a character style that I load into each new book project (with negative tracking built into it). From there I quickly run a find/replace for every instance of 3 em-dashes and the sidebearings problem is solved, without having to muck with the font. (In particular I'm not big on de- and re-compiling a font with as many OT features built into it as Warnock; I'm just not experienced enough with FL to know for sure that I'm not simply introducing errors in the process).</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-07-29 19:47:11" itemprop=datePublished>
+2006-07-29 19:47:11
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>jason</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks to all. We decided to put in the new three-em-dash via search and replace in InDesign tagged text files, then bring them back into InDesign. When we later make the XML files, we'll change he threeemdash back to three em dashes. There were various reasons for not using the other approaches.
+Jason, I share your instincts, but I had to go into this font anyway, because in the text, there were about 850 instances of special characters for what the publisher calls "Sanskrit" -- actually, Sanscrit as rendered with the Latin alphabet with diacritics -- all Unicode characters, but not included in most fonts.
+Charles</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-07-31 15:32:08" itemprop=datePublished>
+2006-07-31 15:32:08
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Default Leading / Verticle Metrics change after republishing | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Default Leading / Verticle Metrics change after republishing">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/33246/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2007-04-23T18:33:48+00:00">
+<meta property="article:modified_time" content="2007-04-23T18:33:48+00:00">
+<meta itemprop=name content="Default Leading / Verticle Metrics change after republishing">
+<meta itemprop=description content><meta itemprop=datePublished content="2007-04-23T18:33:48+00:00">
+<meta itemprop=dateModified content="2007-04-23T18:33:48+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Default Leading / Verticle Metrics change after republishing">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Default Leading / Verticle Metrics change after republishing</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2007-04-23T18:33:48Z>April 23, 2007</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>hifromj</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>Hello Typophiles -
+I recently added some new turkish characters to a client's proprietary font in order to update their webpage - it was a windows font, and I saved it and republished as Windows OTF (with FontStudio 5.0.2). When I did this and tested the new font in my flash movie, it seems that all the characters have shifted, and the space between lines has increased to break my original design.
+What could I have done to break the verticle metrics and where do i fix this? Could I have changed the verticle metric values for the glyphs adding new characters? or by saving into a new format? Any help or a point in the right direction would really be helpful as this was my first small, but professional type assignment.
+Thank you
+-J
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>what program did you use to edit the font?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-23 18:48:21" itemprop=datePublished>
+2007-04-23 18:48:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> <em>What could I have done to break the verticle metrics</em>
+That could happen if you're allowing FontLab to recalculate some OS/2 and hhea values, such as TypoAscender/Ascender etc.
+> <em>and where do i fix this?</em>
+Using FontLab's "Metrics and Dimensions" --> "TrueType-specific metrics" panel, make sure you're using the same values as the previous version of the font.
+Alternatively, you can get those values from the older font with [[TTX]], and change them in the new font, using [[TTX]] as well.
+The values you're looking for are in the tables 'OS/2' and 'hhea', so you can use this command to get them:
+<code>ttx -t OS/2 -t hhea MyOldFont.otf</code>
+Then you'll just have to edit the .ttx file that got output (MyOldFont.ttx), and integrate that file with the new font by typing:
+<code>ttx -b -m MyNewFont.otf MyOldFont.ttx</code></div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-23 19:15:30" itemprop=datePublished>
+2007-04-23 19:15:30
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks Miguel
+I used FontLab's “Metrics and Dimensions” panel to match the font info from MyOldFont to MyNewFont, but the problem still seems to occur.
+As part of the debugging process I opened MyOldFont and regenerated it
+- opened the .pfb version in Fontlab - made no changes - selected the use custom values in the metrics and dimensions palette - and republished the font. Still getting larger leading than the original version.
+Any ideas?
+-J</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-24 16:48:13" itemprop=datePublished>
+2007-04-24 16:48:13
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>hifromj</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Nope, no new ideas.
+The Turkish characters you added don't change the Bounding Box of the font, or do they?
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-04-25 00:11:02" itemprop=datePublished>
+2007-04-25 00:11:02
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>U+0192 | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="U+0192">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/35138/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2007-07-14T21:40:14+00:00">
+<meta property="article:modified_time" content="2007-07-14T21:40:14+00:00">
+<meta itemprop=name content="U+0192">
+<meta itemprop=description content><meta itemprop=datePublished content="2007-07-14T21:40:14+00:00">
+<meta itemprop=dateModified content="2007-07-14T21:40:14+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="U+0192">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">U+0192</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2007-07-14T21:40:14Z>July 14, 2007</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>Over <a href=http://typophile.com/node/9913>here</a> Paul Hunt was asking about how to deal with the Unicode unification of the hooked f and florin as a single character. This strikes me as a build issue, so I'm posting comments here.
+In the general case of two possible forms for a single Unicode character you usually need to decide two things:
+1. Which form will be the default, i.e. which glyph will be mapped to the Unicode character directly in the cmap table.
+2. What method will be used access the second form, i.e. in what layout feature is it appropriate to map the non-default glyph to the default glyph?
+The fhook / florin case is a troubling one, though, because there isn't an obvious answer to the second question. Personally, I think it was a really bad unification in Unicode: the florin should have been encoded separately in the currency symbol block. But it is much too late to do anything about that.
+I usually make a font-level distinction about this character. If a font has limited language support, e.g. it only supports the Latin 1 character set or one of its derivatives (Mac Roman, MS codepage 1252, etc.) I'll encode a florin symbol glyph a U+0192. If a font supports a wider range of languages, including languages that use the hooked f as a letter, then I'll encode a normal lowercase hooked f glyph at U+0192. The choice can be simplified like this: Does the font contain an uppercase hooked F (U+0191)? If so, then the U+0192 should be the letter not the currency symbol.
+It would be possible, in the latter case, to include a special florin currency symbol glyph simply as a stylistic variant, but my inclination would be not to. The straight, lowercase hooked f is recognisable as a florin sign, and there is a risk of ending up with the wrong glyph in text where the hooked f letter is desired, which would be very bad.
+A more troubling aspect of the hooked f is that a regular italic f very often has a hooked descender, and is confuseable with the hooked f: <em>f ƒ.</em> So in font families that support languages that use the hooked f as a letter, you need to make a decision about how to design the normal italic f? Do you draw it without a descender? Do you draw it with a straight descender? Do you draw it with a reduced lower terminal? Or do you draw it with the hooked terminal but provide one of the other forms as a stylistic variant for use by people who need to make a distinction with the hooked f?</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>sorry to throw you off with retracting my original post and then bumping a separate thread, &c, but thank you for giving your take, John.
+<em>Personally, I think it was a really bad unification in Unicode: the florin should have been encoded separately in the currency symbol block. But it is much too late to do anything about that.</em>
+I agree and this is an unfortunate situation. Your solution is very straightforward, I had decided to make the hooked-f the default in a project i'm working on and was mostly wondering how to handle the florin, but i think the florin consideration is not that important.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-07-14 21:53:49" itemprop=datePublished>
+2007-07-14 21:53:49
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>What about using the 'locl' (locale) OT feature to help the distinction between the two forms?
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-07-18 21:41:25" itemprop=datePublished>
+2007-07-18 21:41:25
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em>A more troubling aspect...</em>
+i'm finding that this is a general problem with many of the hooked letters for African languages, especially in italic fonts where the hook could be confused as just a chancery swash.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-07-22 05:29:04" itemprop=datePublished>
+2007-07-22 05:29:04
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em>What about using the ’locl’ (locale) OT feature to help the distinction between the two forms?</em>
+You mean for distinction to distinguish a variant italic f from the italic hooked f? Yes, this would be possible, although I'm not sure exactly for what languages it would be appropriate. I'll see if I can draw up at least a partial list and post it here.
+One of the fonts for which I've been asked to include support for U+0192 as a letter uses it in a romanisation scheme for ancient semitic scripts. So one might end up with a 'latn' script tag and e.g. a 'HEB' language system tag, i.e. Hebrew written in the Latin script. This is certainly possible in the context of OpenType Layout architecture, but I wonder into what application support issues this might run?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-07-22 06:04:16" itemprop=datePublished>
+2007-07-22 06:04:16
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><em>Yes, this would be possible, although I’m not sure exactly for what languages it would be appropriate.</em>
+isn't that the main problem? Many of the languages that use/will be using the hooked f are still developing standard orthographies, or they have not been recorded yet. Is that correctly stated, John? I guess you could always use a stylistic set, but that's a bit inelegant isn't it?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-07-22 06:43:05" itemprop=datePublished>
+2007-07-22 06:43:05
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The relative instability and/or lack of record for developing orthographies may be an issue, but it isn't necessarily a major problem. It can become a problem if application developers assume a relationship between the misnamed OpenType 'language system' tags and natural language tags for e.g. spellchecking, hyphenation, etc. But if it is possible to access the OT Layout tags independently, then users have a mechanism to select the typographic conventions that they want, and the association to particular languages is simply a convenience.
+<em>I guess you could always use a stylistic set, but that’s a bit inelegant isn’t it?</em>
+Even if I were using the language system tags for this sort of thing, I would still also provide access via a stylistic set. I don't think this is 'inelegant': there is a variant form of the f in an italic font, and some users may wish to deploy it. There is an orthographic reason for the variant to exist, and some users may require it to make an orthographic distinction, but others may simply like that form.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-07-22 20:24:38" itemprop=datePublished>
+2007-07-22 20:24:38
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Apart from all possibillities in programs etc. You do know that this florin-sign is no longer of (real) value in Holland. I don't know of any other currency that use florin, but in Holland we ended up using €.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-08-15 16:14:04" itemprop=datePublished>
+2007-08-15 16:14:04
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>typovar</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>But presumably there are a lot of existing documents from the pre-Euro period that still need to display the florin symbol, even if its use is now historical. History is real too. :)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-08-15 20:46:05" itemprop=datePublished>
+2007-08-15 20:46:05
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I realised that later too...
+Because I had to use ƒ.
+Silly!
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-08-16 13:02:57" itemprop=datePublished>
+2007-08-16 13:02:57
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>typovar</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

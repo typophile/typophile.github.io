@@ -1,0 +1,112 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Help me trace what type-1 => otf/cff conversion tool was used | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Help me trace what type-1 => otf/cff conversion tool was used">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/47578/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2008-07-21T08:09:55+00:00">
+<meta property="article:modified_time" content="2008-07-21T08:09:55+00:00">
+<meta itemprop=name content="Help me trace what type-1 => otf/cff conversion tool was used">
+<meta itemprop=description content><meta itemprop=datePublished content="2008-07-21T08:09:55+00:00">
+<meta itemprop=dateModified content="2008-07-21T08:09:55+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Help me trace what type-1 => otf/cff conversion tool was used">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Help me trace what type-1 => otf/cff conversion tool was used</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2008-07-21T08:09:55Z>July 21, 2008</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>vga</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>There's an OpenType version of the GPL'd URW (ghostscript) fonts floating around. Unfortunately, the author of the conversion could not be identified. There's some discussion of including these in Fedora Linux. I have a couple of questions for the experts:
+1) I'd appreciate is someone can take a look and let me know what conversion tool was used. The otf version string (for Nimbus Regular) is "Version 1.500;PS 1.05;Core 1.0.38". It looks like Adobe FDK was used. Am I correct?
+2) As far as I can tell, the conversion was well done. Kerning uses the GSUB/kern method. If you have any critique of the conversion, don't hold back.
+Package here: http://www.cs.umd.edu/~gaburici/Urw%20Gnu%20Opentype.zip
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The conversion is not bad, but there's a number of technical issues. I just looked into Century Schoolbook in FontLab, and tried to install and use the other ones. A few quick notes:
+<ul>
+<li>Some ISO Latin codepages are not supported, so there's no language support for some European latin-based languages.</li>
+<li>Kerning is there, but not very extensive, could be better when using class-based kerning.</li>
+<li>Some glyphs have double unicodes, this is not recommended.</li>
+<li>Some hinting errors</li>
+<li>The Romanian cedilla/commaaccent issue is not taken into account.</li>
+<li>dlig feature is wrong, Æ æ Œ œ are not ligatures but characters in their own right.</li>
+<li>Not all fonts share the same glyph set.</li>
+<li>Font names are a mess, especially when trying to use the fonts in Word Mac 2004. Some fonts appear in the menu but don't display in text, some are accessible only through the style buttons but not all.</li>
+<li>Nimbus Sans Condensed doesn't show up at all in Word 2003's font menu on Windows and in InDesign because of duplicate names.</li>
+</ul>
+edit: Did I really say "not bad"?
+Jens</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-21 14:09:27" itemprop=datePublished>
+2008-07-21 14:09:27
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Jens Kutilek</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Yes, that does sound like the Adobe FDK for OpenType was used. However, it sounds like the fonts have signficant issues.
+Cheers,
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-21 22:57:06" itemprop=datePublished>
+2008-07-21 22:57:06
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Many thanks for the in-depth analysis.
+I'm a bit confused about the kerning issue. It looks to me like the OpenType fonts have more kerning pairs than the originals. For instance, a010013l (URW Gothic L Book) has "StartKernPairs 998" in its original type-1 afm file, while the fea file that I exported from of the otf has 1851 pos statements in it's kernHorizontalKerninginLatinloo table. Does this mean that the unknown person that did the conversion took the time to improve the kerning (even though it's still lacking by expert standars), or is this some artifact of the conversion to OpenType?
+The originals are here: http://downloads.sourceforge.net/gs-fonts/gnu-gs-fonts-std-6.0.tar.gz?modtime=946368000&big_mirror=0
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-22 18:46:02" itemprop=datePublished>
+2008-07-22 18:46:02
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>vga</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

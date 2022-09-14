@@ -1,0 +1,174 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Printing Type Test/Samples via InDesign? | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Printing Type Test/Samples via InDesign?">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/43417/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2008-03-20T19:46:12+00:00">
+<meta property="article:modified_time" content="2008-03-20T19:46:12+00:00">
+<meta itemprop=name content="Printing Type Test/Samples via InDesign?">
+<meta itemprop=description content><meta itemprop=datePublished content="2008-03-20T19:46:12+00:00">
+<meta itemprop=dateModified content="2008-03-20T19:46:12+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Printing Type Test/Samples via InDesign?">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Printing Type Test/Samples via InDesign?</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2008-03-20T19:46:12Z>March 20, 2008</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>nana</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>Hello, I just joined this forum. :) I hope this is the proper place for my post.
+I'm wondering if there is a good, efficient and pretty way to print (or export to PDF) font test/sample pages. I basically need two lines of information per font: 1) name of font; 2) a specific line of copy in a given size. My Suitcase Fusion does this, in a dirtier way, using the "Print Sample Pages" feature. I've typed out the line of copy in the "preview" box, but it's just so much clutter, and I'm unable to get rid of things like file location. Plus, it takes up an entire page per font.
+I've made my own manually in InDesign in the past, but it's incredibly tedious and there must be a better way.
+I appreciate any input! Please let me know if my post needs clarifications, and apologies if this belongs elsewhere.
+Thank you!
+N</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Hi Nana, and welcome to Typophile.
+If you know InDesign Scripting, it should be fairly easy to do what you want. Below is a snippet that fills-in a text frame with info about the first 5 fonts available to InDesign. The result for me looks like this:
+[img:sites/default/files/old-images/IDScript_fontsample_6646.png]
+<code>
+var myTextFrame = app.documents[0].textFrames[0];
+var myInsertPoint = myTextFrame.insertionPoints[-1];
+for (x=0; x<5; x++) {
+myInsertPoint.appliedFont = 'Myriad Pro';
+myInsertPoint.fontStyle = 'Regular';
+myInsertPoint.pointSize = 8;
+myInsertPoint.contents = app.fonts.item(x).fullName + '\n';
+myInsertPoint.appliedFont = app.fonts.item(x);
+myInsertPoint.pointSize = 16;
+myInsertPoint.contents = 'The quick brown fox\n\n';
+}
+</code>
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-03-20 21:20:04" itemprop=datePublished>
+2008-03-20 21:20:04
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Oh wow, thank you so much, Miguel! I've never used InDesign Scripting, but I did manage to put in your snippet. I'm not sure if I can make the appropriate modifications to make it do what I want (i.e., the fonts I want to display are not in sequence, etc.), but I can see that it *would* be possible.
+I really appreciate your response and welcome. Thank you!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-03-20 21:50:21" itemprop=datePublished>
+2008-03-20 21:50:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>nana</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Getting to specific fonts or font families requires a little more effort. Perhaps the two scripts below are more helpful to you.
+The first one makes samples of all the fonts that belong to the family or families provided in a hard-coded array — Minion Pro and Myriad Pro, in this case.
+The second one composes samples of all the fonts belonging to the family that is currently selected in the Character palette.
+Enjoy!
+<code>
+var myFamilies = new Array('Minion Pro','Myriad Pro');
+var myStory = app.documents[0].stories[0];
+var myInsertPoint = myStory.insertionPoints[-1];
+var fontFamilies = app.fonts.everyItem().fontFamily;
+var fontIndexes = new Array();
+for (var x in fontFamilies) {
+for (var y in myFamilies) {
+if (fontFamilies[x] == myFamilies[y]) {
+x = parseInt(x);
+fontIndexes.push(x);
+}}}
+for (var z in fontIndexes) {
+var x = fontIndexes[z];
+myInsertPoint.appliedFont = 'Myriad Pro';
+myInsertPoint.fontStyle = 'Regular';
+myInsertPoint.pointSize = 8;
+myInsertPoint.contents = app.fonts.item(x).fullName + '\n';
+myInsertPoint.appliedFont = app.fonts.item(x);
+myInsertPoint.pointSize = 16;
+myInsertPoint.contents = 'The quick brown fox\n\n';
+}
+######################
+var myStory = app.documents[0].stories[0];
+var myInsertPoint = myStory.insertionPoints[-1];
+var myFontFamily = myInsertPoint.appliedFont.fontFamily;
+var fontFamilies = app.fonts.everyItem().fontFamily;
+var fontIndexes = new Array();
+for (var x in fontFamilies) {
+if (fontFamilies[x] == myFontFamily) {
+x = parseInt(x);
+fontIndexes.push(x);
+}}
+for (var z in fontIndexes) {
+var x = fontIndexes[z];
+myInsertPoint.appliedFont = 'Myriad Pro';
+myInsertPoint.fontStyle = 'Regular';
+myInsertPoint.pointSize = 8;
+myInsertPoint.contents = app.fonts.item(x).fullName + '\n';
+myInsertPoint.appliedFont = app.fonts.item(x);
+myInsertPoint.pointSize = 16;
+myInsertPoint.contents = 'The quick brown fox\n\n';
+}
+</code>
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-03-21 08:09:09" itemprop=datePublished>
+2008-03-21 08:09:09
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Wow!! Thank you so much, Miguel! Both of them will come in so very handy. I can't believe I haven't taken advantage of the scripting feature in InDesign; you've opened me up to a whole new workflow!
+I really appreciate your time. Thank you!!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-03-21 16:46:04" itemprop=datePublished>
+2008-03-21 16:46:04
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>nana</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

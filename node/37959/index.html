@@ -1,0 +1,160 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Annoying message in FL5 class kerning | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Annoying message in FL5 class kerning">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/37959/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2007-10-10T19:21:00+00:00">
+<meta property="article:modified_time" content="2007-10-10T19:21:00+00:00">
+<meta itemprop=name content="Annoying message in FL5 class kerning">
+<meta itemprop=description content><meta itemprop=datePublished content="2007-10-10T19:21:00+00:00">
+<meta itemprop=dateModified content="2007-10-10T19:21:00+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Annoying message in FL5 class kerning">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Annoying message in FL5 class kerning</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2007-10-10T19:21:00Z>October 10, 2007</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>seneca</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>I'm new to class kerning, I read the Cabarga book step by step, read the confusing FL5 manual as well, made some classes, made the kern feature as indicated (which I put after the liga feature) updated it, and apparently everything was going fine, but after some more pairs, on compiling and/or generating, I get this annoying (and worrying) message:
+"Start of new pair positioning subtable; some pairs may never be accessed: etc etc"
+I read some threads trying to find out about this and someone suggested inserting a "subtable;" line every 100 lines or so in the kern feature. I did this also but when I export my PS flavoured OT font, once more there's the message! (grrr!)
+Anyone knows why this is? I know this might be quite a basic thing for most of you but I'm really going nuts trying to find out what it was that I did wrong, or else I'll have to stick to my very dated way: manual kerning and simple TT and PS formats and shame for the great ligatures, alternates and so on...
+I'd really appreciate your help here, I hope this is something simple and I'm only drowning in a glass of water... Thanks!</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I think there is something wrong with your classes. Maybe some glyph are represented two times in a conflicting way or something like that, making it impossible to access some pairs, if you perhaps have two "commands" for this glyph.
+My suggestion is that you triple-check that all classes are flagged (right/left) correctly in the class-panel. That is, make sure the classes are logical when it comes to deciding which is the first glyph in a pair, and which is the second.
+Did that make sense?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-10-10 19:52:29" itemprop=datePublished>
+2007-10-10 19:52:29
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Goran Soderstrom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> <em>“Start of new pair positioning subtable; some pairs may never be accessed: ...”</em>
+This message usually appears when a given glyph is contained in more than one kern class. What triggers the message is when these classes — that have a glyph in common — are used on the same side of two or more class kern pairs (within the same subtable). E.g.:
+<code>
+feature kern {
+@_B_LC = [b];
+@_O_LC = [o oacute];
+@_ROUND_LC_LEFT = [o b];
+pos @_B_LC @_O_LC -20;
+pos @_ROUND_LC_LEFT @_O_LC -30;
+} kern;
+</code>
+The example above generates the following message:
+<code>[WARNING] Start of new pair positioning subtable; some pairs may never be accessed: [b o] [o oacute]</code>
+The warning means that some pairs downstream (second 'pos') are being masked by pairs defined upstream (first 'pos'). Effectively, these two class kern pairs are equivalent to the following singleton pairs,
+<code>
+pos b o -20;
+pos b oacute -20;
+pos o o -30;
+pos o oacute -30;
+pos b o -30;
+pos b oacute -30;
+</code>
+where it becomes clear that there are conflicting/repeated 'pos' commands. (BTW, pairs defined upstream take precedence).
+All this to say that, as a rule of thumb, each glyph should only be included in one left kern class, and one right kern class, maximum. (This is by no means a strict rule, but you'll save yourself a few headaches if you follow it)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-10-11 11:04:15" itemprop=datePublished>
+2007-10-11 11:04:15
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Goran and Miguel: Thanks a lot for your tips, everything glided goldenly following them! Thing is I get too stressed out, and for no reason.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2007-10-14 06:30:42" itemprop=datePublished>
+2007-10-14 06:30:42
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>seneca</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I had the same problem on FL 5.0.4 (Win). It made me sick, because all classes were well prepared. Then I discovered, that Assistance reported a glyph duplicated in two classes, and one of them was removed previous day. So I understood that the bug may come from file "memory".
+I saved my classes, deleted them (and the kern feature), closed the program, launched again and imported the saved classes. Voila! No bad report!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2010-02-10 07:44:31" itemprop=datePublished>
+2010-02-10 07:44:31
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>froo</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Try 'Clean Up Classes' under the disk icon in your classes window. This worked for me.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2011-04-07 06:11:06" itemprop=datePublished>
+2011-04-07 06:11:06
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>7roy</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>thanks from me too... I was about the ask the same question.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2011-04-10 02:05:21" itemprop=datePublished>
+2011-04-10 02:05:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>russellm</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

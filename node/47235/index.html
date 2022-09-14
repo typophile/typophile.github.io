@@ -1,0 +1,198 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>The turkish i story | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="The turkish i story">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/47235/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2008-07-09T18:21:47+00:00">
+<meta property="article:modified_time" content="2008-07-09T18:21:47+00:00">
+<meta itemprop=name content="The turkish i story">
+<meta itemprop=description content><meta itemprop=datePublished content="2008-07-09T18:21:47+00:00">
+<meta itemprop=dateModified content="2008-07-09T18:21:47+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="The turkish i story">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">The turkish i story</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2008-07-09T18:21:47Z>July 9, 2008</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Goran Soderstrom</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>Could anyone tell me if this is a correct way to handle the turkish i problem.
+I put the locl feature on top so it overrides everything.
+I font know the language really, but tried to make some sense out of it.
+The glyph "i.dot" is a copy of i.
+Thanks in advance!
+[img:sites/default/files/old-images/turskishi_5110.png]</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The underlying reasoning is that 'i' "ee" and 'ı' "ih" are two different characters. Capitalizing and small-capitalizing in a Western locale loses the dot, which makes it a different character in Turkish.
+You don't really need an "i.dot" glyph (as dotted equivalent of "dotlessi"), you can use the regular latin 'i' for that. So the translation you specify is not necessary.
+The only caveat is, for Turkish you should translate "i" to "idotaccent.sc" for small caps, and "i" to "Idotaccent" for capitals. The dotless 'i' can be converted to a 'regular' small cap I and capital I, for any locale, so it doesn't need a localized handling.
+You <em>will</em> get bonus points if you weed out the ligatures containing an "i" for Turkish, such as "fi" and "ffi" :-) (As a side note, your translation of 'i' to 'i.dot' may rule out that lookup; but I still think it makes life more complicated, instead of less.)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-09 23:41:38" itemprop=datePublished>
+2008-07-09 23:41:38
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Theunis de Jong</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> <em>You will get bonus points if you weed out the ligatures containing an “i” for Turkish, such as “fi” and “ffi”</em>
+That's exactly what will happen.
+> <em>(As a side note, your translation of ’i’ to ’i.dot’ may rule out that lookup; but I still think it makes life more complicated, instead of less.)</em>
+I disagree. Taking care of the Turkish i upstream, in 'locl', makes the code for other features (e.g. 'liga', 'smcp') much much simpler.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-10 00:18:15" itemprop=datePublished>
+2008-07-10 00:18:15
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Goran, your approach is good, but there are some issues,
+1. <code>languagesystem dflt dflt;</code> is incorrect.
+It should be <code>languagesystem&nbsp;DFLT&nbsp;dflt;</code>
+2. If you want to be thorough, you can include other languages that need the same treatment such as Azeri (AZE) and Crimean Tatar (CRT).
+3. You can actually remove the substitution
+<code>sub&nbsp;i.small&nbsp;by&nbsp;idotaccent.small;</code>
+from the 'locl' feature. The reasoning for this is, the glyph 'i.small' won't be in the glyph stream until 'smcp' is applied. Since 'locl' comes before 'smcp' (and assuming that the text engine will do the right thing which is apply the lookups in the order they appear in the font), at the time 'locl' is applied the glyph 'i.small' won't be available as input.
+In any case, don't forget to include the following substitution in 'smcp',
+<code>sub i.dot by idotaccent.small;</code>
+4. <code>idotaccent.small</code> is not a good name because 'idotaccent' is not a standard name. ('Idotaccent' is, but that's different). You need to call it something like 'i.dotsmall'.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-10 01:23:00" itemprop=datePublished>
+2008-07-10 01:23:00
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks for helping out Miguel and Theunis! :)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-10 09:58:47" itemprop=datePublished>
+2008-07-10 09:58:47
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Goran Soderstrom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>When I write DFLT capitalized I get this warning, are you sure on the capitalization, Miguel?
+[WARNING] Use of DFLT tag has been deprecated. It will work, but please use 'dflt' instead. [/Users/goran/Library/Application Support/FontLab/Studio 5/Features/fontlab.fea 57]
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-10 21:00:25" itemprop=datePublished>
+2008-07-10 21:00:25
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Goran Soderstrom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>
+Goran,
+See that thread — Script Tag + i dot:
+http://typophile.com/node/29469</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-10 21:24:08" itemprop=datePublished>
+2008-07-10 21:24:08
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>david h</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>There's always a "but" with FontLab...</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-10 21:55:45" itemprop=datePublished>
+2008-07-10 21:55:45
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Goran Soderstrom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>And, what will exactly happen if I take away the DFLT tag and only put this in:
+languagesystem latn dflt;
+languagesystem latn TRK;
+Will this produce a completely useless font regarding language support?
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-11 08:00:19" itemprop=datePublished>
+2008-07-11 08:00:19
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Goran Soderstrom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>No, it won't be useless.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-11 16:23:56" itemprop=datePublished>
+2008-07-11 16:23:56
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

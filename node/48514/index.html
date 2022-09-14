@@ -1,0 +1,226 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Adobe Glyph List (AGL) authoritative version?? | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Adobe Glyph List (AGL) authoritative version??">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/48514/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2008-08-18T15:37:36+00:00">
+<meta property="article:modified_time" content="2008-08-18T15:37:36+00:00">
+<meta itemprop=name content="Adobe Glyph List (AGL) authoritative version??">
+<meta itemprop=description content><meta itemprop=datePublished content="2008-08-18T15:37:36+00:00">
+<meta itemprop=dateModified content="2008-08-18T15:37:36+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Adobe Glyph List (AGL) authoritative version??">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Adobe Glyph List (AGL) authoritative version??</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2008-08-18T15:37:36Z>August 18, 2008</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>vga</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>There are a bunch of AGLs on Adobe's web site:
+http://partners.adobe.com/public/developer/en/opentype/glyphlist.txt
+http://partners.adobe.com/public/developer/en/opentype/aglfn13.txt
+http://www.adobe.com/devnet/opentype/archives/glyphlist.txt
+Which one is the right one to use? Google returns the 1st one when searching for "adobe glyph list", but that seems the oldest! The last one, which confusingly is in the "archives", has a 2007 copyright but has the same version number as the fist, but the contents differs! Could Adobe remove the obsolete ones to prevent further confusion?
+This really important for Romanian, because the U+016[23] are mapped to /[Tt]cedilla in the 1st list, but to /[Ttcommaaccent] in the other two. All TeX fonts pretty much use the first, while the Adobe fonts use and apps use the 2nd or 3rd. I'm inclined to email a bug report to the GUST foundry, which made most of the updated TeX fonts. But I need some authoritative source to back up my complaint.
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>If you're *making fonts* you want the "Unicode and Glyph Names" document (http://www.adobe.com/devnet/opentype/archives/glyph.html) plus the AGLFN.
+If you're a *consumer* of fonts (an application), you want to use the AGL.
+Either way, these docs are primarily about glyph names and Unicodes, rather than shapes.
+The question of what to name the glyphs at U+016[23] and what shapes to use is particularly tricky, because of the history there; essentially, there was a mistake in Unicode in describing the characters as having cedillas. Because of stability guarantees in Unicode, the solution was to add new characters that are described as having comma accents (U+021[AB]).
+The usage of these new codepoints by Windows and Mac OS has been pretty standardized for quite a few years now, so on those platforms the question of what to do with the old codepoints is of decreasing importance, mainly relating to old texts being imported or revised. I have no idea what the situation is with TeX and the various flavors of Unix, however.
+John Hudson, whose opinion most of us respect a great deal on font encoding and internationalization issues, has recently reverted to using the cedilla accent with U+016[23]: http://typophile.com/node/36473#comment-223302
+At Adobe, we're not likely to change existing fonts, but we recently discussed what to do with new fonts moving forwards. One option is to put in default glyphs for U+016[23] which have the cedilla shape, but use the locale ('locl') feature to change them to comma shapes. Or we could follow John and Microsoft's argument and not bother with 'locl' and just leave the glyphs as cedillas. All TBD at this time.
+Cheers,
+T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-08-18 17:45:13" itemprop=datePublished>
+2008-08-18 17:45:13
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Fontlab Ltd.'s current recommendation is to design four glyphs using a cedilla accent, and giving the S with cedilla glyphs the <code>*cedilla</code> names and the T with cedilla glyphs <code>uniXXXX</code> names or <code>*cedilla</code> names. The notes that follow the glyph names are not the Unicode character names but actual descriptive names:
+<code>U+015E "Scedilla"</code> Latin capital S with cedilla
+<code>U+015F "scedilla"</code> Latin small s with cedilla
+<code>U+0162 "uni0162"</code> or <code>"Tcedilla"</code> Latin capital T with cedilla
+<code>U+0163 "uni0163"</code> or <code>"tcedilla"</code> Latin small t with cedilla
+The remaining glyphs in question should include glyphs with the commaaccent diacritic and should use <code>uniXXXX</code> names, <em>not <code>*commaaccent</code> names.</em>
+<code>U+0122 "uni0122"</code> Latin capital G with commaaccent below
+<code>U+0123 "uni0123"</code> Latin small g with turned commaaccent above
+<code>U+0136 "uni0136"</code> Latin capital K with commaaccent below
+<code>U+0137 "uni0137"</code> Latin small k with commaaccent below
+<code>U+013B "uni013B"</code> Latin capital L with commaaccent below
+<code>U+013C "uni013C"</code> Latin small l with commaaccent below
+<code>U+0145 "uni0145"</code> Latin capital N with commaaccent below
+<code>U+0146 "uni0146"</code> Latin small n with commaaccent below
+<code>U+0156 "uni0156"</code> Latin capital R with comma below
+<code>U+0157 "uni0157"</code> Latin small r with commaaccent below
+<code>U+0218 "uni0218"</code> Latin capital S with commaaccent below
+<code>U+0219 "uni0219"</code> Latin small s with commaaccent below
+<code>U+021A "uni021A"</code> Latin capital T with commaaccent below
+<code>U+021B "uni021B"</code> Latin small t with commaaccent below</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-08-18 18:13:45" itemprop=datePublished>
+2008-08-18 18:13:45
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>> the Adobe fonts use and apps use the 2nd or 3rd
+Most recent Adobe fonts don't use AGLFN but a subset of it. If at all, please look at new Adobe fonts (Hypatia Sans Pro, Arno Pro) for reference, not at old fonts.
+I've been maintaining the STANDARD.NAM file which ships with FontLab Studio 5.0.4 much more actively than Adobe has been maintaining its AGL/AGLFN, so I actually recommend using FontLab's STANDARD.NAM as reference as it reflects best practices of the industry (including Adobe's).
+Regards,
+Adam Twardoch
+Fontlab Ltd.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-08-18 18:23:58" itemprop=datePublished>
+2008-08-18 18:23:58
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Adam,
+You don't mean the "Standard Table" in Glyph > Generate names, do you? I went & looked in the files in 
+
+Program files > FontLab > Studio5,
+and could not find STANDARD.NAM. I'd love to see it.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-08-18 21:50:45" itemprop=datePublished>
+2008-08-18 21:50:45
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Charles,
+this is exactly what I mean. On Mac, it's in
+<code>/Library/Application Support/FontLab/Mapping/</code>
+on Windows in
+<code>C:\Program Files\Common Files\FontLab\Mapping</code>
+i.e. the "standard locations" for those sorts of files.
+A.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-08-18 23:58:00" itemprop=datePublished>
+2008-08-18 23:58:00
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thank you both for the detailed replies. A couple more points will put this matter to rest:
+<ol>
+<li>The following two (AGL 2.0) files are thankfully identical except for the copyright notice:
+http://partners.adobe.com/public/developer/en/opentype/glyphlist.txt
+http://www.adobe.com/devnet/opentype/archives/glyphlist.txt
+</li>
+<li>The AGL 2.0 is a many-one mapping from names to code points, meaning that the same code point (sequence) can show up under multiple PostScript names. For instance U+0163 is mapped to both 'tcedilla' and 'tcommaaccent'. On the other hand, AGLFN 1.3 is a one-one mapping, but it's not exactly a subset of AGL 2.0 -- it differs in the mapping of three glyphs 'Omega', 'mu', and 'Delta'. There's a comment in AGLFN 1.3 that documents this change. I grokked this stuff with a little script I wrote. Here's some output:
+<code>
+$ ./groklist.py glyphlist.txt aglfn13.txt
+Analysing glyphlist.txt:
+Is the {(name, code)} relation right-unique? Yes. Is it left-unique? No.
+Has non-unique names for 409 codes.
+Analysing aglfn13.txt:
+Is the {(name, code)} relation right-unique? Yes. Is it left-unique? Yes.
+Is glyphlist.txt a subset of aglfn13.txt? No.
+There are 3449 tuples in glyphlist.txt that are not in aglfn13.txt.
+Is aglfn13.txt a subset of glyphlist.txt? No.
+There are 3 tuples in aglfn13.txt that are not in glyphlist.txt.
+$ ./groklist.py -v glyphlist.txt | grep 0163
+0163 -> ['tcedilla', 'tcommaaccent']
+$ ./groklist.py -v glyphlist.txt aglfn13.txt | tail -4
+There are 3 tuples in aglfn13.txt that are not in glyphlist.txt:
+('Omega', '03A9')
+('mu', '03BC')
+('Delta', '0394')
+</code>
+If anybody is interested, I can upload it somewhere.
+</li>
+<li>The correspondence between Unicode code points and glyph shapes for Romanian has indeed been cleared up in 1999 when U+0218 -- U+210B range ([SsTt] with comma-below) was introduced in Unicode 3.0. That did not make the problem go away overnight though, but that's the topic of another thread.
+</li>
+</ol>
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-08-19 18:56:27" itemprop=datePublished>
+2008-08-19 18:56:27
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>vga</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Well, this is the whole point. AGL maps all possible glyphnames that can be found in old and new fonts to Unicode codepoints, while AGLFN maps Unicode codepoint to preferred glyphnames (names that are not found in AGLFN should be formed using the algorithmic principles, i.e. using the uniXXXX or uXXXXX notation, or "_" for ligatures or "." for glyph alternates).
+However, in the most recent fonts Adobe made, they no longer use the "*commaaccent" and "afii*" glyphnames that are part of AGLFN. I have submitted a proposal to Adobe to revise the AGLFN so that it no longer lists "*commaaccent" and "afii*" names, which would be in sync with what Fontlab Ltd. is recommending. For those glyphs, you'd use the uniXXXX convention.
+Thanks for pointing out the inconsistancy between AGL and AGLFN regarding "Omega", "mu", and "Delta". I'd argue that the updated AGLFN codepoints for those glyphnames should also be updated in AGL.
+A.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-08-20 00:14:10" itemprop=datePublished>
+2008-08-20 00:14:10
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

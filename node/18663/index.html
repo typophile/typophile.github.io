@@ -1,0 +1,200 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Adding custom Unicode values to FLS5's list... | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Adding custom Unicode values to FLS5's list...">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/18663/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2006-03-20T01:39:16+00:00">
+<meta property="article:modified_time" content="2006-03-20T01:39:16+00:00">
+<meta itemprop=name content="Adding custom Unicode values to FLS5's list...">
+<meta itemprop=description content><meta itemprop=datePublished content="2006-03-20T01:39:16+00:00">
+<meta itemprop=dateModified content="2006-03-20T01:39:16+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Adding custom Unicode values to FLS5's list...">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Adding custom Unicode values to FLS5's list...</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2006-03-20T01:39:16Z>March 20, 2006</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>jason</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>I'm not sure if Adam's around, but maybe someone else might have an idea on this one. I'd like to add some custom Unicode codepoints to FontLab's Unicode list so that rather than entering the codepoints for each individual smallcap glyph I can use the Glyph > Glyph Names > Generate Unicode command. I use Adobe's values listed in their <a href=http://partners.adobe.com/public/developer/en/opentype/glyphlist.txt target=_blank>Glyph List</a> and I'd like to add all the smallcap glyph names and codepoints to FL's list so that they're available to the Generate Unicode command. So, my question is, where does FL store it's Unicode list and can it be edited/added-to?</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Nevermind, found it. Looks like it's either a matter of using the same glyph names as listed in FL's Standard list (or one of the additional optional lists), or editing one of the lists to suit your own custom glyph naming (keeping a back-up of the edited file, of course).
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-03-20 02:46:37" itemprop=datePublished>
+2006-03-20 02:46:37
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>jason</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>If you're on a Mac and FL5 then go to Library>Application Support>FontLab>Mapping and open the standard.nam file and save a copy of it. Don't change it as FL allows you to have custom files elsewhere. Open the copy in a text editor and you'll see a Unicode list in the format "0x000 glyph name". For example: "0x0120 Gdotaccent." Make your list in the same format by adding to the copy. Be sure and change the header to reflect that it's a new file and save it as plain text under a new name with the extension .nam. Then put it in (User Name)>Library>Application Support>FontLab>Mapping. When you start FL it should reflect the additional names.
+Of course small caps -- like any non-Unicode glyphs -- don't need Unicode points, and Adobe recommends not using numbers from the PUA since there is no standard for their use. This is despite the fact they use them. If you're being anal about your small caps then you're making two sets, one that maps to uppercase glyphs (c2sc) and one that maps to lower case glyphs (smcp) which runs into more work than you need in terms of codepoints. As long as your encoding includes the small caps you should be fine.
+What's more important is have your own encoding that includes all the characters you want in your font. Once you have your full glyph set then in Names Mode save the encoding with a unique name and the extension .ENC to the folder (user name)>Library>Application Support>FontLab>Encoding. You can have several different encoding files reflecting different glyph sets say ones that includes Greek or Cyrillic or ornaments, etc.
+What's also helpful is to have your own "alias.dat" file that includes all unique glyphs like the small caps accent glyphs. For instance if you create your small caps as glyphname.smcp or some other extension, this isn't in the alias file so trying to generate atilde.smcp doesn't work.
+Make a copy of the alias.dat file from Library>Application Support>FontLab>Data to (user name)>Library>Application Support>FontLab>Data, then open it in a text editor and follow the format of the file to add unique characters. It should be
+atilde.smcp a.smcp+tilde. This allows you to use Generate Glyphs command to make these. Again be sure you don't overwrite the original alias.dat file.
+I hope I explained this satisfactorily; if not let me know. It isn't that hard to do and as long as you don't futz with the original files any mistakes are fixable.
+George
+I felt bad because I had no shoes, until I met a man who had no Bodoni</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-03-20 03:09:58" itemprop=datePublished>
+2006-03-20 03:09:58
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>gthompson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Hi George,
+Thanks for all the input; as usual, shortly after posting I discovered most of what you've described, but your reply also raised another issue: making two sets of small caps. I'm unclear on this front. What I've done in the past is use the same set of small cap glyphs for both the c2sc and smcp OT features. Are you suggesting this is cheating? What, exactly, is the importance of having two sets of the same glyphs? (If that's what you were suggesting.)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-03-20 04:50:32" itemprop=datePublished>
+2006-03-20 04:50:32
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>jason</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Jason,
+I hope you are aware that Adobe Glyph List (http://partners.adobe.com/public/developer/en/opentype/glyphlist.txt ) it not at all intended for developers of new fonts? Developers of fonts should use the Adobe Glyph List for New Fonts (http://partners.adobe.com/public/developer/en/opentype/aglfn13.txt ).
+A.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-03-20 09:26:11" itemprop=datePublished>
+2006-03-20 09:26:11
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Hi Adam,
+So, essentially what you're saying is don't Unicode my small caps? (I don't see any values for them in the AGLFN.) Is this because, somewhere down the line, Unicode values will actually be assigned to small caps and thus using custom values (or Adobe's values) will eventually create a conflict?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-03-20 21:38:14" itemprop=datePublished>
+2006-03-20 21:38:14
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>jason</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Another question for you Adam,
+When merging fonts, is there a way to customize the suffix that FL appends to incoming glyphs? For instance, if I'm merging a font of small caps into the base font, and I select FL's option to append the incoming glyphs, can I change the default suffix of .001 to, say, .smcp?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-03-21 00:16:13" itemprop=datePublished>
+2006-03-21 00:16:13
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>jason</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Jason,
+no, but you after merging the font, you can select all .001 glyphs (manually or through Edit / Find / Name = Ends with = .001 / Select), from the right-click context menu in the Font Window choose: More / Add suffix to glyph name / Replace existing suffix and specify your new suffix there.
+Adam</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-03-21 10:33:31" itemprop=datePublished>
+2006-03-21 10:33:31
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>As for your first question, you can assign Private Use Area Unicode codepoints to all your unencoded glyphs such as small caps (it's easiest through Glyph / Glyph Names / Generate Unicode / Assign PUA) but you don't need to stick to any "standards" there, because there aren't any. You may, if you really desperately want, assign the PUA codepoints that Adobe has specified in their Corporate Use Area as listed in the Adobe Glyph List, but even Adobe doesn't stick to these assignments anymore. PUA assignments are by definition arbitrary and nobody relies, or should rely, on the fact that a particular kind of glyph gets a particular PUA codepoint that is consistent across fonts.
+Adam
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-03-21 10:38:14" itemprop=datePublished>
+2006-03-21 10:38:14
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Great, thanks for the input on both fronts Adam.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-03-21 17:05:47" itemprop=datePublished>
+2006-03-21 17:05:47
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>jason</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>"Is this because, somewhere down the line, Unicode values will actually be assigned to small caps and thus using custom values (or Adobe’s values) will eventually create a conflict?"
+Unicode values will be universally assigned to small caps, approximately never, so don't wait assign away. :)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-03-22 12:41:59" itemprop=datePublished>
+2006-03-22 12:41:59
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dberlow</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

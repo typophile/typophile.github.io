@@ -1,0 +1,129 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>FontLab, OpenType, Mac and AAT? | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="FontLab, OpenType, Mac and AAT?">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/2832/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2004-01-25T00:27:34+00:00">
+<meta property="article:modified_time" content="2004-01-25T00:27:34+00:00">
+<meta itemprop=name content="FontLab, OpenType, Mac and AAT?">
+<meta itemprop=description content><meta itemprop=datePublished content="2004-01-25T00:27:34+00:00">
+<meta itemprop=dateModified content="2004-01-25T00:27:34+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="FontLab, OpenType, Mac and AAT?">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">FontLab, OpenType, Mac and AAT?</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2004-01-25T00:27:34Z>January 25, 2004</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>robertm</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>Using my brand new copy of FontLab, I've put together my first OpenType font. Unfortunately, I don't think I understand everything yet and I have a few questions for the experts. (Please forgive me if these questions sound a little stupid.) <br> <br>My font is a basic CFF .otf font with upper case characters and alternate figures. I use the aalt and salt OpenType features and it works in the FontLab preview on Panther. <br> <br>1) I was surprised to see that 1/3rd of my applications have no idea what OpenType might be at all (Word, etc.). 1/3rd work just fine and I can access the alternate characters (these are Adobe applications which seem to use their own font engine) and the last third of my applications (such as TextEdit, or Freeway) claim that there are "no typographic features" in the font (but I can use the character palette's glyph input to see the alternates) . It seems that Apple wants me to put AAT tables in the font, but how can I add these tables? The Apple tools apparently only like TrueType flavored OpenType fonts? Help! <br>My salt feature is really simple (and accesses two FontLab classes): <br>feature salt { # Stylistic Alternates <br> sub @figures by @altfigures; <br>} salt; <br> <br>2) To make the font more usable, I want to "copy" the upper case glyphs to lower case. I tried adding additional Unicode indexes as per page 95 of the FontLab manual. FontLab proudly shows the little "D" icon at both locations and the preview seems to indicate everything is fine. Unfortunately, applications only seem to display the first index and either nothing (Adobe) or the default Font (Apple) for the lower case!? I can of course cheat and just duplicate the glyph (or use a "composite" with only one component). <br> <br>3) When I add the OpenType "size" feature, FontLab crashes when compiling the features. Does anyone know whether that's a known problem (or something FontLab just doesn't support), or should I report this? <br>The following is the example from the Adobe web site. I removed the sizemenunames. <br>feature size { <br>parameters 100 # design size (decipoints) <br>3 # subfamily identifier <br>80 # range start (exclusive, decipoints) <br>139; # range end (inclusive, decipoints) <br>} size; <br> <br> <br>Thanks for your time! <br>Robert</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I've since found a very inconvenient answer to #1. But it works and it could be automated (anyone?). <br> <br>1) Use TTX 2.0b1 <a href=http://sourceforge.net/projects/fonttools/ target=_blank>http://sourceforge.net/projects/fonttools/</a> to dump the original OpenType font. The resulting .ttx file will have &lt;glyphorder> at the top which maps GlyphIDs to names. Get the IDs for the glyphs that will be substituted. <br> <br>2) Create a "mif" file with the following contents (the list is the substitution list) <br><pre> <br>Type          Noncontextual <br>Name          Character Alternates <br>Namecode      17 <br>Setting       No Alternates <br>Settingcode   0 <br>Default       yes <br>Orientation   HV <br>Forward       yes <br>Exclusive     yes <br> <br>Type          Noncontextual <br>Name          Character Alternates <br>Namecode      17 <br>Setting       Alternates <br>Settingcode   1 <br>Default       no <br>Orientation   HV <br>Forward       yes <br>Exclusive     yes <br> <br>        10      58 <br>        11      63 <br>        12      57 <br>        13      66 <br>        14      61 <br>        15      60 <br>        16      65 <br>        17      64 <br>        18      59 <br>        19      62 <br></pre> <br>Unfortunately, I haven't fgured out a way to use my fancy names ("zero.2") instead of the GlyphIDs which might change when messing around with the font too much in FontLab. <br> <br>3) Run ftxenhancer -m miffile myfont.otf <br>(Apple font tools, <a href=http://developer.apple.com/fonts/ target=_blank>http://developer.apple.com/fonts/</a>) <br> <br>The resulting CFF OpenType file will work in AAT aware applications as well as in OpenType applications.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-01-25 03:44:22" itemprop=datePublished>
+2004-01-25 03:44:22
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>robertm</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Apple's font tool DumpPOST creates a text file with the Postscript names for all the characters in the font. The PS names can be changed in a text editor and appended to the font with the AAT Font Tool. These are 'classic', pre-OSX applications. In OSX, ftxdumperfuser may do the same job (I've not used it).</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-01-25 14:06:44" itemprop=datePublished>
+2004-01-25 14:06:44
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>blairyo</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>The post resource version 3 doesn't have glyph names; I think I'll stick with ttx (I'm using the latest from CVS). <br> <br>There was one additional hurdle: Panther ignores the OpenType kerning information when AAT information is present. <br> <br>To fix this, I simply add a 'kern' table to the font which FontLab conveniently generates when it saves a PC TrueType font. <br> <br>1) In FontLab, save font as PC ttf AND CFF-otf <br> <br>2) Run magic script: <br><pre> <br>#!/bin/sh <br>NAME=MyFont <br> <br>ttx -t kern $NAME.ttf <br>sed -e &#39;s/ttFont sfntVersion=&#92;&#34;&#92;x00&#92;x01&#92;x00&#92;x00&#92;&#34;/ttFont sfntVersion=&#92;&#34;OTTO&#92;&#34;/&#39;  &#60;$name.ttx&#62; $NAME.kern <br>rm $NAME.ttx <br> <br>mv $NAME.otf $NAME.otf.fl <br>ttx -m $NAME.otf.fl $NAME.kern <br>rm $NAME.kern <br> <br>echo &#34;Adding &#39;morx&#39;  table...&#34; <br>ftxenhancer -m $NAME.mif $NAME.otf <br> <br>echo &#34;&#42;&#42;&#42; BUILD COMPLETE &#42;&#42;&#42;&#34; <br></pre> <br>3) Trash the PC ttf. <br> <br>Robert</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-01-26 01:31:36" itemprop=datePublished>
+2004-01-26 01:31:36
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>robertm</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Robert, how are you making fonts with version 3 post tables? Just interested to know what your procedure is.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-01-26 01:35:22" itemprop=datePublished>
+2004-01-26 01:35:22
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>FontLab (4.6, Mac) just did it, it didn't ask (I've only used the program for a couple of hours and I'm still somewhat mystified by its functionality). <br> <br>I use File->Generate Font->OpenType-CFF. The display next to the Options box says: "Type 1 options: make PFM, make AFM; Unicode encoding; TT/OTF options: hinted (keep, autohint, visual); export Unicode; <br>I think that these options aren't relevant when writing OT/CFF. <br> <br>See picture for the FontLab OpenType preferences dialog. <br> <br>Robert <br> <br><img src=http://www.typophile.com/forums/messages/4101/24893.gif alt="OT preferences"></div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-01-26 02:48:03" itemprop=datePublished>
+2004-01-26 02:48:03
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>robertm</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><i>FontLab (4.6, Mac) just did it, it didn't ask...</i> <br> <br>It may be that, if making a PS OTF, FontLab writes the glyph names to the CFF table (I believe there is a place to store them there) and so writes a version 3 post table. That actually makes sense. I mainly work with TrueType fonts, for which FontLab writes a version 2 post table. I recently had to make a TT font with a version 3 table, and ended up needing another tool to do this.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-01-26 06:53:17" itemprop=datePublished>
+2004-01-26 06:53:17
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

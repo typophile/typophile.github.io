@@ -1,0 +1,142 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Composites, font file size, and efficiency | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Composites, font file size, and efficiency">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/7786/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2004-11-20T23:08:33+00:00">
+<meta property="article:modified_time" content="2004-11-20T23:08:33+00:00">
+<meta itemprop=name content="Composites, font file size, and efficiency">
+<meta itemprop=description content><meta itemprop=datePublished content="2004-11-20T23:08:33+00:00">
+<meta itemprop=dateModified content="2004-11-20T23:08:33+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Composites, font file size, and efficiency">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Composites, font file size, and efficiency</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2004-11-20T23:08:33Z>November 20, 2004</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>magister</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>I have a very large multilingual font (file size ~1 meg.) that contains a great many composites. I had always understood that using composites made for a smaller and possibly more efficient font. I recently read in Leslie Carbaga's book on FontLab that "some font formats" don't deal well with composites. He recommends making all composites into separate characters with their own outlines as the last stage in font production. I have seen many quality fonts that make extensive use of composites for accented characters, and I have never had a problem with any of them or with my own font. What is the best practice here? <br> <br>On the same topic, I have a few composites with outlines that overlap slightly (cedilla and ogonek mainly). I know that overlapping outlines are technically not good, but the Font Validator help file says that newer versions of the TT rasterizer handle such overlaps OK. So again, what's the tradeoff here? Keep the overlaps or make a bunch of separate and possibly unecessary characters? <br> <br>Thanks - David</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>David, <br> <br>For Type 1 and OpenType PS fonts, I'd recommend decomposing composites. For OpenType TT/TrueType fonts, you can leave the composites in. For overlapping outlines, it's not only "technically not good". <br> <br>If a user applies some stroked contour to the letters or converts them into outlines, the overlap may become visible. Also, some laser printers and imagesetters don't deal with overlapping outlines very well. So I recommend always decomposing glyphs such as ccedilla or eogonek, and removing the overlaps. <br> <br>Also, ogonek rarely works well from the design point of view if used as one and the same shape in all the glyphs. The connection of ogonek with e and U should be usually designed differently than the connection of ogonek with the other glyphs. See <a href=http://193.174.120.13/twardoch/f/en/typo/ogonek/ogonek.html target=_blank>http://193.174.120.13/twardoch/f/en/typo/ogonek/ogonek.html</a> <br> <br>Regards, <br>Adam Twardoch <br>Fontlab Ltd.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-11-21 01:43:28" itemprop=datePublished>
+2004-11-21 01:43:28
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I'll second what Adam has said about keeping composites for TrueType fonts, but decomposing for PS fonts. Note, however, that OpenType PS fonts can be generated using subroutinisation, which will automatically make the CFF table as efficient as possible, effectively replacing the composite format. This is an option in FontLab, which I believe is on by default.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-11-21 04:18:36" itemprop=datePublished>
+2004-11-21 04:18:36
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I'll also add that composites within a CFF flavored OpenType <br>font will not show up when displayed through some database <br>systems. For example, the font showings on myfonts.com.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-11-21 15:49:21" itemprop=datePublished>
+2004-11-21 15:49:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>eolson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks, gentlemen. <br> <br>I distribute my font only as TT (now TT flavored OT), because Word can't handle T1 fonts with more than 256 glyphs. This probably explains why I've never heard of problems with the composites. I will decompose the cedilla and ogonek composites, though. And someday when I have stopped adding even more obscure characters I will go back and improve the design of the ogoneks. <br> <br>David</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-11-22 01:58:04" itemprop=datePublished>
+2004-11-22 01:58:04
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>magister</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>David, <br> <br>> because Word can't handle T1 fonts with <br>> more than 256 glyphs <br> <br>What exactly do you mean by that? Which Word? Which system? <br> <br>Adam</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-11-22 02:13:34" itemprop=datePublished>
+2004-11-22 02:13:34
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Adam, <br> <br>Every version of Word that I have used under Windows (up through XP; I have not yet tried 2003) shows only 256 characters in the Insert/Symbol dialog (ending with y-dieresis, the last character found in an old-style [non-Unicode] Windows font) when a Type 1 font is being used. I just did a quick test with Adobe Garamond Pro under Word XP, and this continues to be true. I then tried typing some Unicode values followed by Alt-x, using characters that I knew existed in Garamond Pro. Word first displayed a blank box and tried to change the font back to Times New Roman. After manually resetting the font to Garamond and redoing the Alt-x I was able to get the characters to display. So I should amend my statement to "doesn't handle well at all" rather than "doesn't handle." My recollection, which I now have no way of testing, is that earlier versions wouldn't take characters beyond y-diresis at all in a T1 font. Of course Garamond Pro is an OT font which may have something to do with it. But Insert/Symbol still needs to learn some new tricks, at the very least. <br> <br>David</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-11-22 03:36:01" itemprop=datePublished>
+2004-11-22 03:36:01
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>magister</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>David, <br> <br>what you describe is a bug in Word 2000 and XP. This was fixed in Word 2003, which is also otherwise much better than the previous versions. Not that I wouldn't agree that if you're making a font intended primarily for multilingual use, then the OpenType TT format is your best choice. <br> <br>Regards, <br>Adam</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-11-22 03:58:28" itemprop=datePublished>
+2004-11-22 03:58:28
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Kern feature | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Kern feature">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/7156/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2004-10-15T13:23:36+00:00">
+<meta property="article:modified_time" content="2004-10-15T13:23:36+00:00">
+<meta itemprop=name content="Kern feature">
+<meta itemprop=description content><meta itemprop=datePublished content="2004-10-15T13:23:36+00:00">
+<meta itemprop=dateModified content="2004-10-15T13:23:36+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Kern feature">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Kern feature</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2004-10-15T13:23:36Z>October 15, 2004</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>lucia</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>Hello, <br>I'm using fontlab 4.6 on winXP. <br>I would like to make a font that support latin script, CE, greek and cyrillic, with some Ot features. <br>I have a lot of kernings pairs and the "kern" feature has several problems, that sometimes allow me to generate the font, but finally my font have no kernings at all... <br>I have kern classes, but I have also tried to expand them. Actually I cannot generate the font because of this : <br> [FATAL] &lt;thesans-light300wtwt> GPOS feature 'kern' causes overflow of offset to a subtable <br> <br>I guess this feature is too big, and I have read something about subtables, but I still don't know how to use them. <br> <br>Did someone has already generated an OT font that support three scripts with all the kernings (correctly <img src=http://www.typophile.com/forums/clipart/happy.gif alt=:-) border=0> )? <br> <br>Maybe I have to change the tool? <br> <br>Thank you for your suggestions, <br> <br>Lucia</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Lucia, <br> <br>I agree -- this is simply a horrible and stupid limitation of OpenType. I really would like to know the person's name who developed the part of the OpenType specification that limited the size of a GPOS subtable to 64KB. <img src=http://www.typophile.com/forums/clipart/happy.gif alt=:-) border=0> <br> <br>I believe Thomas Phinney should have a solution on that problem. I hope he sees that and replies. <br> <br>Regards, <br>Adam</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-10-16 00:13:39" itemprop=datePublished>
+2004-10-16 00:13:39
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>twardoch</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I think that yes, you need one or more subtable breaks. I know how to do them in the FDK, but I'm not sure how to do them in FontLab. Unfortunately, for the next week or more, I'm going to be busy finishing up some presentations and then travelling, so I don't have time to dig into this properly. <br> <br>T</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-10-16 01:13:05" itemprop=datePublished>
+2004-10-16 01:13:05
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Thomas Phinney</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>As far as I know, all you need to do is insert "subtable;" every once in a while. One of these every 100 lines or so should do it. This just helps break up the kern feature. I agree with Adam, this is a pretty pointless limitation, but fortunately there is an easy workaround. <br> <br>So your kern feature might look like this: <br> <br>pos T a -50; <br>pos T c -55; <br>subtable; <br>pos T e -55; <br> <br>... etc. Don't forget that semicolon at the end of each line. <br> <br>Alan</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-10-16 17:43:06" itemprop=datePublished>
+2004-10-16 17:43:06
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>alan</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Aha! <br>I've wondered about this myself. Very helpful. <br> <br>On a related note, has anyone ever noticed that while previewing <br>class based kerning in the OT preview window, FontLab will <br>apply a small amount of kerning to a glyph within a class even <br>if kerning has not been defined for the glyph? For instance, <br>the "ta" pair within the OT preview window will appear to have <br>kerning even though I haven't applied kerning to "ta". I have <br>however defined a kerning class for "a" and related accents. <br>If i generate the font and check it in InDesign the kerning <br>for the phantom pair of "ta" doesn't appear. This appears <br>to happen with any of my kerning classes within the OT <br>preview window. Hope this makes sense.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-10-17 15:30:14" itemprop=datePublished>
+2004-10-17 15:30:14
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>eolson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I've noticed other mistakes in the FontLab opentype kern feature preview. It comes up when I'm using opentype classes. If this is my 'kern' feature... <br> <br>feature kern { <br> pos [B] @_kernO2 16; <br> pos [A] @_kernO2 -12; <br> pos @_kernO1 @_kernI2 -12; <br>} kern; <br> <br>and this are my classes... <br> <br>@_kernI2 = [B D E F H I K L P R]; <br>@_kernO1 = [D O Q]; <br>@_kernO2 = [C G O Q]; <br> <br>I'd expect the space between A and C to get smaller but instead it gets larger when I activate the 'kern' feature in the opentype preview. The kern occurs correctly in illustrator though, which is terribly frustrating because taking a round-trip to illustrator to check my class based kerning is not acceptable, but this seems to be the only way to check if I've coded my kern feature correctly.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-10-18 07:52:43" itemprop=datePublished>
+2004-10-18 07:52:43
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Aaron Sittig</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Thanks a lot to everyone. (to spent yours weekends giving us interesting answers...) <br>I thought this was a silly question, but now I have the confirmation that it is a real problem! <br> <br>Alan, I have done exactly this way, trying also to separate data with a certain "logic"... But it doesn't work. <br>And I have noticed the same problems with classes... <br> <br>Thomas, when you will be back again, I would be gratefull if you could explain more. How Adobe fonts manage to have this feature? By the way I have opened the Minion Pro (with both greek and cyrillic) and if I compile the OT features I get the same error message. Does this font behave correctly with the apllications? <br> <br>Best regards, <br>Lucia</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-10-18 10:39:09" itemprop=datePublished>
+2004-10-18 10:39:09
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>lucia</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Say for instance I don't recieve the error message Lucia describes. <br>Will the font still work if don't insert "subtable;"? <br> <br>I have a full featured OT font with 2200 standard kerning <br>pairs and several kerning classes for use under the "kern" feature. <br> <br>The font seems to be working fine in InDesign. <br>Is there a risk here? <br> <br>Thanks</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-10-25 17:25:24" itemprop=datePublished>
+2004-10-25 17:25:24
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>eolson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>are there any ill effects of adding subtables to the kern feature? I was trying to follow along with the discussion on the OpenType mailing list a couple weeks back and got lost. can anyone explain this concisely?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-07-11 19:10:56" itemprop=datePublished>
+2006-07-11 19:10:56
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Very short: (a) If some of your kern classes have overlapping content, FLS5 automatically inserts subtable breaks but will warn you that some pairs may never be accessed. (b) If you insert "subtable" manually to cope with too many kerning pairs and if the order of kerning pairs isn't right, then some kerning pairs may not make it into the font -- and you don't even get a warning.
+The most complete description is in Adobe's <a href=http://partners.adobe.com/public/developer/opentype/afdko/topic_feature_file_syntax.html#6.b.iii>Feature File Syntax</a> document.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-07-11 20:08:09" itemprop=datePublished>
+2006-07-11 20:08:09
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>thanks for the explanation and the link, karsten. so my next question is what is the best workaround to avoid this problem? is it to not have overlapping content in kerning classes?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-07-11 20:53:59" itemprop=datePublished>
+2006-07-11 20:53:59
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Yes, at best you create separate classes for first-glyphs-of-a-pair and for second-glyphs-of-a-pair -- even if they would contain the same glyphs:
+_z.1: z' zdotaccent
+_z.2: z' zdotaccent
+Whatever suffices you actually choose to indicate that a class is intended to be first or second of a kerning pair, I'd precede it by underscore or better by period. This makes it easier to spot suffices and maybe to search/replace them. Just in case.
+_z.1 then will be marked as leftside pair, _z.2 as rightside pair either in FLS5's Classes panel or Kerning Assistance panel.
+This however addresses only overlapping of kerning classes' content (a), but not excessive kerning (b) ...</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-07-11 23:04:09" itemprop=datePublished>
+2006-07-11 23:04:09
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I plan to talk about this at length during ATypI's TypeTech forum.
+Here's what I plan to cover:
+— How to optimize the kern feature
+— How to solve 'overflow' errors
+— Making correct use of the 'subtable' command
+— Kerning fonts with large_glyphsets/multiple_scripts
+If you can hold until then, I believe it's going to be worth it.
+I would give some hints now, but this issue can't really be handled in a couple of posts. Sorry :(</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-07-12 01:03:22" itemprop=datePublished>
+2006-07-12 01:03:22
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Looking at <a href=http://typophile.com/node/7156#comment-49196>Alan's post above</a>, I just noticed that his example will generate a 'bug'. A font with his code will compile, but the last pair (<code>pos T e -55;</code>) won't be accessible (and FontLab or the FDK won't warn you about this).
+The thing is, all pairs that start with the same LEFT class, must be all contained within the same subtable.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-07-12 01:17:30" itemprop=datePublished>
+2006-07-12 01:17:30
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody><cite>I plan to talk about this at length during ATypI’s TypeTech forum.</cite>
+This is good news!</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-07-12 09:26:44" itemprop=datePublished>
+2006-07-12 09:26:44
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>This kern feature is driving me nuts. Beta ware man.. Isn't computers suppose to help REDUCE the workload and not make more ?
+Ok my problem, I made a huge font and it's not even close to done. I compiles no errors. I added class Kerning. If I save it as a font I get a billion kerning gpos errors. Well actually only one cause one is all you need to break the font.
+I'm not even finished the kerning. I have about 67 kerning classes. I searched the kern feature and these subtable; are there. I still get the error.
+I saved it flat just out of curiosity. It's about 60,000 kern pairs stored that way. It takes ten minuets to load the font. Not the way to make it work.. I need the class kerning to work..
+How do I get rid of the gpos error ? This would be FL.. The new one.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-26 05:03:24" itemprop=datePublished>
+2008-07-26 05:03:24
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mighty Pete</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I answered my own question. I'll be nice and put the solution here for anyone that is looking for it.. I wish it would have just explained in the book but it does not..
+How did I get there? I added unusual pairs in the Greek and the Russian language probably and kerned them. Big mistake probably cause later I accidentally added several of those to kerning classes. There is no tools to find the errors so it's welcome to hell..
+Ok I exported the kerning data and deleted everything that looked odd. Single pair kerns keeping the classed based intact. Next I imported it and flattened the table then re-compressed it. Eureka ! I managed to save 576,536 pairs. Not bad, I lost about 20,000 or so. Better than losing it all by far.. I managed to save 4280 classed based pairs.
+I tried a million different ideas and this was the only thing that worked.. The idea to avoid this kind of thing is color all the glyphs in a class and don't drag and drop those if there colored.
+Live a learn.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-26 23:02:02" itemprop=datePublished>
+2008-07-26 23:02:02
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mighty Pete</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Very extensive discussion: http://typophile.com/node/16413
+Other discussion in random order, some more, some less useful ...
+1 http://www.typophile.com/node/37959
+2 http://www.typophile.com/node/37295
+3 http://www.typophile.com/node/39456
+4 http://www.typophile.com/node/20550
+5 http://www.typophile.com/node/34558
+6 http://www.typophile.com/node/29125 (added a remark)</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-27 00:41:52" itemprop=datePublished>
+2008-07-27 00:41:52
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>k.l.</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>tracking
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-27 03:00:08" itemprop=datePublished>
+2008-07-27 03:00:08
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I'm not getting some of those errors. I sub kerned some classes and I'm not getting some glyph pairs may never be accessed errors. Good thing too cause there is lots of them.
+How I got into this boat without a paddle was Since I don't speak or write Russian or Greek I found books and kerned it that way.. Later I accidentally added some of those glyphs to classes. Don't do that cause that is a miserable error to recover from.
+My entire font is now class based only. It's working perfectly so far. It's up to 646,782 stored flat pairs but amazingly there is only a little over 2000 (2335) tables so far.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-27 18:39:21" itemprop=datePublished>
+2008-07-27 18:39:21
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mighty Pete</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Actually that is not the solution. Somehow FontLab 5.0.4 is generating that error all by itself.. I fixed it, now I'm right back in the same boat. I'm only kerning class based stuff now. I just tried it and I got that stupid error again. There is absolutely no pairs that are not defined in a class now.I never added glyphs to classes. I haven't kerned anything that is not in a class.
+Like what the hell does this mean ? 0x19022
+Think they could be a little more specific ? Like highlight where the error is or the pair it's located in.
+I never added any subtables. If there is a error now the program all by itself, generated it.
+I don't know what is causing the error to avoid it. What am I suppose to do try to compile it after every kern?
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-07-29 10:10:14" itemprop=datePublished>
+2008-07-29 10:10:14
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mighty Pete</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Ok figured it out eventually. I'll put the solution here.
+The deal and how I got there. Too many sub tables cause I did the kerning not in the correct order. Do the classes then the sub classes then the singles. Don't mix and match.
+That was problem Number 2. Reading Adobe's site it alludes to the fact that more than 6 subtables is a point of diminished returns. It does not say it will not compile. More than 6 you will get GPOS errors. Doing things not in the correct order maybe needlessly be generating subtables when they may in fact not be necessary. Why I got there was when I was using the font and noticed a kerning error I just fixed it so it would not go unrepaired. I thought I may never find it again or forget it ever existed. Avoid that habit at all costs. Write it down and just kern the classes. Check later and see if it is still there and fix it then only.
+Problem Number 1.. Too many class kerns. I experimented to find out what is the max possible and still get it to compile. 15,000 is the magic number. Could be slightly higher but it will not compile 16,000. I had over 32,000..
+What to do, what to do.... Gave up, started again. I readjusted the matrics to eliminate as many pairs as possible then re-kerned the font. I ended up with many more kern classes but fewer overall kerned pairs when I was done, less than 15,000 now. It compiles, not a single error. This is a hand kerned font. There is no auto kern with this one. That was a lot of work to toss away.
+It's actually not a Fontlab problem, but there is a lack of understanding of it so there is a lack of documentation on it. Fontlab uses Adobe's system to compile the font. The error is being generated by the Adobe part.
+I asked Fontlab and there answer was we don't also get why that error comes up.
+There is one more thing I didn't get. I figure who cares so you got more than 32,000 class kerns just set it to only export so many pairs.. Nope, if you have that many pairs in the source it will not compile don't matter if you set it to export only two single pairs. You have to have 15,000 or less before that other part of the program even kicks in.
+I'm pretty sure if you kern the font in the correct order you will only have two subtables. Single pair kerning then a subtable for sub class kerning then a subtable for class kerning in that order.
+And now you know.
+</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2008-10-05 02:01:42" itemprop=datePublished>
+2008-10-05 02:01:42
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mighty Pete</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

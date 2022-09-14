@@ -1,0 +1,157 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Line height info from previous message | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Line height info from previous message">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/7571/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2004-11-08T07:52:47+00:00">
+<meta property="article:modified_time" content="2004-11-08T07:52:47+00:00">
+<meta itemprop=name content="Line height info from previous message">
+<meta itemprop=description content><meta itemprop=datePublished content="2004-11-08T07:52:47+00:00">
+<meta itemprop=dateModified content="2004-11-08T07:52:47+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Line height info from previous message">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Line height info from previous message</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2004-11-08T07:52:47Z>November 8, 2004</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>magister</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>Recently there was a post here that dealt with issues of line spacing (handled differently on Mac vs PC); and how to set the various values. I think it was by [[John Hudson]] in response to someone's question. I have looked at a bunch of messages but I can't find it--can anybody point me to it? It was exactly the info I need.
+Thanks - David</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>>Well, it's probably about time for a full length explication, so here goes. The issue is complicated, and I'll explain the complication before outlining my 'best practices' recommendation. <br> <br><b>[Note that the descender values in the hhea table and the OS/2 sTypoDescender field are properly expressed as negative integer (presuming the descender goes below the baseline), while the OS/2 usWinDescent value is expressed as a positive integer. For the purpose of the discussion below, all values are treated as if they were positive integers, since what matters is the sum of the values.]</b> <br> <br>Apple originally spec'd the <a href=http://www.microsoft.com/typography/otspec/hhea.htm>hhea </a>table as part of the TrueType spec. This includes three values for vertical metrics (despite the fact that the full name of the table is 'Horizontal Header'): <br> <br> - Ascender <br> - Descender <br> - LineGap <br> <br>Together, these values determine the default linespacing in Mac applications that use system font metrics. [This is typical of word processing apps, text editors, and other apps that that do not , as a default, handle leading independently of font size. Page layout apps and other professional graphics software will typically not use the font metrics to determine linespacing, but will expect the user to set leading values or will calculate 'auto' leading as a percentage of the font size.] <br> <br>When Microsoft licensed TrueType, and began the extensions of the sfnt table format that would lead eventually to OpenType, they decided to spec their own vertical metrics values in the grab-all <a href=http://www.microsoft.com/typography/otspec/os2.htm>OS/2</a> table. One of the reasons for this was the need to be able to create fonts that had backwards compatible metrics with existing Windows bitmap fonts. This led to the OS/2 table containing two different sets of vertical metrics data: <br> <br> - sTypoAscender <br> - sTypoDescender <br> - sTypoLineGap <br> <br>and <br> <br> - usWinAscent <br> - usWinDescent <br> <br>As originally intended by Microsoft, the 'Typo' values were intended to be used by apps to calculate default linespacing, in exactly the same way as the corresponding hhea table values on the Mac. The 'usWin' values were intended to define clipping zones for the font, and as such were expected to correspond to the actual vertical extremes of the tallest and deepest glyphs in a font, to ensure that these would not be clipped (i.e. have pixels chopped off on screen). <br> <br>If this intent were followed, one could obtain reliable cross-platform default linespacing by making the hhea vertical metrics values equal to the corresponding OS/2 'Typo' values. <br> <br>However, almost every Windows app developer -- including Microsoft's own app teams -- have incorrectly calculated default linespacing based on the OS/2 'usWin' values instead of the correct, 'Typo' values. It seems likely that this is the result of some application developers noting that using the 'usWin' values ensured that all glyphs in most fonts avoidec contact with any glyphs on lines above or below, while this was not always the case with the 'Typo' values. <br> <br>So we're now in a complicated situation in which: <br> <br>a) the specification clearly indicates that the correct way to produce cross-platform linespacing is to make the OS/2 'Typo' and hhea vertical metrics equivalent; <br> <br>b) basically all Windows apps calculate linespacing incorrectly; <br> <br>c) therefore, the only way to get reliable cross-platform linespacing is by deliberately ignoring the specification, and by making the hhea table values equivalent to the OS/2 'usWin' values. <br> <br> <br>One can sidestep the issue by making the sum of the OS/2 'Typo' and 'usWin' values equivalent, so that all three sets of values produce equivalent results. In my experience, this approach -- as outlined below -- will produce good results for most text faces and probably the majority of display faces. But display faces with abnormally long extenders can be a problem, because one must either clip the extenders or set all the values to provide clearance, which produces abnormally large linespacing. We hit this issue when we were making the AAT version of Zapfino that ships with Mac OS X. <br> <br>Leaving aside the for-now unsolveable issue of such display faces, here are my recommendations for setting the OS/2 and hhea font metrics. <br> <br>1. OS/2 usWin values: <br>These should be set to determine the default linespacing, since this is what almost all Windows apps will actually use. For most designs, this will also ensure that glyphs are not clipped, since default linespacing typically includes enough 'leading' to provide clearance. If non-clipping is vital, you simply have to ensure that these values serve double-duty. If you have no very tall or deep glyphs that you want to avoid clipping, a good basic setting for these values will equal the UPM value of the font multiplied by 1.20 or 1.25, as this is a reasonable default leading. The actual value of the two fields should reflect the design. In Latin faces this will typically mean than a larger value is assigned to the usWinAscent field, while in some Arabic fonts the values might favour the descender. For the purpose of this explanation, let's assume a Latin text face with typical TT UPM of 2048, which we'll multiply by 1.25 (=2560) and assign like this: <br> <br> - usWinAscent = 1836 <br> - usWinDescent = 724 <br> <br> <br>2. Os/2 'Typo' values <br>We want to make the sum of these values equivalent to the usWin values, i.e. to add up to 2560. My recommendation here is to make the sum of the sTypoAscender and sTypoDescender equal to the font UPM value (2048), and to assign the different between this and 2560 to the sTypoLineGap field. Again this should correspond to the design, and you should begin by measuring your typical ascender height and descender depth, e.g. measuring the lowercase <i>d</i> and <i>p</i>. Then, if the combined height of these is shorter than 2048, add the difference in equal amounts to the sTypoAscender and sTypoDescender. So let's assume that the typical height of the ascender in our example font is 1430 and the typical descender depth is 550, i.e. a total height of 1980. <br> <br> 2048 - 1930 = 68 and 68 /2 = 34 <br> <br>So this gives us <br> <br> - sTypoAscender = 1464 <br> - sTypoDescender = 584 (actually -584) <br> <br>and the difference between 2048 and the combined usWin values of 2560 gives us <br> <br> - sTypoLineGap = 512 <br> <br> <br>3. hhea values <br>Now setting the hhea values and obtaining cross-platform linespacing is easy, because you can simply make these values match the corresponding OS/2 'Typo' values: <br> <br> - Ascender = 1464 <br> - Descender = 584 (actually -584) <br> - LineGap = 512</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-11-08 09:22:09" itemprop=datePublished>
+2004-11-08 09:22:09
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>John Hudson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Brilliant! <br> <br>John, so nice to get a sensible and technically accurate answer to <br>this question (with instructions no less). Thanks! <br> <br>Randy</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2004-11-09 14:10:06" itemprop=datePublished>
+2004-11-09 14:10:06
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>aquatoad</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>so what's the latest thinking on this? What are your revised "best practices," John?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-12 18:24:18" itemprop=datePublished>
+2006-10-12 18:24:18
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>bump. has this been sorted out?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-10-30 21:24:06" itemprop=datePublished>
+2006-10-30 21:24:06
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>anyone?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-11-17 19:58:58" itemprop=datePublished>
+2006-11-17 19:58:58
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Enquiring minds want to know, as in me too :-)
+ChrisL</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-11-17 20:08:34" itemprop=datePublished>
+2006-11-17 20:08:34
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>dezcom</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>BTW, there's a wiki page over here: [[Vertical Metrics How-To]]</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-11-17 21:07:02" itemprop=datePublished>
+2006-11-17 21:07:02
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Miguel Sousa</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>yes, miguel. i made that page. :^P. but at the bottom, John says he would report back after ATypI to get us up to date with the latest thinking on the subject. Anyone heard from John?</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2006-11-17 21:41:51" itemprop=datePublished>
+2006-11-17 21:41:51
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>paul d hunt</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

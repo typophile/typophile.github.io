@@ -1,0 +1,168 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Need help writing MIF file &amp;#40;AAT&amp;#41; | Typophile Archive</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content>
+<meta name=generator content="Hugo 0.91.2">
+<meta name=robots content="noindex, nofollow">
+<link href=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css rel=stylesheet integrity=sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3 crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js integrity=sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p crossorigin=anonymous></script>
+<meta property="og:title" content="Need help writing MIF file &amp;#40;AAT&amp;#41;">
+<meta property="og:description" content>
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://typophile.github.io/node/9256/"><meta property="article:section" content="node">
+<meta property="article:published_time" content="2005-02-15T14:31:39+00:00">
+<meta property="article:modified_time" content="2005-02-15T14:31:39+00:00">
+<meta itemprop=name content="Need help writing MIF file &amp;#40;AAT&amp;#41;">
+<meta itemprop=description content><meta itemprop=datePublished content="2005-02-15T14:31:39+00:00">
+<meta itemprop=dateModified content="2005-02-15T14:31:39+00:00">
+<meta itemprop=wordCount content="0">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Need help writing MIF file &amp;#40;AAT&amp;#41;">
+<meta name=twitter:description content>
+</head>
+<body class="ma0 avenir bg-near-white">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class=container>
+<a class=navbar-brand href=/>Typophile Archive</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+</div>
+</nav>
+</header>
+<main class=pb7 role=main>
+<article class=container>
+<header class="post-header py-3">
+<h1 class="post-title p-name" itemprop="name headline">Need help writing MIF file (AAT)</h1>
+<p class=text-muted>
+<time class="f6 mv4 dib tracked" datetime=2005-02-15T14:31:39Z>February 15, 2005</time>
+• <span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>nickshanks</span></span>
+</p>
+</header>
+<div class="post-content e-content" itemprop=articleBody>Hi there, I am trying to implement a generic MIF for my fonts which activates option 14/6 (Typographical Extras/Periods to Ellipsis). I have written the below code which successfully changes the first full stop to an ellipsis, but I have no idea how to change the following two to DELs, can anyone help? (It is originally based on the swash Eva example from Apple's documentation - I realise that it does more than it needs too at the moment, but I'll clean that up later.) <br> <br><pre>Type	Contextual <br>Name	Typographic Extras <br>Namecode	14 <br>Setting	Periods to Ellipsis <br>Settingcode	6 <br>Default	yes <br>Orientation	HV <br>Forward	yes <br>Exclusive	no <br> <br>FS	32 <br> <br>	EOT	OOB	DEL	EOL	FS <br>StartText	1	1	1	1	3 <br>StartLine	1	1	1	1	3 <br>Flush	1	1	2	1	2 <br>Saw1	1	2	3	1	4 <br>Saw2	1	2	5	1	6 <br>Saw3	7	7	6	7	7 <br> <br>	GoTo	Mark?	Advance?	SubstMark	SubstCurrent <br>1	StartText	no	yes	none	none <br>2	Flush	no	yes	none	none <br>3	Saw1	yes	yes	none	none <br>4	Saw2	no	yes	none	none <br>5	Saw2	no	yes	none	none <br>6	Saw3	no	yes	none	none <br>7	StartText	no	yes	Ellipsis	none <br> <br>Ellipsis <br>	32	167</pre></div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Although they can be incredibly powerful, the contextual substitutions in MIF source files are extremely frustrating to write. It's one area where OpenType's approach is easier by many magnitudes. <br> <br>Fortunately, there's a much easier way to solve your particular problem -- just create a ligature of three periods in a row to an ellipsis character. For example: <br> <br><pre> <br>Type           LigatureList <br>Name           Typographical Extras <br>Namecode       14 <br>Setting        Periods to Ellipsis <br>Settingcode    6 <br>Default        no <br>Orientation    H <br>Forward        yes <br>Exclusive      no <br> <br>List <br>               ellipsis       period period period <br></pre> <br> <br>Although it is not documented Apple's tutorials, you can mix contextual and noncontextual substitutions in any feature set (in this case, Typographical Extras). <br> <br>Brent</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-02-15 18:24:25" itemprop=datePublished>
+2005-02-15 18:24:25
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>bsleeper</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>To be honest I had thought of that, but figured an ellipsis wasn't a true ligature so i shouldn't use the ligature feature to cheat my way out :-P <br> <br>Ahh well...</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-02-15 22:30:48" itemprop=datePublished>
+2005-02-15 22:30:48
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>nickshanks</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>It also breaks when encountering strings with more than three periods, turning every group of three into an ellipsis, rather than aborting the transformation like a proper contextual substitution would (i.e. "..." would form an ellipsis, but neither "...." nor "......" would). <br> <br>So I shall use the LigatureList for now, but if anyone can solve this I'd still like to hear about it.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-02-15 22:40:39" itemprop=datePublished>
+2005-02-15 22:40:39
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>nickshanks</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>This may sound like a stupid question, but why bother replacing three periods with an elipsis? I don't see what the advantage would be since, presumably, it would look exactly like three periods.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-02-15 22:58:10" itemprop=datePublished>
+2005-02-15 22:58:10
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>In most fonts an ellipsis isn't identical to three consecutive periods. <br>And with reason, since that generally creates a large white gap in <br>the texture of the page. <br> <br>hhp</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-02-15 23:01:03" itemprop=datePublished>
+2005-02-15 23:01:03
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>hrant</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>I've always made them so they look the same as three periods, spacing-wise. <br> <br>I've just checked a bunch of different fonts at random. Of the ones I looked at (including some from Microsoft, Apple, Font Bureau, House, FontShop, etc.) about half do it the same way I do, i.e., exactly the same as three periods. All the others put <b>more</b> space between the dots in the elipsis. Some as much as twice the space. Interestingly, in Georgia the dots are slightly smaller than the period but spaced exaclty the same as three periods, with a little extra to make up for the smaller dots. I have found no fonts (so far) where the elipsis is more closely spaced than three periods.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-02-16 00:00:53" itemprop=datePublished>
+2005-02-16 00:00:53
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>Mark Simonson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Courier? :-P <br>Seriously: Maybe you're right. <br> <br>hhp</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-02-16 00:08:08" itemprop=datePublished>
+2005-02-16 00:08:08
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>hrant</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Back when we were writing the <i>Glossary of Typesetting Terms</i> I researched this one a bit. Turns out that (at that time) the Associated Press style was to use three periods with no extra spacing. The <i>Chicago Manual</i> (whatever edition) calle for three periods with a 3-to-em space in between the periods -- of course, Chicago frequently got its "to-em's" a little off; this would give wider than nornal spacing within the ellipsis. <br> <br>I've been known to argue both sides. Finally our company went with a normal (usually justifying) word space between the periods, on the grounds that the more word spaces you can get in a line, the tighter the line will usually set, and the more even the spacing generally. Not the best argument I've ever offered . . . <br> <br>We've programmed this "ellipsis" to prohibit a break within of course, and have a high penalty to break before. A four-dot ellipsis is really a sentence-ending period with a standard ellipsis following. One more reason to use the normal space. <br> <br>MLA style can vary from this, BTW. If it were me & I were building a font with a single ellipsis character, I'd make the space between the dots a bit less than the smallest justifying word space. If someone then decides to go the other route, they just don't use the ellipsis "character." But if you make it a ligature and someone can't turn off that particular ligature without turning off all the ligatures, you do have a problem. <br> <br>FWIW, <br> <br>Charles</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-02-16 02:27:45" itemprop=datePublished>
+2005-02-16 02:27:45
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>charles ellertson</span></span>
+</div>
+</div>
+<div class="comment card m-3">
+<div class=card-body>
+<div class=commentbody>Sorry I'm jumping into this discussion but it's so close to what I was looking for for so long. <br>Can anybody show me how to write MIF contextual table for contextualization of Arabic letters? <br>Arabic letters are substituted by their 'initial', 'medial' and 'final' forms depending on their location in the word and many of them are joining characters. ftxanalyzer does not generate Arabic contextualization scheme in MIF file and I don't know how to add it to MIF before compiling with ftxenhancer.</div>
+</div>
+<div class="card-footer text-muted post-meta text-end">
+<time class=dt-published datetime="2005-02-16 21:22:36" itemprop=datePublished>
+2005-02-16 21:22:36
+</time>
+•
+<span itemprop=author itemscope itemtype=http://schema.org/Person>
+<span class="p-author h-card" itemprop=name>behnam</span></span>
+</div>
+</div>
+</article>
+</main>
+</body>
+</html>

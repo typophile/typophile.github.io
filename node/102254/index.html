@@ -74,8 +74,21 @@
   <div class="post-content e-content" itemprop="articleBody"><p>Hi</p>
 <p>Is it possible to compare the side-bearings of two separate fonts and mark any differences.</p>
 <p>I have been trying to do it with a macro. I can open the two fonts but how do I loop through the glyphs of the fonts. It would be nice it it skips any glyphs that aren&rsquo;t present in both fonts as well.</p>
-<!-- raw HTML omitted -->
-</div>
+<CODE>
+from robofab.world import OpenFont
+fontOne = OpenFont(None)
+fontTwo = OpenFont(None)
+print fontOne.info.fullName,"/",fontTwo.info.fullName
+print " "
+for g in fontOne:
+	if fontOne[g].leftMargin != fontTwo[g].leftMargin or fontOne[g].rightMargin != fontTwo[g].rightMargin:
+	  print fontOne[g].leftMargin,"-",g,"-",fontOne[g].rightMargin
+	  print fontTwo[g].leftMargin,"-",g,"-",fontTwo[g].rightMargin
+	  print fontOne[g].leftMargin - fontTwo[g].leftMargin,"----",fontOne[g].rightMargin - fontTwo[g].rightMargin
+	  print "------------------"
+	  print " "
+	fontOne[g].mark += 10
+</CODE></div>
 
    <div class="comment card m-3">
 	<div class="card-body">

@@ -128,9 +128,9 @@ May I show all characters of this list in Fontlab Studio, it is faster than find
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>You can get the pane for that codepage by clicking &ldquo;page mode&rdquo; at the bottom and then choose as follows:</p>
-<!-- raw HTML omitted -->
+<img src="/files/windows-1258_4931.png" width=100%>
 <p>If you want to add the Vietnamese characters in the Latin extensions, you choose another pane. You select &ldquo;Ranges mode&rdquo; and then &ldquo;1E00 Latin Extended Additional&rdquo;. The characters that concern you are from 1EA0 to 1EF1.</p>
-<!-- raw HTML omitted -->
+<img src="/files/viet-extended_4197.png" width=100%>
 <p>The pictures are scaled. If you find them too small, open them in a new window or new tab.</p>
 </div>
 	</div>
@@ -201,14 +201,62 @@ By the way, maybe I will expand my font list to characters in Western Europe (12
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Those charts are indeed great to get an idea of how the characters are expected to look like. For the other information the charts contain, I find the file <!-- raw HTML omitted -->NamesList.txt<!-- raw HTML omitted --> much more useful. For instance, to get the relevant characters for Vietnamese, just search for &ldquo;Vietnamese&rdquo; in <!-- raw HTML omitted -->NamesList.txt<!-- raw HTML omitted -->.</p>
+		<div class="commentbody"><p>Those charts are indeed great to get an idea of how the characters are expected to look like. For the other information the charts contain, I find the file <a href="http://www.unicode.org/Public/UNIDATA/NamesList.txt">NamesList.txt</a> much more useful. For instance, to get the relevant characters for Vietnamese, just search for &ldquo;Vietnamese&rdquo; in <a href="http://www.unicode.org/Public/UNIDATA/NamesList.txt">NamesList.txt</a>.</p>
 <p>Better still, with just basic knowledge of Python, unicodedata (see ref on <a href="http://docs.python.org/2/library/unicodedata.html">http://docs.python.org/2/library/unicodedata.html</a>) gives you a fast access to what I find relevant information in <a href="http://www.unicode.org/Public/UNIDATA/">http://www.unicode.org/Public/UNIDATA/</a></p>
 <p>I don&rsquo;t know how much that can be useful for font design but here is for instance a script that finds the NFD canonical decomposition of characters in a range specified by two hex numbers and prints all the component characters; no need to search the files on the unicode site:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+---- file decomp ---- cut here
+#!/usr/bin/env python
+
+import unicodedata, sys
+ud=unicodedata
+
+if len(sys.argv) < 2:
+  print """Usage: %s starthex endhex
+        Example: %s 1EA0 1EF1 """ %(sys.argv[0],sys.argv[0])
+  exit()
+
+start=int(sys.argv[1],16)
+end=int(sys.argv[2],16)
+
+def uhexandname(h):
+  try:
+    nam=ud.name(unichr(h))
+  except:
+    nam=''
+  return "u%04X  %s" % (h, nam)
+
+schars=set([])
+for h in range(start,end+1):
+  schars |= {ord(c) for c in ud.normalize('NFD',unichr(h))}
+
+lchars=list(schars); lchars.sort()
+for c in lchars:
+  print uhexandname(c)
+---- cut here ---
+</PRE>
 <p>Here is a trace of execution, showing all components of character in the range 1EA0 &ndash; 1EF1 (included):</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+611 % decomp 1EA0 1EF1
+u0041  LATIN CAPITAL LETTER A
+u0045  LATIN CAPITAL LETTER E
+u0049  LATIN CAPITAL LETTER I
+u004F  LATIN CAPITAL LETTER O
+u0055  LATIN CAPITAL LETTER U
+u0061  LATIN SMALL LETTER A
+u0065  LATIN SMALL LETTER E
+u0069  LATIN SMALL LETTER I
+u006F  LATIN SMALL LETTER O
+u0075  LATIN SMALL LETTER U
+u0300  COMBINING GRAVE ACCENT
+u0301  COMBINING ACUTE ACCENT
+u0302  COMBINING CIRCUMFLEX ACCENT
+u0303  COMBINING TILDE
+u0306  COMBINING BREVE
+u0309  COMBINING HOOK ABOVE
+u031B  COMBINING HORN
+u0323  COMBINING DOT BELOW
+</PRE>
 <p>That was tested with python2.7.2.</p>
 </div>
 	</div>
@@ -299,9 +347,23 @@ By the way, maybe I will expand my font list to characters in Western Europe (12
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>The following letters appear in the <!-- raw HTML omitted -->Wikipedia table<!-- raw HTML omitted -->. They do not figure in the Fontlab win_1258.enc file (at least those hex values do not appear in the comments).</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>The following letters appear in the <a href="http://en.wikipedia.org/wiki/Vietnamese_alphabet#Tone_marks">Wikipedia table</a>. They do not figure in the Fontlab win_1258.enc file (at least those hex values do not appear in the comments).</p>
+<PRE>
+00C3     LATIN CAPITAL LETTER A WITH TILDE
+00CC     LATIN CAPITAL LETTER I WITH GRAVE
+00D2     LATIN CAPITAL LETTER O WITH GRAVE
+00D5     LATIN CAPITAL LETTER O WITH TILDE
+00DD     LATIN CAPITAL LETTER Y WITH ACUTE
+00E3     LATIN SMALL LETTER A WITH TILDE
+00EC     LATIN SMALL LETTER I WITH GRAVE
+00F2     LATIN SMALL LETTER O WITH GRAVE
+00F5     LATIN SMALL LETTER O WITH TILDE
+00FD     LATIN SMALL LETTER Y WITH ACUTE
+0128     LATIN CAPITAL LETTER I WITH TILDE
+0129     LATIN SMALL LETTER I WITH TILDE
+0168     LATIN CAPITAL LETTER U WITH TILDE
+0169     LATIN SMALL LETTER U WITH TILDE
+</PRE>
 <p>Are they also required? Is there no clear and reliable list?</p>
 </div>
 	</div>
@@ -324,7 +386,7 @@ By the way, maybe I will expand my font list to characters in Western Europe (12
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>Or just choose MS Windows 1250/1252 is enough because it contains full words.</blockquote>
 <p>could it be that you are confusing ‘words’ with ‘names’?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -346,12 +408,18 @@ By the way, maybe I will expand my font list to characters in Western Europe (12
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>I downloaded the small <!-- raw HTML omitted -->Hunspell Vietnamese spellchecker<!-- raw HTML omitted --> and looked at the characters used. Aside from the 1EA0 to 1EF9 range and the standard unaccented latin letters, it uses the following small letters</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>I downloaded the small <a href="https://code.google.com/p/hunspell-spellcheck-vi/downloads/detail?name=vi_spellchecker_OOo3.oxt">Hunspell Vietnamese spellchecker</a> and looked at the characters used. Aside from the 1EA0 to 1EF9 range and the standard unaccented latin letters, it uses the following small letters</p>
+<PRE>
+00E0 00E1 00E2 00E3 00E8 00E9 00EA 00EC 00ED 
+00F2 00F3 00F4 00F5 00F9 00FA 00FD 0103 0111 
+0129 0169 01A1 01B0 
+</PRE>
 <p>The corresponding capitals should also be needed</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+00C0 00C1 00C2 00C3 00C8 00C9 00CA 00CC 00CD 
+00D2 00D3 00D4 00D5 00D9 00DA 00DD 0102 0110 
+0128 0168 01A0 01AF 
+</PRE>
 <p>That implies that the small letters that are in my list of the post <a href="http://typophile.com/node/105171#comment-562024">http://typophile.com/node/105171#comment-562024</a> (thus neither in Windows 1258 nor in the 1EA0-1EF9 range) figure all in that small dictionary of only 6631 entries.</p>
 </div>
 	</div>
@@ -395,7 +463,19 @@ By the way, maybe I will expand my font list to characters in Western Europe (12
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted --></div>
+		<div class="commentbody"><blockquote>Or just choose MS Windows 1250/1252 is enough</blockquote>
+Put together, they are still missing the characters
+<PRE>
+  0128  LATIN CAPITAL LETTER I WITH TILDE
+  0129  LATIN SMALL LETTER I WITH TILDE
+  0168  LATIN CAPITAL LETTER U WITH TILDE
+  0169  LATIN SMALL LETTER U WITH TILDE
+  01A0  LATIN CAPITAL LETTER O WITH HORN
+  01A1  LATIN SMALL LETTER O WITH HORN
+  01AF  LATIN CAPITAL LETTER U WITH HORN
+  01B0  LATIN SMALL LETTER U WITH HORN
+</PRE>
+on top of all those in the <code>1EA0-1EF9</code> range.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -417,14 +497,29 @@ By the way, maybe I will expand my font list to characters in Western Europe (12
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I just ran the following experiment: I typed ằẳẵắặ with the Vietnamese Keyboard <a href="http://gate2home.com/Vietnamese-Keyboard">http://gate2home.com/Vietnamese-Keyboard</a>, copied the characters in the little box (I was using Chrome on OS X 10.8) and pasted them in vi (and TextEdit); the sequence of characters pasted was</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+   0103 LATIN SMALL LETTER A WITH BREVE
+   0300 COMBINING GRAVE ACCENT
+   0103 LATIN SMALL LETTER A WITH BREVE
+   0309 COMBINING HOOK ABOVE
+   0103 LATIN SMALL LETTER A WITH BREVE
+   0303 COMBINING TILDE
+   0103 LATIN SMALL LETTER A WITH BREVE
+   0301 COMBINING ACUTE ACCENT
+   0103 LATIN SMALL LETTER A WITH BREVE
+   0323 COMBINING DOT BELOW
+</PRE>
 <p>(from a dump of the utf8 text file). Now, if I copy those characters with option C in vi and paste them with option V (either in vi or textedit), the letters that are pasted are</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+   1EB1 LATIN SMALL LETTER A WITH BREVE AND GRAVE
+   1EB3 LATIN SMALL LETTER A WITH BREVE AND HOOK ABOVE
+   1EB5 LATIN SMALL LETTER A WITH BREVE AND TILDE
+   1EAF LATIN SMALL LETTER A WITH BREVE AND ACUTE
+   1EB7 LATIN SMALL LETTER A WITH BREVE AND DOT BELOW
+</PRE>
 <p>During the copy-paste the string is recoded. That is a behaviour I did not expect. Is that something that is documented and, if so, where?</p>
-<p>(In fact, this text was written in textedit, and pasted with Chrome in the typophile edit window  and the recoding also appears to have occurred on the first line but this may come this time from some Unicode normalization rule for data interchange. Nevertheless, with the link <!-- raw HTML omitted -->/files/clavierviet.html<!-- raw HTML omitted -->, no recoding seems to occur)</p>
-<p>(Added: If I view <!-- raw HTML omitted -->/files/clavierviet.html<!-- raw HTML omitted --> with Safari, copy the string and paste it, the combining diacritics are kept as with Chrome. If I do the same with Firefox, the recoding occurs, independently of the font used for viewing, even with a font with no ccmp table. Note that I am now on OS X 10.6.8 with Firefox 21.0)</p>
+<p>(In fact, this text was written in textedit, and pasted with Chrome in the typophile edit window  and the recoding also appears to have occurred on the first line but this may come this time from some Unicode normalization rule for data interchange. Nevertheless, with the link <a href="http://typophile.com/files/clavierviet.html">/files/clavierviet.html</a>, no recoding seems to occur)</p>
+<p>(Added: If I view <a href="http://typophile.com/files/clavierviet.html">/files/clavierviet.html</a> with Safari, copy the string and paste it, the combining diacritics are kept as with Chrome. If I do the same with Firefox, the recoding occurs, independently of the font used for viewing, even with a font with no ccmp table. Note that I am now on OS X 10.6.8 with Firefox 21.0)</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -447,7 +542,8 @@ By the way, maybe I will expand my font list to characters in Western Europe (12
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Maybe I should add, to clarify, that the Vietnamese keyboard (at least on the Mac) does not behave like  the keyboard on the site I referred to above, <a href="http://gate2home.com/Vietnamese-Keyboard;">http://gate2home.com/Vietnamese-Keyboard;</a> indeed the orange keys behave like &ldquo;dead keys&rdquo; and after the accent is typed, a unique precomposed character is input in the text.</p>
-<!-- raw HTML omitted --></div>
+<img src="/files/Vietamese_kb_20130808_5433.png" width=100%>
+(open image in new window or new tab to see actual size).</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -105,9 +105,9 @@ I thought Tatweel Insertion, is a specific algorithm designed by unicode, like a
 so, if Microsoft office Word 2007 don&rsquo;t implement a correct algorithm, do you know another typesetting system do? i don&rsquo;t know anything about TeX based Arabic systems, but i&rsquo;m pretty sure that XePersian justifies text by adding more space between words.
 Another way: is OpenType Turing-Complete or Turing-Consistent? 
 for example in this situation control follow of text rendering engine (used with Justification algorithm) can be fall into an infinite loop:
-<!-- raw HTML omitted -->Liga: semiLam tatweel semiAlif -&gt; semiLam semiAlif<!-- raw HTML omitted -->
+<code>Liga: semiLam tatweel semiAlif -&gt; semiLam semiAlif</code>
 and again in the Justification algorithm:
-<!-- raw HTML omitted -->Justify: semiLam semiAlif -&gt; semiLam tatweel semiAlif<!-- raw HTML omitted -->
+<code>Justify: semiLam semiAlif -&gt; semiLam tatweel semiAlif</code>
 what will happen?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -131,8 +131,8 @@ what will happen?</div>
 	<div class="card-body">
 		<div class="commentbody"><p>As far as I know, tatweel insertion is not a Unicode algorithm, since it is a page layout feature not a plain text requirement.</p>
 <p>The middle East version of InDesign supports quite good tatweel justification using its &lsquo;Naskh&rsquo; justification setting.</p>
-<p><!-- raw HTML omitted -->what will happen?<!-- raw HTML omitted --></p>
-<p>The problem is that justification typically takes place by inserting a tatweel character (in a buffered state, not affecting the underlying text string) <!-- raw HTML omitted -->after<!-- raw HTML omitted --> glyph processing is complete, because that is the stage at which the page layout app knows how long the unjustified lines are and hence how much to widen them. This results in a couple of problems: one is that automatically inserted tatweels are outside glyph processing and hence won&rsquo;t be processed as part of GSUB or GPOS lookups; the other is that their use is effectively limited to flat styles of Arabic type, since curved elongations typical of all the traditional styles except Kufic require GSUB and GPOS handling. [I am meeting with some people from the MS Office team this coming week to discuss this limitation and look at ways in which it might be overcome.]</p>
+<p><em>what will happen?</em></p>
+<p>The problem is that justification typically takes place by inserting a tatweel character (in a buffered state, not affecting the underlying text string) <em>after</em> glyph processing is complete, because that is the stage at which the page layout app knows how long the unjustified lines are and hence how much to widen them. This results in a couple of problems: one is that automatically inserted tatweels are outside glyph processing and hence won&rsquo;t be processed as part of GSUB or GPOS lookups; the other is that their use is effectively limited to flat styles of Arabic type, since curved elongations typical of all the traditional styles except Kufic require GSUB and GPOS handling. [I am meeting with some people from the MS Office team this coming week to discuss this limitation and look at ways in which it might be overcome.]</p>
 <p>Note that if tatweel characters are manually inserted in the text string, then they will be processed during text shaping. Only automatically inserted tatweels will not.</p>
 <p>It is interesting that your illustration shows Scheherazade, which does not use ligature glyphs but, rather, employs contextual substitution to render even the lam+alif form wth two glyphs. My guess is that because the tatweel insertion takes place after text shaping, Word will not normally insert a tatweel within a ligature (in the process ignoring some situations in which an elongation might legitimately occur), but they might be assuming that lam+alif will always be rendered using a ligature, which is an erroneous assumption as Scheherazade demonstrates. If their algorithm permits an elongation following a lam, but doesn&rsquo;t take into account the possibility that lam+alif might be represented by two separate glyphs, then that would produce the result you show.</p>
 </div>
@@ -161,7 +161,7 @@ what will happen?</div>
 <p>I design ALL of my Alifs and Lams by contextual sub, so write a python macro for making them composed by AlifLam ligature (+and additional marks) to make changes easy. but there is tons of work to do.</p>
 <p>before any wasting time and effort, do you have a better idea to help?</p>
 <p>[img:sites/default/files/old-images/New Bitmap Image_3881.JPG]</p>
-<p><!-- raw HTML omitted -->I know some of them will never appear in real texts, but think all of possible compositions should be supported by font (perhaps for educational using, or just for fun).<!-- raw HTML omitted --></p>
+<p><em>I know some of them will never appear in real texts, but think all of possible compositions should be supported by font (perhaps for educational using, or just for fun).</em></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

@@ -71,17 +71,17 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody"><p>I created a CFF flavored OTF font with TTX, and it works <!-- raw HTML omitted -->perfectly<!-- raw HTML omitted --> in InDesign CS4 &ndash; when placed into ID&rsquo;s own private Fonts folder, that is.</p>
+  <div class="post-content e-content" itemprop="articleBody"><p>I created a CFF flavored OTF font with TTX, and it works <em>perfectly</em> in InDesign CS4 &ndash; when placed into ID&rsquo;s own private Fonts folder, that is.</p>
 <p>But although OS X (Lion) gives me the option to &ldquo;Open in FontBook&rdquo; on the file, it just won&rsquo;t appear in there &hellip; Manually copied it into ~/Library/Fonts and it still doesn&rsquo;t appear in the active font list.</p>
-<p>Could it be some arcane bits settings in the various tables that makes FontBook distrust it <!-- raw HTML omitted -->so<!-- raw HTML omitted --> much it doesn&rsquo;t even pop up the helpful &ldquo;errors in font&rdquo; dialog? Or is it perhaps as simple as the fact that this font only contains 9 lowercase characters &hellip;? I.e., would adding &lsquo;A-Z&rsquo; and &lsquo;a-z&rsquo; but setting all references to them to <!-- raw HTML omitted -->.notdef<!-- raw HTML omitted --> solve it? (If so, what else characters are &ldquo;required&rdquo; cuz that won&rsquo;t make it an ANSI compatible font either.)</p>
+<p>Could it be some arcane bits settings in the various tables that makes FontBook distrust it <em>so</em> much it doesn&rsquo;t even pop up the helpful &ldquo;errors in font&rdquo; dialog? Or is it perhaps as simple as the fact that this font only contains 9 lowercase characters &hellip;? I.e., would adding &lsquo;A-Z&rsquo; and &lsquo;a-z&rsquo; but setting all references to them to <code>.notdef</code> solve it? (If so, what else characters are &ldquo;required&rdquo; cuz that won&rsquo;t make it an ANSI compatible font either.)</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Adobe&rsquo;s checkOutlines found some problems in my glyphs. After fixing these, I tried force-feeding this fontlet into FontBook&rsquo;s throat and <!-- raw HTML omitted -->finally<!-- raw HTML omitted --> got <!-- raw HTML omitted -->a<!-- raw HTML omitted --> result &ndash; even though it&rsquo;s not really explaining the problem &hellip;</p>
+		<div class="commentbody"><p>Adobe&rsquo;s checkOutlines found some problems in my glyphs. After fixing these, I tried force-feeding this fontlet into FontBook&rsquo;s throat and <em>finally</em> got <em>a</em> result &ndash; even though it&rsquo;s not really explaining the problem &hellip;</p>
 <p>[img:sites/default/files/old-images/fontbook_3879.png]</p>
 <p>At least those cumbersome little tables seem to have &ldquo;correct&rdquo; values, now on to find what&rsquo;s wrong with the ones unmentioned: GSUB, and the CFF itself. I&rsquo;m going to try to ditch the GSUB and see if that helps.</p>
-<p><!-- raw HTML omitted -->(Hey, I <!-- raw HTML omitted -->can<!-- raw HTML omitted --> upload an image using FireFox!)<!-- raw HTML omitted --></p>
+<p><small>(Hey, I <em>can</em> upload an image using FireFox!)</small></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -103,11 +103,11 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Okay, that was <!-- raw HTML omitted -->no<!-- raw HTML omitted --> fun at all :-)</p>
-<p>After checking virtually <!-- raw HTML omitted -->every<!-- raw HTML omitted --> single bit in my source TTX and going over every line of <!-- raw HTML omitted -->ftxvalidator<!-- raw HTML omitted --> output I finally nailed the problem. FYI, this was PICNIC (&ldquo;Problem In Chair, Not In Computer&rdquo;).</p>
-<p>It didn&rsquo;t help that <!-- raw HTML omitted -->ftxvalidator<!-- raw HTML omitted --> kept on telling me that a font with my Postscript name &ldquo;is already installed&rdquo;. Running <!-- raw HTML omitted -->atsutil databases -removeUser<!-- raw HTML omitted --> a few times finally cleared that &lsquo;error&rsquo;, and only then something made me check the Postscript name in the &lsquo;name&rsquo; table &hellip; against the Postscript name in my CFF.</p>
+		<div class="commentbody"><p>Okay, that was <em>no</em> fun at all :-)</p>
+<p>After checking virtually <em>every</em> single bit in my source TTX and going over every line of <code>ftxvalidator</code> output I finally nailed the problem. FYI, this was PICNIC (&ldquo;Problem In Chair, Not In Computer&rdquo;).</p>
+<p>It didn&rsquo;t help that <code>ftxvalidator</code> kept on telling me that a font with my Postscript name &ldquo;is already installed&rdquo;. Running <code>atsutil databases -removeUser</code> a few times finally cleared that &lsquo;error&rsquo;, and only then something made me check the Postscript name in the &lsquo;name&rsquo; table &hellip; against the Postscript name in my CFF.</p>
 <p>Duh. None of the tools I tried (Adobe&rsquo;s own AFDKO suite, Apple&rsquo;s Font SDK, Font Book, Linotype Font Explorer, and TTX itself) thought it worth mentioning. InDesign probably ditches the &lsquo;name&rsquo; table as soon as it can and uses only the CFF data; or possibly it&rsquo;s smarter than your average bear (hold on, I&rsquo;m gonna check what it says as &ldquo;Postscript name&rdquo; &hellip; the one in the &lsquo;name&rsquo; table! A small surprise here, it actually ignores the one in the CFF part.)</p>
-<p>(Good news is I learned about twenty other <!-- raw HTML omitted -->possible<!-- raw HTML omitted --> issues with my home grown font creator. And of course I learned how to use the above-mentioned dozen or so tools.)</p>
+<p>(Good news is I learned about twenty other <em>possible</em> issues with my home grown font creator. And of course I learned how to use the above-mentioned dozen or so tools.)</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

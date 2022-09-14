@@ -106,11 +106,11 @@
 		<div class="commentbody"><p>Ah, the wonders of GREP styles &ndash; how did I ever work without them?</p>
 <p>Let&rsquo;s see &ndash; the following GREP style will find any run of the following characters, with at least two uppercase characters anywhere (not consecutively): Capitals, digits, hyphen, period, open and close single and double curly quotes, and round parentheses.</p>
 <p>It will match &ldquo;123A456B&rdquo; but not &ldquo;(&hellip;A1&hellip;)&rdquo; (only one capital); &lsquo;word&rsquo; delimiters are all possible kinds of white space, plus begin/end of string.</p>
-<p>It works like this: to the left of the starting point there should not be NOT a space (I cannot use the regular \b boundary here, because it seems some non-whitespace characters also define a word boundary; in addition, I cannot use &ldquo;to the left <!-- raw HTML omitted -->should be<!-- raw HTML omitted --> white space, because then it will fail at the start of a paragraph). Then, from the start, there should be any number of allowed characters, excluding uppercase, followed by an uppercase, followed by again any number of allowed characters and again at least a single uppercase. That&rsquo;s to fulfill the requirement &ldquo;1. There must be at least two letters&rdquo; (which, incidentally, is repeated in &ldquo;2. At least one cap&rdquo; and &ldquo;3. No lowercase letters&rdquo;). If the previous check matches, all characters are allowed up to NOT a non-space at the right.</p>
-<p><!-- raw HTML omitted -->(?&lt;!\S)(?=[\d-./~<a href="">~{~}~</a>]<em>\u[\d-./~{~[~]~}()]</em>\u)[\u\d-./~{~[~]~}()]+(?!\S)<!-- raw HTML omitted --></p>
+<p>It works like this: to the left of the starting point there should not be NOT a space (I cannot use the regular \b boundary here, because it seems some non-whitespace characters also define a word boundary; in addition, I cannot use &ldquo;to the left <em>should be</em> white space, because then it will fail at the start of a paragraph). Then, from the start, there should be any number of allowed characters, excluding uppercase, followed by an uppercase, followed by again any number of allowed characters and again at least a single uppercase. That&rsquo;s to fulfill the requirement &ldquo;1. There must be at least two letters&rdquo; (which, incidentally, is repeated in &ldquo;2. At least one cap&rdquo; and &ldquo;3. No lowercase letters&rdquo;). If the previous check matches, all characters are allowed up to NOT a non-space at the right.</p>
+<p><code>(?&lt;!\S)(?=[\d-./~<a href="">~{~}~</a>]<em>\u[\d-./~{~[~]~}()]</em>\u)[\u\d-./~{~[~]~}()]+(?!\S)</code></p>
 <p>To test, you can set up a character style with a fat colored underline, so you can see what it picks up and what gets ignored:</p>
 <p>[img:sites/default/files/old-images/grepstyle_3612.png]</p>
-<p>The great thing about GREP styles in InDesign is that they are entirely <!-- raw HTML omitted -->live<!-- raw HTML omitted -->, so you can type text and see the result immediately!</p>
+<p>The great thing about GREP styles in InDesign is that they are entirely <em>live</em>, so you can type text and see the result immediately!</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -157,13 +157,13 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Okay &hellip; this needs a slightly different approach, then:</p>
-<p><!-- raw HTML omitted -->(?&lt;!\S)(?=\S*\u)([\u\d~[~]~{~}.()]){2,}(?![^\s[:punct:]])<!-- raw HTML omitted --></p>
+<p><code>(?&lt;!\S)(?=\S*\u)([\u\d~[~]~{~}.()]){2,}(?![^\s[:punct:]])</code></p>
 <p>This needs at least a sequence of non-spaces followed by an uppercase (the (?=\S*\u) part), then the same characters as above may get repeated, at least two times and as much as possible.</p>
-<p>I also changed the &ldquo;end&rdquo; condition slightly. Rather than a space character &ndash; or, as I said before, &ldquo;not <!-- raw HTML omitted -->not<!-- raw HTML omitted --> a space character &ndash;, it also needs to check for regular punctuation. My previous try also failed on &ldquo;&hellip; A1, ..&rdquo; (a single comma right after a &lsquo;good&rsquo; expression).</p>
-<p><!-- raw HTML omitted -->BTW, do you think this useful? OK to say no.<!-- raw HTML omitted --></p>
+<p>I also changed the &ldquo;end&rdquo; condition slightly. Rather than a space character &ndash; or, as I said before, &ldquo;not <em>not</em> a space character &ndash;, it also needs to check for regular punctuation. My previous try also failed on &ldquo;&hellip; A1, ..&rdquo; (a single comma right after a &lsquo;good&rsquo; expression).</p>
+<p><cite>BTW, do you think this useful? OK to say no.</cite></p>
 <p>&ldquo;Jugdement call. Ask a real human.&rdquo; (Quoted freely from &ndash; I think &ndash; a Terry Pratchett novel.)</p>
-<p>As you can see with a highlight style applied, it picks up everything mildly applicably and <!-- raw HTML omitted -->relentlessly<!-- raw HTML omitted -->. GREP Styles are the Terminators of InDesign &ndash; They Will Not Stop. You cannot manually override a GREP style, unless you make another one with every attribute set to the exact opposite. The Highlight style, for example, needs one with Underline forcibly switched Off. Worse is that you have to apply them manually as well.</p>
-<p>I&rsquo;d have to see a run of the text you intend to apply it to, because it may well be it works as intended &hellip; So <!-- raw HTML omitted -->do<!-- raw HTML omitted --> try out with a Highlighting Style, so at least you can see where it gets applied.</p>
+<p>As you can see with a highlight style applied, it picks up everything mildly applicably and <em>relentlessly</em>. GREP Styles are the Terminators of InDesign &ndash; They Will Not Stop. You cannot manually override a GREP style, unless you make another one with every attribute set to the exact opposite. The Highlight style, for example, needs one with Underline forcibly switched Off. Worse is that you have to apply them manually as well.</p>
+<p>I&rsquo;d have to see a run of the text you intend to apply it to, because it may well be it works as intended &hellip; So <em>do</em> try out with a Highlighting Style, so at least you can see where it gets applied.</p>
 <p>Here&rsquo;s one I missed so far: since it also includes the parentheses, the closing ones in your short list of examples get picked up. It&rsquo;s virtually impossible to force &ldquo;matching parentheses&rdquo; in a GREP style &hellip;</p>
 <p>[img:sites/default/files/old-images/grepstyle2_4003.png]</p>
 </div>

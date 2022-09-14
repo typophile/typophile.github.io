@@ -376,7 +376,7 @@ After a day of Maxim’s presentations on Cyrillic forms and styles, there were 
 	<div class="card-body">
 		<div class="commentbody"><p>“Is that a position or a screw-up?”</p>
 <p>Actually, it was &ldquo;process or position&rdquo;, a political nuance by someone at the UN, which MZ took a step further, &ldquo;no, it was a screw-up.&rdquo;</p>
-<p><!-- raw HTML omitted --> Serbian Cyrillic and Bulgarian Cyrillic <!-- raw HTML omitted --></p>
+<p><em> Serbian Cyrillic and Bulgarian Cyrillic </em></p>
 <p>These are bizarre. The local alternate characters have the same Unicode values as &ldquo;normal&rdquo; Cyrillic. So it&rsquo;s like a Latin-using country saying all fonts must have a single-bowl a.</p>
 </div>
 	</div>
@@ -424,7 +424,7 @@ After a day of Maxim’s presentations on Cyrillic forms and styles, there were 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Mr Lozos' masterpiece titled <!-- raw HTML omitted -->The Shnorkel<!-- raw HTML omitted --> &ndash; does it illustrate the American version of &ldquo;Schnorchel&rdquo; [diving tool] or of &ldquo;Schnörkel&rdquo; [nice-but-void-of-function design element]?  ;-)</div>
+		<div class="commentbody">Mr Lozos' masterpiece titled <cite>The Shnorkel</cite> &ndash; does it illustrate the American version of &ldquo;Schnorchel&rdquo; [diving tool] or of &ldquo;Schnörkel&rdquo; [nice-but-void-of-function design element]?  ;-)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -561,7 +561,7 @@ After a day of Maxim’s presentations on Cyrillic forms and styles, there were 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Or maybe they should. :)<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>Or maybe they should. :)</em></p>
 <p>I don&rsquo;t know enough about the workings of the Unicode Consortium to be able to comment on the merit of its character-selection process, but from a typographic perspective the distinction between characters and glyphs, which is central to the OpenType premise, should be absolutely rigid. If not, the absurd situation arises - as with the Bulgarian and Serbian alternates - where the correct glyphs are only accessible via a Stylistic Set, or with a dedicated Bulgarian/Serbian font. The first is too obscure for genereral use, and the second makes a mockery of the one-font-for-all internationalist idealism of the enterprise.</p>
 </div>
 	</div>
@@ -751,22 +751,22 @@ I haven&rsquo;t looked at it yet.</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->Also, would a Bulgarian keyboard map to these glyphs automatically?<!-- raw HTML omitted --></p>
+<p><em>Also, would a Bulgarian keyboard map to these glyphs automatically?</em></p>
 </blockquote>
 <p>No. With the keyboard you insert character codepoints, not glyph IDs. So the underlying text data for Russian, Bulgarian and Serbian is the same, the only difference is the glyph form.</p>
 <p>To answer Nick, Chris is right; to implement these glyph-form differences in an OpenType font you&rsquo;ll have to use the &lsquo;locl&rsquo; feature. Here&rsquo;s a code snippet that handles the lowercase &lsquo;be&rsquo; (б U+0431 CYRILLIC SMALL LETTER BE):</p>
-<p><!-- raw HTML omitted -->feature locl {</p>
+<p><code>feature locl {</p>
 <pre><code>script cyrl;
 	language SRB exclude_dflt; # Serbian
 		sub be by be.serb;
 </code></pre>
 <p>} locl;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>[img:sites/default/files/old-images/be_beserb_3714.png]
 &lsquo;be&rsquo; and &lsquo;be.serb&rsquo;</p>
 <p>The above assumes that the default form of &lsquo;be&rsquo; is the one used for Russian (i.e. the default representation of the character U+0431 is the 6-like shape).
 If, for example, the main market for your font was Serbia, then you could (hypothetically) revert the order and make the Serbian form the default one. But this would complicate the feature code, because you would then have to specify all the other languages that use Cyrillic and which prefer the 6-like shape. Here&rsquo;s what I mean:</p>
-<p><!-- raw HTML omitted -->feature locl {</p>
+<p><code>feature locl {</p>
 <pre><code>script cyrl;
 	language RUS exclude_dflt; # Russian
 		lookup BE_SIX_LIKE_SHAPE {
@@ -790,7 +790,7 @@ If, for example, the main market for your font was Serbia, then you could (hypot
 	# And so on...
 </code></pre>
 <p>} locl;
-<!-- raw HTML omitted --></p>
+</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1063,8 +1063,8 @@ If, for example, the main market for your font was Serbia, then you could (hypot
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Greek has a tonos.<!-- raw HTML omitted --></p>
-<p>Well it does and it doesn&rsquo;t. The Greek diacritic letters with tonos and oxia both decompose to letter plus U+0301, which is the combining acute accent character. This means that bi-script fonts supporting combining mark characters need to have a Greek-specific (<!-- raw HTML omitted --> feature) glyph for U+0301 and other general diacritics.</p>
+		<div class="commentbody"><p><em>Greek has a tonos.</em></p>
+<p>Well it does and it doesn&rsquo;t. The Greek diacritic letters with tonos and oxia both decompose to letter plus U+0301, which is the combining acute accent character. This means that bi-script fonts supporting combining mark characters need to have a Greek-specific (<locl> feature) glyph for U+0301 and other general diacritics.</p>
 <p>Similarly, in a combined Latin-Cyrillic font with combining mark support one would want a Cyrillic-specific &lsquo;breve&rsquo; glyph.</p>
 <p>Although the form of these characters as used in different scripts may vary, they are clearly the same character performing the same orthographic functions. The Greek tonos performs the same stress mark role as the acute in most European orthographies; the Greek oxia and varia were tone marks and correspond to the use of acute and grave in the orthographies of huge numbers of tonal languages in Africa and elsewhere; the Cyrillic kratka, like the Latin (and Greek) breve, indicates a short vowel sound.</p>
 </div>
@@ -1088,7 +1088,7 @@ If, for example, the main market for your font was Serbia, then you could (hypot
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->the kratka is not considered a diacritic, but is actually part of the letter<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>the kratka is not considered a diacritic, but is actually part of the letter</em></p>
 <p>This is an intra-orthographic observation, i.e. in the writing of Russian the kratka is considered part of the letter and the most obvious evidence of this is that the long i vowel and the short i vowel (with kratka) are sorted separately in dictionaries. But one shouldn&rsquo;t presume that the kratka will always be considered &lsquo;part of the letter&rsquo; in all orthographies. It is a mark that indicates a short vowel sound, and hence could easily be adapted as a combining diacritic in orthographies for other languages.</p>
 <p>As a parallel, think of the Latin á. In French, this is considered a letter plus diacritic mark, and is sorted in dictionaries amid the letter A words. In Northern Sami, á is considered a separate letter and is sorted after A.</p>
 </div>
@@ -1203,7 +1203,7 @@ If, for example, the main market for your font was Serbia, then you could (hypot
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Chris, great report and even greater images! <!-- raw HTML omitted -->Of course<!-- raw HTML omitted --> if you can pun in words, you can also pun in images! Mad props to you for making me laugh!</div>
+		<div class="commentbody">Chris, great report and even greater images! <strong>Of course</strong> if you can pun in words, you can also pun in images! Mad props to you for making me laugh!</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1280,7 +1280,7 @@ If, for example, the main market for your font was Serbia, then you could (hypot
 <p>While Maxim Zhukov worked as typographic coordinator at the United Nations in New York, his immediate boss at the UN was also Russian. At one time, When Maxim prepared a publication, something has gone wrong. His boss looked at him and asked: &ldquo;Maxim Georgevich, is this a screw-up, or is this a position?&rdquo; Maxim admitted that it was a screw-up.</p>
 </li>
 </ol>
-<p>When <!-- raw HTML omitted -->Gary Munch<!-- raw HTML omitted --> said &ldquo;shnorkel&rdquo;, I interpreted that he meant the German &ldquo;Schnörkel&rdquo; (an embellishment, squiggle, flourish) rather than &ldquo;Schnorchel&rdquo;/snorkel. But I think it may have been just a merging of both terms.</p>
+<p>When <a href="http://flickr.com/photos/adamt/410712188/in/set-72157594570229703/">Gary Munch</a> said &ldquo;shnorkel&rdquo;, I interpreted that he meant the German &ldquo;Schnörkel&rdquo; (an embellishment, squiggle, flourish) rather than &ldquo;Schnorchel&rdquo;/snorkel. But I think it may have been just a merging of both terms.</p>
 <p>Gary has reasonable knowledge of German but his rendition of Schnörkel sounded more &ldquo;New York jiddish&rdquo; than actual German. James Montalbano instantly liked the term, so did I. I think it should find its way into general typographic terminology.</p>
 <p>Overall, I must compliment Maxim on his teaching skills. I was very impressed with the Cyrillic workshopm and thoroughly enjoyed it. Even though I do have good knowledge of Cyrillic, I did learn a lot. I found the formula very well chosen:</p>
 <ul>
@@ -1288,16 +1288,16 @@ If, for example, the main market for your font was Serbia, then you could (hypot
 <p>Friday afternoon was a visit to the Slavic division of the New York Public Library, where we could look at some old Cyrillic type specimens and prints (though some participants, including myself, wished that we could spend more time looking at the specimens).</p>
 </li>
 <li>
-<p>Saturday was a full-day (9 to 5) lecture-style, when Maxim first talked about the development of the Cyrillic script (the pre-Petrine time, the reform by Peter the Great, the 19th century type founding, the Soviet period and the newest times), and then discussed the entire alphabet <!-- raw HTML omitted -->letter-by-letter<!-- raw HTML omitted --> (the Russian as well as some non-Russian letters): first uppercase, then upright lowercase, and finally italic lowercase. He also discussed the peculiarities of handwritten and script Cyrillic.</p>
+<p>Saturday was a full-day (9 to 5) lecture-style, when Maxim first talked about the development of the Cyrillic script (the pre-Petrine time, the reform by Peter the Great, the 19th century type founding, the Soviet period and the newest times), and then discussed the entire alphabet <a href="http://flickr.com/photos/adamt/410708645/in/set-72157594570229703/">letter-by-letter</a> (the Russian as well as some non-Russian letters): first uppercase, then upright lowercase, and finally italic lowercase. He also discussed the peculiarities of handwritten and script Cyrillic.</p>
 </li>
 <li>
 <p>Sunday was another full day, during which Maxim critiqued the Cyrillic type designs that the participants sent him before the workshop, all produced according to a standardized layout. For the first 3 or so participants, he spent some 30-40 minutes talking about each project. All the time, he actively asked for comments from other participants, and it was a collaborative critique rather than a one-way monologue. We spent a bit less time for each of the designs discussed later, but it was not a problem because the discussion about the first three or so designs already covered many common problems that appeared in designs that appeared later, so we didn’t actually feel that we needed to talk in great detail about every single alphabet. So in the discussion on the later designs, Maxim concentrated on the specific issues not discussed previously.</p>
 </li>
 </ul>
 <p>The visuals presented by Maxim were very good and comprehensive. He also presented a collection of books that people could find useful when studying Cyrillic (many of them were in Russian only).</p>
-<p>I found Maxim’s timing perfect: he finished 4:58 on Saturday, and 4:45 on Sunday, just on time. The balance between serious content and lightweight anecdotes was just right. It was both <!-- raw HTML omitted -->informative<!-- raw HTML omitted --> and <!-- raw HTML omitted -->fun<!-- raw HTML omitted -->.</p>
+<p>I found Maxim’s timing perfect: he finished 4:58 on Saturday, and 4:45 on Sunday, just on time. The balance between serious content and lightweight anecdotes was just right. It was both <a href="http://flickr.com/photos/adamt/410714979/in/set-72157594570229703/">informative</a> and <a href="http://flickr.com/photos/adamt/410716190/in/set-72157594570229703/">fun</a>.</p>
 <p>Even though the event was not the cheapest for me (flight from Berlin to New York, hotel and the participation fee), I felt that my money was extremely well spent. Even though I had known Maxim for seven or so years now, worked with him on several ATypI projects, and spoke to him during various conferences, it was the first time that I could enjoy his knowledge and experience for a longer period of time, several days. This was far better than the brief conversations we had previously. Thank you, Maxim!</p>
-<p>I’d also like to thank <!-- raw HTML omitted -->the other participants<!-- raw HTML omitted -->. I felt it was an excellent group, very active and responsive, and it was fun seeing some of my good friends again, and taking part in it.</p>
+<p>I’d also like to thank <a href="http://flickr.com/photos/adamt/410731168/in/set-72157594570229703/">the other participants</a>. I felt it was an excellent group, very active and responsive, and it was fun seeing some of my good friends again, and taking part in it.</p>
 <p>Adam</p>
 </div>
 	</div>

@@ -105,7 +105,7 @@ JB</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>j_b wrote: <!-- raw HTML omitted -->programming a special kerning script to create the diacritics&hellip;(without modifying any of Monotype&rsquo;s font software).<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>j_b wrote: <em>programming a special kerning script to create the diacritics&hellip;(without modifying any of Monotype&rsquo;s font software).</em></p>
 <p>There is no conceivable scenario in which what you are suggesting here (using an encoding vector and writing a custom metrics file for TeX) would be disallowed by the font license.</p>
 <p>It is stated explicitly in [[http://www.fonts.com/Legal/MI-EULA.htm|Monotype&rsquo;s EULA]] that &ldquo;You may not alter Font Software.&rdquo; Nevertheless, even if you did obtain permission to do so, it is still a cleaner solution to use a metrics file to place the diacritics, as this will ensure your TeX code remains portable, since it won&rsquo;t rely on customized fonts.</p>
 </div>
@@ -176,7 +176,7 @@ JB</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>John Hudson wrote: <!-- raw HTML omitted -->Using kerning to position diacritics marks is a really messy method<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>John Hudson wrote: <em>Using kerning to position diacritics marks is a really messy method</em></p>
 <p>True, but this is not the technique being discussed here. Rather, the idea is to create virtual font and metric files that compose the needed glyphs on the fly. Additional kerning, ligature rules and glyph positioning are all achievable in TeX through this method. The term &ldquo;kerning script&rdquo; may have been a misleading way to describe this.</p>
 </div>
 	</div>
@@ -201,12 +201,12 @@ JB</p>
 	<div class="card-body">
 		<div class="commentbody"><p>Thanks for your responses.</p>
 <p>I&rsquo;ll contact Monotype and ask them directly about what we can and can&rsquo;t do with Albertina. I guess I was hoping also for any general advice in this area or things to consider.</p>
-<p>Christopher Adams wrote: <!-- raw HTML omitted -->There is no conceivable scenario in which what you are suggesting here (using an encoding vector and writing a custom metrics file for TeX) would be disallowed by the font license.<!-- raw HTML omitted --></p>
+<p>Christopher Adams wrote: <cite>There is no conceivable scenario in which what you are suggesting here (using an encoding vector and writing a custom metrics file for TeX) would be disallowed by the font license.</cite></p>
 <p>Great. That&rsquo;s what we had originally assumed, though doubts crept in (reading a post on this forum somewhere by charles_e). I&rsquo;ll try to confirm this anyway with Monotype.</p>
-<p><!-- raw HTML omitted -->It is stated explicitly in Monotype&rsquo;s EULA that &ldquo;You may not alter Font Software.&rdquo; Nevertheless, even if you did obtain permission to do so, it is still a cleaner solution to use a metrics file to place the diacritics, as this will ensure your TeX code remains portable, since it won&rsquo;t rely on customized fonts.<!-- raw HTML omitted --></p>
+<p><cite>It is stated explicitly in Monotype&rsquo;s EULA that &ldquo;You may not alter Font Software.&rdquo; Nevertheless, even if you did obtain permission to do so, it is still a cleaner solution to use a metrics file to place the diacritics, as this will ensure your TeX code remains portable, since it won&rsquo;t rely on customized fonts.</cite></p>
 <p>I&rsquo;ll have to ask the geek on our team who is coding the TeX &hellip; I take this to mean that the TeX code he creates to form diacrtics on the fly will do so whatever font is used, thereby giving us the freedom to change fonts without having to recode?</p>
 <p>Also, I&rsquo;ve wondered if it might not be the other way around: that creating unicode characters within the font could be more useful in the long run than by coding on the fly in LaTeX. That the font itself will be more portable being able to use it in applications other than TeX-based ones such as InDesign or even Pages or OpenOffice with new diacritics intact? And also that as digital standards progress, the likelihood of search engines or ebook formats being able to recognize/look for a greater range of unicode glyphs increases?</p>
-<p>John Hudson wrote: <!-- raw HTML omitted --> Using kerning to position diacritics marks is a really messy method, because kerning affects all subsequent glyphs&hellip;<!-- raw HTML omitted --></p>
+<p>John Hudson wrote: <cite> Using kerning to position diacritics marks is a really messy method, because kerning affects all subsequent glyphs&hellip;</cite></p>
 <p>Yes, as Christopher comments I think I shouldn&rsquo;t have described it this way. We have InDesign which we could use for this project too, though LaTeX may be preferable, with its coding abilities.</p>
 <p>Uli, thank you for the links. We&rsquo;re aware of the palladio/palatino option, and have used it in the past. It&rsquo;s robust, good looking and has been used very heavily in Pali Buddhist publishing. Bhikkhu Pesala has done great work with his typefaces too. And there&rsquo;s Gentium. So, I&rsquo;ll keep all that in mind. We&rsquo;re looking now for a heavily-tested and complete OpenType font other than Palatino, and Albertina seems to be the current contender.</p>
 </div>
@@ -230,7 +230,7 @@ JB</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Great. That&rsquo;s what we had originally assumed, though doubts crept in (reading a post on this forum somewhere by charles_e). I&rsquo;ll try to confirm this anyway with Monotype.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Great. That&rsquo;s what we had originally assumed, though doubts crept in (reading a post on this forum somewhere by charles_e). I&rsquo;ll try to confirm this anyway with Monotype.</cite></p>
 <p>If you write a TeX macro to position one character with respect to another, there is of course no need to modify the font itself. But there may be syntactical issues if any use of the files is to be made later. While it is no problem (with TeX) to position a period beneath a letter &ndash; m, n, r, etc., the character you have placed is probably the period, U+002E. It will look fine. But the correct character is probably U+0323 (COMBINING DOT BELOW). So anybody who tries to extract your text for further use will have some cleaning up to do.</p>
 <p>Same with the macrons &ndash; you&rsquo;ll likely wind up having to use U+00AF for both the macron above and the macron below, instead of the more syntactically correct U+0304 (above) and U+0331 (below).</p>
 <p>I&rsquo;d doubt the Monotype font has any of the combining diacriticals, 0300-036F.</p>
@@ -255,7 +255,7 @@ JB</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->But there may be syntactical issues if any use of the files is to be made later. &hellip; So anybody who tries to extract your text for further use will have some cleaning up to do.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>But there may be syntactical issues if any use of the files is to be made later. &hellip; So anybody who tries to extract your text for further use will have some cleaning up to do.</cite></p>
 <p>I&rsquo;m interested in knowing more about any limitations involved in going down this route, that is using LaTeX macros (I guess that&rsquo;s what our guy&rsquo;s doing) to position diacritics on a font which lacks them. I&rsquo;m not up on the technical mechanics of how TeX works and how fonts are handled in various applications, but I had reservations when I first heard the plan, based on the knowledge that we will want to use the texts involved in future, and not always using TeX applications to do so.</p>
 <p>We will also want to export the texts to various formats intended for various purposes: in addition to print-ready PDFs we can use for offset or digital (print-on-demand) print runs (which we&rsquo;re hoping to produce from LaTeX), we will make versions available to people to download as (ideally searchable) PDFs, ebook formats, even possibly html. The current idea is to keep the master (most currently corrected) versions of each text as plain text files, which can then also be used by people unable or unwilling to use LaTeX.</p>
 <p>I realize of course that non-TeX applications will not recognize the macros and so lack the diacritics. Therefore our man plans, as I understand it, to create another TeX macro to replace the diacritics-creating macro (if that makes sense) which instead places the proper unicode characters into the plain text for the master files. I&rsquo;m not sure I got that right, but it&rsquo;s something like that.</p>
@@ -282,7 +282,7 @@ JB</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->The current idea is to keep the master (most currently corrected) versions of each text as plain text files, which can then also be used by people unable or unwilling to use LaTeX.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>The current idea is to keep the master (most currently corrected) versions of each text as plain text files, which can then also be used by people unable or unwilling to use LaTeX.<cite></p>
 <p>Makes perfect sense. And of the current standards, the one you can expect to last the longest and be covered by the most software, is Unicode. The decision to use a particular font, just like the decision to use a particular layout program, is something for the individual people in your group to resolve.</p>
 <p>While I don&rsquo;t know LaTeX, I do know plain TeX. What you want to do is pretty simple with TeX, with a &ldquo;let&rdquo; and a definition. AFAIK, it is not do-able with InDesign. With ID, you need the correct characters &amp; glyphs, and the OT features that will let it all work.</p>
 <p>BTW, The dot-below, and macron-below for the Latin transliteration of most Indic Scripts do exist as precomposed Unicode characters, in Latin Extended Additional. Of course, most fonts don&rsquo;t have these either. And as sure as the Great Ground of Being made little green apples, you are going to run into something that requires you to make up some character or glyph. Now you need permission from the foundry.</p>
@@ -310,15 +310,15 @@ JB</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Great. That&rsquo;s what we had originally assumed, though doubts crept in (reading a post on this forum somewhere by charles_e).<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>Great. That&rsquo;s what we had originally assumed, though doubts crept in (reading a post on this forum somewhere by charles_e).</em></p>
 <p>Which post would that be?</p>
-<p><!-- raw HTML omitted -->The current idea is to keep the master&hellip; versions of each text as plain text files<!-- raw HTML omitted --></p>
-<p>I would advise storing your master files in a structural markup language like Docbook, which you can transform via a stylesheet to your intended output (LaTeX, HTML, ePUB, etc.). Cf. <!-- raw HTML omitted -->xsltproc<!-- raw HTML omitted -->.</p>
-<p><!-- raw HTML omitted -->the TeX code he creates to form diacrtics on the fly will do so whatever font is used<!-- raw HTML omitted --></p>
+<p><em>The current idea is to keep the master&hellip; versions of each text as plain text files</em></p>
+<p>I would advise storing your master files in a structural markup language like Docbook, which you can transform via a stylesheet to your intended output (LaTeX, HTML, ePUB, etc.). Cf. <code>xsltproc</code>.</p>
+<p><em>the TeX code he creates to form diacrtics on the fly will do so whatever font is used</em></p>
 <p>A higher level macro should be able to accomplish that. The technique I described of creating a virtual font would be specific to that font.</p>
-<p><!-- raw HTML omitted -->creating unicode characters within the font could be more useful in the long run than by coding on the fly in LaTeX.<!-- raw HTML omitted --></p>
+<p><em>creating unicode characters within the font could be more useful in the long run than by coding on the fly in LaTeX.</em></p>
 <p>In which case you will have to seek permission and pay for the right.</p>
-<p>If your compositor does not feel comfortable writing TeX macros or using <!-- raw HTML omitted -->fontinst<!-- raw HTML omitted -->, the most straightforward solution would be to modify the fonts (with permission), keep your .tex files in Unicode, use the <!-- raw HTML omitted -->fontspec<!-- raw HTML omitted --> package and process everything with XeLaTeX.</p>
+<p>If your compositor does not feel comfortable writing TeX macros or using <code>fontinst</code>, the most straightforward solution would be to modify the fonts (with permission), keep your .tex files in Unicode, use the <code>fontspec</code> package and process everything with XeLaTeX.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -340,12 +340,12 @@ JB</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Since you are going to have to do some font work in any case, why not consider Gentium, and do the necessary work? Kerning, small caps, etc.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Since you are going to have to do some font work in any case, why not consider Gentium, and do the necessary work? Kerning, small caps, etc.</cite></p>
 <p>Well, we don&rsquo;t have anyone who actually knows how to do font work(!) I have presumed that creating the characters we need that are missing from the font (relatively few in Arno Pro, basically adding the dot below a few consonents) will be possible to do for us amateurs – somehow. But doing a whole lot more for Gentium &hellip; I guess it seemed that Gentium is unfinished at the moment, and when they&rsquo;ve got it more complete it will be a better solution for us.</p>
 <p>Maybe Albertina will work well enough using LaTeX and we&rsquo;ll need another font for the purposes which don&rsquo;t use it. I wonder.</p>
-<p><!-- raw HTML omitted -->Which post would that be?<!-- raw HTML omitted --></p>
+<p><cite>Which post would that be?</cite></p>
 <p>I don&rsquo;t know that I can find it, it was one in the middle of a thread I read while searching the site. I think he was explaining how he wouldn&rsquo;t want to use any font with a EULA which didn&rsquo;t allow modification, and it was clear from the post he was also using TeX to solve missing glyph issues. I must have mistakenly got the idea that this too would run into problems with restrictive EULAs.</p>
-<p><!-- raw HTML omitted -->I would advise storing your master files in a structural markup language like Docbook, which you can transform via a stylesheet to your intended output (LaTeX, HTML, ePUB, etc.). Cf. xsltproc.<!-- raw HTML omitted --></p>
+<p><cite>I would advise storing your master files in a structural markup language like Docbook, which you can transform via a stylesheet to your intended output (LaTeX, HTML, ePUB, etc.). Cf. xsltproc.</cite></p>
 <p>Thanks, and thanks for the other advice, I&rsquo;ll ask our man about it all.</p>
 <p>Do either of you know about how diacritical glyphs are made more easily searchable, on the Web and/or in PDFs? Or where the standards seem to be going regarding ebooks as well other digital formats? It&rsquo;s a big question for us about how to enable search for the words with diacritics. I&rsquo;m assuming there is a movement to adopt Unicode recognition among all platforms as time goes on, but that&rsquo;s just a guess.</p>
 </div>
@@ -395,7 +395,7 @@ JB</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Let me add a <!-- raw HTML omitted -->caveat compositor:<!-- raw HTML omitted --> There are many TeX configurations that require Type 1 Postscript fonts. In the case of MT Albertina, converting from OpenType to Type 1 would be strictly <!-- raw HTML omitted -->contra EULA<!-- raw HTML omitted -->. Furthermore, the prohibition against embedding restricts the use of Albertina to print, in which case the point regarding search engines is moot.</div>
+		<div class="commentbody">Let me add a <em>caveat compositor:</em> There are many TeX configurations that require Type 1 Postscript fonts. In the case of MT Albertina, converting from OpenType to Type 1 would be strictly <em>contra EULA</em>. Furthermore, the prohibition against embedding restricts the use of Albertina to print, in which case the point regarding search engines is moot.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

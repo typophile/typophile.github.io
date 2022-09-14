@@ -254,7 +254,7 @@ After my first Arabic font &quot; Adobe Naskh &ldquo;, please check out my secon
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Muhammad has done a very impressive job, and I was privileged to be able to offer him some technical advice along the way. In addition to the app bugs to which Muhammad refers, there were also challenges getting the font to compile correctly in VOLT due to GPOS table size overruns.</p>
-<p>Having a richly featured OpenType naskh font of the kind Muhammad has made also enables one to make some meaningful comparisons between the OpenType and DecoType ACE approaches to the same style. Muhammad&rsquo;s font requirtes 3700 glyphs and a <!-- raw HTML omitted -->lot<!-- raw HTML omitted --> of GSUB and GPOS lookups to support only one language (Arabic), and requires the typographer to be knowledgeable and sensitive enough to know how to utilise the many stylistic set features manually to produce various results. DecoType Naskh, on the other hand, uses only 541 glyphs to support all the languages covered by the Unicode Arabic block*, and significant parts of the layout intelligence are handled, with much greater ease and efficiency, by the ACE engine rather than font lookups, while various typographic options are accessible through front-end pre-sets in Tasmeem (alongside further manual control for those who want it).</p>
+<p>Having a richly featured OpenType naskh font of the kind Muhammad has made also enables one to make some meaningful comparisons between the OpenType and DecoType ACE approaches to the same style. Muhammad&rsquo;s font requirtes 3700 glyphs and a <em>lot</em> of GSUB and GPOS lookups to support only one language (Arabic), and requires the typographer to be knowledgeable and sensitive enough to know how to utilise the many stylistic set features manually to produce various results. DecoType Naskh, on the other hand, uses only 541 glyphs to support all the languages covered by the Unicode Arabic block*, and significant parts of the layout intelligence are handled, with much greater ease and efficiency, by the ACE engine rather than font lookups, while various typographic options are accessible through front-end pre-sets in Tasmeem (alongside further manual control for those who want it).</p>
 <hr>
 <ul>
 <li>DecoType&rsquo;s recent fonts are even more efficient. Their Nastaliq has only 452 glyphs, and I suspect the Ruqah is even smaller.</li>
@@ -382,7 +382,7 @@ While in my font the kashida insertion is very easy by the kashida key and it wo
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>A few, brief comments:</p>
-<p><!-- raw HTML omitted -->DecoType ACE (Tasmeem)<!-- raw HTML omitted --></p>
+<p><em>DecoType ACE (Tasmeem)</em></p>
 <p>It is important to distinguish and not equate ACE and Tasmeem, in order to be clear what we&rsquo;re talking about. Tasmeem is a plug-in for InDesign that provides a particular user interface for working with the advanced typographic features of ACE fonts via the ACE layout engine. ACE fonts are OpenType fonts with a custom table made use of by the ACE engine, which provides script-grammatical shaping for Arabic text and enables the kind of advanced typographic controls accessible via an interface like Tasmeem. The interface is not the engine.</p>
 <p>Regarding the kashida, this is an interesting topic. While the use of the &lsquo;kashida key&rsquo; described by Muhammad is indeed convenient, it involves manually editing the underlying text string in order to affect a change in the appearance of the text. This isn&rsquo;t quite on the level of the old type 1 &lsquo;expert set&rsquo; fonts for Latin ligatures, as the &lsquo;tatweel&rsquo; character in Unicode is generally ignored in text search and sort operations, but it is still philosophically counter to the normal distinction between content and display.</p>
 <p>Muhammad is incorrect to suggest that use of manual kashida insertion is not supported by ACE and that use of the Tasmeem word shaping interface is the only way to access elongations. What ACE does not permit is insertion of the kashida in places where is it not permitted by script grammar (which varies, around some general rules, according to script style). If a user keys a tatweel character code in such a position, ACE trashes it from the string; hence Tom&rsquo;s term &lsquo;trashida&rsquo;.</p>
@@ -544,7 +544,7 @@ Bold.otf            998 KB</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->If you could confirm, I have found that manually only a single tatweel can be inserted at the allowed places while word shaping interface allows three levels of tatweel at the same place. <!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>If you could confirm, I have found that manually only a single tatweel can be inserted at the allowed places while word shaping interface allows three levels of tatweel at the same place. </em></p>
 <p>Yes. I&rsquo;m not sure if this is a feature of Tasmeem or of ACE itself, but multiple entries of the kashida character result in a single (medium length) kashida. I would probably have implemented this differently, equating one kashida character to the narrowest kashida, two to the medium, and three to the long, but this seems to me an equivocal decision: there is no standard for kashida behaviour, and hence people implement what makes sense to them, always with the knowledge that, at some stage, one needs to start swallowing additonal kashida characters. In our Aldhabi font for MS, we can accommodate up to 10 kashida characters as a long, ligated kashida stroke; if a user enters 11, 12, 13 etc. kashida characters the stroke doesn&rsquo;t get any longer and the additional kashida character glyphs are swallowed in the display.</p>
 </div>
 	</div>
@@ -592,7 +592,7 @@ Does Kashida swallowing is possible in OpenType font or it is done at software l
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I do it during OpenType glyph processing. First I ligate multiple individual kashida glyphs to the longer variant kashida stroke, in descending order of length, longest to shortest. Then, in a separate lookup I ligate the longest kashida stroke plus an additional individual kashida to the longest kashida stroke, which swallows the individual kashida:</p>
-<p><!-- raw HTML omitted -->kashida.10 kashida -&gt; kashida.10<!-- raw HTML omitted --></p>
+<p><code>kashida.10 kashida -&gt; kashida.10</code></p>
 <p>At present I&rsquo;m doing this in the &lsquo;ccmp&rsquo; feature, and this works find in MS apps, but kashida ligation done in this way doesn&rsquo;t work in InDesign ME, so I need to see if I can figure out a workaround in another feature.</p>
 </div>
 	</div>
@@ -640,9 +640,9 @@ Does Kashida swallowing is possible in OpenType font or it is done at software l
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->It means if another font is applied to the same text then the swallowed kashida will re-appear.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>It means if another font is applied to the same text then the swallowed kashida will re-appear.</em></p>
 <p>Of course, because in the case of the kashida Unicode character this is a text entry, so whatever you do at the display stage, this character remains in the backing string.</p>
-<p><!-- raw HTML omitted -->My font kashida ligation and kashida rules both work 100% in MS Word as well as InDesign.<!-- raw HTML omitted --></p>
+<p><em>My font kashida ligation and kashida rules both work 100% in MS Word as well as InDesign.</em></p>
 <p>What feature did you use for your kashida ligation lookups?</p>
 </div>
 	</div>
@@ -721,8 +721,8 @@ Does Kashida swallowing is possible in OpenType font or it is done at software l
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>You lookup description explains the selection of the alternate letterforms preceding the kashida(s) but not ligation or swallowing of the kashida glyphs themselves. So, for instance, the substitution</p>
-<p><!-- raw HTML omitted -->behinitial.two -&gt; behinitial.three
-| tatweel tatweel tatweel<!-- raw HTML omitted --></p>
+<p><code>behinitial.two -&gt; behinitial.three
+| tatweel tatweel tatweel</code></p>
 <p>results in the glyph string</p>
 <p>/behinitial.three/tatweel/tatweel/tatweel/</p>
 <p>I have similar &lsquo;calt&rsquo; lookups to handle all my letter variant substitutions too (although I&rsquo;ve already decomposed to archigraphemes by this point, so I&rsquo;m handling a generic &lsquo;B&rsquo; initial letter without dots rather than &lsquo;beh&rsquo;). What I am wondering is how you handle the tatweel glyphs themselves.</p>
@@ -751,7 +751,7 @@ Does Kashida swallowing is possible in OpenType font or it is done at software l
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Very nice font with so much ligation. The elongated tatweels are very beautiful and charming. Congratulations, Great work.</p>
-<!-- raw HTML omitted -->
+<p><em>What I am wondering is how you handle the tatweel glyphs themselves.</em></p>
 <p>The glyph string really becomes</p>
 <p>/behinitial.three/tatweel/tatweel/tatweel/</p>
 <p>in my font as described by you.</p>
@@ -779,7 +779,7 @@ Does Kashida swallowing is possible in OpenType font or it is done at software l
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Ah. That&rsquo;s sort of clever but complicated, and doesn&rsquo;t it lead to complexities in the left connection of the elongated initial? An alternative solution for you would be simply to make your elongated initial forms full width and swallow the tatweel glyphs as I so:</p>
-<p><!-- raw HTML omitted -->behinitial.three tatweel tatweel tatweel -&gt; behinitial.three<!-- raw HTML omitted --></p>
+<p><code>behinitial.three tatweel tatweel tatweel -&gt; behinitial.three</code></p>
 <p>That seems simpler, I think, and means that you can apply &lsquo;curs&rsquo; attachment directly from the /behinitial.three/ to a connecting letterforms on the left.</p>
 </div>
 	</div>
@@ -823,7 +823,7 @@ Does Kashida swallowing is possible in OpenType font or it is done at software l
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><p><em>Tim Holloway designed the narrowest elongation of each join shape and the widest, and an intermediate 'standard' elongation, and then I used interpolation to create all the others.</p></em>
 <p>It is interesting to know that you created the other elongations by interpolation using narrowest, intermediate and widest elongations.</p>
 <p>John, If you could explain the interpolation method with some detail and images. It will be quite helpful in creating several calligraphic tatweel levels.</p>
 <p>Thanks,</p>
@@ -869,11 +869,13 @@ Does Kashida swallowing is possible in OpenType font or it is done at software l
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><p><em>doesn't it lead to complexities in the left connection of the elongated initial?</em></p>
 <p>I did not face any complexity in the left connection as right from the beginning I made the left glyphs accordingly.</p>
-<!-- raw HTML omitted -->
+<p><em>An alternative solution for you would be simply to make your elongated initial forms full width and swallow the tatweel glyphs as I so:</em></p>
+<p><code>behinitial.three tatweel tatweel tatweel -> behinitial.three</code></p>
+<p><em>That seems simpler, I think, and means that you can apply 'curs' attachment directly from the /behinitial.three/ to a connecting letterforms on the left.</em></p>
 <p>It is also a good approach. Before adding calligraphic tatweels to my font I tested several approaches and I remember I have also tried something like this in the beginning.</p>
-<!-- raw HTML omitted -->
+<p><code>behinitial tatweel tatweel tatweel -> behinitial.three</code></p>
 <p>In this case there are at least two benefits. (1) No need to make separate glyph of tatweel.alt (2) direct cursive attachment towards left side letter.</p>
 <p>But I adopted the other approach so that the marks can be placed on tatweel.alt and they appear on the the elongated letter accordingly as in the image.</p>
 <p>[img:sites/default/files/old-images/Graphic1_3690.jpg]
@@ -1014,8 +1016,8 @@ Fontlab
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@Ryan Maelhorn:
-<!-- raw HTML omitted -->What makes this the most beautiful Arabic font? Although it seems to be quite the workhorse as far as allowing users to change things around, overall the outlines look rather lazy and bland to me.<!-- raw HTML omitted --></p>
-<p>Except for fonts which are limited to special software (InDesign) this is the <!-- raw HTML omitted -->only<!-- raw HTML omitted --> Arabic font to properly support the script, instead of taking ugly shortcuts.</p>
+<cite>What makes this the most beautiful Arabic font? Although it seems to be quite the workhorse as far as allowing users to change things around, overall the outlines look rather lazy and bland to me.</cite></p>
+<p>Except for fonts which are limited to special software (InDesign) this is the <em>only</em> Arabic font to properly support the script, instead of taking ugly shortcuts.</p>
 <p>Also, since English is not the original poster&rsquo;s first language, I&rsquo;m willing to allow that the &ldquo;One of&rdquo; in the title was intended to apply to &ldquo;the most beautiful&rdquo; as well as &ldquo;the most advanced&rdquo; (to achieve the proper idiomatic English parallel construction, it should have been &ldquo;One of the most advanced and most beautiful Arabic OT Naskh Fonts&rdquo;).</p>
 <p>I am no judge of Arabic script aesthetics, but the typeface appeared to me to have a pleasing shape with no obvious need for improvement.</p>
 </div>
@@ -1523,7 +1525,7 @@ These are justification alternates applied through jalt feature.</p>
 	<div class="card-body">
 		<div class="commentbody"><p>@moiz</p>
 <p>These are simple substitution lookups applied through jalt feature like</p>
-<p><!-- raw HTML omitted -->fehyeh.liga  -&gt; fehyeh.liga.swash<!-- raw HTML omitted --></p>
+<p><code>fehyeh.liga  -&gt; fehyeh.liga.swash</code></p>
 <p>Also try placing the jalt lookup after the في ligature lookup in the lookup list.</p>
 <p>thanks</p>
 </div>
@@ -1595,7 +1597,7 @@ I am also working on a Nastalique Font Mher Nastaleeq consisting of calligraphy 
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Unbelievable!!!!</p>
-<p>The font brochure download has passed above <!-- raw HTML omitted -->500<!-- raw HTML omitted -->.</p>
+<p>The font brochure download has passed above <strong>500</strong>.</p>
 <p>On a single forum (Typophile only) it seems quite a high value of likeness by all the visitors, specially in case of an Arabic font.</p>
 <p>Thanks to all.</p>
 </div>
@@ -1877,7 +1879,7 @@ Make some qahwa and watch the video.</li>
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I don&rsquo;t think it would be a good idea for Turkish to revert back to Arabic, mostly because as an Altaic language it relies heavily on vowels, while Arabic is built for consonantal rendering.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I don&rsquo;t think it would be a good idea for Turkish to revert back to Arabic, mostly because as an Altaic language it relies heavily on vowels, while Arabic is built for consonantal rendering.</cite></p>
 <p>That is a very good point. But since Turkey is an Islamic country, while they use the Latin alphabet to write Turkish, they also read the Qu&rsquo;ran. While Ahmadiyya Muslims, for example (a Muslim denomination regarded by many Muslims the same way as many Christians look at Mormons, Christian Scientists, or Seventh-Day Adventists) have no problem with translating the Qu&rsquo;ran into other languages, mainstream Sunni and Shi&rsquo;a Muslims both have varying degrees of discomfort with translations.</p>
 <p>So typefaces for the Arabic script will continue to be useful in Turkey for a long time.</p>
 </div>
@@ -1925,7 +1927,7 @@ Make some qahwa and watch the video.</li>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Wow!!!!</p>
-<p>The font brochure download has passed above <!-- raw HTML omitted -->750<!-- raw HTML omitted -->.</p>
+<p>The font brochure download has passed above <strong>750</strong>.</p>
 <p>Thanks for appreciating,
 Z.</p>
 </div>
@@ -2046,9 +2048,15 @@ Saleem Ali Ghalib</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --><!-- raw HTML omitted -->New Update:<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><strong><cite>New Update:</cite></strong></p>
 <p>Two new Styles have been added. Now the complete font family consists of 4 fonts:</p>
-<!-- raw HTML omitted -->
+<ul>
+<li><cite>Zuhair Albazi Display Naskh (Regular)</cite></li>
+<li><cite>Zuhair Albazi Display Naskh (Bold)</cite></li>
+<li><cite>Zuhair Albazi Text Naskh (Regular)</cite></li>
+<li><cite>Zuhair Albazi Text Naskh (Bold)</cite></li>
+</ul>
+<strong>Zuhair Albazi Text Naskh </strong> is for smaller document level texts i.e. for texts below 19 point size while <strong> Zuhair Albazi Display Naskh </strong> is for 19 and above sizes and for headings. So it is the first ever size specific Arabic Naskh font created.
 <p>Thanks,
 M.Z.</p>
 </div>
@@ -2167,7 +2175,7 @@ Vladimir</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@Aziz Mostafa:
-<!-- raw HTML omitted -->Islamic Republic of Turkey?!<!-- raw HTML omitted --></p>
+<cite>Islamic Republic of Turkey?!</cite></p>
 <p>I am aware that secularism has been a characteristic of the Turkish political system ever since Kemal Atatürk.</p>
 <p>When I said that Turkey was an Islamic country, I simply meant it in the same way that I would say that the United States is a Christian country, or Italy or Mexico (which, unlike the United States, both have anticlerical laws similar to Turkey&rsquo;s) are Roman Catholic countries - the majority of people there subscribe to those faiths.</p>
 <p>Maybe I should have said that Turkey was a Muslim country, but I had thought I had read somewhere that using &ldquo;Muslim&rdquo; in that fashion was incorrect usage, and Islamic is supposed to be used instead with the same meaning - most of the people there are Muslims - rather than Islamic carrying the different meaning, which I did not intend, that Shari&rsquo;a is the law of the land in Turkey.</p>
@@ -2219,10 +2227,10 @@ Vladimir</div>
 	<div class="card-body">
 		<div class="commentbody"><p>Thank you Vladimir for you kind best wishes and for so much liking the font. I am confident that this font will have a great impact on the future Arabic fonts, specially on future Naskh fonts and it will set some new standards. I have observed that this font has already affected some very big names in the type designing though I would not like to mention their names. But it is a good thing for a designer that his work is liked and being followed even by the top experts.</p>
 <p>@Bahman,</p>
-<!-- raw HTML omitted -->
+<blockquote>there has been an arabic typeface for this purpose before. Just google arabic typeface with optical sizes.</blockquote>
 <p>I think you are referencing to your font but you did not give your views about my unique font nor did you admire it so I will also not give here my admiring views about your beautiful nice Harir typeface!
 It was obvious from the images and the complete thread of my font that it is a true calligraphic Naskh font and I was talking in this regard but I should have mentioned it in the quote. I think now the quote will be correct.</p>
-<p><!-- raw HTML omitted -->So Zuhair Albazi Naskh is the first size specific calligraphic Naskh font ever created.<!-- raw HTML omitted --></p>
+<p><em>So Zuhair Albazi Naskh is the first size specific calligraphic Naskh font ever created.</em></p>
 <p>Thanks,</p>
 </div>
 	</div>
@@ -2269,9 +2277,9 @@ I try not to talk too much about something that is obvious. Of course it&rsquo;s
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@Bahman,</p>
-<p>Thank you for liking the font. I was not aware of your <!-- raw HTML omitted -->Persian type design<!-- raw HTML omitted --> page on Facebook as I do not use Facebook but thank you for posting a topic about this font.</p>
-<p>There is a forum named as <!-- raw HTML omitted -->Iranian Macintosh User Group<!-- raw HTML omitted --> on the net that published much detail about my font and how it was created. Here is a link to that page 
-<!-- raw HTML omitted -->Zuhair Albazi Naskh on Iranian Macintosh User Group<!-- raw HTML omitted -->
+<p>Thank you for liking the font. I was not aware of your <em>Persian type design</em> page on Facebook as I do not use Facebook but thank you for posting a topic about this font.</p>
+<p>There is a forum named as <cite>Iranian Macintosh User Group</cite> on the net that published much detail about my font and how it was created. Here is a link to that page 
+<a href="http://forum.irmug.com/viewtopic.php?t=1084&p=39700">Zuhair Albazi Naskh on Iranian Macintosh User Group</a>
 The original Q&amp;A are in English. They have translated all those details to Persian language for the their users. I thought it may be a thing of interest for some Typophile users so mentioned it here.</p>
 <p>@Vladimir
 You have mentioned a great point. Now I agree with Aziz Mostafa that it has already been too late for Turkey and Malaysia to go back to Arabic typesetting. I think now their is no way for Hrant to disagree at any angle as it would be the worst damage in the life of a nation that their common people forget their history and lose it at all.</p>
@@ -2401,7 +2409,7 @@ If secularism and democracy are false flags, then how will non-Muslims who are m
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>how will non-Muslims who are minorities within majority-Muslim countries enjoy equality?</blockquote>
 <p>It is exactly Democracy that cannot ensure the long-term well-being of minorities. For proof, see the current emergence of the far-right in Europe.</p>
 <p>hhp</p>
 </div>
@@ -2425,8 +2433,8 @@ If secularism and democracy are false flags, then how will non-Muslims who are m
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --><!-- raw HTML omitted -->Update with a good news<!-- raw HTML omitted --><!-- raw HTML omitted -->.</p>
-<p>The font brochure download has passed above <!-- raw HTML omitted -->1600<!-- raw HTML omitted -->.</p>
+		<div class="commentbody"><p><em><strong>Update with a good news</strong></em>.</p>
+<p>The font brochure download has passed above <strong>1600</strong>.</p>
 <p>It is really amazing.</p>
 <p>Thanks to all Typophiles for appreciating the font,
 Z.A.</p>

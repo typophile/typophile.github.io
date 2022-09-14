@@ -73,7 +73,7 @@
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>Hi!</p>
 <p>I&rsquo;m relatively new to FontForge after I got some experience with FontLab Studio and so far I like it (especially going open source).
-While testing a design I noticed that creating OTF fonts for testing in InDesign can be a tedious task. In FontLab I was used to a script that automatically <!-- raw HTML omitted -->created a copy<!-- raw HTML omitted --> of the file, <!-- raw HTML omitted -->removed overlaps<!-- raw HTML omitted --> and prompted the <!-- raw HTML omitted -->export dialog.<!-- raw HTML omitted --> So exporting OTF for testing was done in one click.</p>
+While testing a design I noticed that creating OTF fonts for testing in InDesign can be a tedious task. In FontLab I was used to a script that automatically <strong>created a copy</strong> of the file, <strong>removed overlaps</strong> and prompted the <strong>export dialog.</strong> So exporting OTF for testing was done in one click.</p>
 <p>I bet there is something similar in the FontForge world, but I couldn&rsquo;t find anything&hellip;
 How do you &ldquo;quick export&rdquo; test OTFs in FontForge?</p>
 <p>Thanks!</p>
@@ -104,10 +104,36 @@ How do you &ldquo;quick export&rdquo; test OTFs in FontForge?</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I use so one script (saved as file in my /.FontForge/python/ directory) for tests. 
-Script : save copy of my font as temp.sfd, remove overlaps, corect direction etc., generate font (without hints), copy it (or overwrite) to my local fonts directory (<!-- raw HTML omitted -->on Linux<!-- raw HTML omitted -->) and remove temp files.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+Script : save copy of my font as temp.sfd, remove overlaps, corect direction etc., generate font (without hints), copy it (or overwrite) to my local fonts directory (<strong>on Linux</strong>) and remove temp files.</p>
+<pre>
+# -*- coding: utf-8 -*-
+import shutil;
+import os;
+
+def genTestOTF(arg, ft):
+   localFontdir='/.local/share/fonts/';
+   fDir=os.path.expanduser("~")+localFontdir;
+   ftActive=fontforge.activeFont();
+   ftActive.save('temp.sfd');
+   ft=fontforge.open('temp.sfd');
+   aLayer=ft.layers[ft.activeLayer].name;
+   ft.encoding='UnicodeBMP';
+   ft.selection.all();
+   for g in ft.selection.byGlyphs:
+      g.removeOverlap();
+      g.correctDirection();
+      g.canonicalStart();
+      g.canonicalContours();
+   fontNazwa = ft.fontname;
+   plik=fontNazwa+'_test.otf';
+   ft.generate(plik, flags=('opentype','dummy-dsig','apple','no-hints','no-flex'),layer=aLayer)
+   shutil.copy(plik,fDir+plik);
+   ft.close();
+   os.remove(plik);
+   os.remove('temp.sfd');
+
+fontforge.registerMenuItem(genTestOTF,None,None,"Font",None,"Generator","Quick test-otf");
+</pre><blockquote>
 </blockquote>
 </div>
 	</div>
@@ -131,7 +157,11 @@ Script : save copy of my font as temp.sfd, remove overlaps, corect direction etc
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Thank you gluk, this is exactly what I was looking for. I installed the script and commented out the parts obviously responsible for installing the font to the OS font library, but I run into an error:</p>
-<!-- raw HTML omitted -->
+<code>
+File "/Applications/FontForge.app/Contents/Resources/opt/local/share/fontforge/python/test-otf.py" line 9, in genTestOTF
+ftActive.save("temp.sfd")
+EnvironmentError: Save As "test.sfd" failed
+</code>
 <p>I&rsquo;m under Mac OS 10.9.5 running FontForge version &ldquo;04:18 AEST 7-Jan-2015&rdquo;.
 I installed the script under /Applications/FontForge.app/Contents/Resources/opt/local/share/fontforge/python/ .</p>
 <p>How could that be fixed?</p>
@@ -156,12 +186,31 @@ I installed the script under /Applications/FontForge.app/Contents/Resources/opt/
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">another system, different FontForge version, most probably another Python version&hellip; :-)
+		<div class="commentbody"><p>another system, different FontForge version, most probably another Python version&hellip; :-)
 Ok,<br>
 most simplest way to make it, and avoid saveAs:
 script bellow first save your work, then remove overlaps etc., generate .otf and revert your original font file (ff should ask you).</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted --></div>
+<pre>
+# -*- coding: utf-8 -*-
+import os;
+
+def genTestOTF(arg, ft):
+   ft.save();
+   ft.encoding='UnicodeBMP';
+   ft.selection.all();
+   for g in ft.selection.byGlyphs:
+      g.removeOverlap();
+      g.correctDirection();
+      g.canonicalStart();
+      g.canonicalContours();
+   plik=ft.fontname+'_test.otf';
+   ft.generate(plik, flags=('opentype','dummy-dsig','apple','no-hints','no-flex'));
+   ft.selection.none();
+   ft.revert();
+
+fontforge.registerMenuItem(genTestOTF,None,None,"Font",None,"Generator","Quick test-otf");
+</pre>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

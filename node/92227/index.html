@@ -86,12 +86,12 @@ How to create this in FontLab? The steps below are guidelines, as I find them th
 <p>Note that the already designed basic-character is copied. I myself find that easy to work further on. Design each glyph as preferred. Make enough differences between every version of a character, otherwise a flipper font has no meaning.</p>
 <p>For the coding part, open the panel in menu -&gt; panels -&gt; OpenType. There happens the OpenType code. The most basic code that can be used is:</p>
 <p>press the ‘+’ button left below, and replace the appearing code by
-<!-- raw HTML omitted -->feature aalt{
+<code>feature aalt{
 feature calt;
-} aalt;<!-- raw HTML omitted --></p>
+} aalt;</code></p>
 <p>Aalt does mean ‘Access All Alternates’, and the list of features that follows are the special features that are used in this font. Here it is only calt (Contextual Alternates), which is used to get a flipper font working. A list of OpenType features can be found here: <a href="http://en.wikipedia.org/wiki/OpenType_feature_tag_list#OpenType_Typographic_Features">http://en.wikipedia.org/wiki/OpenType_feature_tag_list#OpenType_Typographic_Features</a>
 Press the ‘+’ again, and replace the new code with:
-<!-- raw HTML omitted -->feature calt { # contextual Alternates 
+<code>feature calt { # contextual Alternates 
 sub n n' by n.alt2;
 sub n.alt2 n' by n.alt3;
 sub n.alt3 n' by n.alt4;
@@ -102,7 +102,7 @@ sub n.alt7 n' by n.alt8;
 sub n.alt8 n' by n.alt9;
 sub n.alt9 n' by n.alt10;
 sub n.alt10 n' by n;
-} calt;<!-- raw HTML omitted -->
+} calt;</code>
 [img:sites/default/files/old-images/5-OpenType_code1_6001.png]</p>
 <p>With this code, the ‘n’ starts to vary according to its position. Never there will be two times the same ‘n’ after each other, as in image 2. Note: everything after a ‘#’ is a reminder; it does nothing with the code, but it makes it easier to ad a note, and to understand what the code is doing. 
 This is the start of a flipper font. But doing this code for every character again is a lot of work. For making that easier there are classes.</p>
@@ -111,7 +111,7 @@ Classes are used to group glyphs of the same sort. The basic-characters are one 
 <p>Create 10 classes on the left side of the panel.
 I myself prefer to give long names to classes. That way, in an comprehensive OpenType Font, with a lot of features and a long list of different names, it is easy to see what a class is, and what it does. My names are build as Class_calt, Class_alt2, Class_alt3,… means: it is a class, and it contains alternates version X of the characters. And I let the numbering start with the first class, to have a structure.
 Drag and drop the glyphs in the right class; the result should be as next:</p>
-<p><!-- raw HTML omitted -->Class_calt    -all the normal glyphs
+<p><code>Class_calt    -all the normal glyphs
 Class_alt2    -all the glyphs with suffix .alt2
 Class_alt3    -all the glyphs with suffix .alt3
 Class_alt4    -all the glyphs with suffix .alt4
@@ -120,11 +120,11 @@ Class_alt6    -all the glyphs with suffix .alt6
 Class_alt7    -all the glyphs with suffix .alt7
 Class_alt8    -all the glyphs with suffix .alt8
 Class_alt9    -all the glyphs with suffix .alt9
-Class_alt10  -all the glyphs with suffix .alt10<!-- raw HTML omitted -->
+Class_alt10  -all the glyphs with suffix .alt10</code>
 [img:sites/default/files/old-images/6-Classes_5519.png]</p>
 <p>Now this work is done, the code in the OpenType panel has to be changed.</p>
 <p>Replace our previous code:
-<!-- raw HTML omitted -->feature calt { # contextual Alternates 
+<code>feature calt { # contextual Alternates 
 sub n n' by n.alt2;
 sub n.alt2 n' by n.alt3;
 sub n.alt3 n' by n.alt4;
@@ -135,9 +135,9 @@ sub n.alt7 n' by n.alt8;
 sub n.alt8 n' by n.alt9;
 sub n.alt9 n' by n.alt10;
 sub n.alt10 n' by n;
-} calt;<!-- raw HTML omitted --></p>
+} calt;</code></p>
 <p>with next code:
-<!-- raw HTML omitted -->feature calt { # contextual Alternates 
+<code>feature calt { # contextual Alternates 
 sub @class_calt @class_calt' by @class_alt2;
 sub @class_alt2 @class_calt' by @class_alt3;
 sub @class_alt3 @class_calt' by @class_alt4;
@@ -148,7 +148,7 @@ sub @class_alt7 @class_calt' by @class_alt8;
 sub @class_alt8 @class_calt' by @class_alt9;
 sub @class_alt9 @class_calt' by @class_alt10;
 sub @class_alt10 @class_calt' by @class_calt;
-} calt;<!-- raw HTML omitted -->
+} calt;</code>
 So in stead of working with each individual character, the code is looking into the classes. That saves writing some thousand lines of code. This new code with the classes makes the flipping character-independent. Not only if two times the same character follows at each other, as in the example with the &lsquo;n&rsquo;, but with every new character the font will take a contextual alternate.</p>
 <p>Generate the font as OpenType, so the code is also exported.
 Currently most professional programs are compatible with this sort of type.
@@ -180,7 +180,7 @@ Starting with how to create multiple versions of one glyph (and the correct name
 over how to write and insert the Python code,
 and if needed, how to export it the correct way.</p>
 <p>I have found the code, but don&rsquo;t know how to implement it.
-<!-- raw HTML omitted -->
+<code>
 feature salt {
 lookup rotate {
 sub @set_1 @set_1' by @set_2;
@@ -191,7 +191,7 @@ sub @set_5 @set_1' by @set_1;
 } rotate;
 lookup rotate;
 } salt;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>I have done a search around, but couldn&rsquo;t find something easy;
 <a href="http://www.typophile.com/node/19625">http://www.typophile.com/node/19625</a>
 <a href="http://typophile.com/node/43634">http://typophile.com/node/43634</a>
@@ -280,9 +280,9 @@ When we get the code to work, I will post the steps here.</p>
 	<div class="card-body">
 		<div class="commentbody"><p>Maarten — Did you do what Oldnick suggested in your first post on this topic?: <a href="http://typophile.com/node/92072#comment-505839">http://typophile.com/node/92072#comment-505839</a></p>
 <p>Also, you need to put this in {calt} not {salt}. So the first line of the code should be
-<!-- raw HTML omitted -->feature calt {<!-- raw HTML omitted -->
+<code>feature calt {</code>
 (and the closing would match, of course)</p>
-<p>James — The term “flipper font” was first coined by the Letterror boys (Erik van Blokland &amp; Just van Rossum) for their <!-- raw HTML omitted -->Kosmik<!-- raw HTML omitted --> font, which originally did this in Postscript format, with some <!-- raw HTML omitted -->clever programming<!-- raw HTML omitted -->, before OpenType layout features.</p>
+<p>James — The term “flipper font” was first coined by the Letterror boys (Erik van Blokland &amp; Just van Rossum) for their <a href="http://www.letterror.com/foundry/kosmik/index.html">Kosmik</a> font, which originally did this in Postscript format, with some <a href="http://www.letterror.com/foundry/kosmik/technote.html">clever programming</a>, before OpenType layout features.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -348,11 +348,11 @@ That topic was the first time I tried to post something, but I got an error, and
 	 <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@ Kentlew: I don&rsquo;t mind about that, but I wasn&rsquo;t informed about that. I contacted the site moderator with the message I got returned:</p>
-<p><!-- raw HTML omitted -->Internal Server Error
+<p><code>Internal Server Error
 The server encountered an internal error or misconfiguration and was unable to complete your request.
 Please contact the server administrator, <a href="mailto:itadmin@punchcut.com">itadmin@punchcut.com</a> and inform them of the time the error occurred, and anything you might have done that may have caused the error.
 More information about this error may be available in the server error log.
-Apache Server at <a href="http://www.typophile.com">www.typophile.com</a> Port 80<!-- raw HTML omitted --></p>
+Apache Server at <a href="http://www.typophile.com">www.typophile.com</a> Port 80</code></p>
 <p>And because I  tried posting 20+ times, the moderation queue shall have had a lot of spam from me… :)</p>
 </div>
 	</div>
@@ -407,9 +407,9 @@ It should also do so when they are not to each other; so that every alternate ha
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>I don't mind about that, but I wasn't informed about that.</blockquote>
 <p>Yes, the system response is singularly unhelpful. I would be nice if Punchcut would fix this.</p>
-<!-- raw HTML omitted -->
+<blockquote>every alternate has passed before it takes the first again. Where should I search for that?</blockquote>
 <p>Look for information about Martin Wenzel’s work on his “letter carousel” code. You can start with this:</p>
 <p><a href="http://fontfeed.com/archives/new-fontfonts-ff-dupers-letter-carousel-turns-larger-rounds/">http://fontfeed.com/archives/new-fontfonts-ff-dupers-letter-carousel-turns-larger-rounds/</a></p>
 </div>
@@ -490,7 +490,7 @@ Is there a way to attach another &ldquo;digit&rdquo; so it can count even higher
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Is there a way to attach another &ldquo;digit&rdquo; so it can count even higher?<!-- raw HTML omitted -->
+		<div class="commentbody"><p><cite>Is there a way to attach another &ldquo;digit&rdquo; so it can count even higher?</cite>
 of cource: example: insert next code for the calt to go to 15: just complement the numbers to go to the count you wish. You also need to make more versions of each character if you do this…</p>
 <p>feature calt { # contextual Alternates
 sub n n' by n.alt2;
@@ -509,7 +509,7 @@ sub n.alt13 n' by n.alt14;
 sub n.alt14 n' by n.alt15;
 sub n.alt15 n' by n;
 } calt;</p>
-<p><!-- raw HTML omitted -->Could this be (ab)used for printing sequentially-numbered tickets, etc.?<!-- raw HTML omitted -->
+<p><cite>Could this be (ab)used for printing sequentially-numbered tickets, etc.?</cite>
 Can you give an example? I don&rsquo;t know exactly what you have in mind…</p>
 </div>
 	</div>
@@ -559,8 +559,8 @@ Can you give an example? I don&rsquo;t know exactly what you have in mind…</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I tried the project above but I have an error when I go to export the font I get this error: 
-[FATAL] <!-- raw HTML omitted --> aborting because of errors
-[FATAL] <!-- raw HTML omitted --> aborting because of errors
+[FATAL] <Hernandez> aborting because of errors
+[FATAL] <Hernandez> aborting because of errors
 ERROR: There was a problem while compiling OpenType font. Final .otf font is not saved.
 I tried the following based on some online help:</p>
 <ol>

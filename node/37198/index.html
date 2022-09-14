@@ -78,7 +78,7 @@
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This isn&rsquo;t a great option because it only works with InDesign CS3, but we started supporting the OpenType features <!-- raw HTML omitted -->&lsquo;init&rsquo;, &lsquo;fina&rsquo;, &lsquo;isol&rsquo;,<!-- raw HTML omitted --> and <!-- raw HTML omitted -->&lsquo;medi&rsquo;<!-- raw HTML omitted --> which can be dynamically applied to characters. These correspond with &ldquo;initial letter&rdquo;, &ldquo;final letter&rdquo;, &ldquo;isolated letter&rdquo; and &ldquo;medial letter&rdquo;. It is only semi-smart, but can handle punctuation around words for example.
+		<div class="commentbody">This isn&rsquo;t a great option because it only works with InDesign CS3, but we started supporting the OpenType features <code>&lsquo;init&rsquo;, &lsquo;fina&rsquo;, &lsquo;isol&rsquo;,</code> and <code>&lsquo;medi&rsquo;</code> which can be dynamically applied to characters. These correspond with &ldquo;initial letter&rdquo;, &ldquo;final letter&rdquo;, &ldquo;isolated letter&rdquo; and &ldquo;medial letter&rdquo;. It is only semi-smart, but can handle punctuation around words for example.
 A more universal approach involves some complex contextual processing which is why Thomas Phinney suggested adding support for the positional forms feature.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -149,12 +149,16 @@ A more universal approach involves some complex contextual processing which is w
 	<div class="card-body">
 		<div class="commentbody"><p>Create a class that contains all glyphs that are letters (or anything else you consider to be part of a word). Then, set up a contextual substitution in which if a glyph is not preceded by a member of that class, use the alternate.</p>
 <p>Here&rsquo;s one way to do it. In the following code, the classes are defined thus:</p>
-<p><!-- raw HTML omitted -->@letter<!-- raw HTML omitted --> = any glyphs you consider part of a word;
-<!-- raw HTML omitted -->@normal_letter<!-- raw HTML omitted --> = any glyphs that have a different form for the beginning of a word
-<!-- raw HTML omitted -->@alternate_letter<!-- raw HTML omitted --> = the alternate versions of the glyphs in <!-- raw HTML omitted -->@normal_letter<!-- raw HTML omitted --></p>
-<p>The contextual substitution (to be placed in the <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> feature):</p>
-<!-- raw HTML omitted -->
-</div>
+<p><code>@letter</code> = any glyphs you consider part of a word;
+<code>@normal_letter</code> = any glyphs that have a different form for the beginning of a word
+<code>@alternate_letter</code> = the alternate versions of the glyphs in <code>@normal_letter</code></p>
+<p>The contextual substitution (to be placed in the <code>calt</code> feature):</p>
+<code>
+   lookup beginnings  {
+      ignore sub @letter @normal_letter' ;
+      sub @normal_letter' by @alternate_letter;
+   } beginnings;
+</code></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -354,7 +358,7 @@ Is there a way to use this same technique for replacing the end letter of a word
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>check this thread:</p>
-<p><!-- raw HTML omitted -->Contextual Swashes for Beginnings<!-- raw HTML omitted --></p>
+<p><a href ="http://www.typophile.com/node/19839">Contextual Swashes for Beginnings</a></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

@@ -76,11 +76,19 @@
 <p>In the midst of some last checks before releasing my first real font, I noticed an unpleasant beating frequency effect on repeated characters at smallish ppems when testing on Windows 7 with the &ldquo;Natural&rdquo; mode of DirectWrite ClearType rendering (tested via Firefox with the Anti-aliasing Tuner add-on).  The characters phase in and out of different degrees of bluriness.</p>
 <p>With a bit of investigation, it looks like this is due to fractional advance widths.  I was hoping to be able to control for this by slightly adjusting the advance width phantom point via TrueType hinting.  However, it looks like Windows is ignoring that in this rendering mode and using only the designed width instead.</p>
 <p>Attached is an extremely simple test case (TTX format, renamed to .txt) that shows this.  In the lower case x glyph slot it has a pointed cross occupying a 1000 font unit square, with a width set to 1000 font units (no sidebearings).  The glyph program is the following:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>SVTCA[x-axis]
+PUSHB_2
+ 17            // Advance width phantom point (16 points in curve)
+ 0             // CVT 0 (2000 font units)
+MIAP[no-rnd]</pre>
 <p>The test font also has the following simple preprogram:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>PUSHB_2        // New font with ClearType support
+ 4
+ 3
+INSTCTRL
+PUSHW_1        // 64 pixel cut-in (i.e., not a factor)
+ 4096
+SCVTCI</pre>
 <p>Testing this out, I see that DirectWrite&rsquo;s GDI Classic and GDI Natural rendering modes correctly handle this; a string of xxxxx shows the expected double spacing between the glyphs.  However, this is missing from the Natural and Natural Symmetric modes and they render with something closer to the designed widths instead:</p>
 <p>[img:sites/default/files/old-images/widthtest_4207.gif]</p>
 <p>So this brings me to the following questions:</p>
@@ -89,7 +97,7 @@
 <p>Is there any voodoo that I can do to get it to honor hints that adjust the width?  Or am I simply stuck with the beat pattern here?</p>
 </li>
 <li>
-<p>I notice that in the documentation for <!-- raw HTML omitted -->DWRITE_RENDERING_MODE<!-- raw HTML omitted --> for Windows 8 and later, the descriptions for Natural and Natural Symmetric mention that the glyph advances are rounded to whole pixels.  However, no such mention is made of this in the corresponding documentation for earlier versions of Windows.  Does Windows 8 therefore not have the same beat problem?</p>
+<p>I notice that in the documentation for <code>DWRITE_RENDERING_MODE</code> for Windows 8 and later, the descriptions for Natural and Natural Symmetric mention that the glyph advances are rounded to whole pixels.  However, no such mention is made of this in the corresponding documentation for earlier versions of Windows.  Does Windows 8 therefore not have the same beat problem?</p>
 </li>
 </ol>
 <p>Thanks!</p>
@@ -166,7 +174,7 @@
 	<div class="card-body">
 		<div class="commentbody"><p>Hi John,</p>
 <p>Thanks for looking into that for me.  It&rsquo;s a shame to hear that, but I can&rsquo;t say I&rsquo;m suprised.</p>
-<p>It&rsquo;s too bad that they seemed to go to such trouble to preserve backward compatibility with the various ClearType rendering options, but didn&rsquo;t provide a way for forward compatibility.  I&rsquo;d have thought that some combination of the GASP table and <!-- raw HTML omitted -->INSTCTRL<!-- raw HTML omitted --> (beyond just the 4 3 flag and selector) would be ideal.</p>
+<p>It&rsquo;s too bad that they seemed to go to such trouble to preserve backward compatibility with the various ClearType rendering options, but didn&rsquo;t provide a way for forward compatibility.  I&rsquo;d have thought that some combination of the GASP table and <code>INSTCTRL</code> (beyond just the 4 3 flag and selector) would be ideal.</p>
 <p>I realize that the world is generally moving away from hinting, but from my experience as an enthusiastic amateur in font design, it still seems like carefully chosen TrueType instructions have every bit as much to say as the raw splines about the visual character of a font at lower resolutions.  Likewise, I feel feel strongly that the choice between whole pixel grids, subpixel grids, and lack of grids ought to be a design decision that belongs in the fonts themselves (at least for fonts new enough to be aware of such things).</p>
 <p>Oh well.  Thanks again.</p>
 </div>
@@ -190,7 +198,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>I feel strongly that the choice between whole pixel grids, subpixel grids, and lack of grids ought to be a design decision that belongs in the fonts themselves</blockquote>
 <p>I entirely agree.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -328,7 +336,7 @@ mike</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>David: <!-- raw HTML omitted -->&hellip;and that the fonts MS was afraid of rendering because of evil hints, must be dead and gone by now?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>David: <em>&hellip;and that the fonts MS was afraid of rendering because of evil hints, must be dead and gone by now?</em></p>
 <p>The fonts are not dead and gone, but the rendering environments at which their heavy delta hinting was targeted have died and gone, so the obvious solution would be to rehint those fonts for modern rendering environments.</p>
 </div>
 	</div>
@@ -425,7 +433,7 @@ mike</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello, again.  This perhaps deserves its own post under Release, but just to follow up on this thread I made the font in question, <!-- raw HTML omitted -->Luculent<!-- raw HTML omitted -->, available as of yesterday.</div>
+		<div class="commentbody">Hello, again.  This perhaps deserves its own post under Release, but just to follow up on this thread I made the font in question, <a href="http://eastfarthing.com/luculent">Luculent</a>, available as of yesterday.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

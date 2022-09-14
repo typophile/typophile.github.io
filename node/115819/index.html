@@ -73,7 +73,7 @@
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>Hi all,</p>
 <p>I&rsquo;m designing a handwriten font wich contain many alternate sets of characters and I programmed a calt feature to randomize  it. The feature contains a lot of lines mixing and conditioning the substition of each character. I thing the sintaxis is fine and the replacement works fine too, but when I increase the number of characters in each of the classes used in the code the output panel shows the following warning:</p>
-<p>[FATAL] <!-- raw HTML omitted --> GSUB feature &lsquo;ÿÿÿÿ&rsquo; causes overflow of offset to a subtable (0x1140a)</p>
+<p>[FATAL] <WildPenOT> GSUB feature &lsquo;ÿÿÿÿ&rsquo; causes overflow of offset to a subtable (0x1140a)</p>
 <p>(I don&rsquo;t know why the name of the feature is swhown without the correct name).
 I guess it means the code becomes too heavy but searching and reading a lot of posts of similar bugs I concluded that the responsible of this issue was the program. So I decided to try compiling the font in an older version (FL 5.0) and there aren&rsquo;t any problem and the compiled font works fine.
 Please tell me what can I do to improve my version of FL to avoid this issue. Any comment will be appreciated.</p>
@@ -83,7 +83,19 @@ Please tell me what can I do to improve my version of FL to avoid this issue. An
 	<div class="card-body">
 		<div class="commentbody"><p>I think you can fix this by defining several lookup tables in the calt feature and specifying the useExtension keyword in each of the lookups.
 Something like this:</p>
-<!-- raw HTML omitted -->
+<code>
+feature calt { # Alternates
+  lookup calt_1 useExtension {
+	  ...
+  } calt_1;
+  lookup calt_2 useExtension {
+	  ...
+  } calt_2;
+  lookup calt_3 useExtension {
+	  ...
+  } calt_3;
+} calt;
+</code>
 <p>Johnych</p>
 </div>
 	</div>

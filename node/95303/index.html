@@ -148,9 +148,9 @@ Thanks for the reply! I appreciate the help.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>The font we are trying to use is from the same foundry (Monotype), and very similar to, one we are currently using on a hosted solution (Avant Garde local vs. Century Gothic hosted). So we would hope they use similar standards in regards to 'internal' linking.</blockquote>
 <p>That does not appear to be the case. You&rsquo;re declaring the Book weight of Avant Garde as the &ldquo;regular&rdquo; CSS weight, and the Medium weight as the &ldquo;bold&rdquo;, and those weights are not linked together internally. Century Gothic Web has four weights with (I&rsquo;m assuming) standard style linking, and is apparently intended to be &ldquo;compatible&rdquo; style-wise to the Century Gothic fonts that ship with various Microsoft products. That allows it to be listed in the font stack after versions that might already be installed locally.</p>
-<p>You could try declaring Avant Garde&rsquo;s Demibold weight as the <!-- raw HTML omitted -->font-weight: bold;<!-- raw HTML omitted --> for Avant Garde Book. Likewise, Avant Garde Bold might function as a CSS bold with the Medium weight as regular, if they&rsquo;re linked as such internally.</p>
+<p>You could try declaring Avant Garde&rsquo;s Demibold weight as the <code>font-weight: bold;</code> for Avant Garde Book. Likewise, Avant Garde Bold might function as a CSS bold with the Medium weight as regular, if they&rsquo;re linked as such internally.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -260,8 +260,7 @@ Thanks for the reply! I appreciate the help.</p>
 </li>
 </ul>
 <p>And according to both of those links you posted for Typekit, they both indicate that the extra &lsquo;variation-specific family names&rsquo; is for when you have more than the default 2 weights in your family. They try to strip families down to the basic 2 weights (normal/bold) and 2 styles (normal/italic) so they work across browsers by default. We are not trying to use more than the 4 basic style/weight variations.</p>
-<!-- raw HTML omitted -->
-</div>
+<blockquote>The biggest limitation is that in IE6, IE7, and IE8, you can only link up to four fonts with two weights into a single font-family name before the entire family stops working. <br />In order to avoid breaking things completely in these older browsers, Typekit filters the set of fonts that you select in each family down to a basic four weights and styles when serving fonts to these browsers.</blockquote></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -309,9 +308,9 @@ Thanks for the reply! I appreciate the help.</p>
 		<div class="commentbody"><p>Want an explanation? Wanna get it to work?
 This explains what to do and the underlying theory:</p>
 <p><a href="http://www.eotfast.com/documentation.php">http://www.eotfast.com/documentation.php</a></p>
-<p>Skip to the section titled <!-- raw HTML omitted -->What To Do When You Run Into A Problem<!-- raw HTML omitted -->
+<p>Skip to the section titled <strong>What To Do When You Run Into A Problem</strong>
 and then skip to number 3 within that where it says:
-<!-- raw HTML omitted -->If you are declaring the font as part of a larger Font-Family, the same style and weight as you are declaring for font-weight and font-style in the CSS needs to be defined inside the font, since IE 6, 7, and 8 will read that font data – and possibly override the CSS weight/style settings.<!-- raw HTML omitted --></p>
+<em>If you are declaring the font as part of a larger Font-Family, the same style and weight as you are declaring for font-weight and font-style in the CSS needs to be defined inside the font, since IE 6, 7, and 8 will read that font data – and possibly override the CSS weight/style settings.</em></p>
 <p>If you don&rsquo;t understand fonts well enough to know what all of this means and what internal settings are involved, I suggest you just fuggedaboudit. 
 But if you do - or you take it upon yourself to learn - I assure you that font weight and font-style will work predictably and reliably once you reconcile the internal data of the fonts with the font-weight and font-style properties declared for them in the @font-face declarations.</p>
 <p>Ok?</p>
@@ -385,7 +384,7 @@ Don&rsquo;t they offer some sort of trial period, sample testing while your deve
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->It is still puzzling that Fonts.com (Monotype) would get something like this wrong on two very popular fonts…<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>It is still puzzling that Fonts.com (Monotype) would get something like this wrong on two very popular fonts…</cite></p>
 <p>There is nothing »wrong« with the fonts. The problem is IE with its @font-face implementation. I am not aware that any webfont service provider would solve this problem within the fonts. They work around it dynamically or let you do it yourself by just serving single-style families. 
 The internal style-linking wouldn&rsquo;t help much for larger families where the customer might pick random styles from a family and wants to link them together via CSS.</p>
 <p>If you got at 4-style family, just add a conditional comment for IE up to version 8. Within that comment define your 3 additional styles (italic/bold/bold italic) as single families and assign these fonts to every instance of “b”, “strong”, “i”, “em” and the combinations of those. That works all the time for every font and every version of IE.</p>
@@ -412,7 +411,13 @@ The internal style-linking wouldn&rsquo;t help much for larger families where th
 	<div class="card-body">
 		<div class="commentbody"><p>Ohhh, I was so hopeful to have found the answer with internal style linking! UNFORTUNATELY, unless I converted something improperly, after &lsquo;fixing&rsquo; the internal font name issues there is absolutely NO difference in behavior! Ugh&hellip;</p>
 <p>Here&rsquo;s the process I used:</p>
-<!-- raw HTML omitted -->
+<ol>
+<li>I first used the free 'Microsoft Font Properties' tool to inspect the TTF versions of the fonts. Sure enough, they all said 'Regular' for the SubFamily name, and the Font Family name was actually blank on most.</li><li>I then used a tool called 'FontForge' to open the TTF fonts and edit the Family names to be all the same (AvantGardeGothic). Then I changed the TTF SubFamily names to what they should be according to the weight/style (Regular, Italic, Bold, Bold Italic).</li>
+<li>I generated new fonts after making these simple changes.</li>
+<li>When viewing the properties on these new TTF files, they did now all have the same Font Family name and proper SubFamily names.</li>
+<li>I then followed some instructions on using the Microsoft WEFT tool to convert the TTFs to EOTs. (after this didn't appear to work, I also tried an online version of a tool called 'ttf2eot').</li>
+<li>Lastly I uploaded the new EOT files, cleared history & hard-refreshed IE7, and NOTHING different! I tried stripping down the CSS @font-face declarations to be just IE-specific (only specifying the EOTs), and still nothing.</li>
+</ol>
 <ul>
 <li>Could I have done something wrong still??</li>
 <li>Is there any way to examine the properties of the EOTs to make sure they didn&rsquo;t get messed up in conversion??</li>
@@ -494,7 +499,7 @@ Usually we can&rsquo;t expect that so you either have faux italic/bold in IE unt
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted --><!-- raw HTML omitted -->TeX Gyre Adventor<!-- raw HTML omitted --><!-- raw HTML omitted -->, which is very close to Avant Garde, would allow it though.</div>
+		<div class="commentbody"><a href="http://www.gust.org.pl/projects/e-foundry/tex-gyre/adventor/index_html"><strong>TeX Gyre Adventor</strong></a>, which is very close to Avant Garde, would allow it though.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

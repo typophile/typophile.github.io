@@ -79,11 +79,34 @@
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>I would rather use Python with the FontTools. You can get a working version with <!-- raw HTML omitted -->AFDKO<!-- raw HTML omitted -->, the Adobe font development kit.</p>
+		<div class="commentbody"><p>I would rather use Python with the FontTools. You can get a working version with <a href="http://www.adobe.com/devnet/opentype/afdko.html">AFDKO</A>, the Adobe font development kit.</p>
 <p>Here is the kind of code that, once AFDKO is installed, would probably work with your files, given what you say:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>If you save that script in an executable file <!-- raw HTML omitted -->adjnames<!-- raw HTML omitted -->, then <!-- raw HTML omitted -->adjnames font.ttf<!-- raw HTML omitted --> creates a font <!-- raw HTML omitted -->font_new.ttf<!-- raw HTML omitted --> with the adjusted mac names.</p>
+<PRE>
+---- cut here
+#!/usr/bin/env AFDKOPython
+
+from fontTools.ttLib import TTFont
+import sys
+
+filename=sys.argv[1]
+ofilename=filename[:-4]+"_new.ttf"
+
+idstocopy = [1,2,3,4,5,6,7]
+
+names={}
+f=TTFont(filename)
+for n in f["name"].names:
+  if n.nameID in idstocopy:
+    if n.platformID == 3 and n.platEncID == 1:
+       names[n.nameID] = n.string.decode('utf_16_be')
+for n in f["name"].names:
+  if n.nameID in idstocopy:
+    if n.platformID == 1 and n.platEncID == 0:
+        n.string = names[n.nameID].encode('mac_roman')
+f.save(ofilename)
+---- cut here
+</PRE>
+<p>If you save that script in an executable file <code>adjnames</code>, then <code>adjnames font.ttf</code> creates a font <code>font_new.ttf</code> with the adjusted mac names.</p>
 <p>With a simple find, you can then batch process all your files.</p>
 </div>
 	</div>
@@ -133,13 +156,50 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>The fact that some entries may be present for Windows and not for the OS X adds some difficulties. New records need be created. Moreover, if you create a record where there is already one, you get two records for the same parameters (I checked with TTX); that is probably not good.</p>
-<p>The only documentation I could find is on the Microsoft site and I found snippets with Google. Not fantastic. Here is some improved code that handles missing records for the mac and takes care of the US English language. This time, the font file is overwritten. That means that if you put that script in your path and call it <!-- raw HTML omitted -->adjmacnames<!-- raw HTML omitted --> then</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>recursively modifies all the fonts in the current directory. You can add values to <!-- raw HTML omitted -->idstocopy<!-- raw HTML omitted --> without problem because the code now checks what can be overwritten and what record is to be added. If you find improvements (or some decent documentation), please tell us</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<p>The only documentation I could find is on the Microsoft site and I found snippets with Google. Not fantastic. Here is some improved code that handles missing records for the mac and takes care of the US English language. This time, the font file is overwritten. That means that if you put that script in your path and call it <code>adjmacnames</code> then</p>
+<PRE>
+ find . -name "*.ttf" -exec adjmacnames "{}" \;
+</PRE>
+<p>recursively modifies all the fonts in the current directory. You can add values to <code>idstocopy</code> without problem because the code now checks what can be overwritten and what record is to be added. If you find improvements (or some decent documentation), please tell us</p>
+<PRE>
+#!/bin/sh
+
+echo "Processing $1 ..."
+AFDKOPython &lt;&lt;EOF
+from fontTools.ttLib import TTFont
+from fontTools.ttLib.tables._n_a_m_e import NameRecord
+import sys
+
+idstocopy = [1,2,3,4,5,6,7]
+
+winnames={}
+macnamerec={}
+
+f=TTFont("$1")
+
+for n in f["name"].names:
+  if n.nameID in idstocopy:
+    if (n.platformID,n.platEncID,n.langID) == (3,1,0x0409):
+      winnames[n.nameID] = n.string.decode('utf_16_be')
+    if (n.platformID,n.platEncID,n.langID) == (1,0,0x0):
+      macnamerec[n.nameID]=n
+
+for i in winnames:
+  if i in macnamerec:
+    macnamerec[i].string = winnames[i].encode('mac_roman')
+  else:
+    myRecord = NameRecord()
+    myRecord.nameID = i
+    myRecord.platformID = 1
+    myRecord.platEncID = 0
+    myRecord.langID = 0x0
+    myRecord.string = winnames[i].encode('mac_roman')
+    f['name'].names.append(myRecord)
+f.save("$1"+"tmp")
+EOF
+
+mv "${1}tmp" "$1"
+</PRE><blockquote>
 </blockquote>
 </div>
 	</div>
@@ -189,11 +249,15 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>The import statement simply allows using in your program  functions that are not provided by default by Python but are accessible via packages. For instance, to get the square root of 2, you may type in Python</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>or, if you want to type directly <!-- raw HTML omitted -->sqrt(2)<!-- raw HTML omitted --> without specifying each time that you are using the <!-- raw HTML omitted -->sqrt<!-- raw HTML omitted --> function of the <!-- raw HTML omitted -->math<!-- raw HTML omitted --> package, you can type</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+import math
+math.sqrt(2)
+</pre>
+<p>or, if you want to type directly <code>sqrt(2)</code> without specifying each time that you are using the <code>sqrt</code> function of the <code>math</code> package, you can type</p>
+<pre>
+from math import sqrt
+sqrt(2)
+</pre>
 <p>You simply tell python where to fetch the functions you are using. Different packages could define functions with the same name but that provide different funtionalities.</p>
 <p>Michel</p>
 </div>
@@ -238,12 +302,14 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Hmm&hellip; What about replacing <!-- raw HTML omitted -->n.string.decode(&lsquo;utf_16_be&rsquo;)<!-- raw HTML omitted --> by</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>Or   add  <!-- raw HTML omitted -->&lsquo;ignore&rsquo;<!-- raw HTML omitted --> to <!-- raw HTML omitted -->encode(&lsquo;mac_roman&rsquo;)<!-- raw HTML omitted --> as follows:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>Hmm&hellip; What about replacing <code>n.string.decode(&lsquo;utf_16_be&rsquo;)</code> by</p>
+<pre>
+  n.string.decode('utf_16_be').strip(unichr(0x99))   ?
+</pre> 
+<p>Or   add  <code>&lsquo;ignore&rsquo;</code> to <code>encode(&lsquo;mac_roman&rsquo;)</code> as follows:</p>
+<PRE>
+n.string = names[n.nameID].encode('mac_roman', 'ignore')
+</PRE>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -289,18 +355,37 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Good that you got it right.  Incidentally, there was also a way with FontForge, provided FontForge does what you want with the naming table. The idea is just to open your font, say <!-- raw HTML omitted -->font.ttf<!-- raw HTML omitted --> and generate a new ttf font, say <!-- raw HTML omitted -->newfont.ttf<!-- raw HTML omitted --> with fontforge. You can then extract from it the name table using ttx wich comes with AFDKO; the call</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>generates the file <!-- raw HTML omitted -->newfont.ttx<!-- raw HTML omitted --> wich contains only the generated naming table. You can then merge that table into the original font, so that only the naming table is modified.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>generates the font <!-- raw HTML omitted -->newfont#1.ttf<!-- raw HTML omitted --> which is <!-- raw HTML omitted -->font.ttf<!-- raw HTML omitted --> with the new merged name table.
+		<div class="commentbody"><p>Good that you got it right.  Incidentally, there was also a way with FontForge, provided FontForge does what you want with the naming table. The idea is just to open your font, say <code>font.ttf</code> and generate a new ttf font, say <code>newfont.ttf</code> with fontforge. You can then extract from it the name table using ttx wich comes with AFDKO; the call</p>
+<pre>
+ttx -t name newfont.ttf
+</pre>
+<p>generates the file <code>newfont.ttx</code> wich contains only the generated naming table. You can then merge that table into the original font, so that only the naming table is modified.</p>
+<pre>
+ttx -m font.ttf newfont.ttx
+</pre>
+<p>generates the font <code>newfont#1.ttf</code> which is <code>font.ttf</code> with the new merged name table.
 Of course that process can be done in batch provided you can call fontforge from the line command (which is the often the tricky part).</p>
-<p>Here is a script that does it provided the Python fontforge files are installed for python2.7 (the one I am personally using with FontForge) and you have <!-- raw HTML omitted -->ttx<!-- raw HTML omitted --> installed.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>If the fontforge package is installed for your default python, then call <!-- raw HTML omitted -->python<!-- raw HTML omitted --> instead of <!-- raw HTML omitted -->python2.7<!-- raw HTML omitted -->.</p>
+<p>Here is a script that does it provided the Python fontforge files are installed for python2.7 (the one I am personally using with FontForge) and you have <code>ttx</code> installed.</p>
+<PRE>
+#!/bin/sh
+
+# given as parameter font.ttf
+# generates font_new.ttf 
+# with mac entries copied from
+# the win entries George Williams 
+# considered relevant
+
+python2.7 &lt;&lt;EOF
+import fontforge
+f=fontforge.open("$1")
+f.generate("$1"[:-4]+"_new.ttf")
+EOF
+ttx -t name "${1%.ttf}"_new.ttf
+rm "${1%.ttf}"_new.ttf
+ttx -m "$1" "${1%.ttf}"_new.ttx
+rm -f "${1%.ttf}"_new.ttx
+</PRE>
+<p>If the fontforge package is installed for your default python, then call <code>python</code> instead of <code>python2.7</code>.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

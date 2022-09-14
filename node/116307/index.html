@@ -72,8 +72,22 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>Assuming a typeface which defaults to proportional figures, do you think it’s sane and user-friendly to adjust more characters than just digits when fixed-width, tabular <code>tnum</code> numerals get activated? I’m thinking about making currency and other symbols the same width as figures then, so they align properly.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre><code class="fea">feature tnum {
+  @digits = [zero one two three four five six seven eight nine];
+  @digits.pnum = @digits;
+  @digits.tnum = [zero.tnum one.tnum two.tnum three.tnum four.tnum five.tnum six.tnum seven.tnum eight.tnum nine.tnum];
+  sub @digits.pnum by @digits.tnum;
+  lookup units {
+    @currencysymbols = [dollar cent sterling currency yen Euro]
+    @unitsymbols = [percent @currencysymbols]
+    @currencysymbols.tnum = [dollar.tnum cent.tnum sterling.tnum currency.tnum yen.tnum Euro.tnum]
+    @unitsymbols.tnum = [percent.tnum @currencysymbols.tnum]
+    sub @digits @unitsymbols' by @unitsymbols.tnum;
+    sub @digits @spaces @unitsymbols' by @unitsymbols.tnum;
+    sub @unitsymbols' @digits by @unitsymbols.tnum;
+    sub @unitsymbols' @spaces @digits by @unitsymbols.tnum;
+  } units;
+} tnum;</code></pre>
 <p>I also have written code to deal with rather simple SI unit symbols including prefixes.</p>
 </div>
 

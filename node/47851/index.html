@@ -79,7 +79,7 @@
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Yes you can. The font object has a method</p>
-<p><!-- raw HTML omitted -->.MakeKernFeature()<!-- raw HTML omitted --></p>
+<p><code>.MakeKernFeature()</code></p>
 <p>But then, you may also consider using AFDKO&rsquo;s function for generating the kern feature. I think it is in a separate module which you could call from your script.</p>
 </div>
 	</div>
@@ -102,17 +102,17 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>It seems that <!-- raw HTML omitted -->.MakeKernFeature()<!-- raw HTML omitted --> does not add a kern feature to the font directly. Rather, it returns a Feature object which needs to be added to the font&rsquo;s feature list in an additional step:</p>
-<p><!-- raw HTML omitted -->    f = fl.font
+		<div class="commentbody"><p>It seems that <em>.MakeKernFeature()</em> does not add a kern feature to the font directly. Rather, it returns a Feature object which needs to be added to the font&rsquo;s feature list in an additional step:</p>
+<p><em>    f = fl.font
     kernFeature = f.MakeKernFeature()
-<!-- raw HTML omitted -->    # delete existing kern feature:
-<!-- raw HTML omitted -->    for feaIdx in range(len(f.features)-1,-1,-1):
+</em>    # delete existing kern feature:
+<em>    for feaIdx in range(len(f.features)-1,-1,-1):
         if features[feaIdx].tag == &ldquo;kern&rdquo;:
               del features[feaIdx]
-<!-- raw HTML omitted -->      # append new kern feature to feature list:
-<!-- raw HTML omitted -->      f.features.append(kernFeature)
+</em>      # append new kern feature to feature list:
+<em>      f.features.append(kernFeature)
       fl.UpdateFont(fl.ifont)
-<!-- raw HTML omitted --></p>
+</em></p>
 <p>Karsten</p>
 </div>
 	</div>
@@ -161,7 +161,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Hello! Recently I found <!-- raw HTML omitted -->OTCompile<!-- raw HTML omitted --> in the <!-- raw HTML omitted -->reference<!-- raw HTML omitted -->, so you could try using this by way of <!-- raw HTML omitted -->fl.CallCommand()<!-- raw HTML omitted -->. But I have not tried it yet. (I remember problems when reading <!-- raw HTML omitted -->fl.output<!-- raw HTML omitted --> in FLS5/Mac, so could not check if there are compilation errors.)</p>
+		<div class="commentbody"><p>Hello! Recently I found <em>OTCompile</em> in the <a href="http://dev.fontlab.net/flpydoc/html/MenuCommands.xml.html" target="_blank">reference</a>, so you could try using this by way of <em>fl.CallCommand()</em>. But I have not tried it yet. (I remember problems when reading <em>fl.output</em> in FLS5/Mac, so could not check if there are compilation errors.)</p>
 <p>Best wishes, Karsten</p>
 </div>
 	</div>
@@ -185,7 +185,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>In case you don&rsquo;t care about updating the &lsquo;kern&rsquo; feature in the VFB file, but still want to have the OTF fonts generated with an up-to-date &lsquo;kern&rsquo; feature, an alternative approach is to play around with the FontLab&rsquo;s Preferences (a.k.a. Options) via Python scripting. Here&rsquo;s the code snippet,
-<!-- raw HTML omitted --></p>
+<code></p>
 <h1 id="start-the-script-by-checking-if-the-option-generate">Start the script by checking if the option &lsquo;Generate</h1>
 <h1 id="opentype-kern-feature-if-it-is-undefined-or-outdated">OpenType &ldquo;kern&rdquo; feature if it is undefined or outdated&rsquo;</h1>
 <h1 id="is-turned-on-turn-it-on-if-its-currently-off">is turned on. Turn it on if it&rsquo;s currently off.</h1>
@@ -199,8 +199,7 @@ if (Options().TTEWriteKernFeature == 0):
 <h1 id="in-case-it-has-been-changed">in case it has been changed</h1>
 <p>if (revertPreferences == True):
     Options().TTEWriteKernFeature = 0</p>
-<!-- raw HTML omitted -->
-</div>
+</code></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -72,35 +72,35 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>Guys,</p>
-<p>I just ran into a problem in InDesign and Illustrator. In short: at the end of the line InDesign and Illustrator <!-- raw HTML omitted -->imply<!-- raw HTML omitted --> a space glyph. That&rsquo;s pretty annoying.</p>
+<p>I just ran into a problem in InDesign and Illustrator. In short: at the end of the line InDesign and Illustrator <strong>imply</strong> a space glyph. That&rsquo;s pretty annoying.</p>
 <p>So I had this portion of code:</p>
-<p><!-- raw HTML omitted -->@WORDSEPA = [space period comma];
-@ALLTEXT = [&hellip;all glyphs <!-- raw HTML omitted -->including<!-- raw HTML omitted --> space&hellip;];<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature calt {
+<p><code>@WORDSEPA = [space period comma];
+@ALLTEXT = [&hellip;all glyphs <strong>including</strong> space&hellip;];</code></p>
+<p><code>feature calt {
 lookup calt.linefina {
 ignore sub @linefina0' @ALLTEXT;
 sub @linefina0' by @linefina1;
-} calt.linefina;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->	lookup calt.wordfina {
+} calt.linefina;</code></p>
+<p><code>	lookup calt.wordfina {
 sub @wordfina0' @WORDSEPA by @wordfina1;
 } calt.wordfina;
-} calt;<!-- raw HTML omitted --></p>
-<p>which worked fine in TextEdit or Word 2010. At the end of a <!-- raw HTML omitted -->word<!-- raw HTML omitted -->, the <!-- raw HTML omitted -->@wordfina0<!-- raw HTML omitted --> class was substituted by the <!-- raw HTML omitted -->@wordfina1<!-- raw HTML omitted --> class, while at the end of a <!-- raw HTML omitted -->line<!-- raw HTML omitted -->, the <!-- raw HTML omitted -->@linefina0<!-- raw HTML omitted --> class was substituted by the <!-- raw HTML omitted -->@linefina1<!-- raw HTML omitted --> class. But in InDesign, the second lookup (<!-- raw HTML omitted -->calt.wordfina<!-- raw HTML omitted -->) kicked in, not the first.</p>
-<p>So I discovered that InDesign and Illustrator (CS4 and CS5) imply a <!-- raw HTML omitted -->space<!-- raw HTML omitted --> glyph at the end of every line (including the last line in a text frame).</p>
+} calt;</code></p>
+<p>which worked fine in TextEdit or Word 2010. At the end of a <strong>word</strong>, the <code>@wordfina0</code> class was substituted by the <code>@wordfina1</code> class, while at the end of a <strong>line</strong>, the <code>@linefina0</code> class was substituted by the <code>@linefina1</code> class. But in InDesign, the second lookup (<code>calt.wordfina</code>) kicked in, not the first.</p>
+<p>So I discovered that InDesign and Illustrator (CS4 and CS5) imply a <code>space</code> glyph at the end of every line (including the last line in a text frame).</p>
 <p>I developed a workaround that looks like the following:</p>
-<p><!-- raw HTML omitted -->@WORDSEPA = [space period comma];
-@ALLTEXT = [&hellip;all glyphs <!-- raw HTML omitted -->not including<!-- raw HTML omitted --> space&hellip;];<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature calt {
+<p><code>@WORDSEPA = [space period comma];
+@ALLTEXT = [&hellip;all glyphs <strong>not including</strong> space&hellip;];</code></p>
+<p><code>feature calt {
 lookup calt.linefina {
 ignore sub @linefina0' @ALLTEXT;
 ignore sub @linefina0' space @ALLTEXT;
 sub @linefina0' by @linefina1;
-} calt.linefina;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->	lookup calt.wordfina {
+} calt.linefina;</code></p>
+<p><code>	lookup calt.wordfina {
 sub @wordfina0' @WORDSEPA by @wordfina1;
 } calt.wordfina;
-} calt;<!-- raw HTML omitted --></p>
-<p>This now works in TextEdit and Word 2010 (where the first <!-- raw HTML omitted -->ignore sub<!-- raw HTML omitted --> rule kicks in), as well as in InDesign and Illustrator (where the second <!-- raw HTML omitted -->ignore sub<!-- raw HTML omitted --> rule is used). Of course, a side-effect of this is that typing two spaces will make the <!-- raw HTML omitted -->calt.linefina<!-- raw HTML omitted --> lookup kick in instead of the <!-- raw HTML omitted -->calt.wordfina<!-- raw HTML omitted --> lookup, but I think it&rsquo;s an acceptable price to pay.</p>
+} calt;</code></p>
+<p>This now works in TextEdit and Word 2010 (where the first <code>ignore sub</code> rule kicks in), as well as in InDesign and Illustrator (where the second <code>ignore sub</code> rule is used). Of course, a side-effect of this is that typing two spaces will make the <code>calt.linefina</code> lookup kick in instead of the <code>calt.wordfina</code> lookup, but I think it&rsquo;s an acceptable price to pay.</p>
 <p>However, I believe this is a bug in InDesign and Illustrator (I&rsquo;ve informed Adobe about this).</p>
 <p>Best,
 Adam</p>

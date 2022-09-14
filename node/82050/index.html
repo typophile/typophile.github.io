@@ -75,7 +75,7 @@
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Problem: Search and replace a with a.alt, then search and replace t with t.alt yields a few <!-- raw HTML omitted -->a.alt.alt<!-- raw HTML omitted --> artifacts. I&rsquo;m not sure that, even if there is such a thing, a simultaneous search and replace function would prevent this outcome. However, if you replace all your as and ts with different characters&ndash;say, dagger and daggerdbl&ndash;a subsequent search of † and replace with a.alt would avert the problem&hellip;</div>
+		<div class="commentbody">Problem: Search and replace a with a.alt, then search and replace t with t.alt yields a few <strong>a.alt.alt</strong> artifacts. I&rsquo;m not sure that, even if there is such a thing, a simultaneous search and replace function would prevent this outcome. However, if you replace all your as and ts with different characters&ndash;say, dagger and daggerdbl&ndash;a subsequent search of † and replace with a.alt would avert the problem&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -119,10 +119,10 @@
 	<div class="card-body">
 		<div class="commentbody"><p>You need to state what text editor you are using. There is no such thing as &ldquo;GREP&rdquo; :-) There is a sort of basic functionality, but details in semantics and supported functionality differs wildly among GREP-aware editors.</p>
 <p>Using InDesign&rsquo;s GREP syntax, something like this ought to work: search for</p>
-<p><!-- raw HTML omitted -->\b([at])\b<!-- raw HTML omitted --></p>
+<p><code>\b([at])\b</code></p>
 <p>and replace with</p>
-<p><!-- raw HTML omitted -->$1.alt<!-- raw HTML omitted --></p>
-<p>&ndash; note this will only change the two examples you provided, and &ldquo;at the same time&rdquo; as well. Somehow I don&rsquo;t think there is any text editor that allows you to specify a host of strings to change <!-- raw HTML omitted -->at the same time<!-- raw HTML omitted --> &hellip;</p>
+<p><code>$1.alt</code></p>
+<p>&ndash; note this will only change the two examples you provided, and &ldquo;at the same time&rdquo; as well. Somehow I don&rsquo;t think there is any text editor that allows you to specify a host of strings to change <em>at the same time</em> &hellip;</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -144,8 +144,8 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I don&rsquo;t think there is any text editor that allows you to specify a host of strings to change at the same time &hellip;<!-- raw HTML omitted --></p>
-<p>As long as you <!-- raw HTML omitted -->host of strings<!-- raw HTML omitted --> can be specified by a regular expression, it seems to me that [[http://www.anybrowser.org/bbedit/grep.shtml|BBEdit GREP]] can do it (I had almost forgotten BBEdit ever existed, this question just reminded me).</p>
+		<div class="commentbody"><p><cite>I don&rsquo;t think there is any text editor that allows you to specify a host of strings to change at the same time &hellip;</cite></p>
+<p>As long as you <em>host of strings</em> can be specified by a regular expression, it seems to me that [[http://www.anybrowser.org/bbedit/grep.shtml|BBEdit GREP]] can do it (I had almost forgotten BBEdit ever existed, this question just reminded me).</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -167,23 +167,23 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>On the Mac, I use the line command <!-- raw HTML omitted -->sed<!-- raw HTML omitted -->. For instance, if the file <!-- raw HTML omitted -->test<!-- raw HTML omitted --> contains 
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>On the Mac, I use the line command <code>sed</code>. For instance, if the file <code>test</code> contains 
+<code>
 ccommaaccent
 gcommaaccent
 kcommaaccent
 scommaaccent
 tcommaaccent
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>then here is how one can match all those &ldquo;one letter&rdquo; followed by a commaaccent and generate a sub (this is a trace of execution, i.e. a copy-paste of what I get on in my shell window):
-<!-- raw HTML omitted -->
+<code>
 586 % sed &rsquo;s/(.commaaccent)/sub \1 by \1.alt ;/' test
 sub ccommaaccent by ccommaaccent.alt ;
 sub gcommaaccent by gcommaaccent.alt ;
 sub kcommaaccent by kcommaaccent.alt ;
 sub scommaaccent by scommaaccent.alt ;
 sub tcommaaccent by tcommaaccent.alt ;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>Also, sed allows scripting. Very handy when many substitutions are to be done.</p>
 </div>
 	</div>
@@ -206,16 +206,16 @@ sub tcommaaccent by tcommaaccent.alt ;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Given an input file <!-- raw HTML omitted -->in.txt<!-- raw HTML omitted --> containing &ldquo;a t a t&rdquo;, following Theunis' idea (with the <!-- raw HTML omitted -->sed<!-- raw HTML omitted --> syntax).</p>
-<p><!-- raw HTML omitted --> sed &rsquo;s/([at])/\1.alt/g' in.txt<!-- raw HTML omitted --></p>
-<p>gives the output <!-- raw HTML omitted -->a.alt t.alt a.alt t.alt<!-- raw HTML omitted -->; here there is just one rule. If there is more than one substitution rule, it gets more tricky; substitutions apply sequentially. Again with the <!-- raw HTML omitted -->sed<!-- raw HTML omitted --> syntax, if the letters are alone on their line (in this example blanks are not allowed) then</p>
-<p><!-- raw HTML omitted --> sed &rsquo;s/^a$/a.alt/; s/^t$/t.alt/' in2.txt<!-- raw HTML omitted --></p>
-<p>will do the job: for the substitution to apply, the rules for a and t specify that a and t must be at the beginning (^) and end ($) of line so that, if the input file <!-- raw HTML omitted -->in2.txt<!-- raw HTML omitted --> is</p>
-<p><!-- raw HTML omitted -->a
-t<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Given an input file <code>in.txt</code> containing &ldquo;a t a t&rdquo;, following Theunis' idea (with the <code>sed</code> syntax).</p>
+<p><code> sed &rsquo;s/([at])/\1.alt/g' in.txt</code></p>
+<p>gives the output <code>a.alt t.alt a.alt t.alt</code>; here there is just one rule. If there is more than one substitution rule, it gets more tricky; substitutions apply sequentially. Again with the <code>sed</code> syntax, if the letters are alone on their line (in this example blanks are not allowed) then</p>
+<p><code> sed &rsquo;s/^a$/a.alt/; s/^t$/t.alt/' in2.txt</code></p>
+<p>will do the job: for the substitution to apply, the rules for a and t specify that a and t must be at the beginning (^) and end ($) of line so that, if the input file <code>in2.txt</code> is</p>
+<p><code>a
+t</code></p>
 <p>the output will be</p>
-<p><!-- raw HTML omitted -->a.alt
-t.alt<!-- raw HTML omitted --></p>
+<p><code>a.alt
+t.alt</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -262,7 +262,7 @@ t.alt<!-- raw HTML omitted --></p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>My personal favourite plain text editors are <!-- raw HTML omitted -->TextPad<!-- raw HTML omitted --> for Windows and <!-- raw HTML omitted -->TextWrangler<!-- raw HTML omitted --> for Mac.</p>
+		<div class="commentbody"><p>My personal favourite plain text editors are <a href="http://www.textpad.com/">TextPad</a> for Windows and <a href="http://www.barebones.com/products/textwrangler/">TextWrangler</a> for Mac.</p>
 <p>With TP you can select between POSIX and Unix style GREP (although I have no idea what the difference is), and TW has very useful syntax coloring in its entry field.</p>
 </div>
 	</div>
@@ -285,11 +285,11 @@ t.alt<!-- raw HTML omitted --></p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">To get <!-- raw HTML omitted -->/a.alt<!-- raw HTML omitted -->, you need to &ldquo;escape&rdquo; the <!-- raw HTML omitted -->/<!-- raw HTML omitted --> in the resulting string, i.e. write <!-- raw HTML omitted -->/<!-- raw HTML omitted -->; here is the trace on <!-- raw HTML omitted -->in.txt<!-- raw HTML omitted --> with the line <!-- raw HTML omitted -->a t a t<!-- raw HTML omitted -->:
-<!-- raw HTML omitted -->
+		<div class="commentbody">To get <code>/a.alt</code>, you need to &ldquo;escape&rdquo; the </code>/</code> in the resulting string, i.e. write <code>/</code>; here is the trace on <code>in.txt</code> with the line <code>a t a t</code>:
+<code>
 508 % sed &rsquo;s/([at])//\1.alt/g' in.txt
 /a.alt /t.alt /a.alt /t.alt
-<!-- raw HTML omitted --></div>
+</code></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -331,7 +331,7 @@ t.alt<!-- raw HTML omitted --></p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Great! By the way, the pattern <!-- raw HTML omitted -->\b<!-- raw HTML omitted --> that matches a word boundary and was used by Theunis above is not available on the Mac sed. If you ever need it or one of the other [[http://www.gnu.org/software/sed/manual/sed.html#Escapes|GNU Sed extensions]], you can install <!-- raw HTML omitted -->gsed<!-- raw HTML omitted --> from [[http://www.macports.org/|MacPorts]], using the line command <!-- raw HTML omitted -->sudo port install gsed<!-- raw HTML omitted -->.</div>
+		<div class="commentbody">Great! By the way, the pattern <code>\b</code> that matches a word boundary and was used by Theunis above is not available on the Mac sed. If you ever need it or one of the other [[http://www.gnu.org/software/sed/manual/sed.html#Escapes|GNU Sed extensions]], you can install <code>gsed</code> from [[http://www.macports.org/|MacPorts]], using the line command <code>sudo port install gsed</code>.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

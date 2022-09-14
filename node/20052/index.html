@@ -231,7 +231,7 @@ Thanks for your help.</p>
 	<div class="card-body">
 		<div class="commentbody"><p>It should not matter if kerning values are positive or negative. If they are in the kern feature, they should go into the font and be recognized by Adobe apps.
 (If you make PS-flavored OTFs, in &ldquo;Options/Preferences&rdquo;&ndash;&ldquo;Generating OpenType &amp; TrueType&rdquo;&ndash;&ldquo;Kerning&rdquo;, you should only mark &ldquo;Generate OpenType kern feature &amp;c&rdquo;. In the first section &ldquo;Generating OpenType &amp; TrueType&rdquo;, bottom part, &ldquo;Export OpenType Layout tables&rdquo;, &ldquo;Compare feature definitions&rdquo; and &ldquo;Generate GDEF table&rdquo; should be on.)</p>
-<p>Using classes may help you keep the number of kerning pairs smaller. In the middle of <!-- raw HTML omitted -->this thread<!-- raw HTML omitted -->, there was a bit more about kerning and classes.</p>
+<p>Using classes may help you keep the number of kerning pairs smaller. In the middle of <a href="http://typophile.com/node/18452">this thread</a>, there was a bit more about kerning and classes.</p>
 <p>How do you space/kern your font? Normally, letterspacing should be done in metric mode entirely, by adjusting the spaces to the left and right side of each glyph. (This is still the old metal type model.) And only if this resulted in good letterspacing, then you switch to kerning mode and refine individual critical pairs, say, VA AV &amp;c. But this should be the very last step, and not affect too many pairs (at least in theory), if you don&rsquo;t want to get crazy!  ;-)</p>
 <p>Karsten</p>
 </div>
@@ -295,7 +295,7 @@ Have others seen this behavior?</p>
 Their response was:
 This is a known problem with no easy fix. It&rsquo;s a problem (flaw in design) of the OpenType font format.
 Do others concur with this statement?</p>
-<p>If I try to recompile the OT Tables after updating the kerning feature I get an error like: [FATAL] <!-- raw HTML omitted --> GPOS feature &lsquo;kern&rsquo; causes overflow of offset to a subtable (0x2c226). 
+<p>If I try to recompile the OT Tables after updating the kerning feature I get an error like: [FATAL] <GaramondPremrDok> GPOS feature &lsquo;kern&rsquo; causes overflow of offset to a subtable (0x2c226). 
 Each time I manually add a new subtable to the kern feature (by keying in &ldquo;subtable;&rdquo; between 2 lines in the FL&rsquo;s OpenType panel) the subtable number in the error changes.
 (And again, the new glyphs are not part of the updated kerning tables unless I have manually activated them in the Metrics window.)</p>
 <p>Can someone offer me some guidelines to subtabling? other than Adobe&rsquo;s and Microsoft&rsquo;s suggestions to &ldquo;divide the class in half with a subtable command&rdquo; until it compiles succesfully.</p>
@@ -321,24 +321,24 @@ Each time I manually add a new subtable to the kern feature (by keying in &ldquo
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->Do others concur with this statement?<!-- raw HTML omitted --></p>
+<p><em>Do others concur with this statement?</em></p>
 </blockquote>
 <p>Yes. Each GPOS table has to be below 64K, otherwise you get that overflow error.</p>
 <p>Every time you use “subtable;” you&rsquo;re creating a new GPOS table. The downside effect of creating a new table is that classes that are only present in one of the tables, can&rsquo;t be kerned with classes in other tables.</p>
-<p>What you could try to do is to <!-- raw HTML omitted -->save table space<!-- raw HTML omitted -->. This can be achieved by decomposing any class-class entries into single pairs <!-- raw HTML omitted -->pos<!-- raw HTML omitted -->, when both classes are constituted by only one character/glyph. Example: Lets say you have the following classes</p>
-<p><!-- raw HTML omitted -->_x_left: x'
-_q_right: q'<!-- raw HTML omitted --></p>
+<p>What you could try to do is to <em>save table space</em>. This can be achieved by decomposing any class-class entries into single pairs <code>pos</code>, when both classes are constituted by only one character/glyph. Example: Lets say you have the following classes</p>
+<p><code>_x_left: x'
+_q_right: q'</code></p>
 <p>and that you kerned &lsquo;x&rsquo; with &lsquo;q&rsquo; by &lsquo;-10&rsquo;. When you hit &ldquo;Update [kern] feature&rdquo;, FontLab will generate the following entry</p>
-<p><!-- raw HTML omitted -->pos @_x_left @_q_right -10;<!-- raw HTML omitted --></p>
+<p><code>pos @_x_left @_q_right -10;</code></p>
 <p>Since this is expressed as class-class, it is starting to eat up some of the &ldquo;precious&rdquo; 64K without being really necessary, since you can express that pair simply as</p>
-<p><!-- raw HTML omitted -->pos x q -10;<!-- raw HTML omitted --></p>
-<p>and place it at the top of the <!-- raw HTML omitted -->kern<!-- raw HTML omitted --> feature, before class-class entries.
+<p><code>pos x q -10;</code></p>
+<p>and place it at the top of the <code>kern</code> feature, before class-class entries.
 Unfortunately, FontLab won&rsquo;t do this for you, so you either have to do it by-hand, or write a smart Python macro.</p>
-<p>BTW, the original Garamond Premier Pro <!-- raw HTML omitted -->kern<!-- raw HTML omitted --> feature only makes use of <!-- raw HTML omitted -->subtable;<!-- raw HTML omitted --> twice. This avoids table overflow, and puts classes from different scripts in separated tables.</p>
+<p>BTW, the original Garamond Premier Pro <code>kern</code> feature only makes use of <code>subtable;</code> twice. This avoids table overflow, and puts classes from different scripts in separated tables.</p>
 <p>[Edit: Some developer resources below]
-<!-- raw HTML omitted -->The Glyph Positioning Table<!-- raw HTML omitted -->, aka [[GPOS]]
-<!-- raw HTML omitted -->The &lsquo;kern&rsquo; feature<!-- raw HTML omitted --> (not to be confused with <!-- raw HTML omitted -->The Kerning Table<!-- raw HTML omitted -->)
-<!-- raw HTML omitted -->GPOS rules/syntax<!-- raw HTML omitted --></p>
+<a href="http://partners.adobe.com/public/developer/opentype/index_table_formats2.html#PP">The Glyph Positioning Table</a>, aka [[GPOS]]
+<a href="http://partners.adobe.com/public/developer/opentype/index_tag7.html#kern">The &lsquo;kern&rsquo; feature</a> (not to be confused with <a href="http://partners.adobe.com/public/developer/opentype/index_kern.html">The Kerning Table</a>)
+<a href="http://partners.adobe.com/public/developer/opentype/afdko/topic_feature_file_syntax.html#6">GPOS rules/syntax</a></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

@@ -125,24 +125,24 @@ BTW: In InDesign (pre CS versions) 1 to 2.0 it will work.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>The glyph should be accessible through the &ldquo;smcp&rdquo; feature of the font:</p>
-<p><!-- raw HTML omitted -->feature smcp { 
+<p><code>feature smcp { 
 sub a by a.smcp;
 sub b by b.smcp;
 &hellip;
 sub germandbls by germandbls.smcp;
 &hellip;
-} smcp;<!-- raw HTML omitted --></p>
+} smcp;</code></p>
 <p>(As should all the other small-cap letters).</p>
 <p>In InDesign, it would be accessible through the &ldquo;Small caps&rdquo; option in the Character palette. I&rsquo;m not aware of any situations where InDesign would perform some behind-the-scenes additional operations when applying small caps.</p>
 <p>In addition, you&rsquo;ll probably want to have the &ldquo;c2sc&rdquo; feature in your font which maps uppercase letters to the small-cap variants. You can choose to create an additional set of small cap glyphs for those (identical in shape but with different glyph names, so a small-cap &ldquo;A&rdquo; would exist in the font as &ldquo;a.smcp&rdquo; and as &ldquo;A.c2sc&rdquo;) or you could just use the same set (named whatever you wish).</p>
 <p>If you go with the separate sets, then the small-cap ß would exist as &ldquo;germandbls.smcp&rdquo; and as &ldquo;uni1E9E.c2sc&rdquo;, and the code for &ldquo;c2sc&rdquo; would be then:</p>
-<p><!-- raw HTML omitted -->feature c2sc { 
+<p><code>feature c2sc { 
 sub A by A.c2sc;
 sub B by B.c2sc;
 &hellip;
 sub uni1E9E by uni1E9E.c2sc;
 &hellip;
-} c2sc;<!-- raw HTML omitted --></p>
+} c2sc;</code></p>
 <p>Cheers,
 Adam</p>
 </div>
@@ -216,14 +216,17 @@ This is so that &ldquo;caps with small caps&rdquo;—which is what, in implement
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Thanks for all the replies! I&rsquo;m pretty sure Andreas is actually outlining what I&rsquo;m saying: InDesign has it hardcoded, and that makes it impossible to input. To check up on my sanity, here is the OpenType in place:</p>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->feature c2sc {
+<code>
+@LC_ALPHA = [a-z germandbls];
+@UC_ALPHA = [A-Z uni1E9E];
+@UC_SMCP = [A.sc-Z.sc uni1E9E.sc];</code>
+<p><code>feature c2sc {
 sub @UC_ALPHA by @UC_SMCP;
 sub @LC_ALPHA by @UC_SMCP;
 sub @LC_PUNCT by @SMCP_PUNCT;
 sub @PNUMS by @SCNUMS;
 sub @ONUMS by @SCNUMS;
-} c2sc;<!-- raw HTML omitted --></p>
+} c2sc;</code></p>
 <p>(I realise I&rsquo;m conflating c2sc and smcp; that&rsquo;s laziness, and will be resolved as soon as I get to the final designs.)</p>
 </div>
 	</div>
@@ -361,7 +364,7 @@ Does it turn ß into cap eszett?</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Nick: <!-- raw HTML omitted -->Does it turn ß into cap eszett?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Nick: <em>Does it turn ß into cap eszett?</em></p>
 <p>It certainly shouldn&rsquo;t. Bear in mind that the cap eszett character is a minority display preference: the formal case mapping of lowercase ß to uppercase is still SS, according to both German standard spelling and Unicode case mapping.</p>
 </div>
 	</div>
@@ -384,7 +387,7 @@ Does it turn ß into cap eszett?</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>John: <!-- raw HTML omitted --> …the formal case mapping of lowercase ß to uppercase is still SS… <!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>John: <em> …the formal case mapping of lowercase ß to uppercase is still SS… </em></p>
 <p>Is this likely to change, as more and more fonts incorporate the new Unicode character?</p>
 <p>Are German typographers exercising the &ldquo;minority display preference&rdquo;?</p>
 <p>It&rsquo;s been three years since the new character was formalized in Unicode.</p>
@@ -415,7 +418,7 @@ Does it turn ß into cap eszett?</p>
 		<div class="commentbody"><p>The German standard spelling regarding ß to SS is not likely to change based on font character set support. I suspect that, like most bodies that add words to language and regulate spelling, changes to German orthography will be made based on a combination of history and current use of how the language is spoken and written. German recently had a big spelling reform; whether another top-down reform could come in the near future … I have no idea.</p>
 <p>One should not judge what practicing German typographers are doing based on glyph design discussions of a certain number of type designers alone. The pros and cons of the cap eszett are still quite active topics of discussion among German typographers. No particular feeling toward the new form is universal yet. I certainly know plenty of type designers, book designers, and typography professors who are not in favor of cap eszett use.</p>
 <blockquote>
-<p><!-- raw HTML omitted -->How many foundries include it in all new fonts as a matter of course?<!-- raw HTML omitted --></p>
+<p><em>How many foundries include it in all new fonts as a matter of course?</em></p>
 </blockquote>
 <p>Well, I work at the largest foundry in the country, and we do not include these new glyphs in all new fonts as a matter of course. In fact, we include them in hardly any new fonts. There are a few fonts with them now, but only because the type designers behind the fonts wanted to include them. Otherwise (in the majority of cases, in fact), they are not part of the character set. Some of the type designers that I work with are actually relieved about this, because they are not in favor of the cap eszett yet either, and do not want to have to draw them just for the sake of character set completion.</p>
 </div>
@@ -576,7 +579,7 @@ and half a dozen characters at least as challenging as the Latin lc binocular &l
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->The German standard spelling regarding ß to SS is not likely to change based on font character set support. <!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>The German standard spelling regarding ß to SS is not likely to change based on font character set support. </cite></p>
 <p>Well, of course the change of the standard spelling requires a sufficient support of the character in typical operating systems first. Everything else would be madness.
 And the common dictionary publishers like DUDEN will follow whatever the users make their standard.</p>
 <p>And actually, I am surprised how many users actually use it even today—especially on the internet. Even though there are no easy input methods yet and even though many readers will still see a NOT DEF sign instead.  It is spreading—whether the conservative typographers like it or not.</p>
@@ -648,7 +651,7 @@ And the common dictionary publishers like DUDEN will follow whatever the users m
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>On the subject of Duden, it is worth noting that the 1957 <!-- raw HTML omitted -->East<!-- raw HTML omitted --> German Duden (Lepizig) provides one of the notable instances of an uppercase eszett.</p>
+		<div class="commentbody"><p>On the subject of Duden, it is worth noting that the 1957 <em>East</em> German Duden (Lepizig) provides one of the notable instances of an uppercase eszett.</p>
 <p>[img:sites/default/files/old-images/EszettLeipzig_4133.png]</p>
 </div>
 	</div>
@@ -671,7 +674,7 @@ And the common dictionary publishers like DUDEN will follow whatever the users m
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Ralf: <!-- raw HTML omitted -->And the common dictionary publishers like DUDEN will follow whatever the users make their standard.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Ralf: <em>And the common dictionary publishers like DUDEN will follow whatever the users make their standard.</em></p>
 <p>My impression of Duden is that it tends to favour a top-down approach to spelling, reflecting official decision making rather than popular usage. Duden seemed to be key in disseminating the recent spelling reform.</p>
 </div>
 	</div>
@@ -694,12 +697,12 @@ And the common dictionary publishers like DUDEN will follow whatever the users m
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I guess there will always be disagreement between German speakers about the use of that glyph<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I guess there will always be disagreement between German speakers about the use of that glyph</cite></p>
 <p>I predict it will be a transition over one or two generations. Same thing happened for the Umlauts. They started out as a lowercase ligature and when their use was common, the uppercase versions slowly appeared and are now standard too. We are used to them now, so no one is questioning the existence of those characters, even though—ironically—their formal development from a lowercase letter is something that some experts now use as an argument against the cap Eszett.</p>
-<p><!-- raw HTML omitted -->the strongest argument I have heard in favour of the new Unicode character, from a German, is that it enables reliable one-to-one round-trip case mapping<!-- raw HTML omitted --></p>
+<p><cite>the strongest argument I have heard in favour of the new Unicode character, from a German, is that it enables reliable one-to-one round-trip case mapping<cite></p>
 <p>Well, of course. This is how every Western alphabet works. See also <a href="http://opentype.info/blog/2011/01/24/capital-sharp-s/">http://opentype.info/blog/2011/01/24/capital-sharp-s/</a>
 And that&rsquo;s why I always get a little mad, when typographers(!) call the cap Eszett a “silly” idea. It is silly not to have a lowercase AND uppercase version of any character in any Western alphabet. Its the most basic principle.</p>
-<p><!-- raw HTML omitted -->My impression of Duden is that it tends to favour a top-down approach to spelling, reflecting official decision making rather than popular usage. <!-- raw HTML omitted --></p>
+<p><cite>My impression of Duden is that it tends to favour a top-down approach to spelling, reflecting official decision making rather than popular usage. </cite></p>
 <p>They do both. Of course they follow the spelling reform, because this is now the new standard. But when new words or new spellings become widely used, they list these also, even though they are not in the official German orthography.</p>
 </div>
 	</div>
@@ -722,7 +725,7 @@ And that&rsquo;s why I always get a little mad, when typographers(!) call the ca
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>I agree with Ralf. There is also a strong linguistic reason for having an “uppercase ß” (<!-- raw HTML omitted -->U+1E9E<!-- raw HTML omitted -->, ẞ) adopted widely:</p>
+		<div class="commentbody"><p>I agree with Ralf. There is also a strong linguistic reason for having an “uppercase ß” (<strong>U+1E9E</strong>, ẞ) adopted widely:</p>
 <p>In the pre-1996 German spelling, the basic principle for writing consonants after a vowel was: 
 — if the vowel is long, write a single consonant (in “Bote”, the “o” is long)
 — if the vowel is short, write a doubled consonant (in “Gott”, the “o” is short)</p>
@@ -730,13 +733,13 @@ And that&rsquo;s why I always get a little mad, when typographers(!) call the ca
 <p>But in the 1996 spelling reform a rule was introduced, which has been kept up in the 2006 “reform of the reform” that “ß” is a single letter. So all situations where the preceding vowel was long kept the “ß” (“groß” is the new spelling) while in all the situations where the vowel was short, the “ß” was replaced by “ss” (“muss”, “dass” is the new spelling).</p>
 <p>So now, German is written very logically, and the single-or-doubled consonant rule is reliable. But this has repercussions.</p>
 <p>All the readers who grow up with the new spelling, or adopted it quickly (such as myself) rely on the rule blindly. In the words “Rußpartikel” or “Großenkel”, it is absolutely obvious that the vowels preceding “ß” are long. It’s automatic, there is no doubt about it.</p>
-<p>So, “ß” <!-- raw HTML omitted -->is<!-- raw HTML omitted --> a single letter.</p>
-<p>But hang on&hellip; Not when the word is written in uppercase! When I convert the word to uppercase using the currently valid rules, I get “RUSSPARTIKEL” or “GROSSENKEL”, and then the acquired reading automatism <!-- raw HTML omitted -->forces<!-- raw HTML omitted --> me to think that the “U” vowel in the first word or the “O” vowel in the second word is short. So I mispronounce the words.</p>
+<p>So, “ß” <strong>is</strong> a single letter.</p>
+<p>But hang on&hellip; Not when the word is written in uppercase! When I convert the word to uppercase using the currently valid rules, I get “RUSSPARTIKEL” or “GROSSENKEL”, and then the acquired reading automatism <strong>forces</strong> me to think that the “U” vowel in the first word or the “O” vowel in the second word is short. So I mispronounce the words.</p>
 <p>This of course is most problematic for personal names, where you don’t really know a “memorized” pronunciation. “Frank Mussmann”: “u” is short, of course. “Frank Mußmann”: “u” is long, of course. But “FRANK MUSSMANN”? “Well of course, the U is short”, says my reading automatism. But I may be wrong!</p>
-<p><!-- raw HTML omitted -->If<!-- raw HTML omitted --> “ß” is a <!-- raw HTML omitted -->single letter<!-- raw HTML omitted --> now, why is its uppercase representation a doubled letter? That’s now (<!-- raw HTML omitted -->after<!-- raw HTML omitted --> the 1996-2006 reforms) <!-- raw HTML omitted -->less<!-- raw HTML omitted --> logical than it was before. It’s now completely counter-intuitive.</p>
-<p>So I strongly presume that the reason why the case conversion rules were not changed in 1996 or 2006 was <!-- raw HTML omitted -->purely technical<!-- raw HTML omitted -->. I.e., there was no technical means to represent a “more logical conversion”, because the uppercase “ß” character was not codified or even “invented”.</p>
-<p>Andreas Stötzner’s Unicode proposal has resolved this barrier. The Windows 7 versions of the Microsoft core fonts (Arial, Times New Roman etc.) have been revised to include the U+1E9E character (ẞ), and more and more fonts are coming out that include it. A <!-- raw HTML omitted -->search at MyFonts<!-- raw HTML omitted --> reveals 106 families that include the uppercase ß character. Not many, but I’m sure more are coming.</p>
-<p>So we’re in a technical transitional period now. Just like with the Euro currency character, the technical support needs to be there first (fonts and keyboard layouts), but at some point people will be adopting ẞ more and more widely — because it’s the <!-- raw HTML omitted -->only logical thing<!-- raw HTML omitted --> to do.</p>
+<p><strong>If</strong> “ß” is a <strong>single letter</strong> now, why is its uppercase representation a doubled letter? That’s now (<strong>after</strong> the 1996-2006 reforms) <strong>less</strong> logical than it was before. It’s now completely counter-intuitive.</p>
+<p>So I strongly presume that the reason why the case conversion rules were not changed in 1996 or 2006 was <strong>purely technical</strong>. I.e., there was no technical means to represent a “more logical conversion”, because the uppercase “ß” character was not codified or even “invented”.</p>
+<p>Andreas Stötzner’s Unicode proposal has resolved this barrier. The Windows 7 versions of the Microsoft core fonts (Arial, Times New Roman etc.) have been revised to include the U+1E9E character (ẞ), and more and more fonts are coming out that include it. A <a href=“http://new.myfonts.com/search/char%3A%E1%BA%9E/fonts/”>search at MyFonts</a> reveals 106 families that include the uppercase ß character. Not many, but I’m sure more are coming.</p>
+<p>So we’re in a technical transitional period now. Just like with the Euro currency character, the technical support needs to be there first (fonts and keyboard layouts), but at some point people will be adopting ẞ more and more widely — because it’s the <strong>only logical thing</strong> to do.</p>
 <p>Arguments against it are based purely on tradition and history. Arguments for it are based on linguistics, pragmaticism, logic and practicality. Go figure who will “win” in the longer term :)</p>
 </div>
 	</div>
@@ -759,12 +762,18 @@ And that&rsquo;s why I always get a little mad, when typographers(!) call the ca
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->UPDATE:<!-- raw HTML omitted --> In 2010, the German Federal Agency for Cartography and Geodesy (“Bundesamt für Kartographie und Geodäsie”) published the 5th revised edition of the document <!-- raw HTML omitted -->“Toponymic guidelines for map and other editors for international use Federal Republic of Germany”<!-- raw HTML omitted -->.</p>
+		<div class="commentbody"><p><strong>UPDATE:</strong> In 2010, the German Federal Agency for Cartography and Geodesy (“Bundesamt für Kartographie und Geodäsie”) published the 5th revised edition of the document <a href="http://www.stagn.de/Portals/0/101125_TopR5.pdf">“Toponymic guidelines for map and other editors for international use Federal Republic of Germany”</a>.</p>
 <p>Section 1.1.3 of this document says:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>This is, to my knowledge, the first official <!-- raw HTML omitted -->German government body<!-- raw HTML omitted --> that not only approves but actually <!-- raw HTML omitted -->prescribes<!-- raw HTML omitted --> the use of uppercase ß (U+1E9E, ẞ), and only accepts the use of SS “temporarily” (“since a typographical implementation of the upper case letter ẞ in the various character fonts will take some time”).</p>
+<blockquote><cite>1.1.3 Special letter ẞ ß
+The special letter ß (“strong s”) existed hitherto only as small letter (minuscule). In 2007 DIN and ISO accepted the capital letter ẞ which is rendered on position 1E9E of the Unicode character tables. In official spelling it must not be substituted by any other letter combination, as e.g. SS, ss. In the alphabetical order ẞ, ß is treated like SS, ss. Since a typographical implementation of the upper case letter ẞ in the various character fonts will take some time, it may be temporarily substituted by SS, ss.
+NEW: Due to the new regulation of German spelling the letter ß is after a short (stressed) vowel now replaced by ss. The letter ß remains after a long vowel or a diphthong.</cite></blockquote>
+<blockquote><cite>Examples for names of geographical regions:
+— now: Hassberge (short and stressed vowel a), until now: Haßberge
+— will continue: Meißner (diphthong preceding ß), MEIẞNER
+— will continue: Großer Feldberg (long vowel o preceding ß), GROẞER FELDBERG</cite></blockquote>
+<blockquote><cite>Example for an officially approved name of a municipality
+— will continue: Haßfurt, HAẞFURT (though a short and stressed vowel a is preceding ß)</cite></blockquote>
+<p>This is, to my knowledge, the first official <strong>German government body</strong> that not only approves but actually <strong>prescribes</strong> the use of uppercase ß (U+1E9E, ẞ), and only accepts the use of SS “temporarily” (“since a typographical implementation of the upper case letter ẞ in the various character fonts will take some time”).</p>
 <p>Regards,
 Adam</p>
 </div>
@@ -816,11 +825,11 @@ Adam</p>
 	<div class="card-body">
 		<div class="commentbody"><p>Nick,</p>
 <p>as I&rsquo;ve pointed out in my post, it&rsquo;s:</p>
-<p><!-- raw HTML omitted -->feature smcp {
+<p><code>feature smcp {
 &hellip;
 sub germandbls by germandbls.smcp;
 &hellip;
-} smcp; <!-- raw HTML omitted --></p>
+} smcp; </code></p>
 <p>A.</p>
 </div>
 	</div>

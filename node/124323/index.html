@@ -184,11 +184,22 @@ I don&rsquo;t know how Unicode encoded spaces are supposed to act.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>According to the Unicode Standard Annex #14,  <!-- raw HTML omitted -->Line Breaking Properties<!-- raw HTML omitted -->, the following characters are in the class <!-- raw HTML omitted -->BA<!-- raw HTML omitted -->, which means there is an opportunity to break after, but not before.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>That being said, the breaking algorithm (cf  <!-- raw HTML omitted -->Example Pair Table<!-- raw HTML omitted -->) specifies that you may not break after a character in <!-- raw HTML omitted -->BA<!-- raw HTML omitted -->  if it is followed by a character in one of the classes <!-- raw HTML omitted -->CL<!-- raw HTML omitted -->, <!-- raw HTML omitted -->EX<!-- raw HTML omitted -->, <!-- raw HTML omitted -->SY<!-- raw HTML omitted -->, <!-- raw HTML omitted -->IS<!-- raw HTML omitted -->, <!-- raw HTML omitted -->ZW<!-- raw HTML omitted --> and <!-- raw HTML omitted -->WJ<!-- raw HTML omitted -->.</p>
-<p><!-- raw HTML omitted -->EX<!-- raw HTML omitted --> contains the exclamation mark and the question mark; <!-- raw HTML omitted -->IS<!-- raw HTML omitted --> contains the semicolon. It appears that French typography is saved and does not need the narrow no-break space (<!-- raw HTML omitted -->U+202F<!-- raw HTML omitted -->; cf <!-- raw HTML omitted -->Unicode Notes on French<!-- raw HTML omitted -->).  A consequence of the algorithm is that those characters may not be &ldquo;unusable in reflowable text such as web&rdquo; as you say.</p>
+		<div class="commentbody"><p>According to the Unicode Standard Annex #14,  <a href="http://unicode.org/reports/tr14/tr14-17.html">Line Breaking Properties</a>, the following characters are in the class <strong>BA</strong>, which means there is an opportunity to break after, but not before.</p>
+<PRE>
+2000    EN QUAD
+2001    EM QUAD
+2002    EN SPACE
+2003    EM SPACE
+2004    THREE-PER-EM SPACE
+2005    FOUR-PER-EM SPACE
+2006    SIX-PER-EM SPACE
+2008    PUNCTUATION SPACE
+2009    THIN SPACE
+200A    HAIR SPACE
+205F    MEDIUM MATHEMATICAL SPACE
+</PRE>
+<p>That being said, the breaking algorithm (cf  <a href="http://unicode.org/reports/tr14/tr14-17.html#ExampleTable">Example Pair Table</a>) specifies that you may not break after a character in <strong>BA</strong>  if it is followed by a character in one of the classes <strong>CL</strong>, <strong>EX</strong>, <strong>SY</strong>, <strong>IS</strong>, <strong>ZW</strong> and <strong>WJ</strong>.</p>
+<p><strong>EX</strong> contains the exclamation mark and the question mark; <strong>IS</strong> contains the semicolon. It appears that French typography is saved and does not need the narrow no-break space (<code>U+202F</code>; cf <a href="http://unicode.org/udhr/n/notes_fra.html">Unicode Notes on French</a>).  A consequence of the algorithm is that those characters may not be &ldquo;unusable in reflowable text such as web&rdquo; as you say.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -254,9 +265,19 @@ It’s &amp; # x 2 0 0 9 ;</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>There is indeed a problem with Firefox. The following code appears to avoid it</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>It uses <!-- raw HTML omitted -->letter-spacing<!-- raw HTML omitted --> as I would use <!-- raw HTML omitted -->\kern<!-- raw HTML omitted --> with TeX. Some preprocessing would however be needed to get that as input text.</p>
+<PRE>
+Lorem ipsum dolor sit amet, ut decore postea 
+vituperata mel. Iriure timeam ius 
+e&lt;span style="letter-spacing:.1em"&gt;i&lt;/span&gt;; dolore 
+numquam ad qu&lt;span style="letter-spacing:.1em"&gt;i&lt;/span&gt;? 
+Mnesarchum sadipscing cotidieque pro id, ut vix scripta aliquid 
+mentitu&lt;span style="letter-spacing:.1em"&gt;m&lt;/span&gt;! 
+Et amet suas usu, zril honestatis dissentiunt nam at, 
+eu prima legimus 
+&lt;span style="letter-spacing:.1em"&gt;«&lt;/span&gt;vertere&lt;span style="letter-spacing:.1em"&gt;m&lt;/span&gt;» 
+nam.  Nam ad odio accusamus.
+</PRE>
+<p>It uses <code>letter-spacing</code> as I would use <code>\kern</code> with TeX. Some preprocessing would however be needed to get that as input text.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -278,10 +299,10 @@ It’s &amp; # x 2 0 0 9 ;</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->The intent of those were originally to do fine-tuning by hand on metal justified type and should not be breakable.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>The intent of those were originally to do fine-tuning by hand on metal justified type and should not be breakable.</cite></p>
 <p>In the case of characters with a place in Unicode, a hairline space indeed should not be breakable, since it would be used for letterspacing - or for adjusting kerning (but that is not a &ldquo;legitimate&rdquo; use, because the font is responsible for getting that right).</p>
 <p>But when a hair space was used in metal type, it might well have been used to adjust the size of a breakable space between words. Not that text gets to reflow after it&rsquo;s set in metal, of course&hellip; but it means that the example given here seems to contradict, rather than reinforce, the point being made.</p>
-<p><!-- raw HTML omitted -->But<!-- raw HTML omitted --> this gets me to thinking of some possible pre-Unicode computer representations of text, in which a hairline space might have the same meaning as with metal type.</p>
+<p><strong>But</strong> this gets me to thinking of some possible pre-Unicode computer representations of text, in which a hairline space might have the same meaning as with metal type.</p>
 <p>Let&rsquo;s think of an IBM Executive typewriter as a first step to a concrete example. It used a coarse 5-unit proportional spacing system; it had typebars, being an ordinary electric typewriter otherwise, not a Selectric.</p>
 <p>The space bar had a little &ldquo;2&rdquo; printed on it, with a segment on the left side having &ldquo;3&rdquo; on it. The 2 unit space was the normal word space, the 3 unit space was a wider space which took up the same amount of space as a digit, useful for tabular matter.</p>
 <p>The backspace key went back by only one unit.</p>
@@ -354,16 +375,19 @@ The SPAN solutions do work, but they are just styling, not encoding. So they mig
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Reasonable way of doing it would be to use normal non-breaking spaces and style their width in CSS. That way, when copying, or if CSS fails, people would still get the non-breaking space which they already use and expect in those situations.</p>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->Lorem<!-- raw HTML omitted --><!-- raw HTML omitted -->&lt;span class=&quot;thin&quot;&gt;<!-- raw HTML omitted --><!-- raw HTML omitted -->&amp;#160;<!-- raw HTML omitted --><!-- raw HTML omitted -->&lt;/span&gt;<!-- raw HTML omitted --><!-- raw HTML omitted -->? Ipsum.<!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<blockquote><strong>Lorem ? Ipsum.
+<p><strong>Lorem</strong><code>&lt;span class=&quot;thin&quot;&gt;</code><strong>&amp;#160;</strong><code>&lt;/span&gt;</code><strong>? Ipsum.</strong></p>
+<pre>.thin {
+    display: inline-block;
+    width:   0.125em; /* 1/8 em */
+    }</pre></blockquote>
 <p>Ellipses and consecutive quotation marks could just be wrapped in spans and tracked, &lsquo;cause people usually don&rsquo;t write them with, or expect, spaces inside. (If you also do it that way in InDesign with a tracked character style, you can map it to a classed span when exporting to HTML or EPUB.)</p>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->Lorem, <!-- raw HTML omitted --><!-- raw HTML omitted -->&lt;span class=&quot;ls-punct&quot;&gt;<!-- raw HTML omitted --><!-- raw HTML omitted -->“‘<!-- raw HTML omitted --><!-- raw HTML omitted -->&lt;/span&gt;<!-- raw HTML omitted --><!-- raw HTML omitted -->Ipsum’ dolor” sit amet <!-- raw HTML omitted --><!-- raw HTML omitted -->&lt;span class=&quot;ls-punct&quot;&gt;<!-- raw HTML omitted --><!-- raw HTML omitted -->&hellip;?<!-- raw HTML omitted --><!-- raw HTML omitted -->&lt;/span&gt;<!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<blockquote><strong>Lorem, “ ‘Ipsum’ dolor” sit amet . . . ?</strong>
+<p><strong>Lorem, </strong><code>&lt;span class=&quot;ls-punct&quot;&gt;</code><strong>“‘</strong><code>&lt;/span&gt;</code><strong>Ipsum’ dolor” sit amet </strong><code>&lt;span class=&quot;ls-punct&quot;&gt;</code><strong>&hellip;?</strong><code>&lt;/span&gt;</code></p>
+<pre>.ls-punct {
+    letter-spacing: 0.125em;
+    white-space:    nowrap;
+    }</pre></blockquote><blockquote>
 </blockquote>
 </div>
 	</div>

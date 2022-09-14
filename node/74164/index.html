@@ -73,16 +73,16 @@
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>Some questions regarding diacritics, precomposed glyphs and Unicode, whose partial answers I found in other threads:</p>
 <p>Unicode philosophy does not admits further inclusion of letters with diacritics if they can be achieved combining glyphs already coded. So glyphs like Yoruba&rsquo;s E acute with dot below will not be included in any future Unicode version: they must be mounted in client program (text editor) using base glyph plus combining diacritics.</p>
-<p>The better way to get these combined glyphs without codepoint is <!-- raw HTML omitted -->mark<!-- raw HTML omitted --> feature. But this is still not supported by FontLab and most client programs. Even if we could do it with FontLab, there are kerning problems caused by some diacritics.</p>
-<p>Let&rsquo;s say you use <!-- raw HTML omitted -->mark<!-- raw HTML omitted --> feature to build something like ï. Here, diaeresis go further than the base glyph limits so the kerning bust be adjusted.</p>
-<p><!-- raw HTML omitted -->(1)<!-- raw HTML omitted --> <!-- raw HTML omitted -->How to handle kerning issues produced by diacritics in a <!-- raw HTML omitted --><!-- raw HTML omitted -->mark<!-- raw HTML omitted --><!-- raw HTML omitted --> scenario?. The font needs to have specific kerning exceptions for each combined glyph whose diacritics produce this effect?<!-- raw HTML omitted --></p>
-<p>In other hand, you can simply ignore <!-- raw HTML omitted -->mark<!-- raw HTML omitted --> feature by now and add the precombined glyphs you need to the desired language support. Typed sequences are defined as substitutions in <!-- raw HTML omitted -->ccmp<!-- raw HTML omitted --> feature and no marks are necessary.</p>
+<p>The better way to get these combined glyphs without codepoint is <code>mark</code> feature. But this is still not supported by FontLab and most client programs. Even if we could do it with FontLab, there are kerning problems caused by some diacritics.</p>
+<p>Let&rsquo;s say you use <code>mark</code> feature to build something like ï. Here, diaeresis go further than the base glyph limits so the kerning bust be adjusted.</p>
+<p><strong>(1)</strong> <em>How to handle kerning issues produced by diacritics in a </em><code>mark</code><em> scenario?. The font needs to have specific kerning exceptions for each combined glyph whose diacritics produce this effect?</em></p>
+<p>In other hand, you can simply ignore <code>mark</code> feature by now and add the precombined glyphs you need to the desired language support. Typed sequences are defined as substitutions in <code>ccmp</code> feature and no marks are necessary.</p>
 <p>Anyway, these precombined glyphs have no codepoint as they are out of Unicode specification. Without a codepoint these glyphs suffer some limitations: they cannot be inserted by keyboard codes or Windows Character map, they cannot be used in replace commands (except ID CS4+) and they are not searchable in PDF documents. Even the keyboard layout editors cannot reach them as these editors work based on Unicode.</p>
-<p><!-- raw HTML omitted -->(2)<!-- raw HTML omitted --> <!-- raw HTML omitted -->Is not a reasonable idea to set codepoints from PUA to these precombined glyphs?<!-- raw HTML omitted -->. I see this is not ideal and far from Unicode original idea, but this method was adopted in some fonts. Although I understand this option has drawbacks, the advantages does not pays off?</p>
-<p>Finnally, combining diacritics are used both in <!-- raw HTML omitted -->mark<!-- raw HTML omitted --> and as components to precomposed glyphs. They must have zero width so they are keep before the zero limit. I cannot find any instruction about the position for these diacritics within this negative space. What I conclude from some fonts: usual way is to put the combining diacritic aligned as if there is an o before zero point. If you have uppercase variants, align them with O. Like this:</p>
+<p><strong>(2)</strong> <em>Is not a reasonable idea to set codepoints from PUA to these precombined glyphs?</em>. I see this is not ideal and far from Unicode original idea, but this method was adopted in some fonts. Although I understand this option has drawbacks, the advantages does not pays off?</p>
+<p>Finnally, combining diacritics are used both in <code>mark</code> and as components to precomposed glyphs. They must have zero width so they are keep before the zero limit. I cannot find any instruction about the position for these diacritics within this negative space. What I conclude from some fonts: usual way is to put the combining diacritic aligned as if there is an o before zero point. If you have uppercase variants, align them with O. Like this:</p>
 <p>[img:sites/default/files/old-images/tela_09132010_225630_5141.jpg]</p>
 <p>.
-<!-- raw HTML omitted -->(3)<!-- raw HTML omitted --> <!-- raw HTML omitted -->Is this a correct criteria or there are other issues related with combining diacritics positioning?<!-- raw HTML omitted --> Actually, using anchors to handle components the position is not relevant. But for <!-- raw HTML omitted -->mark<!-- raw HTML omitted --> this seems to be essential.</p>
+<strong>(3)</strong> <em>Is this a correct criteria or there are other issues related with combining diacritics positioning?</em> Actually, using anchors to handle components the position is not relevant. But for <code>mark</code> this seems to be essential.</p>
 <p>Sorry for the long post, but I was not able to describe these details in a shorter way.</p>
 </div>
 
@@ -123,7 +123,7 @@
 	<div class="card-body">
 		<div class="commentbody"><p>Thanks a lot, John. As usual, you give excellent information.</p>
 <p>To apply kerning to marks is really complicated. Even if FL6 supports marks, I&rsquo;d prefer to use precomposed glyphs – at least by now.</p>
-<p>I still did not include my precomposed glyphs in <!-- raw HTML omitted -->ccmp<!-- raw HTML omitted --> feature. After this is properly set, user could get the precomposed glyph through code <!-- raw HTML omitted -->uniXXXXYYYY<!-- raw HTML omitted -->? Of course, one needs to use a consistent naming schema to make this work.</p>
+<p>I still did not include my precomposed glyphs in <code>ccmp</code> feature. After this is properly set, user could get the precomposed glyph through code <code>uniXXXXYYYY</code>? Of course, one needs to use a consistent naming schema to make this work.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -145,10 +145,14 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->But this is still not supported by FontLab and most client programs.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>But this is still not supported by FontLab and most client programs.</em></p>
 <p>Which applications do not support the mark and mkmk features? I know a few which do:</p>
-<!-- raw HTML omitted -->
-</div>
+<ul>
+<li>TextEdit (tested on 10.6)</li>
+<li>InDesign (tested: CS3)</li>
+<li>Word (tested: 2010)</li>
+<li>Internet Explorer (IIRC)</li>
+</ul></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

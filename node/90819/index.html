@@ -74,7 +74,7 @@
   <div class="post-content e-content" itemprop="articleBody"><p>Hello everybody,
 I&rsquo;m working on a new font and I would like to make few non-standard OT features. But I cannot figure out how to make them work:</p>
 <p>The First one should make a special underline or strikethrough effect. It would be most probably Stylistic set. I want it to insert a special zero-with &ldquo;underline&rdquo; character I made after every single glyph in my font except for space (and maybe few more glyphs). I have made a huge class including all characters but space, and tried to make some substitutions, but no success yet.</p>
-<p>The second feature should make quite simple substitution for letter pairs like &ldquo;oo&rdquo; &ldquo;ee&rdquo; &ldquo;ll&rdquo; &ldquo;gg&rdquo;. It would not be problem if there wasn&rsquo;t so many combinations to list them all individually. Let&rsquo;s suppose two classes are defined: @class01 (o e l g) and @class02 (o.alt e.alt l.alt g.alt). I thought something like <!-- raw HTML omitted -->sub @class1 @class1 by @class1 @class2<!-- raw HTML omitted --> but this kind of substitution does not work.</p>
+<p>The second feature should make quite simple substitution for letter pairs like &ldquo;oo&rdquo; &ldquo;ee&rdquo; &ldquo;ll&rdquo; &ldquo;gg&rdquo;. It would not be problem if there wasn&rsquo;t so many combinations to list them all individually. Let&rsquo;s suppose two classes are defined: @class01 (o e l g) and @class02 (o.alt e.alt l.alt g.alt). I thought something like <em>sub @class1 @class1 by @class1 @class2</em> but this kind of substitution does not work.</p>
 <p>This feature could also work in two ways:</p>
 <ul>
 <li>substitute just the same letter pairs like &ldquo;o-o&rdquo; to &ldquo;o-o.alt&rdquo; (and ignore &ldquo;o-g&rdquo;), or</li>
@@ -140,14 +140,14 @@ What I want is actually to change the string like &ldquo;abcd&rdquo; to &ldquo;a
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --> Any suggestions for the first Feature?
-What I want is actually to change the string like &ldquo;abcd&rdquo; to &ldquo;aXbXcXdX&rdquo; only with exception for space (or few more characters). <!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite> Any suggestions for the first Feature?
+What I want is actually to change the string like &ldquo;abcd&rdquo; to &ldquo;aXbXcXdX&rdquo; only with exception for space (or few more characters). </cite></p>
 <p>One to many substitutions can only be applied to individual glyphs, not to glyph classes, so you&rsquo;d need something like:</p>
 <p>sub a by a X;
 sub b by b X;
 etc.</p>
 <p>You might want to look at [[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html|the adobe feature file syntax guide]]</p>
-<p>As for &lsquo;inverting&rsquo; classes, that&rsquo;s best done using the <!-- raw HTML omitted -->ignore<!-- raw HTML omitted --> keyword, also described in the above guide.</p>
+<p>As for &lsquo;inverting&rsquo; classes, that&rsquo;s best done using the <code>ignore</code> keyword, also described in the above guide.</p>
 <p>André</p>
 </div>
 	</div>
@@ -219,7 +219,7 @@ this should definitely work but in my specific case there would be hundreds of s
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Also is there any command which can &ldquo;invert&rdquo; current class to its opposite? <!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>Also is there any command which can &ldquo;invert&rdquo; current class to its opposite? </em></p>
 <p>Take a look at how “ignore” is used to substitute initial and final alternates, after or before a space/punctuation; this is primarily in script fonts.</p>
 </div>
 	</div>
@@ -359,8 +359,8 @@ I’ve made fonts with multiple alternates of every character (for pseudo-random
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --> I think I will do it in slightly different way, however it wouldn&rsquo;t be as user friendly as I wanted. But it is not that principal &ldquo;feature&rdquo; to make so many alternates.<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->To achieve the desired &ldquo;underline&rdquo; effect, the source string should be a_b_c_ and then simple substitution will change the underscore to its special.alt version.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite> I think I will do it in slightly different way, however it wouldn&rsquo;t be as user friendly as I wanted. But it is not that principal &ldquo;feature&rdquo; to make so many alternates.</cite></p>
+<p><cite>To achieve the desired &ldquo;underline&rdquo; effect, the source string should be a_b_c_ and then simple substitution will change the underscore to its special.alt version.</cite></p>
 <p>This seems like a misguided approach. Requiring the user to enter underscores will not only add extra work for them, but it will interfere with spellchecking, hyphenation, etc.</p>
 <p>Adding underlined alternates would require very little time or effort on your part since its a purely mechanical procedure which doesn&rsquo;t involve drawing any new glyphs &ndash; just copying the old ones and then adding the underline.</p>
 <p>André</p>
@@ -429,7 +429,7 @@ I’ve made fonts with multiple alternates of every character (for pseudo-random
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Vit, it seems you are concerned over font file size vs. processing speed. Remember that <!-- raw HTML omitted -->each of the characters<!-- raw HTML omitted --> in the user&rsquo;s text in your font has to be processed. It takes only one step in the feature table to swap a glyph for an underlined one, or it takes a dozen steps to coax precisely the right &ldquo;underline&rdquo; character into position.</p>
+		<div class="commentbody"><p>Vit, it seems you are concerned over font file size vs. processing speed. Remember that <em>each of the characters</em> in the user&rsquo;s text in your font has to be processed. It takes only one step in the feature table to swap a glyph for an underlined one, or it takes a dozen steps to coax precisely the right &ldquo;underline&rdquo; character into position.</p>
 <p>Swapping one glyph for another is an extremely efficient operation due to the way Opentype feature tables are internally represented. One could say it&rsquo;s the cornerstone of the entire features idea.</p>
 </div>
 	</div>
@@ -475,8 +475,8 @@ I&rsquo;ll keep it on mind.</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>André: what is your</p>
-<p><!-- raw HTML omitted -->[..] be advised that a number of major applications (including the Adobe CS applications) don&rsquo;t actually support one-to-many substitutions so if you do go this route your font will not work for all users<!-- raw HTML omitted --></p>
-<p>based on? InDesign CS4 seems to support this; a ligature &lsquo;fi&rsquo;, when put in small caps, changes to &ldquo;small cap f, small cap i&rdquo;, <!-- raw HTML omitted -->not<!-- raw HTML omitted --> a single &ldquo;f_i.smcap&rdquo; character. It appears as a single selectable character inside InDesign but on exporting to PDF one can select each single character.</p>
+<p><cite>[..] be advised that a number of major applications (including the Adobe CS applications) don&rsquo;t actually support one-to-many substitutions so if you do go this route your font will not work for all users</cite></p>
+<p>based on? InDesign CS4 seems to support this; a ligature &lsquo;fi&rsquo;, when put in small caps, changes to &ldquo;small cap f, small cap i&rdquo;, <em>not</em> a single &ldquo;f_i.smcap&rdquo; character. It appears as a single selectable character inside InDesign but on exporting to PDF one can select each single character.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

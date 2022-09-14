@@ -256,10 +256,10 @@ d1 o2 g3 space4 d5 o1 g2 space3 d4 o5 g1</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->what does calling the “lookup rotate;” thing do?<!-- raw HTML omitted --></p>
+<p><em>what does calling the “lookup rotate;” thing do?</em></p>
 </blockquote>
-<p>In terms of code, what it does is &ldquo;makes a call&rdquo; to the lookup defined above, which means that each &lsquo;sub&rsquo; is &ldquo;ran&rdquo; again. <!-- raw HTML omitted -->Again<!-- raw HTML omitted --> because this part of the code
-<!-- raw HTML omitted -->
+<p>In terms of code, what it does is &ldquo;makes a call&rdquo; to the lookup defined above, which means that each &lsquo;sub&rsquo; is &ldquo;ran&rdquo; again. <em>Again</em> because this part of the code
+<code>
 lookup rotate {
 sub @set_1 @set_1' by @set_2;
 sub @set_2 @set_1' by @set_3;
@@ -267,26 +267,26 @@ sub @set_3 @set_1' by @set_4;
 sub @set_4 @set_1' by @set_5;
 sub @set_5 @set_1' by @set_1;
 } rotate;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>not only defines the lookup, but also &ldquo;runs&rdquo; each &lsquo;sub&rsquo; included in it.</p>
 <p>==========================================</p>
 <p>In terms of result, the line “lookup rotate;” does nothing, really. If you analyze step by step what the code does, here&rsquo;s how it goes:</p>
-<p><!-- raw HTML omitted -->A.<!-- raw HTML omitted --> Let&rsquo;s consider a word with 10 letters as the input. Each of these letters have their default glyph, represented by &ldquo;1&rdquo;, and four alternates glyphs, represented by &ldquo;2&rdquo;, &ldquo;3&rdquo;, &ldquo;4&rdquo; and &ldquo;5&rdquo;. In the beginning, all those letters are taking their default glyph shape, since no feature is applied. So, our 10-letter word looks like this, <!-- raw HTML omitted -->1111111111<!-- raw HTML omitted --> (where &ldquo;1&rdquo; represents the default glyph of each letter).</p>
-<p><!-- raw HTML omitted -->B.<!-- raw HTML omitted --> After going through the first &lsquo;sub&rsquo; (<!-- raw HTML omitted -->sub @set_1 @set_1' by @set_2;<!-- raw HTML omitted -->), our word now looks like this, <!-- raw HTML omitted -->1212121212<!-- raw HTML omitted -->, where &ldquo;2&rdquo; represents the first alternate glyph. What the code does here is replace the second default glyph (in a pair) by the alternate glyph.</p>
-<p><!-- raw HTML omitted -->C.<!-- raw HTML omitted --> The second &lsquo;sub&rsquo; changes the displayed word to <!-- raw HTML omitted -->1231231231<!-- raw HTML omitted -->.</p>
-<p><!-- raw HTML omitted -->D.<!-- raw HTML omitted --> The third &lsquo;sub&rsquo; changes it to <!-- raw HTML omitted -->1234123412<!-- raw HTML omitted -->.</p>
-<p><!-- raw HTML omitted -->E.<!-- raw HTML omitted --> The fourth &lsquo;sub&rsquo; changes it to <!-- raw HTML omitted -->1234512345<!-- raw HTML omitted -->.</p>
-<p><!-- raw HTML omitted -->F.<!-- raw HTML omitted --> And the fifth and last &lsquo;sub&rsquo; (<!-- raw HTML omitted -->sub @set_5 @set_1' by @set_1;<!-- raw HTML omitted -->) does nothing, because it&rsquo;s replacing the default glyph (a.k.a. &ldquo;1&rdquo;) by itself.</p>
-<p><!-- raw HTML omitted -->G.<!-- raw HTML omitted --> Then the call to the &lsquo;rotate&rsquo; lookup does nothing as well, because at this stage our word doesn&rsquo;t have any two default glyphs next to each other (i.e. &ldquo;11&rdquo;). Neither the first alternate (&ldquo;2&rdquo;) appears followed by the default glyph (&ldquo;1&rdquo;). And so on&hellip;</p>
+<p><strong>A.</strong> Let&rsquo;s consider a word with 10 letters as the input. Each of these letters have their default glyph, represented by &ldquo;1&rdquo;, and four alternates glyphs, represented by &ldquo;2&rdquo;, &ldquo;3&rdquo;, &ldquo;4&rdquo; and &ldquo;5&rdquo;. In the beginning, all those letters are taking their default glyph shape, since no feature is applied. So, our 10-letter word looks like this, <strong>1111111111</strong> (where &ldquo;1&rdquo; represents the default glyph of each letter).</p>
+<p><strong>B.</strong> After going through the first &lsquo;sub&rsquo; (<code>sub @set_1 @set_1' by @set_2;</code>), our word now looks like this, <strong>1212121212</strong>, where &ldquo;2&rdquo; represents the first alternate glyph. What the code does here is replace the second default glyph (in a pair) by the alternate glyph.</p>
+<p><strong>C.</strong> The second &lsquo;sub&rsquo; changes the displayed word to <strong>1231231231</strong>.</p>
+<p><strong>D.</strong> The third &lsquo;sub&rsquo; changes it to <strong>1234123412</strong>.</p>
+<p><strong>E.</strong> The fourth &lsquo;sub&rsquo; changes it to <strong>1234512345</strong>.</p>
+<p><strong>F.</strong> And the fifth and last &lsquo;sub&rsquo; (<code>sub @set_5 @set_1' by @set_1;</code>) does nothing, because it&rsquo;s replacing the default glyph (a.k.a. &ldquo;1&rdquo;) by itself.</p>
+<p><strong>G.</strong> Then the call to the &lsquo;rotate&rsquo; lookup does nothing as well, because at this stage our word doesn&rsquo;t have any two default glyphs next to each other (i.e. &ldquo;11&rdquo;). Neither the first alternate (&ldquo;2&rdquo;) appears followed by the default glyph (&ldquo;1&rdquo;). And so on&hellip;</p>
 <p>Bottom line, Pieter&rsquo;s code can be further reduced to just,
-<!-- raw HTML omitted -->
+<code>
 feature salt {
 sub @set_1 @set_1' by @set_2;
 sub @set_2 @set_1' by @set_3;
 sub @set_3 @set_1' by @set_4;
 sub @set_4 @set_1' by @set_5;
 } salt;
-<!-- raw HTML omitted --></p>
+</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -309,10 +309,10 @@ sub @set_4 @set_1' by @set_5;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->I figured out the space problem. I had to create glyphs for space.calt1 space.calt2 space.calt3 and space.calt4 and place them in their respective sets.<!-- raw HTML omitted --></p>
+<p><em>I figured out the space problem. I had to create glyphs for space.calt1 space.calt2 space.calt3 and space.calt4 and place them in their respective sets.</em></p>
 </blockquote>
 <p>Alternatively, you could have added a few more substitutions including the &lsquo;space&rsquo; glyph in the context, like this:
-<!-- raw HTML omitted -->
+<code>
 feature calt {
 sub @set_1 @set_1' by @set_2;
 sub @set_2 @set_1' by @set_3;
@@ -323,7 +323,7 @@ sub @set_2 space @set_1' by @set_3;
 sub @set_3 space @set_1' by @set_4;
 sub @set_4 space @set_1' by @set_5;
 } calt;
-<!-- raw HTML omitted --></p>
+</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -347,8 +347,8 @@ sub @set_4 space @set_1' by @set_5;
 	<div class="card-body">
 		<div class="commentbody"><p>I get the code, and thank you very, VERY much for it, Miguel, but I have a question:
 is it relevant whether you pack the substitutions into the contextual alternates or the stylistic alternates feature?</p>
-<p>The more semantically correct would be <!-- raw HTML omitted -->salt<!-- raw HTML omitted -->, I believe, because the characters are not replaced in relation to their neighbours but simply by their order of appearance.</p>
-<p>Would it have any consequences whatsoever if you used <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> instead?</p>
+<p>The more semantically correct would be <em>salt</em>, I believe, because the characters are not replaced in relation to their neighbours but simply by their order of appearance.</p>
+<p>Would it have any consequences whatsoever if you used <em>calt</em> instead?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -370,8 +370,8 @@ is it relevant whether you pack the substitutions into the contextual alternates
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->salt<!-- raw HTML omitted --> can be accessed in Illustrator but not in InDesign, IIRC. I think what you&rsquo;re doing are not stylistic alternates. That would be more something like switching between a one- and two-storey &ldquo;a&rdquo; etc. Slight variations of the same drawing are not stylistically different in my opinion.</p>
-<p>I&rsquo;d say, use <!-- raw HTML omitted -->calt.<!-- raw HTML omitted --> Applications should, following the feature specification, turn this feature on by default, so that&rsquo;s what you&rsquo;d want.</p>
+		<div class="commentbody"><p><em>salt</em> can be accessed in Illustrator but not in InDesign, IIRC. I think what you&rsquo;re doing are not stylistic alternates. That would be more something like switching between a one- and two-storey &ldquo;a&rdquo; etc. Slight variations of the same drawing are not stylistically different in my opinion.</p>
+<p>I&rsquo;d say, use <em>calt.</em> Applications should, following the feature specification, turn this feature on by default, so that&rsquo;s what you&rsquo;d want.</p>
 <p>Jens.</p>
 </div>
 	</div>
@@ -395,24 +395,24 @@ is it relevant whether you pack the substitutions into the contextual alternates
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->is it relevant whether you pack the substitutions into the contextual alternates or the stylistic alternates feature?<!-- raw HTML omitted --></p>
+<p><em>is it relevant whether you pack the substitutions into the contextual alternates or the stylistic alternates feature?</em></p>
 </blockquote>
 <p>Yes. The [[http://www.microsoft.com/typography/otspec/features_pt.htm#salt|Stylistic Alternates (salt)]] feature should only contain one-to-one substitutions (GSUB lookup type 1) or one-from-many substitutions (GSUB lookup type 3), whereas the  [[http://www.microsoft.com/typography/otspec/features_ae.htm#calt|Contextual Alternates (calt)]] feature is meant to only contain contextual substitutions (GSUB lookup type 6). In other words, don&rsquo;t put contextual substitutions in &lsquo;salt&rsquo;, and one-to-one or one-from-many substitutions in &lsquo;calt&rsquo;. Applications expect that the features in the font are constructed according to the specs, so you might not get the desired behavior if you don&rsquo;t follow them. (Disclaimer: some feature descriptions are not as clear as they needed to be, so some OT layout implementations might slightly differ.)</p>
 <blockquote>
-<p><!-- raw HTML omitted -->The more semantically correct would be salt, I believe,<!-- raw HTML omitted --></p>
+<p><em>The more semantically correct would be salt, I believe,</em></p>
 </blockquote>
 <p>I disagree, but I think I understand why you say so. Think of &lsquo;calt&rsquo; as the contextual version of &lsquo;salt&rsquo; (which is similar to the relationship between [[http://www.microsoft.com/typography/otspec/features_pt.htm#swsh|swsh]] and [[http://www.microsoft.com/typography/otspec/features_ae.htm#cswh|cswh]]). If you apply &lsquo;salt&rsquo; to a whole block of text, you might see wired things like this,</p>
 <p>[img:sites/default/files/old-images/salt_4723.png]</p>
 <p>On the other hand, if you instead apply &lsquo;calt&rsquo; to the same block of text, you might get this result instead,</p>
 <p>[img:sites/default/files/old-images/calt_4367.png]</p>
 <p>(Of course, this assumes that the font has the right substitutions in the right features and the application has support for them and  applies them correctly.)</p>
-<p>To get the &lsquo;calt&rsquo; result &ldquo;automatically&rdquo;, the feature and the substitutions have to rely on the context. In the case above, all glyphs with a finial variant are being replaced whenever they are <!-- raw HTML omitted -->positioned at the end of the word<!-- raw HTML omitted --> (this is the context), but not when they appear elsewhere.</p>
+<p>To get the &lsquo;calt&rsquo; result &ldquo;automatically&rdquo;, the feature and the substitutions have to rely on the context. In the case above, all glyphs with a finial variant are being replaced whenever they are <strong>positioned at the end of the word</strong> (this is the context), but not when they appear elsewhere.</p>
 <blockquote>
-<p><!-- raw HTML omitted -->because the characters are not replaced in relation to their neighbours but simply by their order of appearance.<!-- raw HTML omitted --></p>
+<p><em>because the characters are not replaced in relation to their neighbours but simply by their order of appearance.</em></p>
 </blockquote>
 <p>And how do you determine their order of appearance? Don&rsquo;t you have to analyze what&rsquo;s around, and therefore &ldquo;look&rdquo; at the context?</p>
 <p>I should add that the result displayed in the &lsquo;calt&rsquo; picture can also be achieved by using the [[http://www.microsoft.com/typography/otspec/features_fj.htm#fina|Terminal Forms (fina)]] feature. In this case the code of the feature is much simpler (see below), because the task of deciding when to apply the glyph substitution is left to the application. Unfortunately, very few applications support the &lsquo;fina&rsquo; feature. (InDesign CS3 does)</p>
-<p><!-- raw HTML omitted -->@ALL_LETTERS = [a-z A-Z];
+<p><code>@ALL_LETTERS = [a-z A-Z];
 @FINAL = [a.fina t.fina];
 @NORMAL = [a t];</p>
 <p>feature fina {
@@ -422,7 +422,7 @@ sub @NORMAL by @FINAL;
 ignore sub @NORMAL' [@ALL_LETTERS @FINAL];
 sub @NORMAL' by @FINAL;
 } calt;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>As you see, to get the effect of the &lsquo;fina&rsquo; feature via the &lsquo;calt&rsquo; feature, the code get&rsquo;s more complex. This is because using the &lsquo;calt&rsquo; feature we have to put the &ldquo;intelligence&rdquo; in the font, whereas using the &lsquo;fina&rsquo; feature we can rely on the application&rsquo;s &ldquo;intelligence&rdquo;.</p>
 </div>
 	</div>
@@ -468,7 +468,7 @@ sub @NORMAL' by @FINAL;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Good question. AFAIK, marking the <!-- raw HTML omitted -->@NORMAL' by @FINAL<!-- raw HTML omitted --> substitution is more related with the fact that 1) when <!-- raw HTML omitted -->ignore sub(stitute)<!-- raw HTML omitted --> is used, at least one glyph or glyph class must be marked ([[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f.ii|When no glyphs are marked, then only the first glyph or glyph class is taken to be marked]]). Additionaly, in order for the exception to the chaining substitution rule (i.e. the <!-- raw HTML omitted -->ignore sub<!-- raw HTML omitted --> rule) to affect the rules that follow it, 2) they all must be of the same type so that they are put in the same lookup ([[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.e|A lookup is a group of rules of the same type]]). Since the exception will of type GSUB LookupType 6, the following rules need to be expressed in the same type, and that&rsquo;s achieved by marking the sequence.</div>
+		<div class="commentbody">Good question. AFAIK, marking the <code>@NORMAL' by @FINAL</code> substitution is more related with the fact that 1) when <code>ignore sub(stitute)</code> is used, at least one glyph or glyph class must be marked ([[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f.ii|When no glyphs are marked, then only the first glyph or glyph class is taken to be marked]]). Additionaly, in order for the exception to the chaining substitution rule (i.e. the <code>ignore sub</code> rule) to affect the rules that follow it, 2) they all must be of the same type so that they are put in the same lookup ([[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.e|A lookup is a group of rules of the same type]]). Since the exception will of type GSUB LookupType 6, the following rules need to be expressed in the same type, and that&rsquo;s achieved by marking the sequence.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -490,11 +490,11 @@ sub @NORMAL' by @FINAL;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>[While I was writing, Miguel has already answered the question &hellip;]</p>
-<p>The <!-- raw HTML omitted -->ignore<!-- raw HTML omitted --> statement does a nice trick when writing GSUB or GPOS tables. I&rsquo;ll try a simplified (so not entirely correct) description:</p>
-<p>In the compiled font&rsquo;s GSUB table, the &ldquo;main&rdquo; lookup for this <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> feature will not only contain a subtable listing all the substitutions (here <!-- raw HTML omitted -->&ldquo;sub @NORMAL by @FINAL;&quot;<!-- raw HTML omitted -->), but also an additional subtable ahead of it. This additional subtable will list affected glyphs and their contexts (here <!-- raw HTML omitted -->&quot;@NORMAL' [@ALL_LETTERS @FINAL]&quot;<!-- raw HTML omitted -->) but no instructions about what to do with them. It does nothing, actually &ndash; the sole purpose of this subtable is to &ldquo;catch&rdquo; all contexts listed in the <!-- raw HTML omitted -->ignore<!-- raw HTML omitted --> statement.
-Layout engines follow the rule that if a glyph or glyph sequence has been consumed by a subtable, then all following subtables will be skipped for this glyph or glyph sequence. So the trick works like this: If the <!-- raw HTML omitted -->ignore<!-- raw HTML omitted --> context is matched for a glyph: substitutions for this glyph, as defined in the following subtable, will not be executed (they will be ignored). If the <!-- raw HTML omitted -->ignore<!-- raw HTML omitted --> context is not matched: substitutions for this glyph, defined in the following subtable, will be executed.</p>
-<p>(And to make sure that the real substitutions will go into the same lookup as the mere &ldquo;context catchers&rdquo; &ndash; although into different subtables &ndash; they must be of the same lookup type. Which is achieved by defining <!-- raw HTML omitted -->&ldquo;sub @NORMAL' by @FINAL;&quot;<!-- raw HTML omitted --> in pseudo-contextual form, as Miguel explained.)</p>
-<p>VOLT&rsquo;s <!-- raw HTML omitted -->EXCEPT<!-- raw HTML omitted --> does about the same thing, AFAIK.</p>
+<p>The <em>ignore</em> statement does a nice trick when writing GSUB or GPOS tables. I&rsquo;ll try a simplified (so not entirely correct) description:</p>
+<p>In the compiled font&rsquo;s GSUB table, the &ldquo;main&rdquo; lookup for this <em>calt</em> feature will not only contain a subtable listing all the substitutions (here <em>&ldquo;sub @NORMAL by @FINAL;&quot;</em>), but also an additional subtable ahead of it. This additional subtable will list affected glyphs and their contexts (here <em>&quot;@NORMAL' [@ALL_LETTERS @FINAL]&quot;</em>) but no instructions about what to do with them. It does nothing, actually &ndash; the sole purpose of this subtable is to &ldquo;catch&rdquo; all contexts listed in the <em>ignore</em> statement.
+Layout engines follow the rule that if a glyph or glyph sequence has been consumed by a subtable, then all following subtables will be skipped for this glyph or glyph sequence. So the trick works like this: If the <em>ignore</em> context is matched for a glyph: substitutions for this glyph, as defined in the following subtable, will not be executed (they will be ignored). If the <em>ignore</em> context is not matched: substitutions for this glyph, defined in the following subtable, will be executed.</p>
+<p>(And to make sure that the real substitutions will go into the same lookup as the mere &ldquo;context catchers&rdquo; &ndash; although into different subtables &ndash; they must be of the same lookup type. Which is achieved by defining <em>&ldquo;sub @NORMAL' by @FINAL;&quot;</em> in pseudo-contextual form, as Miguel explained.)</p>
+<p>VOLT&rsquo;s <em>EXCEPT</em> does about the same thing, AFAIK.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -559,14 +559,14 @@ Layout engines follow the rule that if a glyph or glyph sequence has been consum
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>BTW, if you remove the quote marks from the substitutions and then explicitly make them part of the same lookup, like this,</p>
-<p><!-- raw HTML omitted -->feature calt {
+<p><code>feature calt {
 lookup TEST {
 ignore sub @NORMAL [@ALL_LETTERS @FINAL];
 sub @NORMAL by @FINAL;
 } TEST;
-} calt;<!-- raw HTML omitted --></p>
+} calt;</code></p>
 <p>when you try to compile the code you&rsquo;ll get the following error,
-<!-- raw HTML omitted -->[FATAL] &lt;MyFont-Regular&gt; Lookup type different from previous rules in this lookup block<!-- raw HTML omitted --></p>
+<code>[FATAL] &lt;MyFont-Regular&gt; Lookup type different from previous rules in this lookup block</code></p>
 <p>Whenever I need to put together some code that involves using the &lsquo;ignore&rsquo; statement, I tend to write the simpler subs first, and then figure out what the ignore sub needs to be in order to get the desired behavior.</p>
 </div>
 	</div>
@@ -595,7 +595,7 @@ For instance, in the phrase &ldquo;this is the way the men think&rdquo;, all the
 <p>1234 1324 3142</p>
 <p>In this sequence, there are no repeated combinations.
 Here&rsquo;s how:</p>
-<p><!-- raw HTML omitted --> feature calt {</p>
+<p><code> feature calt {</p>
 <p>lookup calt_one {
 sub @set_1 @set_1' by @set_2;
 sub @set_2 @set_1' by @set_3;
@@ -608,7 +608,7 @@ sub @set_2 @set_4 @set_1' by @set_3;
 sub @set_4 @set_3 @set_2' by @set_1;
 sub @set_3 @set_1 @set_3' by @set_4;
 sub @set_4 @set_4' by @set_2;
-} calt_two;<!-- raw HTML omitted --></p>
+} calt_two;</code></p>
 <p>(A longer &ldquo;mixed up sets&rdquo; sequence would be required to fully deal with &ldquo;this is the way the men think&rdquo;.)</p>
 <p>In removing repeated combinations, the trade-off is a reduction of some of the distances between repetitions (the smallest here being &ldquo;&hellip;212&hellip;&rdquo; which occurs at the end of the sequence).</p>
 <p>So it may be better to have at least five sets, and a sequence such as:</p>
@@ -616,7 +616,7 @@ sub @set_4 @set_4' by @set_2;
 <p>Within this sequence of fifteen characters, there is only one repeated adjacent combination, and repeated sets are separated by at least three characters.</p>
 <p>**</p>
 <p>There is a way to cycle through the variants of a character each time it appears:</p>
-<p><!-- raw HTML omitted -->feature calt {</p>
+<p><code>feature calt {</p>
 <p>sub A A' by A.alt;
 sub A @NoA A' by A.alt;
 sub A @NoA @NoA A' by A.alt;
@@ -656,7 +656,7 @@ sub A.alt2 @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA A' by A.alt3;
 sub A.alt2 @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA A' by A.alt3;
 sub A.alt2 @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA A' by A.alt3;
 sub A.alt2 @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA A' by A.alt3;
-} calt;<!-- raw HTML omitted --></p>
+} calt;</code></p>
 <p>&hellip;and so on, where @NoA is all the letters, punctuation, etc. that may occur between instances of the character &ldquo;A&rdquo;, but not A.</p>
 <p>This is rather long-winded, as it has to be done separately for every character one wishes to cycle, so one could end up with hundreds of classes of hundreds of glyphs each. (In practice, this may only be necessary for the most noticeably different of the most frequent letters, especially &ldquo;t&rdquo;.)</p>
 <p>I wonder if so much coding would appreciably slow down rendering?</p>
@@ -681,10 +681,10 @@ sub A.alt2 @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA @NoA A' by A.a
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->In practice, this may only be necessary for the most noticeably different of the most frequent letters, especially “t”.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>In practice, this may only be necessary for the most noticeably different of the most frequent letters, especially “t”.</em></p>
 <p>Just a thought, Nick: For longer passages of text (i.e., temporarily setting aside your &ldquo;this is the way the men think&rdquo; example), wouldn&rsquo;t cycling sets of vowels be a better method of changing the most frequently occurring letters?</p>
 <p>Fine, it mightn&rsquo;t be ideal with transliterated Serbian ;)</p>
-<p>Still, curiosity heightens: how could one order such cycling vowel lookups <!-- raw HTML omitted -->and<!-- raw HTML omitted --> the larger calt sets (viz., the numbered sets you&rsquo;ve used above) to work neatly together? Or is the assumption that it could be done in itself a leap too large?</p>
+<p>Still, curiosity heightens: how could one order such cycling vowel lookups <em>and</em> the larger calt sets (viz., the numbered sets you&rsquo;ve used above) to work neatly together? Or is the assumption that it could be done in itself a leap too large?</p>
 <p>Regards,
 Ernie</p>
 </div>
@@ -709,7 +709,7 @@ Ernie</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Nice to see this old discussion again. As a belated reaction:</p>
-<p>Nick: <!-- raw HTML omitted -->I wonder if so much coding would appreciably slow down rendering?<!-- raw HTML omitted --></p>
+<p>Nick: <cite>I wonder if so much coding would appreciably slow down rendering?</cite></p>
 <p>It does significantly in IDCS2 on a 10.3.9 driven G4 PowerBook. The fonts tested only contain around 200-300 glyphs which include 2-3 variant glyph, and allow for about 12 glyphs inbetween any two recurring &ldquo;same&rdquo; glyphs. Not tested in IDCS4 on a newer machine.</p>
 </div>
 	</div>
@@ -894,7 +894,7 @@ unfortunately not for the client I’m doing this for. He works with Photoshop C
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Thanks for the other suggestion, Nick. That alternative (@NoA) is just what I need at the moment. However, it seems like the code ends up too long:</p>
-<!-- raw HTML omitted -->
+<pre>[FATAL] (MyFont) Chain contextual lookup subtable in GSUB feature 'calt' causes offset overflow.</pre>
 <p>Any thoughts, anyone? Any trick to make it work? Many, many thanks in advance.</p>
 </div>
 	</div>
@@ -917,7 +917,7 @@ unfortunately not for the client I’m doing this for. He works with Photoshop C
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Try explicitly declaring your lookups with the <!-- raw HTML omitted --> useExtension <!-- raw HTML omitted --> directive.</p>
+		<div class="commentbody"><p>Try explicitly declaring your lookups with the <code> useExtension </code> directive.</p>
 <p><a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.e">http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.e</a></p>
 <p>André</p>
 </div>
@@ -971,8 +971,28 @@ Gerben</p>
 <p>I would, however like to expand the code as nick suggested to the five set
 &ldquo;12345 21453 24135&rdquo; sequence, and was hoping someone could check my work. (Or, alternatively, help me set up a six set sequence, if one would be so inclined - but that isn&rsquo;t critical.)</p>
 <p>Here is the code I have got for a five set sequence; please point out any errors - I&rsquo;m not very good with number puzzles:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>feature calt {
+
+lookup calt_one {
+sub @set_1 @set_1' by @set_2;
+sub @set_2 @set_1' by @set_3;
+sub @set_3 @set_1' by @set_4;
+sub @set_4 @set_1' by @set_5;
+} calt_one;
+
+lookup calt_two {
+sub @set_5 @set_1 by @set_2;
+sub @set_2 @set_2 by @set_1;
+sub @set_2 @set_1 @set_3' by @set_4;
+sub @set_4 @set_4' by @set_5;
+sub @set_5 @set_5' by @set_3;
+sub @set_5 @set_3 @set_1' by @set_2;
+sub @set_3 @set_2 @set_2' by @set_4;
+sub @set_2 @set_4 @set_3' by @set_1;
+sub @set_4 @set_1 @set_4' by @set_3;
+} calt_two;
+} calt;
+</pre>
 <p>I&rsquo;m particularly worried about a &ldquo;2-2&rdquo; sequence when the code gets to the beginning of the third &lsquo;word,&rsquo; where the code calls for sets &ldquo;3-2-2 by 4&rdquo;.</p>
 <p>Thanks for any help you can give.</p>
 </div>
@@ -1022,7 +1042,7 @@ Gerben</p>
 		<div class="commentbody"><p>Oops, you&rsquo;re right about the prime marks - let&rsquo;s consider that a minor typo. ;) I&rsquo;ll make sure that is fixed for final use.</p>
 <p>Above, Nick suggested the pattern of &ldquo;12345 21453 24135&rdquo; and I am just trying to figure out if I have the &lsquo;replacement cycle&rsquo; correct.</p>
 <p>Let me re-state the process of replacement for clarity, as I see it happening - please let me know if I&rsquo;m getting off the rails anywhere:</p>
-<p>The glyphs are split into sets; the primary set (<!-- raw HTML omitted -->@set_1<!-- raw HTML omitted --> [A-Z, a-z, 0-9, etc.]), and four other &lsquo;alternate&rsquo; sets of the same glyphs you wish to be swapped out; sets <!-- raw HTML omitted -->@set_2<!-- raw HTML omitted --> through <!-- raw HTML omitted -->@set_5<!-- raw HTML omitted -->.</p>
+<p>The glyphs are split into sets; the primary set (<code>@set_1</code> [A-Z, a-z, 0-9, etc.]), and four other &lsquo;alternate&rsquo; sets of the same glyphs you wish to be swapped out; sets <code>@set_2</code> through <code>@set_5</code>.</p>
 <p>The glyphs start out as: 11111 11111 11111</p>
 <p>After the first lookup, the glyphs are then: 12345 12345 12345</p>
 <p>Then, the second lookup does this sequence, line by line;
@@ -1084,10 +1104,32 @@ Gerben</p>
 <p>I never expected two of the pioneers of this subject to answer. I&rsquo;m humbled.</p>
 <p>Anyway, I finally had a chance to check out the code in FLS5, and discovered that it stopped subbing glyphs in the middle of the second set (where I have subsequently placed the third lookup break), and in order for it to complete all of the substitutions, I needed to split the code into the three lookups shown below.</p>
 <p>Here is the code:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>feature calt { # Contextual Alternates
+# Latin
+lookup calt_one {
+sub @set_1 @set_1' by @set_2;
+sub @set_2 @set_1' by @set_3;
+sub @set_3 @set_1' by @set_4;
+sub @set_4 @set_1' by @set_5;
+} calt_one;
+
+lookup calt_two {
+sub @set_5 @set_1' by @set_2;
+sub @set_2 @set_2' by @set_1;
+sub @set_2 @set_1 @set_3' by @set_4;
+sub @set_4 @set_4' by @set_5;
+sub @set_5 @set_5' by @set_3;
+} calt_two;
+
+lookup calt_three {
+sub @set_5 @set_3 @set_1' by @set_2;
+sub @set_3 @set_2 @set_2' by @set_4;
+sub @set_2 @set_4 @set_3' by @set_1;
+sub @set_4 @set_1 @set_4' by @set_3;
+} calt_three;
+} calt;</pre>
 <p>Here are my results (spaces are demarcated with a bar above the number):</p>
-<p>[EDIT]: I should clarify the image below; I created a typeface with the letter glyphs replaced with numerals - &ldquo;1&rdquo; for set_1 letters, &ldquo;2&rdquo; for set_2 letters, etc., and again, with spaces marked with bar above. Then, when the <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> code was run in FLS5, you see the following:</p>
+<p>[EDIT]: I should clarify the image below; I created a typeface with the letter glyphs replaced with numerals - &ldquo;1&rdquo; for set_1 letters, &ldquo;2&rdquo; for set_2 letters, etc., and again, with spaces marked with bar above. Then, when the <code>calt</code> code was run in FLS5, you see the following:</p>
 <p>[img:sites/default/files/old-images/capture_4751.jpg]</p>
 <p>It seems to work perfectly, but does anyone have any thoughts on why the code needed to be separated into three blocks? Any other thoughts?</p>
 </div>

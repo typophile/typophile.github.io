@@ -147,8 +147,81 @@
 	<div class="card-body">
 		<div class="commentbody"><p>Nick</p>
 <p>I wrote this python code to help me with naming fonts in FL - it works for Light, Regular, Medium, Bold and Italics. You should be able to adapt it for other weights.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<code>
+from robofab.world import CurrentFont
+from robofab.interface.all.dialogs import AskString
+f = CurrentFont()
+#
+fontName = AskString('Font Name') 
+Weight = AskString('Weight')
+#
+def naming( short, weight, weight2 ):
+	f.info.familyName = fontName+" "+short
+	f.info.widthName = "Normal"
+	f.info.styleName = weight
+	f.info.fontName = fontName.replace(' ', '')+"-"+weight2.replace(' ', '')
+	f.info.fullName = fontName+" "+weight2
+	f.info.menuName = fontName+" "+short
+	f.info.fondName = fontName.replace(' ', '')+" "+weight2.replace(' ', '')
+	f.info.otFamilyName = fontName
+	f.info.otStyleName = weight2
+#	
+if Weight == "Thin":
+	naming("Th", "Regular", "Thin")
+	f.info.weightName = "Thin"
+	f.info.weightValue = 250
+	print f.info.fullName+" "+"Named"
+elif Weight == "Light":
+	naming("Lt", "Regular", "Light")
+	f.info.weightName = "Light"
+	f.info.weightValue = 300
+	print f.info.fullName+" "+"Named"
+elif Weight == "Regular":
+	naming("Rg", "Regular", "Regular")
+	f.info.weightName = "Regular"
+	f.info.weightValue = 400
+	print f.info.fullName+" "+"Named"
+elif Weight == "Medium":
+	naming("Lt", "Bold", "Medium")
+	f.info.weightName = "Medium"
+	f.info.weightValue = 500
+	print f.info.fullName+" "+"Named"
+elif Weight == "Bold":
+	naming("Rg", "Bold" ,"Bold")
+	f.info.weightName = "Bold"
+	f.info.weightValue = 700
+	print f.info.fullName+" "+"Named"
+elif Weight == "Thin Italic":
+	naming("Th", "Italic", "Thin Italic")
+	f.info.weightName = "Thin"
+	f.info.weightValue = 250	
+	print f.info.fullName+" "+"Named"
+elif Weight == "Light Italic":
+	naming("Lt", "Italic", "Light Italic")
+	f.info.weightName = "Light"
+	f.info.weightValue = 300	
+	print f.info.fullName+" "+"Named"
+elif Weight == "Italic":
+	naming("Rg", "Italic", "Italic")
+	f.info.weightName = "Regular"
+	f.info.weightValue = 400
+	print f.info.fullName+" "+"Named"
+elif Weight == "Medium Italic":
+	naming("Lt", "Bold Italic", "Medium Italic")
+	f.info.weightName = "Medium"
+	f.info.weightValue = 500
+	print f.info.fullName+" "+"Named"
+elif Weight == "Bold Italic":
+	naming("Rg", "Bold Italic", "Bold Italic")	
+	f.info.weightName = "Bold"
+	f.info.weightValue = 700
+	print f.info.fullName+" "+"Named"
+else:
+	print "Ooops that's not a weight"	
+	print fontName+" "+"is not named"
+#
+f.update()
+</code>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -192,7 +265,7 @@ Let&rsquo;s hope that this is incorporated into the next FontLab, invisibly!</di
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Why are there so many options in FontLab and no definitive solution to generating an OTF family in a range of weights?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>Why are there so many options in FontLab and no definitive solution to generating an OTF family in a range of weights?</em></p>
 <p>The whole font-naming mess is a conspiracy to create work for programmers and derogate the importance of mere glyph-limners.
 On the up side, if you ever get this sorted out, you can charge big bucks/eros/pounds for being such a pro!</p>
 </div>
@@ -363,7 +436,7 @@ On the up side, if you ever get this sorted out, you can charge big bucks/eros/p
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I tried that on an unnamed font and an output window came up with:</p>
-<p>File &ldquo;<!-- raw HTML omitted -->&rdquo;, line 1
+<p>File &ldquo;<string>&rdquo;, line 1
 {\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf430
 ^
 SyntaxError: invalid token</p>

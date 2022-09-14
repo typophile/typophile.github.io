@@ -209,7 +209,7 @@ skip to First Four Glyphs in Fonts</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I’ve always assumed that OT fonts work on both Windows and Macintosh platforms, as indeed they seem to do. What’s going on?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I’ve always assumed that OT fonts work on both Windows and Macintosh platforms, as indeed they seem to do. What’s going on?</cite></p>
 <p>Nothing special :-)</p>
 <p>Both &lsquo;cmap&rsquo; and &lsquo;name&rsquo; tables have more than a single data entry. To discern between entries, each one is prefixed with salient details. Platform is important because the default character maps differ significantly between Mac and Windows. Additionally, traditionally, Mac char maps were 8 bits &ndash; so for different languages, it had different mappings (entirely similar to ye olde DOS/Windows code pages). So a font just has loads of mappings, each one prepended with a system and a language code.</p>
 <p>Names is sort of the same story. What if you have an accented character in a name string &ndash; say, the designer&rsquo;s name? Should you use Mac standard encoding, Windows standard encoding, or Unicode? The canonical solution was: put it all in. Even though the 21st century solution is to use Unicode for everything, Macs historically expect a Macintosh version.</p>
@@ -236,9 +236,9 @@ skip to First Four Glyphs in Fonts</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->It won’t even allow me to set the name of uni0000 to “.null”<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>It won’t even allow me to set the name of uni0000 to “.null”</em></p>
 <p>That&rsquo;s a good thing, actually. &ldquo;.null&rdquo; is not a legal glyph name (cannot begin with &ldquo;.&rdquo;, except for &ldquo;.notdef&rdquo;). uni0000 is fine&hellip;maybe try &ldquo;null&rdquo; if you&rsquo;re really bored.</p>
-<p><!-- raw HTML omitted -->the only encoding that puts “.notdef” at glyph position 0 is Adobe Standard<!-- raw HTML omitted --></p>
+<p><em>the only encoding that puts “.notdef” at glyph position 0 is Adobe Standard</em></p>
 <p>Are you sure you&rsquo;re looking at glyph order and not character code order when you view the other encodings? That seems really odd that it would not let you put .notdef as glyph 0 for other encodings.</p>
 </div>
 	</div>
@@ -283,8 +283,13 @@ skip to First Four Glyphs in Fonts</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>But the recommendation does say:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<code>
+Glyph ID     Glyph name     Unicode value
+0            .notdef        undefined
+1            <em>.null</em>          U+0000
+2            CR             U+000D
+3            space          U+0020
+</code>
 <p>So since the glyph name &ldquo;.null&rdquo; isn&rsquo;t allowed, why is it in the recommendation?</p>
 </div>
 	</div>
@@ -330,7 +335,7 @@ skip to First Four Glyphs in Fonts</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->cuttlefish<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><strong>cuttlefish</strong></p>
 <p>Indeed, FontForge doesn&rsquo;t allow to set the glyph name to &ldquo;.null&rdquo;. I think this might be a bug. However there is no reason to do that manually, as FontForge just automatically adds the first 3 glyphs (if they are missing) when outputting a TTF font. Of course, one would normally design the .notdef glyph manually and allow FontForge to create other two.</p>
 <p>Thus fonts generated with FontForge perfectly comply the recommendation at this point. You can check this by opening a TTF font file you have just generated and switching the encoding to &ldquo;Glyph Order&rdquo;.</p>
 </div>

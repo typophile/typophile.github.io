@@ -343,8 +343,8 @@ language SRB ; # Serbian
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I&rsquo;ve made a dump of the Calibri Regular kern table,<!-- raw HTML omitted --></p>
-<p>If I run <!-- raw HTML omitted -->ttx Calibri.ttf<!-- raw HTML omitted -->, the file <!-- raw HTML omitted -->Calibri.ttx<!-- raw HTML omitted --> contains a kern table with 3225 entries.</p>
+		<div class="commentbody"><p><cite>I&rsquo;ve made a dump of the Calibri Regular kern table,</cite></p>
+<p>If I run <code>ttx Calibri.ttf</code>, the file <code>Calibri.ttx</code> contains a kern table with 3225 entries.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -453,8 +453,12 @@ language SRB ; # Serbian
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>In any case, FontForge gives 14148 kerning pairs. On the other hand, the file Calibri.kern.xml given by &ldquo;ftxdumperfuser -A a calibri.ttf&rdquo; reports just one table:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<code>
+&lt;KERNTable version="0" subtableCount="1" &gt;
+	&lt;kernSubtable format="1" length="19366" coverage="0x0001" tupleIndex="14148" kernVertical="no" kernCrossStream="no" kernVariation="no" &gt;
+	&lt;/kernSubtable&gt;
+&lt;/KERNTable&gt;
+</code>
 <p>The length does not make much sense for 14148 pairs.</p>
 </div>
 	</div>
@@ -477,7 +481,7 @@ language SRB ; # Serbian
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>I added a few traces to the file _k_e_r_n.py to better see what is going on (and to see that ttx identified a bug before desisting on decompiling). Here is a trace on calibri.ttf<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>I added a few traces to the file _k_e_r_n.py to better see what is going on (and to see that ttx identified a bug before desisting on decompiling). Here is a trace on calibri.ttf<code></p>
 <p>Dumping &ldquo;calibri.ttf&rdquo; to &ldquo;calibri.ttx&rdquo;&hellip;
 len(data)=84906
 nTables=1, version=0
@@ -491,7 +495,7 @@ Decompiling table 0
    nPairs=14148 (each is 6 bytes: 84888 bytes + 14 = 84902 bytes)
 buggy kern table
 Dumping &lsquo;kern&rsquo; table&hellip;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>The culprit is rather clear: a table length that is read as 2 bytes whereas the actual length is larger than 65535.</p>
 <p>I get the same trouble with Cambria.ttf and Constantia.ttf</p>
 <p>Michel</p>
@@ -547,7 +551,7 @@ Dumping &lsquo;kern&rsquo; table&hellip;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Michel, you completely lost me after your second post!<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Michel, you completely lost me after your second post!</cite></p>
 <p>Well, when I look with FontForge, it first tells me that there is a kern table but I also get the message that it will not read it because there is also a kern feature in GPOS.  If I generate the corresponding afm file, I get 34863 kerning pairs (taken from GPOS).</p>
 <p>To force FontForge to read the kern table, I remove the GPOS table from Calibri with &ldquo;sfntedit -d GPOS Calibri.ttf&rdquo; and generate again the afm file. This time I get the 14148 kerning pairs of the old style kern table plus a warning that the kern table does not comply with the specs.</p>
 <p>The rest was simply to find more precisely the cheat, or the bug, or at least the reason why ttx would output only 3225 pairs with first glyph from A to Ograve.</p>
@@ -662,9 +666,9 @@ Dumping &lsquo;kern&rsquo; table&hellip;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">If you are on a Mac with AFDKO installed, in a terminal window and in the Calibri.ttf folder, copy and paste the line
-<!-- raw HTML omitted -->
+<code>
 spot -t GPOS=7 Calibri.ttf | grep ' pos ' | wc -l
-<!-- raw HTML omitted -->
+</code>
 I get 34347 after the carriage return. What do you get?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

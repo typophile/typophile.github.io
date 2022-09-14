@@ -148,7 +148,7 @@ Only &lsquo;.notdef&rsquo; must be present, but not &lsquo;.null&rsquo; and &lsq
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Ouch! I&rsquo;ve got a similar error after establishing all my kerning classes and generating the kern feature. When I click to compile the opentype features&hellip;</p>
-<p><!-- raw HTML omitted -->[FATAL] <!-- raw HTML omitted --> invalid first character in name (text was &ldquo;01e9&rdquo;)<!-- raw HTML omitted --></p>
+<p><code>[FATAL] <Mint-Medium> invalid first character in name (text was &ldquo;01e9&rdquo;)</code></p>
 <p>U+01e9 is kcircumflex. I&rsquo;ve tried deleting this glyph, I&rsquo;ve tried regenerating the kern feature and I&rsquo;ve run the above solutions but still get the same error.</p>
 <p>Hopefully this is something straightforward&hellip;I don&rsquo;t like FATAL errors&hellip;can anyone shed any light ;)</p>
 </div>
@@ -174,14 +174,14 @@ Only &lsquo;.notdef&rsquo; must be present, but not &lsquo;.null&rsquo; and &lsq
 	<div class="card-body">
 		<div class="commentbody"><p>Well you&rsquo;ve awakened an old thread, but it doesn&rsquo;t look like the original problem was ever fully sussed out. The &ldquo;name&rdquo; in question is the glyph name, which must conform to some rules established by Adobe quite a long time ago. Some font tools are more lenient than others with respect to glyph names, and sometimes a tool can assign an illegal name. This can cause trouble when another tool expects or requires strictly legal names and that is what&rsquo;s going on here.</p>
 <p>From <a href="http://www.adobe.com/devnet/opentype/archives/glyphnamelimits.html">http://www.adobe.com/devnet/opentype/archives/glyphnamelimits.html</a> section 4 (emphasis mine):</p>
-<p><!-- raw HTML omitted -->A glyph name may be up to 31 characters in length, must be entirely comprised of characters from the following set:</p>
+<p><code>A glyph name may be up to 31 characters in length, must be entirely comprised of characters from the following set:</p>
 <p>A-Z
 a-z
 0-9
 . (period)
 _ (underscore)
-and <!-- raw HTML omitted -->must not start with a digit or period<!-- raw HTML omitted -->. The only exception is the special character &ldquo;.notdef&rdquo;.</p>
-<p>&ldquo;twocents&rdquo;, &ldquo;a1&rdquo;, and &ldquo;_&rdquo; are valid glyph names. &ldquo;2cents&rdquo; and &ldquo;.twocents&rdquo; are not.<!-- raw HTML omitted --></p>
+and <strong>must not start with a digit or period</strong>. The only exception is the special character &ldquo;.notdef&rdquo;.</p>
+<p>&ldquo;twocents&rdquo;, &ldquo;a1&rdquo;, and &ldquo;_&rdquo; are valid glyph names. &ldquo;2cents&rdquo; and &ldquo;.twocents&rdquo; are not.</code></p>
 <p>Both of the glyph names here violate the emphasized part above; &ldquo;.null&rdquo; begins with a period and &ldquo;01e9&rdquo; begins with a digit.</p>
 <p>To fix the &ldquo;invalid first character in name&rdquo; issue, you need to change the glyph name(s), not delete the glyph. There may be other glyphs with illegal names, too. You might try FontLab Studio&rsquo;s function to assign glyph names based on Unicode if you have a lot to rename.</p>
 </div>
@@ -233,7 +233,7 @@ and <!-- raw HTML omitted -->must not start with a digit or period<!-- raw HTML 
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Ok well it looks like there was something not right in the kerning classes. I wiped them, reassigned glyph names, then remade the kerning classes. With the new glyph names I had to search/replace in the other feature definitions. Now it compiles correctly and I get great looking opentype class kerning! :)</p>
-<p>(PS there&rsquo;s now a warning that <!-- raw HTML omitted -->[WARNING] <!-- raw HTML omitted --> Start of new pair positioning subtable; some pairs may never be accessed: [z zacute zdotaccent zcaron uni01B6] [t uniFB06 ct ft ft.alt it]<!-- raw HTML omitted --> but I&rsquo;ll live with that unless I can figure out what to do about that&hellip;)</p>
+<p>(PS there&rsquo;s now a warning that <code>[WARNING] <Mint-Medium> Start of new pair positioning subtable; some pairs may never be accessed: [z zacute zdotaccent zcaron uni01B6] [t uniFB06 ct ft ft.alt it]</code> but I&rsquo;ll live with that unless I can figure out what to do about that&hellip;)</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

@@ -72,11 +72,27 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>I’m hoping someone can point me in the direction of some syntax examples for implementing language-specific ligatures.  I’m not completely clueless, but I’ve yet to find anything that’s entirely clear to me either.</p>
-<p><!-- raw HTML omitted -->The reason:<!-- raw HTML omitted --> I’ve been looking at some [[http://arkandis.tuxfamily.org/adffonts.html|free fonts]] which look promising, but they implement some ligatures that are only appropriate in French (ae -&gt; æ, oe -&gt; œ).  Seeing words like <!-- raw HTML omitted -->dœs<!-- raw HTML omitted --> and <!-- raw HTML omitted -->shœs<!-- raw HTML omitted --> (or <!-- raw HTML omitted -->Gæilge<!-- raw HTML omitted -->) is a little disconcerting.  I’d like to corral these, though I suppose I could also just delete them.</p>
+<p><strong>The reason:</strong> I’ve been looking at some [[http://arkandis.tuxfamily.org/adffonts.html|free fonts]] which look promising, but they implement some ligatures that are only appropriate in French (ae -&gt; æ, oe -&gt; œ).  Seeing words like <em>dœs</em> and <em>shœs</em> (or <em>Gæilge</em>) is a little disconcerting.  I’d like to corral these, though I suppose I could also just delete them.</p>
 <p>The problem table seems to be this&hellip;</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>By looking at other fonts it seems that I would need to define languages somewhere by script, but it’s not clear where you would do that (<!-- raw HTML omitted -->ccmp<!-- raw HTML omitted --> table?).</p>
+<pre>
+feature rlig { # Required Ligatures
+ # Latin
+    sub A E by AE;
+    sub A e by AE;
+    sub O E by OE;
+    sub O e by OE;
+    sub a e by ae;
+    sub o e by oe;
+ script DFLT;
+    sub A E by AE;
+    sub A e by AE;
+    sub O E by OE;
+    sub O e by OE;
+    sub a e by ae;
+    sub o e by oe;
+} rlig;
+</pre>
+<p>By looking at other fonts it seems that I would need to define languages somewhere by script, but it’s not clear where you would do that (<em>ccmp</em> table?).</p>
 </div>
 
    <div class="comment card m-3">
@@ -152,7 +168,7 @@ There have been a number of threads at Typophile about the “ﬁ” ligature in
 Friendly name: Required Ligatures
 Registered by: Microsoft
 […]
-<!-- raw HTML omitted -->Script/language sensitivity: Applies to Arabic and Syriac. May apply to some other scripts.<!-- raw HTML omitted -->
+<em>Script/language sensitivity: Applies to Arabic and Syriac. May apply to some other scripts.</em>
 […]</p>
 <p>FEB</p>
 </div>
@@ -197,7 +213,7 @@ Registered by: Microsoft
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Reynir: ‘<!-- raw HTML omitted -->All I did to work around this particular problem […]<!-- raw HTML omitted -->’</p>
+		<div class="commentbody"><p>Reynir: ‘<em>All I did to work around this particular problem […]</em>’</p>
 <p>Ah, circumventing problems to create new ones. Nice ;-)</p>
 <p>FEB</p>
 </div>
@@ -242,7 +258,7 @@ Registered by: Microsoft
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --> All I did to work around this particular problem was to make that &lsquo;rlig&rsquo; apply only to &lsquo;latn&rsquo;/&lsquo;FRA<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em> All I did to work around this particular problem was to make that &lsquo;rlig&rsquo; apply only to &lsquo;latn&rsquo;/&lsquo;FRA</em></p>
 <p>But as Michel points out, not every occurrence of ae and oe in French is equivalent to æ and œ. These are not glyph display distinctions, they are spelling distinctions, and hence properly made at the character encoding level, not the GSUB level.</p>
 </div>
 	</div>
@@ -267,20 +283,35 @@ Registered by: Microsoft
 	<div class="card-body">
 		<div class="commentbody"><p>Ah, the joy of opposing timezones.</p>
 <p>I did find what I was looking for late yesterday ([[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html|Adobe: OpenType Feature File Specification]]).</p>
-<p>My quick solution was to move this stuff to the end of <!-- raw HTML omitted -->liga<!-- raw HTML omitted --> in their own block&hellip;</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<p>My quick solution was to move this stuff to the end of <em>liga</em> in their own block&hellip;</p>
+<pre>
+ language FRA; # French
+lookup liga10 {
+    sub A E by AE;
+    sub A e by AE;
+    sub O E by OE;
+    sub O e by OE;
+    sub a e by ae;
+    sub o e by oe;
+} liga10;
+</pre>
 <p>&hellip;but it did seem unlikely to me that this was the usual thing to do for French, so removing it altogether is probably the best solution.</p>
-<!-- raw HTML omitted -->
+<blockquote>May apply to some other scripts.</blockquote>
 <p>Well it certainly seems to apply to text marked up as English and Irish in Webkit and on my Nook!</p>
-<!-- raw HTML omitted -->
-<p>I don’t think <!-- raw HTML omitted -->locl<!-- raw HTML omitted --> is appropriate here, but it would certainly be easy to allow for Turkish while I’m editing the <!-- raw HTML omitted -->liga<!-- raw HTML omitted --> feature.  These fonts already have fi &amp; ffi in a separate block to fl, ffl &amp; ff so it should be simply a matter of putting in something like&hellip;</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<blockquote>Use the "locl" feature.
+There have been a number of threads at Typophile about the “ﬁ” ligature in Turkish, which might help you understand the issue and method.</blockquote>
+<p>I don’t think <em>locl</em> is appropriate here, but it would certainly be easy to allow for Turkish while I’m editing the <em>liga</em> feature.  These fonts already have fi &amp; ffi in a separate block to fl, ffl &amp; ff so it should be simply a matter of putting in something like&hellip;</p>
+<pre>
+ language TRK  exclude_dflt; # Turkish
+lookup liga1; # fl ffl ff
+</pre>
 <p>&hellip;before&hellip;</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted --></p>
+<pre>
+ script dflt;
+lookup liga0; # fi ffi
+lookup liga1; # fl ffl ff
+</pre>
+<p></pre></p>
 <p>Another useful reference: [[http://partners.adobe.com/public/developer/opentype/index_tag5.html|Adobe: OT Feature Tags]]</p>
 </div>
 	</div>
@@ -345,8 +376,8 @@ Registered by: Microsoft
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
-<p>That is a good point&hellip;you wouldn’t use them for Turkish of course.  On the other hand, since these are fonts that can be freely modified I don’t see how it causes any <!-- raw HTML omitted -->problems<!-- raw HTML omitted --> to nudge them in the general direction of Turkish compatibility.  In fact, if some other font was providing the missing fallback characters it could still make things a <!-- raw HTML omitted -->little<!-- raw HTML omitted --> less confusing.</p>
+		<div class="commentbody"><blockquote>unless your font has all the characters needed for Turkish, it seems silly to exclude the f_i ligatures with a language tag....How would you set Turkish with such a font?</blockquote>
+<p>That is a good point&hellip;you wouldn’t use them for Turkish of course.  On the other hand, since these are fonts that can be freely modified I don’t see how it causes any <em>problems</em> to nudge them in the general direction of Turkish compatibility.  In fact, if some other font was providing the missing fallback characters it could still make things a <em>little</em> less confusing.</p>
 <p>Whatever the practical implications, it has resulting in my learning a little syntax, so it was worthwhile for me!</p>
 </div>
 	</div>
@@ -369,7 +400,7 @@ Registered by: Microsoft
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Sure, you could set a regular capital I with the combining diacritic, U+0307 &ndash; oh, wait, Baskervald, like so many other fonts, <!-- raw HTML omitted -->doesn&rsquo;t include any<!-- raw HTML omitted --> combining diacriticals&hellip;</div>
+		<div class="commentbody">Sure, you could set a regular capital I with the combining diacritic, U+0307 &ndash; oh, wait, Baskervald, like so many other fonts, <strong>doesn&rsquo;t include any</strong> combining diacriticals&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -390,7 +421,7 @@ Registered by: Microsoft
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>… and in the <!-- raw HTML omitted -->free<!-- raw HTML omitted --> book <!-- raw HTML omitted -->The Hound of the Baskervalds<!-- raw HTML omitted --> the dog is missing.</p>
+		<div class="commentbody"><p>… and in the <strong>free</strong> book <em>The Hound of the Baskervalds</em> the dog is missing.</p>
 <p>FEB</p>
 </div>
 	</div>
@@ -413,15 +444,15 @@ Registered by: Microsoft
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->… and in the <!-- raw HTML omitted -->free<!-- raw HTML omitted --> book The Hound of the Baskervalds the dog is missing.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>… and in the <strong>free</strong> book The Hound of the Baskervalds the dog is missing.</cite></p>
 <p>What a silly thing to say.</p>
-<p>Changing the topic from <!-- raw HTML omitted -->books<!-- raw HTML omitted --> to <!-- raw HTML omitted -->type,<!-- raw HTML omitted --> in the <!-- raw HTML omitted -->for money<!-- raw HTML omitted --> fonts, say, oh, from Adobe, there aren&rsquo;t any combining diacriticals there, either. Show me an Adobe font that has all &ndash; or even some &ndash; of the characters from 0300 to 036F. Less sure about the fonts from the Monotype conglomeration, but I&rsquo;d bet it is similar. And include FontFont.</p>
+<p>Changing the topic from <cite>books</cite> to <cite>type,</cite> in the <strong>for money</strong> fonts, say, oh, from Adobe, there aren&rsquo;t any combining diacriticals there, either. Show me an Adobe font that has all &ndash; or even some &ndash; of the characters from 0300 to 036F. Less sure about the fonts from the Monotype conglomeration, but I&rsquo;d bet it is similar. And include FontFont.</p>
 <p>I don&rsquo;t know about DTL. Wonderfully drawn fonts. I wish my customers (the 100 or so publishers in the Association of American University Presses) could afford them. I&rsquo;m not being snide, I really would like to work with these fonts, as I think they would print (ink on paper) so much better than most of what is used. But I argue in vain, the annual font budget for most presses isn&rsquo;t large enough to buy even one DTL family. And designers have their quirks too, many would rather save up &amp; buy the new display font of the year&hellip;</p>
 <p>Try offering an educational discount to, say, the University of Chicago Press. I&rsquo;ll broker the deal for free just to have the privilege of working with DTL fonts.</p>
 <p>Given my customers can&rsquo;t afford DTL fonts my question is moot, but just out of curiosity, how many of them have populated the combining diacritics? How many languages can you cover? Romanized Arabic? Romanized Indic Scripts? The major (non-European) languages used in Africa? Native American languages, where &ldquo;American&rdquo; covers North, Central and South America?</p>
 <p>It isn&rsquo;t just the little, unimportant people of those countries involved. Western Europe is full of ex-colonial powers, and as they run out of topics such as how many petticoats George Sand might have worn, had she worn petticoats, they turn to the history of those colonial days&hellip;</p>
 <p>Actually, it is in the OpenSource fonts where attention is paid to combining diacriticals and support is given to the languages that require them.</p>
-<p>Remember, the Unicode Consortium said <!-- raw HTML omitted -->Gosh darn it golly gee whiz<!-- raw HTML omitted --> (or words to that effect), <!-- raw HTML omitted -->we&rsquo;re not going to keep assigning codepoints for accented Latin glyphs. The proper way to render such glyphs is to use a base character and a (or series of) combining diacritical(s).<!-- raw HTML omitted --> Which makes perfect sense. If you go read the section on combining diacritics in the Unicode Standard, everything is provided for. Now if only the font publishers would comply&hellip;</p>
+<p>Remember, the Unicode Consortium said <cite>Gosh darn it golly gee whiz</cite> (or words to that effect), <cite>we&rsquo;re not going to keep assigning codepoints for accented Latin glyphs. The proper way to render such glyphs is to use a base character and a (or series of) combining diacritical(s).</cite> Which makes perfect sense. If you go read the section on combining diacritics in the Unicode Standard, everything is provided for. Now if only the font publishers would comply&hellip;</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -443,10 +474,10 @@ Registered by: Microsoft
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Charles: ‘<!-- raw HTML omitted -->What a silly thing to say.<!-- raw HTML omitted -->’</p>
+		<div class="commentbody"><p>Charles: ‘<em>What a silly thing to say.</em>’</p>
 <p>You mean that the dog isn’t missing?</p>
 <p>Thank you for the compliment regarding DTL fonts and your offer to recommend them at the American University Presses. Actually we feel perfectly happy with our niche market and the subsequent exclusivity of our fonts (or vice versa).</p>
-<p>Concerning script coverage and combining diacritics, or whatever, we are capable of delivering <!-- raw HTML omitted -->anything<!-- raw HTML omitted --> in case of requests.</p>
+<p>Concerning script coverage and combining diacritics, or whatever, we are capable of delivering <em>anything</em> in case of requests.</p>
 <p>FEB</p>
 </div>
 	</div>
@@ -469,7 +500,7 @@ Registered by: Microsoft
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>we are capable of delivering <cite>anything</cite> in case of requests.</blockquote>
 <p>Ah, yes, I believe I&rsquo;ve head about such places&hellip; &ldquo;What ever the gentleman desires and can afford can be provided.&rdquo; I hope in these days of gender equality the same is offered to women?</p>
 <p>As with all too may things, it&rsquo;s all academic to me, but I understand that establishments of the highest caliber within this niche do not make snide remarks about members of another niche, where such things are provided without monetary compensation&hellip;</p>
 </div>
@@ -493,13 +524,13 @@ Registered by: Microsoft
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Charles: ‘<!-- raw HTML omitted -->Ah, yes, I believe I&rsquo;ve head about such places&hellip; &ldquo;What ever the gentleman desires and can afford can be provided.&quot;<!-- raw HTML omitted -->’</p>
+		<div class="commentbody"><p>Charles: ‘<em>Ah, yes, I believe I&rsquo;ve head about such places&hellip; &ldquo;What ever the gentleman desires and can afford can be provided.&quot;</em>’</p>
 <p>What a rude thing to say.</p>
-<p>Sadly, this can only lead to one conclusion, I reckon (quoting <!-- raw HTML omitted -->Gabrielle<!-- raw HTML omitted -->):</p>
+<p>Sadly, this can only lead to one conclusion, I reckon (quoting <em>Gabrielle</em>):</p>
 <p>[…]
-<!-- raw HTML omitted -->Time to turn the pages time to start anew
+<em>Time to turn the pages time to start anew
 I know that I can do it, I can do it without you
-Our love is over, our love is over<!-- raw HTML omitted -->
+Our love is over, our love is over</em>
 […]</p>
 <p>FEB</p>
 </div>

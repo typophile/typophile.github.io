@@ -195,7 +195,7 @@ Markant	The BBox height of all glyphs is in a normal range.</p>
 	<div class="card-body">
 		<div class="commentbody"><p>I&rsquo;ve just tried Adobe Arabic (which is an OT-CFF font with a 2048 UPM) in InDesign CS4 and saw no selection issues.</p>
 <p>Claus, run this command:
-<!-- raw HTML omitted -->spot -t head YourFont.otf | grep unitsPerEm<!-- raw HTML omitted -->
+<code>spot -t head YourFont.otf | grep unitsPerEm</code>
 What result do you get? unitsPerEm=2048?</p>
 </div>
 	</div>
@@ -218,7 +218,10 @@ What result do you get? unitsPerEm=2048?</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><code>
+BigMac:Markant claus$ spot -t head Markant-Regular.otf | grep unitsPerEm
+unitsPerEm        =2048
+</code>
 <p>And damn Typophile won&rsquo;t let me insert an image now, otherwise I could show the vertical metrics from fontQA. That is why I had to paste that illegible mess in the post above.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -244,8 +247,8 @@ What result do you get? unitsPerEm=2048?</p>
 <p>When the font&rsquo;s UPM value is different from 1000, FontLab Studio generates the PFA file with incorrect FontBBox values. The FontBBox values are correctly displayed in the &ldquo;Key dimensions&rdquo; pane of the Font Info dialog; but the values in the generated font will be different.
 [img:sites/default/files/old-images/PFA_FBBox_3442.png]</p>
 <p>For quick workaround, just open the PFA file in a text editor and edit the FontBBox values to match what&rsquo;s displayed by the Font Info.</p>
-<p>BTW, CompareFamily quickly pointed me to the reason of the problem. <!-- raw HTML omitted -->Single Face Test 15<!-- raw HTML omitted --> (Warn if Font BBox x/y coordinates are improbable, or differ between head table and CFF) output the following message:
-<!-- raw HTML omitted -->The font bounding box in the hhea table &lsquo;(-322, -512, 2306, 1798)&rsquo; differs from that in the CFF table &lsquo;[-157, -250, 1126, 878]&rsquo;.<!-- raw HTML omitted --></p>
+<p>BTW, CompareFamily quickly pointed me to the reason of the problem. <strong>Single Face Test 15</strong> (Warn if Font BBox x/y coordinates are improbable, or differ between head table and CFF) output the following message:
+<strong>The font bounding box in the hhea table &lsquo;(-322, -512, 2306, 1798)&rsquo; differs from that in the CFF table &lsquo;[-157, -250, 1126, 878]&rsquo;.</strong></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

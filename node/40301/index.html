@@ -98,7 +98,7 @@ I have seen references to having specific end of line forms, but am having no lu
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>You need to be aware that OT does not know about anything like lines or words. All that can be checked is whether a glyph&rsquo;s context consists of certain other glyphs.</p>
-<p>So, it is not possible to define <!-- raw HTML omitted -->line<!-- raw HTML omitted --> beginning/ending contexts. What is possible however is defining <!-- raw HTML omitted -->word<!-- raw HTML omitted --> beginning/ending with help of a trick: There is a word beginning/ending if no other letter (a b c &hellip;) precedes or follows it:
+<p>So, it is not possible to define <em>line</em> beginning/ending contexts. What is possible however is defining <em>word</em> beginning/ending with help of a trick: There is a word beginning/ending if no other letter (a b c &hellip;) precedes or follows it:
 <a href="http://typophile.com/node/19839">http://typophile.com/node/19839</a>
 I think there were one or two more recent threads about this but I cannot find them.</p>
 <p>Karsten</p>
@@ -161,14 +161,14 @@ Stephen</p>
 	<div class="card-body">
 		<div class="commentbody"><p>Again, I cannot think of any reliable way to identify line boundaries in OT. The space character is not a reliable partner for these kinds of affairs.</p>
 <p>At first I thought of a trick like this:
-   (1) <!-- raw HTML omitted -->ignore sub e' @letter; sub e' by e.wordend;<!-- raw HTML omitted -->
+   (1) <em>ignore sub e' @letter; sub e' by e.wordend;</em>
 All end-of-word e&rsquo;s are turned into wordend e&rsquo;s. This identifies word boundaries only by the fact that no letter follows. Forget about space.
-   (2a) <!-- raw HTML omitted -->ignore sub e.wordend' [space nbspace]; sub e.wordend' by e.lineend;<!-- raw HTML omitted -->
+   (2a) <em>ignore sub e.wordend' [space nbspace]; sub e.wordend' by e.lineend;</em>
 If no space follows (= line end), e.wordend becomes e.lineend.
 But this is not a good context since a line break may very well be preceded by a space &hellip; So we could try adjust (2a) a little:
-   (2b) <!-- raw HTML omitted -->ignore sub e.wordend' @space @letter; sub e.wordend' by e.lineend;<!-- raw HTML omitted -->
+   (2b) <em>ignore sub e.wordend' @space @letter; sub e.wordend' by e.lineend;</em>
 Where @space = [space nbspace] and possible other space glyphs.
-The application <!-- raw HTML omitted -->may<!-- raw HTML omitted --> include a line break character. If so, the ignore statement&rsquo;s context is not matched, and e.wordend substituted by e.lineend.
+The application <em>may</em> include a line break character. If so, the ignore statement&rsquo;s context is not matched, and e.wordend substituted by e.lineend.
 But this too may not be reliable because different applications behave differently as regards automatic line breaks. I found that in some applications contexts are broken if an automatic line break interferes (InDesign), while in other applications the automatic line break is treated as non-existing (Mellel). [Things may have changed. I tested this one or two years ago.] So you would not get the same result in all OT-savvy applications.
 And as said above, space it not really reliable since applications may use another character than space or nbspace, which would break your context definitions.</p>
 <p>My example code is speculative &ndash; I have not actually tested it.

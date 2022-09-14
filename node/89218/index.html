@@ -150,9 +150,9 @@ Eigi</p>
 	<div class="card-body">
 		<div class="commentbody"><p>Hello,</p>
 <p>It is a command line tool for the terminal.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<pre>
+python eotlitetool.py myFont.ttf
+</pre><blockquote>
 </blockquote>
 </div>
 	</div>
@@ -270,14 +270,21 @@ Eigi</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I built and ran the tool, it&rsquo;s slightly more complicated than the wiki page implies.  The tools are java tools so you&rsquo;ll need to run a Java build step first.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<ol>
+<li>Check out the source</li>
+<pre>svn checkout http://sfntly.googlecode.com/svn/trunk/ sfntly</pre>
+<li>Build the tools</li>
+<pre>cd sfntly/java
+ant</pre>
+  ... lots of stuff builds ...
+<li>Test the build</li>
+<pre>cd dist/tools/sfnttool
+java -jar sfnttool.jar --help</pre>
+<li>Build EOT font</li>
+<pre>java -jar sfnttool.jar -e -x MyFont.ttf MyFont.eot</pre>
+<li>Build WOFF font</li>
+<pre>java -jar sfnttool.jar -w MyFont.ttf MyFont.woff</pre>
+</ol>
 <p>Under OSX 10.6 this was pretty simple, I think all the tools (ant, java) should be available with the default OS install.  On Windows, well, good luck and godspeed.</p>
 </div>
 	</div>
@@ -301,7 +308,7 @@ Eigi</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@jdagget -</p>
-<p>is the output font in your example <!-- raw HTML omitted -->either<!-- raw HTML omitted --> an eot <!-- raw HTML omitted -->or<!-- raw HTML omitted --> a woff? i.e. as you say:</p>
+<p>is the output font in your example <em>either</em> an eot <em>or</em> a woff? i.e. as you say:</p>
 <p>4a! &ldquo;java -jar sfnttool.jar -e -x MyFont.ttf MyFont.eot&rdquo;</p>
 <p>&ldquo;Build WOFF font&rdquo;</p>
 <p>4b! &ldquo;java -jar sfnttool.jar -w MyFont.ttf MyFont.woff&rdquo;</p>
@@ -330,7 +337,7 @@ Eigi</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Wrap EOT in WOFF&hellip;<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>Wrap EOT in WOFF&hellip;</em></p>
 <p>Not possible, I think. The WOFF spec requires the content of a WOFF to be an SFNT. I also can&rsquo;t think of a reason why one would want to put an EOT in a WOFF wrapper, since EOT is primarily of relevance to versions of IE that don&rsquo;t support WOFF.</p>
 </div>
 	</div>
@@ -423,7 +430,7 @@ Eigi</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Doesn&rsquo;t wrapping an EOT as a WOFF make it even smaller?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Doesn&rsquo;t wrapping an EOT as a WOFF make it even smaller?</cite></p>
 <p>Compressing an already compressed file is unlikely to make it any smaller.</p>
 <p>Also wrapping an already wrapped SFNT font does not make much sense, but since MTX compression is now available under a “friendlier” license, it would make sense for WOFF to (optionally?) use it as it gives better font compression over plain gzip that is currently in use.</p>
 </div>
@@ -515,7 +522,7 @@ Eigi</p>
 	<div class="card-body">
 		<div class="commentbody"><p>As John D said.</p>
 <p>David, the input for a WOFF file is pretty strictly defined in the WOFF spec. It must be a well-formed sfnt that can be losslessly, table-by-table compressed and expanded into and from the WOFF package. And EOT is another packaging format. Yes, it also contains an sfnt, but its own packaging means that it is not a valid input for a WOFF file.</p>
-<p><!-- raw HTML omitted -->Are there even such browsers/unupgraded IE users on the Mac?<!-- raw HTML omitted --></p>
+<p><em>Are there even such browsers/unupgraded IE users on the Mac?</em></p>
 <p>I sure as heck hope not. Microsoft ceased development of IE for Mac in 2003, when Apple launched Safari and didn&rsquo;t renew their bundling agreement with MS. Did IE for Mac support EOT? I don&rsquo;t remember.</p>
 </div>
 	</div>
@@ -544,7 +551,7 @@ Thank you John for posting a detailed explanation on the use of sfntly tools and
 You&rsquo;re right, OT does follow the SFNT structure, EOT is not. It has its own header followed by either raw TTF/OT data (as in EOT-Lite), or by MTX-compressed font data. Either one would not be considered a compliant input for WOFF converter, and it doesn&rsquo;t make sense to wrap one webfont format into another.</p>
 <p>WOFF is the standard format that pretty much all new browsers support. EOT is only relevant for older IE versions (up to and including IE8) that can only read EOT files. I don&rsquo;t think there is much concern about &ldquo;unupgraded IE users on Mac&rdquo;, but there are still plenty of users using IE8 on WinXP - you need EOT if you don&rsquo;t want to ignore them (and sfntly tools from Google now allow everyone to do it easily).</p>
 <p>@Khaled
-MTX is now available under <!-- raw HTML omitted -->free for all<!-- raw HTML omitted --> license - I don&rsquo;t think it can get any &ldquo;friendlier&rdquo; than that :)
+MTX is now available under <a href="http://www.monotypeimaging.com/aboutus/mtx-license.aspx">free for all</a> license - I don&rsquo;t think it can get any &ldquo;friendlier&rdquo; than that :)
 And I agree, it does make perfect sense for web fonts to use better compression technology whenever available, especially if the benefits of doing so outweight the implementation costs.</p>
 </div>
 	</div>
@@ -591,7 +598,7 @@ And I agree, it does make perfect sense for web fonts to use better compression 
 		<div class="commentbody"><p>The patent for MTX expires in 2017, five years, anyway. After which licensing is a moot issue.
 The need to make and use EOT formatted fonts, if the past is any guide, will not be moot.</p>
 <p>(BTW - if created within a licensed installation of Windows, there are not and never were any licensing issues with using MTX - patent exhaustion would certainly apply. To explain: the components in an average automobile involve dozens of patents yet when you buy a car you, the consumer, don&rsquo;t need to license these independently. That&rsquo;s &ldquo;patent exhaustion&rdquo; at work. The only license you need is a license to drive.)</p>
-<p>For any Mac users who are running Windows in a virtual machine there&rsquo;s <!-- raw HTML omitted -->EOTFAST<!-- raw HTML omitted --> for making compressed EOT files.</p>
+<p>For any Mac users who are running Windows in a virtual machine there&rsquo;s <a href="http://eotfast.com">EOTFAST</a> for making compressed EOT files.</p>
 <p>Happy that Monotype is being clear and up-front on the subject. I wasn&rsquo;t aware a new policy had been posted.</p>
 </div>
 	</div>
@@ -701,7 +708,7 @@ The need to make and use EOT formatted fonts, if the past is any guide, will not
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->For any Mac users who are running Windows in a virtual machine there&rsquo;s EOTFAST for making compressed EOT files.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>For any Mac users who are running Windows in a virtual machine there&rsquo;s EOTFAST for making compressed EOT files.</cite></p>
 <p>Richard, that app sometimes makes eot:s that doesn&rsquo;t work. I tried several times. It doesn&rsquo;t say why either. The fonts just doesn&rsquo;t load in browsers.</p>
 <p>This sfntly works like a dream.</p>
 </div>
@@ -726,9 +733,9 @@ The need to make and use EOT formatted fonts, if the past is any guide, will not
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@dberlow</p>
-<p><!-- raw HTML omitted -->Is that a joke? or do you not believe .ttf is a webfont format?<!-- raw HTML omitted -->
-No, I don&rsquo;t. I consider .ttf being as much of a webfont format as the screw being used as a nail. In absense of a screwdriver I <!-- raw HTML omitted -->can<!-- raw HTML omitted --> drive the screw in using a hammer, but it doesn&rsquo;t make it a nail.</p>
-<p><!-- raw HTML omitted -->There could be a lot more to say &hellip;<!-- raw HTML omitted -->
+<p><em>Is that a joke? or do you not believe .ttf is a webfont format?</em>
+No, I don&rsquo;t. I consider .ttf being as much of a webfont format as the screw being used as a nail. In absense of a screwdriver I <strong>can</strong> drive the screw in using a hammer, but it doesn&rsquo;t make it a nail.</p>
+<p><em>There could be a lot more to say &hellip;</em>
 I&rsquo;d rather not :)</p>
 </div>
 	</div>
@@ -803,8 +810,8 @@ If you have any problems, feel free to contact me - it will only take a second t
 	<div class="card-body">
 		<div class="commentbody"><p>@Vlad: &ldquo;No, I don&rsquo;t. I consider .ttf being as much of a webfont format as the screw&hellip;&rdquo;</p>
 <p>The screw? I want developers to be able to simply nail web fonts and you want to complexly screw web fonts?</p>
-<p>lol, from <!-- raw HTML omitted -->here<!-- raw HTML omitted -->, &ldquo;WOFF is not expected to replace other formats such as TrueType/OpenType/Open Font Format or SVG fonts, but provides an alternative.&rdquo;</p>
-<p>So&hellip; if TT and OT formats are standard, and WOFF &ldquo;<!-- raw HTML omitted -->provides an alternative&lt;/strong?&gt;&rdquo;, what planet are <!-- raw HTML omitted -->you<!-- raw HTML omitted --> on?!</p>
+<p>lol, from <a href="http://www.w3.org/Fonts/WOFF-FAQ.html#What_are_the_benefits_of_using_WOFF">here</a>, &ldquo;WOFF is not expected to replace other formats such as TrueType/OpenType/Open Font Format or SVG fonts, but provides an alternative.&rdquo;</p>
+<p>So&hellip; if TT and OT formats are standard, and WOFF &ldquo;<strong>provides an alternative&lt;/strong?&gt;&rdquo;, what planet are <em>you</em> on?!</p>
 <p>Also, note! on the same web page referenced above, that there is not a single WOFF &ldquo;Benefit&rdquo; listed that was not already a benefit of .ttf .otf or .cff fonts.</p>
 <p>Nice try, but without listing the extensible metadata and &ldquo;garden fence&rdquo; there&rsquo;s nothing to say for it. This makes a thinking one cogitate on the possible benefit list of EOT. :o</p>
 </div>
@@ -828,8 +835,8 @@ If you have any problems, feel free to contact me - it will only take a second t
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --> &hellip; but without listing the extensible metadata and &ldquo;garden fence&rdquo; there&rsquo;s nothing to say for it.<!-- raw HTML omitted --></p>
-<p>I&rsquo;ve always thought those <!-- raw HTML omitted -->are<!-- raw HTML omitted --> the benefits of WOFF (and the compression, though any decent web server can be configured to compress any content, any way). I&rsquo;ve never seen anyone else suggesting other benefits (not that I really care about WOFF, though I like the convenience of compressing fonts and not having to fiddle with sever configuration).</p>
+		<div class="commentbody"><p><cite> &hellip; but without listing the extensible metadata and &ldquo;garden fence&rdquo; there&rsquo;s nothing to say for it.</cite></p>
+<p>I&rsquo;ve always thought those <strong>are</strong> the benefits of WOFF (and the compression, though any decent web server can be configured to compress any content, any way). I&rsquo;ve never seen anyone else suggesting other benefits (not that I really care about WOFF, though I like the convenience of compressing fonts and not having to fiddle with sever configuration).</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

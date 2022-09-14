@@ -74,18 +74,18 @@
   <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m pretty new to all this and am working on my first typeface. I&rsquo;ve been adding new weights and now have a family of 4 weights.</p>
 <p>I noticed something odd the other day: a lot of the OpenType scripts &amp; features seem to have changed a bit (im not even sure how i am supposed to call these, i mean the classes, salt, calt, dlig features, and so on).</p>
 <p>For example, there is suddenly an aalt feature:
-<!-- raw HTML omitted -->feature aalt{
+<i>feature aalt{
 feature salt;
-} aalt; <!-- raw HTML omitted --></p>
+} aalt; </i></p>
 <p>In the liga feature there are suddenly comments such as 
-<!-- raw HTML omitted --># Standard Ligatures</p>
-<h1 id="latini">Latin<!-- raw HTML omitted --></h1>
+<i># Standard Ligatures</p>
+<h1 id="latini">Latin</i></h1>
 <p>calt suddenly has &lsquo;lookup&rsquo; in it:
-<!-- raw HTML omitted -->lookup calt2 { <!-- raw HTML omitted --></p>
+<i>lookup calt2 { </i></p>
 <p>and so on a number of other changes.</p>
 <p>I&rsquo;m really not sure what happened. It seems a number of kerning details I did have been lost as well.</p>
 <p>On top of this (maybe this is the problem?) when I generate the font I get a pop-up window that says:</p>
-<p><!-- raw HTML omitted -->&ldquo;Current font contains both OpenType features definition and imported binary OpenType tables&rdquo;<!-- raw HTML omitted --></p>
+<p><i>&ldquo;Current font contains both OpenType features definition and imported binary OpenType tables&rdquo;</i></p>
 <p>Could it be that I have unknowingly opened the .otf files I generated and continued working on those, saving them again as .vfb files? Is that possible at all? I noticed that it is possible to open up .otf files and those do have that aalt feature that I didn&rsquo;t put in there myself.</p>
 <p>Suggestions more than welcome!</p>
 <p>PS: any tips on how to save older versions of your typeface in progress? Because if this went haywire I&rsquo;ll probably have to start over again since I continuously over-saved the files&hellip; ;(</p>
@@ -114,7 +114,7 @@ feature salt;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Actually, I think it&rsquo;s better to characterize the process in reverse. What you&rsquo;re seeing has more to do with how FontLab <!-- raw HTML omitted -->de<!-- raw HTML omitted -->compiles fonts than how it compiles them. When FL compiles a font, you should end up with something which contains the features and lookups which you described in your .vfb file, but there is no way to recover the actual code which your .vfb file contained simply by looking at the resultant .otf file. FontLab can&rsquo;t reconstruct things like class or lookup names from compiled fonts so it makes these up, and it also explicitly includes a lot of stuff which is often left implicit when writing code (such as lookup declarations).</p>
+		<div class="commentbody"><p>Actually, I think it&rsquo;s better to characterize the process in reverse. What you&rsquo;re seeing has more to do with how FontLab <em>de</em>compiles fonts than how it compiles them. When FL compiles a font, you should end up with something which contains the features and lookups which you described in your .vfb file, but there is no way to recover the actual code which your .vfb file contained simply by looking at the resultant .otf file. FontLab can&rsquo;t reconstruct things like class or lookup names from compiled fonts so it makes these up, and it also explicitly includes a lot of stuff which is often left implicit when writing code (such as lookup declarations).</p>
 <p>If you really want to know exactly what FontLab is generating, you&rsquo;re better off using a tool like DTL OTMaster (Lite) rather than reopening your fonts in FontLab.</p>
 <p>André</p>
 </div>
@@ -140,7 +140,7 @@ feature salt;
 	<div class="card-body">
 		<div class="commentbody"><p>Thanks for your replies guys. This already helps me a lot to understand what&rsquo;s going on.</p>
 <p>Am I correct in assuming that I did in fact open up the wrong files then? That is, that I accidentally opened up the .oft files instead of the build files? (while i had those .vfb files right there in the same directory). And that FontLab then reverse engeneered / recompiled the fonts from my .otf files into new .vfb files that I - stupidly - saved again over my original .vfb files - hence loosing the original files?</p>
-<p>This probably means that I can&rsquo;t get my old files back with the original code. Not that it really matters that the code is different - but there seem to be a few oddities now. And on top of that there is this <!-- raw HTML omitted -->&ldquo;Current font contains both OpenType features definition and imported binary OpenType tables&rdquo;<!-- raw HTML omitted --> message&hellip;'</p>
+<p>This probably means that I can&rsquo;t get my old files back with the original code. Not that it really matters that the code is different - but there seem to be a few oddities now. And on top of that there is this <i>&ldquo;Current font contains both OpenType features definition and imported binary OpenType tables&rdquo;</i> message&hellip;'</p>
 <p>Any suggestions?</p>
 </div>
 	</div>
@@ -310,7 +310,7 @@ Thanks for the info, that helps, good stuff man! Will try this soon. Do these th
 	<div class="card-body">
 		<div class="commentbody"><p>Another question:</p>
 <p>I&rsquo;ve got the following code right now for salt:</p>
-<p><!-- raw HTML omitted -->feature salt { # Stylistic Alternates</p>
+<p><em>feature salt { # Stylistic Alternates</p>
 <h1 id="latin">Latin</h1>
 <pre><code>@STARTSWASH = [K R V W Q A];
 ignore sub @calt1 @STARTSWASH';
@@ -321,7 +321,7 @@ sub W' by W.alt;
 sub Q' by Q.alt;
 sub A' by A.alt;
 </code></pre>
-<p>} salt; <!-- raw HTML omitted --></p>
+<p>} salt; </em></p>
 <p>Even though this is the code, the font itself shows these swash characters in every context (as long as stylistic alternates is turned on). How is that possible? These swash characters should only show themselves if there isn&rsquo;t another glyph in place before the character (@calt1 = basically all glyphs).</p>
 </div>
 	</div>
@@ -389,7 +389,7 @@ sub A' by A.alt;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>You can't use contextual substitutions in salt.</blockquote>
 <p>You can&rsquo;t? I put my contextual swash code into salt (in addition to swsh) and it seemed to work.</p>
 <p>[img:sites/default/files/old-images/Picture_3788.png]</p>
 <p>@Stinger in what software are you viewing the font?</p>
@@ -438,7 +438,7 @@ sub A' by A.alt;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>From your screendump I am assuming that it's possible to include more than one stylistic alternate?</blockquote>
 <p>Yes, instead of using &ldquo;salt&rdquo; you can use &ldquo;ss01,&rdquo; &ldquo;ss02,&rdquo; etc. That way the user isn&rsquo;t faced with an &ldquo;all or nothing&rdquo; setting.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -526,8 +526,8 @@ Does it work in the FontLab Preview panel (OpenType Features)?</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->hey wiewauters, sorry for the typo :)
-Thanks for the info, that helps, good stuff man! Will try this soon. Do these things work for all aspects (dlig, calt, kern, etc?). I&rsquo;m guessing this is the case, that would make the most sense.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>hey wiewauters, sorry for the typo :)
+Thanks for the info, that helps, good stuff man! Will try this soon. Do these things work for all aspects (dlig, calt, kern, etc?). I&rsquo;m guessing this is the case, that would make the most sense.</cite></p>
 <p>No problem, and yes, you are only copying the glyphs all the other data should stay there. If you&rsquo;d wanna be 100% save, don&rsquo;t delete and append the glyphs, but just copy the old over the new ones.</p>
 <p>Good luck</p>
 </div>
@@ -587,8 +587,13 @@ Thanks for the info, that helps, good stuff man! Will try this soon. Do these th
 <p>Your code could be a bit simpler. Since you already have a class called &ldquo;@STARTSWASH&rdquo;, you could save yourself some typing by doing this:</p>
 </li>
 </ol>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>feature salt { # Stylistic Alternates
+# Latin
+@STARTSWASH = [K R V W Q A];
+@STARTSWASH_ALT = [K.alt R.alt V.alt W.alt Q.alt A.alt];
+ignore sub @calt1 @STARTSWASH';
+sub @STARTSWASH' by @STARTSWASH_ALT;
+} salt;</pre>
 <p>It&rsquo;s shorter and a bit clearer what&rsquo;s going on.</p>
 </div>
 	</div>

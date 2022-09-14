@@ -75,19 +75,21 @@
 <a href="http://ilovetypography.com/OpenType/opentype-features.html">http://ilovetypography.com/OpenType/opentype-features.html</a> 
 <a href="http://forums.adobe.com/thread/395648">http://forums.adobe.com/thread/395648</a></p>
 <p>While these two links were invaluable, we&rsquo;ve got a simple snippet of code that is confusing when trying to sub many to one. The thinking was to swap out certain typed words with a single &ldquo;word&rdquo; glyph using more efficient coding than the letter at a time method Thomas described in his link.</p>
-<p><!-- raw HTML omitted -->feature calt {
-<!-- raw HTML omitted -->sub t' e' s' t' by test.word;<!-- raw HTML omitted -->
-} calt;<!-- raw HTML omitted --></p>
+<p><code>feature calt {
+<em>sub t' e' s' t' by test.word;</em>
+} calt;</code></p>
 <p>The code below usually works fine except in the case that the word is immediately repeated. Then it appears to &ldquo;oscillate&rdquo; and only substitutes every other sequence of letters. Note that this happens whether a space is used or not to separate the repeating letter sequence. Our question is Why?</p>
 <p>[img:sites/default/files/old-images/screenshot_6326.png]</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Since this is a plain ligature, why using <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> at all (I don&rsquo;t see you actually doing any contextual substitution), a plain <!-- raw HTML omitted -->liga<!-- raw HTML omitted --> should work just fine:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+		<div class="commentbody"><p>Since this is a plain ligature, why using <code>calt</code> at all (I don&rsquo;t see you actually doing any contextual substitution), a plain <code>liga</code> should work just fine:</p>
+<pre>
+feature liga {
+  sub t e s t by test.word;
+} liga;
+</pre><blockquote>
 </blockquote>
 </div>
 	</div>
@@ -110,7 +112,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Ha! thanks Khaled, we were so deep in <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> experimentation we completely overlooked the obvious.</div>
+		<div class="commentbody">Ha! thanks Khaled, we were so deep in <code>calt</code> experimentation we completely overlooked the obvious.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -132,8 +134,8 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Andy, probably this didn&rsquo;t work because &lsquo;calt&rsquo; expects some context:</p>
-<p><!-- raw HTML omitted -->A Chain Substitution rule target sequence has three parts: backtrack, input, and lookahead glyph sequences. A glyph sequence comprises one or more glyphs or glyph classes.<!-- raw HTML omitted --></p>
-<p>(<!-- raw HTML omitted -->5.f. [GSUB LookupType 6] Chaining contextual substitution<!-- raw HTML omitted -->, from Adobe&rsquo;s &ldquo;OTF Feature File Specs)</p>
+<p><cite>A Chain Substitution rule target sequence has three parts: backtrack, input, and lookahead glyph sequences. A glyph sequence comprises one or more glyphs or glyph classes.</cite></p>
+<p>(<a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f">5.f. [GSUB LookupType 6] Chaining contextual substitution</a>, from Adobe&rsquo;s &ldquo;OTF Feature File Specs)</p>
 <p>It appears to me you are replacing everything, always. Khaled is right, these are ligatures.</p>
 </div>
 	</div>

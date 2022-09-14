@@ -75,7 +75,7 @@
 <p>I wondered if someone could explain to me how the input of the tilde acutally works and if I can emulate/imitate the same key-behaviour in OTF substitution?</p>
 <p>I&rsquo;m talking about the following fact:
 [img:sites/default/files/old-images/Screen Shot 2014-02-15 at 12_6568.33.55.png]</p>
-<p>I&rsquo;m able to type <!-- raw HTML omitted -->ALT-N<!-- raw HTML omitted --> and create a &ldquo;selected&rdquo; Tilde. If I keep typing for instance an <!-- raw HTML omitted -->a<!-- raw HTML omitted --> I get an a-tilde character.
+<p>I&rsquo;m able to type <em>ALT-N</em> and create a &ldquo;selected&rdquo; Tilde. If I keep typing for instance an <em>a</em> I get an a-tilde character.
 However if I press the space-bar the Tilde is going to stay in place and I can go on with my typing.</p>
 <p>Is it possible to mimic this behaviour in OTF programming?</p>
 <p>Thank you in advance,
@@ -112,7 +112,7 @@ Sepp</p>
 I&rsquo;m working with this for a university project where this is totally ok.</p>
 <p>Is it technically possible to do this with OTF programming?</p>
 <p>E.g. sub degree p by pring; 
-So when I type the <!-- raw HTML omitted -->degree<!-- raw HTML omitted --> and a <!-- raw HTML omitted -->p<!-- raw HTML omitted --> I get a new character p with a ring above.
+So when I type the <em>degree</em> and a <em>p</em> I get a new character p with a ring above.
 I know that the underlying string would still be degree and p however it displays the thing I&rsquo;m after.</p>
 <p>Now imagine i just want to type °p side by side. I would need to be able to have the same mechanism like the tilde is having right now.</p>
 <p>Is that possible somehow?</p>
@@ -211,11 +211,11 @@ Sepp88</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Yes, what you want to do is certainly possible with OTL. I still think it&rsquo;s a bad idea, but the implementation is pretty easy. Most of what you&rsquo;d do is simple ligature lookups e.g.</p>
-<p><!-- raw HTML omitted -->asciitilde n -&gt; ntilde<!-- raw HTML omitted --></p>
+<p><code>asciitilde n -&gt; ntilde</code></p>
 <p>For any sequence not covered in the ligature lookup, you&rsquo;d get ~ followed by whatever came next.</p>
 <p>In the special case where you want to display &lsquo;~n&rsquo; instead of &lsquo;ñ&rsquo;, you could easily mimic the deadkey keyboard behaviour, using a contextual ligation lookup that removes the space glyph when &lsquo;~ ' is followed by any of the letters in the first ligature lookup coverage, e.g.</p>
-<p><!-- raw HTML omitted -->asciitilde space -&gt; asciitilde
-| n etc.<!-- raw HTML omitted --></p>
+<p><code>asciitilde space -&gt; asciitilde
+| n etc.</code></p>
 <p>[Note that I&rsquo;ve used VOLT lookup syntax here. If you&rsquo;re using an AFDKO-based tool for OTL programming, you&rsquo;ll need to translate this into the appropriate syntax.]</p>
 </div>
 	</div>

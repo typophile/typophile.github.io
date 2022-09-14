@@ -77,9 +77,9 @@
 for lots of specific character pairs, substitute pairs of alternate characters</p>
 <p>so, for example, if someone types &lsquo;AB&rsquo; I&rsquo;d like OpenType to substitute glyph A_2 followed by glyph B_2&hellip;</p>
 <p>I was kind of thinking I could do this with a contextual alternate feature like</p>
-<p><!-- raw HTML omitted -->sub A' B' by A_2 B_2;<!-- raw HTML omitted --></p>
+<p><code>sub A' B' by A_2 B_2;</code></p>
 <p>but that doesn&rsquo;t seem to compile</p>
-<p><!-- raw HTML omitted -->sub A B' by B_2;<!-- raw HTML omitted --></p>
+<p><code>sub A B' by B_2;</code></p>
 <p>compiles OK, but doesn&rsquo;t really do what I want&hellip;</p>
 <p>does what I&rsquo;m trying to do make any sense? is it possible?</p>
 <p>would a better way be to make all my desired glyph combinations as ligature glyphs? (and also make all the individual alternate glyphs separately available)</p>
@@ -116,9 +116,9 @@ when preceded by A.2</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>In the AFDKO/FontLab syntax, that would translate to:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>For glyph names, underscores are customarily used to indicate ligatures between two characters, and periods to precede suffixes. Suffixes might also be more descriptive if you have different kinds of alternates– i.e. <!-- raw HTML omitted -->.alt[x]<!-- raw HTML omitted --> for general alternates, <!-- raw HTML omitted -->.swsh[x]<!-- raw HTML omitted --> for swashes, (where <!-- raw HTML omitted -->[x]<!-- raw HTML omitted --> is a numeric index), <!-- raw HTML omitted -->.smcp<!-- raw HTML omitted --> for small caps, etc.</p>
+<pre>sub A' B by A.2;
+sub A.2 B' by B.2;</pre>
+<p>For glyph names, underscores are customarily used to indicate ligatures between two characters, and periods to precede suffixes. Suffixes might also be more descriptive if you have different kinds of alternates– i.e. <code>.alt[x]</code> for general alternates, <code>.swsh[x]</code> for swashes, (where <code>[x]</code> is a numeric index), <code>.smcp</code> for small caps, etc.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -140,7 +140,7 @@ when preceded by A.2</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote> OpenType doesn't support many-to-many substitutions.</blockquote>
 <p>Actually it seems to me that OpenType <em>does</em> permit m2m substitutions (using GSUB type 5 or 6 lookups) but none of the common tools (VOLT and AFDKO) provide a way to express these such rules.</p>
 <p>So I&rsquo;ve often wondered if rendering engines actually support m2m lookups or not?</p>
 </div>
@@ -162,7 +162,8 @@ when preceded by A.2</p>
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted --></div>
+		<div class="commentbody"><blockquote>I've often wondered if rendering engines actually support m2m lookups or not?</blockquote>
+I should <em>really</em> double-check this, but I think InDesign does. I constructed a many-to-many translation with a TTX dump as intermediary.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -185,7 +186,7 @@ when preceded by A.2</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->For glyph names, underscores are customarily used to indicate ligatures between two characters<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>For glyph names, underscores are customarily used to indicate ligatures between two characters</cite></p>
 <p>More than custom. IIRC, when generating a PDF, that&rsquo;s what the Adobe engine will assume &amp; make happen. So, if you have a glyph named A_B in your font, that glyph will become the two characters A &amp; B in a PDF text stream. (Or, I may not RC&hellip;)</p>
 <p>A period is what you want; everything after the period is dropped. So, &ldquo;A.(anything)&rdquo; remains &ldquo;A&rdquo;.</p>
 </div>
@@ -254,7 +255,7 @@ when preceded by A.2</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Charles, perhaps I was not clear. I did use a period in my example code, then <!-- raw HTML omitted -->succinctly<!-- raw HTML omitted --> advised the original poster to use periods instead of underscores for suffixes, without fully elaborating on the matter. You explained the technical reasons behind this practice, so I thanked you for taking the time to do so (whereas, in my succinctness, I had not) and linked to a more detailed discussion on the topic. So I&rsquo;m pretty sure we&rsquo;re in agreement.</div>
+		<div class="commentbody">Charles, perhaps I was not clear. I did use a period in my example code, then <em>succinctly</em> advised the original poster to use periods instead of underscores for suffixes, without fully elaborating on the matter. You explained the technical reasons behind this practice, so I thanked you for taking the time to do so (whereas, in my succinctness, I had not) and linked to a more detailed discussion on the topic. So I&rsquo;m pretty sure we&rsquo;re in agreement.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

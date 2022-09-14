@@ -79,21 +79,39 @@
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>The AFDKO command <!-- raw HTML omitted -->tx<!-- raw HTML omitted --> gives you charts and if you use the <!-- raw HTML omitted -->-g<!-- raw HTML omitted --> option with a list of characters, you can get the chart for those glyphs. However <!-- raw HTML omitted -->tx<!-- raw HTML omitted --> does not appear to accept a unicode range. On the Mac or on Linux you can however easily generate the list of character names if you have the FontForge python class installed. Here is a script that does that. Let us call it <!-- raw HTML omitted -->listcharnames<!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>Then you can also give yourself the command <!-- raw HTML omitted -->mkchart<!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>The AFDKO command <code>tx</code> gives you charts and if you use the <code>-g</code> option with a list of characters, you can get the chart for those glyphs. However <code>tx</code> does not appear to accept a unicode range. On the Mac or on Linux you can however easily generate the list of character names if you have the FontForge python class installed. Here is a script that does that. Let us call it <code>listcharnames</code></p>
+<PRE>
+---- cut line
+#!/usr/bin/env python
+
+import fontforge,sys
+fnt=fontforge.open(sys.argv[1],1)
+
+start = int(sys.argv[2],16)
+end=int(sys.argv[3],16)
+
+unilist=[g.unicode for g in fnt.glyphs() \
+    if ((g.unicode <= end) and (g.unicode >= start))]
+unilist.sort()
+print ','.join(fnt[u].glyphname for u in unilist)
+---
+</PRE>
+<p>Then you can also give yourself the command <code>mkchart</code></p>
+<PRE>
+--- cut line
+#!/bin/sh
+tx -pdf -g `listcharnames $1 $2 $3` $1
+---
+</PRE>
 <p>and to get your chart say for Arno Pro for the hex values between 0x0060 and 0xFFFF, you need only type
-<!-- raw HTML omitted -->
+<code>
 mkchart ArnoPro-Regular.otf 0060 FFFF &gt; ~/sheet.pdf
-<!-- raw HTML omitted -->
-and you get your sheet (to get it on the desktop on the mac, you rather redirect to <!-- raw HTML omitted -->~/Desktop/sheet.pdf<!-- raw HTML omitted -->)</p>
+</code>
+and you get your sheet (to get it on the desktop on the mac, you rather redirect to <code>~/Desktop/sheet.pdf</code>)</p>
 <p>Here the sheet I get with
-<!-- raw HTML omitted -->
+<code>
 mkchart ArnoPro-Regular.otf 0060 00AF &gt; ~/sheet.pdf
-<!-- raw HTML omitted -->
+</code>
 [img:sites/default/files/old-images/ArnoSheet_5282.png]</p>
 </div>
 	</div>
@@ -189,16 +207,45 @@ Thanks for the tips; <em>much</em> appreciated!</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I can&rsquo;t help with AFDKO on Windows. I am on Macs.</p>
-<p>On the other hand, if you have problems with FontForge, here is some replacement code for <!-- raw HTML omitted -->listcharnames<!-- raw HTML omitted --> written in Lua for LuaTeX. That avoids  having to install the Fontforge python module but I think LuaTeX uses some Fontforge code anyway. If you have tex live installed, this should run.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<p>On the other hand, if you have problems with FontForge, here is some replacement code for <code>listcharnames</code> written in Lua for LuaTeX. That avoids  having to install the Fontforge python module but I think LuaTeX uses some Fontforge code anyway. If you have tex live installed, this should run.</p>
+<PRE>
+--- cut here
+#!/usr/bin/env luatex --luaonly
+
+local f = fontloader.open(arg[1])
+local startcode=tonumber(arg[2])
+local endcode = tonumber(arg[3])
+local listcodes={}
+local i = 0
+while (i < f.glyphmax) do
+  local g = f.glyphs[i]
+  if g then
+    if ((g.unicode >= startcode) and (g.unicode <= endcode)) then
+      listcodes[g.unicode] = g.name
+    end
+  end
+  i = i + 1
+end
+local keys={}
+for n in pairs(listcodes) do table.insert(keys,n) end
+table.sort(keys)
+local names={}
+for i,n in ipairs(keys) do table.insert(names,listcodes[n]) end
+print(table.concat(names,","))
+fontloader.close(f)
+---
+</PRE>
 <p>Here is a trace of execution on my mac: the hex interval needs to by written with 0x&hellip;</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+% listcharnames texgyrecursor-bold.otf 0x050 0x060
+P,Q,R,S,T,U,V,W,X,Y,Z,bracketleft,backslash,bracketright,asciicircum,underscore,grave
+% 
+</PRE>
 <p>On windows, unless you are running cygwin, my scripts would not work as is and the previous call would become</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>That gives as output the list to be used with <!-- raw HTML omitted -->tx -g<!-- raw HTML omitted --></p>
+<PRE>
+luatex  --luaonly listcharnames texgyrecursor-bold.otf 0x050 0x060
+</PRE>
+<p>That gives as output the list to be used with <code>tx -g</code></p>
 <p>I dont' find that Lua code very elegant compared to the Python script but I am not experienced enough in Lua to improve.</p>
 <p>Incidently, should it not be possible to generate the desired chart directly with LuaTeX or LuaLaTeX?</p>
 <p>Michel</p>

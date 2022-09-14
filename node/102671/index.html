@@ -236,17 +236,31 @@ I recall there was a tool few years ago that could change the setting in a batch
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>On the mac, to change to 0x0008 the value of fsType of all otf and ttf files in the current directory and subdirectories, all you need to do is to type in the terminal window</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>provided the call <!-- raw HTML omitted -->chngfs fontfile 0x0008<!-- raw HTML omitted --> changes the fsType of fontfile to 0x0008. The following code for <!-- raw HTML omitted -->chngfs<!-- raw HTML omitted --> does it if <!-- raw HTML omitted -->AFDKO 2.5<!-- raw HTML omitted --> for Mac is installed:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>provided  <!-- raw HTML omitted -->chngfs<!-- raw HTML omitted --> is made executable and put in your path.</p>
-<p>As for Windows, the Python 2.7  documentation says  it is not possible to rename with os.rename a file to a file name that is already in use. That is why <!-- raw HTML omitted -->chngfs<!-- raw HTML omitted --> above was written to take an additional, optional, argument. If AFDKOPython is made available at the command line on Windows then the command</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+find . -iname "*.[to]tf" -exec chngfs {} 0x0008 \;
+</PRE>
+<p>provided the call <code>chngfs fontfile 0x0008</code> changes the fsType of fontfile to 0x0008. The following code for <code>chngfs</code> does it if <a href="http://www.adobe.com/devnet/opentype/afdko.html">AFDKO 2.5</a> for Mac is installed:</p>
+<PRE>
+#!/usr/bin/env AFDKOPython
+
+import sys, os
+from fontTools.ttLib import TTFont
+
+f=TTFont(sys.argv[1])
+f["OS/2"].fsType=int(sys.argv[2],16)
+if len(sys.argv) == 4:
+  f.save(sys.argv[3])
+else:
+  f.save("tmpfil")
+  os.rename("tmpfil",sys.argv[1])
+</PRE>
+<p>provided  <code>chngfs</code> is made executable and put in your path.</p>
+<p>As for Windows, the Python 2.7  documentation says  it is not possible to rename with os.rename a file to a file name that is already in use. That is why <code>chngfs</code> above was written to take an additional, optional, argument. If AFDKOPython is made available at the command line on Windows then the command</p>
+<PRE>
+AFDKOPython chngfs fontname.ttf 0x0008 newname.ttf
+</PRE>
 <p>produces a new font with the chosen fsType (works the same on the mac).</p>
-<p>You can also call <!-- raw HTML omitted -->chngfs<!-- raw HTML omitted --> with 0x0002 and 0x0004, 0x0008 as well as 0x0000 and variations 0x01?? and 0x02??; cf <a href="http://www.microsoft.com/typography/otspec/os2.htm#fst">http://www.microsoft.com/typography/otspec/os2.htm#fst</a>.</p>
+<p>You can also call <code>chngfs</code> with 0x0002 and 0x0004, 0x0008 as well as 0x0000 and variations 0x01?? and 0x02??; cf <a href="http://www.microsoft.com/typography/otspec/os2.htm#fst">http://www.microsoft.com/typography/otspec/os2.htm#fst</a>.</p>
 <p>Michel</p>
 </div>
 	</div>
@@ -291,12 +305,22 @@ I recall there was a tool few years ago that could change the setting in a batch
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>If there is no tool to give you simply the fsType of your files, here is a script that does it</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>If you call it <!-- raw HTML omitted -->fstype<!-- raw HTML omitted -->, make it executable and put it in a directory that is in your path on the Mac then
-<!-- raw HTML omitted -->
+<PRE>
+#!/bin/sh
+AFDKOPython &lt;&lt;EOF
+from fontTools.ttLib import TTFont
+
+f=TTFont("$1")
+try:
+  print "%s; 0x%04x" % ("$1", f["OS/2"].fsType)
+except:
+  print "%s; fsType not found" % ("$1")
+EOF
+</PRE>
+<p>If you call it <code>fstype</code>, make it executable and put it in a directory that is in your path on the Mac then
+<code>
 find . -iname &ldquo;*.[ot]tf&rdquo; -exec fstype {} ;
-<!-- raw HTML omitted -->
+</code>
 will list all ttf and otf files if the current directory and subdirectories with their fsType. I guess that should also work with Cygwin on Windows but I have no way to check.</p>
 </div>
 	</div>

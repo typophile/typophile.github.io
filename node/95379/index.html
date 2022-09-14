@@ -146,8 +146,17 @@ kerning[(&lsquo;D&rsquo;,&lsquo;A&rsquo;)] = kerning[(&lsquo;Q&rsquo;,&lsquo;A&r
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Here&rsquo;s an example of creating an MM kerning pair using the FontLab Python API:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>f = fl.font	# Set current font to "f"
+g1name = "A"	# First glyph's name is "A"
+g2name = "W"	# Second glyph's name is "W"
+g1i = f.FindGlyph(g1name)	# Find glyph index for "A" glyph
+g2i = f.FindGlyph(g2name)	# Find glyph index for "W" glyph
+if g1i > -1 and g2i > -1:	# If both glyphs exist
+  g1 = f.glyphs[g1i]		# Assign first glyph object
+  kp = KerningPair(g2i)		# Blank kerning pair referring to "W"
+  if g1.layers_number == 4: 	# Check if first glyph has 4 masters
+    kp.values = [-35, -32, -30, -28]	# Assign values for 4 masters
+    g1.kerning.append(kp)	# Add kerning pair to fist glyph</pre>
 <p>(It&rsquo;s possible to write this code more efficiently, but this is the &ldquo;safest&rdquo; and most verbatim method that should show how it works.)</p>
 </div>
 	</div>

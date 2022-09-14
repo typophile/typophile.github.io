@@ -101,13 +101,44 @@ The just Helvetica fonts you are looking for are system fonts on Apple Macintosh
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Here is a trace on OS X 10.9. that uses the <!-- raw HTML omitted -->ftxinstalledfonts<!-- raw HTML omitted --> command from the Apple font tools. That gives a list of the Helvetica fonts installed and in what file they are contained.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>Here is a trace on OS X 10.9. that uses the <code>ftxinstalledfonts</code> command from the Apple font tools. That gives a list of the Helvetica fonts installed and in what file they are contained.</p>
+<PRE>
+% ftxinstalledfonts -l -f | grep -i helvetica | awk 'BEGIN{FS="\t"}{printf "%-45s %s\n", $3, $2}' | sort
+/Library/Fonts/HelveticaCY.dfont              Helvetica CY Bold
+/Library/Fonts/HelveticaCY.dfont              Helvetica CY BoldOblique
+/Library/Fonts/HelveticaCY.dfont              Helvetica CY Oblique
+/Library/Fonts/HelveticaCY.dfont              Helvetica CY Plain
+/System/Library/Fonts/Helvetica.dfont         Helvetica
+/System/Library/Fonts/Helvetica.dfont         Helvetica Bold
+/System/Library/Fonts/Helvetica.dfont         Helvetica Bold Oblique
+/System/Library/Fonts/Helvetica.dfont         Helvetica Light
+/System/Library/Fonts/Helvetica.dfont         Helvetica Light Oblique
+/System/Library/Fonts/Helvetica.dfont         Helvetica Oblique
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue Bold
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue Bold Italic
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue Condensed Black
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue Condensed Bold
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue Italic
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue Light
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue Light Italic
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue Medium
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue Medium Italic
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue Thin
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue Thin Italic
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue UltraLight
+/System/Library/Fonts/HelveticaNeue.dfont     Helvetica Neue UltraLight Italic
+</PRE>
 <p>As for the embedding rights, they are determined by the font fsType. Cf <a href="https://www.microsoft.com/typography/otspec/os2ver0.htm#fst">https://www.microsoft.com/typography/otspec/os2ver0.htm#fst</a>. Here they are in the file Helvetica.dfont on OS X 10.9.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<PRE>
+<strong>Font</strong>                      <strong>fsType</strong>
+Helvetica                 0x0000
+Helvetica Bold            0x0000
+Helvetica Oblique         0x0000
+Helvetica Bold Oblique    0x0000
+Helvetica Light           0x0004
+Helvetica Light Oblique   0x0004
+</PRE><blockquote>
 </blockquote>
 </div>
 	</div>
@@ -150,7 +181,7 @@ I can change the font name that the PDFs are generated with so it&rsquo;s not an
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->The closest I&rsquo;ve been able to find is Helvetica LT Std Roman. Is this the same thing, or an updated version?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>The closest I&rsquo;ve been able to find is Helvetica LT Std Roman. Is this the same thing, or an updated version?</cite></p>
 <p>Helvetica is the general name that describes the typeface design. Like “Sebring” describes a car model. But not all Sebrings are the same because they are all called this way. There were versions of that model produced at different times, and you could have it with different extras if you wish. 
 It’s the same with such fonts. There are old PostScript versions of Helvetica still floating around from the 1980s and 1990s and then there are “re-mastered” OpenType versions with the old name or the new name Helvetica Neue with new character designs and font styles. And some versions come with a basic character set, some with a larger character set. Some are OTF, some are TTF. It all depends. If you were told to use Helvetica, follow the trail back to the source where this specification comes from. They will know which Helvetica to use and they should also know about how this font was licensed and can be used.</p>
 </div>
@@ -178,8 +209,15 @@ It’s the same with such fonts. There are old PostScript versions of Helvetica 
 	<div class="card-body">
 		<div class="commentbody"><p>For general information on Helvetica see <a href="http://en.wikipedia.org/wiki/Helvetica">http://en.wikipedia.org/wiki/Helvetica</a>. To license Helvetica, you can have a look at <a href="http://www.myfonts.com/search/helvetica/fonts/">http://www.myfonts.com/search/helvetica/fonts/</a>. 
 On my macintosh, if I give the following input file to XeLaTeX</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+\documentclass{article}
+\usepackage{fontspec}
+\setmainfont{Helvetica}
+
+\begin{document}
+Hello World! \textit{Hello World}, \textbf{Hello World}
+\end{document}
+</PRE>
 <p>I get a pdf file with Helvetica, Helvetica-Oblique and Helvetica Bold embedded. Notice that the file Helvetica.dfont contains fonts with AAT features (an Apple format) that not all applications can handle.</p>
 </div>
 	</div>
@@ -226,7 +264,7 @@ On my macintosh, if I give the following input file to XeLaTeX</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --> Is there no such thing as just &ldquo;Helvetica&rdquo;? <!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite> Is there no such thing as just &ldquo;Helvetica&rdquo;? </cite></p>
 <p>There is, but that typeface is around since the 1950s and exists in dozens of versions — both regarding the actual design as well as the font formats. So you might want to check with the design department (or whoever is responsible for the corporate design) to see which version you should use and you might also check the licensing for those fonts. There might be special requirements for embedding, server use and things like that.</p>
 </div>
 	</div>
@@ -272,8 +310,12 @@ On my macintosh, if I give the following input file to XeLaTeX</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Sorry, I was misled by J. Weltin&rsquo;s post which mentions the Mac. The original message mentions nothing about the operating system on which the report generator is installed. The message of interest above mentions that you can send to a postscript printer a postscript file that does not contain Helvetica embedded and the printer should be able to render it. There is an example of such a PostScript input in <a href="https://www.adobe.com/products/postscript/pdfs/PLRM.pdf">https://www.adobe.com/products/postscript/pdfs/PLRM.pdf</a>.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+/Helvetica findfont
+12 scalefont setfont 
+288 720 moveto
+(ABC) show
+</PRE>
 <p>That however does not answer the initial question. If you need to embed, you need to know the file format your generator takes as input and the Helvetica your company has licensed, as was mentioned above. On the other hand, there are also free fonts that can easily replace Helvetica if you are not fussy about your outputs.</p>
 </div>
 	</div>

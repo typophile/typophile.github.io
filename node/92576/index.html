@@ -77,9 +77,9 @@
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Sounds like a job for <!-- raw HTML omitted -->init<!-- raw HTML omitted --> and<!-- raw HTML omitted --> fina<!-- raw HTML omitted --> features, but I have yet to use them, so I’m not much help. However, the same thing can be accomplished with the <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> feature.</p>
+		<div class="commentbody"><p>Sounds like a job for <strong>init</strong> and<strong> fina</strong> features, but I have yet to use them, so I’m not much help. However, the same thing can be accomplished with the <strong>calt</strong> feature.</p>
 <p>As I understand it (which I may not, and amendment will surely follow), text strings within brackets are processed and/or recognized sequentially, so—instead of a line of code for every glyph—you could use code like this:
-<!-- raw HTML omitted -->sub [ a b c d e f etc .]' space by [ a.fina b.fina c.fina d.fina e.fina f.fina etc.fina ];<!-- raw HTML omitted --></p>
+<code>sub [ a b c d e f etc .]' space by [ a.fina b.fina c.fina d.fina e.fina f.fina etc.fina ];</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -288,7 +288,12 @@ sub o f f by o_f_f.end; # you know that there is no word glyph after the &lsquo;
 	<div class="card-body">
 		<div class="commentbody"><p>Hi,</p>
 <p>I just found a simple and elegant solution to the problem of targeting beginning- or ending-of-word letters. It is based on the example provided in the [[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f.ii| Adobe&rsquo;s specs]] :</p>
-<!-- raw HTML omitted -->
+<code>
+feature cswh {
+# --- Glyph classes used in this feature:
+@BEGINNINGS = [A-N P-Z Th m];
+@BEGINNINGS_SWASH = [A.swsh-N.swsh P.swsh-Z.swsh T_h.swsh m.init]; @ENDINGS = [a e z];
+@ENDINGS_SWASH = [a.fina e.fina z.fina];
 <h1 id="----beginning-of-word-swashes">&mdash; Beginning-of-word swashes:</h1>
 <p>ignore substitute @LETTER @BEGINNINGS'; 
 substitute @BEGINNINGS' by @BEGINNINGS_SWASH;</p>
@@ -296,15 +301,19 @@ substitute @BEGINNINGS' by @BEGINNINGS_SWASH;</p>
 <p>ignore substitute @ENDINGS' @LETTER; 
 substitute @ENDINGS' by @ENDINGS_SWASH;
 } cswh;
-<!-- raw HTML omitted --></p>
-<p>But this example does not work if applied to a single letter (at least in FontLab, the only place where I tested it for now). It seems that exclusion rules (<!-- raw HTML omitted -->ignore substitute<!-- raw HTML omitted -->) are cumulative. So first letters would be correctly replaced, but then the second rule will be limited to single-letter words (i.e. without a letter before - rule 1 - AND without a letter after - rule 2).</p>
+</code></p>
+<p>But this example does not work if applied to a single letter (at least in FontLab, the only place where I tested it for now). It seems that exclusion rules (<em>ignore substitute</em>) are cumulative. So first letters would be correctly replaced, but then the second rule will be limited to single-letter words (i.e. without a letter before - rule 1 - AND without a letter after - rule 2).</p>
 <p>A simple solution to this problem is to isolate each rule into a dedicated lookup block :</p>
-<!-- raw HTML omitted -->
+<code>
+lookup beginning_s {
+	ignore sub @ALL_LETTERS s';
+  sub s' by s.starting;
+} beginning_s;
 <p>lookup ending_s {
 ignore sub s' @ALL_LETTERS;
 sub s' by s.ending;
 } ending_s;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>However, I did not tested using classes exactly as in the example, maybe the fact of using classes instead of single glyph also isolates contexts.</p>
 <p>Hope this will help with this common issue, there are very little resources available on this topic.</p>
 <p>Fred.</p>

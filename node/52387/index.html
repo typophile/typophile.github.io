@@ -186,7 +186,7 @@ Fontlab Ltd.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->say if you would size a character up that was created in fontlab would one still get the same problem?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>say if you would size a character up that was created in fontlab would one still get the same problem?</em></p>
 <p>Sort of.</p>
 <p>The inconsistency when importing from illustrator happens on import. You can import two identical shapes from different locations on the Illustrator art board and they can have different node placement in FL.</p>
 <p>Once inside fontlab, it consistently rounds (distorts). So two identical shapes, scaled identically will be identically distorted. Fontlab will always try to best-fit a scaled object to the em square. If you scale again it will best fit the distorted shape in a distorted way, further distorting.</p>
@@ -194,7 +194,7 @@ Fontlab Ltd.</p>
 <p>[img:sites/default/files/old-images/circlescale_small_5924.gif]
 Wow, that first scale was a doozy. Then FL does a decent job of approximating.</p>
 <p>[img:sites/default/files/old-images/circlescale_large_4504.gif]
-At larger size, the distortion is hardly noticable. But if you look, our circle started symmetrical, but isn&rsquo;t throughout. <!-- raw HTML omitted -->Bottom line: If you import from AI or scale something in FL, check it closely.<!-- raw HTML omitted --></p>
+At larger size, the distortion is hardly noticable. But if you look, our circle started symmetrical, but isn&rsquo;t throughout. <strong>Bottom line: If you import from AI or scale something in FL, check it closely.</strong></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -439,16 +439,16 @@ I have had problems in trying to update to the latest version (an error), I am s
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Bill wrote:<!-- raw HTML omitted -->Adam, I thought David Lemon had established that, at least if using Adobe tools, it was possible to generate fonts with floating point coordinates and it was possible with some RIPs to rasterize them successfully. It may not be recommended practice, but as far as I know, it is inaccurate to say that integer coordinates are a limitation of the font formats.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Bill wrote:<cite>Adam, I thought David Lemon had established that, at least if using Adobe tools, it was possible to generate fonts with floating point coordinates and it was possible with some RIPs to rasterize them successfully. It may not be recommended practice, but as far as I know, it is inaccurate to say that integer coordinates are a limitation of the font formats.</cite></p>
 <p>Bill is correct in principle. However, this potential has been <em>very</em> little used.</p>
 <p>Personally I would not trust the reliability of a font that used this functionality. Or put another way, I&rsquo;d bet real money (even in my newly self-employed state) that at least some consumers of fonts have assumed integer coordinates and will behave badly when confronted by something else. Which consumers, and how badly, would need to be determined by extensive testing.</p>
 <p>I should also note that in a Type 1 or CFF charstring there are (at least?) two ways to represent added accuracy in coordinates. The obvious one is to use decimal points directly. The less obvious one, which I gather some of Adobe&rsquo;s engineers would favor, is to use a &ldquo;div&rdquo; operator in the charstring. So instead of &ldquo;10.2&rdquo; in the charstring you&rsquo;d have &ldquo;102 10 div&rdquo;. And no, I can&rsquo;t tell you why this would be preferable.  :)</p>
-<p>Adam wrote: <!-- raw HTML omitted -->So our goal is to have fractional coordinates support in FontLab Studio 7 (but not yet in version 6 which is planned for 2009).<!-- raw HTML omitted --></p>
+<p>Adam wrote: <cite>So our goal is to have fractional coordinates support in FontLab Studio 7 (but not yet in version 6 which is planned for 2009).</cite></p>
 <p>I take it this is only for internal use within FontLab?</p>
-<p>Bill asked: <!-- raw HTML omitted -->Why the wait? Why force designers to have another five years of lousy data and bad transformations?<!-- raw HTML omitted --></p>
+<p>Bill asked: <cite>Why the wait? Why force designers to have another five years of lousy data and bad transformations?</cite></p>
 <p>Well, for the reasons I mentioned above, introducing it into <em>output</em> fonts (Type 1 or CFF) is rather risky and should be carefully tested and approached with caution.</p>
 <p>Changing assumptions in FontLab internals is not so risky, exactly, but is likely to be a pretty pervasive issue throughout an awful lot of code, not just a switch they throw in one spot. Seems to me it&rsquo;s kind of like switching an application from single-byte text handling to Unicode.</p>
-<p><!-- raw HTML omitted -->Moreover, you don’t address the issue of floating point bcps, which Fontlab cannot do, but which have been present in PostScript for decades, including countless fonts made by Adobe.<!-- raw HTML omitted --></p>
+<p><cite>Moreover, you don’t address the issue of floating point bcps, which Fontlab cannot do, but which have been present in PostScript for decades, including countless fonts made by Adobe.</cite></p>
 <p>Really? I don&rsquo;t recall ever running into an Adobe made Type 1 or OpenType CFF font that used floating point coordinates for either off-curve or on-curve points. I&rsquo;ll admit that I don&rsquo;t usually spend a <em>lot</em> of time directly poking the charstrings, but I did look at quite a few in my &gt;11 years at Adobe. When I talked to David about this whole question last, he certainly didn&rsquo;t bring it up.</p>
 <p>All that said, I&rsquo;d love to see an option for FLS to use floating point or at least a few decimal places for coordinates internally. That would be a good thing.</p>
 <p>Equally or more important, though, would be using hinting information to achieve intelligent scaling. As long as the final output fonts have anything less than floating point coordinates, inconsistencies are introduced not only by scaling, but even by MM interpolation. Two stems that are the same thickness in all masters of an MM may end up different in generated instances, due to rounding issues. Intelligent scaling applies hinting information to ensure that hinted distances are maintained during scaling, and during interpolation/extrapolation, including instance generation.</p>
@@ -476,7 +476,7 @@ I have had problems in trying to update to the latest version (an error), I am s
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Adam, Thomas, re Adobe fonts w/floating point bcps, I instanced the first one I looked at (one of the Poetica fonts) in an earlier thread in this forum. I&rsquo;ll look up some more. Because Fontlab always rounds up, a bcp which happens to be, say, 100.1, 200.1, would be rounded to 101, 201, and that would show as a serious distortion. Such imports do not <!-- raw HTML omitted -->often<!-- raw HTML omitted --> create a visible problem, but they do frequently enough for it to be a serious concern that anyone who has such data must consider very carefully, as it requires minute re-evaluation of the imported fonts. That means anyone who has imported a Fog4-created font into Fontlab. It means a lot of Adobe fonts, and it means a lot of other commercial fonts. I wonder what the IK-derived tools do?</div>
+		<div class="commentbody">Adam, Thomas, re Adobe fonts w/floating point bcps, I instanced the first one I looked at (one of the Poetica fonts) in an earlier thread in this forum. I&rsquo;ll look up some more. Because Fontlab always rounds up, a bcp which happens to be, say, 100.1, 200.1, would be rounded to 101, 201, and that would show as a serious distortion. Such imports do not <i>often</i> create a visible problem, but they do frequently enough for it to be a serious concern that anyone who has such data must consider very carefully, as it requires minute re-evaluation of the imported fonts. That means anyone who has imported a Fog4-created font into Fontlab. It means a lot of Adobe fonts, and it means a lot of other commercial fonts. I wonder what the IK-derived tools do?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -499,7 +499,7 @@ I have had problems in trying to update to the latest version (an error), I am s
 	<div class="card-body">
 		<div class="commentbody"><p>Thomas, lots of floating point bcps in Poetica (300, 301), some in Guardi italic bold (251), a few in Cheltenham Ultra Cond Italic (174). OK. Adobe font no. 1. Palatino italic. Point 2 in the inner curve is 130,338, with bcps of 152.83,398.06 and 106.83,227.06. So I guess the question is not when Adobe started using floating point bcps, but when or if it stopped?</p>
 <p>Where is it most likely to be a visible problem when working in Fontlab? Where all four values have decimal places in the +.1 or +.2 range and all four are rounded up by Fontlab nearly a whole unit when it opens them. Regardless: Fontlab does not and can not import these Adobe fonts properly.</p>
-<p>So, that leads to a terrible question indeed: have all the Adobe OT fonts been through Fontlab workflow? If so, they are <!-- raw HTML omitted -->not<!-- raw HTML omitted --> the fonts they were in T1.</p>
+<p>So, that leads to a terrible question indeed: have all the Adobe OT fonts been through Fontlab workflow? If so, they are <I>not</I> the fonts they were in T1.</p>
 <p>Also, just happened to notice duplicate point in dot of i, lower right hand corner, in helv comp no. 50? Or is that a fog artefact?</p>
 <p>Ever your friendly quality control engineer! B</p>
 </div>
@@ -523,7 +523,7 @@ I have had problems in trying to update to the latest version (an error), I am s
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">What other libraries might be affected by this problem? At the very least, any library that uses either Fontographer 4+ or the Adobe tools. (Certainly every piece of data I ever got back from Adobe had floating point bcps intact and, for the record, I was told that my data were superior <!-- raw HTML omitted -->before<!-- raw HTML omitted --> being subjected to the Bezlab treatment.) I just had a look at MetaPlus italic in its late-90s incarnation (obviously the problem will be most prominent in italics) and that certainly has floating point bcps (see a, with plenty of .1&rsquo;s). So that&rsquo;s the whole of the classic FontFont library, not to mention Emigre, DTL (which presumably has an IK workflow), etc. etc. Bitstream, with its own tools, too, is affected: try Galliard italic.</div>
+		<div class="commentbody">What other libraries might be affected by this problem? At the very least, any library that uses either Fontographer 4+ or the Adobe tools. (Certainly every piece of data I ever got back from Adobe had floating point bcps intact and, for the record, I was told that my data were superior <i>before</i> being subjected to the Bezlab treatment.) I just had a look at MetaPlus italic in its late-90s incarnation (obviously the problem will be most prominent in italics) and that certainly has floating point bcps (see a, with plenty of .1&rsquo;s). So that&rsquo;s the whole of the classic FontFont library, not to mention Emigre, DTL (which presumably has an IK workflow), etc. etc. Bitstream, with its own tools, too, is affected: try Galliard italic.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -835,7 +835,7 @@ To heck with the market size. Grow it!</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Having said that, as I’m a newbie to Font Design, what is stopping Font Apps from talking seamlessly with Vector Graphic Programs?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Having said that, as I’m a newbie to Font Design, what is stopping Font Apps from talking seamlessly with Vector Graphic Programs?</cite></p>
 <p>The problem isn’t Fontlab. Fontlab does exactly what it should—provide an environment for creating fonts that will work right when designers send them to a press. It’s that Illustrator users are too lazy to consider that with fonts, like every other job one does with Illustrator, putting some effort into setup is required to make the final output useful.</p>
 <p>One doesn’t just open Illustrator and build a CD label; the file has to be customized to make this work. The page size needs to be setup. The color space has to be picked. Grids and guides need to be created. The same is true with fonts. It would be nice for Adobe to include a design template for fonts, but I suspect that the same lazy people who get pissed off when their designs don’t work instantly in Fontlab because they never bothered to read the relevant section of the excellent Fontlab manua, which Fontlab provides as a searchable PDF.</p>
 </div>
@@ -995,9 +995,9 @@ proportional scale 90</p>
 	<div class="card-body">
 		<div class="commentbody"><p>billtroop, if you&rsquo;re still reading this thread &hellip;</p>
 <p>You wrote:</p>
-<p><!-- raw HTML omitted -->I just had a look at MetaPlus italic in its late-90s incarnation (obviously the problem will be most prominent in italics) and that certainly has floating point bcps (see a, with plenty of .1’s).<!-- raw HTML omitted --></p>
+<p><em>I just had a look at MetaPlus italic in its late-90s incarnation (obviously the problem will be most prominent in italics) and that certainly has floating point bcps (see a, with plenty of .1’s).</em></p>
 <p>Are you sure these floating point values are actually in the font files? Where did you see them? In Fontographer, I suppose?</p>
-<p>I tried looking at the raw PS code of MetaPlus-Italic using <!-- raw HTML omitted -->t1disasm<!-- raw HTML omitted --> and saw nothing but integers. (Can&rsquo;t say how reliable t1disasm is.)</p>
+<p>I tried looking at the raw PS code of MetaPlus-Italic using <a href="http://www.lcdf.org/type/t1disasm.1.html">t1disasm</a> and saw nothing but integers. (Can&rsquo;t say how reliable t1disasm is.)</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1023,7 +1023,7 @@ proportional scale 90</p>
 <p>I viewed these floating points in Fontographer 4 and 5. I imagine some of the IK tools must also allow this? What they would look like in disassembled code I have no idea, but I imagine that they are the result of a division operator or some other indirect mechanism like that. Unless, of course, they simply reveal a colossal and hitherto unreported bug extant in Fog for over a decade. For the time being, I am operating on the assumption that Fontographer&rsquo;s reading is correct.</p>
 <p>I reluctantly becoming convinced that Fontlab&rsquo;s inability to perform floating point arithmetic either in scaling or in multiple master manipulation is a serious obstacle to high quality font production. At the very least, the rounding-off mechanism should be revised so that round-off errors below x.5 are rounded off to the next lower integer, rather than the current, crude system, whereby even the smallest fraction is rounded off to the next higher integer. However, that would only slightly mitigate, rather than solve the problem. I think Fontlab should go fully floating point immediately, and I think it should be either a free or low-cost upgrade. I don&rsquo;t think the company should work on anything else until this problem has been solved.</p>
 <p>Nearly everyone uses Fontlab to create mulitple master families which are then generated as single instance fonts for sale. But considerable manipulation goes on before that point, and Fontlab&rsquo;s gross rounding off errors create an enormous amount of unnecessary work.</p>
-<p>We need, too, to know more about how and when floating point BCPs are rasterized. I am inclined to think they <!-- raw HTML omitted -->are<!-- raw HTML omitted --> rasterized, but I don&rsquo;t <!-- raw HTML omitted -->know<!-- raw HTML omitted -->.</p>
+<p>We need, too, to know more about how and when floating point BCPs are rasterized. I am inclined to think they <em>are</em> rasterized, but I don&rsquo;t <em>know</em>.</p>
 <p>One thing is certain: no align to grid or other rounding-off command in Fog will change the non-integer nature of non-integer BCPs. (To the extent, obviously, that they are accurately reported.)</p>
 <p>When developing a MM, you have only to make a few transformations before the round-off errors pile up to create gross distortions. That isn&rsquo;t what we pay computers to do!</p>
 <p>No to mention which: we also, as I warned earlier, need to know how safely we can import pre-Fontlab fonts into Fontlab. And if we should do so at all.</p>
@@ -1050,7 +1050,7 @@ proportional scale 90</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Sorry to interrupt the interesting talk, but…</p>
-<p><!-- raw HTML omitted --> As I recall, Illustrator was a by-product of that ancient effort. <!-- raw HTML omitted --></p>
+<p><cite> As I recall, Illustrator was a by-product of that ancient effort. </cite></p>
 <p>Huh? David, if I recall correctly Illustrator started as a black &amp; white drawing program; color was added while developing the graphic novel by Mike Saenz &ldquo;Iron Man: Crash&rdquo;, so you must be addressing some mysterious pre-history around 1986-87, right?
 Do you have any source? Very curious about that…</p>
 </div>
@@ -1075,15 +1075,15 @@ Do you have any source? Very curious about that…</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Hi Bill,</p>
-<p>I&rsquo;ve looked at the a of <!-- raw HTML omitted -->Meta Plus Normal Italic<!-- raw HTML omitted --> again in Fontographer 4.1 and with t1disasm. Now I think I&rsquo;ve been able to see what you mean.</p>
+<p>I&rsquo;ve looked at the a of <em>Meta Plus Normal Italic</em> again in Fontographer 4.1 and with t1disasm. Now I think I&rsquo;ve been able to see what you mean.</p>
 <p>[img:sites/default/files/old-images/mpni-a_6391.gif]</p>
 <p>The distance of the yellow BCP to the previous point is displayed as -65.9,-67.1 by Fontographer. However, if I dump the raw PS code with t1disasm, the corresponding line of the Charstring for a reads:</p>
-<p><!-- raw HTML omitted -->-66 -67 -38 -114 0 -98 rrcurveto<!-- raw HTML omitted --></p>
+<p><code>-66 -67 -38 -114 0 -98 rrcurveto</code></p>
 <p>(the first two numbers being the x and y distance of the BCP from the previous point).</p>
 <p>If what Fog displays was correct, it would have to be</p>
-<p><!-- raw HTML omitted -->-659 10 div -671 10 div -38 -114 0 -98 rrcurveto<!-- raw HTML omitted --></p>
+<p><code>-659 10 div -671 10 div -38 -114 0 -98 rrcurveto</code></p>
 <p>As further evidence, if I build a Type1 font from the first version (the one without the divs), Fog again displays the fractional values.</p>
-<p>So I really think <!-- raw HTML omitted -->Fontographer<!-- raw HTML omitted --> is doing something strange there, and I&rsquo;m glad the FontFont library isn&rsquo;t broken :)</p>
+<p>So I really think <em>Fontographer</em> is doing something strange there, and I&rsquo;m glad the FontFont library isn&rsquo;t broken :)</p>
 <p>Jens</p>
 </div>
 	</div>
@@ -1128,7 +1128,7 @@ Do you have any source? Very curious about that…</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>It certainly looks as if Fontographer is doing something weird/wrong: interpreting integer Charstring entries as non integers. Question: is Fontographer trying to assign an integer length to the BCP distance from the previous point, i.e. not as an x,y offset but as a direct distance? That would be truly weird, but it would explain non integer positions for the BCP.</p>
-<p><!-- raw HTML omitted -->Is either of the curves valid?<!-- raw HTML omitted --></p>
+<p><em>Is either of the curves valid?</em></p>
 <p>In the case of an opened font, the curve that corresponds to the PS Charstring values would be correct. In the case of a newly created font, the curve that corresponds to how the PS Charstring value will be written is correct. If you want to know what Fontographer does when it generates a font from a source that includes fractional BCP positions, generate a font and then dump the PS code.</p>
 </div>
 	</div>
@@ -1195,7 +1195,7 @@ Do you have any source? Very curious about that…</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>For comparing PostScript Type1 fonts perhaps the new 2.0 version of <!-- raw HTML omitted -->DTL CompareMaster Light<!-- raw HTML omitted --> (<!-- raw HTML omitted -->Mac OS X download<!-- raw HTML omitted -->) (<!-- raw HTML omitted -->Windows download<!-- raw HTML omitted -->) might be useful.</p>
+		<div class="commentbody"><p>For comparing PostScript Type1 fonts perhaps the new 2.0 version of <em>DTL CompareMaster Light</em> (<a href="http://www.fonttools.org/downloads/CPMA/CPMA_Light_200_MAC.zip">Mac OS X download</a>) (<a href="http://www.fonttools.org/downloads/CPMA/CPMA_Light_200_WIN.zip">Windows download</a>) might be useful.</p>
 <p>The full version of CPMA 2.0 compares OpenType CFF fonts either with each other or with PS Type1 fonts.</p>
 </div>
 	</div>

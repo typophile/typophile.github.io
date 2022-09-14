@@ -72,7 +72,7 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>Greetings</p>
-<p>Adobe has released in the AGL changes such as <!-- raw HTML omitted -->Tcommaaccent<!-- raw HTML omitted --> and <!-- raw HTML omitted -->Tcedilla<!-- raw HTML omitted -->, but I do not understand when and where its use.</p>
+<p>Adobe has released in the AGL changes such as <strong>Tcommaaccent</strong> and <strong>Tcedilla</strong>, but I do not understand when and where its use.</p>
 <p>I saw the unicode codepoint of the Tcommaacent uppercase (uni0162/uni021A) and uni0163/uni021B for lowercase</p>
 <p>I&rsquo;m not native speaking of these glyphs, So can anyone explain the substitution of them?</p>
 <p>Thank you so much.</p>
@@ -86,18 +86,18 @@
 <p>In Rumanian, we find both Scommaaccent and Tcommaaccent. However, these were originally encoded as Scedilla and Tcedilla as the comma accent was viewed simply as an alternate form of the cedilla despite the fact that some languages (e.g. Romanian, Latvian) prefer the former form and others (e.g. Turkish) prefer the latter form.</p>
 <p>This means that originally Turkish scedilla and Rumanian scommaaccent were assigned the same code point despite the fact that they have a different appearance. These were later disunified and both scommacccent and tcommaaccent were given their own code points distinct from scedilla and (non-occuring) tcedilla.</p>
 <p>One will commonly include a substitution rule as follows:</p>
-<p><!-- raw HTML omitted -->feature locl {<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->    script latn;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->        language ROM;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->            lookup Romanian {<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->                sub Scedilla by Scommaaccent;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->                sub scedilla by scommaaccent;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->                sub Tcedilla by Tcommaaccent;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->                sub tcedilla by tcommaaccent;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->            } Romanian;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->        language MOL<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->            lookup Romanian;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->} locl; <!-- raw HTML omitted --></p>
+<p><code>feature locl {</code></p>
+<p><code>    script latn;</code></p>
+<p><code>        language ROM;</code></p>
+<p><code>            lookup Romanian {</code>
+<code>                sub Scedilla by Scommaaccent;</code>
+<code>                sub scedilla by scommaaccent;</code>
+<code>                sub Tcedilla by Tcommaaccent;</code>
+<code>                sub tcedilla by tcommaaccent;</code>
+<code>            } Romanian;</code></p>
+<p><code>        language MOL</code>
+<code>            lookup Romanian;</code></p>
+<p><code>} locl; </code></p>
 <p>This will ensure that the form with the comma is used for Rumanian regardless of whether the actual text uses S/T cedilla or S/T comma accent.</p>
 <p>The Tcedilla should still be included despite the fact that no language uses it as its preferred form because a t with a commaaccent will look strange in rumanian if it occurs alongside an s with a cedilla.</p>
 <p>Not sure if this is very clear or if it addresses your question.</p>
@@ -123,10 +123,10 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Thanks <!-- raw HTML omitted -->André<!-- raw HTML omitted -->, nice to know you.</p>
+		<div class="commentbody"><p>Thanks <strong>André</strong>, nice to know you.</p>
 <p>I have wrong question, but thoroughly answer:)</p>
 <p>Suspected you&rsquo;ve shown that I was really blind in this matter. I do not even know what to substitute any glyphs;) I see the script OTLF roughly as you demonstrated in several fonts with extended codepage, but I really do not understand why I had to do that. I just know they need it.</p>
-<!-- raw HTML omitted -->
+<blockquote><em>"This means that originally Turkish scedilla and Rumanian scommaaccent were assigned the same code point despite the fact that they have a different appearance. These were later disunified and both scommacccent and tcommaaccent were given their own code points distinct from scedilla and (non-occuring) tcedilla."</em></blockquote>
 <p>Just confirm, whether this explains that the substitution occurs only at MOL and the ROM and not on the Azeri and TRK?</p>
 <p>Thanks
 Gretings to your family</p>
@@ -178,7 +178,20 @@ Gretings to your family</p>
 	<div class="card-body">
 		<div class="commentbody"><p>That&rsquo;s my point.</p>
 <p>Please forgive me if there is a language barriers here. I have written inaccurate without the express reason that I have researched some fonts that did not substitute them for the script TRK and  Azeri on locl features. The example:</p>
-<!-- raw HTML omitted -->
+<ul>feature locl { 
+ # Latin
+ language AZE  exclude_dflt; # Azeri
+    <ul>sub i by i.dot;</ul>
+ language TRK  exclude_dflt; # Turkish
+    <ul>sub i by i.dot;</ul>
+ language MOL  exclude_dflt; # Moldavian
+    <ul>sub [Scedilla scedilla] by [Scommaaccent scommaaccent];</ul>
+ language ROM  exclude_dflt; # Romanian
+    <ul>sub [Scedilla scedilla] by [Scommaaccent scommaaccent];</ul>
+ language CRT  exclude_dflt; # Crimean Tatar
+    <ul>sub i by i.dot;</ul>
+} locl;
+</ul>
 <p>But your explanations meet my question.</p>
 <p>Thank you for your time and your willingness to share knowledge</p>
 <p>Best regards
@@ -299,7 +312,7 @@ Andi</p>
 	<div class="card-body">
 		<div class="commentbody"><p>One could conceivably have a Romanian text that includes a Turkish name that uses the S cedilla, like Şahin. In this case, the S cedilla would be the correct character and it would be wrong to replace it with the S comma. Indeed, it would be wrong even to change only its appearance to look like the S comma. Unfortunately, there&rsquo;s no way of dealing with this kind of thing automatically at the font level. Someone will just have to deal with the encoding of the text manually.</p>
 <p>It is indeed highly unfortunate that so much Romanian text is incorrectly encoded.</p>
-<p><!-- raw HTML omitted -->As far as I know, Tcedilla does not actually occur in any language.<!-- raw HTML omitted --></p>
+<p><cite>As far as I know, Tcedilla does not actually occur in any language.</cite></p>
 <p>That may be true, but it does occur in specialist contexts. The phonetician Luciano Canepari uses the small t cedilla in his own extension of the International Phonetic Alphabet (IPA) to represent the sound that would be written tʲ in the usual IPA. He similarly uses b, d, h, m, n, p, z, and some other phonetic symbols with cedilla.</p>
 </div>
 	</div>
@@ -349,7 +362,7 @@ Andi</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">(Thomas, if [most/some] other fonts in the marketplace are doing character substitutions, wouldn&rsquo;t the <!-- raw HTML omitted -->sub scedilla by scommaaccent<!-- raw HTML omitted --> be rather practical?)</div>
+		<div class="commentbody">(Thomas, if [most/some] other fonts in the marketplace are doing character substitutions, wouldn&rsquo;t the <code>sub scedilla by scommaaccent</code> be rather practical?)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -397,21 +410,26 @@ Andi</p>
 		<div class="commentbody"><p>I see that uni0162/uni0163 reflected as Tcommaaccent and  tcommaaccent in glyph template. Though they were assigned as Tcedilla / tcedilla (at. NAM file). This became the initial source of my confusion. But now is clear.</p>
 <p>However I still need a little opinion for the conclusion.
 In your opinion which one is better: glyph Tcedilla (uni0162/uni0163) remained drawn and further substitution is still being done on the feature LOCL. Substitution tag looks something like tags:</p>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->language MOL exclude_dflt; 
-sub [Tcedilla tcedilla Scedilla scedilla] by [Tcommaaccent tcommaaccent Scommaaccent scommaaccent];<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->language ROM exclude_dflt;
-sub [Tcedilla tcedilla Scedilla scedilla] by [Tcommaaccent tcommaaccent Scommaaccent scommaaccent];<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->} locl;
-<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<ol>
+<code>
+feature locl {
+#Latin</code>
+<p><code>language MOL exclude_dflt; 
+sub [Tcedilla tcedilla Scedilla scedilla] by [Tcommaaccent tcommaaccent Scommaaccent scommaaccent];</code></p>
+<p><code>language ROM exclude_dflt;
+sub [Tcedilla tcedilla Scedilla scedilla] by [Tcommaaccent tcommaaccent Scommaaccent scommaaccent];</code></p>
+<p><code>} locl;
+</code></ol></p>
 <p>Or only drawn as glyph Tcommaaccent at uni0162/uni0163 without substitution? So the tags were following are:</p>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->language MOL exclude_dflt; 
-sub [Scedilla scedilla] by [Scommaaccent scommaaccent];<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->language ROM exclude_dflt;
-sub [Scedilla scedilla] by [Scommaaccent scommaaccent];<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->} locl;
-<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<ol>
+<code>feature locl {
+#Latin</code>
+<p><code>language MOL exclude_dflt; 
+sub [Scedilla scedilla] by [Scommaaccent scommaaccent];</code></p>
+<p><code>language ROM exclude_dflt;
+sub [Scedilla scedilla] by [Scommaaccent scommaaccent];</code></p>
+<p><code>} locl;
+</code></ol></p>
 <p>Thanks in advance
 Best regards</p>
 </div>
@@ -466,7 +484,7 @@ U+021B t with comma-like accent</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Thanks <!-- raw HTML omitted -->John<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Thanks <strong>John</strong></p>
 <p>This is very helpful. 
 Also thanks to all who have contributed to this thread.</p>
 <p>Best regards

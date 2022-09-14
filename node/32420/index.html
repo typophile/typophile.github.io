@@ -91,10 +91,10 @@ sub [seven seven.lnum] [slash fraction] [eight eight.lnum] by seveneighths;
 	<div class="card-body">
 		<div class="commentbody"><p>Hi Andrew. I&rsquo;m a little confused by your message. I don&rsquo;t think you want to try to call &lsquo;numr&rsquo; and &lsquo;dnom&rsquo; with &lsquo;frac&rsquo; &ndash; at least for simple, prebuilt fractions like in your example. Your code seems fine for what you&rsquo;re trying to do.</p>
 <p>It can be useful to &ldquo;call&rdquo; the &lsquo;numr&rsquo; feature in &lsquo;frac&rsquo; with arbitrary fractions. This is an example of what I mean:</p>
-<p><!-- raw HTML omitted -->feature frac {
+<p><code>feature frac {
 lookup NUMR;<br>
 sub [@SLASH @FIG_DENOMINATOR] @FIG_NUMERATOR' by @FIG_DENOMINATOR;
-} frac;<!-- raw HTML omitted --></p>
+} frac;</code></p>
 <p>The &lsquo;numr&rsquo; and &lsquo;dnom&rsquo; features are starting to look unnecessary, since there is usually little reason to create numerators or denominators without creating a whole fraction &ndash; which is what &lsquo;frac&rsquo; does all by itself. So I recommend putting &lsquo;numr&rsquo; and &lsquo;dnom&rsquo; in fonts, but not consider them components or &ldquo;sub-features&rdquo; of &lsquo;frac&rsquo;.</p>
 </div>
 	</div>
@@ -117,7 +117,7 @@ sub [@SLASH @FIG_DENOMINATOR] @FIG_NUMERATOR' by @FIG_DENOMINATOR;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->but it seems that the frac feature can call the numr and dnom features<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>but it seems that the frac feature can call the numr and dnom features</em></p>
 <p>The official feature descriptions are a bit confusing in this regard. When Adobe first registered the frac, numr and dnom features, they had this idea that frac would &lsquo;call&rsquo; the other two features. And this combination of features would allow for arbitrary fractions. As I understand it, the idea was that the application or layout engine would perform the feature calls to the numr and dnom features, based on a character level analysis (numerals before the slash get the numr feature applied to them, numerals after the slash get the denominator feature applied to them). But no one had got around to implementing this in a layout engine by the time I came along with a scheme building arbitrary fractions contextually, directly within the frac feature. Which is what pretty much everyone has been doing ever since.</p>
 <p>I believe Adobe make the arbitrary fraction code available with the FDK.</p>
 </div>
@@ -163,7 +163,7 @@ I haven&rsquo;t checked this recently, but I recall that in the demo of Quark 7,
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The font I&rsquo;m working on has <!-- raw HTML omitted -->frac<!-- raw HTML omitted --> but not <!-- raw HTML omitted -->numr<!-- raw HTML omitted --> or  <!-- raw HTML omitted -->dnom<!-- raw HTML omitted --> and the fraction feature works fine in Quark 7.</div>
+		<div class="commentbody">The font I&rsquo;m working on has <code>frac</code> but not <code>numr</code> or  <code>dnom</code> and the fraction feature works fine in Quark 7.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -209,11 +209,18 @@ I haven&rsquo;t checked this recently, but I recall that in the demo of Quark 7,
 	<div class="card-body">
 		<div class="commentbody"><p>OK resurrecting yet another old thread&hellip;
 I have the following:</p>
-<!-- raw HTML omitted -->
+<code>
+feature frac {
+    sub zero' [slash fraction]' zero' zero' zero' by uni2031;
+    sub zero' [slash fraction]' zero' zero' by perthousand;
+    sub zero' [slash fraction]' zero' by percent;
+    sub one' [slash fraction]' four' by onequarter;
+    sub one' [slash fraction]' two' by onehalf;
+    sub three' [slash fraction]' four' by threequarters;
 <p>lookup numr0;
 sub [slash @dnom] @numr' by @dnom;
 } frac;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>But of course the lookup in the second section replaces all default numerals with numerators, so the substitutions above don&rsquo;t work to produce permille, perthousand, percent and the prebuilt fractions.</p>
 <p>How can I ask the second part of code to ignore the prebuilt fractions? (I only know what I&rsquo;m learning here so there could be some vital command I don&rsquo;t know about.)</p>
 </div>
@@ -237,13 +244,13 @@ sub [slash @dnom] @numr' by @dnom;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Or maybe it&rsquo;s best to try and put the prebuilt fractions in a <!-- raw HTML omitted -->liga<!-- raw HTML omitted --> feature instead?</p>
-<p>BTW the second half of the feature currently reads: <!-- raw HTML omitted -->
+		<div class="commentbody"><p>Or maybe it&rsquo;s best to try and put the prebuilt fractions in a <code>liga</code> feature instead?</p>
+<p>BTW the second half of the feature currently reads: <code>
 lookup numr0;
 sub [fraction @dnom] @numr' by @dnom;
 sub @numr slash' by fraction;
 } frac;
-<!-- raw HTML omitted --></p>
+</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -266,7 +273,7 @@ sub @numr slash' by fraction;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Here&rsquo;s the code I use:</p>
-<p><!-- raw HTML omitted -->feature frac {
+<p><code>feature frac {
 @numbers = [ zero one two three four five six seven eight nine ] ;
 @numerators = [ zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr ] ;
 @denominators = [ zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom ] ;
@@ -279,7 +286,7 @@ sub three' [slash fraction]' four' by threequarters ;</p>
 sub @predenominators @numerators' by @denominators ; 
 sub slash by fraction ;
 } frac;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>If I recall, this was based somewhat on the code Adobe uses. I can&rsquo;t remember for sure.</p>
 <p>Tal Lemming has a detailed discussion about frac feature strategy here:</p>
 <p><a href="http://talleming.com/2008/04/16/fraction-fever/">http://talleming.com/2008/04/16/fraction-fever/</a></p>
@@ -326,7 +333,7 @@ sub slash by fraction ;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Mark your code works a dream. Thanks again.</p>
-<p>Should the <!-- raw HTML omitted -->percent<!-- raw HTML omitted --> glyph be identical to a <!-- raw HTML omitted -->zero.numr fraction zero.dnom<!-- raw HTML omitted --> sequence? My percent is a bit lighter.</p>
+<p>Should the <code>percent</code> glyph be identical to a <code>zero.numr fraction zero.dnom</code> sequence? My percent is a bit lighter.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -504,7 +511,7 @@ sub slash by fraction ;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Mark Simonson &ndash; (about Tal&rsquo;s fraction feature) <!-- raw HTML omitted -->He admits his solution has some drawbacks and doesn&rsquo;t necessarily recommend it. Looks like it&rsquo;s still a work in progress.<!-- raw HTML omitted --> (about your fraction feature) <!-- raw HTML omitted -->Ligatures are usually on by default, so the fraction sequence would be converted indiscriminately. Thus, if the user typed &ldquo;9/11/2001&rdquo; they would get &ldquo;9/1½001&rdquo;.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Mark Simonson &ndash; (about Tal&rsquo;s fraction feature) <cite>He admits his solution has some drawbacks and doesn&rsquo;t necessarily recommend it. Looks like it&rsquo;s still a work in progress.</cite> (about your fraction feature) <cite>Ligatures are usually on by default, so the fraction sequence would be converted indiscriminately. Thus, if the user typed &ldquo;9/11/2001&rdquo; they would get &ldquo;9/1½001&rdquo;.</cite></p>
 <p>In both cases, the drawback is the same: indiscriminately applying the feature to strings that should not be touched. In case of Tal&rsquo;s suggestion, this drawback is easily addressed by adding a few &ldquo;ignore&rdquo; statements which make sure that dates and other strings following the pattern slash&ndash;digit(s)&ndash;slash are left intact. Btw, the free style of FF Dagny shows that FontShop has adopted Tal&rsquo;s approach including a safety belt like I mentioned, so obviously they consider this approach as safe enough, like I do too.</p>
 <p>As to the second part, it is not necessary to deal with prebuilt fractions in frac. These exist for legacy reasons, so add them to the font but then leave them alone. A frac feature can compose a ½ from numerator-one plus fraction-slash plus denominator-two, the same way it would compose any other arbitrary fraction.</p>
 </div>
@@ -551,8 +558,8 @@ sub slash by fraction ;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>The following is completely untested hack, but might work and deal correctly with dates. Unfortunately, the current version of FontLab doesn&rsquo;t support <!-- raw HTML omitted --> rsub <!-- raw HTML omitted --> so it isn&rsquo;t viable for those who would prefer not to deal with ADFKO directly (which, unfortunately, includes me or I would have tested this).</p>
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>The following is completely untested hack, but might work and deal correctly with dates. Unfortunately, the current version of FontLab doesn&rsquo;t support <code> rsub </code> so it isn&rsquo;t viable for those who would prefer not to deal with ADFKO directly (which, unfortunately, includes me or I would have tested this).</p>
+<code>
 <p>@Figures = [zero one two three four five six seven eight nine];
 @Numerators = [zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr];
 @Denominators = [zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom];</p>
@@ -569,8 +576,7 @@ rsub @Numerators' @Figures by @Figures;
 sub @Figures [slash fraction] @Denominators by @Figures;
 sub @Figures @Denominators' by @Figures;</p>
 <p>sub @Numerators slash' @Denominators by fraction;</p>
-<!-- raw HTML omitted -->
-</div>
+</code></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -659,8 +665,8 @@ sub @Figures @Denominators' by @Figures;</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Tal has just posted an update to the Fractions Fever article which explains the addition: <a href="http://talleming.com/2009/10/01/fraction-fever-2/">http://talleming.com/2009/10/01/fraction-fever-2/</a></p>
-<p>Trick is to catch cases with multiple slashes via <!-- raw HTML omitted -->ignore<!-- raw HTML omitted --> (to make sure these cases are not turned into fractions), then substitute slash by fraction-slash, then substitute numerals by numerators and denominators if in context of fraction-slash. 
-<!-- raw HTML omitted -->reversesub<!-- raw HTML omitted --> would indeed save some lines of code, but better test this lookup type in a couple of applications first, including in XPress &hellip;</p>
+<p>Trick is to catch cases with multiple slashes via <a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.f.ii" target="_blank">ignore</a> (to make sure these cases are not turned into fractions), then substitute slash by fraction-slash, then substitute numerals by numerators and denominators if in context of fraction-slash. 
+<a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#5.h" target="_blank">reversesub</a> would indeed save some lines of code, but better test this lookup type in a couple of applications first, including in XPress &hellip;</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

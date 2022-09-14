@@ -404,7 +404,7 @@ Assume this would be a font with extended Latin, Greek, and Cyrillic scripts onl
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Is the computation speed difference between 2000 and 2048 enough better, given todays computers, that it is worth the tweaking of outlines to overcome rounding errors?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Is the computation speed difference between 2000 and 2048 enough better, given todays computers, that it is worth the tweaking of outlines to overcome rounding errors?</cite></p>
 <p>Good question!</p>
 <p>Maybe it&rsquo;s a choice: Either you care less for speed (provided there is still a significant difference). Or you care less for metrical identity of possible .otf and .ttf versions (or make a .ttf version only). In the latter case you could use 2048 instead of 2000 without rescaling outlines, which makes the .ttf version look a bit smaller.</p>
 </div>
@@ -495,7 +495,7 @@ Assume this would be a font with extended Latin, Greek, and Cyrillic scripts onl
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Hello Eben, I only addressed Mr Lozos question, how to change the UPM but avoid rounding errors if you <!-- raw HTML omitted -->want<!-- raw HTML omitted --> to change it. So it was a what-if thing.
+		<div class="commentbody"><p>Hello Eben, I only addressed Mr Lozos question, how to change the UPM but avoid rounding errors if you <cite>want</cite> to change it. So it was a what-if thing.
 That UPM be a power of 2 is a recommendation for TT-OpenType fonts, but not for OT-OpenType fonts. (As far as I know.)
 I think if I had a font with PostScript-outlines and UPM of 1000, I would not change the UPM for generating a TrueType-outline version. So I am myself curious about the actual speed advantages of, say 2048 vs 2000 in a TT-OpenType font.</p>
 <p>What I mean with &ldquo;looks smaller&rdquo; is: Imagine the same outline (not rescaled) once on an em-square/body of 2000, once on an em-square/body of 2048. In an application, if you choose 12 pt with both versions, the latter will look a bit smaller since the body is larger.</p>
@@ -656,8 +656,8 @@ of ±4095.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->What I especially want to know is what in your wisdom do you choose to work in today?<!-- raw HTML omitted --></p>
-<p>Which UPM is ideal to <!-- raw HTML omitted -->work in<!-- raw HTML omitted -->, meaning the design work regardless of technical issues, that is an interesting question. I typically switch between UPM of 1000 and 3000. As said before, scaling up is lossless as all coordinates are multiplied by three and scaling down to 1000 has relatively small rounding errors. Keep in mind that scaling from an UPM 2000 down to 1000 is the worst case: about every other value has a rounding error of 0.5, which can esily add up to stem inconsistencies. So generally avoid scaling things by exactly 50%.</p>
+		<div class="commentbody"><p><cite>What I especially want to know is what in your wisdom do you choose to work in today?</cite></p>
+<p>Which UPM is ideal to <cite>work in</cite>, meaning the design work regardless of technical issues, that is an interesting question. I typically switch between UPM of 1000 and 3000. As said before, scaling up is lossless as all coordinates are multiplied by three and scaling down to 1000 has relatively small rounding errors. Keep in mind that scaling from an UPM 2000 down to 1000 is the worst case: about every other value has a rounding error of 0.5, which can esily add up to stem inconsistencies. So generally avoid scaling things by exactly 50%.</p>
 <p>On the other hand, it is easy to forget that even a UPM of 1000 is much more than the typical printing resolution: For example, at 1200 dpi and a type size of 60 pt you have a 1:1 relation between dots and font units. This means that in order to change something only by one dot at, say 10 pt you need at least 6 units in Fontlab, even if that looks very much on the screen.</p>
 </div>
 	</div>
@@ -735,9 +735,9 @@ I think this is quite an elegant solution to the problem.&rdquo;</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Some clarification from Microsoft&rsquo;s Greg Hitchcock:</p>
-<p><!-- raw HTML omitted -->I&rsquo;m fairly sure the reasoning in TrueType was all about performance. Integer math was much quicker than floating point. TrueType fonts preferred having the Units per EM (UPM) as a power of two because in all of the scaling of the outlines, one has to continually divide by the UPM. When that is a power of two it is much quicker and can be implemented with a &ldquo;shift right&rdquo; instruction.</p>
+<p><em>I&rsquo;m fairly sure the reasoning in TrueType was all about performance. Integer math was much quicker than floating point. TrueType fonts preferred having the Units per EM (UPM) as a power of two because in all of the scaling of the outlines, one has to continually divide by the UPM. When that is a power of two it is much quicker and can be implemented with a &ldquo;shift right&rdquo; instruction.</p>
 <p>Of course higher UPM size give greater accuracy to the outline data, giving the equivalent of fixed fractional precision, but there is a trade-off in data size. For TrueType, outline data is typically stored as relative distances from the previous point. If the relative distance could be stored in a byte, it would be, otherwise it was stored in a 16-bit value.</p>
-<p>The higher the UPM, the less likely relative distances would fit into a byte. For some of our early Japanese fonts, we used 256 UPM in order to reduce the outline data size. 2048 UPEM was common in TrueType because it seemed like a good balance between data size and accuracy. The range for TrueType and OpenType is between 16 and 16,384 inclusive.<!-- raw HTML omitted --></p>
+<p>The higher the UPM, the less likely relative distances would fit into a byte. For some of our early Japanese fonts, we used 256 UPM in order to reduce the outline data size. 2048 UPEM was common in TrueType because it seemed like a good balance between data size and accuracy. The range for TrueType and OpenType is between 16 and 16,384 inclusive.</em></p>
 <p>Also see:
 <a href="http://typophile.com/node/30727">http://typophile.com/node/30727</a></p>
 <p>Cheers,
@@ -763,7 +763,7 @@ Adam</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Keep in mind that scaling from an UPM 2000 down to 1000 is the worst case: about every other value has a rounding error of 0.5, which can esily add up to stem inconsistencies. So generally avoid scaling things by exactly 50%.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Keep in mind that scaling from an UPM 2000 down to 1000 is the worst case: about every other value has a rounding error of 0.5, which can esily add up to stem inconsistencies. So generally avoid scaling things by exactly 50%.</cite></p>
 <p>A question for Tim (assumed he will some day pass here again… :-) ):
 If I have upscaled my EM size to 2000 from an original of 1000, and then I scale it again to 1000, stem size would be kept consistent, if I have not modified it, right?
 I mean, the rounding error applies only where there is a value which you can’t scale at 50%.</p>

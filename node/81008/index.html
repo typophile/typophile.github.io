@@ -139,21 +139,21 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Basically, this finding also means that the syntax:</p>
-<p><!-- raw HTML omitted -->feature ss01 {
+<p><code>feature ss01 {
 lookup L1 { 
 sub A by B;
 } L1;
 lookup L2 { 
 sub B by C;
 } L2;
-} ss01;<!-- raw HTML omitted --></p>
+} ss01;</code></p>
 <p>can be equivalently expressed as</p>
-<p><!-- raw HTML omitted -->feature ss01 {
+<p><code>feature ss01 {
 sub A by B;
 } ss01;
 feature ss01 { 
 sub B by C;
-} ss01;<!-- raw HTML omitted --></p>
+} ss01;</code></p>
 <p>Very interesting!</p>
 </div>
 	</div>
@@ -179,7 +179,7 @@ sub B by C;
 		<div class="commentbody"><p>Damn!</p>
 <p>Scriptor, thanks for that. I&rsquo;ve spent many years writing feature definitions code, and hit this problem several times, and never realized this simple solution.</p>
 <p>I have always assumed that in AFDKO syntax, it&rsquo;s not possible to write:</p>
-<p><!-- raw HTML omitted -->feature ss01 {
+<p><code>feature ss01 {
 sub A by B;
 } ss01;
 feature liga {
@@ -187,10 +187,10 @@ sub B by C;
 } liga;
 feature ss01 {
 sub C by D;
-} ss01;<!-- raw HTML omitted --></p>
+} ss01;</code></p>
 <p>But actually, your post made me realize that it is possible, and correct. The AFDKO compiler (in FontLab Studio) will issue a warning (feature already defined: ss01) but it&rsquo;ll still compile.</p>
 <p>What this code does is, when expressed in AFDKO 2.5 format, which is closer to what happens in the real font, it will produce three lookups:</p>
-<p><!-- raw HTML omitted -->lookup L1 {
+<p><code>lookup L1 {
 sub A by B;
 } L1;
 lookup L2 {
@@ -198,15 +198,15 @@ sub B by C;
 } L2;
 lookup L3 {
 sub C by D;
-} L3;<!-- raw HTML omitted --></p>
+} L3;</code></p>
 <p>and will map those lookups to two features:</p>
-<p><!-- raw HTML omitted -->feature liga {
+<p><code>feature liga {
 lookup L2;
 } liga;
 feature ss01 {
 lookup L1; 
 lookup L3;
-} ss01;<!-- raw HTML omitted --></p>
+} ss01;</code></p>
 <p>Since in the font, the it is the order of lookups that defines the order of processing of the glyph stream, this will have the effect that if only &ldquo;liga&rdquo; is active, only the lookup L2 will be executed, if only &ldquo;ss01&rdquo; is active, the lookup L1, and then L3, will be executed, and if both features are active, then the lookups will be executed in the order L1, then L2, then L3.</p>
 <p>Brilliant. I never thought that this was actually possible to do in the AFDKO 1.6 syntax that FontLab Studio 5 is using. (In AFDKO 2.5, which is used by Fontographer 5 and DTL OTMaster, and will also be used by FontLab Studio 5.5, I assumed that this was only possible by placing the lookup definitions outside of the feature definitions. But I was wrong. The method shown above is also valid, and it works in AFDKO 1.6 already. Cool!)</p>
 <p>Best,

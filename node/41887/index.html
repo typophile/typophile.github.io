@@ -71,10 +71,10 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m working on a font that has multiple ligs, and I&rsquo;m running into a problem. I have <!-- raw HTML omitted -->l_l<!-- raw HTML omitted --> and an <!-- raw HTML omitted -->e_l<!-- raw HTML omitted --> ligs, set up like so:</p>
-<p><!-- raw HTML omitted -->sub l l by l_l;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->sub e l by e_l;<!-- raw HTML omitted --></p>
-<p>Ostensibly, the order should make the <!-- raw HTML omitted -->l_l<!-- raw HTML omitted --> come <!-- raw HTML omitted -->before<!-- raw HTML omitted --> the <!-- raw HTML omitted -->e_l<!-- raw HTML omitted -->, but this is what I get:</p>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m working on a font that has multiple ligs, and I&rsquo;m running into a problem. I have <code>l_l</code> and an <code>e_l</code> ligs, set up like so:</p>
+<p><code>sub l l by l_l;</code>
+<code>sub e l by e_l;</code></p>
+<p>Ostensibly, the order should make the <code>l_l</code> come <em>before</em> the <code>e_l</code>, but this is what I get:</p>
 <p>[img:sites/default/files/old-images/Picture-2_4400.png]</p>
 <p>Any suggestions?</p>
 </div>
@@ -126,7 +126,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">why <!-- raw HTML omitted -->liga<!-- raw HTML omitted --> and not <!-- raw HTML omitted -->clig<!-- raw HTML omitted -->?</div>
+		<div class="commentbody">why <em>liga</em> and not <em>clig</em>?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -175,7 +175,7 @@
 		<div class="commentbody"><p>That would be cool. dan at dangayle dot com</p>
 <p>But the explanation belowy tells why I&rsquo;ll keep looking:</p>
 <p>@david hamuel
-<!-- raw HTML omitted -->why liga and not clig?<!-- raw HTML omitted -->
+<cite>why liga and not clig?</cite>
 Honestly, I don&rsquo;t know how to use that feature. But I have a semi- script type with about 100 ligs going on, some with alternates, so it might be handy to know. I&rsquo;ve already ran into two situations like this, so a better solution is needed that won&rsquo;t require multiple redundancies.</p>
 </div>
 	</div>
@@ -326,7 +326,7 @@ sub l l by l_l</p>
           sub e l by e_l;
        } thenThese;
     } calt;</p>
-<p>Your test word suggests that these ligatures are essential part of the design rather than optional, i.e. there is no need to allow a user to switch them on/off. In so far &lsquo;calt&rsquo; is a good choice. Also, &lsquo;clig&rsquo; is one of the features which different applications <!-- raw HTML omitted -->may<!-- raw HTML omitted --> handle differently (either in a UI option of its own, or bundled with another feature in a common UI option), so it may be safer to avoid such features where possible. (This is a personal comment. Others may disagree.)</p>
+<p>Your test word suggests that these ligatures are essential part of the design rather than optional, i.e. there is no need to allow a user to switch them on/off. In so far &lsquo;calt&rsquo; is a good choice. Also, &lsquo;clig&rsquo; is one of the features which different applications <em>may</em> handle differently (either in a UI option of its own, or bundled with another feature in a common UI option), so it may be safer to avoid such features where possible. (This is a personal comment. Others may disagree.)</p>
 <p>What&rsquo;s missing in the &lsquo;ignore&rsquo; example is that following substitutions need to be contextual too:</p>
 <p>    lookup calt {
        ignore sub e' l' l;
@@ -365,7 +365,7 @@ sub l l by l_l</p>
           sub l' l' by l_l;
        } highPriority;
     } calt;</p>
-<p>Note that in contrast to the first example in my last post, the lookup with standard substitutions is the first (not last) one. First, the ignore statement in the first lookup makes sure that e l is <!-- raw HTML omitted -->not<!-- raw HTML omitted --> substituted by the e_l ligature if another l follows. Then, the second lookup is applied to the text string which still contains individual l l and can substitute these by the l_l ligature.
+<p>Note that in contrast to the first example in my last post, the lookup with standard substitutions is the first (not last) one. First, the ignore statement in the first lookup makes sure that e l is <em>not</em> substituted by the e_l ligature if another l follows. Then, the second lookup is applied to the text string which still contains individual l l and can substitute these by the l_l ligature.
 While the ignore statement can be pretty powerful, in your case it complicates matters more than necessary because for every substitution in the &ldquo;highPriority&rdquo; lookup, you would need to add an according ignore statement to the &ldquo;standardWithExclusion&rdquo; lookup.</p>
 <p>Karsten</p>
 </div>
@@ -490,51 +490,51 @@ sub e l by e_l;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>In OpenType Layout, each font has a list of little procedures called <!-- raw HTML omitted -->lookups<!-- raw HTML omitted -->. Those lookups are assigned to layout features. Typically, in simple Western OpenType fonts, one lookup is assigned to just one feature. But you also can have several lookups being assigned to one feature, and also one lookup being assigned to several features.</p>
+		<div class="commentbody"><p>In OpenType Layout, each font has a list of little procedures called <b>lookups</b>. Those lookups are assigned to layout features. Typically, in simple Western OpenType fonts, one lookup is assigned to just one feature. But you also can have several lookups being assigned to one feature, and also one lookup being assigned to several features.</p>
 <p>It is important to realize that there are two separate lists of things in the font: one is a list of lookups and the other is a list of features (there is also the issue of languagesystems but I won&rsquo;t discuss it here). And then there are just mappings between those. The Adobe FDK for OpenType (AFDKO) syntax for writing OpenType Layout feature definitions, used by AFDKO itself as well as FontLab Studio and DTL FontMaster, hides this fact and makes you believe that you define the &ldquo;action code&rdquo; inside of feature definitions:</p>
-<p><!-- raw HTML omitted --># AFDKO 1.6 / FontLab Studio 5 syntax<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature liga {
+<p><code># AFDKO 1.6 / FontLab Studio 5 syntax</code></p>
+<p><code>feature liga {
 sub l l by l_l;
 sub f i by f_i;
-} liga;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature swsh {
+} liga;</code></p>
+<p><code>feature swsh {
 sub f by f.swsh; 
-} swsh;<!-- raw HTML omitted --></p>
+} swsh;</code></p>
 <p>This is a simplified notation of the following:</p>
-<p><!-- raw HTML omitted --># AFDKO 1.6 / FontLab Studio 5 syntax<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature liga {
+<p><code># AFDKO 1.6 / FontLab Studio 5 syntax</code></p>
+<p><code>feature liga {
 lookup L1 {
 sub l l by l_l;
 sub f i by f_i;
 } L1;
-} liga;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature swsh {
+} liga;</code></p>
+<p><code>feature swsh {
 lookup L2 {
 sub f by f.swsh; 
 } L2;
-} swsh;<!-- raw HTML omitted --></p>
-<p>So here, we have one lookup <!-- raw HTML omitted -->liga1<!-- raw HTML omitted --> that is assigned to the <!-- raw HTML omitted -->liga<!-- raw HTML omitted --> feature. If one lookup is assigned to just one feature, the AFDKO feature syntax allows omitting the <!-- raw HTML omitted -->lookup<!-- raw HTML omitted --> statement. But it is important to realize that it is still there, implicitly.</p>
+} swsh;</code></p>
+<p>So here, we have one lookup <code>liga1</code> that is assigned to the <code>liga</code> feature. If one lookup is assigned to just one feature, the AFDKO feature syntax allows omitting the <code>lookup</code> statement. But it is important to realize that it is still there, implicitly.</p>
 <p>Actually, a more precise representation of how this information is represented in the font would be the following:</p>
-<p><!-- raw HTML omitted --># AFDKO 2.0-only / future FontLab Studio 6-only syntax<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --># Lookups<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup L1 {
+<p><code># AFDKO 2.0-only / future FontLab Studio 6-only syntax</code></p>
+<p><code># Lookups</code></p>
+<p><code>lookup L1 {
 sub l l by l_l;
 sub f i by f_i;
-} L1;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup L2 {
+} L1;</code></p>
+<p><code>lookup L2 {
 sub f by f.swsh;
-} L2;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --># &hellip;</p>
-<h1 id="featurescode">Features<!-- raw HTML omitted --></h1>
-<p><!-- raw HTML omitted -->feature liga {
+} L2;</code></p>
+<p><code># &hellip;</p>
+<h1 id="featurescode">Features</code></h1>
+<p><code>feature liga {
 lookup L1;
-} liga;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature swsh {
+} liga;</code></p>
+<p><code>feature swsh {
 lookup L2;
-} swsh;<!-- raw HTML omitted --></p>
+} swsh;</code></p>
 <p>The lookup names (L1, L2) do not matter because they are not written into the font. Internally, lookups are just identified by numbers. You also can have several lookups being assigned to one feature:</p>
-<p><!-- raw HTML omitted --># AFDKO 1.6 / FontLab Studio 5 syntax<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature liga {
+<p><code># AFDKO 1.6 / FontLab Studio 5 syntax</code></p>
+<p><code>feature liga {
 lookup L1 {
 sub l l by l_l;
 sub f i by f_i;
@@ -542,117 +542,117 @@ sub f i by f_i;
 lookup L3 {
 sub e l by e_l;
 } L3;
-} liga;<!-- raw HTML omitted --></p>
+} liga;</code></p>
 <p>Internally, this would be written into the font as:</p>
-<p><!-- raw HTML omitted --># AFDKO 2.0-only / future FontLab Studio 6-only syntax<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --># Lookups<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup L1 {
+<p><code># AFDKO 2.0-only / future FontLab Studio 6-only syntax</code></p>
+<p><code># Lookups</code></p>
+<p><code>lookup L1 {
 sub l l by l_l;
 sub f i by f_i;
-} L1;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup L3 {
+} L1;</code></p>
+<p><code>lookup L3 {
 sub e l by e_l;
-} L3;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --># Features<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature liga {
+} L3;</code></p>
+<p><code># Features</code></p>
+<p><code>feature liga {
 lookup L1;
 lookup L3;
-} liga;<!-- raw HTML omitted --></p>
+} liga;</code></p>
 <p>You can also have one lookup being assigned to several features:</p>
-<p><!-- raw HTML omitted --># AFDKO 1.6 / FontLab Studio 5 syntax<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature liga {
+<p><code># AFDKO 1.6 / FontLab Studio 5 syntax</code></p>
+<p><code>feature liga {
 lookup L1 {
 sub l l by l_l;
 sub f i by f_i;
 } L1;
-} liga;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature calt {
+} liga;</code></p>
+<p><code>feature calt {
 lookup L1;
-} calt;<!-- raw HTML omitted --></p>
+} calt;</code></p>
 <p>This corresponds to the internal structure:</p>
-<p><!-- raw HTML omitted --># AFDKO 2.0-only / future FontLab Studio 6-only syntax<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --># Lookups<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup L1 {
+<p><code># AFDKO 2.0-only / future FontLab Studio 6-only syntax</code></p>
+<p><code># Lookups</code></p>
+<p><code>lookup L1 {
 sub l l by l_l;
 sub f i by f_i;
-} L1;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --># Features<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature liga {
+} L1;</code></p>
+<p><code># Features</code></p>
+<p><code>feature liga {
 lookup L1;
-} liga;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature calt {
+} liga;</code></p>
+<p><code>feature calt {
 lookup L1;
-} calt;<!-- raw HTML omitted --></p>
+} calt;</code></p>
 <p>In text formatting using OpenType Layout, each line of text is divided into &ldquo;runs&rdquo; of text that have the same formatting (i.e. font and combination of enabled OpenType Layout features) and directionality. In a typical European text, each line of text is just one &ldquo;run&rdquo;, but if you have Arabic or Hebrew with interspersed European numerals or European phrases, those would be separate runs.</p>
-<p>Each run has a certain combination of features that will be applied to it (controlled by the user, e.g. <!-- raw HTML omitted -->dlig<!-- raw HTML omitted -->, as well as those that the layout engine applies automatically, e.g. <!-- raw HTML omitted -->ccmp<!-- raw HTML omitted -->). When the text is being displayed, each run is typeset using the default glyphs representing the text&rsquo;s characters (i.e. the glyphs that have Unicode codepoints assigned for those characters). Then, for some Asian scripts, special glyph reordering is being done (but not for European scripts). And then, the list of lookups is retrieved for the combination of features that are being applied.</p>
+<p>Each run has a certain combination of features that will be applied to it (controlled by the user, e.g. <code>dlig</code>, as well as those that the layout engine applies automatically, e.g. <code>ccmp</code>). When the text is being displayed, each run is typeset using the default glyphs representing the text&rsquo;s characters (i.e. the glyphs that have Unicode codepoints assigned for those characters). Then, for some Asian scripts, special glyph reordering is being done (but not for European scripts). And then, the list of lookups is retrieved for the combination of features that are being applied.</p>
 <p>So if I have a font with the OpenType Layout code defined as follows:</p>
-<p><!-- raw HTML omitted --># AFDKO 2.0-only / future FontLab Studio 6-only syntax<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --># Lookups<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup L1 {
+<p><code># AFDKO 2.0-only / future FontLab Studio 6-only syntax</code></p>
+<p><code># Lookups</code></p>
+<p><code>lookup L1 {
 sub l l by l_l;
 sub f i by f_i;
-} L1;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup L2 {
+} L1;</code></p>
+<p><code>lookup L2 {
 sub f by f.swsh;
-} L2;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup L3 {
+} L2;</code></p>
+<p><code>lookup L3 {
 sub e l by e_l;
-} L3;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --># Features<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature liga {
+} L3;</code></p>
+<p><code># Features</code></p>
+<p><code>feature liga {
 lookup L1;
 lookup L3;
-} liga;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature swsh {
+} liga;</code></p>
+<p><code>feature swsh {
 lookup L2;
-} swsh;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature calt {
+} swsh;</code></p>
+<p><code>feature calt {
 lookup L1;
-} calt;<!-- raw HTML omitted --></p>
-<p>And the features <!-- raw HTML omitted -->liga<!-- raw HTML omitted -->, <!-- raw HTML omitted -->swsh<!-- raw HTML omitted --> and <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> are all applied to the text, then the OpenType Layout engine retrieves the list of the lookups associated with all those features (i.e. <!-- raw HTML omitted -->L1<!-- raw HTML omitted -->, <!-- raw HTML omitted -->L2<!-- raw HTML omitted --> and <!-- raw HTML omitted -->L3<!-- raw HTML omitted -->), and applies them.</p>
-<p>The lookups are applied one after another to the entire run of text in the sequence the lookups have been defined in the font. So in the above example, first the lookup <!-- raw HTML omitted -->L1<!-- raw HTML omitted --> is applied to the default string of glyphs (because it is assigned to the <!-- raw HTML omitted -->liga<!-- raw HTML omitted --> and <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> features). Let&rsquo;s assume that the user typesets the following text:</p>
-<p><!-- raw HTML omitted -->Hellenic figure<!-- raw HTML omitted --></p>
+} calt;</code></p>
+<p>And the features <code>liga</code>, <code>swsh</code> and <code>calt</code> are all applied to the text, then the OpenType Layout engine retrieves the list of the lookups associated with all those features (i.e. <code>L1</code>, <code>L2</code> and <code>L3</code>), and applies them.</p>
+<p>The lookups are applied one after another to the entire run of text in the sequence the lookups have been defined in the font. So in the above example, first the lookup <code>L1</code> is applied to the default string of glyphs (because it is assigned to the <code>liga</code> and <code>calt</code> features). Let&rsquo;s assume that the user typesets the following text:</p>
+<p><em>Hellenic figure</em></p>
 <p>So the default series of glyphs in the run would be:</p>
-<p><!-- raw HTML omitted -->H e l l e n i c space f i g u r e<!-- raw HTML omitted --></p>
-<p>The lookup <!-- raw HTML omitted -->L1<!-- raw HTML omitted --> is &ldquo;executed&rdquo; on the run. It replaces the glyph sequence <!-- raw HTML omitted -->l l<!-- raw HTML omitted --> with the glyph <!-- raw HTML omitted -->l_l<!-- raw HTML omitted --> and it replaces the glyph sequence <!-- raw HTML omitted -->f i<!-- raw HTML omitted --> with the glyph <!-- raw HTML omitted -->f_i<!-- raw HTML omitted -->. So after the lookup as been applied, the glyph run looks like this:</p>
-<p><!-- raw HTML omitted -->H e l_l e n i c space f_i g u r e<!-- raw HTML omitted --></p>
-<p>Then, the lookup <!-- raw HTML omitted -->L2<!-- raw HTML omitted --> referenced by the <!-- raw HTML omitted -->swsh<!-- raw HTML omitted --> is applied to the glyph run. It replaces the glyph <!-- raw HTML omitted -->f<!-- raw HTML omitted --> with the glyph <!-- raw HTML omitted -->f.swsh<!-- raw HTML omitted -->. This does not produce any change in the text because the glyph <!-- raw HTML omitted -->f<!-- raw HTML omitted --> is not present in the glyph run anymore (as the <!-- raw HTML omitted -->L1<!-- raw HTML omitted --> lookup replaced it).</p>
-<p>Finally, the lookup <!-- raw HTML omitted -->L3<!-- raw HTML omitted --> is executed. It replaces the glyph sequence <!-- raw HTML omitted -->e l<!-- raw HTML omitted --> with the glyph <!-- raw HTML omitted -->e_l<!-- raw HTML omitted -->. This does not produce any change either, because the glyph sequence <!-- raw HTML omitted -->e l<!-- raw HTML omitted --> is not in the glyph run (we have the glyph sequence <!-- raw HTML omitted -->e l_l<!-- raw HTML omitted -->, but that&rsquo;s completely different).</p>
+<p><code>H e l l e n i c space f i g u r e</code></p>
+<p>The lookup <code>L1</code> is &ldquo;executed&rdquo; on the run. It replaces the glyph sequence <code>l l</code> with the glyph <code>l_l</code> and it replaces the glyph sequence <code>f i</code> with the glyph <code>f_i</code>. So after the lookup as been applied, the glyph run looks like this:</p>
+<p><code>H e l_l e n i c space f_i g u r e</code></p>
+<p>Then, the lookup <code>L2</code> referenced by the <code>swsh</code> is applied to the glyph run. It replaces the glyph <code>f</code> with the glyph <code>f.swsh</code>. This does not produce any change in the text because the glyph <code>f</code> is not present in the glyph run anymore (as the <code>L1</code> lookup replaced it).</p>
+<p>Finally, the lookup <code>L3</code> is executed. It replaces the glyph sequence <code>e l</code> with the glyph <code>e_l</code>. This does not produce any change either, because the glyph sequence <code>e l</code> is not in the glyph run (we have the glyph sequence <code>e l_l</code>, but that&rsquo;s completely different).</p>
 <p>So the final product of the processing is:</p>
-<p><!-- raw HTML omitted -->H e l_l e n i c space f_i g u r e<!-- raw HTML omitted --></p>
+<p><code>H e l_l e n i c space f_i g u r e</code></p>
 <p>What if I change the order of the lookups defined in my font?</p>
-<p><!-- raw HTML omitted --># AFDKO 2.0-only / future FontLab Studio 6-only syntax<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --># Lookups<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup L2 {
+<p><code># AFDKO 2.0-only / future FontLab Studio 6-only syntax</code></p>
+<p><code># Lookups</code></p>
+<p><code>lookup L2 {
 sub f by f.swsh;
-} L2;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup L3 {
+} L2;</code></p>
+<p><code>lookup L3 {
 sub e l by e_l;
-} L3;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup L1 {
+} L3;</code></p>
+<p><code>lookup L1 {
 sub l l by l_l;
 sub f i by f_i;
-} L1;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --># Features<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature liga {
+} L1;</code></p>
+<p><code># Features</code></p>
+<p><code>feature liga {
 lookup L1;
 lookup L3;
-} liga;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature swsh {
+} liga;</code></p>
+<p><code>feature swsh {
 lookup L2;
-} swsh;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature calt {
+} swsh;</code></p>
+<p><code>feature calt {
 lookup L1;
-} calt;<!-- raw HTML omitted --></p>
-<p>Then, the lookup <!-- raw HTML omitted -->L2<!-- raw HTML omitted --> will be first applied to my default glyph run <!-- raw HTML omitted -->H e l l e n i c space f i g u r e<!-- raw HTML omitted -->. It replaces the glyph <!-- raw HTML omitted -->f<!-- raw HTML omitted --> with the glyph <!-- raw HTML omitted -->f.swsh<!-- raw HTML omitted -->, so after the first lookup has been applied, the glyph run looks like the following:</p>
-<p><!-- raw HTML omitted -->H e l l e n i c space f.swsh i g u r e<!-- raw HTML omitted --></p>
-<p>Now the lookup <!-- raw HTML omitted -->L3<!-- raw HTML omitted --> is applied, changing the glyph sequence <!-- raw HTML omitted -->e l<!-- raw HTML omitted --> into the glyph <!-- raw HTML omitted -->e_l<!-- raw HTML omitted -->, so the result is:</p>
-<p><!-- raw HTML omitted -->H e_l l e n i c space f.swsh i g u r e<!-- raw HTML omitted --></p>
-<p>Finally, the lookup <!-- raw HTML omitted -->L1<!-- raw HTML omitted --> is executed. It tries to replace the glyph sequence <!-- raw HTML omitted -->l l<!-- raw HTML omitted --> with the glyph <!-- raw HTML omitted -->l_l<!-- raw HTML omitted --> and the glyph sequence <!-- raw HTML omitted -->f i<!-- raw HTML omitted --> with the glyph <!-- raw HTML omitted -->f_i<!-- raw HTML omitted -->. None of those replacements will be carried out because those glyph sequences are no longer in the glyph run. So the final result of our processing is:</p>
-<p><!-- raw HTML omitted -->H e_l l e n i c space f.swsh i g u r e<!-- raw HTML omitted --></p>
-<p>Of course if only some feature were applied, e.g. only <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> or only <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> and <!-- raw HTML omitted -->liga<!-- raw HTML omitted --> but no <!-- raw HTML omitted -->swsh<!-- raw HTML omitted -->, only the appropriate lookups would be executed — but always in the sequence in which they are defined in the font.</p>
-<p>Note that in FontLab Studio, you cannot currently define the lookups outside of feature definitions. The lookups are defined inside of the feature definitions — explicitly using the <!-- raw HTML omitted -->lookup<!-- raw HTML omitted --> keyword or implicitly by just writing the substitution statements. When the AFDKO code is compiled into binary OpenType Layout tables, the lookups are compiled and stored in the font in the sequence they have been defined in the syntax, i.e. in the sequence the feature have been defined. So by reordering the features in the OpenType panel of FontLab Studio you actually change the order in which the lookups will be stored in the font.</p>
-<p>This is extremely important for feature interaction. If you have one lookup that replaces the <!-- raw HTML omitted -->f<!-- raw HTML omitted --> glyph with the smallcap <!-- raw HTML omitted -->f.smcp<!-- raw HTML omitted --> glyph (this lookup is mapped to the <!-- raw HTML omitted -->smcp<!-- raw HTML omitted --> feature), and you have a lookup that replaces the glyph sequence <!-- raw HTML omitted -->f i<!-- raw HTML omitted --> by the glyph <!-- raw HTML omitted -->f_i<!-- raw HTML omitted --> (that lookup is used by the <!-- raw HTML omitted -->liga<!-- raw HTML omitted --> feature), you want to make sure that, when both features are applied, the smallcap lookup is executed first. Otherwise, you&rsquo;d end up with a lonely <!-- raw HTML omitted -->f_i<!-- raw HTML omitted --> ligature sticking out of an all-smallcaps text. And the FontLab Studio method to make sure that the smallcap lookup is executed first is to place the <!-- raw HTML omitted -->smcp<!-- raw HTML omitted --> feature definition before the <!-- raw HTML omitted -->liga<!-- raw HTML omitted --> feature definition in the OpenType panel.</p>
+} calt;</code></p>
+<p>Then, the lookup <code>L2</code> will be first applied to my default glyph run <code>H e l l e n i c space f i g u r e</code>. It replaces the glyph <code>f</code> with the glyph <code>f.swsh</code>, so after the first lookup has been applied, the glyph run looks like the following:</p>
+<p><code>H e l l e n i c space f.swsh i g u r e</code></p>
+<p>Now the lookup <code>L3</code> is applied, changing the glyph sequence <code>e l</code> into the glyph <code>e_l</code>, so the result is:</p>
+<p><code>H e_l l e n i c space f.swsh i g u r e</code></p>
+<p>Finally, the lookup <code>L1</code> is executed. It tries to replace the glyph sequence <code>l l</code> with the glyph <code>l_l</code> and the glyph sequence <code>f i</code> with the glyph <code>f_i</code>. None of those replacements will be carried out because those glyph sequences are no longer in the glyph run. So the final result of our processing is:</p>
+<p><code>H e_l l e n i c space f.swsh i g u r e</code></p>
+<p>Of course if only some feature were applied, e.g. only <code>calt</code> or only <code>calt</code> and <code>liga</code> but no <code>swsh</code>, only the appropriate lookups would be executed — but always in the sequence in which they are defined in the font.</p>
+<p>Note that in FontLab Studio, you cannot currently define the lookups outside of feature definitions. The lookups are defined inside of the feature definitions — explicitly using the <code>lookup</code> keyword or implicitly by just writing the substitution statements. When the AFDKO code is compiled into binary OpenType Layout tables, the lookups are compiled and stored in the font in the sequence they have been defined in the syntax, i.e. in the sequence the feature have been defined. So by reordering the features in the OpenType panel of FontLab Studio you actually change the order in which the lookups will be stored in the font.</p>
+<p>This is extremely important for feature interaction. If you have one lookup that replaces the <code>f</code> glyph with the smallcap <code>f.smcp</code> glyph (this lookup is mapped to the <code>smcp</code> feature), and you have a lookup that replaces the glyph sequence <code>f i</code> by the glyph <code>f_i</code> (that lookup is used by the <code>liga</code> feature), you want to make sure that, when both features are applied, the smallcap lookup is executed first. Otherwise, you&rsquo;d end up with a lonely <code>f_i</code> ligature sticking out of an all-smallcaps text. And the FontLab Studio method to make sure that the smallcap lookup is executed first is to place the <code>smcp</code> feature definition before the <code>liga</code> feature definition in the OpenType panel.</p>
 <p>The task of writing good OpenType Layout feature definitions becomes somewhat challenging when you have complex feature definitions that involve many lookups, and you have a potentially large number of different interacting features.</p>
 <p>I recommend reading this article by John Hudson for further understanding of how OpenType Layout works: 
 <a href="http://www.microsoft.com/typography/Glyph%20Processing/intro.mspx">http://www.microsoft.com/typography/Glyph%20Processing/intro.mspx</a></p>
@@ -679,7 +679,7 @@ Adam</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">[Removed this post &ndash; and changed its position &hellip; &ndash; since Adam&rsquo;s description is <!-- raw HTML omitted -->much<!-- raw HTML omitted --> more detailed and exact. What I keep is the link to the <!-- raw HTML omitted -->Feature File Syntax<!-- raw HTML omitted -->.]</div>
+		<div class="commentbody">[Removed this post &ndash; and changed its position &hellip; &ndash; since Adam&rsquo;s description is <em>much</em> more detailed and exact. What I keep is the link to the <a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html" target="_blank">Feature File Syntax</a>.]</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -704,15 +704,15 @@ Adam</p>
 <p>Thanks Adam and Karsten!</p>
 <p>So, if I have everything right, aside from cutting and pasting Karsten&rsquo;s code above, I should do multiple lookups under the same feature. Then each lookup is applied to the string of text in the order that the lookup is created.</p>
 <p>So without cheating by looking, this is how I would accomplish my goal as set out above:</p>
-<p><!-- raw HTML omitted -->feature liga {<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup L1 {<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->sub l l by l_l;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->} L1;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup L2 {<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->sub e l by e_l;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->} L2;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->} liga;<!-- raw HTML omitted --></p>
-<p>No need to worry about contextuality then, since this definition makes <!-- raw HTML omitted -->l_l<!-- raw HTML omitted --> take precedence over <!-- raw HTML omitted -->e_l<!-- raw HTML omitted --> at all times. This is very helpful. Thanks again guys!</p>
+<p><code>feature liga {</code></p>
+<p><code>lookup L1 {</code>
+<code>sub l l by l_l;</code>
+<code>} L1;</code></p>
+<p><code>lookup L2 {</code>
+<code>sub e l by e_l;</code>
+<code>} L2;</code></p>
+<p><code>} liga;</code></p>
+<p>No need to worry about contextuality then, since this definition makes <code>l_l</code> take precedence over <code>e_l</code> at all times. This is very helpful. Thanks again guys!</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

@@ -135,12 +135,12 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@ marcin:
-<!-- raw HTML omitted -->does your kerning algorythm base on something similar to a tresholded gaussian blur of a given radius?<!-- raw HTML omitted -->
+<em>does your kerning algorythm base on something similar to a tresholded gaussian blur of a given radius?</em>
 No, it&rsquo;s not . it simply expands glyph outline using Breadth-First-Search and colorize the weight of each pixel by distance of it from base shape. Then it recognize white spaces by computational geometric methods, and decrease distance of glyphs each step using a maximum overlap allowed value.</p>
 <p>@ Khaled:
 I found your solution very clever, but do you think it should not be such complex in implementation? if automations (with any approach) came built-in, there will be more efficient ways to design, so I think. Special needs of complex scripts could be automated by a few simple rules or algorithms. but design tools don&rsquo;t support them, and scripting features are not enough.</p>
 <p>this makes me crazy.</p>
-<p>I&rsquo;m going to design a font creation software with <!-- raw HTML omitted -->complete<!-- raw HTML omitted --> support of OTT generation. General focus will be on special needs of complex scripts.</p>
+<p>I&rsquo;m going to design a font creation software with <strong>complete</strong> support of OTT generation. General focus will be on special needs of complex scripts.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -186,7 +186,7 @@ I found your solution very clever, but do you think it should not be such comple
 		<div class="commentbody"><p>@ Khaled:</p>
 <p>I mean mark to glyph, mark to mark positioning, glyph forms and cursive attachment, not only kerning. For example cursive attachment and substitutions of Initial, Medial and Final forms of glyphs, are very straightforward processes, but implementing them is critique and boring (at least for me). they could be automatically generated. also for mark positioning we could simply place two arbitrary above and below marks in order to tell to the program how to set offsets of &lsquo;mark&rsquo; feature, instead of setting positions for each glyph by hand.</p>
 <p>I just want to say, there isn&rsquo;t any design tool that could do everything a font designer needed. FontLab don&rsquo;t generate all features and VOLT can&rsquo;t edit outlines, for this and some other reasons we have to use a wide range of softwares that they are not integrated with together&hellip; I want such a program that could design glyph outlines, generate all features of OpenType, and have some automated abilities, designed specially for specific scripts (like Arabic).</p>
-<p><!-- raw HTML omitted -->Actually the most irritating thing I&rsquo;ve found about RTL kerning is that you can&rsquo;t use kerning classes<!-- raw HTML omitted --></p>
+<p><em>Actually the most irritating thing I&rsquo;ve found about RTL kerning is that you can&rsquo;t use kerning classes</em></p>
 <p>Why you need to use kerning classes?</p>
 </div>
 	</div>
@@ -234,7 +234,7 @@ I found your solution very clever, but do you think it should not be such comple
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Why you need to use kerning classes?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Why you need to use kerning classes?</cite></p>
 <p>It is very helpful for grouping similar glyphs together, it cuts down the number of kerning pairs significantly.</p>
 </div>
 	</div>
@@ -258,12 +258,12 @@ I found your solution very clever, but do you think it should not be such comple
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Positioning marks by a script will save time. I think the best method should be something like this:</p>
-<p><!-- raw HTML omitted -->1- mark.position.x = glyph.width / 2
-2- mark.position.y = maximum([glyph.nodes.y]) + offset<!-- raw HTML omitted --></p>
+<p><code>1- mark.position.x = glyph.width / 2
+2- mark.position.y = maximum([glyph.nodes.y]) + offset</code></p>
 <p>But I think there would be some inelegance cases; for some glyphs it&rsquo;s not the best approach of mark placement. fine-tuning could be needed after applying script.</p>
 <p>Using a pre-designed template is a good idea, but it could be better. in fact you mean reduction amount of work by avoid repeating routine things. I think using a template will cause some problems. because designing methods and approaches of persons are different. It&rsquo;s difficult to find a template respecting all of ideas. considering work for changing template, whole amount of work will not so decrease. if we think more in details we&rsquo;ll conclude that &lsquo;templates&rsquo; and &lsquo;algorithms&rsquo; are exactly same ideas. but i think replacing visual aimed tools with old methods could help more about simplifying, with maintaining generality of design techniques.</p>
 <p>For example, I like to set marks by hand without involving technical parts of work. Imagine that you want to position marks (completely manual or after applying some algorithms). you should simply type a phrase or paragraph with marks (or use a typed one) and set each mark&rsquo;s positions by selecting and moving it around with mouse. so you can see result in a real paragraph of text and could recognize all of bugs like intersections, touching marks and etc. In this case, designer will never write scripts for placing marks, cursive attachment or kerning. all of features will generated directly at compile time. so designer could focus on his design, not technical details of implementation.</p>
-<p><!-- raw HTML omitted -->It cuts down the number of kerning pairs significantly.<!-- raw HTML omitted --></p>
+<p><em>It cuts down the number of kerning pairs significantly.</em></p>
 <p>What is the benefit of fewer pairs? As I know, using classes of glyphs will not help processing time or save memory. compilers simply replace members of each class with a set of glyphs, in lookups. so in fact, count of pairs will not decrease using classes.</p>
 </div>
 	</div>
@@ -286,10 +286,13 @@ I found your solution very clever, but do you think it should not be such comple
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><cite>
+1- mark.position.x = glyph.width / 2
+2- mark.position.y = maximum([glyph.nodes.y]) + offset
+</cite>
 <p>That is essentially what I was doing, but as you state there are special cases, but the effort needed to make it more intelligent (i.e. analyse the actual shape, have special rules for certain classes of glyphs etc.) seemed to much for little gain, but of course if we to build a general purpose solution, then more intelligence is needed.</p>
 <p>I know templates are kind of rigid, but judging by many Arabic fonts that I&rsquo;ve seen, they are relatively simple, very few ligature, no fancy substitutions and so on, so such a solution can benefit a lot of potential font designers who are alienated by high entry level. But I can see the benefit of building more general tools, though I prefer to base on existing tools instead of reinventing the wheel. FontForge, for example, is a ten years old beast with more than half a million lines of code, we certainly don&rsquo;t wont to reinvent that.</p>
-<p><!-- raw HTML omitted -->What is the benefit of fewer pairs? As I know, using classes of glyphs will not help processing time or save memory. compilers simply replace members of each class with a set of glyphs, in lookups. so in fact, count of pairs will not decrease using classes.<!-- raw HTML omitted --></p>
+<p><cite>What is the benefit of fewer pairs? As I know, using classes of glyphs will not help processing time or save memory. compilers simply replace members of each class with a set of glyphs, in lookups. so in fact, count of pairs will not decrease using classes.</cite></p>
 <p>The less number of pairs the either for font designer to make and maintain them.</p>
 </div>
 	</div>
@@ -381,7 +384,7 @@ I found your solution very clever, but do you think it should not be such comple
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->The devil is in the details.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>The devil is in the details.</cite></p>
 <p>Having my hacker hat on, I&rsquo;m all for new, fresh start, but now putting my font developer hat on, I&rsquo;m more inclined to practical solutions that won&rsquo;t take years to implement and does not added more complexity to my existing work flow (i.e. learning a radically new tool).</p>
 <p>I&rsquo;m not sure how you intend to use FreeType, but last time I checked it was a font rendering not editing library, so of little use here (if you want to edit the fonts you need to decode them yourself), FontForge already use FreeType for some TrueType hinting related stuff, but that is another issue.</p>
 <p>OpenType is now an ISO standard, also its documentation were always public, see [[http://www.microsoft.com/typography/otspec/|OpenType specification]] page, though I&rsquo;ve seen many complaints about unclear or even self-contradictory parts. I believe other specifications (e.g TrueType font structure) are also available.</p>
@@ -407,10 +410,10 @@ I found your solution very clever, but do you think it should not be such comple
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->The Devil doesn&rsquo;t scare me<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>The Devil doesn&rsquo;t scare me</em></p>
 <p>I started to learning FontLab when I didn&rsquo;t know anything about typography and learned it in 30 minutes. why you are worried about learning? learning a new stuff is very easy for a professional designer. If some new tools will be created for development, then they will be very similar to olders. in addition, adding some integration abilities could eliminate complexity of using a new tool.</p>
 <p>FreeType is a rendering engine, but as I know, it could decode font outline data into well-structured curve data. Though if it don&rsquo;t support decoding, I&rsquo;m pretty sure there are other decoders available. if not, there is no way else than writing a decoder.</p>
-<p><!-- raw HTML omitted -->OpenType is now an ISO standard, also its documentation were always public&hellip;<!-- raw HTML omitted --></p>
+<p><em>OpenType is now an ISO standard, also its documentation were always public&hellip;</em></p>
 <p>I didn&rsquo;t mean specifications, I need to know the mathematics and data structures behind of OpenType Tables and want to know how to build a ttf or otf file from an OT script. and of course how to read data from font files.</p>
 </div>
 	</div>
@@ -433,7 +436,7 @@ I found your solution very clever, but do you think it should not be such comple
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I didn&rsquo;t mean specifications, I need to know the mathematics and data structures behind of OpenType Tables and want to know how to build a ttf or otf file from an OT script. and of course how to read data from font files.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I didn&rsquo;t mean specifications, I need to know the mathematics and data structures behind of OpenType Tables and want to know how to build a ttf or otf file from an OT script. and of course how to read data from font files.</cite></p>
 <p>Sorry, but I never though about such low level stuff, but, as you seem to be familiar with Python, you can check TTX which is written entirely in Python, AFAIK, and can encode/decode most of OpenType and TrueType tables.</p>
 </div>
 	</div>

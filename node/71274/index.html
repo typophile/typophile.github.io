@@ -239,7 +239,7 @@ And indeed, given that these ligatures are for an artificial language and for an
 <p>can I ask you where have you found the information about the 
 languagesystem used by windows 7 uniscribe?</p>
 </blockquote>
-<p>We wrote some simple code that called the new <!-- raw HTML omitted -->[[http://msdn.microsoft.com/en-us/library/dd368557(VS.85).aspx|ScriptItemizeOpenType()]]<!-- raw HTML omitted --> Uniscribe function on one-character Unicode strings (each being one Unicode character from the Unicode Standard, version 5.2). This call returned an array of OpenType script tags, or basically , one OpenType script tag per character. For the PUA characters, Uniscribe returned <!-- raw HTML omitted -->SCRIPT_TAG_UNKNOWN (0x00000000)<!-- raw HTML omitted -->.</p>
+<p>We wrote some simple code that called the new <em>[[http://msdn.microsoft.com/en-us/library/dd368557(VS.85).aspx|ScriptItemizeOpenType()]]</em> Uniscribe function on one-character Unicode strings (each being one Unicode character from the Unicode Standard, version 5.2). This call returned an array of OpenType script tags, or basically , one OpenType script tag per character. For the PUA characters, Uniscribe returned <code>SCRIPT_TAG_UNKNOWN (0x00000000)</code>.</p>
 <p>Adam</p>
 </div>
 	</div>
@@ -262,11 +262,11 @@ languagesystem used by windows 7 uniscribe?</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --> &gt; if i try to put two uniE2C2 in text editor on windows (like Word, or even openoffice) they don&rsquo;t make any ligature&hellip;<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite> &gt; if i try to put two uniE2C2 in text editor on windows (like Word, or even openoffice) they don&rsquo;t make any ligature&hellip;</cite></p>
 <p>I can&rsquo;t tell what Word is doing exactly with PUA characters, it may be intentional and hardcoded or may be accidental leftover from older versions. But I see at least one reason for Word developers to not shape them. Windows supports so called end-user-defined characters (EUDC), used widely in East Asia. They can be associated with all fonts or particular font and will be automatically displayed in place of PUA character. This is done by GDI automatically. There are good and bad sides of this approach. Good news for application is that it should not do any special processing, EUDC just works. But there is also a problem. EUDC can only be substituted on character level, which means that once you switch to glyph mode and go to Uniscribe for shaping, EUDCs stop working. So blind shaping of any character is not what Word can afford doing.</p>
-<p><!-- raw HTML omitted --> &gt; For the PUA characters, Uniscribe returned SCRIPT_TAG_UNKNOWN (0x00000000).<!-- raw HTML omitted --></p>
+<p><cite> &gt; For the PUA characters, Uniscribe returned SCRIPT_TAG_UNKNOWN (0x00000000).</cite></p>
 <p>There are two tags associated with script in Uniscribe. First, there is one applied by default when you call old API (ScriptShape or ScriptPlace). This tag may or may not be mandatory. For example, Arabic text should always be shaped under &lsquo;arab&rsquo; tag. ASCII digits are shaped with &lsquo;latn&rsquo; by default, but can be shaped with any script tag. This is what script tag returned by ScriptItemizeOpenType means. Specific tag returned means it is enforced, and function like ScriptShapeOpenType will return error if other tag is passed. If returned script tag is SCRIPT_TAG_UNKNOWN, client can pass any tag based on additional information it has about the document, user settings, etc. For PUA characters script tag is not enforced, but it will be shaped with &lsquo;DFLT&rsquo; tag by default.</p>
-<p><!-- raw HTML omitted --> &gt; Interestingly, the Windows 7 Uniscribe assigns the &ldquo;DFLT&rdquo; language system to U+E000 and to U+F8FF, but no language system to any of the PUA codepoints in-between.<!-- raw HTML omitted --></p>
+<p><cite> &gt; Interestingly, the Windows 7 Uniscribe assigns the &ldquo;DFLT&rdquo; language system to U+E000 and to U+F8FF, but no language system to any of the PUA codepoints in-between.</cite></p>
 <p>I am not sure what you mean, but it sound strange :). All PUA characters are classified the same in Uniscribe, so should have exactly same properties.</p>
 <p>Thanks,
 Sergey</p>

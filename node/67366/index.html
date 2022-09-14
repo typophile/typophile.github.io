@@ -405,15 +405,15 @@ I have since learned the lesson had have made into a Stylistic Set!</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@ All: thank you very very much! It&rsquo;s an honor to receive advices from masters in type design. My plan is to use stylistic sets as this:</p>
-<p><!-- raw HTML omitted -->1<!-- raw HTML omitted -->. glyph alternates for lowercase (a, f, g, k, y);
-<!-- raw HTML omitted -->2<!-- raw HTML omitted -->. glyph alternates for uppercase (G, K, R);
-<!-- raw HTML omitted -->3<!-- raw HTML omitted -->. beginnings;
-<!-- raw HTML omitted -->4<!-- raw HTML omitted -->. endings;
-<!-- raw HTML omitted -->5<!-- raw HTML omitted -->. Roman numerals;
-<!-- raw HTML omitted -->6<!-- raw HTML omitted -->. alternates for undesired optical effects;
-<!-- raw HTML omitted -->7<!-- raw HTML omitted -->. arrows, flourishes and dingbats;
-<!-- raw HTML omitted -->8<!-- raw HTML omitted -->. math symbols and alternates for math expressions;
-<!-- raw HTML omitted -->9<!-- raw HTML omitted -->. figurine chess notation.</p>
+<p><strong>1</strong>. glyph alternates for lowercase (a, f, g, k, y);
+<strong>2</strong>. glyph alternates for uppercase (G, K, R);
+<strong>3</strong>. beginnings;
+<strong>4</strong>. endings;
+<strong>5</strong>. Roman numerals;
+<strong>6</strong>. alternates for undesired optical effects;
+<strong>7</strong>. arrows, flourishes and dingbats;
+<strong>8</strong>. math symbols and alternates for math expressions;
+<strong>9</strong>. figurine chess notation.</p>
 <p>Of course, now I have to discover how to do the Roman numerals substitution for all numbers using OT lookups. The other I believe I already discovered how to (although I did not tested all this as the design is just beginning).</p>
 <p>Again, thank you all.</p>
 </div>
@@ -596,7 +596,7 @@ There might be a solution if you were able to set up conditions like &ldquo;IF t
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->One of my targets are legal texts. Brazilian Constitution has a sequence of itens numbered in Roman which goes until LXXVIII (!).<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>One of my targets are legal texts. Brazilian Constitution has a sequence of itens numbered in Roman which goes until LXXVIII (!).</cite></p>
 <p>Shouldn&rsquo;t it be leaved to layout programs instead of fonts?</p>
 </div>
 	</div>
@@ -640,8 +640,8 @@ There might be a solution if you were able to set up conditions like &ldquo;IF t
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->@ Michael<!-- raw HTML omitted -->: thanks again for the input.</p>
-<p><!-- raw HTML omitted -->@ Riccard0 and Agisaak<!-- raw HTML omitted -->: sure, you&rsquo;re right. As I stated above, features like Roman numerals may be best suited for InDesign GREP styles. But the possibility to have automatic number substitution through OT hooked me. At least, it&rsquo;s an opportunity to learn more about OT tables and features.</p>
+		<div class="commentbody"><p><strong>@ Michael</strong>: thanks again for the input.</p>
+<p><strong>@ Riccard0 and Agisaak</strong>: sure, you&rsquo;re right. As I stated above, features like Roman numerals may be best suited for InDesign GREP styles. But the possibility to have automatic number substitution through OT hooked me. At least, it&rsquo;s an opportunity to learn more about OT tables and features.</p>
 <p>I&rsquo;m testing a way to have this substitution for almost all numbers. Of course, this is just useful if does not cause hundreds of lines of code. If I get it done, I&rsquo;ll share here.</p>
 </div>
 	</div>
@@ -688,14 +688,14 @@ There might be a solution if you were able to set up conditions like &ldquo;IF t
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Automatic Roman numerals from Arabic ones<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><strong>Automatic Roman numerals from Arabic ones</strong></p>
 <p>I created a code to apply automatic substitution to any number from 1 to 9999. With just 37 substitutions, the code seems to be fair. But as I&rsquo;m a novice, it may be improved by more experienced designers.</p>
 <p>To proceed all substitutions, the font needs 30 additional glyphs. And the principle behind all these substitution could be used in other similar procedures.</p>
 <p>Firstly, you need a class which brings together all numeric figures in the font:</p>
-<p><!-- raw HTML omitted -->@NUMBERS=[@ONE @TWO @THREE @FOUR @FIVE @SIX @SEVEN @EIGHT @NINE @ZERO];<!-- raw HTML omitted --></p>
+<p><code>@NUMBERS=[@ONE @TWO @THREE @FOUR @FIVE @SIX @SEVEN @EIGHT @NINE @ZERO];</code></p>
 <p>Then, you create a Stylistic Set with four lookups of substitutions, ordened this way: thousands, hundreds, sets fo ten and units:</p>
-<p><!-- raw HTML omitted -->feature ss09 {
-lookup <!-- raw HTML omitted -->THOUSANDS<!-- raw HTML omitted --> {
+<p><code>feature ss09 {
+lookup <strong>THOUSANDS</strong> {
 sub one' @NUMBERS @NUMBERS @NUMBERS by M.sc;
 sub two' @NUMBERS @NUMBERS @NUMBERS by twothousand.rm;
 sub three' @NUMBERS @NUMBERS @NUMBERS by threethousand.rm;
@@ -706,7 +706,7 @@ sub seven' @NUMBERS @NUMBERS @NUMBERS by seventhousand.rm;
 sub eight' @NUMBERS @NUMBERS @NUMBERS by eightthousand.rm;
 sub nine' @NUMBERS @NUMBERS @NUMBERS by ninethousand.rm;
 } THOUSANDS;
-lookup <!-- raw HTML omitted -->HUNDREDS<!-- raw HTML omitted --> {
+lookup <strong>HUNDREDS</strong> {
 ignore substitute @NUMBERS' @NUMBERS @NUMBERS @NUMBERS;
 sub one' @NUMBERS @NUMBERS by C.sc;
 sub two' @NUMBERS @NUMBERS by twohundred.rm;
@@ -718,7 +718,7 @@ sub seven' @NUMBERS @NUMBERS by sevenhundred.rm;
 sub eight' @NUMBERS @NUMBERS by eighthundred.rm;
 sub nine' @NUMBERS @NUMBERS by ninehundred.rm;
 } HUNDREDS;
-lookup <!-- raw HTML omitted -->TENS<!-- raw HTML omitted --> {
+lookup <strong>TENS</strong> {
 ignore substitute @NUMBERS' @NUMBERS @NUMBERS;
 sub one' @NUMBERS by X.sc;
 sub two' @NUMBERS by twoten.rm;
@@ -730,7 +730,7 @@ sub seven' @NUMBERS by seventen.rm;
 sub eight' @NUMBERS by eightten.rm;
 sub nine' @NUMBERS by nineten.rm;
 } TENS;
-lookup <!-- raw HTML omitted -->UNITS<!-- raw HTML omitted --> {
+lookup <strong>UNITS</strong> {
 ignore substitute @NUMBERS' @NUMBERS;
 sub one' by I.sc;
 sub two' by two.rm;
@@ -742,10 +742,10 @@ sub seven' by seven.rm;
 sub eight' by eight.rm;
 sub nine' by nine.rm;
 } UNITS;
-lookup <!-- raw HTML omitted -->ZEROS<!-- raw HTML omitted --> {
+lookup <strong>ZEROS</strong> {
 sub zero' by zero.rm;
 } ZEROS;
-} ss09;<!-- raw HTML omitted --></p>
+} ss09;</code></p>
 <p>Note the last lookup is a trick: to remove the zeros I applied a general substitution to a glyph zamed zero.rm. This glyph is empty and has zero width. So, all the zeros are hidden.</p>
 <p>It&rsquo;s running OK in the tests I made.</p>
 </div>
@@ -824,7 +824,7 @@ Until that time, I am pretty hyped by this solution.</p>
 <p>Keeping close to what was used in the font and therefore relying on the @ordn1 rather than @numbers I did the following - but updated the naming of the glyphs to reflect the fact that I see this code for the capitalised versions of the Roman Numerals.
 Also because there are existing names and unicodes for some of the Roman Numerals – I am using these.</p>
 <p>Though using small caps letters x.sc is an elegant shortcut, I have decided to have actual numbers used. Traditionally Roman numerals are not letters but are their own expression, I am creating new glyphs for the M, C, L and D.</p>
-<!-- raw HTML omitted -->
+<code>
 <p>feature ss09 { # Stylistic Set 9</p>
 <h1 id="latin">Latin</h1>
 <h1 id="advanced-roman-numerals-converter">Advanced Roman Numerals Converter</h1>
@@ -880,7 +880,7 @@ lookup ZEROS {
 sub zero' by zeroroman;
 } ZEROS;
 } ss09;</p>
-<!-- raw HTML omitted -->
+</code>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -992,7 +992,7 @@ sub zero' by zeroroman;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@Freierger Again thanks for working on this. I have now dropped this in one of my fonts, which also has small roman ligatures from i to xvi (i.e to cover the first signature in a book).</p>
-<p>Roman and Unicode: Check: <!-- raw HTML omitted -->Fileformat Unicode Page<!-- raw HTML omitted --></p>
+<p>Roman and Unicode: Check: <a href="http://www.fileformat.info/info/unicode/">Fileformat Unicode Page</a></p>
 <p>Ink effect: interesting challenge!
 Randomised characters are talked about elsewhere on this board in a couple of places. @Nick might know?</p>
 </div>

@@ -176,9 +176,9 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Adam,</p>
-<p>That&rsquo;s not quite right. The correct thing to say is, do not use the “Adobe OT PS Standard Names (CFF)” encoding. This is because it is safe to use glyph names from that encoding, <!-- raw HTML omitted -->as long as<!-- raw HTML omitted --> they&rsquo;re also present in the <!-- raw HTML omitted -->Adobe Glyph List For New Fonts<!-- raw HTML omitted --> <a href="http://partners.adobe.com/public/developer/en/opentype/aglfn13.txt">http://partners.adobe.com/public/developer/en/opentype/aglfn13.txt</a></p>
+<p>That&rsquo;s not quite right. The correct thing to say is, do not use the “Adobe OT PS Standard Names (CFF)” encoding. This is because it is safe to use glyph names from that encoding, <strong>as long as</strong> they&rsquo;re also present in the <em>Adobe Glyph List For New Fonts</em> <a href="http://partners.adobe.com/public/developer/en/opentype/aglfn13.txt">http://partners.adobe.com/public/developer/en/opentype/aglfn13.txt</a></p>
 <p>This means that, only the glyph names listed below should NOT be used.</p>
-<p><!-- raw HTML omitted -->Note:<!-- raw HTML omitted --> <!-- raw HTML omitted -->fi<!-- raw HTML omitted --> and <!-- raw HTML omitted -->fl<!-- raw HTML omitted --> are between parentheses because Mac OS X (as of 10.4.8) still relies in glyph names (instead of the &lsquo;cmap&rsquo; table). This means that if the font doesn&rsquo;t contain these two glyph names, the OS will perform font-flaback on the characters U+FB01 and U+FB02.</p>
+<p><em>Note:</em> <strong>fi</strong> and <strong>fl</strong> are between parentheses because Mac OS X (as of 10.4.8) still relies in glyph names (instead of the &lsquo;cmap&rsquo; table). This means that if the font doesn&rsquo;t contain these two glyph names, the OS will perform font-flaback on the characters U+FB01 and U+FB02.</p>
 <p>(109	fi)
 (110	fl)
 150	onesuperior
@@ -402,19 +402,19 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>William, you can find Adobe&rsquo;s recommendations for glyph names on these two pages:</p>
-<p>— <!-- raw HTML omitted -->Unicode and Glyph Names<!-- raw HTML omitted -->
-— <!-- raw HTML omitted -->Glyph Names and Current Implementations<!-- raw HTML omitted --></p>
-<p>The short answer is, read <!-- raw HTML omitted -->section 6<!-- raw HTML omitted --> of Unicode and Glyph Names page.</p>
-<p>For small caps*, for example, <!-- raw HTML omitted -->a.small<!-- raw HTML omitted -->, <!-- raw HTML omitted -->aacute.sc<!-- raw HTML omitted -->, or <!-- raw HTML omitted -->agrave.smcp<!-- raw HTML omitted --> are all sound names.</p>
+<p>— <a href="http://partners.adobe.com/public/developer/opentype/index_glyph.html">Unicode and Glyph Names</a>
+— <a href="http://partners.adobe.com/public/developer/opentype/index_glyph2.html">Glyph Names and Current Implementations</a></p>
+<p>The short answer is, read <a href="http://partners.adobe.com/public/developer/opentype/index_glyph.html#6">section 6</a> of Unicode and Glyph Names page.</p>
+<p>For small caps*, for example, <strong>a.small</strong>, <strong>aacute.sc</strong>, or <strong>agrave.smcp</strong> are all sound names.</p>
 <ul>
-<li>If you care about unique glyph-character correspondence, you&rsquo;ll need to have two sets of small cap glyphs: one that matches the lowercase set, and another that matches the uppercase set. This means you&rsquo;ll end up with two small cap &lsquo;A&rsquo;s, one named <!-- raw HTML omitted -->a.sc<!-- raw HTML omitted -->, and another named <!-- raw HTML omitted -->A.sc<!-- raw HTML omitted -->. The first should be used in the &lsquo;smcp&rsquo; feature, and the second in the &lsquo;c2sc&rsquo; feature, as the code below illustrates:</li>
+<li>If you care about unique glyph-character correspondence, you&rsquo;ll need to have two sets of small cap glyphs: one that matches the lowercase set, and another that matches the uppercase set. This means you&rsquo;ll end up with two small cap &lsquo;A&rsquo;s, one named <strong>a.sc</strong>, and another named <strong>A.sc</strong>. The first should be used in the &lsquo;smcp&rsquo; feature, and the second in the &lsquo;c2sc&rsquo; feature, as the code below illustrates:</li>
 </ul>
-<p><!-- raw HTML omitted -->feature smcp {
+<p><code>feature smcp {
 sub a by a.sc;
 } smcp;</p>
 <p>feature c2sc {
 sub A by A.sc;
-} c2sc;<!-- raw HTML omitted --></p>
+} c2sc;</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -459,10 +459,10 @@ sub A by A.sc;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Let&rsquo;s say that you decide to only have <!-- raw HTML omitted -->a.sc<!-- raw HTML omitted -->. This means that your &lsquo;c2sc&rsquo; feature will look like this:</p>
-<p><!-- raw HTML omitted -->feature c2sc {
+		<div class="commentbody"><p>Let&rsquo;s say that you decide to only have <strong>a.sc</strong>. This means that your &lsquo;c2sc&rsquo; feature will look like this:</p>
+<p><code>feature c2sc {
 sub A by a.sc;
-} c2sc;<!-- raw HTML omitted --></p>
+} c2sc;</code></p>
 <p>In environments where character codes (Unicode codepoints) need to be reconstructed from glyph names — like when copying text from a PDF, for example — the text string &lsquo;AAA&rsquo; styled with your &lsquo;c2sc&rsquo; feature, will end up being converted to &lsquo;aaa&rsquo;, because that&rsquo;s the result of parsing &lsquo;/a.sc/a.sc/a.sc&rsquo;.</p>
 </div>
 	</div>
@@ -504,16 +504,16 @@ sub A by a.sc;
 <p>Variant 3 is the least preferrable. If my source text reads &ldquo;The typeface Constantia was designed by John Hudson&rdquo; and I style &ldquo;Constantia&rdquo; and &ldquo;John Hudson&rdquo; with &ldquo;all small caps&rdquo;, the retrieved text will read &ldquo;The typeface constantia was designed by john hudson&rdquo;. This semantic loss is unacceptable becauase all-lowercase text is not orthographically correct in this case.</p>
 <p>As or the glyphname suffixes, you can use whatever you want: &ldquo;a.smcp&rdquo;, &ldquo;a.small&rdquo;, &ldquo;a.sc&rdquo;, &ldquo;a.SMALLC&rdquo; etc. are all acceptable for the small caps &ldquo;a&rdquo; glyph. &ldquo;one.onum&rdquo;, &ldquo;one.osf&rdquo;, &ldquo;one.oldstyle&rdquo;, &ldquo;one.lc&rdquo;, &ldquo;one.o&rdquo; are all acceptable for the old-style/lowercase figure 1.</p>
 <p>Fontlab Ltd. recommends to use glyphname suffixes that are tied to OpenType Layout feature tags that the glyphs are used in (or primarily used in). So if you follow variant 1 of devising small caps (duplicate sets), You can name the glyphs &ldquo;A.c2sc&rdquo; and &ldquo;a.smcp&rdquo;. Then it&rsquo;s instantly obvious that the OpenType Layout feature definition will be</p>
-<p><!-- raw HTML omitted -->feature c2sc {
+<p><code>feature c2sc {
 sub A by A.c2sc; 
 } c2sc;</p>
 <p>feature smcp {
 sub a by a.smcp; 
-} smcp; <!-- raw HTML omitted --></p>
+} smcp; </code></p>
 <p>If your font has just two sets of figures (lining with Unicode codepoints, and oldstyle as variants), You can name the oldstyle figures &ldquo;one.onum&rdquo; so the feature definition would be:</p>
-<p><!-- raw HTML omitted -->feature onum {
+<p><code>feature onum {
 sub one by one.onum; 
-} onum; <!-- raw HTML omitted --></p>
+} onum; </code></p>
 <p>If a glyph is only accessed through a combination of features, e.g. if you have four sets of figures (tabular lining, tabular oldstyle, proportional lining, proportional oldstyle), you can use the names &ldquo;one&rdquo; (for the tabular lining), &ldquo;one.onum_tnum&rdquo; (for the tabular oldstyle), &ldquo;one.lnum_pnum&rdquo; (for the proportional lining) and &ldquo;one.onum_pnum&rdquo; (for the proportional oldstyle). In the suffix, you can concatenate the OpenType Layout tags using underscore, and the sequence of these layout tags are alphabetical. Similarly, if you have a stylistic variant of a small caps &ldquo;R&rdquo;, you can call it &ldquo;R.c2sc_ss01&rdquo;.</p>
 <p>If the same glyph is used in several features independantly (e.g. a stylistic variant of &ldquo;R&rdquo; could be used in &ldquo;ss01&rdquo; and &ldquo;salt&rdquo;), you can pick the suffix that is most specifically tied to the glyph. &ldquo;ss01&rdquo; seems to be more specific that &ldquo;salt&rdquo; so you can call the glyph &ldquo;R.ss01&rdquo;.</p>
 <p>When it comes to ligatures, Fontlab Ltd. currently recommends using suffixes in these as well. The standard &ldquo;fi&rdquo; ligature can be named &ldquo;f_i.liga&rdquo; while a discretionary &ldquo;st&rdquo; ligature can be named &ldquo;s_t.dlig&rdquo;. This keeps your glyphnames in order and allows you to quickly allocate the ones you need.</p>
@@ -587,7 +587,7 @@ Fontlab Ltd.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->For localized glyph variants, Fontlab Ltd. suggests using the OpenType language tag, i.e. the Serbian “b” glyph would be named “afii10066.SRB”.<!-- raw HTML omitted --></p>
+<p><em>For localized glyph variants, Fontlab Ltd. suggests using the OpenType language tag, i.e. the Serbian “b” glyph would be named “afii10066.SRB”.</em></p>
 </blockquote>
 <p>Just a small note to say, although &lsquo;afii10066&rsquo; is a perfectly legal glyph name, Adobe is moving away from afiiXXXXX glyph names, in favour of uniXXXX (or uXXXX*) names. So in the case above &lsquo;afii10066.SRB&rsquo; can be replaced by &lsquo;uni0431.SRB&rsquo; or &lsquo;u0431.SRB&rsquo;.</p>
 <p>*Currently, Mac OS X (10.4.8) relies on glyph names and doesn&rsquo;t support this form.</p>
@@ -612,9 +612,9 @@ Fontlab Ltd.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->2. Have one set of small caps glyphs named as if they were variants of UPPERCASE glyphs<!-- raw HTML omitted --></p>
-<p>Surely this is the only option that should be offered, because it maintains <!-- raw HTML omitted --> typographic<!-- raw HTML omitted --> correspondence, i.e. the emphasis of the original document &ndash; in the same way that bold and italic are retained in &ldquo;reconstruction&rdquo;.</p>
-<p><!-- raw HTML omitted -->“one.onum_tnum” <!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>2. Have one set of small caps glyphs named as if they were variants of UPPERCASE glyphs</em></p>
+<p>Surely this is the only option that should be offered, because it maintains <em> typographic</em> correspondence, i.e. the emphasis of the original document &ndash; in the same way that bold and italic are retained in &ldquo;reconstruction&rdquo;.</p>
+<p><em>“one.onum_tnum” </em></p>
 <p>This &ldquo;_tnum&rdquo; seems to be an oxymoron, as the four basic figure groups are presently understood to be:</p>
 <p>onum = oldstyle + proportional
 tnum = oldstyle + tabular
@@ -706,11 +706,11 @@ U+2089	nine.inferior</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->This &ldquo;_tnum&rdquo; [in “one.onum_tnum”] seems to be an oxymoron, as the four basic figure groups are presently understood to be:<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->onum = oldstyle + proportional
+		<div class="commentbody"><p><cite>This &ldquo;_tnum&rdquo; [in “one.onum_tnum”] seems to be an oxymoron, as the four basic figure groups are presently understood to be:</cite></p>
+<p><cite>onum = oldstyle + proportional
 tnum = oldstyle + tabular
 lnum = lining + tabular
-pnum = lining + proportional<!-- raw HTML omitted --></p>
+pnum = lining + proportional</cite></p>
 <p>Following the OT numeral feature logic, to address tabular oldstyle figures, both tnum and onum features need to be applied by the application. So mentioning both these features in the glyph name makes this obvious. The table should be:</p>
 <p>width:
 pnum = proportional
@@ -819,7 +819,7 @@ These properties are controlled <em>independently</em> of each other by OpenType
 </ul>
 <p><em>One</em> of these figure sets would be your <em>default</em> figure set, for which you wouldn&rsquo;t use a glyphname suffix and you would assign the Unicode codepoints to them. These could be the uppercase monospaced figures, but could be also a different figure set. For the three remaining sets, you&rsquo;d use glyphname suffixes.</p>
 <p>If you have four figure sets, each of the four features (onum, pnum, lnum, tnum) should <em>always</em> substitute two sets by two other sets.</p>
-<p>More on this <!-- raw HTML omitted --><!-- raw HTML omitted -->here<!-- raw HTML omitted --><!-- raw HTML omitted --> und <!-- raw HTML omitted --><!-- raw HTML omitted -->here<!-- raw HTML omitted --><!-- raw HTML omitted -->.</p>
+<p>More on this <a href="http://typophile.com/node/29580?from=64"><strong>here</strong></a> und <a href="http://typophile.com/node/29648?from=34"><strong>here</strong></a>.</p>
 <p>A.</p>
 </div>
 	</div>
@@ -908,14 +908,14 @@ These properties are controlled <em>independently</em> of each other by OpenType
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->According to the more strict Adobe policy (which separates glyphs inserted through OpenType Layout from glyphs inserted through their Unicode codepoints), your font should have two sets of identical superscript and duplicated as subscript figures<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>According to the more strict Adobe policy (which separates glyphs inserted through OpenType Layout from glyphs inserted through their Unicode codepoints), your font should have two sets of identical superscript and duplicated as subscript figures</em></p>
 <p>There&rsquo;s something wrong here.
 There&rsquo;s no need for all this redundancy in the font &ndash; why can&rsquo;t the layout application use Unicode codepoints for determining OpenType layout features?</p>
-<p><!-- raw HTML omitted -->No no no no :)<!-- raw HTML omitted --></p>
+<p><em>No no no no :)</em></p>
 <p>Adam, Karsten, I understand the principle of &ldquo;two variables produces four instances&rdquo;, and have made dozens of OT fonts with four sets of figures that work just fine.</p>
 <p>I came to the conclusion that
 &ldquo;onum = oldstyle + proportional&rdquo;
-by looking at the way characters were named in Adobe fonts, i.e. &ldquo;oneoldstyle&rdquo;, and <!-- raw HTML omitted -->figured<!-- raw HTML omitted --> the rest out from there.</p>
+by looking at the way characters were named in Adobe fonts, i.e. &ldquo;oneoldstyle&rdquo;, and <em>figured</em> the rest out from there.</p>
 <p>Looks like Adobe made a mistake by coming up with run-on names such as &ldquo;asmall&rdquo;, &ldquo;oneinferior&rdquo;, and &ldquo;oneoldstyle&rdquo; &ndash; so don&rsquo;t roll your eyes at me, and how about admitting it?</p>
 <hr>
 <p>Adam, please stop refering to &ldquo;monospaced&rdquo;, &ldquo;lowercase&rdquo; and &ldquo;uppercase&rdquo; figures.
@@ -953,9 +953,9 @@ The correct terms are &ldquo;tabular&rdquo;, &ldquo;oldstyle&rdquo; and &ldquo;l
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Adam, Karsten, I understand the principle of “two variables produces four instances”, and have made dozens of OT fonts with four sets of figures that work just fine.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Adam, Karsten, I understand the principle of “two variables produces four instances”, and have made dozens of OT fonts with four sets of figures that work just fine.</cite></p>
 <p>Sorry, I know. I just feared the table would irritate people who still have to fumble out how it works. (The logic of numeral feature styles is rather strange at first glance.)</p>
-<p><!-- raw HTML omitted -->What type designers — and the font industry — need is some good standard templates, not to have to figure things out for themselves on constantly shifting terrain.<!-- raw HTML omitted --></p>
+<p><cite>What type designers — and the font industry — need is some good standard templates, not to have to figure things out for themselves on constantly shifting terrain.</cite></p>
 <p>My impression is that this will continue to be the status quo until finally Microsoft will come up with truely OT-savvy* applications (not a mere WPF, but WPF used by Word &amp;c) &ndash; of course with their own interface to access OT features. And it may take one or two more steps until Apple, Adobe, MS finally assimilate their slightly different approaches, so that user can use OT fonts the same way throughout different OSses and applications. No idea what this means in terms of years.
 Prove that I am wrong and I&rsquo;ll be happy.  :)</p>
 </div>
@@ -1155,7 +1155,7 @@ would be handy too.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I’m not bitter Adam, just frustrated working on the never-ending font, as I discover something new each month that should be included or changed.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I’m not bitter Adam, just frustrated working on the never-ending font, as I discover something new each month that should be included or changed.</cite></p>
 <p>Although there are things that have changed, including Adobe&rsquo;s choices for glyph names, there has never been any significant change in how we associate glyphs and features in this area (onum/tnum/lnum/pnum). Not since we shipped our first featureful OpenType fonts seven years ago.</p>
 <p>Cheers,</p>
 <p>T</p>

@@ -71,10 +71,10 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody"><p>David Lemon from Adobe writes in his tutorial <!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->Basic Type 1 Hinting<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --> about the stem weights:</p>
-<p><!-- raw HTML omitted -->&ldquo;Another font-wide behavior is the stem weights provided for the font. It’s generally best to enter two values for vertical stems and one or two for horizontal, listing the values in ascending order. In a standard Latin font, the values should represent the optimal weight of the normal lowercase and capital stems (hence the two values). These values - especially the first vertical value - are used for a number of rasterization purposes, so it’s important to make them as representative as possible. Two of the most obvious uses include letting ATM know when to turn off synthetic emboldening in a bold design, and serving as target values, to ensure consistent stem weights at low resolutions. In a design where the stems vary slightly in weight, fine-tuning these target values can make a significant difference.&quot;<!-- raw HTML omitted --></p>
-<p>But that is a try-and-error-solution. I would like to know, how I can find the optimal standard stem values in a more systematic way. And I have recognized, that Adobe (for example) does not use three or four values in all cases. Bold or black fonts, in which the contrast is stronger, seem to need more values. In my opinion the only thing in PostScript hinting, which is hard to do, is finding the optimal standard stems, especially because the output of the autohinting script contained in the <!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->Adobe Font Development Kit for OpenType (AFDKO)<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --> is extremely good. There is another script (setsnap.pl) contained in the AFDKO (coded by <!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->Ken Lunde<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --> in Perl), but the output was not helpful (even not with the non standard options). Unfortunately there is no tutorial, how to make the optimal use of the script (for the case, that it is useful and I am too stupid).</p>
-<p><!-- raw HTML omitted -->So my request (because I bang my head against the wall):<!-- raw HTML omitted -->
+  <div class="post-content e-content" itemprop="articleBody"><p>David Lemon from Adobe writes in his tutorial <strong><em><a href="http://typophile.com/files/hinting.pdf">Basic Type 1 Hinting</a></em></strong> about the stem weights:</p>
+<p><cite>&ldquo;Another font-wide behavior is the stem weights provided for the font. It’s generally best to enter two values for vertical stems and one or two for horizontal, listing the values in ascending order. In a standard Latin font, the values should represent the optimal weight of the normal lowercase and capital stems (hence the two values). These values - especially the first vertical value - are used for a number of rasterization purposes, so it’s important to make them as representative as possible. Two of the most obvious uses include letting ATM know when to turn off synthetic emboldening in a bold design, and serving as target values, to ensure consistent stem weights at low resolutions. In a design where the stems vary slightly in weight, fine-tuning these target values can make a significant difference.&quot;</cite></p>
+<p>But that is a try-and-error-solution. I would like to know, how I can find the optimal standard stem values in a more systematic way. And I have recognized, that Adobe (for example) does not use three or four values in all cases. Bold or black fonts, in which the contrast is stronger, seem to need more values. In my opinion the only thing in PostScript hinting, which is hard to do, is finding the optimal standard stems, especially because the output of the autohinting script contained in the <strong><em><a href="http://www.adobe.com/devnet/opentype/afdko/">Adobe Font Development Kit for OpenType (AFDKO)</a></em></strong> is extremely good. There is another script (setsnap.pl) contained in the AFDKO (coded by <strong><em><a href="http://lundestudio.com/">Ken Lunde</a></em></strong> in Perl), but the output was not helpful (even not with the non standard options). Unfortunately there is no tutorial, how to make the optimal use of the script (for the case, that it is useful and I am too stupid).</p>
+<p><strong>So my request (because I bang my head against the wall):</strong>
 Please teach me! I would like to know a systematic way, how to find the optimal standard stem weights and the optimal number of standard stems. These values are extremely important for PostScript hinting. Even if you do not define individual hints for the glyphs, the values of the standard stems help the rasterizer. (Just make a test: Generate a font file, in which the individual hints are removed only. And generate a second file, in which you additionally have removed the standard stem values. Compare them. If the standard stem values were well chosen, as in Adobe fonts for example, you can see, that the font, in which standard stem values exist, looks much better on screen.)</p>
 </div>
 
@@ -101,7 +101,7 @@ Please teach me! I would like to know a systematic way, how to find the optimal 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I just the Fontlab autohinter and then use the autofill button to have it gather the standard stem values. Then just delete the Fontlab hints.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I just the Fontlab autohinter and then use the autofill button to have it gather the standard stem values. Then just delete the Fontlab hints.</cite></p>
 <p>Up till now I also have used FontLab for computing the standard stems, but that solution is semioptimal. Just open an Adobe original font in FontLab and remove (and forget) the original standard stems. Then try to reproduce the same quality. I would like to know, what exactly I have to measure and why the optimal standard stems are dependent from the number of pixels, in which the font is displayed. The setsnap.pl script indicates, that there are no optimal stems independent from the absolute resolution. But for example, for which size does Adobe optimize the stems and how do they fine tune them? Additionally it does not seem to be needed, that the standard stems match with any real stem width, for example: You have three real horizontal stem widths 10, 18 and 32 units, but your tests show, that you should take one only. So you could sum the three values and devide them by three. The result is 20. Your whole font does not contain a stem with a width of 20, but the rasterizer can make use of the value 20. (This naturally does not mean, that just 20 is the optimal value.) I assume, that FontLab computes standard stems only, that match with real stems. And if not, I would like to know, how FontLab computes the values. By the way the computed values are dependent from the hints, that exist in the font. Change the hints and FontLab computes different standard stems. All this is too arbitrary for being professional. The fact, that there are still so many non Adobe fonts, that are not well hinted, indicates, that there is a need for clarifying the problem. PostScript hinting is not magic. I keep my hands from TrueType hinting, but I really want to understand, how exactly PostScript hinting works. David Lemon’s tutorial is cool and his writing style eases the understanding, but it is not enough. I need more info. The individual hints are not the problems, but the standard stems are a big one in my opinion. (I also have a need for clarifying the exact influence of the BlueShift and the BlueScale value. I got info about the meaning from the Type1 blackbook, but the info is too compressed and partly too cryptical.)</p>
 </div>
 	</div>
@@ -430,7 +430,7 @@ Adobe Systems Incorporated
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Bold or black fonts, in which the contrast is stronger, seem to need more values.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>Bold or black fonts, in which the contrast is stronger, seem to need more values.</em></p>
 <p>I don&rsquo;t think it&rsquo;s the contrast. There are often more quite distinct (numerically far apart) stem widths in the heavier weights.
 That&rsquo;s because with reference to the desirability of an overall even quality in text, &ldquo;colour&rdquo; (or notan) is more apparent and more instrumental in bold weights than the thickness of stems.
 For instance, Futura:
@@ -482,7 +482,7 @@ H</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->If you’d like me to take a stab at a font, feel free to send to me the stemHist output files, and I’ll let you know what I think are appropriate stem values.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>If you’d like me to take a stab at a font, feel free to send to me the stemHist output files, and I’ll let you know what I think are appropriate stem values.</cite></p>
 <p>Thanks, Ken. I would also send you a list of standard stems, from which I think, that they are well chosen.</p>
 <p>But another question: Imagine, that you have a font with the following real stem widths. (The font does not have any curves.)</p>
 <p>VERTICAL STEMS: 30 and 60
@@ -515,7 +515,7 @@ HORIZONTAL STEMS: 40 and 50</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->My bug report of the autohinting macro, that is contained in the AFDKO.<!-- raw HTML omitted -->
+		<div class="commentbody"><p><a href="http://forum.fontlab.com/adobe-fdk-for-opentype-afdko/bug-in-autohintscript-belonging-to-the-afdko-25-21898-t7057.0.html;msg23917#msg23917">My bug report of the autohinting macro, that is contained in the AFDKO.</a>
 I have fixed the bug and attached it there.</p>
 <p>I can edit my first message only. Why not the last one? That’s odd.</p>
 </div>
@@ -540,15 +540,15 @@ I have fixed the bug and attached it there.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Quoting myself
-<!-- raw HTML omitted -->(Vertical hints hint horizontal stems.)<!-- raw HTML omitted --></p>
-<p>This is a point, in which I am not sure. In Fontographer hints of horizontal stems are displayed as vertical arrows. In FontLab they are displayed as two dashed horizontal lines. And in the FontLab terminology a vertical hint hints a vertical stem. On the one side the FontLab terminology is more intuitive. On the other side it is contradictory regarding to the alignment function of hints. And it ignores the difference between a normal and a ghost hint. So I prefer<!-- raw HTML omitted -->ed<!-- raw HTML omitted --> to call a hint, that hints a vertical stem, a horizontal hint. But I am relatively sure, that it is defined in a specification. I only have to find it.</p>
+<cite>(Vertical hints hint horizontal stems.)</cite></p>
+<p>This is a point, in which I am not sure. In Fontographer hints of horizontal stems are displayed as vertical arrows. In FontLab they are displayed as two dashed horizontal lines. And in the FontLab terminology a vertical hint hints a vertical stem. On the one side the FontLab terminology is more intuitive. On the other side it is contradictory regarding to the alignment function of hints. And it ignores the difference between a normal and a ghost hint. So I prefer<strong>ed</strong> to call a hint, that hints a vertical stem, a horizontal hint. But I am relatively sure, that it is defined in a specification. I only have to find it.</p>
 <p>Edited:</p>
 <p>From the Type1 blackbook:</p>
-<p><!-- raw HTML omitted -->The vstem hint, for each vertical stem (such as the legs of the
+<p><cite>The vstem hint, for each vertical stem (such as the legs of the
 letter “n” or the leftmost and rightmost sections of the letter “o”)
 takes two x values (expressed as x and delta-x) as arguments. These
 two x values indicate the horizontal range that the vertical stem’s
-width occupies in character space.<!-- raw HTML omitted --></p>
+width occupies in character space.</cite></p>
 <p>I change my opinion and call vstem hints vertical hints in future. Or vstem hints.</p>
 </div>
 	</div>
@@ -573,9 +573,9 @@ width occupies in character space.<!-- raw HTML omitted --></p>
 	<div class="card-body">
 		<div class="commentbody"><p>Sorry the hinting documentation is so limited. The tutorial I wrote so long ago was focused on Fontographer, and omitted things that FOG can&rsquo;t do. We are (more accurately: Miguel is) working on an expanded version, but it&rsquo;s a slow project and likely to take quite a while longer.</p>
 <p>Arno asked:
-<!-- raw HTML omitted -->But I would think about dividing the sum of 40 and 50 for the one and only value of the horizontal standard stems, because the rasterizer tries to render in the width of the standard stems independent from the question, if their widths match with real stems. Would this be wrong? More to the point, there is no duty to choose standard stems, that really exist in the font, isn’t it?<!-- raw HTML omitted --></p>
+<cite>But I would think about dividing the sum of 40 and 50 for the one and only value of the horizontal standard stems, because the rasterizer tries to render in the width of the standard stems independent from the question, if their widths match with real stems. Would this be wrong? More to the point, there is no duty to choose standard stems, that really exist in the font, isn’t it?</cite></p>
 <p>There&rsquo;s no requirement that the standard stem weights match actual stems. Often the best result is more of an average of several closely-related values. But it does need to really represent the weight of the design.</p>
-<p><!-- raw HTML omitted -->If, for example, the regular style and the italic style of a font are very similar in weight, I could use the same standard stems for both styles.<!-- raw HTML omitted --></p>
+<p><cite>If, for example, the regular style and the italic style of a font are very similar in weight, I could use the same standard stems for both styles.</cite></p>
 <p>This would be a bad idea. The rasterizer tries to make a visible difference between the regular and bold weights at small sizes (where both may have one-pixel stems), and uses the stem weight values to figure out what weights it&rsquo;s dealing with. If you lie to the rasterizer you&rsquo;re not likely to get good results.</p>
 </div>
 	</div>

@@ -83,10 +83,10 @@
 	<div class="card-body">
 		<div class="commentbody"><p>Until someone comes up with an “offline” OpenType interpreter, you may have to do the heavy lifting yourself.</p>
 <p>Logically, for ligatures that would probably mean doing swaps before you submit the text string to the rendering machine, perhaps something like this:</p>
-<p><!-- raw HTML omitted -->IF font has character UFB01;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->AND text string has contiguous characters /fi/;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->THEN swap UFB01 for /fi/ in text string before rendering;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->ELSE ignore.<!-- raw HTML omitted --></p>
+<p><code>IF font has character UFB01;</code></p>
+<p><code>AND text string has contiguous characters /fi/;</code></p>
+<p><code>THEN swap UFB01 for /fi/ in text string before rendering;</code></p>
+<p><code>ELSE ignore.</code></p>
 <p>For alternates, until a uniform standard for designation and Unicode assignment is developed, you&rsquo;re on you&rsquo;re own…</p>
 </div>
 	</div>
@@ -133,8 +133,8 @@
 		<div class="commentbody"><p>Thanks to everyone for your answers. I apologize about the late reply, the week-end has been pretty busy around here.</p>
 <p>Nick, you actually managed to read my mind :) Manual replacement in a text string was my first idea too, and I also got stuck when it came to not having a Unicode value. And then I have absolutely no idea how to display these alternates/ligatures :(</p>
 <p>Reynir, you&rsquo;re absolutely right about GD. Though, as far as I know, FreeType doesn&rsquo;t display ligatures or alternates, does it ? Of course, I might be wrong, but here&rsquo;s what I found in the FreeType documentation :</p>
-<p><!-- raw HTML omitted -->&ldquo;The library doesn&rsquo;t support text layout operations. Sophisticated features like glyph substitution, positioning (kerning), justification, bi-directional ordering, etc.m are not part of a font service in itself. They must be handled one level higher.&quot;<!-- raw HTML omitted --></p>
-<p>I just love the last sentence <!-- raw HTML omitted -->&ldquo;They must be handled one level higher&rdquo;<!-- raw HTML omitted -->. I still don&rsquo;t get what &ldquo;one lever higher&rdquo; means :)</p>
+<p><em>&ldquo;The library doesn&rsquo;t support text layout operations. Sophisticated features like glyph substitution, positioning (kerning), justification, bi-directional ordering, etc.m are not part of a font service in itself. They must be handled one level higher.&quot;</em></p>
+<p>I just love the last sentence <em>&ldquo;They must be handled one level higher&rdquo;</em>. I still don&rsquo;t get what &ldquo;one lever higher&rdquo; means :)</p>
 <p>In the meantime, I have found ways to do this with the Python language, so I&rsquo;m keeping this solution somewhere in my mind for the future, if I don&rsquo;t find another way to do this :)</p>
 <p>I have also done some reading during the last two days and bookmarked a few links for me to read. These links concern PHP libraries, so as soon as I&rsquo;ll be done with them, I&rsquo;ll see if it is what I&rsquo;m looking for.</p>
 </div>
@@ -158,10 +158,10 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
-<p>Freetype contains routines to draw entire text strings (and thus limited to regular Unicode); but these are wrappers around its Core Business: drawing any arbitrary <!-- raw HTML omitted -->glyph<!-- raw HTML omitted --> from any font on any position.</p>
+		<div class="commentbody"><blockquote>I just love the last sentence "They must be handled one level higher". I still don't get what "one lever higher" means :)</blockquote>
+<p>Freetype contains routines to draw entire text strings (and thus limited to regular Unicode); but these are wrappers around its Core Business: drawing any arbitrary <em>glyph</em> from any font on any position.</p>
 <p>If you can figure out how to use the Draw Any Glyph function, you can pretty much draw any text, with all ligatures, small caps, accents, and whatever you can find in a font. The big drawback is that you need to follow the Opentype rules: do substitutions in the correct order, handle GPOS custom positioning (which includes, but is by no way limited to, advanced kerning), as well as handle all idiosyncratic inherent behavior of Opentype features (e.g., determine what a &ldquo;beginning of word&rdquo; character is and then look up if there is an &ldquo;init&rdquo; feature to be applied).</p>
-<p>I&rsquo;ve never used it myself, but word on the streets is <!-- raw HTML omitted -->Harfbuzz<!-- raw HTML omitted --> is an intermediate text engine, sitting between Freetype and your own code to handle most OTF features.</p>
+<p>I&rsquo;ve never used it myself, but word on the streets is <strong>Harfbuzz</strong> is an intermediate text engine, sitting between Freetype and your own code to handle most OTF features.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -234,9 +234,9 @@
 	<div class="card-body">
 		<div class="commentbody"><p>It&rsquo;s a question of functional layering. Here is an infographic, hope this makes it a bit more clear.</p>
 <p>[img:sites/default/files/old-images/drawtype_6318.png]</p>
-<p><!-- raw HTML omitted -->FreeType<!-- raw HTML omitted --> is best at drawing glyphs (both Unicode encoded and un-encoded), but you have to tell it what glyphs to draw and where. It only uses the outline part of an OpenType font.
-<!-- raw HTML omitted -->HarfBuzz<!-- raw HTML omitted --> can look up the correct glyph sequence to be displayed from a font, given a string of characters to draw and a set of Opentype features to apply.
-<!-- raw HTML omitted -->Pango<!-- raw HTML omitted --> integrates the two: you tell it what text to draw with what features applied.</p>
+<p><em>FreeType</em> is best at drawing glyphs (both Unicode encoded and un-encoded), but you have to tell it what glyphs to draw and where. It only uses the outline part of an OpenType font.
+<em>HarfBuzz</em> can look up the correct glyph sequence to be displayed from a font, given a string of characters to draw and a set of Opentype features to apply.
+<em>Pango</em> integrates the two: you tell it what text to draw with what features applied.</p>
 <p>It totally depends on how far you want to go. Typically, you would use only FreeType if all you want to show is a simple list of all glyphs in a font (I used it to write my own quick-and-dirty font inspector).</p>
 <p>If you want to see Opentype features in action, you could read the data yourself out of the font and &ldquo;apply&rdquo; it (i.e., performing the right lookups for the character(s) you want to display and the features it should show), or use HarfBuzz, which &ndash; as I understand &ndash; does the looking up and translating to other glyphs for you.</p>
 <p>If you want a fully featured text drawing engine, you need to take &lsquo;everything&rsquo; into account &ndash; Opentype features, kerning, and even font switching to do stuff like display an italic word in a regular string. That&rsquo;s what Pango can do for you.</p>

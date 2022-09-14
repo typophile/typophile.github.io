@@ -75,7 +75,12 @@
 [img:sites/default/files/old-images/aefmnopsty1_4274.png]
 &ldquo;AEFMNOPST&rdquo; have been constructed in the METAFONT language by Donald. E. Knuth and &ldquo;Y1&rdquo; have been added by the METATYPE1-Team.</p>
 <p>I have completed the font in two ways:</p>
-<!-- raw HTML omitted -->
+<ul>
+<li>I have added many glyphs, such that the T1-encoding table is complete now (T1 is also known as the EC- or Cork-encoding)
+<li> I have added some variants like "light ultracondensed" or "script"
+</ul>
+[img:sites/default/files/old-images/smallspecimen_5329.png]
+The main purpose of this font is to make future logos related to METAFONT easier (like mf2pt1, MFLua, ....). Also the old "S" will be replaced by Knuths newest version of the "S", such that the METAPOST logo will be set correctly in type1 fonts.
 <p>Please have a look at the examples attached and tell me about inconcistencies and also spacing/kerning issues.</p>
 <p>Many thanks,</p>
 <p>fujito</p>
@@ -203,10 +208,125 @@
 		<div class="commentbody"><p>There is already a global parameter (&ldquo;superness&rdquo;) that makes the font squarer or rounder. E. g. the script styles have superness=0.75 instead of superness=0.8. After having published the sources, everyone may produce easily new font styles by just redefining the global parameters.</p>
 <p>&ldquo;half&rdquo; is nothing really special, it is just the concatenation of two arcs and arcs are not really special (nilus arcs are a bit more complex) as the font is penbased. Have a look at the following picture and then you may have a look at the definitions of &ldquo;arc&rdquo;, &ldquo;half&rdquo; and &ldquo;circle&rdquo;:</p>
 <p>[img:sites/default/files/old-images/arc_3463.png]</p>
-<!-- raw HTML omitted -->
+<code>
+%this is for arc, it is just the algebraic solution of 
+%zi+whatever*diri=zj+whatever*dirj
+%but I did not want to save any variables here
+def corner(expr zi,diri,zj,dirj) = 
+ (
+ xpart(zi)
+ -xpart(diri/length(diri))/(ypart(diri/length(diri))
+ *xpart(dirj/length(dirj))-xpart(diri/length(diri))
+ *ypart(dirj/length(dirj)))*(xpart(dirj/length(dirj))
+ *(ypart(zi)-ypart(zj))+ypart(dirj/length(dirj))
+ *(xpart(zj)-xpart(zi)))
+ ,
+ ypart(zi)
+ -ypart(diri/length(diri))/(ypart(diri/length(diri))
+ *xpart(dirj/length(dirj))-xpart(diri/length(diri))
+ *ypart(dirj/length(dirj)))*(xpart(dirj/length(dirj))
+ *(ypart(zi)-ypart(zj))+ypart(dirj/length(dirj))
+ *(xpart(zj)-xpart(zi)))
+ )
+enddef;
+<code>
+</code>
+%a quarter of a superellipse
+def arc(expr zi,diri,zj,dirj) =
+ zi{diri}
+ ...zi
+ +superness*(corner(zi,diri,zj,dirj)-zi)
+ -(1-superness)*(corner(zi,diri,zj,dirj)-zj)
+ ...zj{dirj}
+enddef;
+<code>
+</code>
+%half a superellipse
+def half(expr zi,diri,zj,dirj,zk,dirk) =
+ arc(zi,diri,zj,dirj) 
+ & arc(zj,dirj,zk,dirk)
+enddef;
+<code>
+</code>
+%full superellipse
+def full(expr zi,diri,zj,dirj,zk,dirk,zl,dirl) =
+ arc(zi,diri,zj,dirj) 
+ & arc(zj,dirj,zk,dirk)
+ & arc(zk,dirk,zl,dirl)
+ & arc(zl,dirl,zi,diri)
+enddef;
+</code>
 <p>The &ldquo;-randup&rdquo; is just like the direction &ldquo;(0,-1)&rdquo; but with some noise (which is only applied for the script styles). I was too lazy to define a &ldquo;random down&rdquo; so it is kind of &ldquo;- random up&rdquo;.</p>
 <p>To the nilus arc: I have worked out a clearer solution of it a long time ago but never wrote it down in METAFONT. But the principle stays the same, so here is the old code snippet (and I am aware that it is ugly, sorry):</p>
-<!-- raw HTML omitted -->
+<code>
+vardef computearcpoints(suffix $,$$)(expr lsupcorr,rsupcorr) = % private definition for computations of arcpoints
+ pair originall,originalr,centerl,centerr,cornerl,cornerr,betweenl,betweenr,extremuml,extremumr;
+ if (xpart(z$$r-z$r)>0)  and  (ypart(z$$r-z$r)<0) 	%lower left
+ or (xpart(z$$r-z$r)<0) and (ypart(z$$r-z$r)>0): 	%upper right
+  originall=(1/(length(up slanted slant)))[.5[z$l,z$r],z$l]; %later there will be some slanting calculations and we redo them now
+  originalr=(1/(length(up slanted slant)))[.5[z$l,z$r],z$r];
+  %originall=z$l; 
+  %originalr=z$r;
+  centerl=(x$$l,ypart(originall)); 
+  centerr=(x$$r,ypart(originalr)); 
+  cornerl=(xpart(originall),y$$l);
+  cornerr=(xpart(originalr),y$$r);
+ else: %lower right and upper left
+  originall=(1/(length(up slanted slant)))[.5[z$$l,z$$r],z$$l]; 
+  originalr=(1/(length(up slanted slant)))[.5[z$$l,z$$r],z$$r];
+  centerl=(x$l,ypart(originall)); 
+  centerr=(x$r,ypart(originalr)); 
+  cornerl=(xpart(originall),y$l);
+  cornerr=(xpart(originalr),y$r); 
+ fi
+ betweenr=(length(((z$$r-z$r)/length((z$$r-z$r)))slanted slant)*0.5+0.5)
+  [((1+rsupcorr)*superness)[centerl,cornerl],
+  ((1+rsupcorr)*superness)[centerr,cornerr]];  
+ betweenl=(length(((z$$l-z$l)/length((z$$l-z$l)))slanted slant)*0.5+0.5)
+  [((1+lsupcorr)*superness)[centerr,cornerr],
+  ((1+lsupcorr)*superness)[centerl,cornerl]]; 
+ %--calculate extrema for slanted bows:--- 
+ if slant>0:
+  if (xpart(z$$r-z$r)>0)  and  (ypart(z$$r-z$r)<0): %lower left
+   extremuml=directionpoint (slant,-1) of (z$l{cornerl-z$l}...betweenl{z$$l-z$l});
+   extremumr=directionpoint (slant,-1) of (z$r{cornerr-z$r}...betweenr{z$$r-z$r});
+  elseif (xpart(z$$r-z$r)<0) and (ypart(z$$r-z$r)>0): %upper right
+   extremuml=directionpoint (-slant,1) of (z$l{cornerl-z$l}...betweenl{z$$l-z$l});
+   extremumr=directionpoint (-slant,1) of (z$r{cornerr-z$r}...betweenr{z$$r-z$r});
+ fi
+ else:
+  if (xpart(z$$r-z$r)>0)  and  (ypart(z$$r-z$r)<0) 	%lower left
+  or (xpart(z$$r-z$r)<0) and (ypart(z$$r-z$r)>0): 	%upper right
+   extremuml=z$l;
+   extremumr=z$r;
+  fi
+ fi
+enddef;
+<code>
+</code>
+vardef pulled_arc.l(suffix $,$$)(expr lsupcorr,rsupcorr) = % inside of arc 
+ computearcpoints($,$$,lsupcorr,rsupcorr);
+ z$l{cornerl-z$l}...betweenl{z$$l-z$l} 
+  ...{z$$l-cornerl}z$$l
+enddef;
+<code>
+</code>
+vardef pulled_arc.r(suffix $,$$)(expr lsupcorr,rsupcorr) = % outside of arc 
+ computearcpoints($,$$,lsupcorr,rsupcorr);
+ z$r{cornerr-z$r}...betweenr{z$$r-z$r} 
+  ...{z$$r-cornerr}z$$r 
+enddef;
+<code>
+</code>
+vardef arc.l(suffix $,$$) = % inside of arc 
+ pulled_arc.l($,$$,0,0)
+enddef;
+<code>
+</code>
+vardef arc.r(suffix $,$$) = % outside of arc 
+ pulled_arc.r($,$$,0,0)
+enddef;
+</code>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

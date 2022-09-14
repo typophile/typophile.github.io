@@ -80,9 +80,28 @@
 		<div class="commentbody"><p>Here&rsquo;s a small script I wrote for renaming glyphs. It assumes Robofab is installed. You type in two list of glyph names&ndash;the current ones and the ones you&rsquo;d like to replace them with. With your particular task, you&rsquo;d probably have to run it three times&ndash;once to change your standard names to a temporary name (e.g., a.temp), once to change your alt glyphs to standard names, and once to change the temporarily named glyphs to the alt names. (Describing this sequence, it&rsquo;s apparent that it wouldn&rsquo;t be too hard to write a script that does it all in one run, but I have other things I&rsquo;m supposed to be working on. Even so, it should still be faster than doing it manually.)</p>
 <p>As for the class kerning, I&rsquo;ll assume you&rsquo;ve created the kerning classes in FontLab&rsquo;s class panel. You could export your classes as a text file, do a round of search and replaces in a text editor (similar to the steps I described with the script), and then import the classes, replacing the existing ones. Note: the kerning will stay with the original glyphs, even when you rename them. Once you&rsquo;ve done all this, rebuild the kern feature. There&rsquo;s probably an easier way to do this, but I&rsquo;ve done it this way and it works.</p>
 <p>Here&rsquo;s the script:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<pre>from robofab.world import CurrentFont, CurrentGlyph
+
+f = CurrentFont()
+
+tString = "a b c" # put your 'before' glyph list here
+listOne = tString.split(" ")
+
+tString = "a.1 b.1 c.1" # put your 'after' glyph list here
+listTwo = tString.split(" ")
+
+i = 0
+while i < len(listOne):
+	g = f[listOne[i]]
+	g.name = listTwo[i]
+	g.update()
+	g.autoUnicodes()
+	g.update()
+	i = i+1
+		
+fl.UpdateFont()
+
+print "All done."</pre><blockquote>
 </blockquote>
 </div>
 	</div>
@@ -151,8 +170,42 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Scratch that script (unless it&rsquo;s useful for some reason). Here&rsquo;s a version that will swap any two lists of glyphs. Note: The lists (obviously) must be equal in length.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre># Swap Lists of Glyphs
+
+from robofab.world import CurrentFont, CurrentGlyph
+
+f = CurrentFont()
+
+tString = "a b c" # <- put your first glyph list here
+listOne = tString.split(" ")
+
+tString = "A B C" # <- put your second glyph list here
+listTwo = tString.split(" ")
+
+listTemp = [] 
+for i in listOne:
+	listTemp.append(i + ".temp")
+
+l = len(listOne)
+
+def setGlyphNames(listA, listB):
+	i = 0
+	while i < l:
+		g = f[listA[i]]
+		g.name = listB[i]
+		g.update()
+		g.autoUnicodes()
+		g.update()
+		i = i+1
+		
+if len(listOne) == len(listTwo):
+	setGlyphNames(listOne, listTemp) # a -> a.temp
+	setGlyphNames(listTwo, listOne)  # A -> a
+	setGlyphNames(listTemp, listTwo) # a.temp -> A
+	fl.UpdateFont()
+	print 'Done! %d pairs of glyphs swapped.' % l
+else:
+	print "Can't run. Lists are not equal."</pre>
 <p>Edit: I deleted the version I posted here earlier. This version is shorter and more efficient.</p>
 <p>The second part about class kerning stands.</p>
 </div>
@@ -202,8 +255,9 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>By the way, if you still have trouble with the length of the strings, you can build it in stages like this:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>tString = "a b c d e f "
+tString = tString + "g h i j k l m n "
+tString = tString + "o p q r s"</pre>
 <p>The rest continues on as before. You just have to make sure that all but the last one have a space at the end.</p>
 </div>
 	</div>
@@ -272,9 +326,19 @@
 	<div class="card-body">
 		<div class="commentbody"><p>Maybe clearing the unicode values before running autoUnicodes would ensure that existing values don&rsquo;t persist.</p>
 <p>Here&rsquo;s a short script that swaps names and unicodes for any two selected glyphs in the font window:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>And yes, it is possible to access classes and features through python via <!-- raw HTML omitted -->fl.font.classes<!-- raw HTML omitted --> and <!-- raw HTML omitted -->fl.font.features<!-- raw HTML omitted -->, but those require further parsing to manipulate the data. It&rsquo;d be nice to have a python method similar to the &ldquo;Rename Glyph&rdquo; tool in the Glyph menu, but that functionality seems to be absent from the python API.</p>
+<pre>#FLM: Swap Glyphs
+"""Swaps two selected glyphs."""
+
+f = fl.font
+fIdx = fl.ifont
+
+selGlyphs = [ f.glyphs[gIdx] for gIdx in range( len(f.glyphs) ) if fl.Selected(gIdx) ]
+if len(selGlyphs) == 2:
+  selGlyphs[0].name, selGlyphs[1].name = selGlyphs[1].name, selGlyphs[0].name
+  selGlyphs[0].unicodes, selGlyphs[1].unicodes = selGlyphs[1].unicodes, selGlyphs[0].unicodes
+  fl.UpdateFont(fIdx)
+</pre>
+<p>And yes, it is possible to access classes and features through python via <code>fl.font.classes</code> and <code>fl.font.features</code>, but those require further parsing to manipulate the data. It&rsquo;d be nice to have a python method similar to the &ldquo;Rename Glyph&rdquo; tool in the Glyph menu, but that functionality seems to be absent from the python API.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -342,7 +406,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->&gt; I&rsquo;m not sure if RoboFab is supported in 5.1 yet.</p>
+		<div class="commentbody"><p><cite>&gt; I&rsquo;m not sure if RoboFab is supported in 5.1 yet.</p>
 <p>Apparently is possible (not easy) to install it, but it doesn’t work quite well yet. I’d say stick to 5.0.4 for now.</p>
 </div>
 	</div>
@@ -387,26 +451,26 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I asked about it on the RoboFab group ( <a href="http://groups.google.com/group/robofab">http://groups.google.com/group/robofab</a> ) and Tal Leming responded:</p>
-<!-- raw HTML omitted -->
+<blockquote>Yes, with a caveat. The dialogs provided with robofab.interface.all.dialogs are misbehaving/not working in Mac OS 10.7. We're actively trying to resolve that but making a single API for all of the various OS, OS version and application combinations is frustrating. Other than that it works as far as we know. 
 <p>You&rsquo;ll need to install RoboFab from source. To do this you need to figure out which Python FontLab is using. I&rsquo;d tell you which it is, but it changes frequently and I&rsquo;m not 100% sure where things stand at the moment. To figure out the Python version, run this in the macro panel:</p>
-<p><!-- raw HTML omitted -->import sys 
-print sys.version<!-- raw HTML omitted --></p>
+<p><code>import sys 
+print sys.version</code></p>
 <p>Once you have this report, you can figure out which Terminal command you need. If you see 2.5, your command will be python2.5. If you see 2.6 and you are running OS 10.6, your command will be python. If you see 2.6 and you are running OS 10.7, your command will probably be python2.6 (I&rsquo;m not running OS 10.7, so I&rsquo;m guessing here). If you see 2.7, you are almost certainly running OS 10.7 (otherwise you really messed up your system) and your command will be python.</p>
 <p>Now follow these steps, replacing yourpythoncommand with your Python command as defined above.</p>
 <ol>
 <li>If you don&rsquo;t have it already, get the &ldquo;RoboFab + FontTools + DialogKit Combo&rdquo; zip here: <a href="http://robofab.com/download/index.html">http://robofab.com/download/index.html</a></li>
-<li>Unpack the zip and put it in a location where you want the files to live. For example <!-- raw HTML omitted -->/Applications/RoboFab<!-- raw HTML omitted -->.</li>
+<li>Unpack the zip and put it in a location where you want the files to live. For example <code>/Applications/RoboFab</code>.</li>
 <li>Open Terminal.</li>
-<li>Type &ldquo;<!-- raw HTML omitted -->cd <!-- raw HTML omitted -->&rdquo; (the space is required) and drag the FontTools folder to the Terminal window. This should give you something like &ldquo;<!-- raw HTML omitted -->cd /Applications/RoboFab/FontTools<!-- raw HTML omitted -->&rdquo;. Hit return.</li>
-<li>Type &ldquo;<!-- raw HTML omitted -->sudo yourpythoncommand setup.py install<!-- raw HTML omitted -->&rdquo;. Hit return.</li>
+<li>Type &ldquo;<code>cd </code>&rdquo; (the space is required) and drag the FontTools folder to the Terminal window. This should give you something like &ldquo;<code>cd /Applications/RoboFab/FontTools</code>&rdquo;. Hit return.</li>
+<li>Type &ldquo;<code>sudo yourpythoncommand setup.py install</code>&rdquo;. Hit return.</li>
 <li>A bunch of installation notes should appear.</li>
-<li>Type &ldquo;<!-- raw HTML omitted -->sudo yourpythoncommand <!-- raw HTML omitted -->&rdquo; (the space is required) and drag the install.py file in the RoboFab directory to the Terminal window. Hit return.</li>
-<li>&ldquo;<!-- raw HTML omitted -->Robofab is now installed.<!-- raw HTML omitted -->&rdquo; should appear along with some other text.</li>
-<li>Type &ldquo;<!-- raw HTML omitted -->sudo yourpythoncommand <!-- raw HTML omitted -->&rdquo; (the space is required) and drag the install.py file in the DialogKit directory to the Terminal window. Hit return.</li>
-<li>&ldquo;<!-- raw HTML omitted -->dialogKit is now installed.<!-- raw HTML omitted -->&rdquo; should appear along with some other text.</li>
+<li>Type &ldquo;<code>sudo yourpythoncommand </code>&rdquo; (the space is required) and drag the install.py file in the RoboFab directory to the Terminal window. Hit return.</li>
+<li>&ldquo;<code>Robofab is now installed.</code>&rdquo; should appear along with some other text.</li>
+<li>Type &ldquo;<code>sudo yourpythoncommand </code>&rdquo; (the space is required) and drag the install.py file in the DialogKit directory to the Terminal window. Hit return.</li>
+<li>&ldquo;<code>dialogKit is now installed.</code>&rdquo; should appear along with some other text.</li>
 <li>Restart FontLab if you have it open.</li>
 </ol>
-<p>Hopefully this will work. We&rsquo;ll likely try to make this easier when the dust settles.<!-- raw HTML omitted --></p>
+<p>Hopefully this will work. We&rsquo;ll likely try to make this easier when the dust settles.</blockquote></p>
 <p>This worked for me using MacOS 10.6 and FL 5.1. Scripts run noticeably faster, too.</p>
 </div>
 	</div>
@@ -456,7 +520,7 @@ print sys.version<!-- raw HTML omitted --></p>
 [1:58 AM after trying script]</p>
 <p>Got through fine and tried to run &ldquo;export ufo&rdquo; and got the following error message:</p>
 <p>Traceback (most recent call last):
-File &ldquo;<!-- raw HTML omitted -->&rdquo;, line 29, in <!-- raw HTML omitted -->
+File &ldquo;<string>&rdquo;, line 29, in <module>
 ImportError: No module named robofab.world</p>
 </div>
 	</div>
@@ -566,9 +630,40 @@ ImportError: No module named robofab.world</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Mark&rsquo;s script works pretty well in Robofont as well. If I wasn&rsquo;t busy I&rsquo;d figure out how to update the character set sorting. This would be great if I could pair it with groups and a gui.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<pre>
+# Swap Lists of Glyphs
+# Original version by Mark Simonson
+
+f = CurrentFont()
+
+tString = "A" # first glyph list
+listOne = tString.split(" ")
+
+tString = "B" # second glyph list
+listTwo = tString.split(" ")
+
+listTemp = [] 
+for i in listOne:
+	listTemp.append(i + ".temp")
+
+l = len(listOne)
+
+def setGlyphNames(listA, listB):
+	i = 0
+	while i < l:
+		g = f[listA[i]]
+		g.name = listB[i]
+		g.update()
+		g.autoUnicodes()
+		g.update()
+		i = i+1
+		
+setGlyphNames(listOne, listTemp) # a -> a.temp
+setGlyphNames(listTwo, listOne)  # A -> a
+setGlyphNames(listTemp, listTwo) # a.temp -> A
+
+print 'Done! %d pairs of glyphs swapped.' % l
+</pre><blockquote>
 </blockquote>
 </div>
 	</div>
@@ -654,11 +749,33 @@ ImportError: No module named robofab.world</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Regarding the duplicate Unicode values when swapping with .alt or other non-coded glyphs— apparently Robofab’s <!-- raw HTML omitted -->autoUnicodes<!-- raw HTML omitted --> method doesn’t remove the value unless it finds a new one to substitute. Adding <!-- raw HTML omitted -->g.unicodes = []<!-- raw HTML omitted --> above <!-- raw HTML omitted -->g.autoUnicodes()<!-- raw HTML omitted --> will prevent coded glyphs from keeping their old values after swapping names with non-coded glyphs.</p>
+		<div class="commentbody"><p>Regarding the duplicate Unicode values when swapping with .alt or other non-coded glyphs— apparently Robofab’s <code>autoUnicodes</code> method doesn’t remove the value unless it finds a new one to substitute. Adding <code>g.unicodes = []</code> above <code>g.autoUnicodes()</code> will prevent coded glyphs from keeping their old values after swapping names with non-coded glyphs.</p>
 <p>As an exercise of my limited scripting abilities, I tried to extend my “Swap Two Selected Glyphs” macro to mimic Mark’s “Swap Lists of Glyphs”. This version is FontLab-only and does not require Robofab.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<pre>
+#FLM: Swap Two Glyph Lists
+"""Swaps two sets of glyphs."""
+# (based on Mark Simonson's "Swap List of Glyphs")
+
+f = fl.font
+
+listOne = "a b c" # <- put your first glyph list here
+listTwo = "A B C" # <- put your second glyph list here
+
+listOne, listTwo = listOne.split(" "), listTwo.split(" ")
+
+if len(listOne) == len(listTwo):
+	for i in range( len(listOne) ):
+		g1 = f.glyphs[ f.FindGlyph( listOne[i] ) ]
+		g2 = f.glyphs[ f.FindGlyph( listTwo[i] ) ]
+		fl.SetUndo(g1.index)
+		fl.SetUndo(g2.index)
+		g1.name, g2.name = g2.name, g1.name
+		g1.unicodes, g2.unicodes = g2.unicodes, g1.unicodes
+	fl.UpdateFont()
+	print 'Done! %d pairs of glyphs swapped.' % len(listOne)
+else:
+	print "Can't run. Lists are not equal."
+</pre><blockquote>
 </blockquote>
 </div>
 	</div>
@@ -702,8 +819,9 @@ ImportError: No module named robofab.world</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
-<p>That&rsquo;s clever&ndash;I didn&rsquo;t realize that kind of statement worked in that way. Could have saved all that nonsense with &ldquo;listTemp&rdquo; in my version.</div>
+		<div class="commentbody"><pre>g1.name, g2.name = g2.name, g1.name</pre>
+<p>That&rsquo;s clever&ndash;I didn&rsquo;t realize that kind of statement worked in that way. Could have saved all that nonsense with &ldquo;listTemp&rdquo; in my version.</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

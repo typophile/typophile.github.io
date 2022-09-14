@@ -71,16 +71,64 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">I managed to write a script that would give the vertical center of a single glyph. Now I have been trying to expand it to give the centers of a list of glyphs with no luck. The script below only gives the center of the last glyph in the list. So what am I doing wrong here?</p>
-<!-- raw HTML omitted --></div>
+  <div class="post-content e-content" itemprop="articleBody"><p>I managed to write a script that would give the vertical center of a single glyph. Now I have been trying to expand it to give the centers of a list of glyphs with no luck. The script below only gives the center of the last glyph in the list. So what am I doing wrong here?</p>
+<pre>
+
+# Find All Centers 
+
+import os
+from robofab.world import CurrentFont
+from robofab.interface.all.dialogs import GetFolder
+
+f = CurrentFont()
+
+tString = "zero minus plus equal"
+glyphList = tString.split(" ")
+
+def collectData(f):
+	path = GetFolder()
+	if path:
+		collectedData = []
+
+		for i in glyphList:
+			g = fl.font[fl.font.FindGlyph(i)]
+			rect = g.GetBoundingRect()
+			gcenter = str(rect.height / 2)
+		collectedData.append("g.name: "+g.name+", "+"gcenter: "+gcenter)
+		collectedData.sort()
+		collectedData = "\n".join(collectedData)
+		theFileName = os.path.basename(f.path) 
+		theFileName = theFileName.split(".")[0] + ".txt" 
+		thePath = os.path.join(path,theFileName) 
+		theFile = open(thePath,"w")
+		theFile.write(collectedData)
+		theFile.close()
+		print "Done with %s!" % f.info.fontName
+		
+if len(f) != 0:
+	collectData(f)
+
+
+George</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Hi,
 your script gives the center of only last glyph because the loop for glyphs in glyphList is incomplete.
 Try:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+...
+for i in glyphList:
+	g = fl.font[fl.font.FindGlyph(i)]
+	rect = g.GetBoundingRect()
+	gcenter = str(rect.height / 2)
+	collectedData.append("g.name: "+g.name+", "+"gcenter: "+gcenter)
+	collectedData.sort()
+	collectedData = "\n".join(collectedData)
+theFileName = os.path.basename(f.path) 
+theFileName = theFileName.split(".")[0] + ".txt" 
+...
+</pre>
 <p>regards,
 gluk</p>
 </div>
@@ -127,8 +175,17 @@ gluk</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Finally got it! Thanks for your suggestion, it was an error in the indents.</p>
-<!-- raw HTML omitted --></div>
+		<div class="commentbody"><p>Finally got it! Thanks for your suggestion, it was an error in the indents.</p>
+<pre>
+
+for i in glyphList:
+		g = fl.font[fl.font.FindGlyph(i)]
+		rect = g.GetBoundingRect()
+		gcenter = str(rect.height / 2)
+		collectedData.append("g.name: "+g.name+", "+"gcenter: "+gcenter)
+	collectedData.sort()
+	collectedData = "\n".join(collectedData)
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

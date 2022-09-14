@@ -119,7 +119,7 @@ Is there a Python script that can batch import multiple EPS files in Fontlab. Se
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Not sure exactly how your EPS files are set up, but <!-- raw HTML omitted -->ScanFont<!-- raw HTML omitted --> works great for moving art from .ai or .eps files into FontLab. Unfortunately, it doesn&rsquo;t work on Mac running Lion or Mountain Lion yet. They do have options for those in that boat, though.</div>
+		<div class="commentbody">Not sure exactly how your EPS files are set up, but <a href="http://www.fontlab.com/font-converter/scanfont/">ScanFont</a> works great for moving art from .ai or .eps files into FontLab. Unfortunately, it doesn&rsquo;t work on Mac running Lion or Mountain Lion yet. They do have options for those in that boat, though.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -162,9 +162,30 @@ Is there a Python script that can batch import multiple EPS files in Fontlab. Se
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>This will ask you for a folder, find all &ldquo;.eps&rdquo; files in it and import them sequentially into the current font, using the basename of each file (without the &ldquo;.eps&rdquo; extension) as the glyph name. Should be enough to get you started, I hope.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<pre>#FLM: Import EPS glyphs from folder
+import os.path, glob
+f = fl.font
+folder = fl.GetPathName("Choose folder with EPS files...")
+pathmask = "*.eps"
+paths = []
+for globmask in [pathmask, pathmask.upper()]: 
+  paths += glob.glob(os.path.join(folder, globmask))
+paths = sorted(list(set(paths)))
+print "Importing EPS files from %s..." % (folder)
+for path in paths: 
+  basename = os.path.splitext(os.path.split(path)[1])[0]
+  try: 
+    g = Glyph()
+    g = g.LoadEPS(path)
+    g.name = basename
+    g.mark = 33
+    f.glyphs.append(g)
+    print "%s.eps imported" % (basename)
+  except: 
+    print "%s.eps IGNORED" % (basename)
+fl.UpdateFont(fl.ifont)
+print "Finished."
+</pre><blockquote>
 </blockquote>
 </div>
 	</div>

@@ -71,10 +71,10 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody"><p><!-- raw HTML omitted -->[[Indices|Indices]] : [[How-To|&ldquo;How To&rdquo; Section]] : Setting Cross-Platform Vertical Metrics<!-- raw HTML omitted --></p>
+  <div class="post-content e-content" itemprop="articleBody"><p><strong>[[Indices|Indices]] : [[How-To|&ldquo;How To&rdquo; Section]] : Setting Cross-Platform Vertical Metrics</strong></p>
 <p>Originally written by [[John Hudson]] in a thread on [[Typophile]]:</p>
-<p><!-- raw HTML omitted -->[Note that the descender values in the hhea table and the OS/2 sTypoDescender field are properly expressed as negative integer (presuming the descender goes below the baseline), while the OS/2 usWinDescent value is expressed as a positive integer. For the purpose of the discussion below, all values are treated as if they were positive integers, since what matters is the sum of the values.]<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->The Discrepancy<!-- raw HTML omitted --></p>
+<p><em>[Note that the descender values in the hhea table and the OS/2 sTypoDescender field are properly expressed as negative integer (presuming the descender goes below the baseline), while the OS/2 usWinDescent value is expressed as a positive integer. For the purpose of the discussion below, all values are treated as if they were positive integers, since what matters is the sum of the values.]</em></p>
+<p><strong>The Discrepancy</strong></p>
 <p>Apple originally spec&rsquo;d the hhea table as part of the TrueType spec. This includes three values for vertical metrics (despite the fact that the full name of the table is &lsquo;Horizontal Header&rsquo;):</p>
 <ul>
 <li>Ascender</li>
@@ -101,7 +101,7 @@
 <p>b) basically all Windows apps calculate linespacing incorrectly;</p>
 <p>c) therefore, the only way to get reliable cross-platform linespacing is by deliberately ignoring the specification, and by making the hhea table values equivalent to the OS/2 &lsquo;usWin&rsquo; values.</p>
 <p>One can sidestep the issue by making the sum of the OS/2 &lsquo;Typo&rsquo; and &lsquo;usWin&rsquo; values equivalent, so that all three sets of values produce equivalent results. In my experience, this approach &ndash; as outlined below &ndash; will produce good results for most text faces and probably the majority of display faces. But display faces with abnormally long extenders can be a problem, because one must either clip the extenders or set all the values to provide clearance, which produces abnormally large linespacing. We hit this issue when we were making the AAT version of Zapfino that ships with Mac OS X.</p>
-<p><!-- raw HTML omitted -->Best Practices<!-- raw HTML omitted --></p>
+<p><strong>Best Practices</strong></p>
 <p>Leaving aside the for-now unsolveable issue of such display faces, here are my recommendations for setting the OS/2 and hhea font metrics.</p>
 <ol>
 <li>OS/2 usWin values:
@@ -134,7 +134,7 @@ Now setting the hhea values and obtaining cross-platform linespacing is easy, be
 <li>Descender = 584 (actually -584)</li>
 <li>LineGap = 512</li>
 </ul>
-<p><!-- raw HTML omitted -->Update<!-- raw HTML omitted --></p>
+<p><strong>Update</strong></p>
 <p>Until recently, I was recommending</p>
 <pre><code>OS/2 TypoAscent == hhea Ascender
 OS/2 TypoDescent == hhea Descender
@@ -165,20 +165,20 @@ hhea.Descender == OS/2.winDescender
 hhea.lineGap = 0
 </code></pre>
 <p>Which is actually what I was recommending a few years ago, and what the MS Font Validator recommends, even though it is contrary to the OT spec.</p>
-<p><!-- raw HTML omitted -->Update to the update<!-- raw HTML omitted --></p>
+<p><strong>Update to the update</strong></p>
 <p>The question of how best to set the hhea metrics is under discussion again. Microsoft have specified an fsSelection bit setting to force applications to use OS/2 Typo metrics instead of Win metrics, in which case it would seem best to leave the hhea metrics equivalent to the OS/2 Typo metrics as originally recommended.</p>
-<p><!-- raw HTML omitted -->Update to the update to the update<!-- raw HTML omitted --> (7 June 2003)</p>
+<p><strong>Update to the update to the update</strong> (7 June 2003)</p>
 <p>Microsoft have specified fsSelection bit 7 as an instruction to applications to use the OS/2 Typo metrics to calculate linespacing (in preference to the Win metrics). However, the implementation of this in Office 2007 (the first applications to respect the bit) is less than one would hope. The clean separation of linespacing from clipping is only implemented in the new math mode (used for typesetting math equations); elsewhere in e.g. Word, the bit is respected and the linespacing is calculated according to the Typo metrics, but an assumption is made that clipping is still constraine by line height. In effect, instead of determining the linespacing according to the clipping zone of the Win values, Office is now determining the clipping zone according to the linespacing of the Typo values. [Insert &lsquo;irony mark&rsquo; here.]</p>
 <p>So what is my current recommendation for setting metrics? There&rsquo;s no easy answer to that other than try to set all three sets of metrics to sum to the same total if at all possible, in which case it won&rsquo;t matter much, in terms of cross-platform compatibility, whether the hhea metrics mirror the OS/2 Typo metrics or the OS/2 Win metrics.</p>
-<p><!-- raw HTML omitted -->Discussion:<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->Line Height Info<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->Font Dimensions - Generate Problem<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->FL Vertical Spacing<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->WinAscent&hellip; LineGap&hellip; Font BBox?<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->Ascenders Cut Off in MS Word<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->Question about Vertical Metrics<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->Additional Articles:<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->Font Metrics<!-- raw HTML omitted --> (PDF) by [[Karsten Luecke]]</p>
+<p><strong>Discussion:</strong>
+<a href="http://typophile.com/node/7571">Line Height Info</a>
+<a href="http://typophile.com/node/29662">Font Dimensions - Generate Problem</a>
+<a href="http://typophile.com/node/30788">FL Vertical Spacing</a>
+<a href="http://typophile.com/node/39172">WinAscent&hellip; LineGap&hellip; Font BBox?</a>
+<a href="http://typophile.com/node/45635">Ascenders Cut Off in MS Word</a>
+<a href="http://typophile.com/node/34287">Question about Vertical Metrics</a></p>
+<p><strong>Additional Articles:</strong>
+<a href="http://www.kltf.de/downloads/FontMetrics-kltf.pdf">Font Metrics</a> (PDF) by [[Karsten Luecke]]</p>
 </div>
 
   

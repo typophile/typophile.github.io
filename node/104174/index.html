@@ -72,13 +72,14 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>Cross-posting this message from the OpenType / MPEG Open Font Format lists.</p>
-<!-- raw HTML omitted -->
+<BLOCKQUOTE> 
+Dear OpenType /MPEG OFF List members,
 <p>Today at the Microsoft //build conference in San Francisco,  Dan McLachlan of our Graphics team will talk about Windows 8.1 approach to color fonts. We&rsquo;d like to thank P22, Monotype, The Font Bureau and FontFont for providing us with font data that we were able to use to test this approach.</p>
 <p>Our implementation uses a base glyph for reference, which would be used for non-color situations. A data structure, implemented as a new &lsquo;COLR&rsquo; table in OpenType, breaks down the base glyph into a separate set of glyphs, each with its own z-order and single color reference. The color references are handled has palette indices, with a separate table, &lsquo;CPAL&rsquo; in OpenType that resolves the RGBA colors actually used for the glyph.</p>
 <p>We plan to submit documentation on this approach for standardization through the ISO MPEG process (for inclusion in the Open Font Format) within the next few weeks. However, if you&rsquo;d like to see the approach in practice you can download the Windows 8.1 Preview and see a color font (Segoe UI Emoji) used on the touch enabled keyboard.</p>
 <p>I&rsquo;ll also be giving a talk at TypeCon on this, hope to see some of you there.</p>
 <p>Thanks, Michelle</p>
-<!-- raw HTML omitted -->
+</BLOCKQUOTE>
 <p>A video of the session should be posted here at some point&hellip; <a href="http://channel9.msdn.com/Events/Build/2013/3-191">http://channel9.msdn.com/Events/Build/2013/3-191</a></p>
 <p>Cheers, Si</p>
 </div>
@@ -173,7 +174,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>A data structure, implemented as a new 'COLR' table in OpenType, breaks down the base glyph into a separate set of glyphs, each with its own z-order and single color reference. The color references are handled [as] palette indices, with a separate table, 'CPAL' in OpenType that resolves the RGBA colors actually used for the glyph.</blockquote>
 <p>That sounds tidy.</p>
 <p>How are the separate colour glyphs combined and aligned correctly?</p>
 <p>Transparency levels would be cool, so designers could do funky things with overlaying shapes. Any support for that, or are all CPAL values solid colours?</p>
@@ -406,10 +407,10 @@ Each of the COLR table glyphs would be assigned a colour reference, mapped to an
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I know but where&rsquo;s the w gonna come from in this emoji.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>I know but where&rsquo;s the w gonna come from in this emoji.</em></p>
 <p>In this particular emoji, the only &lsquo;white&rsquo; is the background, which is just the same as for any other glyph. If one were designing a colour font which involved white counters, one would have a couple of different options, depending whether you wanted the counter to be the background colour or explicitly white. For the first, you would need to design the COLR glyphs with knock-through counters. For the second you would create counter outlines as separater COLR glyphs and assign a white colour to them (I&rsquo;m guessing this is what happens for, e.g. the teeth in grinning face emoji, since you want the teeth to be white regardless of the background colour).</p>
 <p>If you&rsquo;re using the knock-through approach to have background colour counters, then of course things may look crap if the glyph is displayed on an inappropriately coloured background, but that&rsquo;s true of regular fonts too.</p>
-<p><!-- raw HTML omitted -->So don&rsquo;t we have a MUST for legible b/w from color?<!-- raw HTML omitted --></p>
+<p><em>So don&rsquo;t we have a MUST for legible b/w from color?</em></p>
 <p>The legible b/w is the base glyph. I&rsquo;m guessing that there be accessibility options to disable colour font display for people with colour-blindness.</p>
 <p>This colour font scheme, as I understand, does not allow for user preference in the selection of colours. It&rsquo;s an explicit colour model in which the colour is determined by the font maker, not by the user. That said, the COLR table structure would seem to permit the possibility of CPAL overrides if that were something software makers saw a value in supporting. So, for instance, the COLR table might split representation of a character into three glyphs, assigned colour references of 1, 2 and 3. Those colour references would normally be mapped to specific colours in the CPAL table, but it seems to me that a piece of software could interrupt at that stage and allow the user to specify colour mappings for those references that differ from what the font maker intended. I don&rsquo;t know how likely that is in terms of anyone bothering to do it, but it would seem to be possible.</p>
 </div>
@@ -503,8 +504,8 @@ Each of the COLR table glyphs would be assigned a colour reference, mapped to an
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->But I wonder if interaction just on font color is something software makers might see a value in supporting. Maybe not.<!-- raw HTML omitted --></p>
-<p>It&rsquo;s troubling, because while I can see making the colouring of something like emoji explicit in the font design, once we get into <!-- raw HTML omitted -->chromatic letterforms<!-- raw HTML omitted --> this approach, where the font maker defines the colours to be used, will be unnecessarily limited.</p>
+		<div class="commentbody"><p><em>But I wonder if interaction just on font color is something software makers might see a value in supporting. Maybe not.</em></p>
+<p>It&rsquo;s troubling, because while I can see making the colouring of something like emoji explicit in the font design, once we get into <a href="http://www.typography.com/images/blogImages/rob-roy-kelly-chromatic.png">chromatic letterforms</a> this approach, where the font maker defines the colours to be used, will be unnecessarily limited.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -658,7 +659,7 @@ Each of the COLR table glyphs would be assigned a colour reference, mapped to an
 <p><a href="http://www.mapbox.com/maki/">http://www.mapbox.com/maki/</a></p>
 <p>In a colour version it would make sense to colour all water (there are 4 glyphs containing water in the font) with the same palette index, such that it could be altered font-wide. An organization having a green or blue in their identity could thereby tint all water in Maki to match.</p>
 <p>Implementation in CSS for colour webfonts can be quite easily imagined. For example, to change the background colour of all the emoji faces (which use, say, palette index 3) from yellow to pink across all emoji faces you might do something like:</p>
-<p><!-- raw HTML omitted -->font-feature-settings: &ldquo;palette&rdquo; 3 #ffcccc;<!-- raw HTML omitted --></p>
+<p><code>font-feature-settings: &ldquo;palette&rdquo; 3 #ffcccc;</code></p>
 <ul>
 <li>Laurence</li>
 </ul>
@@ -683,9 +684,9 @@ Each of the COLR table glyphs would be assigned a colour reference, mapped to an
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Appropriate to today&rsquo;s holiday in the US, here is a sample of a colour font from 1857, shown in a specimen of types from the Philadelphia firm of L. Johnson &amp; Co. (a copy of this rare specimen is currently available for purchase from <!-- raw HTML omitted -->Collinge &amp; Clark<!-- raw HTML omitted -->).</p>
+		<div class="commentbody"><p>Appropriate to today&rsquo;s holiday in the US, here is a sample of a colour font from 1857, shown in a specimen of types from the Philadelphia firm of L. Johnson &amp; Co. (a copy of this rare specimen is currently available for purchase from <a href="http://www.collingeandclark.co.uk/">Collinge &amp; Clark</a>).</p>
 <p>[img:sites/default/files/old-images/LJohnson_4093.jpg]</p>
-<p>This is another example of a font for which it wouldn&rsquo;t make much sense to use colours other than these. Unless you&rsquo;re <!-- raw HTML omitted -->Jasper Johns<!-- raw HTML omitted -->.</p>
+<p>This is another example of a font for which it wouldn&rsquo;t make much sense to use colours other than these. Unless you&rsquo;re <a href="https://www.google.ca/search?q=jasper+johns+flag&tbm=isch&tbo=u&source=univ&sa=X&ei=3PXVUfuDEO7jigKp_IDoBQ&ved=0CC4QsAQ&biw=1246&bih=1450">Jasper Johns</a>.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -760,8 +761,8 @@ Each of the COLR table glyphs would be assigned a colour reference, mapped to an
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>I was about to respond that, surely, the precise colours of the US flag are officially specified somewhere. <!-- raw HTML omitted -->They are<!-- raw HTML omitted -->, and yet&hellip;</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted -->Sometimes, Pantone Matching System (PMS) approximations to the flag colors are used. One set was given on the website of the U.S. embassy in London as early as 1998; the website of the U.S. embassy in Stockholm claimed in 2001 that those had been suggested by Pantone, and that the U.S. Government Printing Office preferred a different set. A third red was suggested by a California Military Department document in 2002. In 2001, the Texas legislature specified that the colors of the Texas flag should be &ldquo;(1) the same colors used in the United States flag; and (2) defined as numbers 193 (red) and 281 (dark blue) of the Pantone Matching System.&quot;<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>I was about to respond that, surely, the precise colours of the US flag are officially specified somewhere. <a href="http://en.wikipedia.org/wiki/Standard_Color_Reference_of_America">They are</a>, and yet&hellip;</p>
+<p><a href="http://en.wikipedia.org/wiki/Flag_of_the_United_States#Colors"><blockquote>Sometimes, Pantone Matching System (PMS) approximations to the flag colors are used. One set was given on the website of the U.S. embassy in London as early as 1998; the website of the U.S. embassy in Stockholm claimed in 2001 that those had been suggested by Pantone, and that the U.S. Government Printing Office preferred a different set. A third red was suggested by a California Military Department document in 2002. In 2001, the Texas legislature specified that the colors of the Texas flag should be &ldquo;(1) the same colors used in the United States flag; and (2) defined as numbers 193 (red) and 281 (dark blue) of the Pantone Matching System.&quot;</blockquote></a></p>
 <p>But surely the white stars and bars are meant to be solid white, and not transparent.</p>
 </div>
 	</div>
@@ -826,7 +827,7 @@ Each of the COLR table glyphs would be assigned a colour reference, mapped to an
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">US Federal government colour specifications are defined in a specifications document called <!-- raw HTML omitted -->&ldquo;Federal Standard 595B&rdquo;<!-- raw HTML omitted -->. You can buy their colour swatch fan book(s), but you are still stuck having to approximate with more common Graphic colour standards like Pantone. ADA &ldquo;Accessible&rdquo; blue  &ldquo;shall be equal to Color No. 15090 in Federal Standard 595B&rdquo; Or, Pantone 300 is close enough.</div>
+		<div class="commentbody">US Federal government colour specifications are defined in a specifications document called <a href="http://www.fed-std-595.com/">&ldquo;Federal Standard 595B&rdquo;</a>. You can buy their colour swatch fan book(s), but you are still stuck having to approximate with more common Graphic colour standards like Pantone. ADA &ldquo;Accessible&rdquo; blue  &ldquo;shall be equal to Color No. 15090 in Federal Standard 595B&rdquo; Or, Pantone 300 is close enough.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

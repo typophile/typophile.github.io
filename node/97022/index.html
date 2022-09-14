@@ -71,7 +71,7 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">For which reason and when are &lsquo;subtables&rsquo; created? Adobe&rsquo;s <!-- raw HTML omitted -->OpenType Feature File Specification<!-- raw HTML omitted --> does not help me any further understanding the structure of GPOS/GSUB.</div>
+  <div class="post-content e-content" itemprop="articleBody">For which reason and when are &lsquo;subtables&rsquo; created? Adobe&rsquo;s <em>OpenType Feature File Specification</em> does not help me any further understanding the structure of GPOS/GSUB.</div>
 
    <div class="comment card m-3">
 	<div class="card-body">
@@ -116,15 +116,16 @@
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
-<p>Anyway, here is the promised example: &lsquo;frac&rsquo; &ndash; based on Tal Leming&rsquo;s <!-- raw HTML omitted -->Fraction Fever<!-- raw HTML omitted --> discussion.</p>
+		<div class="commentbody"><blockquote>Really? Nothing?</blockquote>
+Uh, you got an answer, dintya?
+<p>Anyway, here is the promised example: &lsquo;frac&rsquo; &ndash; based on Tal Leming&rsquo;s <a href="http://talleming.com/2008/04/16/fraction-fever/">Fraction Fever</a> discussion.</p>
 <p>feature frac {
 sub @figures slash' @figures by fraction;
 sub @figures' fraction by @numerators;
 }</p>
 <p>The class &lsquo;@figures&rsquo; contains &lsquo;zero one two .. nine&rsquo;, and the first line will replace a simple default slash, preceded by a figure, with a proper &lsquo;fraction&rsquo; slash. After that, individual figures should be replaced with superior/inferior forms, to create proper fractions.
 It will work as expected if you manually inserted a fraction slash (and the first line will not be used). However, because all sub-tables are terminated a.s.a.p., this code will stop if the first line was executed! So in this case you have to force a sub-table below the first line to make sure the second line is evaluated as well.</p>
-<p>Tal Leming&rsquo;s code doesn&rsquo;t specifically mention a sub-table, but I think standard behavior for feature compilers is to automatically create them when deemed necessary. In my example, the first line contains a &lsquo;fraction&rsquo; on the <!-- raw HTML omitted -->right<!-- raw HTML omitted --> side of a substitution (target) and the second line on the <!-- raw HTML omitted -->left<!-- raw HTML omitted --> side (source), so to be able to process both rules, the compiler creates a sub-table at the second line.</p>
+<p>Tal Leming&rsquo;s code doesn&rsquo;t specifically mention a sub-table, but I think standard behavior for feature compilers is to automatically create them when deemed necessary. In my example, the first line contains a &lsquo;fraction&rsquo; on the <em>right</em> side of a substitution (target) and the second line on the <em>left</em> side (source), so to be able to process both rules, the compiler creates a sub-table at the second line.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -150,7 +151,7 @@ It will work as expected if you manually inserted a fraction slash (and the firs
 	<div class="card-body">
 		<div class="commentbody"><p>Unfortunately I do not have first hand knowledge of GSUB tables, but you may find these links useful:</p>
 <p>The [[http://www.microsoft.com/typography/tt/win95tt.aspx|Microsoft Typography overview of TrueType in Windows 95]] includes the following:</p>
-<!-- raw HTML omitted -->
+<dl><cite>The GSUB and GPOS tables define glyph substitution and positioning features. GSUB supplies five types of substitutions to support different kinds of character-to-glyph mappings, such as many-to-one ligature glyph substitution and one-to-many ligature decomposition.</cite></dl>
 <p>You may also find the information on the FontForge site useful:</p>
 <p><a href="http://fontforge.org/gposgsub.html">http://fontforge.org/gposgsub.html</a></p>
 <p>This also refers to the following page on Adobe&rsquo;s website:</p>
@@ -179,9 +180,9 @@ It will work as expected if you manually inserted a fraction slash (and the firs
 		<div class="commentbody"><p>Another application is the &lsquo;ignore&rsquo; rule, which is not really a feature file keyword. It works like this: every &ldquo;ignore&rdquo; rule and its &ldquo;when not ignored&rdquo; counterpart appear in a sub-table of their own.</p>
 <p>ignore [a e m n r u]' [ @alpha ];
 subst [a e m n r u]' by [a.end e.end m.end n.end r.end u.en];</p>
-<p>This is meant to replace &lsquo;a&rsquo;, &lsquo;e&rsquo;, etc. with a swashed &lsquo;end&rsquo; form, but of course <!-- raw HTML omitted -->not<!-- raw HTML omitted --> if another alphabetic character follows. So the first line is internally compiled to</p>
+<p>This is meant to replace &lsquo;a&rsquo;, &lsquo;e&rsquo;, etc. with a swashed &lsquo;end&rsquo; form, but of course <em>not</em> if another alphabetic character follows. So the first line is internally compiled to</p>
 <p>subst  [a e m n r u]' [ @alpha ] by [a e m n r u];</p>
-<p>(i.e., it does &ldquo;nothing&rdquo;), and if this line <!-- raw HTML omitted -->gets executed<!-- raw HTML omitted -->, the next line is skipped. This particular sub-table must end after the next line, because there might be other lines that should be evaluated for the rest of the characters.</p>
+<p>(i.e., it does &ldquo;nothing&rdquo;), and if this line <em>gets executed</em>, the next line is skipped. This particular sub-table must end after the next line, because there might be other lines that should be evaluated for the rest of the characters.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -204,11 +205,14 @@ subst [a e m n r u]' by [a.end e.end m.end n.end r.end u.en];</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Thank&rsquo;s Karl and Theunis, that were the elaborate answers I was hoping for!</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<blockquote>subst [a e m n r u]' [ @alpha ] by [a e m n r u];
+(i.e., it does "nothing")</blockquote>
+This is really enlightening. I've been using the ‘ignore’ keyword a few times and wasn't able to deduce such an evident fact.
+<blockquote>(...) standard behavior for (feature) compilers is to automatically create them when deemed necessary.</blockquote>
+I realize my problems to understand OpenType's syntax mostly arise from the fact that the compiler generates subtables behind the scenes.
 <p>Another issue is that the ‘subtable’ command is only supported for class kerning, so one must set up an entirely new lookup to avoid line ‘skipping’. I wonder why it hasn&rsquo;t been implemented yet&hellip;</p>
-<p>One thing that has clarified many of my doubts, re-reading Adobe&rsquo;s <!-- raw HTML omitted -->OpenType Feature File Specification<!-- raw HTML omitted -->, is the following part about chaining contextual substitution:</p>
-<!-- raw HTML omitted -->
+<p>One thing that has clarified many of my doubts, re-reading Adobe&rsquo;s <em>OpenType Feature File Specification</em>, is the following part about chaining contextual substitution:</p>
+<blockquote>The entire sequence of glyphs – prefix plus input plus suffix – must match in the current context for the rule to be applied. The match sequence is aligned to the current context by aligning the first glyph of the input sequence with the current glyph of the text being processed. If the rule is matched, then the current context moves the current glyph pointer ahead in the original text <em>by the length of the input sequence</em>. Note that in the FDK syntax, the entire context string (backtrack sequence + input sequence + look-ahead sequence) are all written in the text string order. This is worth emphasis, as inside the lookup rule, <em>the glyphs of the backtrack sequence are written in reverse order from the text to be matched.</em> </blockquote>
 <p>I&rsquo;ve emphasized the mind-blowing parts.</p>
 </div>
 	</div>
@@ -233,7 +237,7 @@ subst [a e m n r u]' by [a.end e.end m.end n.end r.end u.en];</p>
 	<div class="card-body">
 		<div class="commentbody"><p>Possible further mind blowing-yet-enlightening may occur if you inspect a few ligature sets. I&rsquo;d have to go through my font library to find a good example, but I think the text you copied from the specs also apply to sequences of &ldquo;ff&rdquo;, &ldquo;ffi&rdquo;, and &ldquo;ffl&rdquo; ligatures &ndash; i.e., put them in the wrong order and/or without subtables, and some combo&rsquo;s will not work.
 Perhaps one of the OT-savvy techies can recall an appropriate thread from the past where one has to resort to manually inserting a &lsquo;subtable&rsquo; clause in a GSUB feature.</p>
-<p>A propos: I am <!-- raw HTML omitted -->assuming<!-- raw HTML omitted --> OTF compilers automatically generate subtables for GSUB features, because I can&rsquo;t find a concrete reference to them as well (or these references are very oblique), and the fonts I have are positively brimming with them.</p>
+<p>A propos: I am <em>assuming</em> OTF compilers automatically generate subtables for GSUB features, because I can&rsquo;t find a concrete reference to them as well (or these references are very oblique), and the fonts I have are positively brimming with them.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

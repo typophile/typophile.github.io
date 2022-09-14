@@ -71,13 +71,33 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody"><p>Firefox 4 (beta 3) has added OpenType Layout support, controllable through private CSS extensions. It works on Mac OS X by default, while in the Windows version of Firefox 4, you need to open the URL <!-- raw HTML omitted -->about:config<!-- raw HTML omitted --> and set the <!-- raw HTML omitted -->gfx.font_rendering.harfbuzz.level<!-- raw HTML omitted --> option to <!-- raw HTML omitted -->1<!-- raw HTML omitted -->.</p>
+  <div class="post-content e-content" itemprop="articleBody"><p>Firefox 4 (beta 3) has added OpenType Layout support, controllable through private CSS extensions. It works on Mac OS X by default, while in the Windows version of Firefox 4, you need to open the URL <code>about:config</code> and set the <code>gfx.font_rendering.harfbuzz.level</code> option to <code>1</code>.</p>
 <p>This is quite an interesting opportunity for font developers, and especially Python scripters. You could produce complex HTML renderings of your fonts including OpenType Layout feature previews, right out of your font editor such as FontLab Studio. Combined with the fact that Firefox supports webfonts in OTF and TTF formats, it&rsquo;s trivial to generate a simple web page.</p>
-<p>The CSS property to use in <!-- raw HTML omitted -->-moz-font-feature-settings<!-- raw HTML omitted -->. The mechanism is <!-- raw HTML omitted -->documented<!-- raw HTML omitted --> on the Mozilla Hacks blog.</p>
-<p>Firefox 4 uses HarfBuzz, an opensource OpenType Layout library which provides a similar functionality to Uniscribe. HarfBuzz supports user-controllable OpenType Layout features as well as complex-script shaping rules. This all makes it a lightweight environment to test your OpenType Layout features. Unfortunately, Firefox currently does not <!-- raw HTML omitted -->print<!-- raw HTML omitted --> using webfonts, so you won&rsquo;t be able to get a PDF with your font showings out of Firefox easily.</p>
-<p><!-- raw HTML omitted -->Correction: Firefox uses harfbuzz-ng, a &ldquo;next generation&rdquo; version of the library, which does not yet integrate complex-script shapers. So FF4 is, for now, good just for testing user-controllable OT Layout features.<!-- raw HTML omitted --></p>
+<p>The CSS property to use in <code>-moz-font-feature-settings</code>. The mechanism is <a href="http://hacks.mozilla.org/2009/10/font-control-for-designers/">documented</a> on the Mozilla Hacks blog.</p>
+<p>Firefox 4 uses HarfBuzz, an opensource OpenType Layout library which provides a similar functionality to Uniscribe. HarfBuzz supports user-controllable OpenType Layout features as well as complex-script shaping rules. This all makes it a lightweight environment to test your OpenType Layout features. Unfortunately, Firefox currently does not <em>print</em> using webfonts, so you won&rsquo;t be able to get a PDF with your font showings out of Firefox easily.</p>
+<p><em>Correction: Firefox uses harfbuzz-ng, a &ldquo;next generation&rdquo; version of the library, which does not yet integrate complex-script shapers. So FF4 is, for now, good just for testing user-controllable OT Layout features.</em></p>
 <p>Here&rsquo;s an example which renders &ldquo;Hello small caps world!&rdquo;, in which &ldquo;small caps&rdquo; is rendered in OpenType small caps (with the &ldquo;smcp&rdquo; feature applied).</p>
-<!-- raw HTML omitted -->
+<code>
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;style type="text/css"&gt;
+		&lt;!-- 
+		@font-face {
+		font-family:'TestFamily';
+		src: url('MyTestFont.otf')  format("opentype");
+		} 
+		--&gt;
+		&lt;/style&gt;
+		&lt;title&gt;&lt;/title&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;p style="font-family:'TestFamily';font-size:36px;"&gt;
+			Hello &lt;span style="<strong>-moz-font-feature-settings:'smcp=1'</strong>;"&gt;small caps&lt;/span&gt; world!
+		&lt;/p&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</code>
 <p>Enjoy!</p>
 <p>Best,
 Adam</p>
@@ -127,9 +147,9 @@ Adam</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>One thing I should point out: Firefox 4 uses &ldquo;private&rdquo; CSS extensions, with the prefix <!-- raw HTML omitted -->-moz-<!-- raw HTML omitted -->, which is the way to do it before new aspects of CSS have been standardized.</p>
-<p>But the really good news is that an even more comprehensive mechanism for handling OpenType Layout features in CSS has been submitted for standardization at the W3 Consortium (I&rsquo;m proud to say that I had a tiny little part in that). The current <!-- raw HTML omitted -->editor&rsquo;s draft of the CSS Fonts Module Level 3<!-- raw HTML omitted --> specifies the &ldquo;official&rdquo; syntax, which is quite similar to that used by Firefox 4. Once the CSS3 Fonts draft is accepted, browser makers will be able to implement the official syntax. So things are on the way in the right direction.</p>
-<p>And of course, it would be useful to provide a <!-- raw HTML omitted -->link to the Firefox 4 beta<!-- raw HTML omitted --> which does all this! :) On the Mac, you can copy <!-- raw HTML omitted -->Firefox.app<!-- raw HTML omitted --> from the <!-- raw HTML omitted -->.dmg<!-- raw HTML omitted --> to a temporary folder, rename it to <!-- raw HTML omitted -->Firefox 4.app<!-- raw HTML omitted --> and then move it to the <!-- raw HTML omitted -->Applications<!-- raw HTML omitted --> folder. This way, you&rsquo;ll be able to keep the release version of Firefox 3 untouched. You won&rsquo;t be able to run both versions at the same time, but you can quit one and run the other.</p>
+		<div class="commentbody"><p>One thing I should point out: Firefox 4 uses &ldquo;private&rdquo; CSS extensions, with the prefix <code>-moz-</code>, which is the way to do it before new aspects of CSS have been standardized.</p>
+<p>But the really good news is that an even more comprehensive mechanism for handling OpenType Layout features in CSS has been submitted for standardization at the W3 Consortium (I&rsquo;m proud to say that I had a tiny little part in that). The current <a href="http://dev.w3.org/csswg/css3-fonts/">editor&rsquo;s draft of the CSS Fonts Module Level 3</a> specifies the &ldquo;official&rdquo; syntax, which is quite similar to that used by Firefox 4. Once the CSS3 Fonts draft is accepted, browser makers will be able to implement the official syntax. So things are on the way in the right direction.</p>
+<p>And of course, it would be useful to provide a <a href="http://www.mozilla.com/en-US/firefox/beta/">link to the Firefox 4 beta</a> which does all this! :) On the Mac, you can copy <code>Firefox.app</code> from the <code>.dmg</code> to a temporary folder, rename it to <code>Firefox 4.app</code> and then move it to the <code>Applications</code> folder. This way, you&rsquo;ll be able to keep the release version of Firefox 3 untouched. You won&rsquo;t be able to run both versions at the same time, but you can quit one and run the other.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -151,7 +171,7 @@ Adam</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This seems an opportune moment to remind people of the <!-- raw HTML omitted -->CSS3 Fonts Module briefing/dialogue<!-- raw HTML omitted --> in Los Angeles next week.</div>
+		<div class="commentbody">This seems an opportune moment to remind people of the <a href="http://typophile.com/node/72477">CSS3 Fonts Module briefing/dialogue</a> in Los Angeles next week.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -306,7 +326,7 @@ Adam</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The issue has been <!-- raw HTML omitted -->reported by users<!-- raw HTML omitted -->, so let&rsquo;s hope Mozilla fixes it in the next release.</div>
+		<div class="commentbody">The issue has been <a href="http://input.mozilla.com/en-US/search/?product=firefox&q=spacing+rendering">reported by users</a>, so let&rsquo;s hope Mozilla fixes it in the next release.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

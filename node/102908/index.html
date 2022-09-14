@@ -99,8 +99,11 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">So I&rsquo;ll leave the alternative smallcap glyphs in the alt feature, not in the smallcaps feature? I&rsquo;ll test this next.</p>
-<!-- raw HTML omitted --></div>
+		<div class="commentbody"><p>So I&rsquo;ll leave the alternative smallcap glyphs in the alt feature, not in the smallcaps feature? I&rsquo;ll test this next.</p>
+<blockquote>
+Otherwise include both glyphs in the smcp feature (i.e. sub [T T.alt] by T.smcp;).
+</blockquote>
+I'm not sure where I got this idea, but doesn't it create problems if two different glyphs are substituted with the same target glyph? On related note, should I replace both /dotlessi and /i.TRK (/i basically) with /I.smcp?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -121,7 +124,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->…if two different glyphs are substituted with the same target glyph…<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>…if two different glyphs are substituted with the same target glyph…</em></p>
 <p>Make three identical target glyphs, named differently.
 As Justin says, there may be no practical use for that, but if it helps you keep things straight in your head and logically organized, it’s a best practice. Redundancy can also be useful if you ever have someone else work on your ﬁles, or return to the ﬁles after several years and try to ﬁgure out what on earth you were thinking back then!</p>
 <p>t.smcp
@@ -194,8 +197,8 @@ T.smcp</p>
 	<div class="card-body">
 		<div class="commentbody"><p>For lowercase alternates, the only reason I can imagine needing a duplicate .smcp glyph is if you have some feature coming after smcp that would need to know whether the original glyph was an alternate (i.e. in order to convert it back to lowercase?). But I can&rsquo;t think of any practical examples of such a feature, so probably not necessary.</p>
 <p>For uppercase alternates, it might be useful to include real smallcap glyphs that could be invoked with the c2sc feature.</p>
-<!-- raw HTML omitted -->
-<p>Otherwise include both glyphs in the smcp feature (i.e. <!-- raw HTML omitted -->sub [t t.alt] by T.smcp;<!-- raw HTML omitted -->).</p>
+<blockquote>You should order your features so that .smcp is executed before .alt.</blockquote>
+<p>Otherwise include both glyphs in the smcp feature (i.e. <code>sub [t t.alt] by T.smcp;</code>).</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -261,9 +264,9 @@ If, for some unrelated reason, one decides to copy and paste the glyphs in that 
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>If I wanted to reuse the lowercase class for something else but also wanted “t.alt” included, rather than add redundant glyphs in the font, I would just do something like this:</p>
-<p><!-- raw HTML omitted -->sub [ @lowercase t.alt ] by [ @lowercase_foo t.alt.foo ] ;<!-- raw HTML omitted --></p>
+<p><code>sub [ @lowercase t.alt ] by [ @lowercase_foo t.alt.foo ] ;</code></p>
 <p>Or, just make another class, like this:</p>
-<p><!-- raw HTML omitted -->@lowercase_extended = [ @lowercase t.alt ] ;<!-- raw HTML omitted --></p>
+<p><code>@lowercase_extended = [ @lowercase t.alt ] ;</code></p>
 <p>There are certainly cases where redundant glyphs make sense, but if it’s to solve a problem that could be solved by changing feature order or adding a class or class exception, I think it’s a bad idea.</p>
 </div>
 	</div>
@@ -308,7 +311,7 @@ If, for some unrelated reason, one decides to copy and paste the glyphs in that 
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Right, just make a new class like this:</p>
-<p><!-- raw HTML omitted -->@sups_source = [ @smcp_source t.alt ] ;<!-- raw HTML omitted --></p>
+<p><code>@sups_source = [ @smcp_source t.alt ] ;</code></p>
 <p>Of course, FontLab doesn’t provide an obvious way to do this when you use the Class panel, but you can add new classes with code like this to the bottom right section of the OpenType panel.</p>
 </div>
 	</div>

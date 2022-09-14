@@ -129,10 +129,85 @@ prgr</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I think like everyone else I had a nightmare naming my fonts and getting them to work across applications and platforms. I think I finally got to working with the help of Karsten Luecke&rsquo;s PDF on font naming.</p>
-<p><!-- raw HTML omitted -->FontNaming-kltf.pdf<!-- raw HTML omitted --></p>
+<p><a href="http://www.kltf.de/downloads/FontNaming-kltf.pdf" target="_blank">FontNaming-kltf.pdf</a></p>
 <p>I wrote this script to make the naming easier for myself. It works for Thin, Light, Regular, Medium, Bold, Thin It, Light It, It, Medium It, Bold It.</p>
 <p>You might be able to use this for your own needs.</p>
-<!-- raw HTML omitted -->
+<code>
+from robofab.world import CurrentFont
+from robofab.interface.all.dialogs import AskString
+f = CurrentFont()
+#
+fontName = AskString('Font Name') 
+Weight = AskString('Weight')
+#
+def naming( short, weight, weight2 ):
+	f.info.familyName = fontName+" "+short
+	f.info.widthName = "Normal"
+	f.info.styleName = weight
+	f.info.fontName = fontName.replace(' ', '')+"-"+weight2.replace(' ', '')
+	f.info.fullName = fontName+" "+weight2
+	f.info.menuName = fontName+" "+short
+	f.info.fondName = fontName.replace(' ', '')+" "+weight2.replace(' ', '')
+	f.info.otFamilyName = fontName
+	f.info.otStyleName = weight2
+#
+#	
+if Weight == "Thin":
+	naming("Th", "Regular", "Thin")
+	f.info.weightName = "Thin"
+	f.info.weightValue = 250
+	print f.info.fullName+" "+"Named"
+elif Weight == "Light":
+	naming("Lt", "Regular", "Light")
+	f.info.weightName = "Light"
+	f.info.weightValue = 300
+	print f.info.fullName+" "+"Named"
+elif Weight == "Regular":
+	naming("Rg", "Regular", "Regular")
+	f.info.weightName = "Regular"
+	f.info.weightValue = 400
+	print f.info.fullName+" "+"Named"
+elif Weight == "Medium":
+	naming("Lt", "Bold", "Medium")
+	f.info.weightName = "Medium"
+	f.info.weightValue = 500
+	print f.info.fullName+" "+"Named"
+elif Weight == "Bold":
+	naming("Rg", "Bold" ,"Bold")
+	f.info.weightName = "Bold"
+	f.info.weightValue = 700
+	print f.info.fullName+" "+"Named"
+elif Weight == "Thin Italic":
+	naming("Th", "Italic", "Thin Italic")
+	f.info.weightName = "Thin"
+	f.info.weightValue = 250	
+	print f.info.fullName+" "+"Named"
+elif Weight == "Light Italic":
+	naming("Lt", "Italic", "Light Italic")
+	f.info.weightName = "Light"
+	f.info.weightValue = 300	
+	print f.info.fullName+" "+"Named"
+elif Weight == "Italic":
+	naming("Rg", "Italic", "Italic")
+	f.info.weightName = "Regular"
+	f.info.weightValue = 400
+	print f.info.fullName+" "+"Named"
+elif Weight == "Medium Italic":
+	naming("Lt", "Bold Italic", "Medium Italic")
+	f.info.weightName = "Medium"
+	f.info.weightValue = 500
+	print f.info.fullName+" "+"Named"
+elif Weight == "Bold Italic":
+	naming("Rg", "Bold Italic", "Bold Italic")	
+	f.info.weightName = "Bold"
+	f.info.weightValue = 700
+	print f.info.fullName+" "+"Named"
+else:
+	print "Ooops that's not a weight"	
+	print fontName+" "+"is not named"
+#
+f.update()
+</code>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -226,7 +301,7 @@ Artur</p>
 	<div class="card-body">
 		<div class="commentbody"><p>Have you cleaned font caches?
 Possibly unrelated to your InDesign problem but: This is your UltraLight style as indicated in OT Family Name, PS Font Name and Full Name. However, Family Name is &ldquo;Whateley Light&rdquo; and Style Name is &ldquo;Regular&rdquo; and Font is italic/Font is bold are unchecked &ndash; so on this level it&rsquo;s effectively &ldquo;Whateley Light&rdquo; rather than &ldquo;Whateley UltraLight&rdquo;. Better rename Family Name to &ldquo;Whateley UltraLight&rdquo;. Possibly also fill in Mac Name, same content as Full Name.</p>
-<p>Toby &ndash; <!-- raw HTML omitted -->You haven&rsquo;t filled in the Menu and FOND name, that&rsquo;s why it doesn&rsquo;t work&hellip;<!-- raw HTML omitted --></p>
+<p>Toby &ndash; <cite>You haven&rsquo;t filled in the Menu and FOND name, that&rsquo;s why it doesn&rsquo;t work&hellip;</cite></p>
 <p>These names will not go into OT font&rsquo;s name table anyway, so no need to bother.</p>
 <p>Karsten</p>
 </div>
@@ -318,11 +393,11 @@ But make sure you have your normal Naming right (see Karsten&rsquo;s post above)
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I have read Karsten and Adam’s font naming guides and this font was done using Karsten’s examples. And I have blasted the font caches repeatedly.</p>
-<p><!-- raw HTML omitted -->You could try enabling ’Use OpenType names as menunames on Mac’ in FL’s preferences.<!-- raw HTML omitted --></p>
+<p><cite>You could try enabling ’Use OpenType names as menunames on Mac’ in FL’s preferences.</cite></p>
 <p>Already done.</p>
-<p><!-- raw HTML omitted -->what does “OT Style Name” say if you generate the font and open that generated font in FLS?<!-- raw HTML omitted --></p>
+<p><cite>what does “OT Style Name” say if you generate the font and open that generated font in FLS?</cite></p>
 <p>UltraLight. That’s why I don’t understand seeing &ldquo;Regular&rdquo; in there.</p>
-<p><!-- raw HTML omitted -->James, is it part of a bigger family or do you just want this one to work?<!-- raw HTML omitted --></p>
+<p><cite>James, is it part of a bigger family or do you just want this one to work?</cite></p>
 <p>It’s part of a family. And this has worked before.</p>
 </div>
 	</div>
@@ -346,10 +421,10 @@ But make sure you have your normal Naming right (see Karsten&rsquo;s post above)
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->That’s why I don’t understand seeing “Regular” in there.<!-- raw HTML omitted --></p>
+<p><em>That’s why I don’t understand seeing “Regular” in there.</em></p>
 </blockquote>
 <p>Well, I see &lsquo;Regular&rsquo; as the Style Name in your first screenshot?</p>
-<p>Also make sure to check the Additional OT Names section I mentioned earlier, I had a few times that a wrong style name was still hidden in there (or missing where it <!-- raw HTML omitted -->should<!-- raw HTML omitted --> be).</p>
+<p>Also make sure to check the Additional OT Names section I mentioned earlier, I had a few times that a wrong style name was still hidden in there (or missing where it <em>should</em> be).</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -371,7 +446,7 @@ But make sure you have your normal Naming right (see Karsten&rsquo;s post above)
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Well, I see ’Regular’ as the Style Name in your first screenshot?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Well, I see ’Regular’ as the Style Name in your first screenshot?</cite></p>
 <p>So that isn’t required to be Regular/Bold/Italic/Bold Italic? I thought putting other stuff in there breaks things. And even if I do change it to Ultralight Fontlab changes that to regular when I generate the font.</p>
 <p>And Additional Opentype Names is empty.</p>
 </div>
@@ -418,7 +493,7 @@ But make sure you have your normal Naming right (see Karsten&rsquo;s post above)
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Quincunx &ndash; <!-- raw HTML omitted -->If I recall correctly it was:<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Quincunx &ndash; <cite>If I recall correctly it was:</cite></p>
 <p>These manual steps were required only in FL4. In FLS5 there are two export preferences, (Arthur said this above:) &ldquo;Use the OpenType names be used as menu names on the Macintosh&rdquo; and &ldquo;Use PostScript FontName as FullName on Windows&rdquo;. The second must be activated, the first one should be.</p>
 </div>
 	</div>
@@ -719,8 +794,8 @@ prgr</p>
 <p>And in the CFF Name INDEX something like this:</p>
 <p>[img:sites/default/files/old-images/CFF_Name_INDEX_3830.gif]
  </p>
-<p>These are screen dumps of <!-- raw HTML omitted -->DTL OTMaster<!-- raw HTML omitted --> (OTM), a sophisticated application with a graphical user interface for opening, reviewing, editing and saving tables and glyphs of fonts with a snft file structure, as there are CFF and TTF flavoured OpenType fonts, TrueType fonts and TrueType Collection fonts. OTM is developed by URW++ and the Dutch Type Library and will be released for Mac OS X, Windows and Linux shortly.</p>
-<p>By the way, the use of the Windows Full name string / PostScript FontName for the Compatible Full entry here, is a suggestion by Karsten Luecke in the <!-- raw HTML omitted -->OTM manual<!-- raw HTML omitted -->, of which he is the author.</p>
+<p>These are screen dumps of <strong>DTL OTMaster</strong> (OTM), a sophisticated application with a graphical user interface for opening, reviewing, editing and saving tables and glyphs of fonts with a snft file structure, as there are CFF and TTF flavoured OpenType fonts, TrueType fonts and TrueType Collection fonts. OTM is developed by URW++ and the Dutch Type Library and will be released for Mac OS X, Windows and Linux shortly.</p>
+<p>By the way, the use of the Windows Full name string / PostScript FontName for the Compatible Full entry here, is a suggestion by Karsten Luecke in the <em>OTM manual</em>, of which he is the author.</p>
 <p>The way the entries for the Name Table and CFF Name INDEX are displayed in the dialogs, further interpreted and stored by font editors, differs. In DTL FontMaster the naming information is stored in a text file (UFM), separately from the glyph data. The most common Name ID entries are supported by the UFM dialogs, but all entries can be added directly to the UFM file, like this:</p>
 <p>TTName 0 1 0 0 &ldquo;Copyright Dutch Type Library, 1993-2009. All rights reserved.&quot;; #Macintosh
 TTName 0 3 1 0x409 &ldquo;Copyright Dutch Type Library, 1993-2009. All rights reserved.&quot;; #Windows
@@ -745,7 +820,7 @@ TTName 17 3 1 0x409 &ldquo;Light&rdquo;; #Windows
 TTName 18 1 0 0 &ldquo;DTL Nobel TOT Light&rdquo;; #Macintosh
 TTName 19 1 0 0 &ldquo;The quick brown fox jumps over the lazy dog&rdquo;; #Macintosh
 TTName 19 3 1 0x409 &ldquo;The quick brown fox jumps over the lazy dog&rdquo;; #Windows</p>
-<p>These entries supersede any related name strings in the rest of the UFM file. The UFM files are connected by file names to the glyph data and can be freely altered and copied and connected to other glyph databases. This way renaming and using the name table entries for other font files is fairly simple. More information on this subject can be found <!-- raw HTML omitted -->here<!-- raw HTML omitted -->.</p>
+<p>These entries supersede any related name strings in the rest of the UFM file. The UFM files are connected by file names to the glyph data and can be freely altered and copied and connected to other glyph databases. This way renaming and using the name table entries for other font files is fairly simple. More information on this subject can be found <a href="http://www.dutchtypelibrary.nl/PDF/ATypI08/Name_table_entries.pdf">here</a>.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

@@ -113,7 +113,7 @@ Hai Anh</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Fun! What exactly would you like OpenType to do? The <!-- raw HTML omitted -->OpenType Features page on ilovetypography.com<!-- raw HTML omitted --> may be of use.</div>
+		<div class="commentbody">Fun! What exactly would you like OpenType to do? The <a href="http://ilovetypography.com/OpenType/opentype-features.html">OpenType Features page on ilovetypography.com</a> may be of use.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -158,76 +158,76 @@ Hai Anh</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I understand how you feel - I also couldn&rsquo;t find a good source info for the calt function.  I might as well try to write one:</p>
-<p><!-- raw HTML omitted -->The Substitude Function<!-- raw HTML omitted -->
+<p><strong>The Substitude Function</strong>
 Now, the simplest task you can achieve with the calt feature is to change one character to its alternate, but only it is preceded by another character.
-<!-- raw HTML omitted -->sub e&rsquo;b by e.alt2;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->Means: If you find an &ldquo;e&rdquo; character, followed by an &ldquo;b character,  substitude &ldquo;e&rdquo; for &ldquo;e.alt2&rdquo;.<!-- raw HTML omitted -->
+<code>sub e&rsquo;b by e.alt2;</code>
+<em>Means: If you find an &ldquo;e&rdquo; character, followed by an &ldquo;b character,  substitude &ldquo;e&rdquo; for &ldquo;e.alt2&rdquo;.</em>
 (characters are referred to by name)
 This is the only  command that you need.
 For where and how to write it, see the screenshot at the bottom (but better read on, there is some other important stuff).</p>
-<p><!-- raw HTML omitted -->Making Groups AKA Classes<!-- raw HTML omitted -->
+<p><strong>Making Groups AKA Classes</strong>
 The second task is to put some characters in a group. Doing this job without groups is gonna be a major pain in the ass. Even more than with them.</p>
 <p>Groups are defined in the following way (you have to have the @ before the group name):
-<!-- raw HTML omitted -->@highaccender = [b k h];<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->Means: b k and h are now a group, and that group is called &ldquo;@highaccender&rdquo;.<!-- raw HTML omitted -->
+<code>@highaccender = [b k h];</code>
+<em>Means: b k and h are now a group, and that group is called &ldquo;@highaccender&rdquo;.</em>
 Follow this syntax strictly. Dont miss the &ldquo;;&rdquo;.
-<!-- raw HTML omitted -->Using Groups as context <!-- raw HTML omitted -->
+<strong>Using Groups as context </strong>
 Once you define the group you can easily use it instead of the context glyph (the one that triggers the substitution). Lets revise my first example, and use the group that we already created:</p>
 <p>sub e'@highaccender by e.alt2;
-<!-- raw HTML omitted -->Means: If you find an &ldquo;e&rdquo; character, followed by any character from the @highaccender  group,  substitude &ldquo;e&rdquo; for &ldquo;e.alt2&rdquo;.<!-- raw HTML omitted --></p>
+<em>Means: If you find an &ldquo;e&rdquo; character, followed by any character from the @highaccender  group,  substitude &ldquo;e&rdquo; for &ldquo;e.alt2&rdquo;.</em></p>
 <p>You can already see why groups are useful. There are a lot of similar glyps, as b k h which should trigger a similar substitution from the glyph that preceedes them and instead of writting three lines:
-<!-- raw HTML omitted -->sub e' b by e.alt2;
+<code>sub e' b by e.alt2;
 sub e' k by e.alt2;
-sub e' h by e.alt2;<!-- raw HTML omitted -->
+sub e' h by e.alt2;</code>
 You write one:
-<!-- raw HTML omitted -->sub e'@highaccender by e.alt2;<!-- raw HTML omitted --></p>
+<code>sub e'@highaccender by e.alt2;</code></p>
 <p>And you can use the group more than one time.</p>
-<p><!-- raw HTML omitted -->Using groups for substitution<!-- raw HTML omitted -->
+<p><strong>Using groups for substitution</strong>
 So far we used a group as a context. But the alternative glyphs can also be put in a group. 
 For example, lets say that you have an alternate of &ldquo;o&rdquo; called &ldquo;o.alt&rdquo;, an alternate of  &ldquo;b&rdquo; called &ldquo;b.alt&rdquo; and an alternate of &ldquo;p&rdquo;, called &ldquo;p.alt&rdquo; and you want each of these glyphs to change to its alternate when it is followed by, let&rsquo;s say,  the &ldquo;h&rdquo; character.</p>
 <p>First you put the alternates in a group:
-<!-- raw HTML omitted -->@roundcharactersalt = [o.alt b.alt  p.alt];<!-- raw HTML omitted --></p>
+<code>@roundcharactersalt = [o.alt b.alt  p.alt];</code></p>
 <p>Second, you make a group that contains the original characters
-<!-- raw HTML omitted -->@roundcharacters = [o b p];<!-- raw HTML omitted -->
+<code>@roundcharacters = [o b p];</code>
 It is crucial that they are in the same order.</p>
 <p>Now the substitution is done in the following way.
-<!-- raw HTML omitted -->sub @roundcharacters' h by @roundcharactersalt;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->Means: If you find a character from the @roundcharacters  group, followed by the &ldquo;h&rdquo; character, substitude it with its corresponding character from the @roundcharactersalt group.<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->Using groups for both<!-- raw HTML omitted -->
+<code>sub @roundcharacters' h by @roundcharactersalt;</code>
+<em>Means: If you find a character from the @roundcharacters  group, followed by the &ldquo;h&rdquo; character, substitude it with its corresponding character from the @roundcharactersalt group.</em></p>
+<p><strong>Using groups for both</strong>
 So far groups werent of much use. they only saved a couple of additional lines of code. But consider this:</p>
-<p><!-- raw HTML omitted -->sub @roundcharacters' @highaccender by @roundcharactersalt;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->Means: If you find a character from the @roundcharacters  group, followed by a character from the @highaccender group, substitude it with its corresponding character from the @roundcharactersalt group.<!-- raw HTML omitted --></p>
+<p><code>sub @roundcharacters' @highaccender by @roundcharactersalt;</code>
+<em>Means: If you find a character from the @roundcharacters  group, followed by a character from the @highaccender group, substitude it with its corresponding character from the @roundcharactersalt group.</em></p>
 <p>You can also have several alternative groups. For example now we  have 
-<!-- raw HTML omitted -->@roundcharactersalt = [o.alt b.alt  p.alt];<!-- raw HTML omitted -->
+<code>@roundcharactersalt = [o.alt b.alt  p.alt];</code>
 but we can also have: 
-<!-- raw HTML omitted -->@roundcharactersalt2 = [o.alt2 b.alt2  p.alt2];<!-- raw HTML omitted -->
+<code>@roundcharactersalt2 = [o.alt2 b.alt2  p.alt2];</code>
 Which is a pack of different alternatives to the characters from the group @roundcharacters, that can be used in another rule. Try to do that, without using groups.</p>
-<p><!-- raw HTML omitted -->A little reminder<!-- raw HTML omitted -->
+<p><strong>A little reminder</strong>
 If you have more that one substitution the relatinoship between the different rules can be a problem. For example if you have two rules:</p>
-<p><!-- raw HTML omitted -->sub e&rsquo;h by e.alt2;
+<p><code>sub e&rsquo;h by e.alt2;
 sub b&rsquo;e by b.alt2;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>and you have a text on which both rules should be applied as:
 &ldquo;beh&rdquo;
 But afte you apply the first rule, the text becomes:
 &ldquo;b e.alt2 h&rdquo;
 so the second one is not to be applied, because the character after &ldquo;b&rdquo; is not &ldquo;e&rdquo; anymore, but it is &ldquo;e.alt2&rdquo;.</p>
 <p>The solution is simple. Instead of 
-<!-- raw HTML omitted -->sub b&rsquo;e by b.alt2;
-<!-- raw HTML omitted -->
+<code>sub b&rsquo;e by b.alt2;
+</code>
 Write 
-<!-- raw HTML omitted -->@ee = [e, e.alt2]
+<code>@ee = [e, e.alt2]
 sub b'@ee by b.alt2;
-<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->Groups inside groups<!-- raw HTML omitted -->
+</code></p>
+<p><strong>Groups inside groups</strong>
 Finally you can have group, one of the characters of which is another group. The concept is the same. Inserting a group in a group is the equivalent of inserting all of its characters. For example:
-<!-- raw HTML omitted -->@mastergroup= [a, b, @roundcharacters];<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->Means: The group @mastergroup consists of  the characters a and b, and of all the characters from the @roundcharacters group.<!-- raw HTML omitted -->
+<code>@mastergroup= [a, b, @roundcharacters];</code>
+<em>Means: The group @mastergroup consists of  the characters a and b, and of all the characters from the @roundcharacters group.</em>
 You can even have a group with alternates of @mastergroup:
-<!-- raw HTML omitted -->@mastergroupalt= [a.alt, b.alt, @roundcharactersalt ];<!-- raw HTML omitted --></p>
+<code>@mastergroupalt= [a.alt, b.alt, @roundcharactersalt ];<code></p>
 <p>In this case the rule:
-<!-- raw HTML omitted -->sub @mastergroup' @highaccender by @mastergroupalt;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->Means: If you find the characters a and b <!-- raw HTML omitted --> or any character from the @roundcharacters  group,<!-- raw HTML omitted --> followed by a character from the @highaccender group, substitude it with a.alt, b.alt, or its corresponding character from the @roundcharactersalt group.<!-- raw HTML omitted --></p>
+<code>sub @mastergroup' @highaccender by @mastergroupalt;</code>
+<em>Means: If you find the characters a and b </em> or any character from the @roundcharacters  group,<em> followed by a character from the @highaccender group, substitude it with a.alt, b.alt, or its corresponding character from the @roundcharactersalt group.</em></p>
 <p>Some advice, before you start:
 First determine exactly what you are trying to achieve.
 Move from simple to complex.
@@ -257,7 +257,9 @@ The typeface itself is <a href="http://www.myfonts.com/fonts/boris-marinov/aleck
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted --></div>
+		<div class="commentbody"><blockquote>sub e g' by e.alt2;
+means: If you find an "e" character, preceded by a "g" character, substitude "e" for "e.alt".</blockquote>
+I think he meant <cite>sub g e' by e.alt2;</cite>, what it said there would change the g following an e into an alternate e. For the geb situation, just use sub g e' b by e.alt; no worries</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -323,13 +325,13 @@ I&rsquo;ll start working along your lines and hopefully get back to the thread w
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>One more thing:
-<!-- raw HTML omitted -->(Not) Using Left and Right Direction alternations<!-- raw HTML omitted --><!-- raw HTML omitted -->
+<strong>(Not) Using Left and Right Direction alternations<a></strong>
 You already  know that:
-<!-- raw HTML omitted -->sub e&rsquo;b by e.alt2;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->means: If you find an &ldquo;e&rdquo; character, <!-- raw HTML omitted -->followed by <!-- raw HTML omitted -->an &ldquo;b character, substitude &ldquo;e&rdquo; for &ldquo;e.alt2&rdquo;.<!-- raw HTML omitted --></p>
+<code>sub e&rsquo;b by e.alt2;</code>
+<em>means: If you find an &ldquo;e&rdquo; character, </em>followed by <em>an &ldquo;b character, substitude &ldquo;e&rdquo; for &ldquo;e.alt2&rdquo;.</em></p>
 <p>And you might also know that if you can change the place of the apostrophe, the function also changes:
-<!-- raw HTML omitted -->sub g e' by e.alt2;<!-- raw HTML omitted -->
-<!-- raw HTML omitted --> means: If you find an &ldquo;e&rdquo; character, <!-- raw HTML omitted -->preceded by <!-- raw HTML omitted -->a &ldquo;g&rdquo; character, substitude &ldquo;e&rdquo; for &ldquo;e.alt&rdquo;.<!-- raw HTML omitted --></p>
+<code>sub g e' by e.alt2;</code>
+<em> means: If you find an &ldquo;e&rdquo; character, </em>preceded by <em>a &ldquo;g&rdquo; character, substitude &ldquo;e&rdquo; for &ldquo;e.alt&rdquo;.</em></p>
 <p>My advice is: do not use these two functions in the same font. 
 If you do, everything becomes a mess. At least that what happened with me.</p>
 <p>Even if you defined only these two rules, there already is a conflict in your code (Should the &ldquo;e&rdquo; in  &ldquo;geb&rdquo; be &ldquo;e.alt&rdquo; or &ldquo;e.alt2&rdquo;?)  So choose only one of the two (left or right) and stick to it.</p>

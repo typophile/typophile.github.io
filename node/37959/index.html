@@ -105,10 +105,10 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->“Start of new pair positioning subtable; some pairs may never be accessed: &hellip;”<!-- raw HTML omitted --></p>
+<p><em>“Start of new pair positioning subtable; some pairs may never be accessed: &hellip;”</em></p>
 </blockquote>
 <p>This message usually appears when a given glyph is contained in more than one kern class. What triggers the message is when these classes — that have a glyph in common — are used on the same side of two or more class kern pairs (within the same subtable). E.g.:
-<!-- raw HTML omitted -->
+<code>
 feature kern {
 @_B_LC = [b];
 @_O_LC = [o oacute];
@@ -116,18 +116,18 @@ feature kern {
 <p>pos @_B_LC @_O_LC -20;
 pos @_ROUND_LC_LEFT @_O_LC -30;
 } kern;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>The example above generates the following message:
-<!-- raw HTML omitted -->[WARNING]  Start of new pair positioning subtable; some pairs may never be accessed: [b o] [o oacute]<!-- raw HTML omitted --></p>
+<code>[WARNING]  Start of new pair positioning subtable; some pairs may never be accessed: [b o] [o oacute]</code></p>
 <p>The warning means that some pairs downstream (second &lsquo;pos&rsquo;) are being masked by pairs defined upstream (first &lsquo;pos&rsquo;). Effectively, these two class kern pairs are equivalent to the following singleton pairs,
-<!-- raw HTML omitted -->
+<code>
 pos b o -20;
 pos b oacute -20;</p>
 <p>pos o o -30;
 pos o oacute -30;
 pos b o -30;
 pos b oacute -30;
-<!-- raw HTML omitted -->
+</code>
 where it becomes clear that there are conflicting/repeated &lsquo;pos&rsquo; commands. (BTW, pairs defined upstream take precedence).</p>
 <p>All this to say that, as a rule of thumb, each glyph should only be included in one left kern class, and one right kern class, maximum. (This is by no means a strict rule, but you&rsquo;ll save yourself a few headaches if you follow it)</p>
 </div>

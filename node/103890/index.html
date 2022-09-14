@@ -71,8 +71,8 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody"><p>In my pursuit of finding the typefaces that correctly render both <!-- raw HTML omitted -->the combining diacritics<!-- raw HTML omitted --> and <!-- raw HTML omitted -->Serbian versions of Cyrillic italics letters<!-- raw HTML omitted --> I&rsquo;ve just checked how does <!-- raw HTML omitted -->Brill<!-- raw HTML omitted --> fare. Weirdly, it only fails to convert one letter properly, but what is weird is that even though the letters appear correctly in <!-- raw HTML omitted -->Word<!-- raw HTML omitted -->, they do not when one creates a PDF.</p>
-<!-- raw HTML omitted -->
+  <div class="post-content e-content" itemprop="articleBody"><p>In my pursuit of finding the typefaces that correctly render both <strong>the combining diacritics</strong> and <b>Serbian versions of Cyrillic italics letters</strong> I&rsquo;ve just checked how does <em>Brill</em> fare. Weirdly, it only fails to convert one letter properly, but what is weird is that even though the letters appear correctly in <em>Word</em>, they do not when one creates a PDF.</p>
+<img src="http://s23.postimg.org/vsyn320ln/sshot_71.png">
 <p>Why does it happen?</p>
 <p>The only typefaces that manage to do these things correctly are two SIL ones, even ALPHABETUM, which seems to have the most complete set of characters, does not have the correct italics.</p>
 </div>
@@ -80,14 +80,15 @@
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Sylf, your question is a bit cryptic. I&rsquo;ll also be cryptic. There is in Brill Italic the substitution</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>where I would have expected <!-- raw HTML omitted -->\uni043F<!-- raw HTML omitted --> on the left hand side. Here are the roman and the corresponding italic obtained with XeLaTeX.</p>
+<PRE>
+    sub \uni043D by \uni043F.Serbian ;
+</PRE>
+<p>where I would have expected <code>\uni043F</code> on the left hand side. Here are the roman and the corresponding italic obtained with XeLaTeX.</p>
 <p>[img:sites/default/files/old-images/brill_serb130613_6659.png]</p>
 <p>Added later on (I guess it is now less cryptic). 
 Also XeLaTeX does not accept selecting the Serbian language for the font family Brill; after calling
-<!-- raw HTML omitted -->\setmainfont[Script=Cyrillic,Language=Serbian]{Brill}<!-- raw HTML omitted -->
-XeLaTeX does not give the Serbian italic when using <!-- raw HTML omitted -->\textit<!-- raw HTML omitted -->, probably because Serbian is not defined for the regular. I had to declare a separate font for the italic to get it above. I don&rsquo;t know if this is a XeLaTeX bug or not but Arno has Cyrillic/Serbian also for the roman, avoiding such a problem (and giving a different looking output for cyrillic small letter p and cyrillic small letter n).</p>
+<code>\setmainfont[Script=Cyrillic,Language=Serbian]{Brill}</code>
+XeLaTeX does not give the Serbian italic when using <code>\textit</code>, probably because Serbian is not defined for the regular. I had to declare a separate font for the italic to get it above. I don&rsquo;t know if this is a XeLaTeX bug or not but Arno has Cyrillic/Serbian also for the roman, avoiding such a problem (and giving a different looking output for cyrillic small letter p and cyrillic small letter n).</p>
 <p>[img:sites/default/files/old-images/arno_serb130616_3776.png]</p>
 </div>
 	</div>
@@ -136,7 +137,7 @@ Read what Si_Daniels has to say in the middle.</div>
 	<div class="card-body">
 		<div class="commentbody"><p>Thank you, Michel and J.!</p>
 <p>So judging by what you two wrote this is a typeface issue and a Microsoft Word issue. The Word I&rsquo;m using is from the Office 2013. Which means that whatever the issue was, it isn&rsquo;t corrected.</p>
-<p>As for Brill: why would a Cyrillic <!-- raw HTML omitted -->n<!-- raw HTML omitted --> in italics produce a correct Serbian cursive Cyrillic <!-- raw HTML omitted -->p<!-- raw HTML omitted -->?</p>
+<p>As for Brill: why would a Cyrillic <em>n</em> in italics produce a correct Serbian cursive Cyrillic <em>p</em>?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -158,7 +159,7 @@ Read what Si_Daniels has to say in the middle.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">And also, I was wrong – there is only <!-- raw HTML omitted -->one typeface<!-- raw HTML omitted --> so far in the World that can both produce the correct italics and correctly combine the combining diacritics. That is what I meant by the line above. It is Gentium.</div>
+		<div class="commentbody">And also, I was wrong – there is only <strong>one typeface</strong> so far in the World that can both produce the correct italics and correctly combine the combining diacritics. That is what I meant by the line above. It is Gentium.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -179,7 +180,18 @@ Read what Si_Daniels has to say in the middle.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>
+As for Brill: why would a Cyrillic <em>n</em> in italics produce a correct Serbian cursive Cyrillic <em>p</em>?
+</blockquote>
+Because the Unicode character <code>043D</code> is 
+<PRE>
+043D	CYRILLIC SMALL LETTER EN
+</PRE>
+and the substitution rule in Brill as extracted above from the italic using FrontForge says to substitute uni043D, i.e. cyrillic small letter en, with uni043F.Serbian i.e. the Serbian variant of Unicode character 043F, namely 
+<PRE>
+043F	CYRILLIC SMALL LETTER PE
+</PRE>
+That is how Unicode fonts work. The font contains substitution tables to apply for given scripts and languages. 
 <p>How that particular substitution appeared that way in Brill is a bit mysterious to me.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -202,9 +214,9 @@ Read what Si_Daniels has to say in the middle.</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Definite bug in the OTL GSUB code for the Serbian pe. The VOLT source has a typo and the lookup currently reads
-<!-- raw HTML omitted -->c.en -&gt; c.pe.Serbian<!-- raw HTML omitted -->
+<code>c.en -&gt; c.pe.Serbian</code>
 when it should read
-<!-- raw HTML omitted -->c.pe -&gt; c.pe.Serbian<!-- raw HTML omitted --></p>
+<code>c.pe -&gt; c.pe.Serbian</code></p>
 <p>Thanks for catching that. I&rsquo;ll get a fix to Brill a.s.a.p.</p>
 </div>
 	</div>
@@ -227,7 +239,10 @@ when it should read
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted --></div>
+		<div class="commentbody"><blockquote>
+&ldquo;there is only <strong>one typeface</strong> so far in the World that can both produce the correct italics and correctly combine the combining diacritics. That is what I meant by the line above. It is Gentium.&rdquo;
+</blockquote>
+What is the problem with DejaVu Serif?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -249,8 +264,8 @@ when it should read
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">@Sylph: Your picture before “Why does it happen?” is 
-<!-- raw HTML omitted -->
-and contains the italic cyrillic small letter letter sha, “<!-- raw HTML omitted -->ш <!-- raw HTML omitted -->”. In the Wiki article <!-- raw HTML omitted -->Serbian alphabet<!-- raw HTML omitted --> there is the following picture where the third column is meant to correspond to the Serbian italic.
+<img src="/files/sylf_sshot_71_4379.png">
+and contains the italic cyrillic small letter letter sha, “<em>ш </em>”. In the Wiki article <a href="http://en.wikipedia.org/wiki/Serbian_alphabet#Differences_from_other_Cyrillic_alphabets">Serbian alphabet</a> there is the following picture where the third column is meant to correspond to the Serbian italic.
 [img:sites/default/files/old-images/200px-Serbian_Cyrillic_Italic_6557.png]
 Is there any font with an underlined italic cyrillic small letter sha?  Is that underline documented?</div>
 	</div>
@@ -273,7 +288,10 @@ Is there any font with an underlined italic cyrillic small letter sha?  Is that 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>
+Is there any font with an underlined italic cyrillic small letter sha?
+</blockquote>
+Ok, I found one in GNU's Free Serif Italic, http://ftp.gnu.org/gnu/freefont/, as a stylistic alternate.
 <p>[img:sites/default/files/old-images/freeserifit_serb_alt_3917.png]</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -316,7 +334,7 @@ Is there any font with an underlined italic cyrillic small letter sha?  Is that 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>So is this fixed <!-- raw HTML omitted -->Brill<!-- raw HTML omitted --> getting released or is 2.02 the version available online?</p>
+		<div class="commentbody"><p>So is this fixed <i>Brill</i> getting released or is 2.02 the version available online?</p>
 <p><a href="http://www.brill.com/about/brill-typeface/brill-fonts-end-user-license-agreement">http://www.brill.com/about/brill-typeface/brill-fonts-end-user-license-agreement</a></p>
 </div>
 	</div>

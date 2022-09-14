@@ -72,10 +72,10 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>I put the pre-alpha (but very usable for low enough resolutions) version of monospaced scalable variant of Unifont font to [[http://ilyaz.org/software/fonts]].</p>
-<!-- raw HTML omitted -->
+<!--break-->
 <p>It is constructed by a scanner/stroke-designer backend running over the 16×8, 16×16 bitmaps of Unifont.  The scanner/designer are written in Perl; the scanner is ready, the designer 70% ready.   (Of course, it turned out to be a much more complicated task than I expected at the start — 6 months ago!)
 The frontend converting strokes to a font is EXTREMELY primitive (cooked in a day, and hitting new and new bugs in FontForge — sigh…).  So I&rsquo;m afraid any critique at this moment would be very premature…
-I&rsquo;m hitting my head again and again with <!-- raw HTML omitted -->.notdef<!-- raw HTML omitted -->; it does not work in Windows console if I include U+0000 and U+0001 glyphs.  So currently I just omit these glyphs — is there any alternative?  The recommendations in [[http://www.microsoft.com/typography/otspec/recom.htm]] are not very helpful: how can one include <!-- raw HTML omitted -->.null<!-- raw HTML omitted --> into a monospaced font?
+I&rsquo;m hitting my head again and again with <code>.notdef</code>; it does not work in Windows console if I include U+0000 and U+0001 glyphs.  So currently I just omit these glyphs — is there any alternative?  The recommendations in [[http://www.microsoft.com/typography/otspec/recom.htm]] are not very helpful: how can one include <code>.null</code> into a monospaced font?
 Any help with this would be greatly appreciated.</p>
 </div>
 
@@ -100,9 +100,12 @@ Any help with this would be greatly appreciated.</p>
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Maybe I just cannot find the magic incantation in FontForge.  If I use the sequence <!-- raw HTML omitted -->.notdef/0002/0003/0004/0005/<!-- raw HTML omitted -->etc, everything works OK.  Inserting glyphs named <!-- raw HTML omitted -->0000/0001<!-- raw HTML omitted --> after .notdef makes the glyph <!-- raw HTML omitted -->0000<!-- raw HTML omitted --> used instead of <!-- raw HTML omitted -->.notdef<!-- raw HTML omitted -->.</p>
+		<div class="commentbody"><p>Maybe I just cannot find the magic incantation in FontForge.  If I use the sequence <code>.notdef/0002/0003/0004/0005/</code>etc, everything works OK.  Inserting glyphs named <code>0000/0001</code> after .notdef makes the glyph <code>0000</code> used instead of <code>.notdef</code>.</p>
 <p>Consolas has</p>
-<!-- raw HTML omitted -->
+<blockquote>
+StartChar: .notdef
+Encoding: 65536 -1 0
+Width: 1126
 <p>StartChar: glyph1
 Encoding: 0 -1 1
 AltUni2: 000000.ffffffff.0
@@ -114,7 +117,7 @@ Width: 0</p>
 Encoding: 32 32 3
 AltUni2: 0000a0.ffffffff.0
 Width: 1126</p>
-<!-- raw HTML omitted -->
+</blockquote>
 <p>which, on the surface, is contrary to M$ recommendations: CR should have non-0 width, second glyph should be named .null and it should have 0-width.  Moreover, M$ says that a console font should be monospaced — but above CR has width 0….</p>
 </div>
 	</div>
@@ -186,12 +189,18 @@ Width: 1126</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>On my mac (Office 2011, Consolas version 5.22), all glyphs in Consolas have width 1126 except the following (obtained from a ttx output with <!-- raw HTML omitted -->grep &lsquo;&lt;mtx&rsquo; Consolas.ttx | grep -v 1126<!-- raw HTML omitted --> and then some clean up):</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>As for NULL, it is called <!-- raw HTML omitted -->uni0000<!-- raw HTML omitted --> according to ttx but Fontforge and DTL OT Master give me some different information&hellip; Hmm.</p>
+		<div class="commentbody"><p>On my mac (Office 2011, Consolas version 5.22), all glyphs in Consolas have width 1126 except the following (obtained from a ttx output with <code>grep &lsquo;&lt;mtx&rsquo; Consolas.ttx | grep -v 1126</code> and then some clean up):</p>
+<PRE>
+    "afii299" width="0" lsb="-36"
+    "afii300" width="0" lsb="-431"
+    "afii301" width="0" lsb="-219"
+    "afii61664" width="0" lsb="-36"
+    "glyph00002" width="0" lsb="0"
+    "uniFEFF" width="0" lsb="0"
+</PRE>
+<p>As for NULL, it is called <code>uni0000</code> according to ttx but Fontforge and DTL OT Master give me some different information&hellip; Hmm.</p>
 <p>And as for proper documentation, if you find any, please tell us.</p>
-<p>PS. <!-- raw HTML omitted -->Raph Levien<!-- raw HTML omitted -->&rsquo;s font <!-- raw HTML omitted -->Inconsolata<!-- raw HTML omitted --> defines no NULL character.</p>
+<p>PS. <a href="http://levien.com">Raph Levien</a>&rsquo;s font <a href="http://www.levien.com/type/myfonts/inconsolata.html">Inconsolata</a> defines no NULL character.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -211,25 +220,25 @@ Width: 1126</p>
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --><!-- raw HTML omitted -->
+		<div class="commentbody"><p><code><pre>
 &ldquo;afii299&rdquo; width=&ldquo;0&rdquo; lsb=&quot;-36&quot;
 &ldquo;afii300&rdquo; width=&ldquo;0&rdquo; lsb=&quot;-431&quot;
 &ldquo;afii301&rdquo; width=&ldquo;0&rdquo; lsb=&quot;-219&quot;
 &ldquo;afii61664&rdquo; width=&ldquo;0&rdquo; lsb=&quot;-36&quot;
 &ldquo;glyph00002&rdquo; width=&ldquo;0&rdquo; lsb=&ldquo;0&rdquo;
 &ldquo;uniFEFF&rdquo; width=&ldquo;0&rdquo; lsb=&ldquo;0&rdquo;
-<!-- raw HTML omitted --><!-- raw HTML omitted -->
+</pre></code>
 Just to have reference nearby (from [[http://partners.adobe.com/public/developer/en/opentype/aglfn.txt]]):
-<!-- raw HTML omitted --><!-- raw HTML omitted -->
+<code><pre>
 200E;afii299;LEFT-TO-RIGHT MARK
 200F;afii300;RIGHT-TO-LEFT MARK
 200D;afii301;ZERO WIDTH JOINER
 200C;afii61664;ZERO WIDTH NON-JOINER</p>
 <p>FEFF	ZERO WIDTH NO-BREAK SPACE                                    ; from NamesList.txt
-<!-- raw HTML omitted --><!-- raw HTML omitted -->
+</pre></code>
 Do not know what glyph00002 is used for….</p>
-<p><!-- raw HTML omitted -->Update:<!-- raw HTML omitted --> doing <!-- raw HTML omitted -->grep -B 5 -A 5 &ldquo;Width: 0&rdquo; Consolas.sfd <!-- raw HTML omitted -->, I see
-<!-- raw HTML omitted --><!-- raw HTML omitted -->
+<p><strong>Update:</strong> doing <code>grep -B 5 -A 5 &ldquo;Width: 0&rdquo; Consolas.sfd </code>, I see
+<code><pre>
 StartChar: uni000D
 Encoding: 13 13 2
 Width: 0
@@ -237,7 +246,7 @@ GlyphClass: 2
 Flags: W
 LayerCount: 2
 EndChar
-<!-- raw HTML omitted --><!-- raw HTML omitted -->
+</pre></code>
 which, by exclusion, must be what you see as glyph00002….</p>
 </div>
 	</div>
@@ -283,8 +292,8 @@ which, by exclusion, must be what you see as glyph00002….</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Concerning <!-- raw HTML omitted -->glyph00002<!-- raw HTML omitted -->, the sfd file produced from Consolas on my mac gives this:</p>
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>Concerning <code>glyph00002</code>, the sfd file produced from Consolas on my mac gives this:</p>
+<blockquote>
 <p>StartChar: glyph1
 Encoding: 1 -1 1
 AltUni2: 000000.ffffffff.0
@@ -308,9 +317,10 @@ GlyphClass: 2
 Flags: W
 LayerCount: 2
 EndChar</p>
-<!-- raw HTML omitted -->
-<p>The <!-- raw HTML omitted -->uni0000<!-- raw HTML omitted --> produced by ttx must come from <!-- raw HTML omitted -->AltUni2: 000000.ffffffff.0<!-- raw HTML omitted --></p>
-<p>And concerning <!-- raw HTML omitted -->uniFEFF  ZERO WIDTH NO-BREAK SPACE<!-- raw HTML omitted --> it has width 1233 in DejaVuSansMono.ttf version 2.33.</p>
+</blockquote>
+and <code>glyph00002</code> is simply <code>glyph2</code>.
+<p>The <code>uni0000</code> produced by ttx must come from <code>AltUni2: 000000.ffffffff.0</code></p>
+<p>And concerning <code>uniFEFF  ZERO WIDTH NO-BREAK SPACE</code> it has width 1233 in DejaVuSansMono.ttf version 2.33.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -332,7 +342,7 @@ EndChar</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Update to my initial post:  [[http://ilyaz.org/fonts]] — now it contains the <!-- raw HTML omitted -->really<!-- raw HTML omitted --> working versions of the fonts (it was not so a year ago!).
+		<div class="commentbody"><p>Update to my initial post:  [[http://ilyaz.org/fonts]] — now it contains the <strong>really</strong> working versions of the fonts (it was not so a year ago!).
 •  3 flavors of the de-rasterized Unifont (latest, so it contains the full BMP of Unicode 6.3); including:
 •  DejaVu with missing glyphs overlaid from Unifont (glyphs massaged to match DejaVu better);
 •  Versions which work in Windows’ console, and versions for more flexible environments;

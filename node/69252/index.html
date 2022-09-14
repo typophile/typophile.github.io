@@ -74,27 +74,27 @@
   <div class="post-content e-content" itemprop="articleBody"><p>Problem:
 [img:sites/default/files/old-images/GREP-kern-1_6550.gif]</p>
 <p>Solution:
-While InDesign CS4 doesn&rsquo;t feature a kerning table, it does support GREP styles, which can be used to apply custom kerning values to extended text settings. Because I haven&rsquo;t seen this documented in a truly helpful way (not that I&rsquo;ve looked <!-- raw HTML omitted -->too<!-- raw HTML omitted --> hard) and some peeps have asked about it, here&rsquo;s a quick writeup of a possible procedure. Maybe if some of you have corrections or suggestions how to do it better, we can put together a killer workflow. (Scuse the atypically looong post… I figured Typophile was still the best place to put this.)</p>
+While InDesign CS4 doesn&rsquo;t feature a kerning table, it does support GREP styles, which can be used to apply custom kerning values to extended text settings. Because I haven&rsquo;t seen this documented in a truly helpful way (not that I&rsquo;ve looked <em>too</em> hard) and some peeps have asked about it, here&rsquo;s a quick writeup of a possible procedure. Maybe if some of you have corrections or suggestions how to do it better, we can put together a killer workflow. (Scuse the atypically looong post… I figured Typophile was still the best place to put this.)</p>
 <p>So in the text above, note the absence of a kern pair for «Tó» while «To» looks fine.</p>
-<p><!-- raw HTML omitted -->Step 1: Kern the pair manually, once.<!-- raw HTML omitted -->
+<p><strong>Step 1: Kern the pair manually, once.</strong>
 [img:sites/default/files/old-images/GREP-kern-2_6377.gif]</p>
 <p>.
 .
-<!-- raw HTML omitted -->Step 2: Define character style for kern pair.<!-- raw HTML omitted -->
+<strong>Step 2: Define character style for kern pair.</strong>
 It seems that this has to be done in a roundabout way, since custom kerning values cannot be entered in the Character Style dialog.
-It&rsquo;s interesting to note that while InDesign only lets you insert a kerning value when the cursor is between the 2 glyphs in question, it seems that the kerning value is treated as a <!-- raw HTML omitted -->property assigned to the first glyph in the pair<!-- raw HTML omitted -->. Thus, by selecting the first one of these 2 glyphs and then defining a «New Character Style» you will be able to make a character style that contains this kerning value. (You want to pay attention that it doesn&rsquo;t contain anything else.) I&rsquo;d name it something telling, like kern_T_oacute in this case. 
+It&rsquo;s interesting to note that while InDesign only lets you insert a kerning value when the cursor is between the 2 glyphs in question, it seems that the kerning value is treated as a <em>property assigned to the first glyph in the pair</em>. Thus, by selecting the first one of these 2 glyphs and then defining a «New Character Style» you will be able to make a character style that contains this kerning value. (You want to pay attention that it doesn&rsquo;t contain anything else.) I&rsquo;d name it something telling, like kern_T_oacute in this case. 
 [img:sites/default/files/old-images/GREP-kern-3_6202.gif]</p>
 <p>.
 .
-<!-- raw HTML omitted -->Step 3: Apply this Character Style to all occurrences of the pair in question, via GREP.<!-- raw HTML omitted -->
+<strong>Step 3: Apply this Character Style to all occurrences of the pair in question, via GREP.</strong>
 Make sure your text cursor is in one paragraph in question, then select «GREP Styles» from the Paragraph (not Paragraph Styles) palette flyout. Hit «NEW GREP Style…» and specify to assign the kern_T_oacute character style in case this condition is met:
-<!-- raw HTML omitted -->T(?=ó)<!-- raw HTML omitted -->
-The important thing is to only assign the character style to the &ldquo;T&rdquo; (as the kerning value is treated as a property of the <!-- raw HTML omitted -->first<!-- raw HTML omitted --> glyph in the pair), but <!-- raw HTML omitted -->only if it is followed by &ldquo;ó&rdquo;<!-- raw HTML omitted --> – this condition is what the (?=ó) specifies as a Positive Lookahead (cf. <!-- raw HTML omitted -->Adobe Guideline on Metacharacters<!-- raw HTML omitted -->). If you want to include other possibilities too (like odieresis), you can specify a class of possible second glyphs in brackets, like in the screenshot below.
+<code>T(?=ó)</code>
+The important thing is to only assign the character style to the &ldquo;T&rdquo; (as the kerning value is treated as a property of the <em>first</em> glyph in the pair), but <strong>only if it is followed by &ldquo;ó&rdquo;</strong> – this condition is what the (?=ó) specifies as a Positive Lookahead (cf. <a href="http://help.adobe.com/en_US/InDesign/6.0/WSa285fff53dea4f8617383751001ea8cb3f-6f59a.html">Adobe Guideline on Metacharacters</a>). If you want to include other possibilities too (like odieresis), you can specify a class of possible second glyphs in brackets, like in the screenshot below.
 When you hit Preview this baby should now automagically apply to all «Tó» pairs in the paragraph:
 [img:sites/default/files/old-images/GREP-kern-4_3891.gif]</p>
 <p>.
 .
-<!-- raw HTML omitted -->Step 4: Redefine Paragraph Style to include GREP style.<!-- raw HTML omitted -->
+<strong>Step 4: Redefine Paragraph Style to include GREP style.</strong>
 Your Paragraph Style will now have a &ldquo;+&rdquo; added because the GREP style was added. Select «Redefine Style» to add the GREP style to the Paragraph Style definition. Now the custom kern pair should automatically be applied in all paragraphs based on this paragraph style. (Note that you&rsquo;ll have to do this for all paragraph styles you need the kern pair in.)</p>
 <p>Comments, suggestions, please shoot. I will add that in my case I actually solved it differently (via GREP Search&amp;Replace) but found out later that this way would have been much more elegant.</p>
 </div>
@@ -190,11 +190,11 @@ Your Paragraph Style will now have a &ldquo;+&rdquo; added because the GREP styl
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Hey, Nina, great trick! I do have two additional remarks:</p>
-<p>To act upon <!-- raw HTML omitted -->each and every &lsquo;o&rsquo;-like character<!-- raw HTML omitted -->, accented or not, you don&rsquo;t have to list the exact list. You can still use it if you need absolute control on which characters to include, but if you are positive you want to do this on all &lsquo;o&rsquo; characters, you can use a <!-- raw HTML omitted -->character class<!-- raw HTML omitted -->: the command <!-- raw HTML omitted -->[[=o=]]<!-- raw HTML omitted --> will match on all o&rsquo;s, with and without accent. The only drawback is that a capital Oh is also an equivalent of plain &lsquo;o&rsquo;, so you have to find a way to exclude them. Well &ndash; you can add <!-- raw HTML omitted -->another<!-- raw HTML omitted --> lookahead to include <!-- raw HTML omitted -->only<!-- raw HTML omitted --> lowercase characters!</p>
-<p><!-- raw HTML omitted -->T(?=\l)(?=[[=o=]])<!-- raw HTML omitted --></p>
+<p>To act upon <strong>each and every &lsquo;o&rsquo;-like character</strong>, accented or not, you don&rsquo;t have to list the exact list. You can still use it if you need absolute control on which characters to include, but if you are positive you want to do this on all &lsquo;o&rsquo; characters, you can use a <em>character class</em>: the command <code>[[=o=]]</code> will match on all o&rsquo;s, with and without accent. The only drawback is that a capital Oh is also an equivalent of plain &lsquo;o&rsquo;, so you have to find a way to exclude them. Well &ndash; you can add <em>another</em> lookahead to include <em>only</em> lowercase characters!</p>
+<p><code>T(?=\l)(?=[[=o=]])</code></p>
 <p>The first lookahead asserts only lowercase characters may follow; the second picks up all equivalents of plain ohs.</p>
-<p>The other thing is: Unfortunately, GREP styles are oblivious to <!-- raw HTML omitted -->formatting<!-- raw HTML omitted -->, so this same trick will be applied to italic, bold, and bold italic, and on every font as well. If you are applying italics formatting though a paragraph style, you can create a new character style for &ldquo;italic T o&rdquo; kerning, but for plain text you still have to apply manually workarounds to non-plain text.</p>
-<p>Given this constraint, it&rsquo;s still a great trick. I agree: it&rsquo;s about time Adobe copied the Quark Kerning Pair Editor. And does anyone else think it&rsquo;s weird you cannot enter a Kerning value in a Character Style definition? You can only insert one using Nina&rsquo;s trick: first apply, then &ldquo;Define New Character Style&rdquo;. And if you got it wrong, you cannot <!-- raw HTML omitted -->edit<!-- raw HTML omitted --> it. (Perhaps it can be done with a Javascript &ndash; I&rsquo;ll have to check that.)</p>
+<p>The other thing is: Unfortunately, GREP styles are oblivious to <strong>formatting</strong>, so this same trick will be applied to italic, bold, and bold italic, and on every font as well. If you are applying italics formatting though a paragraph style, you can create a new character style for &ldquo;italic T o&rdquo; kerning, but for plain text you still have to apply manually workarounds to non-plain text.</p>
+<p>Given this constraint, it&rsquo;s still a great trick. I agree: it&rsquo;s about time Adobe copied the Quark Kerning Pair Editor. And does anyone else think it&rsquo;s weird you cannot enter a Kerning value in a Character Style definition? You can only insert one using Nina&rsquo;s trick: first apply, then &ldquo;Define New Character Style&rdquo;. And if you got it wrong, you cannot <em>edit</em> it. (Perhaps it can be done with a Javascript &ndash; I&rsquo;ll have to check that.)</p>
 <hr>
 <p>† Malcolm McLaren (22 January 1946 – 8 April 2010) &hellip;</p>
 </div>
@@ -218,7 +218,7 @@ Your Paragraph Style will now have a &ldquo;+&rdquo; added because the GREP styl
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --><!-- raw HTML omitted --> (Perhaps it can be done with a Javascript &ndash; I&rsquo;ll have to check that.)<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><quote><em> (Perhaps it can be done with a Javascript &ndash; I&rsquo;ll have to check that.)</em></quote></p>
 <p>Checked, and the answer is &ldquo;No&rdquo;. Text objects in general have properties &ldquo;kerningMethod&rdquo; and &ldquo;kerningValue&rdquo;, but Character styles only have &ldquo;kerningMethod&rdquo;. Thus adding another riddle: how can it get defined with a certain value in the character style if that can&rsquo;t contain the value &hellip;?</p>
 <hr>
 <p>† Malcolm McLaren (22 January 1946 – 8 April 2010) &hellip;</p>
@@ -245,14 +245,14 @@ Your Paragraph Style will now have a &ldquo;+&rdquo; added because the GREP styl
 	<div class="card-body">
 		<div class="commentbody"><p>Thanks for the responses. I&rsquo;m glad if this is helpful to some.</p>
 <p>Theunis, thank you very much for the input! I&rsquo;m actually quite a newbie at GREP so these more advanced syntax constructions are quite illuminating. 
-Using that blanket character class wildcard (like <!-- raw HTML omitted -->=o=<!-- raw HTML omitted -->) seems like a bit of a dangerous technique from a type design perspective no? I mean considering that say the oacute and odieresis might need quite different kerning values when following a &ldquo;T&rdquo;, depending on the design.</p>
-<p><!-- raw HTML omitted -->&ldquo;Unfortunately, GREP styles are oblivious to formatting&rdquo;<!-- raw HTML omitted -->
-Yes, this is really quite a bad constraint. I should have mentioned it. It&rsquo;s pretty stupid actually because if you do a GREP <!-- raw HTML omitted -->search<!-- raw HTML omitted --> then you <!-- raw HTML omitted -->can<!-- raw HTML omitted --> specify formatting (like in normal searches),* just not for GREP <!-- raw HTML omitted -->styles<!-- raw HTML omitted -->. Hmph.
+Using that blanket character class wildcard (like <code>=o=</code>) seems like a bit of a dangerous technique from a type design perspective no? I mean considering that say the oacute and odieresis might need quite different kerning values when following a &ldquo;T&rdquo;, depending on the design.</p>
+<p><cite>&ldquo;Unfortunately, GREP styles are oblivious to formatting&rdquo;</cite>
+Yes, this is really quite a bad constraint. I should have mentioned it. It&rsquo;s pretty stupid actually because if you do a GREP <em>search</em> then you <em>can</em> specify formatting (like in normal searches),* just not for GREP <em>styles</em>. Hmph.
 (* I&rsquo;m not quite sure, but there seems to be a problem here too: In the GREP Search, if any formatting is specified, not only the search term proper needs to match this formatting at but also the Lookahead too. Which is exactly a problem for this technique, since you&rsquo;d only want to match the first glyph of the pair in terms of formatting. So if you have a pair like say &ldquo;Ví&rdquo; and the &ldquo;í&rdquo; already has a custom character style applied, and you search for &ldquo;V(?=í)&rdquo; with standard formatting it&rsquo;s not going to be found. :-\ )
 The interface for these functions definitely needs refining, and I don&rsquo;t only mean a nice clickable GUI here, although that&rsquo;d be rad too.</p>
-<p><!-- raw HTML omitted -->&ldquo;does anyone else think it&rsquo;s weird you cannot enter a Kerning value in a Character Style definition? You can only insert one using Nina&rsquo;s trick: first apply, then &ldquo;Define New Character Style&rdquo;&quot;<!-- raw HTML omitted -->
-I&rsquo;m thinking my &ldquo;trick&rdquo; might be a loophole. This is likely not <!-- raw HTML omitted -->meant<!-- raw HTML omitted --> to be done this way (or at all). Otherwise there would be a better interface for it. But I might be wrong.</p>
-<p><!-- raw HTML omitted -->&ldquo;And if you got it wrong, you cannot edit it.&quot;<!-- raw HTML omitted -->
+<p><cite>&ldquo;does anyone else think it&rsquo;s weird you cannot enter a Kerning value in a Character Style definition? You can only insert one using Nina&rsquo;s trick: first apply, then &ldquo;Define New Character Style&rdquo;&quot;</cite>
+I&rsquo;m thinking my &ldquo;trick&rdquo; might be a loophole. This is likely not <em>meant</em> to be done this way (or at all). Otherwise there would be a better interface for it. But I might be wrong.</p>
+<p><cite>&ldquo;And if you got it wrong, you cannot edit it.&quot;</cite>
 Well you can edit it locally in one instance and then &ldquo;Redefine Style&rdquo;. Which works, but is also a workaround. OK, hack. :-)</p>
 <p>Now of course the big question to the Adobe folks is, will any of this be improved in CS5?</p>
 </div>
@@ -276,10 +276,10 @@ Well you can edit it locally in one instance and then &ldquo;Redefine Style&rdqu
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Correct &ndash; the <!-- raw HTML omitted -->[[=o=]]<!-- raw HTML omitted --> <!-- raw HTML omitted -->does<!-- raw HTML omitted --> treat all variants of oh the same, and if you want to use different values for different ohs, you need to specify them in a <!-- raw HTML omitted -->[..]<!-- raw HTML omitted --> list.</p>
-<p><!-- raw HTML omitted -->Now of course the big question to the Adobe folks is, will any of this be improved in CS5?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Correct &ndash; the <code>[[=o=]]</code> <em>does</em> treat all variants of oh the same, and if you want to use different values for different ohs, you need to specify them in a <code>[..]</code> list.</p>
+<p><cite>Now of course the big question to the Adobe folks is, will any of this be improved in CS5?</cite></p>
 <p>It sure could use an overhaul. How many days left on that counter? (Checking &hellip;) 3d 15h 25m 42 s &hellip;</p>
-<p>(The main topic on <!-- raw HTML omitted --><a href="http://cs5launch.adobe.com/">http://cs5launch.adobe.com/</a><!-- raw HTML omitted --> appears to be a complete new set of Flash stuff, fresh out of adobe.labs. We can only hope not <!-- raw HTML omitted -->all<!-- raw HTML omitted --> of their programmers have been working on that.)</p>
+<p>(The main topic on <a href="http://cs5launch.adobe.com/"><a href="http://cs5launch.adobe.com/">http://cs5launch.adobe.com/</a></a> appears to be a complete new set of Flash stuff, fresh out of adobe.labs. We can only hope not <em>all</em> of their programmers have been working on that.)</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -345,7 +345,7 @@ Well you can edit it locally in one instance and then &ldquo;Redefine Style&rdqu
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>A very nice trick, though I&rsquo;m still drawn to Peter Kahrel&rsquo;s <!-- raw HTML omitted -->solution<!-- raw HTML omitted -->, which puts all the changes in what amounts to a single kerning table covering a font&rsquo;s styles.  Kahrel&rsquo;s script can thus automate kerning for an italic f followed by a regular closing parenthesis.  But perhaps ID7 will make all such workarounds unnecessary.</p>
+		<div class="commentbody"><p>A very nice trick, though I&rsquo;m still drawn to Peter Kahrel&rsquo;s <a href="http://www.kahrel.plus.com/indesign/kern.html">solution</a>, which puts all the changes in what amounts to a single kerning table covering a font&rsquo;s styles.  Kahrel&rsquo;s script can thus automate kerning for an italic f followed by a regular closing parenthesis.  But perhaps ID7 will make all such workarounds unnecessary.</p>
 <p>David</p>
 </div>
 	</div>
@@ -411,7 +411,7 @@ I wish there was a bit more documentation – I&rsquo;d love to know how this sc
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Has anyone seen Kahrel&rsquo;s <!-- raw HTML omitted -->ebook (eDoc) on GREP<!-- raw HTML omitted -->?</div>
+		<div class="commentbody">Has anyone seen Kahrel&rsquo;s <a href="http://www.amazon.com/GREP-InDesign-CS3-Peter-Kahrel/dp/B001O7HEPM/ref=sr_1_4/179-1285833-6473252?ie=UTF8&s=books&qid=1270988123&sr=1-4/">ebook (eDoc) on GREP</a>?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -432,7 +432,7 @@ I wish there was a bit more documentation – I&rsquo;d love to know how this sc
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Ocular: I&rsquo;ve <!-- raw HTML omitted -->heard<!-- raw HTML omitted --> of it &ndash; it has frequently been called &ldquo;the best there is&rdquo; for InDesign users, because it&rsquo;s specially targeted at using GREP in that environment. Peter Kahrel is a regular poster on <!-- raw HTML omitted -->Adobe&rsquo;s own InDesign Forum<!-- raw HTML omitted --> and sure knows a lot on the effective use of GREP with ID.</p>
+		<div class="commentbody"><p>Ocular: I&rsquo;ve <em>heard</em> of it &ndash; it has frequently been called &ldquo;the best there is&rdquo; for InDesign users, because it&rsquo;s specially targeted at using GREP in that environment. Peter Kahrel is a regular poster on <a href="http://forums.adobe.com/community/indesign">Adobe&rsquo;s own InDesign Forum</a> and sure knows a lot on the effective use of GREP with ID.</p>
 <p>And for its price &ndash; under a tenner &ndash; it is good value for money.</p>
 </div>
 	</div>
@@ -456,7 +456,7 @@ I wish there was a bit more documentation – I&rsquo;d love to know how this sc
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Thanks, Theunis! Yeah, for ten US dollars, it isn&rsquo;t much of a gamble.</p>
-<p>By the way, there was a mention of an InDesign plugin called <!-- raw HTML omitted -->Cool Kerning<!-- raw HTML omitted --> in <!-- raw HTML omitted -->this thread from 2006<!-- raw HTML omitted -->. Anyone tried it?</p>
+<p>By the way, there was a mention of an InDesign plugin called <a href="http://www.knowbody.dk/productbasement/index.asp?language=2&amp;PBSelProd=I000001&amp;PBSelMenu=Info">Cool Kerning</a> in <a href="http://typophile.com/node/27749">this thread from 2006</a>. Anyone tried it?</p>
 <p>EDIT: OK, now I found two more threads mentioning or discussing Cool Kerning: <a href="http://typophile.com/node/7608">http://typophile.com/node/7608</a> and <a href="http://www.typophile.com/node/971">http://www.typophile.com/node/971</a></p>
 </div>
 	</div>
@@ -590,11 +590,11 @@ I was sure hoping this would get easier, not harder, in newer versions! :-\</div
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Moraitis, if this is still an open question, here is a script to harvest custom kerning pairs inside an InDesign story. Save as a plain text file as &ldquo;harvestKerning.jsx&rdquo; in your InDesign scripting folder, click the text cursor in the running story that you want to harvest from, and run the script.</p>
-<p>It might run <!-- raw HTML omitted -->very slow<!-- raw HTML omitted --> as it has to inspect each and every single character &hellip; perhaps you should try it first on a small amount of text.</p>
+<p>It might run <em>very slow</em> as it has to inspect each and every single character &hellip; perhaps you should try it first on a small amount of text.</p>
 <p>If the script encounters a manually kerned letter pair, it looks in its list if it already has encountered these before <em>with the same value</em>. If not, it will add them to the list. So beware! Some letter pairs may occur more than once in the list.
 The custom kerning pairs and their value are written into a file named &ldquo;kerning.txt&rdquo;, which will be stored in your local My Documents folder.</p>
 <p>Enjoy.</p>
-<p><!-- raw HTML omitted -->results = [];
+<p><code>results = [];
 text = app.selection[0].parentStory.characters;
 for (i=0; i&lt;text.length-1; i++)
 {
@@ -616,7 +616,7 @@ if (list[i][0] == entry[0] &amp;&amp; list[i][1] == entry[1])
 return;
 list.push (entry);
 }
-<!-- raw HTML omitted --></p>
+</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -659,7 +659,7 @@ list.push (entry);
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Just wanted to update this old thread and say it’s officially outdated<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Just wanted to update this old thread and say it’s officially outdated</cite></p>
 <p>It works fine when one uses a styling parameter which is actually a real character level parameter: tracking!
 The question how to do this came up on Typography.Guru, so I decided to put together a video explaining it step by step: 
 <a href="http://typography.guru/forums/topic/26-apostrophe-space-in-french-words/#comment-223">http://typography.guru/forums/topic/26-apostrophe-space-in-french-words/#comment-223</a></p>

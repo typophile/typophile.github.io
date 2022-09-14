@@ -75,9 +75,9 @@
 <p>Might as well say Hi, as I just registered. I have only been reading here previously. My Name is Gustaf, currently Studying my last year on a BA Graphic Design course in the Uk.</p>
 <p>To my question;</p>
 <p>I am producing an Opentype typeface as a part of a University Project using FontLab 5 for Win. As I have come to set kerning for it, iv run into some trouble. From some reading, as I understand it, class based kerning is the better alternative and then complimenting with  pairs for those which does not fit in a class with any other. I created a few classes manually with a few glyphs each. I understand that it should be done via the OpenType window but not sure how.</p>
-<p><!-- raw HTML omitted -->feature xxxx {
+<p><code>feature xxxx {
 sub by ;
-} xxxx;<!-- raw HTML omitted --></p>
+} xxxx;</code></p>
 <p>Get how to add that, and that the feature should be kern, but not how to set the actual kerning between the different classes. Is the a full list of the Opentype feature tags with how they are used anywhere? How do I set the opentype kerning of single pairs as a compliment to the classes?</p>
 <p>Thanks in advance.</p>
 <p>// Gustaf</p>
@@ -115,18 +115,18 @@ Windows&gt;Panels&gt;OpenType and see.</p>
 	<div class="card-body">
 		<div class="commentbody"><p>Okay I think I am a bit more in the right direction.</p>
 <p>I made a class like this (Like page 588 in the manual):</p>
-<p><!-- raw HTML omitted -->_A: A' Agrave Aacute Acircumflex Atilde Adieresis Aring<!-- raw HTML omitted --></p>
+<p><code>_A: A' Agrave Aacute Acircumflex Atilde Adieresis Aring</code></p>
 <p>In the metrics window for kerning I set A A 400 just to make it easy to see.</p>
 <p>Then &gt; Generate kern feature</p>
 <p>Opentype window:</p>
-<p><!-- raw HTML omitted -->feature kern {
+<p><code>feature kern {
 subtable;
 pos @_A @_A 400;
-} kern;<!-- raw HTML omitted --></p>
+} kern;</code></p>
 <p>So far it looks all good, shows up correctly with 400 space in metrics and preview window. Then Export Font &gt; OpenType PS. But then when I attempt to use it in t.ex. Photoshop CS2, it does not give me anything new. The AA glyphs still overlap at the bottom.</p>
 <p>Is this an issue with just Photoshop CS2 and Opentype? I assumed it would be new enough to handle it.</p>
 <p>// Gus</p>
-<p><!-- raw HTML omitted -->nb, the quirk is, you need at least one other Feature for OT kerning to work in a font.<!-- raw HTML omitted --></p>
+<p><cite>nb, the quirk is, you need at least one other Feature for OT kerning to work in a font.</cite></p>
 <p>??</p>
 <p>I was reading some here, but it didnt really help me that much.. reading the last 3 comments. <a href="http://www.typophile.com/node/17113">http://www.typophile.com/node/17113</a></p>
 </div>
@@ -174,17 +174,17 @@ pos @_A @_A 400;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>This one answers your main question about the &ldquo;other&rdquo; feature:
-<!-- raw HTML omitted --><a href="http://typophile.com/node/32929">http://typophile.com/node/32929</a><!-- raw HTML omitted -->
+<a href="http://typophile.com/node/32929" target="_blank"><a href="http://typophile.com/node/32929">http://typophile.com/node/32929</a></a>
 Right from the start, you should set up separate classes for the left and right side, and attach &ldquo;_1ST&rdquo; to the class which will be leftside of a pair, and &ldquo;_2ST&rdquo; to the class which will be rightside of a pair. In a feature, the result would look like this:
    pos @_A_1ST @_A_2ND 20;
 This makes sure that you don&rsquo;t run into subtable break error messages.</p>
 <p>Google a bit with &ldquo;kerning site:typophile.com&rdquo; or &ldquo;class kerning site:typophile.com&rdquo; as search string &ndash; there have been some threads on class based kerning which cover most issues that one may run into. Some for a start:</p>
 <p>This thread contains a collection of links to other class kerning threads (as of August 2006):
-<!-- raw HTML omitted --><a href="http://typophile.com/node/27424#comment-151733">http://typophile.com/node/27424#comment-151733</a><!-- raw HTML omitted --></p>
+<a href="http://typophile.com/node/27424#comment-151733" target="_blank"><a href="http://typophile.com/node/27424#comment-151733">http://typophile.com/node/27424#comment-151733</a></a></p>
 <p>And some more recent ones, but no really new information:
-<!-- raw HTML omitted --><a href="http://typophile.com/node/30567">http://typophile.com/node/30567</a><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><a href="http://typophile.com/node/33284">http://typophile.com/node/33284</a><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><a href="http://typophile.com/node/34109">http://typophile.com/node/34109</a><!-- raw HTML omitted --></p>
+<a href="http://typophile.com/node/30567" target="_blank"><a href="http://typophile.com/node/30567">http://typophile.com/node/30567</a></a>
+<a href="http://typophile.com/node/33284" target="_blank"><a href="http://typophile.com/node/33284">http://typophile.com/node/33284</a></a>
+<a href="http://typophile.com/node/34109" target="_blank"><a href="http://typophile.com/node/34109">http://typophile.com/node/34109</a></a></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -206,7 +206,7 @@ This makes sure that you don&rsquo;t run into subtable break error messages.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Right from the start, you should set up separate classes for the left and right side, and attach &hellip; This makes sure that you don’t run into subtable break error messages.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>Right from the start, you should set up separate classes for the left and right side, and attach &hellip; This makes sure that you don’t run into subtable break error messages.</em></p>
 <p>Are subtable breaks errors?</p>
 <p>If that is the case, why does FontLab allow a class to be &ldquo;active&rdquo; on both sides?</p>
 </div>
@@ -231,11 +231,11 @@ This makes sure that you don&rsquo;t run into subtable break error messages.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->Are subtable breaks errors?<!-- raw HTML omitted --></p>
+<p><em>Are subtable breaks errors?</em></p>
 </blockquote>
-<p>No. What Karsten was referring to is the infamous <!-- raw HTML omitted -->Start of new pair positioning subtable; some pairs may never be accessed: &hellip;<!-- raw HTML omitted --> error. An example here: <a href="http://typophile.com/node/37959">http://typophile.com/node/37959</a></p>
+<p>No. What Karsten was referring to is the infamous <code>Start of new pair positioning subtable; some pairs may never be accessed: &hellip;</code> error. An example here: <a href="http://typophile.com/node/37959">http://typophile.com/node/37959</a></p>
 <blockquote>
-<p><!-- raw HTML omitted -->If that is the case, why does FontLab allow a class to be “active” on both sides?<!-- raw HTML omitted --></p>
+<p><em>If that is the case, why does FontLab allow a class to be “active” on both sides?</em></p>
 </blockquote>
 <p>There&rsquo;s no problem with using the same class on both sides, but that increases your chances of running into the subtable error above, specially if you&rsquo;re working on a font with a large character set.</p>
 </div>
@@ -261,12 +261,12 @@ This makes sure that you don&rsquo;t run into subtable break error messages.</p>
 	<div class="card-body">
 		<div class="commentbody"><p>Right Miguel, as you say in that thread, &ldquo;&hellip;each glyph should only be included in one left kern class, and one right kern class, maximum.&rdquo;</p>
 <p>However, there is no problem with including different characters in a &ldquo;both sides&rdquo; class, if their left sides all have similar kerning behaviour, and their right sides all have similar kerning behaviour. For instance:</p>
-<p><!-- raw HTML omitted -->O' Q</p>
+<p><code>O' Q</p>
 <p>hyphen' endash emdash</p>
 <p>period' comma ellipsis</p>
-<p>quoteright' quotedblright<!-- raw HTML omitted --></p>
+<p>quoteright' quotedblright</code></p>
 <p>and of course</p>
-<p><!-- raw HTML omitted -->A' Adieresis Aring Agrave Atilde Acircumflex Aacute Amacron Aogonek Abreve<!-- raw HTML omitted --></p>
+<p><code>A' Adieresis Aring Agrave Atilde Acircumflex Aacute Amacron Aogonek Abreve</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -289,7 +289,7 @@ This makes sure that you don&rsquo;t run into subtable break error messages.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->However, there is no problem with including different characters in a “both sides” class<!-- raw HTML omitted --></p>
+<p><em>However, there is no problem with including different characters in a “both sides” class</em></p>
 </blockquote>
 <p>I agree, and it&rsquo;s very tempting to make only one class — which will be used on both sides — for glyphs that are symmetrical, such as &lsquo;A&rsquo;, &lsquo;T&rsquo; or &lsquo;V&rsquo;. But things can get out of control pretty quickly if your glyphset contains an &lsquo;AE&rsquo; glyph or a &lsquo;T_h&rsquo; ligature, for example. In this case, if you don&rsquo;t separate those &ldquo;both sides&rdquo; classes it&rsquo;s likely you&rsquo;re going to have a bad time&hellip;</p>
 <p>My point is, although it might sound like it&rsquo;s more work if one has to explicitly create left and right classes, that extra effort may in the end payoff, as it helps keeping you away from class kerning errors. And if you run into one of those, it will be easier to find the problem, IMO.</p>
@@ -314,10 +314,10 @@ This makes sure that you don&rsquo;t run into subtable break error messages.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>K.L. &ndash; <!-- raw HTML omitted -->that you don’t run into subtable break error messages<!-- raw HTML omitted -->
-M.S. &ndash; <!-- raw HTML omitted -->What Karsten was referring to is the infamous &ldquo;Start of new pair positioning subtable; &hellip;&quot;<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>K.L. &ndash; <cite>that you don’t run into subtable break error messages</cite>
+M.S. &ndash; <cite>What Karsten was referring to is the infamous &ldquo;Start of new pair positioning subtable; &hellip;&quot;</cite></p>
 <p>Yes, that&rsquo;s it. Thank you, Miguel, for providing the background!</p>
-<p>Nick, yes: For my fonts, I strictly set up classes as either leftside or rightside classes in FLS, even if some leftside and rightside classes share the same set of glyphs &ndash; and upon generating fonts I automatically &ldquo;merge&rdquo; classes with identical content into a single class. This may illustrate that the separation helps avoid (or track down) errors during production <!-- raw HTML omitted -->but is not at all a requirement as regards OT fonts.<!-- raw HTML omitted --></p>
+<p>Nick, yes: For my fonts, I strictly set up classes as either leftside or rightside classes in FLS, even if some leftside and rightside classes share the same set of glyphs &ndash; and upon generating fonts I automatically &ldquo;merge&rdquo; classes with identical content into a single class. This may illustrate that the separation helps avoid (or track down) errors during production <cite>but is not at all a requirement as regards OT fonts.</cite></p>
 <p>I thought it&rsquo;s better to mention this trick right away since I anticipated that &ldquo;Start of new pair positioning subtable&rdquo; would be next weeks thread.  ;-)</p>
 <p>Let me also point to the AFDKO2&rsquo;s FLS script for generating the kern feature. It does a better job than FLS5&rsquo;s &ldquo;Update kern feature&rdquo; function (though the difference may become evident only with larger or heavily kerned fonts).</p>
 <p>Karsten</p>
@@ -343,7 +343,7 @@ M.S. &ndash; <!-- raw HTML omitted -->What Karsten was referring to is the infam
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>2nd feature: &ldquo;liga&rdquo;</p>
-<p><!-- raw HTML omitted -->sub f i by fi;<!-- raw HTML omitted --></p>
+<p><code>sub f i by fi;</code></p>
 <p>That&rsquo;s all it needs.
 Apparently, Kern can&rsquo;t get into the club unless accompanied by an adult.</p>
 </div>
@@ -371,11 +371,11 @@ Apparently, Kern can&rsquo;t get into the club unless accompanied by an adult.</
 <p>So each glyph can appear in both a left class and a right class.
 When I set up a class, does the width of the glyph matter? Or would N and I go into the same left class as they have identical sides?</p>
 <p>This other OT feature required im still not ok with, like i&rsquo;d need,</p>
-<p><!-- raw HTML omitted -->liga (
+<p><code>liga (
 sub aring by aring;
-) liga;<!-- raw HTML omitted --></p>
+) liga;</code></p>
 <p>Would I have one like that for earch glyph? class?</p>
-<p>And i get this, <!-- raw HTML omitted -->[FATAL] <!-- raw HTML omitted --> expecting EOF (text was &ldquo;liga&rdquo;)<!-- raw HTML omitted --></p>
+<p>And i get this, <code>[FATAL] <five> expecting EOF (text was &ldquo;liga&rdquo;)</code></p>
 <p>When it put it into a new window in the opentype panel, it just stays as xxxx and doesnt change its name like kern did, reason?</p>
 <p>//Gustaf</p>
 </div>
@@ -426,9 +426,9 @@ sub aring by aring;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>You forgot the &ldquo;feature&rdquo; in the first line:</p>
-<p><!-- raw HTML omitted -->feature liga {
+<p><code>feature liga {
    sub aring by aring;
-} liga;<!-- raw HTML omitted --></p>
+} liga;</code></p>
 <p>The width of glyphs does not matter. What matters in kerning classes is the leftside and/or rightside shape of letters. (So, if you do a serif type and the &lsquo;I&rsquo; has a serif bottom right while the &lsquo;N&rsquo; does not, then you may consider using different classes. In a sans they can be in the same class. It is a design decision.)</p>
 <p>[Edit: Hello Charles! These are indeed tricky cases and require exceptions when using class kerning.]</p>
 </div>
@@ -523,9 +523,9 @@ sub aring by aring;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->kern (negative) two successive quotelefts<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>kern (negative) two successive quotelefts</em></p>
 <p>Charles, when do two successive quotelefts occur in text?</p>
-<p><!-- raw HTML omitted -->“Comma” and “peroid” are another favorite class that probably shouldn’t be made.<!-- raw HTML omitted --></p>
+<p><em>“Comma” and “peroid” are another favorite class that probably shouldn’t be made.</em></p>
 <p>I don&rsquo;t see why not. The only place that period and comma may differ is following a double-bowl g, or maybe an ogonek-accented character, but those are the characters I would always design the comma to fit with anyway, not solve lax design with a kern.</p>
 <p>In general, too much kerning is detrimental, but one wants to be able to handle the fundamental letter-punctuation kerns (P, T, V, W, Y, f, r, v, w, y) in a straightforward and efficient manner.</p>
 </div>
@@ -575,11 +575,11 @@ sub aring by aring;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I’ll confess I usually make up tabular commas and periods<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>I’ll confess I usually make up tabular commas and periods</em></p>
 <p>Interesting. So those would be the same width as tabular figures?
 Could I include them in the OpenType tabular figure features?
 (But only if the default is proportional.)</p>
-<p><!-- raw HTML omitted -->I often kern a quotedblright differently following a period than a comma<!-- raw HTML omitted --></p>
+<p><em>I often kern a quotedblright differently following a period than a comma</em></p>
 <p>Can you post an example?</p>
 </div>
 	</div>

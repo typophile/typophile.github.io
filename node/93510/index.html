@@ -237,12 +237,12 @@ lookup rotate;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>You get this error because the classes doesn’t have the same number of elements.</p>
-<p><!-- raw HTML omitted -->lc: a b c d
-smcp: a.smcp b.smcp c.smcp d.smcp<!-- raw HTML omitted --></p>
+<p><code>lc: a b c d
+smcp: a.smcp b.smcp c.smcp d.smcp</code></p>
 <p>In the example above, each class has four elements. I can now call the classes in my OpenType code, like this:</p>
-<p><!-- raw HTML omitted -->feature smcp {
+<p><code>feature smcp {
 sub @lc by @smcp;
-} smcp;<!-- raw HTML omitted --></p>
+} smcp;</code></p>
 <p>If the small cap feature is activated, a /d/ (which is in the @lc class, remember) will be subsituted for the glyph occupying the same “slot” in the @smcp class. In this case /d.smcp/. If the @smcp class only has three letters there’s no way for the OT engine to know what to do.</p>
 </div>
 	</div>
@@ -265,7 +265,7 @@ sub @lc by @smcp;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>It shouldn&rsquo;t affect the compilation, but wouldn&rsquo;t the rotation code be better placed in the <!-- raw HTML omitted -->calt<!-- raw HTML omitted --> feature? Your original <!-- raw HTML omitted -->salt<!-- raw HTML omitted --> code looked appropriate for defining alternate glyphs, which is really what that feature is for.</p>
+		<div class="commentbody"><p>It shouldn&rsquo;t affect the compilation, but wouldn&rsquo;t the rotation code be better placed in the <code>calt</code> feature? Your original <code>salt</code> code looked appropriate for defining alternate glyphs, which is really what that feature is for.</p>
 <p>(Edit: this was also [[http://typophile.com/node/19625#comment-278274|discussed in the older thread]].)</p>
 </div>
 	</div>
@@ -340,13 +340,15 @@ lookup rotate;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>The bottom of the Classes panel shows the total number of glyphs in the selected class (110 in your screenshot). In order to substitute a class by another class, each class must contain the same number of glyphs, sorted in the same order relative to the other. If <!-- raw HTML omitted -->@class1<!-- raw HTML omitted --> contains 110 glyphs <!-- raw HTML omitted -->[A B C &hellip;]<!-- raw HTML omitted -->, then <!-- raw HTML omitted -->@alt1<!-- raw HTML omitted --> must contain 110 alternates <!-- raw HTML omitted -->[A.alt1 B.alt1 C.alt1 &hellip;]<!-- raw HTML omitted -->, and <!-- raw HTML omitted -->@alt2<!-- raw HTML omitted --> as well <!-- raw HTML omitted -->[A.alt2 B.alt2 C.alt2 &hellip;]<!-- raw HTML omitted -->.</p>
-<!-- raw HTML omitted -->
-<p>This could be the source of the problem. If <!-- raw HTML omitted -->@alt2<!-- raw HTML omitted --> contains only lowercase alternates, it can&rsquo;t be substituted for a class that also contains capitals. A solution would be to separate up the upper- and lowercase glyphs into different sets of classes (with related classes containing the same number of glyphs), and &ldquo;rotate&rdquo; each set independently.</p>
+		<div class="commentbody"><p>The bottom of the Classes panel shows the total number of glyphs in the selected class (110 in your screenshot). In order to substitute a class by another class, each class must contain the same number of glyphs, sorted in the same order relative to the other. If <code>@class1</code> contains 110 glyphs <code>[A B C &hellip;]</code>, then <code>@alt1</code> must contain 110 alternates <code>[A.alt1 B.alt1 C.alt1 &hellip;]</code>, and <code>@alt2</code> as well <code>[A.alt2 B.alt2 C.alt2 &hellip;]</code>.</p>
+<blockquote>I created a font that has 2 variations of the capital letters and 3 variations of the lower cases.</blockquote>
+<p>This could be the source of the problem. If <code>@alt2</code> contains only lowercase alternates, it can&rsquo;t be substituted for a class that also contains capitals. A solution would be to separate up the upper- and lowercase glyphs into different sets of classes (with related classes containing the same number of glyphs), and &ldquo;rotate&rdquo; each set independently.</p>
 <p>Also, see [[http://typophile.com/node/19625#comment-269297|Miguel Sousa&rsquo;s explanation]] of the code, including why certain parts may be unnecessary. Even after separating by case, the whole thing should work with only one rule for the uppercase and two for the lowercase.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<pre>
+sub @uppercase @uppercase' by @uppercase_alt1;
+sub @lowercase @lowercase' by @lowercase_alt1;
+sub @lowercase_alt1 @lowercase' by @lowercase_alt2;
+</pre><blockquote>
 </blockquote>
 </div>
 	</div>

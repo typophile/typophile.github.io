@@ -73,17 +73,31 @@
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m trying to write a script that checks the compatibility of glyphs before generating a MM font.</p>
 <p>I wrote this which works for single glyphs</p>
-<!-- raw HTML omitted -->
+<code>
+========================
+from robofab.world import OpenFont
+lightFont = OpenFont(None)
+boldFont = OpenFont(None)
+#
+#
+print lightFont.info.fullName,"/",boldFont.info.fullName
 <h1 id="print-lightfontaiscompatibleboldfonta-true">print lightFont[&ldquo;A&rdquo;].isCompatible(boldFont[&ldquo;A&rdquo;], True)</h1>
-<!-- raw HTML omitted -->
+</code> 
 <p>I really wanted to do it with a loop, and loop through the whole font.</p>
 <p>I tired this, but it gives me a list saying all the glyphs are compatible but I know they are not.</p>
-<!-- raw HTML omitted -->
+<code>
+========================
+from robofab.world import OpenFont
+lightFont = OpenFont(None)
+boldFont = OpenFont(None)
+#
+#
+print lightFont.info.fullName,"/",boldFont.info.fullName
 <p>for glyph in lightFont:
 print lightFont[&ldquo;glyph&rdquo;].isCompatible(boldFont[&ldquo;glyph&rdquo;], True)</p>
 <p>print lightFont[&ldquo;B&rdquo;].isCompatible(boldFont[&ldquo;B&rdquo;], True)</p>
 <p>========================
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>I changed the outline of the &ldquo;B&rdquo; and tested the compatibility after the loop and it tells me they are not compatible but the loops tells me they are</p>
 <p>How can I loop through both fonts and test there compatibility ?</p>
 </div>
@@ -91,7 +105,7 @@ print lightFont[&ldquo;glyph&rdquo;].isCompatible(boldFont[&ldquo;glyph&rdquo;],
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I would suggest to loop through the <em>glyph names</em> instead of the <em>glyph objects</em>:
-<!-- raw HTML omitted -->
+<code>
 from robofab.world import OpenFont
 lightFont = OpenFont()
 boldFont = OpenFont()</p>
@@ -101,7 +115,7 @@ boldFont = OpenFont()</p>
 <p>lightGlyph = lightFont[&lsquo;glyphName&rsquo;]
 boldGlyph = boldFont[&lsquo;glyphName&rsquo;]
 print lightGlyph.isCompatible(boldGlyph, True)
-<!-- raw HTML omitted --></p>
+</code></p>
 </blockquote>
 <p>-Paul van der Laan
 <a href="http://www.type-invaders.com">www.type-invaders.com</a></p>
@@ -177,13 +191,13 @@ print lightGlyph.isCompatible(boldGlyph, True)
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Unless you have a glyph named &ldquo;glyphName&rdquo; the script above should toss you an error:
-<!-- raw HTML omitted -->
+<code>
 for glyphName in lightFont.keys():</p>
 <blockquote>
 <p>lightGlyph = lightFont[glyphName]
 boldGlyph = boldFont[glyphName]
 print lightGlyph.isCompatible(boldGlyph, True)
-<!-- raw HTML omitted --></p>
+</code></p>
 </blockquote>
 </div>
 	</div>
@@ -250,11 +264,11 @@ print lightGlyph.isCompatible(boldGlyph, True)
 	<div class="card-body">
 		<div class="commentbody"><p>That should teach me never to post code without testing it&hellip; :)</p>
 <p>Indeed folengo is right, there should be no quotes:
-<!-- raw HTML omitted --></p>
+<code></p>
 <blockquote>
 <p>lightGlyph = lightFont[glyphName]
 boldGlyph = boldFont[glyphName]
-<!-- raw HTML omitted --></p>
+</code></p>
 </blockquote>
 <p>I just tested the script with two of my own files and it works fine here - it happily reports any incompatibility errors.</p>
 <p>-Paul van der Laan

@@ -75,17 +75,17 @@
 <p>I&rsquo;d like to change the underline thickness in a compiled OT font automatically, since the AFDKO seems to have no keywords for this.
 My tool of choice is fontTools.</p>
 <p>When decompiling the font to XML via ttx, this is setting that at least InDesign reads the value from:
-<!-- raw HTML omitted -->
+<code>
 &lt;CFF&gt;
 &lt;CFFFont name=&ldquo;Antithesis-Regular&rdquo;&gt;
 &lt;UnderlineThickness value=&ldquo;90&rdquo;/&gt;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>How to reach this setting via Python+fontTools?
 I&rsquo;ve come as far as this:
-<!-- raw HTML omitted -->
+<code>
 ttf = TTFont(path)
 ttf[&lsquo;CFF &lsquo;].cff
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>Ant now what? I can&rsquo;t find out how to reach the said setting.
 Thank you.</p>
 </div>
@@ -94,7 +94,7 @@ Thank you.</p>
 	<div class="card-body">
 		<div class="commentbody"><p>Hello,
 I found it here:</p>
-<!-- raw HTML omitted -->
+<pre>ttf['CFF '].cff.topDictIndex.items[0].UnderlineThickness</pre>
 <p>Eigi</p>
 </div>
 	</div>
@@ -120,9 +120,9 @@ I found it here:</p>
 		<div class="commentbody"><p>Eigi, you’re the man!</p>
 <p>It worked immediately on my interactive python session that was still open.</p>
 <p>But when I run this as a script from the beginning, unfortunately I can’t reproduce this funtionality.
-Then, <!-- raw HTML omitted -->ttf[&lsquo;CFF &lsquo;].cff.topDictIndex.items[0]<!-- raw HTML omitted --> is <!-- raw HTML omitted -->None<!-- raw HTML omitted -->, and therefore also has no attributes.
+Then, <code>ttf[&lsquo;CFF &lsquo;].cff.topDictIndex.items[0]</code> is <code>None</code>, and therefore also has no attributes.
 There must be some intermediate step to load/decompile something that I unknowingly typed and now can&rsquo;t reproduce. And now that previous session is gone, so I can&rsquo;t look up the steps that I made.
-I tried to load just <!-- raw HTML omitted -->ttf[&lsquo;CFF &lsquo;]<!-- raw HTML omitted --> into a variable, to no effect.</p>
+I tried to load just <code>ttf[&lsquo;CFF &lsquo;]</code> into a variable, to no effect.</p>
 <p>Thank you!</p>
 </div>
 	</div>
@@ -145,13 +145,25 @@ I tried to load just <!-- raw HTML omitted -->ttf[&lsquo;CFF &lsquo;]<!-- raw HT
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>You must just have made a typo or inadvertently switched from one installation of python to another. The version of fonttools that comes with AFDKO 2.5 works just fine for me. With the following bash script made executable and in your path, which I&rsquo;ll call <!-- raw HTML omitted -->chthickns<!-- raw HTML omitted --> (for short)</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>You must just have made a typo or inadvertently switched from one installation of python to another. The version of fonttools that comes with AFDKO 2.5 works just fine for me. With the following bash script made executable and in your path, which I&rsquo;ll call <code>chthickns</code> (for short)</p>
+<PRE>
+-------
+#!/usr/bin/env AFDKOPython
+
+from fontTools.ttLib import TTFont
+import sys
+
+f=TTFont(sys.argv[1])
+d=f['CFF '].cff.topDictIndex[0]
+d.UnderlineThickness = int(sys.argv[2])
+f.save(sys.argv[3])
+--------
+</PRE>
 <p>the line command, after the % prompt,</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>replaces UnderlineThickness of MyFont.otf by 90 and saves the result in newfont.otf. For <!-- raw HTML omitted -->in situ<!-- raw HTML omitted --> modification, cf <a href="http://typophile.com/node/102671">http://typophile.com/node/102671</a> <!-- raw HTML omitted -->mutatis mutandis<!-- raw HTML omitted -->.</p>
+<PRE>
+% chthickns Myfont.otf 90 newfont.otf
+</PRE>
+<p>replaces UnderlineThickness of MyFont.otf by 90 and saves the result in newfont.otf. For <em>in situ</em> modification, cf <a href="http://typophile.com/node/102671">http://typophile.com/node/102671</a> <em>mutatis mutandis</em>.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -173,7 +185,7 @@ I tried to load just <!-- raw HTML omitted -->ttf[&lsquo;CFF &lsquo;]<!-- raw HT
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Editing this kind of stuff (and a lot of other things too) in .otf and .ttf fonts is IMHO <!-- raw HTML omitted -->much<!-- raw HTML omitted --> simpler with DTL OTMaster. And no, it&rsquo;s not for free, but it will save you a lot of time.</p>
+		<div class="commentbody"><p>Editing this kind of stuff (and a lot of other things too) in .otf and .ttf fonts is IMHO <strong>much</strong> simpler with DTL OTMaster. And no, it&rsquo;s not for free, but it will save you a lot of time.</p>
 <p>FEB</p>
 </div>
 	</div>
@@ -198,8 +210,8 @@ I tried to load just <!-- raw HTML omitted -->ttf[&lsquo;CFF &lsquo;]<!-- raw HT
 	<div class="card-body">
 		<div class="commentbody"><p>Thank you, Frank.
 But it can’t be automated, or can it, and is therefore not saving any time.</p>
-<p>So the <!-- raw HTML omitted -->.items<!-- raw HTML omitted --> was superfluous in Eigi’s line.
-It works with just <!-- raw HTML omitted -->ttf[&lsquo;CFF &lsquo;].cff.topDictIndex[0].UnderlineThickness<!-- raw HTML omitted -->.</p>
+<p>So the <code>.items</code> was superfluous in Eigi’s line.
+It works with just <code>ttf[&lsquo;CFF &lsquo;].cff.topDictIndex[0].UnderlineThickness</code>.</p>
 <p>Thanks, everyone.</p>
 </div>
 	</div>
@@ -222,7 +234,11 @@ It works with just <!-- raw HTML omitted -->ttf[&lsquo;CFF &lsquo;].cff.topDictI
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted --></div>
+		<div class="commentbody"><blockquote>
+So the <code>.items</code>  was superfluous [yanone]
+</blockquote>
+Oh, my bad, I had not even seen it (weird, since you repeat it in your post!). I should have read [more carefully].
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -268,7 +284,7 @@ It works with just <!-- raw HTML omitted -->ttf[&lsquo;CFF &lsquo;].cff.topDictI
 The last two lines overwrite this dreadful version string that the recent FDK creates.
 Are there any more suggestions?</p>
 <p>Lines may be soft-wrapped.
-<!-- raw HTML omitted -->
+<code>
 from fontTools.ttLib import TTFont
 ttf = TTFont(ttpath)
 ttf[&lsquo;post&rsquo;].underlinePosition = int(instance.customParameters[&lsquo;underlinePosition&rsquo;])
@@ -278,7 +294,7 @@ ttf[&lsquo;OS/2&rsquo;].yStrikeoutSize = int(instance.customParameters[&lsquo;st
 ttf[&lsquo;CFF &lsquo;].cff.topDictIndex[0].UnderlineThickness = int(instance.customParameters[&lsquo;underlineThickness&rsquo;])
 ttf[&lsquo;name&rsquo;].getName(5, 1, 0).string = &ldquo;Version %s.%s&rdquo; % (f.versionMajor, f.versionMinor)
 ttf[&lsquo;name&rsquo;].getName(5, 3, 1).string = &ldquo;Version %s.%s&rdquo; % (f.versionMajor, f.versionMinor)
-<!-- raw HTML omitted --></p>
+</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -321,8 +337,14 @@ ttf[&lsquo;name&rsquo;].getName(5, 3, 1).string = &ldquo;Version %s.%s&rdquo; % 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This text from the <!-- raw HTML omitted -->Microsoft spec of the post table<!-- raw HTML omitted --> appears to answer my question</p>
-<!-- raw HTML omitted --></div>
+		<div class="commentbody"><p>This text from the <a href="http://www.microsoft.com/typography/OTSpec/post.htm">Microsoft spec of the post table</a> appears to answer my question</p>
+<blockquote>
+FWord	underlinePosition	
+This is the suggested distance of the top of the underline from the baseline (negative values indicate below baseline). 
+The PostScript definition of this FontInfo dictionary key (the y coordinate of the center of the stroke) is not used for historical reasons. The value of the PostScript key may be calculated by subtracting half the underlineThickness from the value of this field.
+</blockquote>
+The value -100 is indeed ttf['post'].underlinePosition - ttf['post'].underlineThickness /2.0
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -343,13 +365,21 @@ ttf[&lsquo;name&rsquo;].getName(5, 3, 1).string = &ldquo;Version %s.%s&rdquo; % 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>
+I didn’t find that any application would ever care about the first four values, which is a shame. &nbsp; [yanone]
+</blockquote>
 <p>The fact is that FontForge cares about those values but &lsquo;underlinePosition&rsquo; is interpreted differently. Here is the correspondence</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+import fontforge
+f=fontforge.open(path)
+f.os2_strikeypos     % ttf['OS/2'].yStrikeoutPosition
+f.os2_strikeysize    % ttf['OS/2'].yStrikeoutSize
+f.uwidth             % ttf['post'].underlineThickness
+</pre>
 <p>The additional parameter handled by FontForge and corresponding to [Uu]nderlinePosition (I did not look at the source, I just experimented with values), is</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+f.upos   % ttf['post'].underlinePosition + ttf['post'].underlineThickness/2
+</pre>
 <p>in the cases I have tested (and the updates are correctly made with that interpretation). The interpretation of the Microsoft spec above may not, indeed, be crystal clear. The value of f.upos given by FontForge for ArnoPro-Regular.otf is neither -100 nor -75 but -50. (I am running the July 2012 version)</p>
 </div>
 	</div>
@@ -394,11 +424,11 @@ Thanks for your investigations. Will need a few days to experiment and implement
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Michel: <!-- raw HTML omitted -->Can you batch process with DTL OTMaster?<!-- raw HTML omitted -->
+		<div class="commentbody">Michel: <em>Can you batch process with DTL OTMaster?</em>
  
 Not really. OTM is basically a highly convenient tool for editing single fonts. The batch-stuff is in our production tools. 
  
-At the coming ATypI conference in Amsterdam DTL/URW++ will release a new edition of DTL OTMaster. Also there will be a new OTM <!-- raw HTML omitted -->Light<!-- raw HTML omitted --> version. For € 49.95 this version will allow the editing of OpenType and TrueType  fonts, but the ‘import’/‘export’ (OT Layout features, Character Layout ﬁles, et cetera) and the glyph-editing functions will be only available in the <!-- raw HTML omitted -->full<!-- raw HTML omitted --> version.
+At the coming ATypI conference in Amsterdam DTL/URW++ will release a new edition of DTL OTMaster. Also there will be a new OTM <em>Light</em> version. For € 49.95 this version will allow the editing of OpenType and TrueType  fonts, but the ‘import’/‘export’ (OT Layout features, Character Layout ﬁles, et cetera) and the glyph-editing functions will be only available in the <em>full</em> version.
  
 FEB</div>
 	</div>

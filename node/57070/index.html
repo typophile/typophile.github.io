@@ -72,7 +72,57 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m trying to slowly build up my opentype features, but I have reached an impasse with my Turkish i in small caps. The InDesign &lsquo;Opentype small caps&rsquo; does no longer work for the languages excluded in &lsquo;locl&rsquo;, but it seems to work in Fontlab&rsquo;s opentype &lsquo;Preview&rsquo; panel&hellip; that is except the substitution between the small caps I and the dotted Turkish small caps I. What have I done wrong?</p>
-<!-- raw HTML omitted -->
+<code>
+@_n1=[a h m n  aring adieresis agrave aacute acircumflex];
+@_period=[period  comma quotesinglbase quotedblbase];
+@_n2=[m n  r u udieresis uacute ugrave ucircumflex];
+@_o1=[b e o  p oslash edieresis eacute oacute odieresis ograve egrave ocircumflex ecircumflex];
+@_o2=[c d e o  q oslash edieresis eacute oacute odieresis ograve egrave ocircumflex ecircumflex];
+@_i3=[i  j dotlessi iacute igrave icircumflex];
+@_v3=[v  w x y ydieresis yacute];
+@_dashes=[hyphen  endash emdash];
+@_upperquote=[quotesingle  quoteleft quoteright quotedblleft quotedblright];
+@_k1=[k ];
+@_l2=[h l  k];
+@_O2=[C Ccedilla G O  Oslash Q];
+@_O1=[D O  Oslash Q];
+@_H2=[B D E F H  I K L M N P R U];
+@_H1=[H  I M N U];
+@lc=[a b c d e f g h i j k l m n o p q r s t u v w x y z];
+@sc=[Asmall Bsmall Csmall Dsmall Esmall Fsmall Gsmall Hsmall Ismall Jsmall Ksmall Lsmall Msmall Nsmall Osmall Psmall Qsmall Rsmall Ssmall Tsmall Usmall Vsmall Wsmall Xsmall Ysmall Zsmall];
+@uc=[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z];
+@acute=[cacute sacute zacute nacute oacute];
+@kreska=[ckreska skreska zkreska nkreska okreska];
+@_n1=[a h m n  aring adieresis agrave aacute acircumflex];
+@_period=[period  comma quotesinglbase quotedblbase];
+@_n2=[m n  r u udieresis uacute ugrave ucircumflex];
+@_o1=[b e o  p oslash edieresis eacute oacute odieresis ograve egrave ocircumflex ecircumflex];
+@_o2=[c d e o  q oslash edieresis eacute oacute odieresis ograve egrave ocircumflex ecircumflex];
+@_i3=[i  j dotlessi iacute igrave icircumflex];
+@_v3=[v  w x y ydieresis yacute];
+@_dashes=[hyphen  endash emdash];
+@_upperquote=[quotesingle  quoteleft quoteright quotedblleft quotedblright];
+@_k1=[k ];
+@_l2=[h l  k];
+@_O2=[C Ccedilla G O  Oslash Q];
+@_O1=[D O  Oslash Q];
+@_H2=[B D E F H  I K L M N P R U];
+@_H1=[H  I M N U];
+@lc=[a b c d e f g h i j k l m n o p q r s t u v w x y z];
+@sc=[Asmall Bsmall Csmall Dsmall Esmall Fsmall Gsmall Hsmall Ismall Jsmall Ksmall Lsmall Msmall Nsmall Osmall Psmall Qsmall Rsmall Ssmall Tsmall Usmall Vsmall Wsmall Xsmall Ysmall Zsmall];
+@uc=[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z];
+@acute=[cacute sacute zacute nacute oacute];
+@kreska=[ckreska skreska zkreska nkreska okreska];
+languagesystem latn dflt;
+languagesystem latn PLK;
+languagesystem latn MOL;
+languagesystem latn ROM;
+languagesystem latn TRK;
+languagesystem latn AZE;
+languagesystem latn CRT;
+languagesystem cyrl dflt;
+languagesystem cyrl SRB;
+languagesystem grek dflt;
 <p>feature locl { # Localized Forms</p>
 <h1 id="latin">Latin</h1>
 <h1 id="handling-of-turkish-i">Handling of Turkish i</h1>
@@ -123,14 +173,14 @@ sub T h by T_h;
 pos slash slash -357;
 pos backslash backslash -357;
 } kern;
-<!-- raw HTML omitted --></p>
+</code></p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I could be wrong but have you tried inserting an explicit line &ldquo;script latn;&rdquo; below your line &ldquo;# Latin&rdquo; in locl?
-ID does casing first, then applies c2sc to the uppercased string. Idotaccent and Idotaccentsmall are not covered in your classes @uc and @sc, so are not available to c2sc. Also I think you can omit Ismall and Idotaccentsmall from &ldquo;sub [i Ismall] by [i.TRK Idotaccentsmall];&rdquo; in locl but then need an additional line in smcp, as sketched <!-- raw HTML omitted -->here<!-- raw HTML omitted -->.</p>
-<p>By the way, I spotted &ldquo;sub f i.TRK by fi;&rdquo; in liga which is better removed. Part of i.TRK&rsquo;s job is <!-- raw HTML omitted -->avoiding<!-- raw HTML omitted --> this ligature if language is TRK. In Turkish, i-with-dot and i-without-dit are separate letters, and an f-i ligature in which the dot is connected to the f would look like f-dotlessi &hellip;</p>
+ID does casing first, then applies c2sc to the uppercased string. Idotaccent and Idotaccentsmall are not covered in your classes @uc and @sc, so are not available to c2sc. Also I think you can omit Ismall and Idotaccentsmall from &ldquo;sub [i Ismall] by [i.TRK Idotaccentsmall];&rdquo; in locl but then need an additional line in smcp, as sketched <a href="http://www.kltf.de/stuff/locl-feature.zip">here</a>.</p>
+<p>By the way, I spotted &ldquo;sub f i.TRK by fi;&rdquo; in liga which is better removed. Part of i.TRK&rsquo;s job is <em>avoiding</em> this ligature if language is TRK. In Turkish, i-with-dot and i-without-dit are separate letters, and an f-i ligature in which the dot is connected to the f would look like f-dotlessi &hellip;</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -155,7 +205,28 @@ ID does casing first, then applies c2sc to the uppercased string. Idotaccent and
 		<div class="commentbody"><p>Hi Karsten
 Thanks a lot for your approach. The whole thing now works in Fontlab&rsquo;s preview panel, but all the declared languages in the locl feature still can not display their small caps in InDesign – that problem persists.</p>
 <p>My new features look like this:</p>
-<!-- raw HTML omitted -->
+<code>
+@_n1=[a h m n  aring adieresis agrave aacute acircumflex];
+@_period=[period  comma quotesinglbase quotedblbase];
+@_n2=[m n  r u udieresis uacute ugrave ucircumflex];
+@_o1=[b e o  p oslash edieresis eacute oacute odieresis ograve egrave ocircumflex ecircumflex];
+@_o2=[c d e o  q oslash edieresis eacute oacute odieresis ograve egrave ocircumflex ecircumflex];
+@_i3=[i  j dotlessi iacute igrave icircumflex];
+@_v3=[v  w x y ydieresis yacute];
+@_dashes=[hyphen  endash emdash];
+@_upperquote=[quotesingle  quoteleft quoteright quotedblleft quotedblright];
+@_k1=[k  x];
+@_l2=[b h l  k];
+@_O2=[C Ccedilla G O  Oslash Q];
+@_O1=[D O  Oslash Q];
+@_H2=[B D E F H  I K L M N P R U];
+@_H1=[H  I M N U];
+@lc=[a b c d e f g h i i.TRK j k l m n o p q r s t u v w x y z];
+@sc=[Asmall Bsmall Csmall Dsmall Esmall Fsmall Gsmall Hsmall Ismall Idotaccentsmall Jsmall Ksmall Lsmall Msmall Nsmall Osmall Psmall Qsmall Rsmall Ssmall Tsmall Usmall Vsmall Wsmall Xsmall Ysmall Zsmall];
+@uc=[A B C D E F G H I Idotaccent J K L M N O P Q R S T U V W X Y Z];
+@acute=[cacute sacute zacute nacute oacute];
+@kreska=[ckreska skreska zkreska nkreska okreska];
+languagesystem DFLT dflt;
 <p>languagesystem latn dflt;
 languagesystem latn PLK;
 languagesystem latn MOL;
@@ -225,7 +296,7 @@ sub T h by T_h;
 pos slash slash -357;
 pos backslash backslash -357;
 } kern;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>Can you figure it out?</p>
 </div>
 	</div>
@@ -248,7 +319,7 @@ pos backslash backslash -357;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>I do not have any problems with this method in my fonts, <!-- raw HTML omitted -->here<!-- raw HTML omitted --> is what I get in InDesign CS4.</p>
+		<div class="commentbody"><p>I do not have any problems with this method in my fonts, <a href="http://www.kltf.de/stuff/turkish-i-in-InDesign-CS4.jpg" target="_blank">here</a> is what I get in InDesign CS4.</p>
 <p>Could you describe what &ldquo;InDesign Opentype Small Caps does no longer work for the languages excluded in locl&rdquo; exactly means?</p>
 </div>
 	</div>
@@ -319,10 +390,10 @@ pos backslash backslash -357;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Claus,</p>
-<p>it&rsquo;s quite simple: your <!-- raw HTML omitted -->smcp<!-- raw HTML omitted --> feature is only registered in <!-- raw HTML omitted -->latn dflt<!-- raw HTML omitted --> (also other features, I guess, such as kern).</p>
-<p>In the lower-right part of the OpenType panel, you need to declare ALL languagesystems in which you want to register the feature definitions which do not have explicit languagesystem handling. If this is not done, the features get registered only in the implied languagesystem, which is <!-- raw HTML omitted -->latn dflt<!-- raw HTML omitted -->.</p>
+<p>it&rsquo;s quite simple: your <code>smcp</code> feature is only registered in <code>latn dflt</code> (also other features, I guess, such as kern).</p>
+<p>In the lower-right part of the OpenType panel, you need to declare ALL languagesystems in which you want to register the feature definitions which do not have explicit languagesystem handling. If this is not done, the features get registered only in the implied languagesystem, which is <code>latn dflt</code>.</p>
 <p>So, you should put:</p>
-<p><!-- raw HTML omitted -->languagesystem DFLT dflt;
+<p><code>languagesystem DFLT dflt;
 languagesystem latn dflt;
 languagesystem latn PLK;
 languagesystem latn MOL;
@@ -332,10 +403,10 @@ languagesystem latn AZE;
 languagesystem latn CRT;
 languagesystem cyrl dflt;
 languagesystem cyrl SRB;
-languagesystem grek dflt;<!-- raw HTML omitted --></p>
+languagesystem grek dflt;</code></p>
 <p>I see that you have done this but there may be something wrong there&hellip;</p>
-<p>Also, I advise that you don&rsquo;t use glyphnames outside of AGLFN. <!-- raw HTML omitted -->Asmall<!-- raw HTML omitted --> is a definietely a bad idea. <!-- raw HTML omitted -->A.smcp<!-- raw HTML omitted --> or <!-- raw HTML omitted -->A.sc<!-- raw HTML omitted --> or <!-- raw HTML omitted -->A.small<!-- raw HTML omitted --> would be much better.</p>
-<p>Use DTL OTMaster or FontTools/TTX to examine your font and find out if the <!-- raw HTML omitted -->smcp<!-- raw HTML omitted -->-related lookups get actually registered in the <!-- raw HTML omitted -->latn TRK<!-- raw HTML omitted --> languagesystem.</p>
+<p>Also, I advise that you don&rsquo;t use glyphnames outside of AGLFN. <code>Asmall</code> is a definietely a bad idea. <code>A.smcp</code> or <code>A.sc</code> or <code>A.small</code> would be much better.</p>
+<p>Use DTL OTMaster or FontTools/TTX to examine your font and find out if the <code>smcp</code>-related lookups get actually registered in the <code>latn TRK</code> languagesystem.</p>
 <p>Cheers,
 Adam</p>
 </div>
@@ -475,7 +546,7 @@ If you don&rsquo;t see right encoding in my message, check out this image.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Altan, sorry, but you don&rsquo;t get what the illustration was for. It was to show the non functioning <!-- raw HTML omitted -->smcp<!-- raw HTML omitted --> and <!-- raw HTML omitted -->c2sc<!-- raw HTML omitted --> when <!-- raw HTML omitted -->locl<!-- raw HTML omitted --> was set to Turkish. The issue is resolved now.</div>
+		<div class="commentbody">Altan, sorry, but you don&rsquo;t get what the illustration was for. It was to show the non functioning <em>smcp</em> and <em>c2sc</em> when <em>locl</em> was set to Turkish. The issue is resolved now.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

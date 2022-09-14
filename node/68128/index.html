@@ -72,17 +72,17 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>I was analyzing Unicode tables and some pro fonts to understand how it works. Even after navigate through the huge Unicode documentation, some doubts remains:</p>
-<p><!-- raw HTML omitted -->1.<!-- raw HTML omitted --> Unicode tables does not includes variations for small caps, petite caps, swashes, beginnings, endings and alternates. So, all these glyphs will have no Unicode set while the font development. Correct?</p>
-<p><!-- raw HTML omitted -->2.<!-- raw HTML omitted --> When the font is generated, these glyphs without Unicode are recorded on Private User Area and receive a Unicode assigned by the font generator program. Correct?</p>
-<p><!-- raw HTML omitted -->3.<!-- raw HTML omitted --> Glyphs without a Unicode definition works correctly but are identified as NULL in InDesign glyph palette. Is there a way to replace this NULL name by a descriptive one?</p>
-<p><!-- raw HTML omitted -->4.<!-- raw HTML omitted --> How could I control the order InDesign adopts in the Glyph palette? Illustrator shows exactly the same order I adopted in Index view under FontLab, but InDesign ignores it for the first 256 glyphs.</p>
-<p><!-- raw HTML omitted -->5.<!-- raw HTML omitted --> A glyph that does not exists on Unicode table – as g with tilde, used in some Native American languages – could be added without problems to the font? I remember to read a recommendation not to add language variations in PUA. Which is the best practice to these situations?</p>
+<p><strong>1.</strong> Unicode tables does not includes variations for small caps, petite caps, swashes, beginnings, endings and alternates. So, all these glyphs will have no Unicode set while the font development. Correct?</p>
+<p><strong>2.</strong> When the font is generated, these glyphs without Unicode are recorded on Private User Area and receive a Unicode assigned by the font generator program. Correct?</p>
+<p><strong>3.</strong> Glyphs without a Unicode definition works correctly but are identified as NULL in InDesign glyph palette. Is there a way to replace this NULL name by a descriptive one?</p>
+<p><strong>4.</strong> How could I control the order InDesign adopts in the Glyph palette? Illustrator shows exactly the same order I adopted in Index view under FontLab, but InDesign ignores it for the first 256 glyphs.</p>
+<p><strong>5.</strong> A glyph that does not exists on Unicode table – as g with tilde, used in some Native American languages – could be added without problems to the font? I remember to read a recommendation not to add language variations in PUA. Which is the best practice to these situations?</p>
 <p>Thanks in advance!</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Adobe does not add PUA Unicode points to characters anymore, that haven’t an official Unicode point. It’s your decision to record characters without an official Unicode point to the PUA. And have a look in the FontLab name table <!-- raw HTML omitted -->Standard with PUA<!-- raw HTML omitted -->: “In addition, a number of semi-standardized Private Use Area mappings have been included (in the range 0xE000-0xF8FF).” So, if you want to use PUA Unicode points, you should use the ones, that are semi-standardized.</p>
+		<div class="commentbody"><p>Adobe does not add PUA Unicode points to characters anymore, that haven’t an official Unicode point. It’s your decision to record characters without an official Unicode point to the PUA. And have a look in the FontLab name table <em>Standard with PUA</em>: “In addition, a number of semi-standardized Private Use Area mappings have been included (in the range 0xE000-0xF8FF).” So, if you want to use PUA Unicode points, you should use the ones, that are semi-standardized.</p>
 <p>And in my opinion you should generate Unicode, before you generate the font (Menu/ Glyphs/ Glyph names/ generate Unicode). You can deactivate the FontLab option to generate Unicode, when the font is build. (You also should deactivate all hinting options, that only apply, when the font will be generated, because you loose control with these auto functions.)</p>
 <p>With regard to 5: If you would not be allowed to give g.tilde (No official Unicode point?) a PUA point, what else point should you give it? Probably not an official Unicode point, that belongs to another character. I assume, that you can only choose between a PUA point and no point. It is the same as with the typographic variations, isn’t it?</p>
 <p>Note, that I am amateur.</p>
@@ -151,7 +151,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">You could also make it a <!-- raw HTML omitted -->ccmp<!-- raw HTML omitted -->. The glyph itself doesn&rsquo;t have to have a Unicode, but OTF aware programs (such as InDesign) will always replace a &lsquo;g&rsquo; followed by a tilde with your g.tilde glyph.</div>
+		<div class="commentbody">You could also make it a <code>ccmp</code>. The glyph itself doesn&rsquo;t have to have a Unicode, but OTF aware programs (such as InDesign) will always replace a &lsquo;g&rsquo; followed by a tilde with your g.tilde glyph.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -200,7 +200,7 @@
 <p>I&rsquo;d like to have the proper glyph already in the font because this enables direct access. For example: people who do studies on Native American languages could use a keyboard layout where a simple shortcut (as AltGr + g) could result in the desired glyph. This is quite simple to do in Windows as Microsoft has a free tool to create keyboard layouts. But this solution is not possible when the desired glyph results from a combination.</p>
 <p>These languages also uses some digraphs with may be treated as ligatures. Once more, Unicode has no room for them.</p>
 <p>Objectively, which is the problem to add accented glyphs to languages with no Unicode support? Besides the non-standardization this causes, is there any functional issue?</p>
-<p>It&rsquo;s a pity to see no one South American native language is considered in Unicode. Even Samaritan, talked by less than 1,000 people, has Unicode support, while American native languages with more than one million of active speakers haven’t. <!-- raw HTML omitted -->(Of course, I know this evolves cultural questions, as Samaritan has historic relevance.)<!-- raw HTML omitted --></p>
+<p>It&rsquo;s a pity to see no one South American native language is considered in Unicode. Even Samaritan, talked by less than 1,000 people, has Unicode support, while American native languages with more than one million of active speakers haven’t. <em>(Of course, I know this evolves cultural questions, as Samaritan has historic relevance.)</em></p>
 <p>An example:
 [img:sites/default/files/old-images/Tupi_4645.PNG]</p>
 </div>
@@ -226,9 +226,9 @@
 	<div class="card-body">
 		<div class="commentbody"><p>I don&rsquo;t know if windows allows you to map a key to a sequence of two unicode characters &ndash; if it does, you can map a key to U00670303. If not, you won&rsquo;t be able to map a key directly to a g+tilde (or any other accented character not present in unicode).</p>
 <p>The way around this would be to have a key which maps to tildecmb (U0303) and a rule in your ccmp feature (which you&rsquo;d need in any case) along the lines of:</p>
-<p><!-- raw HTML omitted --> sub g tildecmb by g_tildecmb <!-- raw HTML omitted --></p>
+<p><code> sub g tildecmb by g_tildecmb </code></p>
 <p>(n.b. I would not recommend using g.tilde as the name for your glyph as others have done above since applications which depend on glyph names will strip everything after the period when determining unicode values &ndash; g_tildecmb will be treated as a ligature).</p>
-<p><!-- raw HTML omitted --> It&rsquo;s a pity to see no one South American native language is considered in Unicode. <!-- raw HTML omitted --></p>
+<p><cite> It&rsquo;s a pity to see no one South American native language is considered in Unicode. </cite></p>
 <p>The issue here revolves around the underlying principles of unicode &ndash; I think precomposed accented characters were initially included in unicode primarily to ensure round-trip compatibility with existing encodings. I suspect the unicode consortium had hoped that these characters would eventually fall out of use in favour of decomposed characters (e.g. using e (U0065) + acutecmb (U301) to represent the character é rather than the precomposed glyph), but this doesn&rsquo;t appear to be happening.</p>
 <p>André</p>
 </div>
@@ -252,7 +252,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Even Samaritan, talked by less than 1,000 people, has Unicode support, while American native languages with more than one million of active speakers haven’t.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Even Samaritan, talked by less than 1,000 people, has Unicode support, while American native languages with more than one million of active speakers haven’t.</cite></p>
 <p>But how many writers?</p>
 </div>
 	</div>
@@ -275,9 +275,9 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I&rsquo;d like to have the proper glyph already in the font because this enables direct access. For example: people who do studies on Native American languages could use a keyboard layout where a simple shortcut (as AltGr + g) could result in the desired glyph. This is quite simple to do in Windows as Microsoft has a free tool to create keyboard layouts. But this solution is not possible when the desired glyph results from a combination.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>I&rsquo;d like to have the proper glyph already in the font because this enables direct access. For example: people who do studies on Native American languages could use a keyboard layout where a simple shortcut (as AltGr + g) could result in the desired glyph. This is quite simple to do in Windows as Microsoft has a free tool to create keyboard layouts. But this solution is not possible when the desired glyph results from a combination.</em></p>
 <p>Note that a key in a keyboard layout may be assigned to input more than one character, so to input g + tilde you could either have separate keys for the g and the combining tilde or you could assign a sequence of two Unicode characters to a single key: 0067+0303.</p>
-<p>Remember, the relationship of number of keys to number of characters to number of glyphs is <!-- raw HTML omitted -->n<!-- raw HTML omitted -->-to-<!-- raw HTML omitted -->n<!-- raw HTML omitted -->-to-<!-- raw HTML omitted -->n.<!-- raw HTML omitted --> A single key may input multiple characters that are displayed as a single glyph. Multiple keys may input multiple characters that are displayed as a single glyph. Multiple keys may input a single character (a deadkey mechanism) that is displayed as multiple glyphs (ccmp decomposition). Etc.</p>
+<p>Remember, the relationship of number of keys to number of characters to number of glyphs is <em>n</em>-to-<em>n</em>-to-<em>n.</em> A single key may input multiple characters that are displayed as a single glyph. Multiple keys may input multiple characters that are displayed as a single glyph. Multiple keys may input a single character (a deadkey mechanism) that is displayed as multiple glyphs (ccmp decomposition). Etc.</p>
 <hr>
 <p>There is a lot of misunderstanding regarding Unicode encoding of diacritic characters and a persistent idea that Unicode somehow ignores or does not support many languages because it does not encode their diacritics as precomposed characters. Unicode&rsquo;s encoding principles have always favoured decomposed encodings; even when text is encoded using precomposed diacritics Unicode normalisation provides for decomposition as the cleanest way to handle search, sort and spellcheck operations. The only reason why any precomposed diacritic characters exist in Unicode is because of a secondary principle that provides for one-to-one roundtrip character compatibility with pre-existing standards. This is why most European languages have precomposed diacritics included in Unicode: because they existed as precomposed characters in earlier standards; note that all of them have canonical decompositions in Unicode to base plus combining mark sequences. Having multiple ways to encode the same diacritic is not a benefit, it is a software development cost and a potential security risk. This is why stability agreements with other standards prevent Unicode from adding any more characters with canonical decompositions.</p>
 <p>Rather than thinking that Unicode somehow ‘doesn&rsquo;t support’ e.g. native American languages, consider that Unicode supports these languages in the way that Unicode is fundamentally designed to support all languages involving combining diacritics. It is the backwards compatibility encoding of precomposed European diacritics that is the anomaly.</p>
@@ -394,7 +394,7 @@ involving combining diacritics.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->@ John Hudson, Agisaak, Twardoch<!-- raw HTML omitted --> and <!-- raw HTML omitted -->Charles:<!-- raw HTML omitted --> Thank you very much! This thread is a concise and excellent lesson on Unicode and OT building.</p>
+		<div class="commentbody"><p><strong>@ John Hudson, Agisaak, Twardoch</strong> and <strong>Charles:</strong> Thank you very much! This thread is a concise and excellent lesson on Unicode and OT building.</p>
 <p>I see that most good fonts released recently does not includes combining diacritics or space modifiers. Vesper Pro is one of the few with this support, largely present just on fonts bundled with Windows.</p>
 <p>BTW, my font project now includes these combining diacritics and modifiers.</p>
 </div>
@@ -443,7 +443,7 @@ involving combining diacritics.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I would speculate that if FontLab Studio gets mark attachment support, the number of such fonts will increase significantly.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I would speculate that if FontLab Studio gets mark attachment support, the number of such fonts will increase significantly.</cite></p>
 <p>Please tell me we won&rsquo;t have to wait much longer. :)</p>
 </div>
 	</div>
@@ -467,7 +467,7 @@ involving combining diacritics.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I second Jongseong ask!  :-)</p>
-<p><!-- raw HTML omitted -->Off-topic<!-- raw HTML omitted -->: Another improvement I want to see in FL 6 is about hinting.</p>
+<p><strong>Off-topic</strong>: Another improvement I want to see in FL 6 is about hinting.</p>
 <p>By now, I do tests with PS autohinting, manual PS hinting and no hints at all. Curiously, some glyphs works much better without any hinting (especially the complex ones, like /g/ß/W/).</p>
 <p>But I don&rsquo;t know if this is because I&rsquo;m using alignment zones and default stems in a consistent way, or because almost all nodes/BCPs are aligned to a 4x4 grid, or it&rsquo;s simply a FL limitation when doing hints –and later I may discover that to have some glyphs without hints is not a good idea.</p>
 </div>
@@ -512,8 +512,8 @@ involving combining diacritics.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Brian: <!-- raw HTML omitted -->Please tell me we won&rsquo;t have to wait much longer.<!-- raw HTML omitted --></p>
-<p>I can’t speak for Adam, but in any case DTL and URW++ will present a new tool, which amongst other things will support mark attachment via a GUI, at the coming ATypI Conference in Dublin (and that is <!-- raw HTML omitted -->all<!-- raw HTML omitted --> I will reveal here).</p>
+		<div class="commentbody"><p>Brian: <em>Please tell me we won&rsquo;t have to wait much longer.</em></p>
+<p>I can’t speak for Adam, but in any case DTL and URW++ will present a new tool, which amongst other things will support mark attachment via a GUI, at the coming ATypI Conference in Dublin (and that is <strong>all</strong> I will reveal here).</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -536,7 +536,7 @@ involving combining diacritics.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@ Freiberger</p>
-<p>Use the AFDKO autohint macro instead of the autohint function, that belongs to FontLab. And the quality of the hinting is dependent from <!-- raw HTML omitted --><!-- raw HTML omitted -->the standard stem values<!-- raw HTML omitted --><!-- raw HTML omitted -->.</p>
+<p>Use the AFDKO autohint macro instead of the autohint function, that belongs to FontLab. And the quality of the hinting is dependent from <strong><a href="http://typophile.com/node/59506">the standard stem values</a></strong>.</p>
 <p>@ Frank E. Blokland</p>
 <p>But the new tool is obviously not OTMaster. But for sure you can get it for free. Cool!</p>
 </div>
@@ -602,7 +602,7 @@ involving combining diacritics.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->… most good fonts released recently does not includes combining diacritics or space modifiers<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>… most good fonts released recently does not includes combining diacritics or space modifiers</cite></p>
 <p>Text fonts to be labled “good” should include them.</p>
 <p>The problem is rather, that there are no advanced encoding tables publicly available to schedule what scope of characters or glyphs a font shall contain if it is meant to serve a particular field of text composing. Who really knows what is actually required for a comprehensive coverage of south American native languages?! Who really knows what is actually required for a comprehensive coverage of medieval Latin? These things are more like best-kept-secrets …</p>
 <p>For my own part, I go with selfmade custom encoding schemes for nearly all of my font work, since neither UCS tables nor default encodings do tell you what is <em>actually</em> neccessary to cover. To make one step forward: could you supply us with a concise listing of characters needed in your field? Maybe, I would eventually volunteer to provide an encoding to fit.</p>
@@ -694,7 +694,7 @@ Edit: tested win2000, winXP</li>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Janek, I&rsquo;ve used FontForge through MinGW and can&rsquo;t but agree with Adam. I <!-- raw HTML omitted -->got<!-- raw HTML omitted --> it to work, but boy! every two or three minutes it crashed, sometimes requiring not just a restart from MinGW (which on occasion worked) but an entirely fresh restart of Windows. &ldquo;Unstable&rdquo;, to say the least.</p>
+		<div class="commentbody"><p>Janek, I&rsquo;ve used FontForge through MinGW and can&rsquo;t but agree with Adam. I <em>got</em> it to work, but boy! every two or three minutes it crashed, sometimes requiring not just a restart from MinGW (which on occasion worked) but an entirely fresh restart of Windows. &ldquo;Unstable&rdquo;, to say the least.</p>
 <p>It may be FontForge itself, it may be MinGW, and it also may be my ill-fated Windows PC. I&rsquo;m too wary to try it on my Mac, since trying to run it on Snow Leopard has been called &ldquo;a brave enterprise&rdquo; a few times :-P</p>
 </div>
 	</div>
@@ -765,10 +765,10 @@ Edit: tested win2000, winXP</li>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Giving a Unicode codepoint to each glyph<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><strong>Giving a Unicode codepoint to each glyph</strong></p>
 <p>Pro: you can insert these characters in any program. Not every program can handle (all) feature sets or non-Unicode characters.
 Con: Your font <em>will</em> be incompatible with other fonts that have other glyphs on those same positions. Changing from your font to another will change the glyphs but not their UC.</p>
-<p><!-- raw HTML omitted -->Inserting &ldquo;odd&rdquo; glyphs without a Unicode<!-- raw HTML omitted -->
+<p><strong>Inserting &ldquo;odd&rdquo; glyphs without a Unicode</strong>
 Pro: they don&rsquo;t interfere with the general idea of Unicode.
 Con: Non-feature enabled apps will not have access to these characters.</p>
 <p>It has been discussed before (with strong arguments both pro and con both methods), and I think the general idea was to put &ldquo;real&rdquo; glyphs which just don&rsquo;t happen to have a UC codepoint assigned (yet) in the PUA &ndash; there are even a few &ldquo;informal&rdquo; ranges in the PUA with characters that ought to have a UC assigned &ndash; and reserve the non-UC code points for glyphs that exclusively get used by features, such as ligatures and &ldquo;ccmp&rdquo; composited characters that don&rsquo;t have a UC code point. In the latter case, changing from your font to another would not be able to use your specific ligature combo&rsquo;s <em>anyway</em>.</p>

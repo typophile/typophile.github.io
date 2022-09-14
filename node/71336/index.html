@@ -75,16 +75,16 @@
 <p>There&rsquo;s also very narrow f alternates for next to the idieresis and icircumflex.</p>
 <p>I have also developed some code that applies to [ff ffb ffh ffi ffigrave ffj ffk and ffl] or any number of fs preceding these letters. It replaces the initial f with a slightly lower-hooded variant (and any following ones that are followed by another f) and the final f by the shorter version. That way I don&rsquo;t need to create new glyphs for all these combinations and for the [fff] variants.</p>
 <p>Here&rsquo;s the code:</p>
-<p><!-- raw HTML omitted -->feature liga {
-<!-- raw HTML omitted -->  sub f&rsquo;f by f.low;<br>
-<!-- raw HTML omitted -->    #lowers the hood of any fs except last in chain
-<!-- raw HTML omitted -->  sub f' [b h i igrave j k l] by f.medium;<br>
-<!-- raw HTML omitted -->    #shortens the hood of normal height f 
-<!-- raw HTML omitted -->    #which is last in chain
-<!-- raw HTML omitted -->  sub f' icircumflex by f.short;
-<!-- raw HTML omitted -->  sub f' idieresis by f.shortest;
-<!-- raw HTML omitted -->  sub T' h' by Th;
-<!-- raw HTML omitted -->} liga;<!-- raw HTML omitted --></p>
+<p><code>feature liga {
+<code>  sub f&rsquo;f by f.low;<br>
+<code>    #lowers the hood of any fs except last in chain
+<code>  sub f' [b h i igrave j k l] by f.medium;<br>
+<code>    #shortens the hood of normal height f 
+<code>    #which is last in chain
+<code>  sub f' icircumflex by f.short;
+<code>  sub f' idieresis by f.shortest;
+<code>  sub T' h' by Th;
+<code>} liga;</code></p>
 <p>Question is can anyone see any problems with doing things this way? And is there any way to neaten up the code further? I&rsquo;m not a programmer but it works.</p>
 </div>
 
@@ -94,7 +94,7 @@
 Technically it&rsquo;s not a ligature, more of a contextual alternate, but so what.
 Some foundries make these extra ligatures discretionary (dlig), but IMO liga is best, on by dfault.
 You can neaten up the code by putting glyphs in brackets into a class &ndash; this may help you manage kerning situations with capitals such as T.</p>
-<p><!-- raw HTML omitted -->sub T' h' by Th;<!-- raw HTML omitted --></p>
+<p><em>sub T' h' by Th;</em></p>
 <p>That&rsquo;s an Adobe trope.</p>
 </div>
 	</div>
@@ -119,7 +119,7 @@ You can neaten up the code by putting glyphs in brackets into a class &ndash; th
 	<div class="card-body">
 		<div class="commentbody"><p>In Mac applications that use the native system font rendering (through ATSUI or CoreText) on Mac OS X 10.4, contextual alternate features don&rsquo;t work. In 10.5 and 10.6, they &ldquo;sort of&rdquo; work but more complex contextual substitutions perform incorrectly. But a simple one like yours should work.</p>
 <p>I propose a better solution:</p>
-<p><!-- raw HTML omitted -->feature liga {
+<p><code>feature liga {
 lookup liga_contextual { 
   sub f' f by f.low;
   sub f' [b h i igrave j k l] by f.medium;
@@ -133,7 +133,7 @@ lookup liga_fifl {
 sub f i by f_i;
 sub f l by f_l;
 } liga_fifl;
-} liga;<!-- raw HTML omitted --></p>
+} liga;</code></p>
 <p>The first lookup will work whenever contextual substitutions are supported (so it won&rsquo;t work in Mac OS X 10.4 or some other environments where contextual OTL rules are not processed). 
 The second lookup will always work because it&rsquo;s a simple substitution. 
 The third lookup will only be activated if the first lookup did not get processed, so it&rsquo;ll work in Mac OS X 10.4, or in situations when contextual substitutions don&rsquo;t work for some reason. If the first lookup worked, the third will be omitted (because the &ldquo;f&rdquo; glyph has been replaced by &ldquo;f.medium&rdquo; by the time the third lookup gets processed, so the third lookup won&rsquo;t have any input to process).</p>

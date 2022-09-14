@@ -76,7 +76,53 @@
 <p>I have no problem coming up with code to do this, but the problem is the code is freakin' huge. I&rsquo;m wondering if there is any more efficient approach that gets the same effect? (I do know easy ways to do this if one just cycles through a different alternate where each glyph is dependent on the immediately preceding glyph. But that&rsquo;s not the assignment here, unfortunately.)</p>
 <p>Of course, it may be that there is no more efficient way of doing exactly this, which would be why few if any fonts have used this style of letter cycling.  :/</p>
 <p>Here&rsquo;s what I have so far, in AFDKO/FontLab feature syntax. The &ldquo;not_A&rdquo; class contains every glyph <em>except</em> the A and its variant forms. Similarly the &ldquo;not_B&rdquo; class.</p>
-<!-- raw HTML omitted -->
+<code>
+feature calt {
+  lookup AA useExtension {
+    sub A A' by A.1 ;
+	  sub A.1 A' by A.2 ;
+  	sub A.2 A' by A.3 ;
+  	sub A.3 A' by A ;
+	  sub A @not_A A' by A.1 ;
+	  sub A.1 @not_A A' by A.2 ;
+	  sub A.2 @not_A A' by A.3 ;
+	  sub A.3 @not_A A' by A ;
+	  sub A @not_A @not_A A' by A.1 ;
+	  sub A.1 @not_A @not_A A' by A.2 ;
+	  sub A.2 @not_A @not_A A' by A.3 ;
+	  sub A.3 @not_A @not_A A' by A ;
+	  sub A @not_A @not_A @not_A A' by A.1 ;
+	  sub A.1 @not_A @not_A @not_A A' by A.2 ;
+	  sub A.2 @not_A @not_A @not_A A' by A.3 ;
+	  sub A.3 @not_A @not_A @not_A A' by A ;
+	  sub A @not_A @not_A @not_A @not_A A' by A.1 ;
+	  sub A.1 @not_A @not_A @not_A @not_A A' by A.2 ;
+	  sub A.2 @not_A @not_A @not_A @not_A A' by A.3 ;    
+	  sub A.3 @not_A @not_A @not_A @not_A A' by A ;
+	  sub A @not_A @not_A @not_A @not_A @not_A A' by A.1 ;
+	  sub A.1 @not_A @not_A @not_A @not_A @not_A A' by A.2 ;
+	  sub A.2 @not_A @not_A @not_A @not_A @not_A A' by A.3 ;    
+	  sub A.3 @not_A @not_A @not_A @not_A @not_A A' by A ;  
+          ... and so on with more backtracking context  
+  } AA ;
+  lookup BB useExtension {
+    sub B B' by B.1 ;
+	  sub B.1 B' by B.2 ;
+  	sub B.2 B' by B.3 ;
+  	sub B.3 B' by B ;
+	  sub B @not_B B' by B.1 ;
+	  sub B.1 @not_B B' by B.2 ;
+	  sub B.2 @not_B B' by B.3 ;
+	  sub B.3 @not_B B' by B ;
+	  sub B @not_B @not_B B' by B.1 ;
+	  sub B.1 @not_B @not_B B' by B.2 ;
+	  sub B.2 @not_B @not_B B' by B.3 ;
+	  sub B.3 @not_B @not_B B' by B ;
+          ... and so on with more backtracking context
+  } BB ;
+... repeat  with one lookup for each letter
+} calt;
+</code>
 <p>Suggestions welcome!</p>
 <p>T</p>
 <p>P.S. Despite my use of &ldquo;code&rdquo; formatting, my leading spaces are getting deleted. Oh well, I imagine it&rsquo;s clear enough.</p>
@@ -86,8 +132,9 @@
 	<div class="card-body">
 		<div class="commentbody"><p>(Use &ldquo;pre&rdquo;, not &ldquo;code&rdquo;&hellip;)</p>
 <p>This might be crazy, but what if you put each set of alternates into a class, e.g.:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>@alts1 = [A.1 B.1 C.1 ...];
+@alts2 = [A.2 B.2 C.2 ...];
+@alts3 = [A.3 B.3 C.3 ...];</pre>
 <p>Then you (maybe) would need only one cascade. Not sure what the &ldquo;@not_&rdquo; classes would look like. Just a thought.</p>
 </div>
 	</div>

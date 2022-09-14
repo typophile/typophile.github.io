@@ -86,18 +86,18 @@
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->How do you typically create the GlyphOrderAndAliasDB file?<!-- raw HTML omitted --></p>
+<p><em>How do you typically create the GlyphOrderAndAliasDB file?</em></p>
 </blockquote>
 <p>What I usually do is to start with an existing GlyphOrderAndAliasDB file and add/remove entries as necessary. (For instance, the one used for Arno Pro was derived from the one used for Garamond Premier Pro, which in turn had been derived from something before). You can, for example, start with the sample file available in the FDK (FDK/Tools/SharedData/GlyphOrderAndAliasDB), or the one present in the ExampleRomanFonts.zip file. 
 What we do at Adobe is a mix of using data from existing files, and running our own scripts on the file AGD.txt (FDK/Tools/SharedData/AGD.txt).</p>
 <p>Alternatively, you can write your own, which sounds like what you&rsquo;re trying to do. Writing a GlyphOrderAndAliasDB file might require some hand work the first time, but the good thing is that once you have it you can use the same file for other projects (as is, or with minor changes).</p>
 <p>If you&rsquo;re using Fontlab, what you can do is to switch to &ldquo;Index mode&rdquo;, rearrange the order of the glyphs, and then run this little Python program,
-<!-- raw HTML omitted -->for g in fl.font.glyphs:
+<code>for g in fl.font.glyphs:
    print g.name
-<!-- raw HTML omitted -->
+</code>
 You can then use the outputted list for building your own GlyphOrderAndAliasDB. For that, you will eventually need a good text editor and a spreadsheet program.
 In case your final font does not require any glyph name changes &ndash;which means you&rsquo;re using final glyph names in the development process&ndash;, you can replace the second line of the code above by,
-<!-- raw HTML omitted -->   print &ldquo;%s\t%s&rdquo; % (g.name, g.name)<!-- raw HTML omitted -->
+<code>   print &ldquo;%s\t%s&rdquo; % (g.name, g.name)</code>
 which will output two columns of glyph names.</p>
 <p>MakeOTF knows how to map standard glyph names &ndash;AGL glyph names and uniXXXX-style glyph names&ndash; to Unicode values, so normally you won&rsquo;t need to have a third column in the GlyphOrderAndAliasDB file.</p>
 <p>Another thing I normally do is to extract the second column of the GlyphOrderAndAliasDB file, and use that data to create a FontLab encoding file (.enc). Then, in &ldquo;Names mode&rdquo;, I use Glyph &gt; Sort Glyphs &gt; By Encoding, and upon switching to &ldquo;Index mode&rdquo; I get all the glyphs neatly ordered.</p>
@@ -125,15 +125,15 @@ which will output two columns of glyph names.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->Just for practice, I’m trying to merge two ttf files together into one otf.<!-- raw HTML omitted --></p>
+<p><em>Just for practice, I’m trying to merge two ttf files together into one otf.</em></p>
 </blockquote>
 <p>I&rsquo;m not sure mergeFonts works with TT or OT fonts. I believe it expects a name-keyed or CID-keyed Type 1 font, and it outputs those same formats. So, if you want to use mergeFonts to merge a &ldquo;basic&rdquo; font and an &ldquo;expert&rdquo; font into a single font, you need to convert the source fonts into Type 1 and then run this command,
-<!-- raw HTML omitted -->mergeFonts output.pfa basicfont.pfa glyphlist expertfont.pfa<!-- raw HTML omitted --></p>
-<p>which will create the merged font (output.pfa). The <!-- raw HTML omitted -->glyphlist<!-- raw HTML omitted --> file is a simple text file containing entries for renaming the glyphs coming from the <!-- raw HTML omitted -->expertfont.pfa<!-- raw HTML omitted --> file. Its content can be something like,
-<!-- raw HTML omitted -->mergeFonts
+<code>mergeFonts output.pfa basicfont.pfa glyphlist expertfont.pfa</code></p>
+<p>which will create the merged font (output.pfa). The <code>glyphlist</code> file is a simple text file containing entries for renaming the glyphs coming from the <code>expertfont.pfa</code> file. Its content can be something like,
+<code>mergeFonts
 a.sc   Asmall
 b.sc   Bsmall
-c.sc   Csmall<!-- raw HTML omitted --></p>
+c.sc   Csmall</code></p>
 <p>mergeFonts was created mainly for usage in CJK font development. The raw CID-keyed fonts used as source for the final OTF fonts are normally assembled by merging a few dozen Type 1 fonts, using mergeFonts.</p>
 </div>
 	</div>
@@ -156,7 +156,7 @@ c.sc   Csmall<!-- raw HTML omitted --></p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Ps. And of course, one can use <!-- raw HTML omitted -->tx<!-- raw HTML omitted --> to convert .ttf or .otf into .pfa.</p>
+		<div class="commentbody"><p>Ps. And of course, one can use <code>tx</code> to convert .ttf or .otf into .pfa.</p>
 <p>A.</p>
 </div>
 	</div>
@@ -179,7 +179,7 @@ c.sc   Csmall<!-- raw HTML omitted --></p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Is there a list of commands for <!-- raw HTML omitted -->tx<!-- raw HTML omitted -->? I&rsquo;ve looked all over the place, and I can&rsquo;t find it. There are hints to using parts of it spread throughout the Adobe documentation, but no solid documentation on <!-- raw HTML omitted -->tx<!-- raw HTML omitted --> itself.</div>
+		<div class="commentbody">Is there a list of commands for <code>tx</code>? I&rsquo;ve looked all over the place, and I can&rsquo;t find it. There are hints to using parts of it spread throughout the Adobe documentation, but no solid documentation on <code>tx</code> itself.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -200,7 +200,7 @@ c.sc   Csmall<!-- raw HTML omitted --></p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Dan, try this: <!-- raw HTML omitted -->tx -h<!-- raw HTML omitted -->  (for help) and <!-- raw HTML omitted -->tx -u<!-- raw HTML omitted -->  (for usage).</p>
+		<div class="commentbody"><p>Dan, try this: <code>tx -h</code>  (for help) and <code>tx -u</code>  (for usage).</p>
 <p>Regards,
 Ernie</p>
 </div>
@@ -225,10 +225,10 @@ Ernie</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Try
-<!-- raw HTML omitted -->tx -u<!-- raw HTML omitted -->
+<code>tx -u</code>
 and/or
-<!-- raw HTML omitted -->tx -h<!-- raw HTML omitted -->
-for usage and help (<!-- raw HTML omitted -->-u<!-- raw HTML omitted --> and <!-- raw HTML omitted -->-h<!-- raw HTML omitted --> work with most AFDKO scripts).</div>
+<code>tx -h</code>
+for usage and help (<code>-u</code> and <code>-h</code> work with most AFDKO scripts).</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -249,7 +249,7 @@ for usage and help (<!-- raw HTML omitted -->-u<!-- raw HTML omitted --> and <!-
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks guys. I tried <!-- raw HTML omitted -->help tx<!-- raw HTML omitted -->, <!-- raw HTML omitted -->man -h tx<!-- raw HTML omitted -->, etc, but didn&rsquo;t know about those commands. If I <!-- raw HTML omitted -->tx -u &gt; txusage.txt<!-- raw HTML omitted -->, that should give me a txt document that I can print off, right?</div>
+		<div class="commentbody">Thanks guys. I tried <code>help tx</code>, <code>man -h tx</code>, etc, but didn&rsquo;t know about those commands. If I <code>tx -u &gt; txusage.txt</code>, that should give me a txt document that I can print off, right?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -270,7 +270,7 @@ for usage and help (<!-- raw HTML omitted -->-u<!-- raw HTML omitted --> and <!-
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->If I tx -u &gt; txusage.txt, that should give me a txt document that I can print off, right?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>If I tx -u &gt; txusage.txt, that should give me a txt document that I can print off, right?</em></p>
 <p>Yes. That redirect should do it nicely.</p>
 <p>Regards, 
 Ernie</p>
@@ -295,11 +295,11 @@ Ernie</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">It seems that you can use .otf fonts as input for <!-- raw HTML omitted -->mergeFonts<!-- raw HTML omitted --> after all. The output will be a font in CFF format, which you can then convert to Type 1 using <!-- raw HTML omitted -->tx<!-- raw HTML omitted -->.
+		<div class="commentbody">It seems that you can use .otf fonts as input for <code>mergeFonts</code> after all. The output will be a font in CFF format, which you can then convert to Type 1 using <code>tx</code>.
 Therefore, you can do,
-<!-- raw HTML omitted -->mergeFonts output.cff basicfont.otf glyphlist expertfont.otf<!-- raw HTML omitted -->
+<code>mergeFonts output.cff basicfont.otf glyphlist expertfont.otf</code>
 and then,
-<!-- raw HTML omitted -->tx -t1 output.cff &gt; output.pfa<!-- raw HTML omitted --></div>
+<code>tx -t1 output.cff &gt; output.pfa</code></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -408,7 +408,7 @@ and then,
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Vastly superior<!-- raw HTML omitted --> to <!-- raw HTML omitted -->anything<!-- raw HTML omitted -->?</p>
+		<div class="commentbody"><p><em>Vastly superior</em> to <em>anything</em>?</p>
 <p>You&rsquo;re going to have to back that statement up with facts, because the &ldquo;professional font designers&rdquo; just might have something to say about that.</p>
 <p>But do it in another thread, so that this discussion can remain on the creation of the non-Fontlab AFDKO GlyphOrderAndAliasDB file.</p>
 </div>

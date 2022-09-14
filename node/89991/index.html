@@ -77,11 +77,11 @@
 <p>Thanks for any help you can offer my feeble mind.</p>
 <p>All Best,
 Ken</p>
-<p><!-- raw HTML omitted -->@frac1regfigs=zero one two three four five six seven eight nine
+<p><code>@frac1regfigs=zero one two three four five six seven eight nine
 @frac2numr=zero.numr one.numr two.numr three.numr four.numr five.numr six.numr seven.numr eight.numr nine.numr
 @frac3dnom=zero.dnom one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom
-@frac4fracsdnom=perthousand slash percent onehalf onethird onequarter twothirds threequarters threeeighths seveneighths one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature frac {
+@frac4fracsdnom=perthousand slash percent onehalf onethird onequarter twothirds threequarters threeeighths seveneighths one.dnom two.dnom three.dnom four.dnom five.dnom six.dnom seven.dnom eight.dnom nine.dnom</code></p>
+<p><code>feature frac {
 lookup frac01 {
 #all to numerators
 sub @frac1regfigs by @frac2numr;
@@ -103,7 +103,7 @@ lookup frac03 {
 #change the slash
 sub slash by fraction;
 } frac03;
-} frac;<!-- raw HTML omitted --></p>
+} frac;</code></p>
 </div>
 
    <div class="comment card m-3">
@@ -153,8 +153,8 @@ I&rsquo;m interested to know more from experts on this too.</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Well, he definitely needs the single quote in the line</p>
-<p><!-- raw HTML omitted --> sub @frac4fracsdnom @frac2numr' by @frac3dnom;<!-- raw HTML omitted --></p>
-<p>If he removes the other single quotes the code will likely not compile since then you will have a single lookup containing two different types of rules. He would need to split <!-- raw HTML omitted --> frac02 <!-- raw HTML omitted --> into two separate lookups.</p>
+<p><code> sub @frac4fracsdnom @frac2numr' by @frac3dnom;</code></p>
+<p>If he removes the other single quotes the code will likely not compile since then you will have a single lookup containing two different types of rules. He would need to split <code> frac02 </code> into two separate lookups.</p>
 <p>André</p>
 </div>
 	</div>
@@ -203,17 +203,17 @@ I&rsquo;m interested to know more from experts on this too.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Yes, when you have something <!-- raw HTML omitted --> sub @A @B' @C by @D <!-- raw HTML omitted -->, the apostrophe is needed to distinguish the substitution target from the substitution context.</p>
+		<div class="commentbody"><p>Yes, when you have something <code> sub @A @B' @C by @D </code>, the apostrophe is needed to distinguish the substitution target from the substitution context.</p>
 <p>In the example you give, I can see no reason why it would have to be a single lookup. You could break it up into</p>
-<p><!-- raw HTML omitted -->lookup frac1A { <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->  sub zero.numr slash zero.numr zero.numr by perthousand; <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->  sub zero.numr slash zero.numr by percent; <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->  sub one.numr slash two.numr by onehalf; <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->  # etc. <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->} frac1A; <!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->lookup frac1B { <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->  sub @frac4fracsdnom @frac2numr' by @frac3dnom; <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->} frac1B; <!-- raw HTML omitted --></p>
+<p><code>lookup frac1A { </code>
+<code>  sub zero.numr slash zero.numr zero.numr by perthousand; </code>
+<code>  sub zero.numr slash zero.numr by percent; </code>
+<code>  sub one.numr slash two.numr by onehalf; </code>
+<code>  # etc. </code>
+<code>} frac1A; </code></p>
+<p><code>lookup frac1B { </code>
+<code>  sub @frac4fracsdnom @frac2numr' by @frac3dnom; </code>
+<code>} frac1B; </code></p>
 <p>In this case, the apostrophes can be omitted in the first lookup. They are only needed when the final line is included since you can&rsquo;t include both ligature and contextual substitutions in the same lookup. The apostrphes force the ligature rules to be interpreted as contextual substitutions which happen to have the same effect as ligature substitutions.</p>
 <p>André</p>
 </div>
@@ -329,7 +329,7 @@ Ken</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Ken,</p>
-<p>The line <!-- raw HTML omitted --> sub @frac4fracsdnom @frac2numr' by @frac3dnom; <!-- raw HTML omitted --> specifies that your fraction numerators will be replaced by denominators <em>only</em> when they follow elements in the class @frac4fracsdnom. Since this class includes the slash along with &lsquo;slash-containing&rsquo; glyphs, that&rsquo;s what determines that numerators will only be changed to a denominator following the slash. The dnom feature, whether implemented or not, doesn&rsquo;t play a role in this.</p>
+<p>The line <code> sub @frac4fracsdnom @frac2numr' by @frac3dnom; </code> specifies that your fraction numerators will be replaced by denominators <em>only</em> when they follow elements in the class @frac4fracsdnom. Since this class includes the slash along with &lsquo;slash-containing&rsquo; glyphs, that&rsquo;s what determines that numerators will only be changed to a denominator following the slash. The dnom feature, whether implemented or not, doesn&rsquo;t play a role in this.</p>
 <p>André</p>
 </div>
 	</div>

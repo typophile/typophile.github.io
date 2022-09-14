@@ -107,23 +107,23 @@ So whatever combination you type (o ̂ ̆) or (ô ̆) you get proper stacked let
 	<div class="card-body">
 		<div class="commentbody"><p>Janek,
 I&rsquo;ve recently added the exact behavior you&rsquo;re describing to a font family on which I have been working. However, I compiled my fonts using the AFDKO. The resulting fonts have the correct behavior in MS Word (I tested version 10 on XP) and in InDesign CS6 with the World Ready composer applied (there seems to be a bug in this regard in the default composer). Those were the only instances that I tested. I&rsquo;ve sent the font off to someone who does Jarai typography in XeLaTeX, I&rsquo;ll post back with his results, if interested.</p>
-<p>Here&rsquo;s my decomposition code in FDK syntax. Note the lookup titled DECOMPOSITION is outside of any feature block and before the <!-- raw HTML omitted --> feature. Also beware of the wrapping commented line below:</p>
-<p><!-- raw HTML omitted -->lookup DECOMPOSITION {
+<p>Here&rsquo;s my decomposition code in FDK syntax. Note the lookup titled DECOMPOSITION is outside of any feature block and before the <ccmp> feature. Also beware of the wrapping commented line below:</p>
+<p><code>lookup DECOMPOSITION {
 sub Ecircumflex by E circumflexcmb;
 sub ecircumflex by e circumflexcmb;
 sub Ocircumflex by O circumflexcmb;
 sub ocircumflex by o circumflexcmb;
-} DECOMPOSITION;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature ccmp { # Glyph Composition / Decomposition<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->	lookup GLYPH_DECOMPOSITION_CONTEXTUAL_2 {
+} DECOMPOSITION;</code></p>
+<p><code>feature ccmp { # Glyph Composition / Decomposition</code></p>
+<p><code>	lookup GLYPH_DECOMPOSITION_CONTEXTUAL_2 {
 #decomposes ecircumflex and ocircumflex forms when followed by combining breve: Jarai language support
 sub Ecircumflex' lookup DECOMPOSITION brevecmb;
 sub ecircumflex' lookup DECOMPOSITION brevecmb;
 sub Ocircumflex' lookup DECOMPOSITION brevecmb;
 sub ocircumflex' lookup DECOMPOSITION brevecmb;
-} GLYPH_DECOMPOSITION_CONTEXTUAL_2;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->} ccmp;
-<!-- raw HTML omitted --></p>
+} GLYPH_DECOMPOSITION_CONTEXTUAL_2;</code></p>
+<p><code>} ccmp;
+</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -146,7 +146,7 @@ sub ocircumflex' lookup DECOMPOSITION brevecmb;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">A bit shorter feature file with classes: (sub part only)
-<!-- raw HTML omitted -->
+<code>
 sub [Ecircumflex ecircumflex Ocircumflex ocircumflex]' lookup DECOMPOSITION [brevecmb uni0306];
 &lt;code&gt;</div>
 	</div>

@@ -75,8 +75,9 @@
 <p>The ligature in question is an asterisk and another asterisk being replaced by a black star (** = ★)</p>
 <p>I&rsquo;ve tried the full word, the utf-8 value for it and Unicode U+ but nothing seems to work. I&rsquo;ve had a look around and cant seem to find what is wrong.</p>
 <p>The problems seem to lie with the &lsquo;+&rsquo;, (Error came up with = &lsquo;invalid token (text was &ldquo;+&quot;)'). But that&rsquo;s the only clue I have.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<!--break-->
+<code>
+languagesystem latn dflt;
 <p>feature dlig { # Discretionary Ligatures</p>
 <h1 id="latin">Latin</h1>
 <pre><code>sub t o by t_o;
@@ -84,7 +85,7 @@ sub U+002A U+002A by U+2605;  #this is the problem
 sub parenleft parenright by underscore;
 </code></pre>
 <p>} dlig;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>Cheers for any help</p>
 <p>Matt</p>
 </div>
@@ -94,9 +95,9 @@ sub parenleft parenright by underscore;
 		<div class="commentbody"><p>Note: I&rsquo;m assuming FontLab&hellip;</p>
 <p>The glyph name should be uni####, so it should read</p>
 <p>sub uni002A uni002A by uni2605;</p>
-<p>These should also be the glyph names, if you&rsquo;re using that method instead of the AGL. If you use a different <!-- raw HTML omitted -->name<!-- raw HTML omitted -->, e.g. asterisk, you must use that, not the unicode number.</p>
+<p>These should also be the glyph names, if you&rsquo;re using that method instead of the AGL. If you use a different <strong>name</strong>, e.g. asterisk, you must use that, not the unicode number.</p>
 <p>sub asterisk  asterisk by uni2605;</p>
-<p>Assuming you&rsquo;ve <!-- raw HTML omitted -->named<!-- raw HTML omitted --> BLACK SUN as uni2605</p>
+<p>Assuming you&rsquo;ve <strong>named</strong> BLACK SUN as uni2605</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -118,7 +119,7 @@ sub parenleft parenright by underscore;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">This is a bad idea. The black star <!-- raw HTML omitted -->character<!-- raw HTML omitted --> ★ has it&rsquo;s own Unicode codepoint, and should be encoded as that, not as **. The two-character string ** does not mean the same thing as ★. This is why we have a character/glyph distinction, so that semantics can be encoded at the plain text level and not left to the vicissitudes of glyph processing.</div>
+		<div class="commentbody">This is a bad idea. The black star <em>character</em> ★ has it&rsquo;s own Unicode codepoint, and should be encoded as that, not as **. The two-character string ** does not mean the same thing as ★. This is why we have a character/glyph distinction, so that semantics can be encoded at the plain text level and not left to the vicissitudes of glyph processing.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -140,7 +141,7 @@ sub parenleft parenright by underscore;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">The reason I am doing this is for a dingbat font, enabling users to shortcut to the black star without having to go through alt operations. The font compiled with no hitches which is great, worked perfectly, thanks Michel.
-<!-- raw HTML omitted -->
+<code>
 sub asterisk asterisk by uni2605;
 &lt;/code</div>
 	</div>
@@ -163,14 +164,27 @@ sub asterisk asterisk by uni2605;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>Assuming you've <strong>named</strong> BLACK SUN as uni2605</blockquote>
+When I look at the names FontForge is expecting for U+2605, I see blackstar, a35, DD130, StarDingbat1, uni2605 or u2605; there is no black SUN around*. And the Fontlab file standard.nam (mine from some demo is dated 2009) contains
+<PRE>
+0x002A asterisk
+[...]
+0x2605 !a35
+0x2605 !blackstar
+</PRE>
+which, I guess, means Fontlab expects you to use <code>asterisk</code> for U+002A and does not like <code>a35</code> nor <code>blackstar</code> for U+2605 so that I would guess
+<PRE>
+sub asterisk asterisk by uni2605;
+</PRE>
+to  be the most likely working substitution. 
 <p>I see that U+2605 is in very few fonts. I see it in the DejaVuSans fonts (named uni2605) but it is in none of the  DejaVuSerif fonts.</p>
 <ul>
 <li>[Added] Well, there is</li>
 </ul>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>in the unicode file <!-- raw HTML omitted --><!-- raw HTML omitted -->NamesList.txt<!-- raw HTML omitted --><!-- raw HTML omitted -->, i.e. at U+2600,  ☀.</p>
+<pre>
+2600	BLACK SUN WITH RAYS
+</pre>
+<p>in the unicode file <a href="http://www.unicode.org/Public/UNIDATA/NamesList.txt"><code>NamesList.txt</code></a>, i.e. at U+2600,  ☀.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -192,7 +206,7 @@ sub asterisk asterisk by uni2605;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->enabling users to shortcut to the black star<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>enabling users to shortcut to the black star</em></p>
 <p>But they&rsquo;re not really shortcutting to the black star, if what they want in their text string is the black star character, not just the black star glyph in their display with this one particular font. With your method, what they get in the text string is **, and that&rsquo;s what they&rsquo;ll get if they copy and paste the text, change the font, etc.. I dislike this sort of thing because your resulting display is misleading: the user thinks there is a black star in the text, but in fact there isn&rsquo;t. Also, what if someone chooses your font to display some text in which there is a double-asterisk sequence, e.g. as part of a footnote system? It will display incorrectly as a black star.</p>
 <p>As a general rule, don&rsquo;t try to solve character input issues at the glyph processing level.</p>
 </div>
@@ -403,7 +417,7 @@ sub asterisk asterisk by uni2605;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Michel,</p>
-<!-- raw HTML omitted -->
+<blockquote>...generated the pdf, opened the pdf with acrobat reader and found the black star when searching for it in the search window; I also copied the black star from that pdf in the reader and pasted it right here to get ★.</blockquote>
 <p>Presumably because you generated the PDF in a way that does not write the original text strings to the PDF, and hence Acrobat has used the glyph name of the black star in the glyph string come up with an encoding. That&rsquo;s kind of a round-about way of text input. :)</p>
 </div>
 	</div>
@@ -426,9 +440,10 @@ sub asterisk asterisk by uni2605;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>Presumably because you generated the PDF in a way that does not write the original text strings to the PDF</blockquote>
+Indeed. What the application is expected to do, I just don't know.
 <p>I am now on another machine and I did a fast check, putting this time the ligature in liga to get right away the blackstar when typing ** without having to find what to do to activate dlig; I used the font in XeLaTeX (from the 2012 distribution) and InDesign CS3 and then opened the pdf with FontForge</p>
-<p>I see that the name given by InDesign to the ligature in the pdf is asterisk_asterisk (even if the ligature in the font is <!-- raw HTML omitted -->sub asterisk asterisk  by uni2605;<!-- raw HTML omitted -->).
+<p>I see that the name given by InDesign to the ligature in the pdf is asterisk_asterisk (even if the ligature in the font is <code>sub asterisk asterisk  by uni2605;</code>).
 The name given  to the same ligature, same font, in the pdf generated by XeLaTeX is uni2605</p>
 <p>That implies that if I copy-paste what displays like the black star in the pdf generated by InDesign, I get this: **;  if I copy-paste the same looking thing appearing in the pdf generated by XeLaTeX, I get this: ★. Of course, the search will behave accordingly.</p>
 <p>When I have the time, I&rsquo;ll check with MacTeX 2013 because the pdf generated by XeLaTeX or luaLaTeX in MacTeX 2012  does  not allow searches on  stylistic variants. The pdf that is generated is just wrong.</p>

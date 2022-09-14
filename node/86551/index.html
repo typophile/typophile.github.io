@@ -90,12 +90,16 @@ sub x' [list_s] by m.alt;</p>
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>It sounds like you want to replace inline classes (glyph lists) with predefined classes. Your pseudo-code is already close, just ditch the &lsquo;my&rsquo; and use the prefix &lsquo;@&rsquo;&hellip;</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>In order for the class to work across features (not just for <!-- raw HTML omitted -->calt<!-- raw HTML omitted -->), the definition should be made globally, i.e. in the lower section of FontLab&rsquo;s OpenType panel, or in the Classes panel, or somewhere near the top of an external features file.</p>
+<pre>
+@list_s = [s a c e o];
+sub m' @s by m.alt;
+# etc.
+</pre>
+<p>In order for the class to work across features (not just for <code>calt</code>), the definition should be made globally, i.e. in the lower section of FontLab&rsquo;s OpenType panel, or in the Classes panel, or somewhere near the top of an external features file.</p>
 <p>It&rsquo;s also possible to nest classes, so if you needed to add an additional glyph to the predefined class for a particular rule, you could do something like&hellip;</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+sub m' [@s u] by m.alt;
+</pre>
 <p>&hellip;which would include &lsquo;u&rsquo; in the class for just that rule.</p>
 </div>
 	</div>
@@ -119,14 +123,14 @@ sub x' [list_s] by m.alt;</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>You can simplify the feature code more by intesive use of classes:</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted -->
+<p><code><pre>
 feature xxxx {
 @source  = [m n x];
 @target  = [m.alt m.alt m.alt];
 @context = [s a c e o];</p>
 <p>sub @source' @context by @target;
 } xxxx;
-<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+</pre></code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -213,7 +217,7 @@ feature xxxx {
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">@AlexanderKatt - Think <!-- raw HTML omitted -->yacc<!-- raw HTML omitted --> and you&rsquo;re close.</div>
+		<div class="commentbody">@AlexanderKatt - Think <code>yacc</code> and you&rsquo;re close.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

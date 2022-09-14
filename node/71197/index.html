@@ -308,7 +308,7 @@ See for example this: <a href="http://www.subblue.com/projects/guilloche">http:/
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->The precise combination, tooth count, and sizes of the rotors was, in true Enigma fashion, a state secret, intended to make it hard for counterfeiters.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>The precise combination, tooth count, and sizes of the rotors was, in true Enigma fashion, a state secret, intended to make it hard for counterfeiters.</em></p>
 <p>That&rsquo;s fascinating. I can only imagine how complicated it was to set up, register and so on.</p>
 </div>
 	</div>
@@ -353,7 +353,7 @@ See for example this: <a href="http://www.subblue.com/projects/guilloche">http:/
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>A quickie: a 2-rotor guilloché, in Javascript, for a fairly modern InDesign. Vary the initial radii and play with the inner-loop formulae to get different effects.</p>
-<p><!-- raw HTML omitted -->app.activeDocument.zeroPoint = [ app.activeDocument.documentPreferences.pageWidth/2, app.activeDocument.documentPreferences.pageHeight/2 ];
+<p><code>app.activeDocument.zeroPoint = [ app.activeDocument.documentPreferences.pageWidth/2, app.activeDocument.documentPreferences.pageHeight/2 ];
 r1 = 80;
 r2 = 5;
 for (o=0; o&lt;360; o+=5)
@@ -373,7 +373,7 @@ ln.paths[0].pathType = PathType.CLOSED_PATH;
 c = app.activeDocument.colors.add ({space:ColorSpace.RGB, colorValue:[255</em>Math.min(1,Math.max(0,Math.sin(o</em>Math.PI/180))), 255<em>Math.min(1,Math.max(0,Math.cos(o</em>Math.PI/180))), 255]});
 ln.strokeWeight = 0.1;
 ln.strokeColor = c;
-}<!-- raw HTML omitted --></p>
+}</code></p>
 <p>[img:sites/default/files/old-images/guilloche_5429.png]</p>
 </div>
 	</div>
@@ -396,10 +396,55 @@ ln.strokeColor = c;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Here is a more &ldquo;official&rdquo; version, using the formulaes from <!-- raw HTML omitted -->Wolfram on hypotroichoids<!-- raw HTML omitted -->. <!-- raw HTML omitted -->a<!-- raw HTML omitted --> is the &ldquo;outer&rdquo;, main radius, <!-- raw HTML omitted -->b<!-- raw HTML omitted --> is the &ldquo;inner&rdquo; rotating radius, and <!-- raw HTML omitted -->h<!-- raw HTML omitted --> is the thickness of the outer rim.</p>
-<p>Not explained on that web page, but the number of rotations to get a complete curve seems to be the greatest common factor of <!-- raw HTML omitted -->a<!-- raw HTML omitted --> and <!-- raw HTML omitted -->b<!-- raw HTML omitted --> &ndash; I discovered that empirically so I might be wrong about that.</p>
+		<div class="commentbody"><p>Here is a more &ldquo;official&rdquo; version, using the formulaes from <a href="http://mathworld.wolfram.com/Hypotrochoid.html">Wolfram on hypotroichoids</a>. <em>a</em> is the &ldquo;outer&rdquo;, main radius, <em>b</em> is the &ldquo;inner&rdquo; rotating radius, and <em>h</em> is the thickness of the outer rim.</p>
+<p>Not explained on that web page, but the number of rotations to get a complete curve seems to be the greatest common factor of <em>a</em> and <em>b</em> &ndash; I discovered that empirically so I might be wrong about that.</p>
 <p>The number of points in the entire path may be greater than InDesign can comfortably handle, so it gets defined into runs of 10,000 pts each.</p>
-<!-- raw HTML omitted -->
+<code>
+app.activeDocument.zeroPoint = [ app.activeDocument.documentPreferences.pageWidth/2, app.activeDocument.documentPreferences.pageHeight/2 ];
+a = 80;
+b = 13;
+h = 20;
+path = [];
+nLoop = b/greatestCommonFactor(a,b);
+p = null;
+for (t=0; t<=nLoop*360; t+= 0.5)
+{
+	x = (a - b) * Math.cos(t*Math.PI/180) + h * Math.cos (t*((a - b)/b)*Math.PI/180);
+	y = (a - b) * Math.sin(t*Math.PI/180) - h * Math.sin (t*((a - b)/b)*Math.PI/180);
+	path.push ([x,y]);
+	if (path.length > 10000)
+	{
+		if (p == null)
+		{
+			p = app.activeDocument.graphicLines.add().paths[0];
+			p.parent.strokeWeight = 0.1;
+		} else
+			p = p.parent.paths.add();
+		p.entirePath = path;
+		path = [ [x,y] ];
+	}
+}
+if (path.length > 1)
+{
+	if (p == null)
+	{
+		p = app.activeDocument.graphicLines.add().paths[0];
+		p.parent.strokeWeight = 0.1;
+	} else
+		p = p.parent.paths.add();
+	p.entirePath = path;
+}
+function greatestCommonFactor (x,y)
+{
+	while (y != 0)
+	{
+		w = x % y;
+		x = y;
+		y = w;
+	}
+	return x;
+}
+</code>
 <p>[img:sites/default/files/old-images/giulloche2_6739.png]</p>
 </div>
 	</div>

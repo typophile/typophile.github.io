@@ -75,7 +75,7 @@
 <p>I have a python script that dumps out all the character names and unicodes but I&rsquo;m getting an error using the isdigit() command.</p>
 <p>I couldn&rsquo;t get the indents I have in the code to show here so I&rsquo;ve used backslashes for each indent.</p>
 <p>This smaller script works fine, in the line &ldquo;unistr = str(f.glyphs[1].unicode)&rdquo; if I change the &ldquo;1&rdquo; to a &ldquo;0&rdquo; I get the correct result:
-<!-- raw HTML omitted -->
+<code>
 #FLM: Testing Macro
 f = fl.font
 gcount = len(f)
@@ -85,12 +85,17 @@ if isnumeric:
 -print &ldquo;It is!&rdquo;
 else:
 -print &ldquo;It isn&rsquo;t!&rdquo;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>However, doing nearly the same darn thing I&rsquo;m getting an invalid syntax error. I&rsquo;m at a loss.</p>
 <p>Many thanks,
 Ken</p>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->TheFile = open(finame, &ldquo;w&rdquo;)
+<code>
+#FLM: Writes marked glyph unicode numbers and names to a file
+f = fl.font
+fname=f.font_name
+finame=str("C:\Program Files\FontLab\Studio5\Macros\UnicodeAndNamesMarked_") + fname + str(".txt")
+</code>
+<p><code>TheFile = open(finame, &ldquo;w&rdquo;)
 TheFile.write(f.family_name + &quot; marked glyphs&quot; + chr(10))
 if f != None:
 -gcount = len(f)
@@ -106,7 +111,7 @@ else:
 -print &ldquo;There are no fonts opened&rdquo;
 TheFile.close()
 print &ldquo;Filename: &quot; + finame
-<!-- raw HTML omitted --></p>
+</code></p>
 </div>
 
    <div class="comment card m-3">
@@ -132,9 +137,9 @@ print &ldquo;Filename: &quot; + finame
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello,
+		<div class="commentbody"><p>Hello,
 I think this prints what you want:
-<!-- raw HTML omitted --><!-- raw HTML omitted -->
+<code><pre>
 if len(fl) &gt; 0:
 for glyph in fl.font.glyphs:
 if glyph.mark:
@@ -142,10 +147,11 @@ if glyph.unicode is None:
 print &lsquo;None\t%s&rsquo; % glyph.name
 else:
 print &lsquo;0x%04X\t%s&rsquo; % (glyph.unicode, glyph.name)
-<!-- raw HTML omitted --><!-- raw HTML omitted -->
+</pre></code>
 Redirecting the output to a file is up to you ;-)
 Best
-Eigi</div>
+Eigi</p>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -193,8 +199,28 @@ Could I have the code, I just need it for generating unicode for many glyphs, an
 	<div class="card-body">
 		<div class="commentbody"><p>Hello Bahman,</p>
 <p>Hm - this confuses me!? This is what I get if I mark standard figures (with unicode) and old Style figures (without unicode)</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+0x0030	zero
+0x0031	one
+0x0032	two
+0x0033	three
+0x0034	four
+0x0035	five
+0x0037	seven
+0x0036	six
+0x0038	eight
+0x0039	nine
+None	zero.onum
+None	one.onum
+None	two.onum
+None	three.onum
+None	four.onum
+None	five.onum
+None	seven.onum
+None	six.onum
+None	eight.onum
+None	nine.onum
+</pre>
 <p>Are you running FontLab on Mac or Win?</p>
 </div>
 	</div>
@@ -238,11 +264,33 @@ Could I have the code, I just need it for generating unicode for many glyphs, an
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hi Eigi
+		<div class="commentbody"><p>Hi Eigi
 I got it, it wasn&rsquo;t the code, the problem was that I had too many glyphs (about 800) and output window is not enough for it, so it just leaves out the glyphs which had unicode. I made the ken code to work but there is a problem, hex function is not working in it. without hex function it works but it&rsquo;s useless for me. what should I do?
 Thanks,
 Code:</p>
-<!-- raw HTML omitted --></div>
+<pre>
+#FLM: Writes marked glyph unicode numbers and names to a file
+f = fl.font
+fname=f.font_name
+finame=str("C:\Program Files\FontLab\Studio5\Macros\UnicodeAndNamesMarked_") + fname + str(".txt")
+
+TheFile = open(finame, "w")
+TheFile.write(f.family_name + " marked glyphs" + chr(10))
+if f != None:
+ gcount = len(f)
+ for i in range(gcount):
+  if f.glyphs[i].mark:
+   unistr = str(f.glyphs[i].unicode)
+   isnumeric = unistr.isdigit()
+   if isnumeric:
+    TheFile.write(hex(unistr) + chr(9) + f.glyphs[i].name + chr(10))
+   else:
+    TheFile.write(unistr + chr(9) + f.glyphs[i].name + chr(10))
+else:
+ print "There are no fonts opened"
+TheFile.close()
+print "Filename: " + finame
+<pre/></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

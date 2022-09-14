@@ -73,20 +73,20 @@
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>I think I may not understand correctly how lookupflags and glyph types work, and was hoping someone might be able to clarify this for me.</p>
 <p>I have a piece of code like the following in a font:</p>
-<p><!-- raw HTML omitted -->lookup A { <!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->  lookupflag IgnoreMarks; <!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->  sub @X' @Y by @Z; <!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->} A; <!-- raw HTML omitted --></p>
+<p><code>lookup A { </code></p>
+<p><code>  lookupflag IgnoreMarks; </code></p>
+<p><code>  sub @X' @Y by @Z; </code></p>
+<p><code>} A; </code></p>
 <p>In the glyph properties window in FLS5 I&rsquo;ve assigned all of the combining diacritics to the &lsquo;marks&rsquo; class and in my FLS5 preferences I&rsquo;ve made sure that the &lsquo;generate GDEF table&rsquo; option is set. I&rsquo;d assumed that the above code would work effectively the same as the following pseudocode, but apparently not.</p>
-<p><!-- raw HTML omitted -->lookup A { <!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->  sub @X' @Y by @Z; <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->  sub @X' @CombiningDiacritics @Y by @Z; <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->  sub @X' @CombiningDiacritics @CombiningDiacritics @Y by @Z; <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->    . <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->    . <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->    . <!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->} A; <!-- raw HTML omitted --></p>
-<p>As far as I can tell, the presence of <!-- raw HTML omitted --> lookupflag IgnoreMarks <!-- raw HTML omitted --> has no affect whatsoever on the behaviour of the font. What am I missing here?</p>
+<p><code>lookup A { </code></p>
+<p><code>  sub @X' @Y by @Z; </code>
+<code>  sub @X' @CombiningDiacritics @Y by @Z; </code>
+<code>  sub @X' @CombiningDiacritics @CombiningDiacritics @Y by @Z; </code>
+<code>    . </code>
+<code>    . </code>
+<code>    . </code></p>
+<p><code>} A; </code></p>
+<p>As far as I can tell, the presence of <code> lookupflag IgnoreMarks </code> has no affect whatsoever on the behaviour of the font. What am I missing here?</p>
 <p>Thanks,</p>
 <p>André</p>
 </div>
@@ -124,7 +124,7 @@
 		<div class="commentbody"><p>I used X, Y, and Z because there are several different instances where this arises in my font, but I&rsquo;ll give a more specific example here:</p>
 <p>Let&rsquo;s say O has an alternate forms O.alt which is only appropriate before letters with vertical left stems.</p>
 <p>So I construct a substitution like</p>
-<p><!-- raw HTML omitted -->    sub O' [B D E F H I K L M N P R]  by O.alt; <!-- raw HTML omitted --></p>
+<p><code>    sub O' [B D E F H I K L M N P R]  by O.alt; </code></p>
 <p>What I&rsquo;d like, though, is to have the above substitution work even for strings such as the following:</p>
 <p>O dotbelowcomb circumflexcomb N</p>
 <p>I&rsquo;d assumed that skipmarks would achieve this, but either it doesn&rsquo;t, or I am doing something wrong.</p>

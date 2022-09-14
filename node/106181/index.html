@@ -72,11 +72,11 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>I am using Perl (readpipe) to grab the fontname value from a font via Fontforge. For example:</p>
-<p><!-- raw HTML omitted -->my $psfontname = readpipe(&quot;/usr/local/bin/fontforge -script /webfont/getfontname.pe font.ttf&quot;);<!-- raw HTML omitted --></p>
+<p><code>my $psfontname = readpipe(&quot;/usr/local/bin/fontforge -script /webfont/getfontname.pe font.ttf&quot;);</code></p>
 <p>The problem is, Fontforge always outputs all the warnings when it loads a font, so I end up with a multiline output of values I do not want. Anyone know how to disable Fontforge doing that on file open? I am using is via command line only.</p>
 <p>Example warnings:
-<!-- raw HTML omitted -->Warning: Mac and Windows entries in the &lsquo;name&rsquo; table differ for the
-Family string in the language English (US)<!-- raw HTML omitted --></p>
+<code>Warning: Mac and Windows entries in the &lsquo;name&rsquo; table differ for the
+Family string in the language English (US)</code></p>
 </div>
 
    <div class="comment card m-3">
@@ -102,20 +102,33 @@ Family string in the language English (US)<!-- raw HTML omitted --></p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>I don&rsquo;t know perl but here are some relevant remarks. According to perldoc, <!-- raw HTML omitted -->readpipe<!-- raw HTML omitted --> collects the standard output (which is  <!-- raw HTML omitted -->stdout<!-- raw HTML omitted -->) whereas FontForge warning messages are written to <!-- raw HTML omitted -->stderr<!-- raw HTML omitted -->. If you call <!-- raw HTML omitted -->psname.pl<!-- raw HTML omitted --> the following script</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>I don&rsquo;t know perl but here are some relevant remarks. According to perldoc, <code>readpipe</code> collects the standard output (which is  <code>stdout</code>) whereas FontForge warning messages are written to <code>stderr</code>. If you call <code>psname.pl</code> the following script</p>
+<PRE>
+my $font = $ARGV[0] ;
+my $psfontname = 
+   readpipe("/opt/local/bin/fontforge -script psname.pe " 
+               . $font) ;
+print  $psfontname  ;
+</PRE>
 <p>then the call</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>sends only the postscript name into the file <!-- raw HTML omitted -->savename<!-- raw HTML omitted -->. If you want to see only the standard output and no warning message, you can type</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>You could also redirect <!-- raw HTML omitted -->stderr<!-- raw HTML omitted --> inside the perl script</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>where <!-- raw HTML omitted -->2&gt;/dev/null<!-- raw HTML omitted --> redirects <!-- raw HTML omitted -->stderr<!-- raw HTML omitted --> to <!-- raw HTML omitted -->/dev/null<!-- raw HTML omitted -->.</p>
-<p>Instead of sending the messages to the garbage can, you could append them to a log file with <!-- raw HTML omitted -->2&gt;&gt;file.log<!-- raw HTML omitted -->.</p>
+<PRE>
+perl psname.pl ArnoPro-Regular.otf > savename
+</PRE>
+<p>sends only the postscript name into the file <code>savename</code>. If you want to see only the standard output and no warning message, you can type</p>
+<PRE>
+perl psname.pl ArnoPro-Regular.otf 2>/dev/null
+</PRE>
+<p>You could also redirect <code>stderr</code> inside the perl script</p>
+<PRE>
+my $font = $ARGV[0] ;
+my $psfontname = 
+   readpipe("/opt/local/bin/fontforge -script psname.pe " 
+               . $font . 
+               " 2>/dev/null") ;
+print  $psfontname  ;
+</PRE>
+<p>where <code>2&gt;/dev/null</code> redirects <code>stderr</code> to <code>/dev/null</code>.</p>
+<p>Instead of sending the messages to the garbage can, you could append them to a log file with <code>2&gt;&gt;file.log</code>.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

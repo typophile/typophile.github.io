@@ -73,7 +73,7 @@
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>I have a stylistic alternates in my opentype values, but for some reason the opentype panel in Photoshop/Illustrator will not toggle them. The interesting thing is, the glyph window in Illustrator reads them fine, but toggling the alternates in the opentype window does nothing. In order to select an alternate, it has to be done via the glyph window.</p>
 <p>Has anyone ever experienced this, any ideas what is causing this?</p>
-<!-- raw HTML omitted -->
+<!--break-->
 </div>
 
    <div class="comment card m-3">
@@ -1305,14 +1305,14 @@ sub question by question.alt;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --> Ok, I found the issue. This was developed by former team member, so I am sorting debugging this from the wild. It seems they way over thought this, with double letters, coding the feature twice, and yes as mentioned above, I think it was overwriting the command with double actions (normal to alt, alt to normal). Also seems the code was kinda wrong, they had: <!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --> sub w w' by w.alt; <!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --> when it should have been <!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --> sub w by w.alt; <!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite> Ok, I found the issue. This was developed by former team member, so I am sorting debugging this from the wild. It seems they way over thought this, with double letters, coding the feature twice, and yes as mentioned above, I think it was overwriting the command with double actions (normal to alt, alt to normal). Also seems the code was kinda wrong, they had: </cite></p>
+<p><cite> sub w w' by w.alt; </cite></p>
+<p><cite> when it should have been </cite></p>
+<p><cite> sub w by w.alt; </cite></p>
 <p>I&rsquo;m not clear what your substitutions are trying to do, but since you say you&rsquo;ve left only the &lsquo;calt&rsquo; feature it seems like the original developers probably had the former rather than the latter line of code (quoted above) in mind.</p>
-<p><!-- raw HTML omitted -->   sub w w' by w.alt; <!-- raw HTML omitted --></p>
+<p><code>   sub w w' by w.alt; </code></p>
 <p>will substitute a w by w.alt when it follows another w (and if you have a bunch of w&rsquo;s in a row it will affect every second one).</p>
-<p><!-- raw HTML omitted -->    sub w by w.alt; <!-- raw HTML omitted --></p>
+<p><code>    sub w by w.alt; </code></p>
 <p>on the other hand, will substitute any w with w.alt.</p>
 <p>If you really intend it to be the latter rather than the former then you probably don&rsquo;t want this substitution to appear in the &lsquo;calt&rsquo; feature, but rather in a stylistic set (&lsquo;ss01&rsquo; - &lsquo;ss20&rsquo;) or, possibly, in &lsquo;salt&rsquo;. What is the nature of the alternate glyphs?</p>
 <p>Also, features aren&rsquo;t initiated in &lsquo;aalt&rsquo; &ndash; &lsquo;aalt&rsquo; is a distinct feature (access all alternates) which is responsible (for example) for mapping glyphs to their available alternates in the glyph palette.</p>

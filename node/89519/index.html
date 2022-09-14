@@ -127,10 +127,10 @@ San José, CA, USA, Earth
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I would need to know more about what limits you&rsquo;re looking to test. Charstring length?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I would need to know more about what limits you&rsquo;re looking to test. Charstring length?</cite></p>
 <p>Uh, no (that maxes out at 64K - 1, IIRC). It wasn&rsquo;t a really well thought out question: after some more studying I don&rsquo;t think there is any requirement at all to be able to &lsquo;test charstrings&rsquo;.
 Either a charstring is syntactically correct (i.e. leading to a valid stream of numbers and operators, where each operator clears the stack as per Spec.5177, and does not exceed the implementation limits in there), or it may be considered &ldquo;malformed&rdquo;, and then there is probably something wrong with the charstring generator that was used.</p>
-<p>A charstring generator is what I&rsquo;m attempting to code; and indeed, encoding of outlines is straightforward (all just syntax) but problems in the &ldquo;semantics&rdquo; of outlines are much harder to detect, avoid, and/or automatically solve: overlapping shapes (I don&rsquo;t think there is an actual <!-- raw HTML omitted -->rule<!-- raw HTML omitted --> against this, but I gather it&rsquo;s &ldquo;seriously frowned upon&rdquo;), renegade curves (where 3 or more curve data points are 0), and artefacts cause by rounding from floating point coordinates to the 1,000 Unit Fixed Square.</p>
+<p>A charstring generator is what I&rsquo;m attempting to code; and indeed, encoding of outlines is straightforward (all just syntax) but problems in the &ldquo;semantics&rdquo; of outlines are much harder to detect, avoid, and/or automatically solve: overlapping shapes (I don&rsquo;t think there is an actual <em>rule</em> against this, but I gather it&rsquo;s &ldquo;seriously frowned upon&rdquo;), renegade curves (where 3 or more curve data points are 0), and artefacts cause by rounding from floating point coordinates to the 1,000 Unit Fixed Square.</p>
 <p>A fun project, nevertheless.</p>
 </div>
 	</div>
@@ -155,22 +155,22 @@ Either a charstring is syntactically correct (i.e. leading to a valid stream of 
 	<div class="card-body">
 		<div class="commentbody"><p>Let me expand a bit on that for interested lurkers.</p>
 <p>The byte stream
-<!-- raw HTML omitted -->00 00 01 80 00 0A<!-- raw HTML omitted --></p>
-<p>is <!-- raw HTML omitted -->invalid<!-- raw HTML omitted --> because <!-- raw HTML omitted -->00<!-- raw HTML omitted --> does not produce valid code. This one is better:
-<!-- raw HTML omitted -->FF 00 01 80 00 0A<!-- raw HTML omitted --></p>
+<code>00 00 01 80 00 0A</code></p>
+<p>is <em>invalid</em> because <code>00</code> does not produce valid code. This one is better:
+<code>FF 00 01 80 00 0A</code></p>
 <p>because the first 5 bytes translate in a floating point number: 1.5. The sixth byte translates into the opcode &ldquo;callsubr&rdquo;, so this sequence correctly translates into
-<!-- raw HTML omitted -->1.5 callsubr<!-- raw HTML omitted --></p>
+<code>1.5 callsubr</code></p>
 <p>&hellip; but a subr number must be an integer (it is a simple table based lookup). So this is still &ldquo;wrong&rdquo;, but on a higher level. But even when we change this code into
-<!-- raw HTML omitted -->F6 0A<!-- raw HTML omitted --></p>
+<code>F6 0A</code></p>
 <p>which translates into
-<!-- raw HTML omitted -->-1 callsubr<!-- raw HTML omitted --></p>
+<code>-1 callsubr</code></p>
 <p>we cannot be sure if this is &ldquo;correct&rdquo;. According to Adobe&rsquo;s Charstring Specification #5177, there is a limit of 10 nested callsubr calls, and there is no way we can check if this one is the eleventh without actually parsing the entire charstring.</p>
 <p>Still, these checks can be done by a fairly basic program. More insidious are syntactically correct constructs such as
-<!-- raw HTML omitted -->10 0 10 vlineto<!-- raw HTML omitted --></p>
+<code>10 0 10 vlineto</code></p>
 <p>or indeed
-<!-- raw HTML omitted -->10 0 -10 vlineto<!-- raw HTML omitted --></p>
-<p>(I&rsquo;m <!-- raw HTML omitted -->certain<!-- raw HTML omitted --> that&rsquo;s not allowed), or self-crossing:
-<!-- raw HTML omitted -->2 1 -1 -2 hlineto<!-- raw HTML omitted --></p>
+<code>10 0 -10 vlineto</code></p>
+<p>(I&rsquo;m <em>certain</em> that&rsquo;s not allowed), or self-crossing:
+<code>2 1 -1 -2 hlineto</code></p>
 <p>&hellip; which is where the fun starts for me :)</p>
 </div>
 	</div>

@@ -72,13 +72,13 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>Hello, I&rsquo;m working on a custom typeface for a Dutch design company and I just came across some problems I have no idea how to fix. Here&rsquo;s a part of the error messages I get:
-[WARNING] <!-- raw HTML omitted --> Use of DFLT tag has been deprecated. It will work, but please use &lsquo;dflt&rsquo; instead. [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 48]
-[ERROR] <!-- raw HTML omitted --> If you don&rsquo;t want feature &lsquo;cpsp&rsquo; registered under all the language systems you specified earlier on in the feature file by the &ldquo;languagesystem&rdquo; keyword, you must start this feature with an explicit &ldquo;script&rdquo; statement [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 84]
-[ERROR] <!-- raw HTML omitted --> If you don&rsquo;t want feature &lsquo;cpsp&rsquo; registered under all the language systems you specified earlier on in the feature file by the &ldquo;languagesystem&rdquo; keyword, you must start this feature with an explicit &ldquo;script&rdquo; statement [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 86]
-[ERROR] <!-- raw HTML omitted --> If you don&rsquo;t want feature &lsquo;cpsp&rsquo; registered under all the language systems you specified earlier on in the feature file by the &ldquo;languagesystem&rdquo; keyword, you must start this feature with an explicit &ldquo;script&rdquo; statement [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 88]
+[WARNING] <MelkSans-Bold> Use of DFLT tag has been deprecated. It will work, but please use &lsquo;dflt&rsquo; instead. [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 48]
+[ERROR] <MelkSans-Bold> If you don&rsquo;t want feature &lsquo;cpsp&rsquo; registered under all the language systems you specified earlier on in the feature file by the &ldquo;languagesystem&rdquo; keyword, you must start this feature with an explicit &ldquo;script&rdquo; statement [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 84]
+[ERROR] <MelkSans-Bold> If you don&rsquo;t want feature &lsquo;cpsp&rsquo; registered under all the language systems you specified earlier on in the feature file by the &ldquo;languagesystem&rdquo; keyword, you must start this feature with an explicit &ldquo;script&rdquo; statement [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 86]
+[ERROR] <MelkSans-Bold> If you don&rsquo;t want feature &lsquo;cpsp&rsquo; registered under all the language systems you specified earlier on in the feature file by the &ldquo;languagesystem&rdquo; keyword, you must start this feature with an explicit &ldquo;script&rdquo; statement [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 88]
 &hellip;
 etcetera.</p>
-<p>[FATAL] <!-- raw HTML omitted --> aborting because of errors</p>
+<p>[FATAL] <MelkSans-Bold> aborting because of errors</p>
 <p>So, what&rsquo;s going on here, how do I fix it and what&rsquo;s it trying to abort anyway? I&rsquo;m able to generate a TT font, which features pixelated edges compared to an older version of the font I was able to generate in OTF format. I&rsquo;m assuming the fact I can&rsquo;t generate OTF right now has to do with the errors. I have to have 2 fonts of the typeface finished by the end of the week so it&rsquo;s really appreciated if you can help me out with this. Can someone also tell me what I&rsquo;m doing by specifying Greek, Latin and Romanian in the script? I assumed I need to specify Romanian to replace some accented characters, but I don&rsquo;t need Greek. I&rsquo;m working on full language support for Latin.</p>
 <p>Here&rsquo;s an example of the script I&rsquo;m working with:</p>
 <p>feature clig {</p>
@@ -272,7 +272,7 @@ sub [Scedilla Tcedilla scedilla tcedilla] by [Scommaaccent Tcommaaccent scommaac
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I get these two messages currently (both alternating):</p>
-<p>[FATAL] <!-- raw HTML omitted --> aborting because of errors:
+<p>[FATAL] <Melk Sans Extra Light> aborting because of errors:
 syntax error at &ldquo;@_A1&rdquo;
 [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 1]</p>
 <p>Missing glyph: a.sc
@@ -400,7 +400,7 @@ Missing glyph: cent.sc
 Missing glyph: ampersand.sc
 Missing glyph: acute.sc
 Missing glyph: hungarumlaut.sc
-[FATAL] <!-- raw HTML omitted --> aborting because of errors:
+[FATAL] <Melk Sans Extra Light> aborting because of errors:
 syntax error at &ldquo;feature&rdquo;
 [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 65]</p>
 </div>
@@ -477,8 +477,8 @@ sub f f i by f_f_i;</p>
 <p>Etc.</p>
 <p>You have to do it the other way, with the f f i  statement first.</p>
 <p>Here&rsquo;s a portion of the clig description (emphasis added)</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<blockquote> Example: The glyph for ft replaces the sequence f t in Bickham Script, <strong>except</strong> when preceded by an ascending letter.</blockquote> 
+<blockquote> Recommended implementation: The clig table maps sequences of glyphs to corresponding ligatures in a chained context (GSUB lookup type 8). <strong>Ligatures with more components must be stored ahead of those with fewer components in order to be found.</strong> The set of contextual ligatures will vary by design and script.</blockquote> 
 <p>I&rsquo;d remark that the usual way to debug a long list of statements is to cut things in half, and try each half. Keep cutting until things compile without errors. If you&rsquo;re lucky, you&rsquo;ll spot it. Safest is to just add one more statement at a time. And if the rest of your code is as scrambled as clig, I&rsquo;d just start with one statement, get it to compile, then add each, one at a time.</p>
 <p>Long ago &amp; far away, I had to do logical proofs &ndash; passed my PhD prelims in math logic. When I used the techniques learned there in trying to debug even little programs, my business partner &ndash; a proper engineer &ndash; finally convinced me of the error of my ways. He succeeded in large part because I kept failing, trying to be &ldquo;logical&hellip;&rdquo;</p>
 </div>
@@ -696,11 +696,11 @@ But probably only worth buying the Remix tools if you find their other features 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Every one of your &ldquo;contextual&rdquo; ligatures is just a normal non-contextual ligature&quot;<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Every one of your &ldquo;contextual&rdquo; ligatures is just a normal non-contextual ligature&quot;</cite></p>
 <p>I&rsquo;m still not convinced. I know what a contextual ligature is. This is how it works in a serif typeface, and this is exactly the kind of thing I&rsquo;m doing in my typeface:
 <a href="http://www.motaitalic.com/typefoundry/fonts/vesper/contextual-alternates">http://www.motaitalic.com/typefoundry/fonts/vesper/contextual-alternates</a></p>
 <p>It&rsquo;s a very different set of ligatures from the standard ones. How would I even script it if I were to put both sets in the same ligature set?</p>
-<p><!-- raw HTML omitted -->A contextual ligature goes like this: If these glyphs are preceded/followed by certain other glyphs (or glyph), substitute with this ligature glyph.<!-- raw HTML omitted --></p>
+<p><cite>A contextual ligature goes like this: If these glyphs are preceded/followed by certain other glyphs (or glyph), substitute with this ligature glyph.</cite></p>
 <p>Does that mean I coded it wrong? The output seems to be the same though.</p>
 </div>
 	</div>
@@ -723,10 +723,10 @@ But probably only worth buying the Remix tools if you find their other features 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Are all your accented glyphs created by means of composites?&quot;<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Are all your accented glyphs created by means of composites?&quot;</cite></p>
 <p>I don&rsquo;t know. How can I check and how can I make all accented characters adhere to their master characters and add diacritics automatically from the ones I already designed? Sometimes when I delete an accented letter (ê) and the box remains empty and I double click, the letter (ê) is created automatically from the standard letter (e) and the accent (^), but other times it&rsquo;s not. I&rsquo;m wondering where the inconsistency comes from.</p>
 <p>And unfortunately I still can&rsquo;t compile without errors and generate an otf file. I deleted all features and all classes and still I get an error when I compile:.</p>
-<p>[FATAL] <!-- raw HTML omitted --> aborting because of errors:
+<p>[FATAL] <MelkSans-ExtraLight> aborting because of errors:
 syntax error at &ldquo;EOF&rdquo;
 [C:/Users/Martin/Documents/FontLab/Studio5/fontlab.fea 2]</p>
 <p>Also, the last file I saved without the features. I still have it in Notepad but I should have just saved the features with FontLab. I thought I would just load in the features from an earlier copy and then replace the script manually with what I have in Notepad, but when I do that and I compile it gives this error:

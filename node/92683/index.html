@@ -72,10 +72,96 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>I think this is technical enough for Build&hellip;</p>
-<p>I tossed this little conversion script together today to brush up on my (rather feeble) <!-- raw HTML omitted -->awk<!-- raw HTML omitted --> skills. All it does is convert points to mm and spew out some CSS classes. Might be useful for someone&hellip;</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<p>I tossed this little conversion script together today to brush up on my (rather feeble) <code>awk</code> skills. All it does is convert points to mm and spew out some CSS classes. Might be useful for someone&hellip;</p>
+<pre>#! /bin/sh
+
+# Only tested on ash and bash and with GNU awk.
+
+unset Pts
+while getopts pt: f
+do
+ case $f in
+  t) Pts="pt=$OPTARG" ;;
+ esac
+done
+shift `expr $OPTIND - 1`
+
+LC_ALL=C awk '
+BEGIN            { pts=0.352778 }
+pt=="DTP"        { pts=0.352778 }
+pt=="Postscript" { pts=0.352778 }
+pt=="TeX"        { pts=0.351460 }
+pt=="Pica"       { pts=0.351460 }
+pt=="Didot"      { pts=0.375972 }
+pt=="Cicero"     { pts=0.376065 }
+pt=="Berthold"   { pts=0.376000 }
+pt=="Imprimerie" { pts=0.400000 }
+
+NF==0 { print }
+NF>0 {
+ if ($3=="pt") { printf ".%-12s { font-size: %6.3fmm; }\n", $1, $2*pts } ;
+ if ($3=="mm") { printf ".%-12s { font-size: %6.3fmm; }\n", $1, $2 }
+}
+' "$Pts" <<_E_O_F_ >$1
+Kvartpetit   2 pt
+Brillant     3 pt
+Diamant      4 pt
+Perl         5 pt
+Nonpareille  6 pt
+Insertio     6.5 pt
+Kolonell     7 pt
+Petit        8 pt
+Borgis       9 pt
+Korpus       10 pt
+Brevier      11 pt
+Cicero       12 pt
+StorCicero   13 pt
+Mittel       14 pt
+LitenTertia  15 pt
+Tertia       16 pt
+Paragon      18 pt
+Tekst        20 pt
+DobbelCicero 24 pt
+DobbelMittel 28 pt
+LitenKanon   32 pt
+Kanon        36 pt
+StorKanon    42 pt
+LitenMissal  48 pt
+Missal       54 pt
+StorMissal   60 pt
+LitenSabon   72 pt
+Sabon        76 pt
+StorSabon    84 pt
+Real         96 pt
+Imperial     108 pt
+
+Perle        1.75 mm
+Fussnote     2.25 mm
+Tabelle      2.50 mm
+Legende      2.75 mm
+Zeitung      3.00 mm
+KleinBuch    3.25 mm
+GrossBuch    3.50 mm
+Foliant      3.75 mm
+Titel        4.25 mm
+
+haoba        5 pt
+haoqi        5.5 pt
+haoxiaoliu   6.5 pt
+haoliu       7.5 pt
+haoxiaowu    9 pt
+haowu        10.5 pt
+haoxiaosi    12 pt
+haosi        14 pt
+haoxiaosan   15 pt
+haosan       17 pt
+haoxiaoer    18 pt
+haoer        22 pt
+haoxiaoyi    24 pt
+haoyi        26 pt
+haoxiaochu   36 pt
+haochu       42 pt
+_E_O_F_</pre><blockquote>
 </blockquote>
 </div>
 

@@ -162,13 +162,26 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Supporting OpenType features may require a lot of programming, and, of course, since it&rsquo;s open source, it&rsquo;s not as if money coming in supports it.</p>
-<p>But if OpenType support is not trivial - so that even, say, WordPad would fully support all OpenType features - then it may be reasonably asked whether the features in OpenType are really useful to people. If a font can &ldquo;do fancy things&rdquo;, then it ought to be possible to make it do those things <!-- raw HTML omitted -->everywhere the font is used<!-- raw HTML omitted -->.</p>
+<p>But if OpenType support is not trivial - so that even, say, WordPad would fully support all OpenType features - then it may be reasonably asked whether the features in OpenType are really useful to people. If a font can &ldquo;do fancy things&rdquo;, then it ought to be possible to make it do those things <em>everywhere the font is used</em>.</p>
 <p>Which means that the mechanism currently used to get at things like variant characters, small caps, and so on and so forth, is deeply flawed.</p>
 <p>The &ldquo;right&rdquo; way for a font to behave on a computer, &ldquo;of course&rdquo; (and I realize what I&rsquo;m proposing won&rsquo;t happen, since it&rsquo;s wildly impractical for many reasons) is for it to be simple and intuitive to control all its features, i.e. requesting a long s, disabling ligatures, and so on&hellip;</p>
 <p>when you&rsquo;re generating your text this way</p>
-<!-- raw HTML omitted -->
+<code>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE (6,11)
+&nbsp;&nbsp;&nbsp;11 FORMAT (11H Some text.)
+</code>
 <p>Maybe like this:</p>
-<!-- raw HTML omitted -->
+<code>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE (6,33)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE (6,11)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE (6,44)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE (6,22)
+&nbsp;&nbsp;&nbsp;33 FORMAT (51H*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =)
+&nbsp;&nbsp;&nbsp;11 FORMAT (53HA word like official is printed with the ligature ffi)
+&nbsp;&nbsp;&nbsp;44 FORMAT (18H*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-)
+&nbsp;&nbsp;&nbsp;22 FORMAT (20H representing the letters ffi.)
+C 3456789 123456789 123456789 123456789 123456789 123456789 123456789 12
+</code>
 <p>assuming that * as a printer control character indicates a line containing font behavior characters, and in such a line, = means &ldquo;force ligature&rdquo; and - means &ldquo;prohibit ligature&rdquo;.</p>
 </div>
 	</div>
@@ -340,8 +353,8 @@ o Display the glyph</li>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->What happens when someone switches fonts with true/fake small caps applied. Seems to be more of a user experience problem than a technical problem.<!-- raw HTML omitted --></p>
-<p>I don&rsquo;t see the problem at all. Small-caps aren&rsquo;t hardcoded into the document, they are stored as an argument of the respective style tag in the ODT&rsquo;s XML files (<!-- raw HTML omitted -->fo:font-variant=&ldquo;small-caps&rdquo;<!-- raw HTML omitted --> in OO; I would imagine Word handles it simliarly). If the font provides real small caps, real small caps are displayed in the software. If it doesn&rsquo;t, scaled-down caps are displayed in their place.</p>
+		<div class="commentbody"><p><em>What happens when someone switches fonts with true/fake small caps applied. Seems to be more of a user experience problem than a technical problem.</em></p>
+<p>I don&rsquo;t see the problem at all. Small-caps aren&rsquo;t hardcoded into the document, they are stored as an argument of the respective style tag in the ODT&rsquo;s XML files (<code>fo:font-variant=&ldquo;small-caps&rdquo;</code> in OO; I would imagine Word handles it simliarly). If the font provides real small caps, real small caps are displayed in the software. If it doesn&rsquo;t, scaled-down caps are displayed in their place.</p>
 <p>If users are stupid enough to hard-format small caps themselves, they won&rsquo;t be affected at all.* Or am I missing something?</p>
 <p>*I admit I have a hard time not ranting about the fact that word processors allow people to hard-format stuff at all &hellip;</p>
 </div>
@@ -407,7 +420,7 @@ o Display the glyph</li>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->But why would anyone want small-caps-fake?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>But why would anyone want small-caps-fake?</cite></p>
 <p>Because they’re customisable (the fake small caps, that is) choosing, for example, the % of caps height (not that I condone the practice ;-)
 In fact, in this forum someone once argued that in order to offer a complete solution, a font need to offer no less than three different sets of small caps!</p>
 </div>
@@ -452,7 +465,7 @@ In fact, in this forum someone once argued that in order to offer a complete sol
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->no less than three different sets of small caps!<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>no less than three different sets of small caps!</em></p>
 <p>Alright, you win :-)</p>
 </div>
 	</div>

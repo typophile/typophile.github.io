@@ -71,7 +71,7 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody"><p>I have released two font production scripts under the GPL. <!-- raw HTML omitted -->Both can be downloaded from Dunwichtype.com.<!-- raw HTML omitted --></p>
+  <div class="post-content e-content" itemprop="articleBody"><p>I have released two font production scripts under the GPL. <a href="http://www.dunwichtype.com/?page_id=1549">Both can be downloaded from Dunwichtype.com.</a></p>
 <p>DTF Decomposer is a script intended for producing final versions of fonts that contain overlaps and composites that would otherwise require manual intervention. It first decomposes glyphs supplied in a list. It then removes overlaps in all glyphs and corrects path directions.</p>
 <p>DTF Mark overlaps checks all glyphs for overlaps and marks a glyph when an overlap is found. It can find overlaps in glyphs that contain only outlines, only components, or outlines and components. It is not especially fast, but it is much faster than manual inspections. Sometimes glyphs that do not actually contain overlaps will be marked. This is because Fontlab&rsquo;s remove overlap function removes stray anchor points it deems unnecessary, such as anchor points on straight lines.</p>
 <p>Neither script has been optimized to run as fast as it could, but they are both a lot faster than manual operations, especially when finishing families.</p>
@@ -124,7 +124,7 @@ The Mark Overlap is nice. It&rsquo;s runing now on a traced wood type design sin
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->ould it be it finds outlines that overlap not directly but one knot is placed on top of an other knot?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>ould it be it finds outlines that overlap not directly but one knot is placed on top of an other knot?</cite></p>
 <p>It works by making two copies of a glyph. All components in each glyph are decomposed, then the remove overlaps function is applied to one copy. Then all anchor point locations in both copies are dumped to strings, the strings get hash()ed, and then the hashes are compared. If they don&rsquo;t match, the glyph is assumed to contain overlaps. The downside to this method is that glyphs with lots of anchor points will take a long time to check.</p>
 </div>
 	</div>
@@ -148,10 +148,42 @@ The Mark Overlap is nice. It&rsquo;s runing now on a traced wood type design sin
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Hi James,</p>
-<p>thanks for the idea about how to detect overlaps. I hope you don&rsquo;t mind, I rewrote your script to use pure FontLab, no RoboFab. That way it runs a lot faster. Additionally, I stop the comparison of points of a glyph as soon as a difference is found, that makes it faster too. And the last thing, you don&rsquo;t need to add the temporary glyphs to the font window. Drawing stuff on screen repeatedly makes things slow. I just make copies in memory using the copy constructors for <!-- raw HTML omitted -->Font()<!-- raw HTML omitted --> and <!-- raw HTML omitted -->Glyph()<!-- raw HTML omitted -->. The script now takes 1 second as compared to 258 seconds before on one of my fonts ;)</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<p>thanks for the idea about how to detect overlaps. I hope you don&rsquo;t mind, I rewrote your script to use pure FontLab, no RoboFab. That way it runs a lot faster. Additionally, I stop the comparison of points of a glyph as soon as a difference is found, that makes it faster too. And the last thing, you don&rsquo;t need to add the temporary glyphs to the font window. Drawing stuff on screen repeatedly makes things slow. I just make copies in memory using the copy constructors for <code>Font()</code> and <code>Glyph()</code>. The script now takes 1 second as compared to 258 seconds before on one of my fonts ;)</p>
+<pre>
+#FLM: Mark Overlaps JK
+
+# make a copy of the current font
+f = Font(fl.font)
+
+for glyphIndex in range(len(f.glyphs)):
+	g = f[glyphIndex]
+	if len(g.components) > 1:
+		# only decompose composites made up of more than one component
+		g.Decompose()
+	if len(g) > 0:
+		# glyph has outlines
+		g2 = Glyph(g)
+		g2.RemoveOverlap()
+		if len(g) != len(g2):
+			# different number of nodes
+			fl.font[glyphIndex].mark = 10
+		else:
+			# check nodes
+			for nodeIndex in range(len(g.nodes)):
+				n = g.nodes[nodeIndex]
+				n2 = g2.nodes[nodeIndex]
+				if len(n) != len(n2):
+					# nodes don't have the same number of points
+					fl.font[glyphIndex].mark = 20
+					break
+				else:
+					# check points
+					for pointIndex in range(len(n.points)):
+						if n[pointIndex].x != n2[pointIndex].x or n[pointIndex].y != n2[pointIndex].y:
+							fl.font[glyphIndex].mark = 30
+							break
+fl.UpdateFont()
+</pre><blockquote>
 </blockquote>
 </div>
 	</div>

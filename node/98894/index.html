@@ -72,12 +72,24 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m trying to write a simple python script that acts on the glyphs that the user has selected in the FontLab font window:</p>
-<!-- raw HTML omitted -->
+<img src="http://typophile.com/files/glyph-slots.png" />
 <p>I&rsquo;m especially interested in the glyphs (or maybe more accurately &ldquo;glyph slots&rdquo;) that are in the encoding but are un-filled.</p>
 <p>So far I&rsquo;ve tried two things:</p>
-<!-- raw HTML omitted -->
+<code>
+# 1 - glyph slots
+selectedSlots = fl.count_selected
+print "Number of selected glyph slots:", selectedSlots
+</code>
+<code>
+# 2 - selected glyph names
+selectedNames = [ fl.font.glyphs[i].name for i in range(len(fl.font.glyphs)) if fl.Selected(i) ]
+print "List of selected glyph names:", selectedNames
+</code>
 <p>Script number 1 reports a count of the full user selection - all selected glyph slots - filled and un-filled - perfect! Script number 2 returns a list of glyphnames but only the selected glyphs that are filled - no good. Results of running 1 and 2:</p>
-<!-- raw HTML omitted -->
+<code>
+Number of selected glyph slots: 3
+List of selected glyph names: ['eacute']
+</code>
 <p>Can anyone suggest a technique that will list the glyphnames associated with all the selected glyph slots?</p>
 <p>cheers</p>
 <ul>
@@ -109,7 +121,16 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>FontLab can read the glyphnames associated with the slots, even if they are empty:</p>
-<!-- raw HTML omitted -->
+<code>
+# Generate a list of encoding glyph names
+enc = fl.font.encoding
+encodingNames = [ enc[i].name for i in range(len(enc)) ]
+print "List of the encoding glyph names:", encodingNames
+</code>
+<code>
+List of the encoding glyph names:
+['acute', 'aacute', 'eacute', 'iacute', 'oacute', 'uacute', 'yacute', 'cacute']
+</code>
 <p>And even if the slots are empty, FontLab also knows how many slots are selected (see script #1 in my first post). So possibly there is a way for FontLab to associate glyphnames with selected slots &ndash; empty or not.</p>
 <p>I hope. Is there a way?</p>
 <p>cheers
@@ -158,9 +179,18 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I don&rsquo;t use Fontlab (I use mainly FontForge); it seems to me you are trying to list names of characters that are not in the font. What you can do is determine the unicode range of those characters that are in the font and then print the names given by the encoding. If the first and last character are in the font then the following code seems to work on my demo version of Fontlab</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted --></div>
+		<div class="commentbody"><p>I don&rsquo;t use Fontlab (I use mainly FontForge); it seems to me you are trying to list names of characters that are not in the font. What you can do is determine the unicode range of those characters that are in the font and then print the names given by the encoding. If the first and last character are in the font then the following code seems to work on my demo version of Fontlab</p>
+<PRE>
+def encodingNames():
+  gl = fl.font.glyphs
+  sIndices = [ g.unicode 
+     for g in gl if fl.Selected(g.index) ]
+  eNames = [ enc[i].name 
+     for i in range(sIndices[0],sIndices[-1]+1) ]
+  return eNames
+print "List of glyph names in the selected range:", encodingNames()
+</PRE>
+</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -184,7 +214,9 @@
 		<div class="commentbody"><p>Thanks for your suggestion Michel, its an interesting script. But unfortunately your script would only work for me in a very rare special case: if the user happens to select a filled slot with an ID thats numerically lower than any unfilled selected slot AND, at the same time, the user also happens to select another filled slot with an ID thats numerically higher than any selected unfilled slot.</p>
 <p>Its just too narrow of a scenario, but your script does give some inspiration for crafty workarounds, so thanks.</p>
 <p>I guess what I&rsquo;m after would be a magical method where you could probe for glyphnames like this:</p>
-<!-- raw HTML omitted -->
+<code>
+fl.font.encoding.Selected(glyphname)
+</code>
 <p>Where it would return TRUE if the encoding slot was selected.</p>
 <p>cheers,
 -k</p>
@@ -210,13 +242,38 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I came up with a workaround:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+# Find all selected glyph slots
+
+f = fl.font
+s1 = [ g.name for g in f.glyphs if fl.Selected(g.index) ]
+slots = [ e.name for e in f.encoding if e.unicode > -1 ]
+empties = [ n for n in slots if not f.has_key(n) ]
+
+# Create temporary blank glyphs in all empty glyph slots
+for n in empties:
+	g = Glyph()
+	g.name = n
+	f.glyphs.append(g)
+fl.UpdateFont()
+
+s2 = [ n for n in empties if fl.Selected(f[n].index) ]
+
+# Remove temporary blank glyphs
+for n in empties:
+	del(f.glyphs[f[n].index])
+fl.UpdateFont()
+
+allSelected = s1 + s2
+print "All selected slots:", allSelected
+
+</pre>
 <p>Using the example from my first post, the user has selected one full glyph slot [eacute] and two empty glyph slots [uacute, yacute] :</p>
-<!-- raw HTML omitted -->
+<img src="http://typophile.com/files/glyph-slots.png"> 
 <p>Running the script in this state yields the result:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+All selected slots: [eacute, uacute, yacute]
+</pre>
 <p>A kludgy script, but it gets the job done. If anyone has a more elegant solution, please post ( Adam? Eigi? ).</p>
 <p>cheers,
 -kannery</p>

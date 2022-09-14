@@ -78,12 +78,12 @@
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I hope the following answers your question; if not, you will need to be more precise. I  know FontLab only very superficially  but I don&rsquo;t think it generates anything else than what you designed.</p>
-<p>Here is what you seem to be experiencing. On OS X and on Windows, TextEdit, Word, Pages, Powerpoint (standard Mac and Windows applications)  use a &ldquo;fallback font&rdquo; when the current font is missing a character. To avoid that you need an application that does not rely on the fallback mechanism. I know that Adobe InDesign would not replace your missing glyphs by those of a fallback font. If you are on a campus with a fast connection, you can install texlive 2013 (on the Mac, it is <!-- raw HTML omitted -->MacTeX<!-- raw HTML omitted -->, on the PC, <!-- raw HTML omitted -->TeX Live<!-- raw HTML omitted -->). It comes with XeLaTeX that does not use the fallback mechanism either. Here is how MacTeX looks (with TeXShop); first the input file:</p>
-<!-- raw HTML omitted -->
+<p>Here is what you seem to be experiencing. On OS X and on Windows, TextEdit, Word, Pages, Powerpoint (standard Mac and Windows applications)  use a &ldquo;fallback font&rdquo; when the current font is missing a character. To avoid that you need an application that does not rely on the fallback mechanism. I know that Adobe InDesign would not replace your missing glyphs by those of a fallback font. If you are on a campus with a fast connection, you can install texlive 2013 (on the Mac, it is <a href="http://www.tug.org/mactex/">MacTeX</a>, on the PC, <a href="http://www.tug.org/texlive/">TeX Live</a>). It comes with XeLaTeX that does not use the fallback mechanism either. Here is how MacTeX looks (with TeXShop); first the input file:</p>
+<img src="/files/xelatex_4867.png">
 <p>and now what I get after clicking &ldquo;Typeset&rdquo;.</p>
-<!-- raw HTML omitted -->
+<img src="/files/bonjour_6323.png">
 <p>The font does not contain Hebrew characters and they are displayed as missing.</p>
-<p>You could also try <!-- raw HTML omitted -->LyX<!-- raw HTML omitted -->, that is built on top of TeX and is supposedly more user friendly.</p>
+<p>You could also try <a href="http://www.lyx.org/Home">LyX</a>, that is built on top of TeX and is supposedly more user friendly.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -107,11 +107,26 @@
 	<div class="card-body">
 		<div class="commentbody"><p>Of course, texlive also runs on Unix.</p>
 <p>Once texlive is installed, you also have lualatex. If you have any doubt about the glyph list in your font, here is a lualatex script that will give it (from the manual)</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+--- file lglyphs.lua --- cut here
+#!/usr/bin/env lualatex
+
+local f = fontloader.open(arg[1])
+local i = 0
+while (i < f.glyphmax) do
+  local g = f.glyphs[i]
+  if g then
+    print(g.name)
+  end
+  i = i + 1
+end
+fontloader.close(f)
+--- cut line ---
+</PRE>
 <p>Then</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+lualatex lglyphs.lua fontfile
+</PRE>
 <p>will give you the glyph list in your font file. You can make that file executable and run it as a unix script but on my mac it needs the extension .lua to work.</p>
 </div>
 	</div>
@@ -134,7 +149,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">FontLab <!-- raw HTML omitted -->is<!-- raw HTML omitted --> only generating the fonts you create. The other glyphs you see being displayed in software are fallback fonts, i.e. the default fonts used by that software to display characters that are not supported in your font.</div>
+		<div class="commentbody">FontLab <em>is</em> only generating the fonts you create. The other glyphs you see being displayed in software are fallback fonts, i.e. the default fonts used by that software to display characters that are not supported in your font.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -155,9 +170,10 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>The Unix script can be called <!-- raw HTML omitted -->lglyphs<!-- raw HTML omitted --> without the <!-- raw HTML omitted -->.lua<!-- raw HTML omitted --> extension if  the first line is replaced by</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>The Unix script can be called <code>lglyphs</code> without the <code>.lua</code> extension if  the first line is replaced by</p>
+<PRE>
+#!/usr/bin/env texlua
+</PRE>
 <p>and will then execute properly.  Other options can be found in the manual at <a href="http://www.luatex.org/svn/trunk/manual/luatexref-t.pdf">http://www.luatex.org/svn/trunk/manual/luatexref-t.pdf</a></p>
 </div>
 	</div>

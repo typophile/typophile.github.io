@@ -222,7 +222,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I just tested in Word 2010 under Windows 7, and find no problem with the mark ligation. Belloc, please copy and paste the text below into Word, select and set the font to Arial, and post a screenshot of the result.</p>
-<!-- raw HTML omitted -->
+<blockquote>حِّبٍّ</blockquote>
 <p>[The direction flag in the lookup table isn&rsquo;t relevant here. It is set RTL because that enables right-to-left layout of glyphs in the VOLT user interface, which is typical when working on Arabic or Hebrew fonts. It only has an impact on the result of lookups for cursive attachment positioning.]</p>
 </div>
 	</div>
@@ -368,7 +368,7 @@ U064C U0651 U062D, and again no ligature was processed as shown below :</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->U064C U0651 U062D<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>U064C U0651 U062D</em></p>
 <p>That&rsquo;s not logical order. U+062D is the letter; it must be encoded before the marks &ndash; U062D U064C U0651 &ndash; even though it is displayed to the right.</p>
 </div>
 	</div>
@@ -433,7 +433,7 @@ U064C U0651 U062D, and again no ligature was processed as shown below :</p>
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>After reading about the <!-- raw HTML omitted -->Lookup Flag bit enumeration<!-- raw HTML omitted --> at this MS [[http://www.microsoft.com/typography/otspec/chapter2.htm|document]] the flag <!-- raw HTML omitted -->0008 Ignore Marks - If set skips all combining marks<!-- raw HTML omitted --> called my attention.</p>
+		<div class="commentbody"><p>After reading about the <cite>Lookup Flag bit enumeration</cite> at this MS [[http://www.microsoft.com/typography/otspec/chapter2.htm|document]] the flag <strong>0008 Ignore Marks - If set skips all combining marks</strong> called my attention.</p>
 <p>How do I know, or better yet, how does the computer know, whether a glyph is a combining mark ?</p>
 </div>
 	</div>
@@ -479,14 +479,14 @@ U064C U0651 U062D, and again no ligature was processed as shown below :</p>
 	<div class="card-body">
 		<div class="commentbody"><p>John Hudson</p>
 <p>This was great. A lot of information in just one paragraph. I&rsquo;m really thankful for your help.</p>
-<p>But I&rsquo;m still pondering about my original question. There&rsquo;s no doubt in my mind (you just proved it) that my Word is working correctly. Why then, the substitutions shown on the figure attached are not taking place, specially after we consider the fact that these substitutions are prescribed by the <!-- raw HTML omitted -->very first lookup<!-- raw HTML omitted --> in the font Lookup List Table ?</p>
+<p>But I&rsquo;m still pondering about my original question. There&rsquo;s no doubt in my mind (you just proved it) that my Word is working correctly. Why then, the substitutions shown on the figure attached are not taking place, specially after we consider the fact that these substitutions are prescribed by the <strong>very first lookup</strong> in the font Lookup List Table ?</p>
 <p>I have one hypothesis and I ask for your judgement on this :</p>
 <ol>
 <li>
 <p>As I said before, all the substitutions we&rsquo;re talking about come from the &lsquo;ccmp&rsquo; feature which refers to a lookup table, which is the first one, to be applied, on the font.</p>
 </li>
 <li>
-<p>The OpenType client, in this case MS Word, has the option of not using a specific feature, as stated [[http://www.microsoft.com/typography/otspec/chapter2.htm|here]] under <!-- raw HTML omitted -->Features and Lookups<!-- raw HTML omitted --> : <!-- raw HTML omitted -->Features define the functionality of an OpenType Layout font and they are named to convey meaning to the text-processing client. Consider a feature named “liga” to create ligatures. Because of its name, the client knows what the feature does and can decide whether to apply it.<!-- raw HTML omitted --></p>
+<p>The OpenType client, in this case MS Word, has the option of not using a specific feature, as stated [[http://www.microsoft.com/typography/otspec/chapter2.htm|here]] under <strong>Features and Lookups</strong> : <cite>Features define the functionality of an OpenType Layout font and they are named to convey meaning to the text-processing client. Consider a feature named “liga” to create ligatures. Because of its name, the client knows what the feature does and can decide whether to apply it.</cite></p>
 </li>
 <li>
 <p>So my hypothesis is that MS Word is not applying the feature &lsquo;ccmp&rsquo; for the &lsquo;arab&rsquo; script with its default language, for some unknown reason. Maybe they had to change the order of the lookups in a new version of the font, and had to abandon this feature. But they had to keep it in the font file, in order to maintain its validation for old users, which I believe is the unique purpose of the &lsquo;sfnt&rsquo; file format.</p>
@@ -522,10 +522,10 @@ U064C U0651 U062D, and again no ligature was processed as shown below :</p>
 	<div class="card-body">
 		<div class="commentbody"><p>What is happening in your original test is that the Uniscribe shaping engine is intervening in a way that breaks the glyph input string for the ccmp lookups because it considers the text string to be invalid because the marks are not preceded by a letter.</p>
 <p>The dotted circle that you see is not part of the mark glyph in the font, it is dynamically inserted by Uniscribe as a generic base for combining marks that do not have a valid base before them. In this case Uniscribe is treating each mark in a sequence not preceded by a letter as invalid, not just the first mark in the sequence. So what you end up with in the glyph string (logical order) is</p>
-<p><!-- raw HTML omitted -->| dotted circle | mark 1 | dotted circle | mark 2 |<!-- raw HTML omitted --></p>
+<p><code>| dotted circle | mark 1 | dotted circle | mark 2 |</code></p>
 <p>So the ccmp ligation of the two marks is not occurring because there is a dotted circle glyph between them in the glyph string.</p>
 <p>In effect, Uniscribe is performing a kind of spellchecking, and inserting the dotted circle to provide visual indication that it thinks there is something wrong with the text. Don&rsquo;t get me started on how stupid it is to perform spellchecking operations at a script shaping level, but that&rsquo;s what Microsoft do.</p>
-<p><!-- raw HTML omitted -->5)Do you know of any software that could show me these OpenType font tables in a straightforward manner ?<!-- raw HTML omitted --></p>
+<p><em>5)Do you know of any software that could show me these OpenType font tables in a straightforward manner ?</em></p>
 <p>DTL OTMaster would be my tool of choice. I&rsquo;m not sure whether the free, &lsquo;Light&rsquo; version has this capability though.</p>
 </div>
 	</div>

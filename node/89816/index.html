@@ -74,7 +74,11 @@
   <div class="post-content e-content" itemprop="articleBody"><p>Hi,</p>
 <p>[img:sites/default/files/old-images/prob_3470.png]</p>
 <p>I’ve come across a bug in iOS causing rendering errors with Postscript flavoured fonts. Some characters are rendered lighter than others in landscape mode (subpixels), but when you zoom in or switch to portrait mode (greyscale) they appear correctly again. Tim Brown (edit: Tim Ahrens) over at Typekit looked into the issue with the font in question (I’ve only tested Mobile Safari on iPad, but Tim also sees these problems on the iPod):</p>
-<!-- raw HTML omitted -->
+<cite>
+I think you have discovered a rather weird bug in the iOS type rendering engine. I can reproduce this and have tried to figure out what exactly it is that causes the problem. It must be in the actual outline drawings of the letters in question, not the hinting, features or any other font metadata.
+It seems that the rasterizer is not 100% numerically stable and runs into problems when certain constellations of nodes and BCPs occur. It is difficult to pin down exactly what these constellations are, which is not too surprising considering it is a bug.
+I had a closer look at the v, which rendered strangely on my iPod. After a bit of playing around, it turned out that tweaking one curve is enough to make it render correctly (see the arrow on the attached image). Looking at this example, and how the other glyphs are drawn, I suspect that it could be related to "retracted" BCPs, although in some cases, they don't seem to cause any problems. I personally also work with retracted BCPs a lot and I am not aware of any rule or convention that forbids this. That said, the only fix I can think of right now would be to "extract" the BCPs.
+</cite>
 <p>[img:sites/default/files/old-images/-1_5755.png]</p>
 <p>Have anyone else experience this? Can someone shed any light?</p>
 </div>
@@ -322,7 +326,7 @@ possible, even after [any] trapping.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->&ldquo;Due credit: I learned about it from Nina, who I think got it from the FontFont boys.&quot;<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>&ldquo;Due credit: I learned about it from Nina, who I think got it from the FontFont boys.&quot;</cite></p>
 <p>Wait, what? I got the «avoid in-point BCPs» rule from the FF boys (hello Jens!). The Alt-Shift-click technique was something I found more or less by accident while playing around in FL. I think what it does is make the curve [more] symmetrical, which isn&rsquo;t always what&rsquo;s needed. I basically ended up correcting all of my «half-dead curves» manually. :-\</p>
 </div>
 	</div>
@@ -345,9 +349,9 @@ possible, even after [any] trapping.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Frode (citing Tim Brown) – <!-- raw HTML omitted -->I suspect that it could be related to &ldquo;retracted&rdquo; BCPs<!-- raw HTML omitted --></p>
-<p>hhp – <!-- raw HTML omitted -->Having BCPs on both ends of a curve is indeed good practice<!-- raw HTML omitted --></p>
-<p>Jens – <!-- raw HTML omitted -->We advise to avoid them because they will lead to distortions and extra points being inserted when the curves are converted to TTF<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Frode (citing Tim Brown) – <cite>I suspect that it could be related to &ldquo;retracted&rdquo; BCPs</cite></p>
+<p>hhp – <cite>Having BCPs on both ends of a curve is indeed good practice</cite></p>
+<p>Jens – <cite>We advise to avoid them because they will lead to distortions and extra points being inserted when the curves are converted to TTF</cite></p>
 <p>While you are not saying this explicitly, your comments can be read as &ldquo;it&rsquo;s a font quality issue that needs to be address on font level&rdquo; which would be the wrong message. Type designers and font producers cannot, and should not, offer workaround for all other parties' faults.
 If certain point constellations cause rasterization issues, it is a rasterizer bug which needs to be fixed. (Hello Apple.)
 If they cause issues with cubic to quadratic bezier conversion in one or another font editor, then the conversion mechanism needs to – and can – be fixed. (Hello FontLab.)</p>
@@ -404,7 +408,7 @@ not, offer workaround for all other parties' faults.</p>
 <p>Cannot: Why not? Well, not all, but as many as possible.
 Should not: Who pays for that? The user&hellip; who then
 blames you and moves on to a font that &ldquo;just works&rdquo;.</p>
-<p>The best designers <!-- raw HTML omitted -->assimilate<!-- raw HTML omitted --> problems.</p>
+<p>The best designers <em>assimilate</em> problems.</p>
 <blockquote>
 <p>This is an Apple issue.</p>
 </blockquote>
@@ -499,7 +503,7 @@ suffer from, maybe that&rsquo;s actually a disservice?</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I&rsquo;ll be happy to see this issue resolved. Thanks for pursuing a fix, Frode.</p>
-<p>Wanted to clarify something: the feedback Frode cites atop this thread is from <!-- raw HTML omitted -->Tim Ahrens<!-- raw HTML omitted -->. I am immeasurably flattered to have been mistaken for him; My knowledge and experience in this area pales in comparison.</p>
+<p>Wanted to clarify something: the feedback Frode cites atop this thread is from <strong>Tim Ahrens</strong>. I am immeasurably flattered to have been mistaken for him; My knowledge and experience in this area pales in comparison.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -542,7 +546,7 @@ suffer from, maybe that&rsquo;s actually a disservice?</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->While you are not saying this explicitly, your comments can be read as &ldquo;it&rsquo;s a font quality issue that needs to be address on font level&rdquo; which would be the wrong message.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>While you are not saying this explicitly, your comments can be read as &ldquo;it&rsquo;s a font quality issue that needs to be address on font level&rdquo; which would be the wrong message.</em></p>
 <p>Karsten is right, of course. It is definitely related to our own workflow. We need reproducible results when converting PostScript to TrueType curves, so we need to take that into account as early in the process as possible.</p>
 <p>Frode, does this bug occur also in Mac OS rendering? For all I know, it is the same rasterizer as on iOS (except for different settings for subpixel vs. greyscale antialiasing). The FreeType rasterizer is also related, you may want to test with it.</p>
 </div>
@@ -566,7 +570,7 @@ suffer from, maybe that&rsquo;s actually a disservice?</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>@Jens<!-- raw HTML omitted -->-We need reproducible results when converting PostScript to TrueType curves, so we need to take that into account as early in the process as possible.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>@Jens<em>-We need reproducible results when converting PostScript to TrueType curves, so we need to take that into account as early in the process as possible.</em></p>
 <p>As early in the process as possible, you would want to design your outlines as TT curves instead of PS. This is one reason why I&rsquo;ve been pushing so hard (since 1989), for native TT drawing in font design apps!</p>
 </div>
 	</div>
@@ -709,7 +713,7 @@ And doesn&rsquo;t its absence mess up TT conversion?</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>hhp – <!-- raw HTML omitted -->Prohibit is one thing, advise against is another.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>hhp – <cite>Prohibit is one thing, advise against is another.</cite></p>
 <p>Exactly. And when a spec doesn&rsquo;t prohibit something, and all but one library are fine with it, there is no need to advise against it.</p>
 <p>A too big discussion for a too little thing.</p>
 </div>
@@ -765,7 +769,7 @@ iGadget rendering isn&rsquo;t a &ldquo;little thing&rdquo;.</p>
 		<div class="commentbody"><p>Prohibit is one thing, advise against is another.
 Does TT even explicitly prohibit half-dead curves?
 What I&rsquo;m wondering is, if we know that a given font will
-only ever be in PS, is it <!-- raw HTML omitted -->safe<!-- raw HTML omitted --> to leave in half-dead curves?</p>
+only ever be in PS, is it <em>safe</em> to leave in half-dead curves?</p>
 <p>BTW, Adobe does break some PS rules though - like
 Slimbach doesn&rsquo;t bother with explicit extrema for
 very small curves, like at the tips of bulgy serifs.</p>
@@ -814,7 +818,7 @@ very small curves, like at the tips of bulgy serifs.</p>
 	<div class="card-body">
 		<div class="commentbody"><p>So you&rsquo;re saying only FontFont is überpicky, and the only flaw is this one?</p>
 <p>BTW, since you caused me to re-read the original post, I just
-realized that this flaw <!-- raw HTML omitted -->is<!-- raw HTML omitted --> with PS outlines! So that settles that.</p>
+realized that this flaw <strong>is</strong> with PS outlines! So that settles that.</p>
 <p>hhp</p>
 </div>
 	</div>

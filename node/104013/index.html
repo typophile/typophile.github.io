@@ -96,9 +96,9 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The links above are dangling. Here they are using the <!-- raw HTML omitted -->&lt;a href=&quot;&hellip;&quot;&gt; text&lt;/a&gt;<!-- raw HTML omitted --> format else https links don&rsquo;t work
-<!-- raw HTML omitted -->microsoft.com/typography/otspec/post.htm<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->microsoft.com/typography/otspec/recom.htm<!-- raw HTML omitted --></div>
+		<div class="commentbody">The links above are dangling. Here they are using the <code>&lt;a href=&quot;&hellip;&quot;&gt; text&lt;/a&gt;</code> format else https links don&rsquo;t work
+<a href="http://www.microsoft.com/typography/otspec/post.htm">microsoft.com/typography/otspec/post.htm</a>
+<a href="https://www.microsoft.com/typography/otspec/recom.htm">microsoft.com/typography/otspec/recom.htm</a></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -117,7 +117,8 @@
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted --></div>
+		<div class="commentbody"><blockquote>The links above are dangling</blockquote>
+Duh. Sorry. Updated.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -150,7 +151,14 @@
 </li>
 </ol>
 <p>According to the [[http://www.microsoft.com/typography/otspec/post.htm|post table spec]] regarding format 3:</p>
-<!-- raw HTML omitted -->
+<blockquote>
+The printing behavior of this version on PostScript printers is unspecified, except that it should not result in a fatal or unrecoverable error. Some drivers may print nothing, other drivers may attempt to print using a default naming scheme.
+</blockquote>
+which seems to suggest there can be printing problems. But then  [[http://www.microsoft.com/typography/otspec/recom.htm|Microsoft's recommendations]] later state:
+<blockquote>
+OpenType fonts containing CFF outlines use only format 3.0 of the 'post' table.
+</blockquote>
+so I'm getting mixed messages here.
 <p>Why the question? The growing use of webfonts makes font size an issue again, and thus omitting glyph names can improve performance.</p>
 <p>Thanks for any help.</p>
 <p>PS: I know that glyph names are useful during development, e.g., for writing OT and Graphite feature code. My question relates to the final product, not the development process.</p>
@@ -173,11 +181,11 @@
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Can anyone comment on the reliability and accuracy of this mechanism?<!-- raw HTML omitted -->
-AFAIK it is good as long as no one to many substitutions or glyph reordering are involved. Also there should be strict one to one or many to one maapings between input characters and glyphs, e.g. if you have both <!-- raw HTML omitted -->smcp<!-- raw HTML omitted --> and <!-- raw HTML omitted -->c2sc<!-- raw HTML omitted --> features, there must be two smallcap glyph sets, one a.sc, …, z.sc and one A.sc, …, Z.sc respictively.</p>
-<p><!-- raw HTML omitted -->Said another way, what would break if all my fonts had format-3 post tables?<!-- raw HTML omitted -->
+		<div class="commentbody"><p><cite>Can anyone comment on the reliability and accuracy of this mechanism?</cite>
+AFAIK it is good as long as no one to many substitutions or glyph reordering are involved. Also there should be strict one to one or many to one maapings between input characters and glyphs, e.g. if you have both <code>smcp</code> and <code>c2sc</code> features, there must be two smallcap glyph sets, one a.sc, …, z.sc and one A.sc, …, Z.sc respictively.</p>
+<p><cite>Said another way, what would break if all my fonts had format-3 post tables?</cite>
 PDF creators should build a non-version 3 post table when embedded such fonts in PDF files (some do), but if they don’t printing can break.</p>
-<p><!-- raw HTML omitted -->so I&rsquo;m getting mixed messages here.<!-- raw HTML omitted -->
+<p><cite>so I&rsquo;m getting mixed messages here.</cite>
 CFF table contains glyph names, so there is no need for them in the post table.</p>
 </div>
 	</div>
@@ -199,13 +207,13 @@ CFF table contains glyph names, so there is no need for them in the post table.<
 	 <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Thank you, Khaled. Questions of clarification below:</p>
-<p><!-- raw HTML omitted -->Can anyone comment on the reliability and accuracy of this mechanism?
-AFAIK it is good as long as no one to many substitutions &hellip;<!-- raw HTML omitted --></p>
+<p><em>Can anyone comment on the reliability and accuracy of this mechanism?
+AFAIK it is good as long as no one to many substitutions &hellip;</em></p>
 <p>By &ldquo;one to many substitutions&rdquo;, are you referring to GSUB lookups of type 2 (&ldquo;multiple&rdquo;) or something else?</p>
-<p><!-- raw HTML omitted -->&hellip; or glyph reordering are involved.<!-- raw HTML omitted --></p>
+<p><em>&hellip; or glyph reordering are involved.</em></p>
 <p>Does this includes character-level reordering as in what the Indic shapers for OpenType do?</p>
-<p><!-- raw HTML omitted -->so I&rsquo;m getting mixed messages here.
-CFF table contains glyph names, so there is no need for them in the post table.<!-- raw HTML omitted --></p>
+<p><em>so I&rsquo;m getting mixed messages here.
+CFF table contains glyph names, so there is no need for them in the post table.</em></p>
 <p>Ah, that explains that part of the mystery. Thanks again.</p>
 </div>
 	</div>
@@ -226,9 +234,9 @@ CFF table contains glyph names, so there is no need for them in the post table.<
 	</div>
 	 <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->By &ldquo;one to many substitutions&rdquo;, are you referring to GSUB lookups of type 2 (&ldquo;multiple&rdquo;)…<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>By &ldquo;one to many substitutions&rdquo;, are you referring to GSUB lookups of type 2 (&ldquo;multiple&rdquo;)…</cite></p>
 <p>Yes. Generally you can reverse map a single glyph to a single or multiple characters, but you can’t reverse map multiple glyphs to a single character. The exact algorithm used is described in [[http://www.adobe.com/devnet/opentype/archives/glyph.html#2|Adobe Glyph Naming convention]].</p>
-<p><!-- raw HTML omitted -->Does this includes character-level reordering as in what the Indic shapers for OpenType do?<!-- raw HTML omitted --></p>
+<p><cite>Does this includes character-level reordering as in what the Indic shapers for OpenType do?</cite></p>
 <p>Since the output of the reverse mapping will be in the order of the glyphs, any recording that affects the final glyph order will a;so affect the reverse mapping (except for RTL swapping, though some applications fail with that too and return reverse mapped text in the visual not the logical order).</p>
 </div>
 	</div>
@@ -257,7 +265,7 @@ CFF table contains glyph names, so there is no need for them in the post table.<
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>Since the output of the reverse mapping will be in the order of the glyphs, any [reordering] that affects the final glyph order will also affect the reverse mapping</blockquote>
 <p>Right. It is tempting to think that it might be possible to reverse reordering once one has the character identities of the glyph string, but in practice this fails in a number of ways, influenced by how the font has been built. It isn&rsquo;t unusual for post-reordering GSUB features to produce ligatures of glyphs that represent characters that are not sequential in the pre-reordered string. Adobe&rsquo;s glyph naming conventions do not cater for this.</p>
 <p>I think it would be possible to define glyph name conventions and rules for making Indic fonts that would make it possible to cleanly reverse reordering from parsed character strings, but I doubt if that would get much traction.</p>
 </div>
@@ -326,7 +334,7 @@ CFF table contains glyph names, so there is no need for them in the post table.<
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>John: <!-- raw HTML omitted -->Apparently some versions of Mac OS X used glyph names for character mapping for CFF OTF, rather than the cmap table.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>John: <em>Apparently some versions of Mac OS X used glyph names for character mapping for CFF OTF, rather than the cmap table.</em></p>
 <p>AFAIK 10.3 and 10.4. See also page 11 of <a href="http://www.fonttools.org/downloads/TD_2009/OpenType_Status_2009.pdf">http://www.fonttools.org/downloads/TD_2009/OpenType_Status_2009.pdf</a></p>
 <p>FEB</p>
 </div>

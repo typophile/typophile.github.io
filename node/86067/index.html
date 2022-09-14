@@ -86,15 +86,32 @@
 <ul>
 <li>first you have a ccmp feature that decomposes the glyphs, something like (using feature file syntax):</li>
 </ul>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>Where <!-- raw HTML omitted -->haa.base<!-- raw HTML omitted --> is the dotless glyph, and <!-- raw HTML omitted -->dot.above<!-- raw HTML omitted --> and <!-- raw HTML omitted -->dot.below<!-- raw HTML omitted --> are zerowidth glyphs with mark glyph class.</p>
+<pre>
+feature ccmp {
+  sub haa  by haa.base;
+  sub khaa by haa.base dot.above;
+  sub jeem by haa.base dot.below;
+  ...
+} ccmp;
+</pre>
+<p>Where <code>haa.base</code> is the dotless glyph, and <code>dot.above</code> and <code>dot.below</code> are zerowidth glyphs with mark glyph class.</p>
 <ul>
 <li>from now on all glyph substitution is done on base glyphs, e.g.:</li>
 </ul>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>The <!-- raw HTML omitted -->IgnoreMarks<!-- raw HTML omitted --> flag is very important, else the dots will interfere with the substitution.</p>
+<pre>
+feature init {
+ lookupflag IgnoreMarks;
+  sub haa.base by haa.base.init;
+  ...
+} init;
+
+feature liga {
+ lookupflag IgnoreMarks;
+  sub haa.base.init haa.base.fina by haahaa.isol.liga;
+  ...
+} liga;
+</pre>
+<p>The <code>IgnoreMarks</code> flag is very important, else the dots will interfere with the substitution.</p>
 <ul>
 <li>
 <p>lastly, you use anchor marks for placing dots just like tashkil marks.</p>
@@ -103,14 +120,36 @@
 <p>some characters have different dot placement depending on their form, e.g. farsi yeh have dots only in final/isolated forms, for these characters you are better doing decomposition in init, medi etc. features, e.g.:</p>
 </li>
 </ul>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>However, this has some side effects, e.g. sometimes you need different kerning for glyphs with dots below than glyphs with dots above, sometimes certain dotted combinations don&rsquo;t go well together and you need to avoid ligatures in these combinations and this becomes tricky because the dots are treated as combining marks so you can&rsquo;t use them as context until you remove the <!-- raw HTML omitted -->IgnoreMarks<!-- raw HTML omitted --> flag and I ended up abandoning the idea.</p>
+<pre>
+feature init {
+  sub farsiyeh by yeh.base.init twodots.below;
+  ...
+} init;
+
+feature fina {
+  sub farsiyeh by yeh.base.fina;
+  ...
+} fina;
+</pre>
+<p>However, this has some side effects, e.g. sometimes you need different kerning for glyphs with dots below than glyphs with dots above, sometimes certain dotted combinations don&rsquo;t go well together and you need to avoid ligatures in these combinations and this becomes tricky because the dots are treated as combining marks so you can&rsquo;t use them as context until you remove the <code>IgnoreMarks</code> flag and I ended up abandoning the idea.</p>
 <ul>
 <li>A different strategy to decrease the number of glyphs is to avoid ligatures at all and use contextual forms instead. e.g. instead of the haahaa ligature above you &ldquo;cut&rdquo; the ligature into two parts:</li>
 </ul>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+@clsHaaInit = [haa.init khaa.init jeem.init ...];
+@clsHaaFina = [haa.fina khaa.fina jeem.fina ...];
+@clsHaaInit.HaaHaa = [haa.init.haahaa khaa.init.haahaa jeem.init.haahaa ...];
+@clsHaaFina.HaaHaa = [haa.fina.haahaa khaa.fina.haahaa jeem.fina.haahaa ...];
+
+lookup haahaa.isol {
+  sub @clsHaaInit by @clsHaaInit.HaaHaa;
+  sub @clsHaaFina by @clsHaaFina.HaaHaa;
+} hhaahaa.isol;
+
+feature calt {
+  sub @clsHaaInit' lookup haahaa.isol @clsHaaFina' lookup haahaa.isol;
+} calt;
+</pre>
 <p>Since we have 15 haa-like characters in Unicode, this cuts the number of glyph needed for this ligature from 15×15=225 (number of all possible combinations) to 15+15=30 (number of components).</p>
 <p>(PS. the names used above are arbitrary, you can use whatever glyph names you like).</p>
 </div>

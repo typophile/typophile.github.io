@@ -102,7 +102,7 @@ glyphiac (from germany)</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>...and whether the .alt glyph(s) appear in an OTF feature within the font.</blockquote>
 <p>That&rsquo;s the key. Ultimately, InDesign seems to have to associate a character name with a Unicode number. If a glyph itself does not have a Unicode number, it needs to use a feature definition to so associate.</p>
 <p>We&rsquo;ve have trouble with this issue. Take a font where the lining numbers are not the deault &ndash; that is, don&rsquo;t have any Unicode number. If they are not hooked up to the numbers with a feature &ndash; say lnum, they wind up with the name NULL in the InDesign pallet.</p>
 <p>Worse, if you enter one via the glyph pallet, it will give you the right character on that machine only. Put the file on another machine, and all NULLS being equal, there is no telling what you&rsquo;ll get, but it likely won&rsquo;t be what you want.</p>
@@ -129,20 +129,25 @@ glyphiac (from germany)</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Glyphiac, a font contains a lot of information besides the glyphs. One of these is a set of OpenType features –actually, codes saying exactly what you asked: alternative glyphs, substitutions and specific styles.</p>
-<p>Features are pre-defined OpenType groups of commands. Take for example the <!-- raw HTML omitted -->hist<!-- raw HTML omitted --> feature. It is used to replace regular glyphs with its historical, archaic versions. A quite common code is:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<p>Features are pre-defined OpenType groups of commands. Take for example the <strong>hist</strong> feature. It is used to replace regular glyphs with its historical, archaic versions. A quite common code is:</p>
+<pre>feature hist {
+    sub s by longs;
+} hist;</pre>
 <p>The substitution above replaces the regular s with the old longs.</p>
-<p>Another feature is <!-- raw HTML omitted -->smcp<!-- raw HTML omitted -->, which means &ldquo;small caps&rdquo;. It defines all substitutions the application should apply when the user set this style. A sample:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<p>Another feature is <strong>smcp</strong>, which means &ldquo;small caps&rdquo;. It defines all substitutions the application should apply when the user set this style. A sample:</p>
+<pre>feature smcp {
+    sub a by A.sc;
+    sub b by B.sc;
+    sub c by C.sc;
+} smcp;</pre>
 <p>Here, you have the A.sc, B.sc, and C.sc glyphs in your font, and say they will replace a, b, and c when using small caps. Of course, a proper code will define this change for the whole alphabet, not just a-b-c. And the code must actually include some additional info, like the script used (Latin, Greek, etc.) and the language context.</p>
-<p>To make things easier, there is another portion of codes included in fonts: the OpenType <!-- raw HTML omitted -->classes<!-- raw HTML omitted -->. A class is just a reunion of several glyphs into a name. For example, you can create the class &ldquo;lowercase&rdquo; with all a-z alphabet and &ldquo;smallcaps&rdquo; with the corresponding A-Z small caps. Then, you abbreviate the <!-- raw HTML omitted -->smcp<!-- raw HTML omitted --> feature just referencing the class:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<p>To make things easier, there is another portion of codes included in fonts: the OpenType <strong>classes</strong>. A class is just a reunion of several glyphs into a name. For example, you can create the class &ldquo;lowercase&rdquo; with all a-z alphabet and &ldquo;smallcaps&rdquo; with the corresponding A-Z small caps. Then, you abbreviate the <strong>smcp</strong> feature just referencing the class:</p>
+<pre>feature smcp {
+    sub @lowercase by @smallcaps;
+} smcp;</pre>
 <p>Font editors, like FontLab Studio, Glyphs and Robofont, offer a panel or window to let the designer edit these codes, which are embedded into the .otf file when the font is generated. Type designers must carefully choose the features the font will offer and include all needed glyphs into it.</p>
 <p>This is just a small explanation about OpenType codes. There are fonts with very few instructions like these and other with tons of replacements. You can find a lot of material regarding this on the web, especially here in Typophile. To find them, use the &ldquo;site:typophile.com&rdquo; as an argument in Google search:</p>
-<p><!-- raw HTML omitted -->OpenType features site:typophile.com<!-- raw HTML omitted --></p>
+<p><code>OpenType features site:typophile.com</code></p>
 <p>Hope this helps.</p>
 </div>
 	</div>
@@ -239,9 +244,9 @@ glyphiac (from germany)</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>George, I suspect the font you&rsquo;re using is to blame for that. I opened up CS6, created a &ldquo;new&rdquo; document, and picked Minion Pro - regular as the font for the text block.</p>
-<p>In the Glyph pallet, the dieresis shows as Unicode 00A8 (not what I&rsquo;d use, but it is valid&hellip;). In the glyph pallet, even the case and small cap diereses showed, and <!-- raw HTML omitted -->not<!-- raw HTML omitted --> as NULL &ndash; they were &ldquo;associated&rdquo; through the case and the c2sc &amp; smcp features in the font.</p>
+<p>In the Glyph pallet, the dieresis shows as Unicode 00A8 (not what I&rsquo;d use, but it is valid&hellip;). In the glyph pallet, even the case and small cap diereses showed, and <strong>not</strong> as NULL &ndash; they were &ldquo;associated&rdquo; through the case and the c2sc &amp; smcp features in the font.</p>
 <p>As far as accents go, when I remake a font, I take out this legacy encoding and have two diereses, one a spacing modifier, one a combining diacritic. (Our fonts aren&rsquo;t for sale, so &ldquo;legacy&rdquo; issues don&rsquo;t come up.) Again, both have the proper Unicode number assigned. I don&rsquo;t have the &ldquo;case&rdquo; associated, as I always make up a component glyph in FontLab and access it either directly (if in the Unicode index) or through ccmp. If you use mark and mkmk, you won&rsquo;t be making up precomposed characters, so you&rsquo;d probably need to include any .case or .smcp accents in the appropriate OT features &ndash; case, and  scmp &amp; c2sc.</p>
-<p>In short, I still think that if <!-- raw HTML omitted -->in the font<!-- raw HTML omitted --> the glyphs have either the proper Unicode assigned, or are associated with such a glyph, all will work. Not had this approach fail me yet, and we do a lot of scholarly books that get into some strange languages, including Native American ones.</p>
+<p>In short, I still think that if <strong>in the font</strong> the glyphs have either the proper Unicode assigned, or are associated with such a glyph, all will work. Not had this approach fail me yet, and we do a lot of scholarly books that get into some strange languages, including Native American ones.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -263,8 +268,8 @@ glyphiac (from germany)</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Igor: ‘<!-- raw HTML omitted -->Font editors, like FontLab Studio, Glyphs and Robofont, offer a panel or window to let the designer edit these codes, which are embedded into the .otf file when the font is generated. Type designers must carefully choose the features the font will offer and include all needed glyphs into it.<!-- raw HTML omitted -->’</p>
-<p>At the risk of repeating myself on this subject (since 2002, when the ﬁrst edition of FM was released), I would like to point out here (again) that FM and OTM subset the OT Layout features (stored in a ﬁle like for instance <!-- raw HTML omitted -->this one<!-- raw HTML omitted -->) based on the characters available in the font.</p>
+		<div class="commentbody"><p>Igor: ‘<em>Font editors, like FontLab Studio, Glyphs and Robofont, offer a panel or window to let the designer edit these codes, which are embedded into the .otf file when the font is generated. Type designers must carefully choose the features the font will offer and include all needed glyphs into it.</em>’</p>
+<p>At the risk of repeating myself on this subject (since 2002, when the ﬁrst edition of FM was released), I would like to point out here (again) that FM and OTM subset the OT Layout features (stored in a ﬁle like for instance <a href="http://www.fontmaster.nl/Downloads/Updates/FM/FEA_files_upd_1.zip">this one</a>) based on the characters available in the font.</p>
 <p>[img:sites/default/files/old-images/OTM_fea_subset_5694.jpg]</p>
 <p>FEB</p>
 </div>
@@ -333,11 +338,11 @@ glyphiac (from germany)</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>Of course, that's not consistent across unrelated fonts, and unless the designer takes care, it may even change across different builds of the same font.</blockquote>
 <p>Or, if  someone exports a pfd of a 4-color book jacket, &amp; sends that off to a printer, guess how all the nulls will likely wind up&hellip;</p>
 <p>I could make an argument, based on the level of knowledge one might reasonably expect amongst InDesign users &ndash; e.g., think graphic artists who design book jackets &ndash; that no null characters show up in the glyph pallet. That way, they&rsquo;re not tempted. I&rsquo;m aware an opposite argument could be made.</p>
 <p>Before you call that &ldquo;user error,&rdquo; where is anyone without those graphic artists who don&rsquo;t want, and don&rsquo;t think they should have to, understand the bowels of OpenType?</p>
-<p>It has to be on the people who offer type products. Perhaps we need yet another distinction, between &ldquo;type designer&rdquo; and &ldquo;font designer,&rdquo; remembering it is the <!-- raw HTML omitted -->font<!-- raw HTML omitted --> that gets sold under license.</p>
+<p>It has to be on the people who offer type products. Perhaps we need yet another distinction, between &ldquo;type designer&rdquo; and &ldquo;font designer,&rdquo; remembering it is the <strong>font</strong> that gets sold under license.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -392,7 +397,7 @@ glyphiac (from germany)</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->If the fonts are embedded in the PDF, as is almost always the case in professional work, then everything will be just fine.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>If the fonts are embedded in the PDF, as is almost always the case in professional work, then everything will be just fine.</cite></p>
 <p>I suspect I&rsquo;m getting too far off topic, but this happened to a customer of ours, who asked for help diagnosing a problem with a book jacket she&rsquo;d prepared. She had wanted a prime &ndash; usually not included in fonts these days &ndash; and had sort of found one, but it was neither encoded nor linked to an encoded character. It was caught in the printer&rsquo;s preflight as a strange character. Certainly not a &ldquo;primey thing.&rdquo; When I looked at her files, it was there, as a NULL character. I assumed that was the problem.</p>
 <p>Now with a four-color jacket, the printer had almost certainly taken things apart to make the separations. What was sent to the printer was a (single) PDF. I assumed it occurred at that step, even though the printer was using the same fonts, but on a different system.</p>
 <p>We had a similar instance occur within our shop, no color work involved. I don&rsquo;t remember the character, but it was one glyph on one machine, a different one on another. We just made a rule that no NULL characters could appear in any final file.</p>
@@ -489,7 +494,7 @@ glyphiac (from germany)</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->That said, the prime and double prime have legit unicodes, so I encode them<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>That said, the prime and double prime have legit unicodes, so I encode them</cite></p>
 <p>Bless you. The prime appears in many Dewey classification numbers, found on the copyright page of most books, e.g.</p>
 <p>181′.4&ndash;dc22
 2011006922</p>
@@ -521,7 +526,7 @@ glyphiac (from germany)</p>
 <p>^ ^ ^
 Moving on from there, I&rsquo;d say the biggest lack in fonts today (though likely not yours) is a full set of combining diacritics, 0300 through 036F, and spacing modifiers, 02B0 through 02FF.</p>
 <p>It doesn&rsquo;t matter what a book is about, the author may want, say, to thank some Vietnamese guy in the acknowledgments. Or there may be a author or title in the bibliography where an accent is required. The comp can set these words, borrowing from another font if needed. But it&rsquo;s nice to have characters in the fonts used, to avoid losing a lot of time investigating size, weight, and to some extent, position.</p>
-<p>Precomposed characters aren&rsquo;t necessary if there are just two or three occurrences, but having the <!-- raw HTML omitted -->right<!-- raw HTML omitted --> bits &amp; pieces is a real help. The files sent off to the printer for a book become the basis for any eventual XML files for archival or research purposes. They may well be the basis for any digital editions. As such, they should have the correct Unicode characters &ndash; for example, not use U+2019 for a glottal stop, but preferably, U+20BC. (Or U+20BB in Hawai&rsquo;ian [Polynesian]). A base character plus a combining diacritical is syntactically correct, even if there is also a Unicode assignment for a precomposed character.</p>
+<p>Precomposed characters aren&rsquo;t necessary if there are just two or three occurrences, but having the <strong>right</strong> bits &amp; pieces is a real help. The files sent off to the printer for a book become the basis for any eventual XML files for archival or research purposes. They may well be the basis for any digital editions. As such, they should have the correct Unicode characters &ndash; for example, not use U+2019 for a glottal stop, but preferably, U+20BC. (Or U+20BB in Hawai&rsquo;ian [Polynesian]). A base character plus a combining diacritical is syntactically correct, even if there is also a Unicode assignment for a precomposed character.</p>
 <p>So, you can have a trade book on flower-growing and still run into a name or two needing such, and the author wants it right &ndash; after all, they can get things &ldquo;right&rdquo; on their word processor, can&rsquo;t they.</p>
 <p>Beyond that, things can get pretty specialized, and may not be worth the type designers time.</p>
 </div>

@@ -258,34 +258,52 @@ I’m lost.</div>
 <p>Correction: Iowan Old Style Black has the following opentype tables: aalt, salt, ornm, smcp, c2sc, onum, pnum, tnum, liga, ordn, frac, sups, sinf, numr, dnom, subs, kern</p>
 <p>Iowan Old Style Black Italic and Iowan Old Style Titling also have useful GSUB opentype tables. It is only the four standard fonts that are left with only a kern table.</p>
 <p>More precisely, here is the script I executed:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import fontforge,sys
+
+filename=sys.argv&#91;1&#93;.decode('utf-8')
+
+def disptable(fnt):
+  for t in &#91;'gsub', 'gpos'&#93;:
+     lkp = eval("fnt.%s_lookups" % (t))
+     print("&amp;nbsp;&amp;nbsp;%s: %s" % \
+       (t, ', '.join(&#91;"%s" % (p&#91;0:6&#93;) for p in lkp&#93;)))
+
+lstfonts = fontforge.fontsInFile(filename)
+for f in lstfonts:
+  print "&lt;strong&gt;%s&lt;/strong&gt;" %(f)
+  fnt=fontforge.open("%s(%s)" % (filename,f))
+  disptable(fnt)
+</PRE>
 <p>and here is a copy paste of the trace of execution
-<!-- raw HTML omitted -->
+<code>
 % lsttables &lsquo;Iowan Old Style.ttc&rsquo; 2&gt;/dev/null
-<!-- raw HTML omitted -->Iowan Old Style Black<!-- raw HTML omitted -->
+<strong>Iowan Old Style Black</strong>
   gsub: &lsquo;aalt&rsquo;, &lsquo;salt&rsquo;, &lsquo;ornm&rsquo;, &lsquo;smcp&rsquo;, &lsquo;c2sc&rsquo;, &lsquo;onum&rsquo;, &lsquo;pnum&rsquo;, &lsquo;tnum&rsquo;, &lsquo;liga&rsquo;, &lsquo;liga&rsquo;, Single, &lsquo;ordn&rsquo;, Single, Single, Single, &lsquo;frac&rsquo;, &lsquo;sups&rsquo;, &lsquo;sinf&rsquo;, &lsquo;numr&rsquo;, &lsquo;dnom&rsquo;
   gpos: &lsquo;subs&rsquo;, &lsquo;kern&rsquo;
-<!-- raw HTML omitted -->Iowan Old Style Black Italic<!-- raw HTML omitted -->
+<strong>Iowan Old Style Black Italic</strong>
   gsub: &lsquo;aalt&rsquo;, &lsquo;salt&rsquo;, &lsquo;ornm&rsquo;, &lsquo;smcp&rsquo;, &lsquo;c2sc&rsquo;, &lsquo;onum&rsquo;, &lsquo;pnum&rsquo;, &lsquo;tnum&rsquo;, &lsquo;liga&rsquo;, &lsquo;liga&rsquo;, Single, &lsquo;ordn&rsquo;, Single, Single, Single, &lsquo;frac&rsquo;, Single, &lsquo;sups&rsquo;, &lsquo;sinf&rsquo;, &lsquo;numr&rsquo;, &lsquo;dnom&rsquo;
   gpos: &lsquo;subs&rsquo;, &lsquo;kern&rsquo;
-<!-- raw HTML omitted -->Iowan Old Style Bold<!-- raw HTML omitted -->
+<strong>Iowan Old Style Bold</strong>
   gsub: 
   gpos: &lsquo;kern&rsquo;
-<!-- raw HTML omitted -->Iowan Old Style Bold Italic<!-- raw HTML omitted -->
+<strong>Iowan Old Style Bold Italic</strong>
   gsub: 
   gpos: &lsquo;kern&rsquo;
-<!-- raw HTML omitted -->Iowan Old Style Italic<!-- raw HTML omitted -->
+<strong>Iowan Old Style Italic</strong>
   gsub: 
   gpos: &lsquo;kern&rsquo;
-<!-- raw HTML omitted -->Iowan Old Style Roman<!-- raw HTML omitted -->
+<strong>Iowan Old Style Roman</strong>
   gsub: 
   gpos: &lsquo;kern&rsquo;
-<!-- raw HTML omitted -->Iowan Old Style Titling<!-- raw HTML omitted -->
+<strong>Iowan Old Style Titling</strong>
   gsub: &lsquo;aalt&rsquo;, &lsquo;salt&rsquo;, &lsquo;ornm&rsquo;, &lsquo;tnum&rsquo;, &lsquo;pnum&rsquo;, &lsquo;frac&rsquo;, Single, &lsquo;sups&rsquo;
   gpos: &lsquo;kern&rsquo;
-<!-- raw HTML omitted -->
-where <!-- raw HTML omitted -->Single<!-- raw HTML omitted --> corresponds to a some bare single substitution table.</p>
+</code>
+where <code>Single</code> corresponds to a some bare single substitution table.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -308,12 +326,40 @@ where <!-- raw HTML omitted -->Single<!-- raw HTML omitted --> corresponds to a 
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Here is a more useful script that lists not only the tags but their associated scripts and languages and that can be used to check for consistency.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+#!/usr/bin/env python
+
+import fontforge,sys
+filename=sys.argv[1].decode('utf-8')
+lstfonts = fontforge.fontsInFile(filename)
+
+def languages(ll):
+  return '; '.join("%s{%s}" % (s[0], \
+              ', '.join(l for l in s[1])) \
+          for s in ll)
+
+def disptable(fnt):
+  for t in ['gsub', 'gpos']:
+    print "  %s:" % (t)
+    lkp = eval("fnt.%s_lookups" % (t))
+    for p in lkp:
+      v = fnt.getLookupInfo(p)[2]
+      if v:
+        print "    %s: %s" % \
+             ((v[0][0]), languages(v[0][1]))
+
+for f in lstfonts:
+  print "-----\n%s\n-----" %(f)
+  fnt=fontforge.open("%s(%s)" % (filename,f))
+  disptable(fnt)
+</PRE>
 <p>Let us now come back to what can be done and what may be done.</p>
 <p>Importing into the Regular the GSUB features of the black should take a few seconds. Since the black does not contain the Greek alphabet or cyrillic characters, the features (smallcaps, proportional figures etc) would work only for the latin script; getting more than that requires more than a few minutes.</p>
-<p>Iowan Old Style is however a Bitstream font and <!-- raw HTML omitted -->Bitstream&rsquo;s EULA<!-- raw HTML omitted --> says</p>
-<!-- raw HTML omitted -->
+<p>Iowan Old Style is however a Bitstream font and <a href="https://www.fontshop.com/foundries/bitstream/eulas/bitstream-typefaces">Bitstream&rsquo;s EULA</a> says</p>
+<blockquote>
+No Modifications. 
+You may not modify, adapt, translate, reverse engineer, decompile, disassemble, or create derivative works based on the Bitstream Product without Bitstream's prior written consent.
+</blockquote>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -335,8 +381,8 @@ where <!-- raw HTML omitted -->Single<!-- raw HTML omitted --> corresponds to a 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The pertinant  EULA in this case is Apple&rsquo;s, not Bitstream&rsquo;s, since the font is provided by Apple to the end user, but the effect is the same:</p>
-<!-- raw HTML omitted --></div>
+		<div class="commentbody"><p>The pertinant  EULA in this case is Apple&rsquo;s, not Bitstream&rsquo;s, since the font is provided by Apple to the end user, but the effect is the same:</p>
+<blockquote>L. No Reverse Engineering. You may not, and you agree not to or enable others to, copy (except as expressly permitted by this License or by the Usage Rules if they are applicable to you), decompile, reverse engineer, disassemble, attempt to derive the source code of, decrypt, modify, or create derivative works of the Apple Software or any services provided by the Apple Software or any part thereof...</blockquote></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -382,7 +428,7 @@ where <!-- raw HTML omitted -->Single<!-- raw HTML omitted --> corresponds to a 
 <p>In order to &ldquo;fix&rdquo; the fonts, you need no script at all.</p>
 <p>To copy the GSUB tables, when the EULA allows it, you open the two fonts with FontForge, the one with the missing GSUB tables and the one from which to copy. In the font with the missing GSUB tables you select &ldquo;Element &gt; Font Info &gt; Lookups&rdquo; and then &ldquo;GSUB&rdquo; and you click &ldquo;Import&rdquo;. You will then see the lookups from the other font. You select them and then click OK. That is it.</p>
 <p>That assumes that the glyph names are the same in the two fonts, which I guess is good practice for a font designer if one font is the regular and the other is the bold or the black.</p>
-<p>With a ttc font, you probably need to split before; Apple&rsquo;s <!-- raw HTML omitted -->ftxsplitter<!-- raw HTML omitted --> does that.</p>
+<p>With a ttc font, you probably need to split before; Apple&rsquo;s <code>ftxsplitter</code> does that.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -404,7 +450,7 @@ where <!-- raw HTML omitted -->Single<!-- raw HTML omitted --> corresponds to a 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Sorry, Michel, but I’m a mere <!-- raw HTML omitted -->user<!-- raw HTML omitted --> of typefaces — I’m afraid the solutions you’re so kindly suggesting are way beyond my reach…</div>
+		<div class="commentbody">Sorry, Michel, but I’m a mere <cite>user</cite> of typefaces — I’m afraid the solutions you’re so kindly suggesting are way beyond my reach…</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -556,8 +602,8 @@ Don</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->FontForge worked fine for me on Windows.<!-- raw HTML omitted --></p>
-<p>You are confirming that you can see the letter <!-- raw HTML omitted -->a.smallcap<!-- raw HTML omitted --> in the regular with FontForge when opening the ttc file? Which version of FontForge is that? I just tried this <!-- raw HTML omitted -->Windows FontForge<!-- raw HTML omitted --> (on XP) and it simply crashed on the regular, just browsing the characters of the regular from the ttc.</p>
+		<div class="commentbody"><p><em>FontForge worked fine for me on Windows.</em></p>
+<p>You are confirming that you can see the letter <code>a.smallcap</code> in the regular with FontForge when opening the ttc file? Which version of FontForge is that? I just tried this <a href="http://fontforge.github.io/en-US/downloads/windows/">Windows FontForge</a> (on XP) and it simply crashed on the regular, just browsing the characters of the regular from the ttc.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -623,7 +669,7 @@ Don</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Version: 13:48 GMT 22-Feb-2011 (20110222-ML-TtfDb-NoPython)<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>Version: 13:48 GMT 22-Feb-2011 (20110222-ML-TtfDb-NoPython)</em></p>
 <p>I just downloaded that version of FontForge on XP and opened the Iowan TTC file with it. It does not crash but the small caps are still lost from the roman. You just don&rsquo;t see what you miss when you open it with FontForge.</p>
 <p>Let me be more precise: the roman .ttf font as saved by the 2011 PC version of FontForge contains 1859 glyphs; I get the same count with my Macports 2012 version of FontForge. I am far from my computer with the last version of the github  Fontforge but I would expect the same count; the Roman .ttf given by ftxsplitter contains 2229 glyphs (in fact I counted glyph names).</p>
 <p>The python3 script <a href="https://gist.github.com/johnko/6442827">https://gist.github.com/johnko/6442827</a> gives me the 2229 glyphs for the regular and appears to do the right job.</p>
@@ -670,7 +716,7 @@ Don</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I just tried AFDKO&rsquo;s <!-- raw HTML omitted -->otc2otf<!-- raw HTML omitted --> on the Iowan ttc font and got ttf fonts as output. To compare with the fonts extracted with  <!-- raw HTML omitted -->ttc2ttf.py<!-- raw HTML omitted --> (that I modified a bit to get the same ttf file names as those given by <!-- raw HTML omitted -->otc2otf<!-- raw HTML omitted -->), I used ttx on each ttf file and then compared with the  <!-- raw HTML omitted -->diff<!-- raw HTML omitted --> command: the ttx files obtained from the ttf files produced by <!-- raw HTML omitted -->otc2otf<!-- raw HTML omitted --> and <!-- raw HTML omitted -->ttc2ttf.py<!-- raw HTML omitted --> are  identical. On the other hand, if I split with Apple&rsquo;s <!-- raw HTML omitted -->ftxsplitter<!-- raw HTML omitted -->, the modification date and the checksum differ in the generated ttx, but aside from that the ttx files generated are still the same.</div>
+		<div class="commentbody">I just tried AFDKO&rsquo;s <code>otc2otf</code> on the Iowan ttc font and got ttf fonts as output. To compare with the fonts extracted with  <code>ttc2ttf.py</code> (that I modified a bit to get the same ttf file names as those given by <code>otc2otf</code>), I used ttx on each ttf file and then compared with the  <code>diff</code> command: the ttx files obtained from the ttf files produced by <code>otc2otf</code> and <code>ttc2ttf.py</code> are  identical. On the other hand, if I split with Apple&rsquo;s <code>ftxsplitter</code>, the modification date and the checksum differ in the generated ttx, but aside from that the ttx files generated are still the same.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -691,7 +737,7 @@ Don</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">FWIW, <!-- raw HTML omitted -->ttc2ttf.py<!-- raw HTML omitted --> seems to work correctly with Python 2.6.9.</div>
+		<div class="commentbody">FWIW, <code>ttc2ttf.py</code> seems to work correctly with Python 2.6.9.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -738,8 +784,11 @@ Don</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>With FontForge, if instead of opening in the standard way you open with the following script (in the FontForge script window)</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+import fontforge
+fnam=fontforge.openFilename("Open font file:")
+f=fontforge.open(fnam,4)
+</PRE>
 <p>you get all the glyphs. I could not find in the preferences the equivalent of the &ldquo;4&rdquo; flag to open .ttc files (and I found that flag only  in the old FontForge native scripting documentation).</p>
 </div>
 	</div>

@@ -74,27 +74,69 @@
   <div class="post-content e-content" itemprop="articleBody"><p>Hi all</p>
 <p>Is it possible for a Robofab script to affect all the masters in a Multiple master font ?</p>
 <p>I have a MM font with a Light and a Bold Master. I&rsquo;m kerning this fonts and to speed thing up slightly I wrote this little script to transfer the kerning amount to glyph pairs with the same shape. The script works but only on the light master - is it possible to haveit work on both masters.</p>
-<!-- raw HTML omitted -->
-</div>
+<code>
+from robofab.world import CurrentFont
+f = CurrentFont()
+kerning = f.kerning
+#
+OA = kerning[('O','A')]
+AO = kerning[('A','O')]
+OV = kerning[('O','V')]
+VO = kerning[('V','O')]
+OW = kerning[('O','W')]
+WO = kerning[('W','O')]
+OY = kerning[('O','Y')]
+YO = kerning[('Y','O')]
+OX = kerning[('O','X')]
+XO = kerning[('X','O')]
+OT = kerning[('O','T')]
+TO = kerning[('T','O')]
+KO = kerning[('K','O')]
+#
+#
+kerning[('A','C')] = kerning[('A','G')] = kerning[('A','Q')] = kerning[('A','OE')] = AO
+kerning[('D','A')] = kerning[('Q','A')] = OA
+#
+kerning[('V','C')] = kerning[('V','G')] = kerning[('V','Q')] = kerning[('V','OE')] = VO
+kerning[('D','V')] = kerning[('Q','V')] = OV
+#
+kerning[('W','C')] = kerning[('W','G')] = kerning[('W','Q')] = kerning[('W','OE')] = WO
+kerning[('D','W')] = kerning[('Q','W')] = OW
+#
+kerning[('Y','C')] = kerning[('Y','G')] = kerning[('Y','Q')] = kerning[('Y','OE')] = YO
+kerning[('D','Y')] = kerning[('Q','Y')] = OY
+#
+kerning[('X','C')] = kerning[('X','G')] = kerning[('X','Q')] = kerning[('X','OE')] = XO
+kerning[('D','X')] = kerning[('Q','X')] = OX
+#
+kerning[('D','T')] = kerning[('Q','T')] = OT
+kerning[('T','C')] = kerning[('T','Q')] = TO
+#
+kerning[('K','C')] = kerning[('K','G')] = kerning[('K','Q')] = kerning[('K','OE')] = KO
+#
+#
+f.update()
+print "UpperUpperKern Done"
+</code></div>
 
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I could be wrong, but AFAIK when you handle the kerning through Robofab you can only control the values of the first master. The kerning value amounts of the remaining masters will be the same as the first master. Therefore, you might have to use [[http://robofab.org/howto/lowlevel.html|Robofab&rsquo;s naked() method]] and go from there, or use FontLab&rsquo;s API&rsquo;s all the way.</p>
 <p>I&rsquo;ve wrote several scripts for FL that handle MM kerning, and I can tell you things can be complicated. The kerning values reside in something that looks like a list, and are associated with the left glyph of the pair.</p>
 <p>Imagine a 2-master font with only one kerning pair AV, with a kerning value of -50 for the first master, and -80 for the second. If you do,
-<!-- raw HTML omitted -->print fl.font[&lsquo;A&rsquo;].kerning[0].values<!-- raw HTML omitted -->
-you&rsquo;ll get <!-- raw HTML omitted -->[-50,-80]<!-- raw HTML omitted -->.</p>
+<code>print fl.font[&lsquo;A&rsquo;].kerning[0].values</code>
+you&rsquo;ll get <code>[-50,-80]</code>.</p>
 <p>The difficulties start when you try to modify the values or add new pairs.</p>
 <p>The list of kerning pairs is read-only, so this will fail,
-<!-- raw HTML omitted -->fl.font[&lsquo;A&rsquo;].kerning[0].values = [-10, -30]<!-- raw HTML omitted -->
+<code>fl.font[&lsquo;A&rsquo;].kerning[0].values = [-10, -30]</code>
 but you can change the values one by one, like so,
-<!-- raw HTML omitted -->fl.font[&lsquo;A&rsquo;].kerning[0].values[0] = -10
-fl.font[&lsquo;A&rsquo;].kerning[0].values[1] = -30<!-- raw HTML omitted --></p>
+<code>fl.font[&lsquo;A&rsquo;].kerning[0].values[0] = -10
+fl.font[&lsquo;A&rsquo;].kerning[0].values[1] = -30</code></p>
 <p>And to copy the values of one pair to another pair, you first need to create that pair (if it doesn&rsquo;t exist already), 
-<!-- raw HTML omitted -->defaultKerningValue = -1
+<code>defaultKerningValue = -1
 rightGlyphID = fl.font.FindGlyph(&lsquo;T&rsquo;)
 pair = KerningPair(rightGlyphID, defaultKerningValue)
-fl.font[&lsquo;A&rsquo;].kerning.append(pair)<!-- raw HTML omitted -->
+fl.font[&lsquo;A&rsquo;].kerning.append(pair)</code>
 and then go through the values and modify them accordingly.</p>
 <p>Again, handling MM kerning is not trivial. You might be better off saving AFM files, modifying them and reading back in. But that process is not 100% reliable sometimes, so proceed with care.</p>
 </div>
@@ -118,7 +160,7 @@ and then go through the values and modify them accordingly.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Rachel, what your script is trying to to can be handled by <!-- raw HTML omitted -->class kerning<!-- raw HTML omitted --> much easier. No coding necessary.</div>
+		<div class="commentbody">Rachel, what your script is trying to to can be handled by <em>class kerning</em> much easier. No coding necessary.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

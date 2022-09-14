@@ -96,7 +96,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --> I mean, Minion does not contain a Dotlessi.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite> I mean, Minion does not contain a Dotlessi.</cite></p>
 <p>I am not sure I understand what you are saying. Here is from Minion Pro version 002.000</p>
 <p>[img:sites/default/files/old-images/dotlessi_6568.jpg]</p>
 <p>Minion does contain a dotlessi&hellip;</p>
@@ -123,7 +123,12 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>And here is from <a href="http://www.unicode.org/Public/UNIDATA/NamesList.txt">http://www.unicode.org/Public/UNIDATA/NamesList.txt</a> (concerning the capital)</p>
-<!-- raw HTML omitted -->
+<code>
+0131	LATIN SMALL LETTER DOTLESS I
+	* Turkish, Azerbaijani
+	* uppercase is 0049
+	x (latin small letter i - 0069)
+</code>
 <p>Michel</p>
 </div>
 	</div>
@@ -299,24 +304,24 @@
 </li>
 <li>
 <p>Currently, the recommended way to deal with Turkish letters is to duplicate &ldquo;i&rdquo; as &ldquo;i.TRK&rdquo; and place the substitution into the &ldquo;locl&rdquo; feature: 
-<!-- raw HTML omitted -->feature locl { 
+<code>feature locl { 
 language TRK;
 sub i by i.TRK;
-} locl;<!-- raw HTML omitted --></p>
+} locl;</code></p>
 </li>
 </ol>
 <p>Then you have five glyphs for Unicode characters: I, Idotaccent, i, i.TRK, dotlessi. And you have five smallcap glyphs: I.c2sc, i.smcp and dotlessi.smcp (all identical, without a dot), as well as Idotaccent.c2sc and i.TRK.smcp (identical, with a dot).</p>
 <p>In &ldquo;c2sc&rdquo;, you use the substitutions: 
-<!-- raw HTML omitted -->feature c2sc { 
+<code>feature c2sc { 
 sub I by I.c2sc;
 sub Idotaccent by Idotaccent.smcp;
-} c2sc;<!-- raw HTML omitted --></p>
+} c2sc;</code></p>
 <p>In &ldquo;smcp&rdquo;, you have the substitutions: 
-<!-- raw HTML omitted -->feature smcp { 
+<code>feature smcp { 
 sub i by i.smcp;
 sub i.TRK by i.TRK.smcp;
 sub dotlessi by dotlessi.smcp;
-} smcp;<!-- raw HTML omitted --></p>
+} smcp;</code></p>
 <p>Adam</p>
 </div>
 	</div>
@@ -366,31 +371,31 @@ sub dotlessi by dotlessi.smcp;
 <p>And while I can understand, that it is necessarily to have an additional dotted i in the font, I don’t understand, why there are Idotaccent.smcp and (!) i.TRK.smcp. Where is the disadvantage in the following code?:</p>
 <p>feature locl {
 language TRK;
-sub i by <!-- raw HTML omitted -->idotaccent<!-- raw HTML omitted -->;
+sub i by <strong>idotaccent</strong>;
 } locl;</p>
 <p>feature c2sc {
-sub I by <!-- raw HTML omitted -->i.smcp<!-- raw HTML omitted -->;
-sub Idotaccent by <!-- raw HTML omitted -->i<!-- raw HTML omitted -->dotaccent.smcp;
-<!-- raw HTML omitted -->sub Dotlessi by dotlessi.smcp; #<em><strong><strong>Additional line (and additional character)!</strong></strong></em><!-- raw HTML omitted -->
+sub I by <strong>i.smcp</strong>;
+sub Idotaccent by <strong>i</strong>dotaccent.smcp;
+<strong>sub Dotlessi by dotlessi.smcp; #<em><strong><strong>Additional line (and additional character)!</strong></strong></em></strong>
 } c2sc;</p>
 <p>feature smcp {
 sub i by i.smcp;
-sub <!-- raw HTML omitted -->idotaccent by idotaccent.smcp;<!-- raw HTML omitted -->
+sub <strong>idotaccent by idotaccent.smcp;</strong>
 sub dotlessi by dotlessi.smcp;
 } smcp;</p>
-<p><!-- raw HTML omitted -->Or alternatively this, without dotlessi.smcp and Dotlessi:<!-- raw HTML omitted --></p>
+<p><strong>Or alternatively this, without dotlessi.smcp and Dotlessi:</strong></p>
 <p>feature locl {
 language TRK;
-sub i by <!-- raw HTML omitted -->idotaccent<!-- raw HTML omitted -->;
+sub i by <strong>idotaccent</strong>;
 } locl;</p>
 <p>feature c2sc {
-sub I by <!-- raw HTML omitted -->i.smcp<!-- raw HTML omitted -->;
-sub Idotaccent by <!-- raw HTML omitted -->i<!-- raw HTML omitted -->dotaccent.smcp;
+sub I by <strong>i.smcp</strong>;
+sub Idotaccent by <strong>i</strong>dotaccent.smcp;
 } c2sc;</p>
 <p>feature smcp {
 sub i by i.smcp;
-sub <!-- raw HTML omitted -->idotaccent by idotaccent.smcp;<!-- raw HTML omitted -->
-sub dotlessi by <!-- raw HTML omitted -->i.smcp<!-- raw HTML omitted -->
+sub <strong>idotaccent by idotaccent.smcp;</strong>
+sub dotlessi by <strong>i.smcp</strong>
 } smcp;</p>
 <p>I mean, isn’t Adobe’s actual way a half baked thing with regard to the symmetry of dotlessi?</p>
 <p>And why is there a need for doubling the whole alphabet ([a.smcp-z.smcp] and {!} [A.c2sc-Z.c2sc]), if the glyphs are the same?</p>

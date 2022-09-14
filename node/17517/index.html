@@ -80,11 +80,11 @@
 	<div class="card-body">
 		<div class="commentbody"><p>Fred,</p>
 <p>Do you have something like this on top of your list of features?
-<!-- raw HTML omitted -->
+<code>
 feature aalt {
 feature ccmp;
 } aalt;
-<!-- raw HTML omitted -->
+</code>
 If you don&rsquo;t, add it. It might help solving your problem.</p>
 </div>
 	</div>
@@ -181,17 +181,17 @@ sub l commaabovecmb by uni006C0313;</p>
 	<div class="card-body">
 		<div class="commentbody"><p>Unfortunately I don&rsquo;t have a final answer to this problem, however I did some tests and here&rsquo;s what I found out:</p>
 <p>I took a typeface that had a ccmp feature and played around with it in InDesign CS and TextEdit.</p>
-<p><!-- raw HTML omitted -->This is how the feature looks like:<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->feature ccmp {
+<p><strong>This is how the feature looks like:</strong>
+<code>feature ccmp {
 sub Ccaron dotbelowcmb by uni010C0323;
 sub R macroncmb by uni00520304;
-} ccmp;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->This is how InDesign reenders it:<!-- raw HTML omitted --> (the first line is set in Times)
+} ccmp;</code></p>
+<p><strong>This is how InDesign reenders it:</strong> (the first line is set in Times)
 [img:sites/default/files/old-images/calouste_ccmp.png]</p>
-<p><!-- raw HTML omitted -->This is how the text stream looks like:<!-- raw HTML omitted --> (snippet of InDesign Tagged Text file)
-<!-- raw HTML omitted -->C&lt;0x010C&gt;&lt;0x010C&gt;&lt;0x0323&gt;RR&lt;0x0304&gt;R<!-- raw HTML omitted --></p>
+<p><strong>This is how the text stream looks like:</strong> (snippet of InDesign Tagged Text file)
+<code>C&lt;0x010C&gt;&lt;0x010C&gt;&lt;0x0323&gt;RR&lt;0x0304&gt;R</code></p>
 <p>As you see, the text stream is correct.</p>
-<p><!-- raw HTML omitted -->Observations:<!-- raw HTML omitted -->
+<p><strong>Observations:</strong>
 — TextEdit rendered the caracters correctly. These were inserted via the keyboard plus the system&rsquo;s Character Pallete.
 — InDesignCS rendered the caracters correctly, only when these were inserted via the Glyph Pallete.
 — Copying &amp; pasting between TextEdit and InDesign worked correctly in both ways.</p>
@@ -374,10 +374,10 @@ sub R macroncmb by uni00520304;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Tom, thank you for shedding the light on this. I had looked into the <!-- raw HTML omitted -->OpenType Layout Feature Support by Application<!-- raw HTML omitted --> chart but found no reference to the <!-- raw HTML omitted -->ccmp<!-- raw HTML omitted --> feature, so I was not sure if it was supported or not.</p>
+		<div class="commentbody"><p>Tom, thank you for shedding the light on this. I had looked into the <a href="http://store.adobe.com/type/browser/pdfs/OTGuide.pdf">OpenType Layout Feature Support by Application</a> chart but found no reference to the <strong>ccmp</strong> feature, so I was not sure if it was supported or not.</p>
 <p>Chester, like Fred said, there are no [[Unicode]] code-points assigned to these characters. The composite characters do indeed exist within the font, but we have to rely on the Glyph Composition/Decomposition(ccmp) feature to access them.</p>
-<p>I came across this problem when I was developing a font that included several &ldquo;unUnicoded&rdquo; characters for Armenian transliteration. The best solution I could think of was to use the <!-- raw HTML omitted -->ccmp<!-- raw HTML omitted --> feature.</p>
-<p>Using something else (let&rsquo;s say <!-- raw HTML omitted -->liga<!-- raw HTML omitted --> for example) would simply be hacking. Personally I wouldn&rsquo;t do any workarounds on this. Just as an example, the <!-- raw HTML omitted -->locl<!-- raw HTML omitted --> feature is present in some Adobe fonts, nevertheless none of their applications support it yet.</p>
+<p>I came across this problem when I was developing a font that included several &ldquo;unUnicoded&rdquo; characters for Armenian transliteration. The best solution I could think of was to use the <strong>ccmp</strong> feature.</p>
+<p>Using something else (let&rsquo;s say <strong>liga</strong> for example) would simply be hacking. Personally I wouldn&rsquo;t do any workarounds on this. Just as an example, the <strong>locl</strong> feature is present in some Adobe fonts, nevertheless none of their applications support it yet.</p>
 <p>Fred, you could use VOLT to implement the feature, but that won&rsquo;t produce any difference on InDesign&rsquo;s behavior.</p>
 <p>Fred, I&rsquo;ve also noticed one more thing. Looking at your 2nd post, I believe the order of the substitutions is incorrect. Sequences that are made up of larger number of glyphs must be placed before those that require fewer glyphs (f_f_i before f_i, for instance). So in your case, the order of lines 1 and 6 should be reversed.</p>
 <p>sub C commaabovecmb by uni00430313;
@@ -425,9 +425,24 @@ sub C commaabovecmb caroncmb by uni0043030C0313;</p>
 	 <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Fred, I never said that the rearrangement of the substitutions would make the feature (ccmp) to start working on InDesign. As Thomas said, InDesign does NOT support this feature yet, so there&rsquo;s no way around it. What the rearrangement most certainly does — and you might want to test this under TextEdit, since it seems to support the feature in question —, is to make the substitution order to work as expected. With the order you had before, I&rsquo;m quite positive that the substitution program would never have had been able to access the command on line 6, since line 1 would substitute the glyphs first.</p>
-<p>What do you mean by &lsquo;direct typing&rsquo;? Are you able to type a <!-- raw HTML omitted -->commaabovecmb<!-- raw HTML omitted --> (U+0313) with your keyboard? What keyboard layout are you using? Is it a custom created one?</p>
+<p>What do you mean by &lsquo;direct typing&rsquo;? Are you able to type a <em>commaabovecmb</em> (U+0313) with your keyboard? What keyboard layout are you using? Is it a custom created one?</p>
 <p>Here&rsquo;s how Copy&amp;Paste work for me:</p>
-<!-- raw HTML omitted -->
+<ul>from InDesign to TextEdit
+<ol>Make a new document</ol>
+<ol>Make a text box</ol>
+<ol>Insert any composite glyph via the Glyph Palette (no other way works, since InDesign does NOT support the ccmp feature)</ol>
+<ol>Select the text and copy it</ol>
+<ol>Make a new document in TextEdit (RichText format)</ol>
+<ol>Paste it (Even the font settings go along!!)</ol>
+</ul>
+<ul>from TextEdit to InDesign
+<ol>Make a new document (in RichText)</ol>
+<ol>Insert any composite glyph via the keyboard (base glyph) plus the system's Character Palette (accent glyph)</ol>
+<ol>Select the text and copy it</ol>
+<ol>Make a new document in InDesign</ol>
+<ol>Make a text box</ol>
+<ol>Paste it (and select the correct font, if I haven't done that before)</ol>
+</ul>
 <p>It&rsquo;s obvious that you&rsquo;ve hit a wall, if you&rsquo;re trying to make the substitutions work in InDesign through a ccmp feature. One thing I can think of right away that would make me not use a liga feature to accomplish this, is that the user can turn it off. It goes without saying that your neat text will completely break up in that scenario. So, if you want an alternative to ccmp, I would say Required Ligatures (rlig). However, InDesign does not support that one as well. I wonder if there&rsquo;s at least one feature that InDesign support which can&rsquo;t be turned off by the user&hellip;</p>
 </div>
 	</div>
@@ -526,7 +541,7 @@ sub C commaabovecmb caroncmb by uni0043030C0313;</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">For feature support in Adobe apps, the last page of this one may be more reliable: <!-- raw HTML omitted --><a href="http://store.adobe.com/type/browser/pdfs/OTGuide.pdf">http://store.adobe.com/type/browser/pdfs/OTGuide.pdf</a><!-- raw HTML omitted --> (PDF-document) ;-)</div>
+		<div class="commentbody">For feature support in Adobe apps, the last page of this one may be more reliable: <a href="http://store.adobe.com/type/browser/pdfs/OTGuide.pdf" target="new"><a href="http://store.adobe.com/type/browser/pdfs/OTGuide.pdf">http://store.adobe.com/type/browser/pdfs/OTGuide.pdf</a></a> (PDF-document) ;-)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -568,7 +583,7 @@ sub C commaabovecmb caroncmb by uni0043030C0313;</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Chester: <!-- raw HTML omitted -->Maybe I’m old-fashioned, but why not just build the composite characters and have them in your font’s glyphset? Especially if they have Unicode indices. Perhaps someone smarter than I am - Adam, Thomas, John H, everyone else - can share some insight to the benefits of ccmp versus “standalone” composites?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Chester: <em>Maybe I’m old-fashioned, but why not just build the composite characters and have them in your font’s glyphset? Especially if they have Unicode indices. Perhaps someone smarter than I am - Adam, Thomas, John H, everyone else - can share some insight to the benefits of ccmp versus “standalone” composites?</em></p>
 <p>Even if characters do exist as precomposed diacritics in Unicode, there is a good argument for supporting them in the ccmp feature as well as encoding them in the cmap. The reason for this is that a user may be working with an input method that results in base + combining mark sequences or, even more likely, text normalisation will result in canonical decomposition to base + combining mark sequences. So what is originally input as ǚ \01DA\ might, at any point between the input and the viewing of the document, be normalised to either ǚ \00FC,030C\ or to ǚ \0075,0308,030C\ depending on the normalisation form used. All these character sequences are canonically equivalent, which means that a robust rendering technology, including fonts, should be able to display them all identically.</p>
 <p>The easiest and quickest way to handle the canonical equivalence of \01DA, \00FC,030C\ and \0075,0308,030C\ is for the layout engine to check the font cmap table for an entry for U+01DA and, if it finds one, to perform a buffered character substitution of the mapped glyph whenever it encounters the strings \00FC,030C) and \0075,0308,030C. This does not require any work from the font developer, other than mapping U+01DA correctly. This is how Microsoft&rsquo;s Uniscribe engine handles such cases.</p>
 <p>However, I am not confident at this stage that all rendering engines will perform this operation in the same way, so for the time being I am advising a full mapping of precomposed diacritics, whether encoded or not, in the ccmp feature. If the layout engine performs a character level substitution, the ccmp lookup entry for the sequence will be ignored, but if the layout engine does not, then the ccmp feature is the next best chance of rendering the sequence correctly and not as a munged mess of colliding combining marks.</p>
@@ -618,7 +633,7 @@ sub C commaabovecmb caroncmb by uni0043030C0313;</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Chester: <!-- raw HTML omitted -->So, how does a ccmp table get into a font? Does FLS encode it into the OTF upon generation? Is there a preference setting which handles this? Is it something one would drop into a TTXed file and then recompile?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Chester: <em>So, how does a ccmp table get into a font? Does FLS encode it into the OTF upon generation? Is there a preference setting which handles this? Is it something one would drop into a TTXed file and then recompile?</em></p>
 <p>ccmp is an OTL feature, not a table. The spec is here:
 <a href="http://www.microsoft.com/typography/otspec/features_ae.htm#ccmp">http://www.microsoft.com/typography/otspec/features_ae.htm#ccmp</a></p>
 <p>It seems to me that much of the content of a typical ccmp feature could be automated using Python. For instance, it should be easy to determine that a glyph called /Aringacute/ should be mapped from /A/ /ringcomb/ /acutecomb/.</p>

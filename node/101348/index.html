@@ -250,7 +250,7 @@ I just wanted to know if it could be done <em>within</em> the font through some 
 	<div class="card-body">
 		<div class="commentbody"><p>Although the inherently technical jargon of the discussion probably obscures the fact, hanging punctuation is something that is ostensibly possible with the Optical Bounds features — {opbd} {lfbd} {rtbd} — discussed recently here: <a href="http://typophile.com/node/100183">http://typophile.com/node/100183</a></p>
 <p>But these features are not implemented in any common software that I know of.</p>
-<p>It’s also possible to get something like this to happen with GSUB Type 5 contextual substitutions – relying on some careful <!-- raw HTML omitted -->ignore sub<!-- raw HTML omitted --> statements — but it’s a bit of a hack and can become cumbersome. And I think it will only deploy reliably with beginning-of-line cases, not end-of-line. If you put this in {calt} however, then it will be on by default; it’s best not to put discretionary features in {calt}.</p>
+<p>It’s also possible to get something like this to happen with GSUB Type 5 contextual substitutions – relying on some careful <em>ignore sub</em> statements — but it’s a bit of a hack and can become cumbersome. And I think it will only deploy reliably with beginning-of-line cases, not end-of-line. If you put this in {calt} however, then it will be on by default; it’s best not to put discretionary features in {calt}.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -274,9 +274,9 @@ I just wanted to know if it could be done <em>within</em> the font through some 
 	<div class="card-body">
 		<div class="commentbody"><p>Another possible approach just occurred to me. I haven’t thought through all the possible ramifications.</p>
 <p>You could probably deploy a certain amount of hanging punctuation using a series of space-punctuation / punctuation-space contextual substitutions, combined with backstopped kerning pairs.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>You’d need relevant sets of <!-- raw HTML omitted -->.calt_hanglft<!-- raw HTML omitted --> and <!-- raw HTML omitted -->.calt_hangrt<!-- raw HTML omitted --> alternates with sidebearings adjusted accordingly. And you’d want to put in positive kerning pairs between space and these alternates to restore “normal” spacing, since they’ll be substituted throughout the text. But then, when they occur at the beginning or end of a line, the kerning won’t be relevant and the adjusted sidebearings will create the hanging effect.</p>
+<pre>    sub space @punct' by @punct_hang_left;
+    sub @punct' space by @punct_hang_right; </pre>
+<p>You’d need relevant sets of <em>.calt_hanglft</em> and <em>.calt_hangrt</em> alternates with sidebearings adjusted accordingly. And you’d want to put in positive kerning pairs between space and these alternates to restore “normal” spacing, since they’ll be substituted throughout the text. But then, when they occur at the beginning or end of a line, the kerning won’t be relevant and the adjusted sidebearings will create the hanging effect.</p>
 <p>However, it might not be possible to account for hyphens in automatic hyphenation. You’d have to test applications to see whether or not they respect a separately encoded u+00AD soft hyphen in a font, along with any subsequent gsub (which would just be a single subst in this case, not a contextual subst).</p>
 <p>And this approach won’t work on any punctuation at the beginning of a paragraph — opening quote, as a primary example — since there’s no preceding space, obviously.</p>
 <p>It would take some tinkering to cover all eventualities. But there might be potential in this approach.</p>
@@ -350,12 +350,12 @@ Cheers.</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>David —</p>
-<!-- raw HTML omitted -->
+<blockquote>And does OT layout see < space-CR-" > the same as < space-" > ?</blockquote>
 <p>No, I’m pretty certain that a hard return is a boundary for both OT backtrack and lookahead input sequences. Now that I think about it, it’s probable that any line end, soft or hard, bounds both the backtrack and lookahead also. And layout engines generally treat the intermediate space as belonging to the previous line, which is how this would work for end-of-line.</p>
 <p>But, like I said, I didn’t test this overall approach. You’re right, it might not work at all with beginning-of-line.</p>
-<!-- raw HTML omitted -->
-<p>Interesting. Yeah, that would probably work. But you’d have to go through the trouble of composing all those <!-- raw HTML omitted -->quotedblleft_capital.hanging<!-- raw HTML omitted --> “logotypes” and then kern the space to them all. Could be scripted, I reckon.</p>
-<p>I’d probably approach beginning-of-line with the <!-- raw HTML omitted -->ignore sub<!-- raw HTML omitted --> approach I mentioned before. It’s pretty reliable for this situation.</p>
+<blockquote>...but it would if one made a composite of each Uppercase letter with a hanging “, and sub for each “-Cap typed, for a Cap with a hanging “ attached... maybe?</blockquote>
+<p>Interesting. Yeah, that would probably work. But you’d have to go through the trouble of composing all those <em>quotedblleft_capital.hanging</em> “logotypes” and then kern the space to them all. Could be scripted, I reckon.</p>
+<p>I’d probably approach beginning-of-line with the <em>ignore sub</em> approach I mentioned before. It’s pretty reliable for this situation.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -443,7 +443,7 @@ Cheers.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Kent: <!-- raw HTML omitted -->It’s also possible to get something like this to happen with GSUB Type 5 contextual substitutions – relying on some careful ignore sub statements — but it’s a bit of a hack and can become cumbersome.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Kent: <em>It’s also possible to get something like this to happen with GSUB Type 5 contextual substitutions – relying on some careful ignore sub statements — but it’s a bit of a hack and can become cumbersome.</em></p>
 <p>It also has the unintended consequence of messing up in-line spacing of contextually triggered line-initial or -terminal substitutions or spacing adjustments at glyph run boundaries. Remember, OpenType Layout is applied to glyph runs, and these can be terminated by many things other than beginning and end of line: change of font (including weight or style change within the same family), change of point size, change of direction in bidi text, and even change of text colour in some software.</p>
 </div>
 	</div>
@@ -529,7 +529,7 @@ Cheers.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>messing up in-line spacing of contextually triggered line-initial or -terminal substitutions</blockquote>
 <p>Part of the reason for the hack is that these line-ending substitutions don’t seem to be implemented in everybody’s favorite InDesign. Even twiddling under the hood through scripting to toggle the feature, I have not been able to get {falt} deployed. And there doesn’t seem to be a line-initial equivalent “{ialt}”.</p>
 <p>(I’m not really talking about hanging punctuation anymore. Not especially my interest.)</p>
 <p>Perhaps ME edition includes support for {falt}, but I don’t see it with vanilla InD.</p>
@@ -575,7 +575,7 @@ Cheers.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>My guess is that most folks who'd want hanging punctuation probably use Quark or InDesign, programs that already have the built-in capability to do it. </blockquote>
 <p>In all fairness to Alter Littera and his original query, you cannot achieve the effect of traditional hanging punctuation, as shown in the example, with InDesign’s Story &gt; Optical Margin Alignment setting. Basically, that is not a Hanging Punctuation feature.</p>
 <p>In Quark 8, however, you do have specific and fine-grained control over hanging punctuation, and the traditional effect is pretty easily achieved — where it should be: in the layout application, not in the font. This is, in fact, one area where Quark surpasses InDesign, IMO.</p>
 </div>
@@ -599,7 +599,7 @@ Cheers.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>My guess is that most folks who'd want hanging punctuation probably use Quark or InDesign</blockquote>
 <p>Or TeX.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -624,7 +624,7 @@ Cheers.</div>
 		<div class="commentbody"><p>Yes, TeX gives the most flexibility, most control. Back when Richard Eckersley was alive, he flirted off &amp; on with using hanging punctuation. Richard was enamored with the constant text page, preferring to card rather than run long or short pages. While he&rsquo;d never presume to tell a compositor how to set type, he even preferred to card over ending a page with an orphan, or either ending or beginning a page with less than a full line of type (including paragraph indents).</p>
 <p>We tried all manner of hanging punctuation &ndash; left side only (only quote marks), and both left &amp; right sides. We kept running into tricky constructions on the right, How about period-closequote (now quotedblright)? Hang both? How about quoteright followed by quotedblright? And when that&rsquo;s preceded by a period? Always hang hyphens? How about en-dashes. Etc.</p>
 <p>Ultimately, Richard gave up on the notion, Nice in theory, often too awkward in practice.</p>
-<p>While Richard&rsquo;s fame was probably for <!-- raw HTML omitted -->The Telephone Book,<!-- raw HTML omitted --> he was the consummate designer; in a restrained way (usually), he considered every detail. Before pretty much abandoning hanging punctuation, we worked with it a number of years, and with varying kinds of texts.</p>
+<p>While Richard&rsquo;s fame was probably for <cite>The Telephone Book,</cite> he was the consummate designer; in a restrained way (usually), he considered every detail. Before pretty much abandoning hanging punctuation, we worked with it a number of years, and with varying kinds of texts.</p>
 <p>Here&rsquo;s a link to a web site built by his son, Sam.</p>
 <p><a href="http://www.richardeckersley.net/">http://www.richardeckersley.net/</a></p>
 <p>(With Sam making a strong showing in the field, there are now three generations of Eckersley graphic designers&hellip;)</p>

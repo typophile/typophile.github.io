@@ -186,17 +186,17 @@ to meny lookups, subs, marking, context, will prevent the font from compiling</p
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>In FontLab the syntax ought to look something like this:</p>
-<p><!-- raw HTML omitted -->feature liga { # Default ligatures<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->    lookup liga_1 { # lookup subtable 1<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->        sub f i by fi;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->        sub f l by fl;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->    } liga_1;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->    lookup liga_2 { # lookup subtable 2<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->        sub f f i by ffi;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->        sub f f l by ffl;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->    } liga_2;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->    <!-- raw HTML omitted -->etc.<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->} liga;<!-- raw HTML omitted --></p>
+<p><code>feature liga { # Default ligatures</code></p>
+<p><code>    lookup liga_1 { # lookup subtable 1</code>
+<code>        sub f i by fi;</code>
+<code>        sub f l by fl;</code>
+<code>    } liga_1;</code></p>
+<p><code>    lookup liga_2 { # lookup subtable 2</code>
+<code>        sub f f i by ffi;</code>
+<code>        sub f f l by ffl;</code>
+<code>    } liga_2;</code></p>
+<p><code>    <em>etc.</em></code></p>
+<p><code>} liga;</code></p>
 <p>With 1,200 ligatures, grouping them into separate lookups should also make them all a bit easier to manage.</p>
 </div>
 	</div>
@@ -242,8 +242,8 @@ to meny lookups, subs, marking, context, will prevent the font from compiling</p
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>As I understand it, the limit is 64K per lookup. The issue most often crops up with the <!-- raw HTML omitted -->kern<!-- raw HTML omitted --> feature, which can become quite large even in modest-sized fonts. You&rsquo;ll usually know you&rsquo;ve hit the limit when your feature fails to compile and the error mentions something like &ldquo;offset overflow.&rdquo; (The <!-- raw HTML omitted -->kern<!-- raw HTML omitted --> feature is easier to deal with since it supports subtable breaks, so you can divide it into subtables with simple &ldquo;<!-- raw HTML omitted -->subtable;<!-- raw HTML omitted -->&rdquo; statements.)</p>
-<p>It&rsquo;s worth mentioning that the order of lookup subtables does matter, just as with the order of statements and features. There&rsquo;s actually a flaw in my example code above; the lookups should be in the opposite order. If &ldquo;<!-- raw HTML omitted -->sub f i by fi<!-- raw HTML omitted -->&rdquo; runs first, then &ldquo;<!-- raw HTML omitted -->sub f f i by ffi<!-- raw HTML omitted -->&rdquo; won&rsquo;t do anything since every instance of &ldquo;<!-- raw HTML omitted -->f i<!-- raw HTML omitted -->&rdquo; has already been substituted by &ldquo;<!-- raw HTML omitted -->fi<!-- raw HTML omitted -->&rdquo;. (Sure, &ldquo;<!-- raw HTML omitted -->sub f fi by ffi<!-- raw HTML omitted -->&rdquo; would work, but feels less elegant.) Be careful to keep potential conflicts such as this in mind when organizing your code.</p>
+		<div class="commentbody"><p>As I understand it, the limit is 64K per lookup. The issue most often crops up with the <code>kern</code> feature, which can become quite large even in modest-sized fonts. You&rsquo;ll usually know you&rsquo;ve hit the limit when your feature fails to compile and the error mentions something like &ldquo;offset overflow.&rdquo; (The <code>kern</code> feature is easier to deal with since it supports subtable breaks, so you can divide it into subtables with simple &ldquo;<code>subtable;</code>&rdquo; statements.)</p>
+<p>It&rsquo;s worth mentioning that the order of lookup subtables does matter, just as with the order of statements and features. There&rsquo;s actually a flaw in my example code above; the lookups should be in the opposite order. If &ldquo;<code>sub f i by fi</code>&rdquo; runs first, then &ldquo;<code>sub f f i by ffi</code>&rdquo; won&rsquo;t do anything since every instance of &ldquo;<code>f i</code>&rdquo; has already been substituted by &ldquo;<code>fi</code>&rdquo;. (Sure, &ldquo;<code>sub f fi by ffi</code>&rdquo; would work, but feels less elegant.) Be careful to keep potential conflicts such as this in mind when organizing your code.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

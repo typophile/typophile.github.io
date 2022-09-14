@@ -78,9 +78,46 @@ I want sequence of U+F0986 (Supplementary Private Use Area, name &ldquo;uF0986&r
 I want sequence of &ldquo;uni0451&rdquo;, &ldquo;myglyph1&rdquo; and &ldquo;myglyph2&rdquo; glyphs to be substituted by &ldquo;myglyph3&rdquo; glyph (&ldquo;myglyph3&rdquo; has no Unicode position).</p>
 <p>So that if I have uni0435 + uni00A8 + uniF0987 + uni100987 + uniF0986 + uni100986 sequence, I want it all to be substituted by &ldquo;myglyph3&rdquo; glyph.</p>
 <p>I thought about this kind of opentype code:</p>
-<!-- raw HTML omitted -->
+<code>
+languagesystem DFLT dflt;
+languagesystem cyrl dflt;
+languagesystem latn dflt;
+feature ccmp { # Glyph Composition / Decomposition
+ # DEFAULT
+lookup ccmp0 {
+    sub uni0435 dieresis by uni0451;
+    sub uF0987 u100987 by myglyph1;
+    sub uF0986 u100986 by myglyph2;
+    sub uni0451 myglyph1 myglyph2 by myglyph3;
+} ccmp0;
+ script cyrl; # Cyrillic
+lookup ccmp0;
+ script latn; # Latin
+lookup ccmp0;
+} ccmp;
+</code>
+(or feature "dlig")
 <p>and MS VOLT lookup source:</p>
-<!-- raw HTML omitted -->
+<code>
+DEF_LOOKUP "l002" PROCESS_BASE PROCESS_MARKS ALL DIRECTION LTR
+IN_CONTEXT
+END_CONTEXT
+AS_SUBSTITUTION
+SUB GLYPH "uni0435" GLYPH "dieresis"
+WITH GLYPH "uni0451"
+END_SUB
+SUB GLYPH "uF0987" GLYPH "u100987"
+WITH GLYPH "myglyph1"
+END_SUB
+SUB GLYPH "uF0986" GLYPH "u100986"
+WITH GLYPH "myglyph2"
+END_SUB
+SUB GLYPH "uni0451" GLYPH "myglyph1" GLYPH "myglyph2"
+WITH GLYPH "myglyph3"
+END_SUB
+END_SUBSTITUTION
+END
+</code>
 <p>and I tried to ship font using MS VOLT, but this compiled feature becomes unavailable in Chrome browser (Firefox is OK, I didn&rsquo;t test IE10). How can I solve the problem with Microsoft VOLT or FontLab?</p>
 </div>
 
@@ -134,7 +171,7 @@ If I want to use MS Volt or Fontforge, then what exactly should I do so my brows
 	<div class="card-body">
 		<div class="commentbody"><p>I believe the dieresis at U+00A8 is what most of us think of as a &ldquo;legacy&rdquo; dieresis. It originated back when only the first 127 characters of ASCII were fixed. In many 8-bit ASCII encodings, there was a dieresis at A8.</p>
 <p>It should live on only for the proper reading of older texts, before Unicode. (Unless there is any need for a spacing modifier dieresis, as I don&rsquo;t believe Unicode has one.) Any new use as a  combining diacritical should be U+0308.</p>
-<p>Having said that, most font designer&rsquo;s don&rsquo;t bother with including <!-- raw HTML omitted -->any<!-- raw HTML omitted --> of the combining diacritics, which makes their fonts not proper Unicode.</p>
+<p>Having said that, most font designer&rsquo;s don&rsquo;t bother with including <strong>any</strong> of the combining diacritics, which makes their fonts not proper Unicode.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -181,7 +218,13 @@ If I want to use MS Volt or Fontforge, then what exactly should I do so my brows
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted --></div>
+		<div class="commentbody"><blockquote>If it works without applying any explicit features in Firefox, but not in Chrome, then it sure sounds like Firefox is behaving correctly, and Chrome has a significant bug in not applying required features. [Thomas Phinney]
+</blockquote>
+Thomas, concerning the characters in the extended private user area, at the end of the unicode consortium file http://www.unicode.org/Public/UNIDATA/NamesList.txt it is explicitly written
+<blockquote>
+@+		These codes are intended for process-internal uses, but are not permitted for interchange.
+</blockquote> 
+If those codes are provided as input to Chrome and the consortium says they are not permitted for interchange, why would Chrome not be allowed to consider them as garbage?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -229,12 +272,32 @@ U+100000..U+10FFFD (Supplemental Private Use Area B)</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Concerning the original question, I suggest having a look at <!-- raw HTML omitted -->Opentype features in web browsers<!-- raw HTML omitted --> by Gustavo Ferreira on typotheque. There is a <!-- raw HTML omitted -->series of tests<!-- raw HTML omitted -->, and in particular for <!-- raw HTML omitted -->liga<!-- raw HTML omitted -->, standard ligatures. Unfortunately, the syntax varies from browser to browser. I managed to get the ligatures working with Chrome on Mac OS X 10.8 (with a webkit font) with the following settings (a list copied from the site so as to cover most browsers and situations)</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>Concerning the original question, I suggest having a look at <a href="https://www.typotheque.com/articles/opentype_features_in_web_browsers">Opentype features in web browsers</a> by Gustavo Ferreira on typotheque. There is a <a href="https://www.typotheque.com/articles/opentype_features_in_web_browsers_-_tests">series of tests</a>, and in particular for <a href="https://www.typotheque.com/articles/opentype_features_in_web_browsers_-_tests#liga">liga</a>, standard ligatures. Unfortunately, the syntax varies from browser to browser. I managed to get the ligatures working with Chrome on Mac OS X 10.8 (with a webkit font) with the following settings (a list copied from the site so as to cover most browsers and situations)</p>
+<PRE>
+font-feature-settings: "liga" on;   
+/* vendor-prefixes */
+-moz-font-feature-settings: 'liga=1';
+-ms-font-feature-settings: "liga" on;
+-webkit-font-feature-settings: "liga" on;
+-o-font-feature-settings: "liga" on;
+</PRE>
 <p>and Chrome even accepted those weird ligatures I imagined as some kind of test after reading the initial post:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+lookup ligaStandardLigaturesinLatinloo {
+  lookupflag 0;
+    sub \A \B  by \C;
+    sub \uF0987 \u100987  by \Z;
+} ligaStandardLigaturesinLatinloo;
+
+feature liga {
+  script DFLT;
+     language dflt ;
+      lookup ligaStandardLigaturesinLatinloo;
+  script latn;
+     language dflt ;
+      lookup ligaStandardLigaturesinLatinloo;
+} liga;
+</PRE>
 <p>The font was made with FontForge (with the graphic interface) and the above feature file is the output from FontForge (and such a feature file can also be used in FontForge with Merge feature file; I prefer using feature files for contextual ligatures and alternates but for liga, the graphic interface works comfortably). As a conclusion, ligatures are not automatic, and also Chrome does not reject disallowed input (I am not sure I like that).</p>
 <p>All that being said, I must confess I am also puzzled by the original post. Concerning the letter uni0451, it is normally obtained using a keyboard by first typing a key corresponding to dieresis, and then the key corresponding to uni0435; the final effect is that a single character is entered into the text, and it is uni0451. There is no need of a feature file for that, the keyboard layout sends the right character, uni0451, to the text editor. Everything works fine as long as those three characters are in the font (and you have the appropriate keyboard).</p>
 </div>
@@ -259,7 +322,7 @@ U+100000..U+10FFFD (Supplemental Private Use Area B)</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@Thomas,</p>
-<p>I agree it&rsquo;s &ldquo;stupid&rdquo; (&ldquo;not the sharpest knife in the drawer&rdquo; is gentler, maybe?), but I&rsquo;ll stick with it not being proper Unicode, for the following reason. Remember, the consortium put their foot down on assigning any more codepoints to accented characters. IIRC, at that time, they allowed they&rsquo;d never intended to give so many accented characters codepoints anyway, such characters were <!-- raw HTML omitted -->suppose<!-- raw HTML omitted --> to be constructed using base characters and combining diacritics.</p>
+<p>I agree it&rsquo;s &ldquo;stupid&rdquo; (&ldquo;not the sharpest knife in the drawer&rdquo; is gentler, maybe?), but I&rsquo;ll stick with it not being proper Unicode, for the following reason. Remember, the consortium put their foot down on assigning any more codepoints to accented characters. IIRC, at that time, they allowed they&rsquo;d never intended to give so many accented characters codepoints anyway, such characters were <strong>suppose</strong> to be constructed using base characters and combining diacritics.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -281,9 +344,11 @@ U+100000..U+10FFFD (Supplemental Private Use Area B)</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>The characters used were indeed not touched by the &ldquo;ban&rdquo; which concerned only a limited portion of the areas namely (from the last lines of <!-- raw HTML omitted -->NamesList.txt<!-- raw HTML omitted -->)</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>The characters used were indeed not touched by the &ldquo;ban&rdquo; which concerned only a limited portion of the areas namely (from the last lines of <a href="http://www.unicode.org/Public/UNIDATA/NamesList.txt">NamesList.txt</a>)</p>
+<PRE>
+@@	FFF80	Supplementary Private Use Area-A	FFFFF
+@@	10FF80	Supplementary Private Use Area-B	10FFFF
+</PRE>
 <p>I am afraid I was also misled by the meaning I was giving to the word &ldquo;private&rdquo; (that has a completely different meaning in cryptography).</p>
 </div>
 	</div>

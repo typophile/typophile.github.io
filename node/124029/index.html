@@ -76,16 +76,16 @@
 <p>I&rsquo;m using a spanish OTF font with (Lua)Latex which shows some minor problems for my language (french, namely) and, for example, comes with very tight-kerned apostrophe. I use a .fea file in Latex to add some space around it, and fix some exotic glyph combinations.</p>
 <p>First, I have very few specific problems with the italic variant, and would like to create a my-kerning-it.fea which, first, loads my standard file (namely my-kerning-rm.fea) to apply it to the italics, and, 2nd, adds one or two more positionning lines specificaly made for italics, instead of having to copy and paste from one file to another each time I&rsquo;m tuning the standard roman .fea file. Is it possible to do so?</p>
 <p>Second problem, when I&rsquo;m writing my file, I&rsquo;m trying to cover any possible variants of a character, and uses long lists of glyphs, like:</p>
-<!-- raw HTML omitted -->
-<p>Is there any glyph class by default, eg. <!-- raw HTML omitted -->@A_&amp;_variants<!-- raw HTML omitted --> like the <!-- raw HTML omitted -->@smallcaps<!-- raw HTML omitted --> one cited in the 2.g.ii. part of the [[http://web.archive.org/web/20081207035530/http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#2.g|AFDKO file syntax help]] from Adobe? (Note I&rsquo;m using an old one, for compatibily reason in Latex.)</p>
+<blockquote>pos L quoteright' 10 [A Aacute Abreve Acircumflex Adieresis Agrave Amacron Aogonek Aring Aringacute Atilde];</blockquote>
+<p>Is there any glyph class by default, eg. <em>@A_&amp;_variants</em> like the <em>@smallcaps</em> one cited in the 2.g.ii. part of the [[http://web.archive.org/web/20081207035530/http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#2.g|AFDKO file syntax help]] from Adobe? (Note I&rsquo;m using an old one, for compatibily reason in Latex.)</p>
 <p>Thanks for attention,</p>
 <p>PC</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>All names used for classes in the <!-- raw HTML omitted -->.fea<!-- raw HTML omitted --> file are lost when the <!-- raw HTML omitted -->.otf<!-- raw HTML omitted --> font is generated. I can see no way  to  access those classes from a <!-- raw HTML omitted -->.fea<!-- raw HTML omitted --> file to be used with LuaLaTeX.</p>
-<p>If I understand well the other question, you would like a way to include a generic <!-- raw HTML omitted -->.fea<!-- raw HTML omitted --> file in other <!-- raw HTML omitted -->.fea<!-- raw HTML omitted --> files instead of copying its content for each. According to your reference, there is indeed an  <!-- raw HTML omitted -->include command<!-- raw HTML omitted -->  that should do exactly that but I don&rsquo;t know if LuaTeX implements it or not.</p>
+		<div class="commentbody"><p>All names used for classes in the <code>.fea</code> file are lost when the <code>.otf</code> font is generated. I can see no way  to  access those classes from a <code>.fea</code> file to be used with LuaLaTeX.</p>
+<p>If I understand well the other question, you would like a way to include a generic <code>.fea</code> file in other <code>.fea</code> files instead of copying its content for each. According to your reference, there is indeed an  <a href="http://web.archive.org/web/20081207035530/http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#3">include command</a>  that should do exactly that but I don&rsquo;t know if LuaTeX implements it or not.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -108,15 +108,15 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Hi Michel and thanks for your answer.</p>
-<p>For the first question, I have found something that help me a little, an <!-- raw HTML omitted -->.fea class file<!-- raw HTML omitted --> from another Latex package, Eb Garamond, with a lot of class definitions.</p>
-<p>The <!-- raw HTML omitted -->include<!-- raw HTML omitted --> command works fine, so the files are linked as I wished. The problem is now how to switch from one variant to another in Luatex without using each time an huge custom command like:
-<!-- raw HTML omitted -->\setmainfont{Fontname}[FeatureFile={my-kerning-it.fea}]<!-- raw HTML omitted -->
-instead ot the standard <!-- raw HTML omitted -->/textit{}<!-- raw HTML omitted --> one.</p>
-<p>It seems like a problem that could be solved from the .fea file with an <!-- raw HTML omitted -->Ifdef<!-- raw HTML omitted --> command, as I see in <!-- raw HTML omitted -->that one<!-- raw HTML omitted -->: 
-<!-- raw HTML omitted -->ifdef ITALIC
+<p>For the first question, I have found something that help me a little, an <a href="https://github.com/georgd/EB-Garamond/blob/master/featurefiles/Regular/classes.fea">.fea class file</a> from another Latex package, Eb Garamond, with a lot of class definitions.</p>
+<p>The <em>include</em> command works fine, so the files are linked as I wished. The problem is now how to switch from one variant to another in Luatex without using each time an huge custom command like:
+<em>\setmainfont{Fontname}[FeatureFile={my-kerning-it.fea}]</em>
+instead ot the standard <em>/textit{}</em> one.</p>
+<p>It seems like a problem that could be solved from the .fea file with an <em>Ifdef</em> command, as I see in <a href="http://get-software.net/fonts/amiri/sources/amiri.fea">that one</a>: 
+<em>ifdef ITALIC
 include &ldquo;italic.fea&rdquo;
-endif<!-- raw HTML omitted --></p>
-<p>But it&rsquo;s not working for me, and I can&rsquo;t find any documentation about that <!-- raw HTML omitted -->Ifdef italic<!-- raw HTML omitted --> command in the AFDKO reference file. I think I&rsquo;m gonna let the italics standard kerning for now, until I find a way to use it the standard way in Luatex.</p>
+endif</em></p>
+<p>But it&rsquo;s not working for me, and I can&rsquo;t find any documentation about that <em>Ifdef italic</em> command in the AFDKO reference file. I think I&rsquo;m gonna let the italics standard kerning for now, until I find a way to use it the standard way in Luatex.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -138,12 +138,23 @@ endif<!-- raw HTML omitted --></p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>I am still not sure I understand what you want. If you simply want to use <!-- raw HTML omitted -->\textit<!-- raw HTML omitted --> to switch font and get the proper features, the <!-- raw HTML omitted -->fontspec<!-- raw HTML omitted --> package already allows you to do that. You can specify in <!-- raw HTML omitted -->\setmainfont<!-- raw HTML omitted --> not only the features for the italic but even the font you want to use as the italic when calling <!-- raw HTML omitted -->\textit{}<!-- raw HTML omitted -->. Here is an example where I asked for an c_t ligature in the regular and an s_t ligature in the italic:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>I am still not sure I understand what you want. If you simply want to use <code>\textit</code> to switch font and get the proper features, the <code>fontspec</code> package already allows you to do that. You can specify in <code>\setmainfont</code> not only the features for the italic but even the font you want to use as the italic when calling <code>\textit{}</code>. Here is an example where I asked for an c_t ligature in the regular and an s_t ligature in the italic:</p>
+<PRE>
+\documentclass[12pt]{article}
+\usepackage{fontspec}
+
+\setmainfont[
+ UprightFeatures = {FeatureFile = garreg.fea},
+ ItalicFont = Garamond Premier Pro Italic,
+ ItalicFeatures = {FeatureFile = garit.fea}]{Garamond Premier Pro}
+
+\begin{document}
+Action station \textit{action station} 
+\end{document} 
+</PRE>
 <p>And the output is:
 [img:sites/default/files/old-images/ligs_5294.png]
-As you can see the c_t ligature is active only for the regular and the s_t ligature is active only for the italic, all that with standard LaTeX commands to switch fonts, provided you properly specified your choices in  <!-- raw HTML omitted -->\setmainfont<!-- raw HTML omitted --> (there are also commands to modify your choices).</p>
+As you can see the c_t ligature is active only for the regular and the s_t ligature is active only for the italic, all that with standard LaTeX commands to switch fonts, provided you properly specified your choices in  <code>\setmainfont</code> (there are also commands to modify your choices).</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

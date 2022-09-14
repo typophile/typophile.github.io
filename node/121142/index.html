@@ -102,12 +102,21 @@ George</p>
 	 <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Thanks JanekZ! I knew about that article, but it doesn&rsquo;t talk about the fact that the following snippet will turn all &lsquo;a&rsquo;s into &lsquo;c&rsquo;s:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+sub a by b;
+lookup ReRun {
+  sub b by c;
+} ReRun;
+</pre> 
 <p>whereas this snippet won&rsquo;t:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>Do you think the ban on lookup types in features where they&rsquo;re not specified only applies to substitutions that take or return the wrong number of glyphs? Or does it mean you also can&rsquo;t do contextual substitutions where only non-contextual are specified, or non-contextual where contextual are specified? There are places where bending the rules would be handy even for basic stuff: for instance, contextual substitutions in <!-- raw HTML omitted -->locl<!-- raw HTML omitted --> for Catalan punt volat; one-to-many in <!-- raw HTML omitted -->smcp<!-- raw HTML omitted --> for decomposing germandbls.smcp to s.smcp.DEU s.smcp.DEU; and many-to-one in <!-- raw HTML omitted -->salt<!-- raw HTML omitted --> or <!-- raw HTML omitted -->ss01<!-- raw HTML omitted --> for replacing s.smcp.DEU s.smcp.DEU with germandbls.smcp.alt.</p>
+<pre>
+lookup DoesntReRun {
+  sub b by c;
+} DoesntReRun;
+sub a by b;
+lookup DoesntReRun;
+</pre> 
+<p>Do you think the ban on lookup types in features where they&rsquo;re not specified only applies to substitutions that take or return the wrong number of glyphs? Or does it mean you also can&rsquo;t do contextual substitutions where only non-contextual are specified, or non-contextual where contextual are specified? There are places where bending the rules would be handy even for basic stuff: for instance, contextual substitutions in <code>locl</code> for Catalan punt volat; one-to-many in <code>smcp</code> for decomposing germandbls.smcp to s.smcp.DEU s.smcp.DEU; and many-to-one in <code>salt</code> or <code>ss01</code> for replacing s.smcp.DEU s.smcp.DEU with germandbls.smcp.alt.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -163,7 +172,7 @@ sub b by c; # 2nd rule</li>
 </ol>
 <ul>
 <li>&ldquo;abc&rdquo; -&gt; &ldquo;bbc&rdquo; [&ldquo;a&rdquo; is substituted by &ldquo;b&rdquo;; no more &ldquo;a&quot;s] 1st rule</li>
-<li>&ldquo;bbc&rdquo; -&gt; &ldquo;bcc&rdquo; [<!-- raw HTML omitted -->second<!-- raw HTML omitted --> &ldquo;b&rdquo; is substituted by &ldquo;c&rdquo;; no more &ldquo;b&quot;s] 2nd rule</li>
+<li>&ldquo;bbc&rdquo; -&gt; &ldquo;bcc&rdquo; [<strong>second</strong> &ldquo;b&rdquo; is substituted by &ldquo;c&rdquo;; no more &ldquo;b&quot;s] 2nd rule</li>
 </ul>
 <ol start="3">
 <li>If your first example works as you described, then try:
@@ -194,11 +203,11 @@ sub b by a;
 	 <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Odd it doesn&rsquo;t work for you; it does for me in FL. But my first example isn&rsquo;t equivalent to 
-<!-- raw HTML omitted -->
+<code>
 sub a by b;
 sub b by c;
-<!-- raw HTML omitted -->
-Those two lines just turn a string of &lsquo;a&rsquo;s into &lsquo;b&rsquo;s, not into &lsquo;c&rsquo;s (as you know) because without a separate lookup for the second rule the layout engine doesn&rsquo;t go back to the start of the glyph run. What puzzles me is that, in my second example, <!-- raw HTML omitted -->lookup DoesntReRun;<!-- raw HTML omitted --> doesn&rsquo;t send the layout engine back to the start in the same way as defining and running the lookup in place does.</div>
+</code>
+Those two lines just turn a string of &lsquo;a&rsquo;s into &lsquo;b&rsquo;s, not into &lsquo;c&rsquo;s (as you know) because without a separate lookup for the second rule the layout engine doesn&rsquo;t go back to the start of the glyph run. What puzzles me is that, in my second example, <code>lookup DoesntReRun;</code> doesn&rsquo;t send the layout engine back to the start in the same way as defining and running the lookup in place does.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -224,9 +233,59 @@ Those two lines just turn a string of &lsquo;a&rsquo;s into &lsquo;b&rsquo;s, no
 		<div class="commentbody"><p>It is my understanding that the  cursor never goes backwards (though contextual rules allow looking at left contexts).</p>
 <p>If you have many substitution rules in a lookup, it is my understanding that the first that matches is applied. If you have many lookups they are applied in a row. So if the string is ab and the first lookup says to replace a by b and b by c, then you will endup with bc because the first rule matches a and will replace a by b and then the cursor moves forward one position and then the second rules applies for b. If you have a first lookup that replaces a by b and a second lookup that remplaces b by c, then a will be replaced by b by the first lookup and then b by c by the second lookup and then the cursor will move forward one position to the second character and then the second lookup will replace b by c to give cc as a result. If your first lookup replaces b by c and the second replaces a by b, then on ab the first lookup does nothing on a and the second replaces it by b and then the cursor moves to the second glyph that is replaced by c; the resulting string is bc.</p>
 <p>I tried with FontForge with the following code: on ab, ss01 gives bc, ss02 gives cc and ss03 gives bc as expected.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<PRE>
+feature ss01 {
+ lookup trysubboth {
+  lookupflag 0;
+    sub \a by \b ;
+    sub \b by \c ;
+ } trysubboth;
+  script DFLT;
+     language dflt ;
+      lookup trysubboth;
+  script latn;
+     language dflt ;
+      lookup trysubboth;
+} ss01;
+
+feature ss02 {
+ lookup subab2 {
+  lookupflag 0;
+    sub \a by \b ;
+ } subab2;
+ lookup subbc2 {
+  lookupflag 0;
+    sub \b by \c ;
+ } subbc2;
+  script DFLT;
+     language dflt ;
+      lookup subab2;
+      lookup subbc2;
+  script latn;
+     language dflt ;
+      lookup subab2;
+      lookup subbc2;
+} ss02;
+
+feature ss03 {
+ lookup subbc3 {
+  lookupflag 0;
+    sub \b by \c ;
+ } subbc3;
+ lookup subab3 {
+  lookupflag 0;
+    sub \a by \b ;
+ } subab3;
+  script DFLT;
+     language dflt ;
+      lookup subbc3;
+      lookup subab3;
+  script latn;
+     language dflt ;
+      lookup subbc3;
+      lookup subab3;
+} ss03;
+</PRE><blockquote>
 </blockquote>
 </div>
 	</div>
@@ -248,8 +307,12 @@ Those two lines just turn a string of &lsquo;a&rsquo;s into &lsquo;b&rsquo;s, no
 	 <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Thanks Michel. The [[http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#7.a|Adobe Feature File spec]] says the cursor does go back with each lookup: &ldquo;each lookup corresponds to one &lsquo;pass&rsquo; over the glyph run&rdquo;. You can prove it by giving a string of &lsquo;a&rsquo;s to the following code, which returns not &lsquo;i&rsquo;s, as it would if the layout engine went through all lookups before moving on to the next glyph, but &lsquo;j&rsquo;s:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>sub a by b;
+lookup proof {
+  sub b' a by i;
+  sub b' b by j;
+} proof;
+</pre>That's why I expected <code>lookup DoesntReRun;</code> at the end of my second example to send the cursor back to the start, turning all the new 'b's produced by <code>sub a by b;</code> into 'c's. The following code does do what I'd expected, despite using only lookup calls rather than definition-and-execution in place: <pre>
 <p>lookup sub_a {
 sub a by b;
 } sub_a;
@@ -259,8 +322,8 @@ sub b by c;
 feature xxxx {
 lookup sub_a;
 lookup sub_b;
-} xxxx;<!-- raw HTML omitted --></p>
-<p>But now I&rsquo;ve noticed something else odd: the last piece of code does exactly the same thing if you swap the order of the lookup calls, but changes its behaviour if you swap the order of the lookup <!-- raw HTML omitted -->definitions<!-- raw HTML omitted -->. Specifically, given a string of &lsquo;a&rsquo;s, it returns &lsquo;b&rsquo;s instead of &lsquo;c&rsquo;s. This language is weird.</p>
+} xxxx;</pre></p>
+<p>But now I&rsquo;ve noticed something else odd: the last piece of code does exactly the same thing if you swap the order of the lookup calls, but changes its behaviour if you swap the order of the lookup <em>definitions</em>. Specifically, given a string of &lsquo;a&rsquo;s, it returns &lsquo;b&rsquo;s instead of &lsquo;c&rsquo;s. This language is weird.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -285,7 +348,7 @@ lookup sub_b;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I had noticed that the order of the declaration affected the result. I could see it with the Fontforge grahical interface. That is why I declared twice the substitutions above. Weird.</p>
-<p>Your proof leaves me puzzled. In  Haralambous' <!-- raw HTML omitted -->Fonts &amp; Encodings<!-- raw HTML omitted -->, section D 9.4.5 contains about 5 pages of explanations on how contextual substitutions work with accompanying xml code generated by ttx. I would first look there.</p>
+<p>Your proof leaves me puzzled. In  Haralambous' <em>Fonts &amp; Encodings</em>, section D 9.4.5 contains about 5 pages of explanations on how contextual substitutions work with accompanying xml code generated by ttx. I would first look there.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -311,13 +374,13 @@ lookup sub_b;
 <p>[7.b. Ordering of lookups and subtables]
 &ldquo;Lookups will be created in the GSUB/GPOS table&rsquo;s LookupList in the same order as the corresponding named lookup blocks or runs of rules in the feature file&rdquo;
 so if you have named lookups:
-<!-- raw HTML omitted -->lookup sub_b
-lookup sub_a<!-- raw HTML omitted -->
+<code>lookup sub_b
+lookup sub_a</code>
 in that order, then:
-<!-- raw HTML omitted -->feature xxxx {
+<code>feature xxxx {
 lookup sub_a;
 lookup sub_b;
-} xxxx<!-- raw HTML omitted -->
+} xxxx</code>
 is executed in order of named lookups.
 [img:sites/default/files/old-images/The Terrible Secret1_5528.jpg]
 [img:sites/default/files/old-images/The Terrible Secret2_6466.jpg]</p>
@@ -342,8 +405,8 @@ is executed in order of named lookups.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --> 2) Lookup definitions written outside a feature but called within one are copied in written order to the top of the feature&rsquo;s code.<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->2) All lookup calls themselves are then deleted.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite> 2) Lookup definitions written outside a feature but called within one are copied in written order to the top of the feature&rsquo;s code.</cite>
+<cite>2) All lookup calls themselves are then deleted.</cite></p>
 <p>This is incorrect. To understand what&rsquo;s going on you need to understand that the GSUB table within a font is a set of ordered lookups, and that feature tags simply indicate a set of lookups which are to be applied when that feature is active. To illustrate this, consider the following:</p>
 <p>feature xxxx {
 sub a by b;
@@ -369,7 +432,7 @@ sub a by c;
 } lookup2;</p>
 <p>Feature tag xxxx will specify that lookup1 and lookupA are to be applied.
 Feature tag yyyy will specify that lookup2 and lookupA are to be called.</p>
-<p>The fact that the call to lookupA appears <!-- raw HTML omitted --> after <!-- raw HTML omitted --> the line <!-- raw HTML omitted --> sub a by c; <!-- raw HTML omitted --> does not override the fact that lookupA has been defined <!-- raw HTML omitted --> before <!-- raw HTML omitted --> lookup2 in the feature file.</p>
+<p>The fact that the call to lookupA appears <em> after </em> the line <code> sub a by c; </code> does not override the fact that lookupA has been defined <em> before </em> lookup2 in the feature file.</p>
 <p>So, if you apply feature yyyy to the string &lsquo;abc&rsquo; the output will be &lsquo;cbd&rsquo; rather than &lsquo;dbd&rsquo; since it is the order of the lookup definitions, not the order of the lookup calls which is relevant.</p>
 <p>André</p>
 </div>
@@ -484,8 +547,8 @@ Feature tag yyyy will specify that lookup2 and lookupA are to be called.</p>
 <li>Sequences of rules outside explicit lookups within the same script and language, with the same lookupflag, and of the same lookup type (e.g. non-contextual one-to-one or reverse contextual) are converted to anonymous lookups. For this purpose, lookup calls are treated as boundaries between rule sequences.</li>
 <li>Lookup definitions written outside a feature but called within one are copied in written order to the top of the feature&rsquo;s code.</li>
 <li>All lookup calls themselves are then deleted. 
-Which is impressively user-hostile, but no more so than the fact that rules written after <!-- raw HTML omitted -->script latn;
-language dflt;<!-- raw HTML omitted --> are actually excluded from all latin-script languages not explicitly mentioned (hope I&rsquo;ve got that right).</li>
+Which is impressively user-hostile, but no more so than the fact that rules written after <pre>script latn;
+language dflt;</pre> are actually excluded from all latin-script languages not explicitly mentioned (hope I&rsquo;ve got that right).</li>
 </ol>
 </div>
 	</div>
@@ -508,9 +571,20 @@ language dflt;<!-- raw HTML omitted --> are actually excluded from all latin-scr
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>The <!-- raw HTML omitted -->opentype engine&rsquo;s layout algorithm<!-- raw HTML omitted --> is indeed rather clear. Another &ldquo;proof&rdquo; that there is more than one pass is that with</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+		<div class="commentbody"><p>The <a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#7.a">opentype engine&rsquo;s layout algorithm</a> is indeed rather clear. Another &ldquo;proof&rdquo; that there is more than one pass is that with</p>
+<PRE>
+feature calt {
+  script latn;
+     language dflt ;
+       sub  \a \a'   by \b;
+} calt;
+
+feature dlig {
+  script latn;
+     language dflt ;
+      sub \a \b by \c ;
+} dlig;
+</PRE>
 <p>&lsquo;aaaaaa&rsquo; is replaced by &lsquo;ccc&rsquo;  if calt and dlig are activated.</p>
 </div>
 	</div>

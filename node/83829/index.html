@@ -74,7 +74,7 @@
   <div class="post-content e-content" itemprop="articleBody"><p>I have upped a few screenshots from fonts auto-instructed with Werner Lemberg&rsquo;s very latest &lsquo;ttfautohint&rsquo; tool.
 It&rsquo;s still in development but it&rsquo;s covering ground very fast. ttfautohint instructs a Truetype font for web use in a matter of seconds.</p>
 <p>for some screenshots comparing original hinted fonts with versions auto-instructed with ttfautohint, see - <a href="http://code.newtypography.co.uk/">http://code.newtypography.co.uk/</a></p>
-<!-- raw HTML omitted -->
+<img src ="https://lh6.googleusercontent.com/-4R7AgNeEPTg/TiHBZ6iRl_I/AAAAAAAAAgs/7Dja9FkLzCo/1310835046630.png"/>
 </div>
 
    <div class="comment card m-3">
@@ -103,7 +103,7 @@ It&rsquo;s still in development but it&rsquo;s covering ground very fast. ttfaut
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>good points :)</p>
-<p>It&rsquo;s difficult to get hold of freely available fonts that have been manually hinted to the highest level - hence the need for a tool that comes at least close. I originally chose the Ubuntu Font as i know Dalton Maag documented it&rsquo;s hinting process, <!-- raw HTML omitted -->see here<!-- raw HTML omitted -->, so for the sake of comparison, it seemed to me a pretty good real-world choice. Personally i don&rsquo;t have commercial fonts and i won&rsquo;t test the screen-optimized Windows system fonts.</p>
+<p>It&rsquo;s difficult to get hold of freely available fonts that have been manually hinted to the highest level - hence the need for a tool that comes at least close. I originally chose the Ubuntu Font as i know Dalton Maag documented it&rsquo;s hinting process, <a href="http://design.canonical.com/2010/11/of-hinting-and-tables/">see here</a>, so for the sake of comparison, it seemed to me a pretty good real-world choice. Personally i don&rsquo;t have commercial fonts and i won&rsquo;t test the screen-optimized Windows system fonts.</p>
 <p>The other angle to all this, as i see it at least, is that ttfautohint is not an attempt to emulate manual hinting or be a substutute for it, though it&rsquo;s allways tempting to compare :)  ttfautohint is really a tool to quickly create truetype instructions in fonts that are to be rendered on Windows machine from web based font servers. I guess the mark of whether ttfautohint instructed fonts are hinted well enough is whether web designers and web users accept the way they render on Windows OS screens.</p>
 <p>-vern</p>
 </div>
@@ -153,7 +153,7 @@ feel free to recommend fonts that should be tested with this tool.</div>
 <p>I believe the Paratype fonts were manually hinted using VTT.</p>
 <p>@jh or anybody:</p>
 <p>I believe Vernon and I have both seen auto-hinted versions of outlines that - at least to me - look not equal to, but better than their manually done counterparts.</p>
-<p>To paraphrase Duke Ellington once again: &ldquo;If it <!-- raw HTML omitted -->looks<!-- raw HTML omitted --> good, it <!-- raw HTML omitted -->is<!-- raw HTML omitted --> good.&rdquo;</p>
+<p>To paraphrase Duke Ellington once again: &ldquo;If it <strong>looks</strong> good, it <strong>is</strong> good.&rdquo;</p>
 <p>So, I guess my question is: what&rsquo;s to be gained by manually hinting if the auto-hinted product looks satisfactory?</p>
 <p>rich</p>
 <p>*No trick question. There might very well be advantages beyond looks - just wondering what they might be.</p>
@@ -178,7 +178,7 @@ feel free to recommend fonts that should be tested with this tool.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Rich: <!-- raw HTML omitted -->So, I guess my question is: what&rsquo;s to be gained by manually hinting if the auto-hinted product looks satisfactory?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Rich: <em>So, I guess my question is: what&rsquo;s to be gained by manually hinting if the auto-hinted product looks satisfactory?</em></p>
 <p>Nothing, if ‘satisfactory’ meets your purposes. My interest in seeing comparisons with better quality manually hinted fonts is to be able to determine exactly what sort of differences we might expect between ttfautohint results and deliberate decision making by an experienced hinter. I&rsquo;m not interested in saying that one is better or worse than the other, especially not in a general sense independent of particular designs and intended purposes, but in getting a better understanding of what ttfautohint does in given situations compared to what I or someone else might do.</p>
 <p>My interest in seeing examples of non-Latin results of ttfautohint is due to many years of having witnessed technological breakthroughs in font rendering that were not adequately tested beyond the Latin script. My take on all technology is that one should seek out the use cases that will provide the greatest challenge to the approach implemented in the technology.</p>
 </div>
@@ -367,14 +367,15 @@ With the fails on Font Validator - you mean all the outputted fonts fail?!? hmm 
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@Jens: There are three issues:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<ul><li>ttfautohint 0.1 indeed produced invalid bytecode.  This has been fixed in release 0.2, uploaded a few hours ago (it may take 24 hours until it gets distributed to all mirrors).</li>
+<li>FontValidate reports some trivial errors, caused by the fact that the freely downloadable version is too old (from 2003!).  For examplę it doesn't understand `gasp' table version 1.  Probably related to this are checksum errors which are not important either.</li>
+<li>Far more serious is that FontValidate reports zillions of
+<blockquote>
+  E6049  Twilight zone point not set</blockquote>
 <p>errors which are incorrect, according to my interpretation of the OpenType specification.</p>
 <p>According to the <code>instgly.doc' file (part of the specification), page 164, chapter </code>Points', section `Zones':</p>
-<p><!-- raw HTML omitted -->The profile table establishes the maximum number of twilight points. These are numbers 0 through maxTwilightPoints-1 and are all set to the origin. These points can be moved in the same manner as any of the points in zone 1.<!-- raw HTML omitted --></p>
-<p>This essentially means that <!-- raw HTML omitted -->all<!-- raw HTML omitted --> twilight points are set to (0,0) as soon as I start to execute the bytecode of a glyph (and no point is not set)!  Obviously, either FontValidator or the documentation is incorrect&hellip;  Compare this to the values in the storage area, where the specification explicitly mentions that access to unassigned values is undefined.<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><cite>The profile table establishes the maximum number of twilight points. These are numbers 0 through maxTwilightPoints-1 and are all set to the origin. These points can be moved in the same manner as any of the points in zone 1.</cite></p>
+<p>This essentially means that <strong>all</strong> twilight points are set to (0,0) as soon as I start to execute the bytecode of a glyph (and no point is not set)!  Obviously, either FontValidator or the documentation is incorrect&hellip;  Compare this to the values in the storage area, where the specification explicitly mentions that access to unassigned values is undefined.</li></ul></p>
 <p>I would be glad if anybody here can give more details&hellip;</p>
 </div>
 	</div>
@@ -423,8 +424,22 @@ With the fails on Font Validator - you mean all the outputted fonts fail?!? hmm 
 <p>Hm, just now I saw that the resulting validator XML file is 160 MB in size, that might explain the slowness ;)</p>
 <p>When I open the XML file with a text editor, I see that most of the errors are indeed &ldquo;E6049 Twilight zone point not set&rdquo; and a lot of warnings &ldquo;W6008 Value for count is less than 1. Function will not be called&rdquo;.</p>
 <p>What&rsquo;s odd is that also ttx (from the fontTools Python module) seems to have problems with decompiling the instruction code. Not on all fonts I tested, but on most:</p>
-<!-- raw HTML omitted -->
-</div>
+<code>
+An exception occurred during the decompilation of the 'glyf' table
+Dumping 'glyf' table...
+Traceback (most recent call last):
+  File "C:\Python24\Lib\site-packages\fontTools\ttx.py", line 289, in main
+    process(jobs, options)
+  File "C:\Python24\Lib\site-packages\fontTools\ttx.py", line 274, in process
+    action(input, output, options)
+  File "C:\Python24\Lib\site-packages\fontTools\ttx.py", line 171, in ttDump
+    disassembleInstructions=options.disassembleInstructions)
+  File "C:\Python24\lib\site-packages\fontTools\ttLib\__init__.py", line 267, in saveXML
+    self._tableToXML(tableWriter, tag, progress)
+  File "C:\Python24\lib\site-packages\fontTools\ttLib\__init__.py", line 301, in _tableToXML
+    table.toXML(writer, self, progress)
+TypeError: toXML() takes exactly 3 arguments (4 given)
+</code></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -543,14 +558,14 @@ Does that help at all? Short story - it&rsquo;s not a Mac app with a gui :)</div
 		<div class="commentbody"><p>Jasper,</p>
 <p>if you have the Apple Developer Tools installed:</p>
 <p>In Terminal.app, the command sequence is (press enter after each line):</p>
-<p><!-- raw HTML omitted -->cd Downloads/freetype-2.4.5
+<p><code>cd Downloads/freetype-2.4.5
 ./configure
 make
 sudo make install
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>You also need the folder for ttfautohint-0.2, it&rsquo;s a separate download. The commands to build and install are the same.</p>
 <p>Then you can run ttfautohint from the command line:</p>
-<p><!-- raw HTML omitted -->/usr/local/bin/ttfautohint<!-- raw HTML omitted --></p>
+<p><code>/usr/local/bin/ttfautohint</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -573,7 +588,7 @@ sudo make install
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Jens,</p>
-<p>the warning <!-- raw HTML omitted -->W6008 Value for count is less than 1. Function will not be called<!-- raw HTML omitted --> should IMHO be switched off by default within FontValidator.  I consider calling LOOPCALL with a zero valued counter as a very elegant method to skip a loop, making the code compact and simple.  In other words: This warning will stay forever, since I&rsquo;m not going to uglify perfectly valid and easy to understand bytecode just to pacify FontValidator.</p>
+<p>the warning <em>W6008 Value for count is less than 1. Function will not be called</em> should IMHO be switched off by default within FontValidator.  I consider calling LOOPCALL with a zero valued counter as a very elegant method to skip a loop, making the code compact and simple.  In other words: This warning will stay forever, since I&rsquo;m not going to uglify perfectly valid and easy to understand bytecode just to pacify FontValidator.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -596,7 +611,7 @@ sudo make install
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Werner,
-I tested ttfautohint with Arabic fonts and the result is distorted behind recognition (used <!-- raw HTML omitted -->-f<!-- raw HTML omitted --> option), which is surprising since FreeType autohinting gives good results. It is not clear to me where to report bugs, should I report it to FreeType&rsquo;s Savannah bug tracker?</div>
+I tested ttfautohint with Arabic fonts and the result is distorted behind recognition (used <code>-f</code> option), which is surprising since FreeType autohinting gives good results. It is not clear to me where to report bugs, should I report it to FreeType&rsquo;s Savannah bug tracker?</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -661,7 +676,9 @@ I tested ttfautohint with Arabic fonts and the result is distorted behind recogn
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><cite>
+To me the mark of 'well hinted' is the fact that the appearance of Droid Serif stays fairly constant between cleartype and greyscale, compared to e.g. the Ubuntu Font. 
+</cite>
 <p>Maybe I&rsquo;m alone on this, but I don&rsquo;t understand why you&rsquo;d use comparison between two rasterization methods as a mark of quality hinting. It seems to me that the goal of hinting should be that the font is as legible as possible given the current conditions, so that the font should be as legible as possible given the restraints of B+W rendering, and also as legible as possible under grayscale rendering. Whether the solutions to these issues are very close, or have some differences seems to be irrelevant.
 The one thing a user is never going to do is flip between rendering modes while reading. Nearly all users will only see the font in B+W, or only see it in grayscale, depending on their system settings. So if the user can&rsquo;t flip between these options and see both, why the insistence on the solutions being the same?</p>
 <p>Jason C</p>
@@ -686,9 +703,9 @@ The one thing a user is never going to do is flip between rendering modes while 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->&ldquo;I don&rsquo;t understand why you&rsquo;d use comparison between two rasterization methods as a mark of quality hinting&rdquo;<!-- raw HTML omitted -->
+		<div class="commentbody"><p><cite>&ldquo;I don&rsquo;t understand why you&rsquo;d use comparison between two rasterization methods as a mark of quality hinting&rdquo;</cite>
 erm&hellip; maybe to see what the font will look like when viewed on different browser/render engines? e.g. Looks good on cleartype &amp; greyscale = well hinted. Looks good on cleartype but bad on greyscale = not well hinted. etc.</p>
-<p><!-- raw HTML omitted -->&ldquo;The one thing a user is never going to do is flip between rendering modes while reading&rdquo;<!-- raw HTML omitted -->
+<p><cite>&ldquo;The one thing a user is never going to do is flip between rendering modes while reading&rdquo;</cite>
 Windows users with OCD? ;)</p>
 </div>
 	</div>
@@ -711,7 +728,9 @@ Windows users with OCD? ;)</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><cite>
+erm... maybe to see what the font will look like when viewed on different browser/render engines? 
+</cite>
 <p>No, I get that. What i&rsquo;m saying is that it could look good in greyscale, and look good in B+W, even if it looked different between the two. As long as each solution works and looks good for each environment, I&rsquo;m not sure it&rsquo;s important that they look the same.</p>
 <p>Jason C</p>
 </div>
@@ -757,7 +776,7 @@ Windows users with OCD? ;)</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Hello Werner,</p>
-<p>Thanks for developing a <!-- raw HTML omitted -->free<!-- raw HTML omitted --> tool like <!-- raw HTML omitted -->ttfautohint<!-- raw HTML omitted -->. Over the past few weeks I tested <!-- raw HTML omitted -->ttfautohint<!-- raw HTML omitted --> and overall I am quite impressed by the results. There are some issues, like reported above, but still I think it is pretty amazing that (with some simple shell scripting) one can hint (large quantities of) fonts on this quality level automatically.</p>
+<p>Thanks for developing a <strong>free</strong> tool like <em>ttfautohint</em>. Over the past few weeks I tested <em>ttfautohint</em> and overall I am quite impressed by the results. There are some issues, like reported above, but still I think it is pretty amazing that (with some simple shell scripting) one can hint (large quantities of) fonts on this quality level automatically.</p>
 <p>I very much like the idea of circumventing manual hinting as much as possible; despite the fact that we earned some good money with it, euphemistically stated, I never really liked the work. So, thanks again for your efforts, and I will happily test version 0.2 today.</p>
 <p>FEB</p>
 </div>
@@ -802,7 +821,9 @@ Windows users with OCD? ;)</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><cite>
+hoping John Hudson would explain more about his statement that Droid Serif was 'well hinted' whereas the Ubuntu Font was not. 
+</cite>
 <p>I&rsquo;ll let John comment on that. I&rsquo;m not exactly objective about it, having worked on hinting for both of them.</p>
 <p>Jason C</p>
 </div>
@@ -1052,7 +1073,7 @@ It&rsquo;s great to have yet another option in the works. I&rsquo;ve been keepin
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I fully agree.  The question is whether it makes sense to implement support for that rendering mode, given that Win XP is <!-- raw HTML omitted -->really<!-- raw HTML omitted --> old&hellip;</div>
+		<div class="commentbody">I fully agree.  The question is whether it makes sense to implement support for that rendering mode, given that Win XP is <em>really</em> old&hellip;</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -1371,7 +1392,7 @@ No, it does, but none of the stems are locked to the grid.</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>FF: No, it does, [ probably not use x-hints ] but none of the stems are locked to the grid.</p>
-<p>If x hints on italics, which have no grid to lock x stems to, then what <!-- raw HTML omitted --> do they <!-- raw HTML omitted --> lock to, or even do?</p>
+<p>If x hints on italics, which have no grid to lock x stems to, then what <em> do they </em> lock to, or even do?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1417,7 +1438,7 @@ No, it does, but none of the stems are locked to the grid.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Maybe the reason hinting tutorials are so hard to come by is the large number of possible ways to the goal.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Maybe the reason hinting tutorials are so hard to come by is the large number of possible ways to the goal.</cite></p>
 <p>Bingo!</p>
 </div>
 	</div>
@@ -1494,7 +1515,7 @@ Bl = an instruction on a black feature (stem)</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@frode</p>
-<p><!-- raw HTML omitted -->&ldquo;If an experienced hinter needs 80 hours per font I need some more experience.&quot;<!-- raw HTML omitted --></p>
+<p><em>&ldquo;If an experienced hinter needs 80 hours per font I need some more experience.&quot;</em></p>
 <p>I&rsquo;m curious as to where that &ldquo;80 hours&rdquo; came from and how accurate it is. I read &ldquo;40 hours&rdquo; on, I think, Peter Bilak&rsquo;s blog. I&rsquo;m just interested in how long the average manual VTT hinting job takes for, say, the WinAnsi set of characters.</p>
 <p>Anybody?</p>
 </div>

@@ -72,11 +72,18 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>This is my first post here and I&rsquo;m still wet behind the ears when it comes much of the tech details of creating a font, so please excuse my noobness.</p>
-<p>I&rsquo;ve created [[http://pixelambacht.nl/2013/font-face-render-check/|a little check to see if <!-- raw HTML omitted -->font-face<!-- raw HTML omitted --> is supported]] by a browser. For this I created a TTF file that contains one single glyph, which metrics I check with JavaScript to confirm it actually rendered. I created this font as follows:</p>
-<!-- raw HTML omitted -->
+<p>I&rsquo;ve created [[http://pixelambacht.nl/2013/font-face-render-check/|a little check to see if <code>font-face</code> is supported]] by a browser. For this I created a TTF file that contains one single glyph, which metrics I check with JavaScript to confirm it actually rendered. I created this font as follows:</p>
+<ol>
+<li>I drew the glyp (a very wide rectangle) and created a one-glyph font with [[http://icomoon.io/|the Icomoon icon font application]]</li>
+<li>I stripped all metadata (or reduced mandatory metadata to a single character) using a free tool called TTFEdit</li>
+</ol>
 <p>[[https://github.com/RoelN/font-face-render-check/tree/master/dev|This results in a TTF file of just 836 bytes.]] I was wondering if I could bring the file size down any further.</p>
 <p>I tried the following:</p>
-<!-- raw HTML omitted -->
+<ol>
+<li>Set the glyph to the space character (as this is a mandatory "glyph" in the Icomoon tool, so it technically contains two glyps together with my custom one). But is seems Windows (or at least Chrome on Windows) doesn't allow for this and shows an empty space instead of the glyph you put in your font</li>
+<li>Convert to WOFF, which results in a file of 660 bytes but is supported by fewer browsers than TTF</li>
+<li>Edit the font in FontForge, some other freeware tools, and online apps in an attempt to strip more data. The resulting file was alwas bigger when saved.</li>
+</ol>
 <p>I looked for (Linux command line) tools that would allow me to strip the space glyph, tables or further (meta)data from the file. The glyph doesn&rsquo;t have to be pretty, so I could sacrifice stuff like kerning or hinting data. But I can&rsquo;t find any tool that allows me to do this.</p>
 <p>Any ideas what else I could try?</p>
 </div>
@@ -191,9 +198,9 @@ Reduce em-size to, say, 8 and paint a triangle instead of a rectangle.</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>For editing fonts on a code level, I use the <!-- raw HTML omitted -->Python fontTools<!-- raw HTML omitted -->.</p>
+		<div class="commentbody"><p>For editing fonts on a code level, I use the <a href="https://github.com/behdad/fonttools/">Python fontTools</a>.</p>
 <p>By stripping out the TrueType instructions, empty name records and Mac cmap, and deleting the gasp table you can save some more size.</p>
-<p>A few bytes can be shaved off by using an <!-- raw HTML omitted -->OS/2 table version 1<!-- raw HTML omitted --> instead of <!-- raw HTML omitted -->version 3<!-- raw HTML omitted -->, which is a little bit shorter.</p>
+<p>A few bytes can be shaved off by using an <a href="http://www.microsoft.com/typography/otspec/os2ver1.htm">OS/2 table version 1</a> instead of <a href="http://www.microsoft.com/typography/otspec/os2.htm">version 3</a>, which is a little bit shorter.</p>
 <p>The glyphs can be made smaller too, actually as they are now they are invalid. The space should contain no contour, and the last point in the hyphen glyph is a duplicate of the first one.</p>
 <p>By changing all this I got the TTF size down to 572 bytes. I haven’t done any tests if this will break the font, but I think it shouldn’t.</p>
 <p>→ <a href="https://github.com/fsi-jens/font-face-render-check/commit/ac8b7dbd68813f2b4eb7b3fa692adf3061e80bdb">https://github.com/fsi-jens/font-face-render-check/commit/ac8b7dbd68813f2b4eb7b3fa692adf3061e80bdb</a></p>
@@ -243,7 +250,7 @@ Reduce em-size to, say, 8 and paint a triangle instead of a rectangle.</div>
 	<div class="card-body">
 		<div class="commentbody"><p>Thanks for the great work Jens! The gods of free time have not been kind to me, so I haven&rsquo;t been able to really dig into the new font you created, but I want to give fontTools a spin as soon as I can. No easier way to hack a font than in plain text!</p>
 <p>You last TTF version is just 40 bytes bigger than the font Mike Kamermans was able to whip up, which is very impressive! I&rsquo;ll see if I can apply his binary hacking trick to your version, so the BASE64 string will be optimized for gzip compression.</p>
-<p>I&rsquo;ll also have to do some thorough checking if the font is still valid on all systems and browsers — a <!-- raw HTML omitted -->font-face<!-- raw HTML omitted --> check that fails because its test font is broken is kinda missing the point, of course.</p>
+<p>I&rsquo;ll also have to do some thorough checking if the font is still valid on all systems and browsers — a <code>font-face</code> check that fails because its test font is broken is kinda missing the point, of course.</p>
 <p>Thanks so much for all these insights, I really enjoyed digging into this stuff!</p>
 </div>
 	</div>
@@ -381,11 +388,16 @@ Reduce em-size to, say, 8 and paint a triangle instead of a rectangle.</div>
 	<div class="card-body">
 		<div class="commentbody"><p>I’ve managed to cut 4 bytes from the cmap table down to a total of 16 with [[http://github.com/grzegorzrolek/null-ttf/commit/1067c65803cc55bc6a0fdd85935acf984f410676|this little dirty hack of overlaid entries]]. Here’s how it goes.</p>
 <p>If the only subtable is a subtable format zero and it has a length of 8 bytes (that’s the minimum on OS X at least), you get the whole cmap table as follows:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre><code>0x0000 0x0001 Version, no. of subtables
+0x0000 0x0000 Platform, encoding
+0x0000 0x000C Offset to the subtable
+0x0000 0x0008 Subtable’s format, length
+0x0000 0x0000 Rest of the subtable</code></pre>
 <p>Now here’s the trick: you can make the offset entry point onto the eighth byte, that is, back onto the offset entry itself, and reuse it as the subtable’s format and length. In other words, make the subtable overlap the offset entry:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre><code>0x0000 0x0001 Version, no. of subtables
+0x0000 0x0000 Platform, encoding
+0x0000 0x0008 Offset / Subtable’s format, length
+0x0000 0x0000 Rest of the subtable</code></pre>
 <p>This produces no complains both from Font Book and the Font Tools on OS X. It’s also completely valid as far as the spec is concerned. I’m curious how such backward-pointing offsets behave on other platforms as well if anyone is willing to do some experiments. Hand crafting in hex will be necessary, I suppose, as higher-level font assemblers normally don’t do this.</p>
 </div>
 	</div>
@@ -586,7 +598,7 @@ If you keep all distances to under 256, you will use a byte instead of a short, 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote>The fonts made by Pomax and Jens Kutilek are both rejected by Windows.</blockquote>
 <p>Hm &hellip; my latest file (<a href="https://github.com/fsi-jens/font-face-render-check/blob/master/dev/pixelambacht-dash.ttf">https://github.com/fsi-jens/font-face-render-check/blob/master/dev/pixelambacht-dash.ttf</a>) is installable at least in my Windows 7 machine.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

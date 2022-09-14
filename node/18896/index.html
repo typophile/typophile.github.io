@@ -71,7 +71,7 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m working on a typeface at the moment that uses plenty of ligatures (in the style of <!-- raw HTML omitted -->Ed Interlock<!-- raw HTML omitted -->) and I&rsquo;m wondering if there&rsquo;s any way to make certain ligatures be dominant over others? For example, for SHI I have an SH ligature and a HI ligature, and because SH comes first as you&rsquo;re typing, it turns into the ligature and the I is left alone. Without having to make an SHI ligature, can I make the HI ligature dominant over SH in the case of SHI?</p>
+  <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m working on a typeface at the moment that uses plenty of ligatures (in the style of <a href="http://www.houseind.com/index.php?page=showfont&id=150&subpage=viewfontsinuse">Ed Interlock</a>) and I&rsquo;m wondering if there&rsquo;s any way to make certain ligatures be dominant over others? For example, for SHI I have an SH ligature and a HI ligature, and because SH comes first as you&rsquo;re typing, it turns into the ligature and the I is left alone. Without having to make an SHI ligature, can I make the HI ligature dominant over SH in the case of SHI?</p>
 <p>And pardon me if that makes no sense at all. I&rsquo;m just curious if I can make certain ligatures bow down to more dominant ones.. If there&rsquo;s any code or such.</p>
 <p>Also, while I&rsquo;m here and asking, can you include spacebar in ligature replacements? Say, for example, you have an S and when it&rsquo;s at the end of a word (marked by a spacebar following the S) you want it to do a swashy thing, is that possibe? like a &ldquo;sub S [SPACE] by SSpace.li&rdquo; thing..?</p>
 <p>Thanks!</p>
@@ -104,7 +104,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>I think you can find some information on the personal site of <!-- raw HTML omitted -->Tal Leming<!-- raw HTML omitted -->.</p>
+		<div class="commentbody"><p>I think you can find some information on the personal site of <a href="http://www.talleming.com/">Tal Leming</a>.</p>
 <p>A few threads: 
 <a href="http://www.typophile.com/node/17177">http://www.typophile.com/node/17177</a> &ndash; <a href="http://www.typophile.com/node/6638">http://www.typophile.com/node/6638</a></p>
 </div>
@@ -128,8 +128,12 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">whichever ligature you list first is dominat. so if you want HI to trump SH, in your liga feature put:</p>
-<!-- raw HTML omitted --></div>
+		<div class="commentbody"><p>whichever ligature you list first is dominat. so if you want HI to trump SH, in your liga feature put:</p>
+<code>
+liga {
+sub H I by H_I;
+sub S H by S_H;
+} liga;</code></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -197,7 +201,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->so it seems (like i wrote above) that the ligature that’s activated first (SH in this case) overrides any such list order.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>so it seems (like i wrote above) that the ligature that’s activated first (SH in this case) overrides any such list order.</em></p>
 <p>the rule is what is first trumps what comes after. this is true of single lookups or of features. do you have the SH ligature lookup in any other feature lookups before you get to the HI ligature lookup?</p>
 </div>
 	</div>
@@ -537,7 +541,16 @@ if you have no preference of order, alphabetise ligatures just for easy (human) 
 		<div class="commentbody"><p>Alphabetic ordering is for your own convenience. Ordering ligatures by length in descending order, however, is a generic rule. If f_f ligature would be in the list before f_f_i, latter one would never be substituted.</p>
 <p>But ordering does not solve your problem of prioritization. If your lookup contains ligatures A_B and B_C, whatever goes first in the list &ndash; &ldquo;A B C&rdquo; will be substituted to &ldquo;A_B C&rdquo;. To allow B_C to work over A_B two separate lookups are required (or contextual substitutions, which seem to be overkill here).</p>
 <p>In VOLT you create two lookups and put ligatures into them according to their priority. FDK also allows to specify separate lookup for the feauture, but I am not sure if it won&rsquo;t compile them into subtables of a single lookup. Syntax would look like this:</p>
-<!-- raw HTML omitted -->
+<code>
+<dl>feature liga {
+<dt>lookup liga.Pri1 {</dt>
+    <dd>sub B C by B_C</dd>
+<dt>} liga.Pri1;</dt>
+<dt>lookup liga.Pri2 {</dt>
+    <dd>sub A B by A_B</dd>
+<dt>} liga.Pri2;</dt>
+</dl>} liga;
+</code>
 <p>Thanks,
 Sergey</p>
 </div>
@@ -609,7 +622,7 @@ Sergey</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>thanks, i&rsquo;ll look that up.</p>
-<p>by the way, i&rsquo;ve put up a sample of the font i&rsquo;m working on (that this thread is in regards to). <!-- raw HTML omitted -->here&rsquo;s the thread<!-- raw HTML omitted -->.</p>
+<p>by the way, i&rsquo;ve put up a sample of the font i&rsquo;m working on (that this thread is in regards to). <a href="http://typophile.com/node/18903">here&rsquo;s the thread</a>.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -631,7 +644,7 @@ Sergey</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->oh, by the way the “sub SHI by S HI.li;” didn’t work. it gave me an error message when i compiled.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>oh, by the way the “sub SHI by S HI.li;” didn’t work. it gave me an error message when i compiled.</em></p>
 <p>sub S H' I' by S H_I.li;</p>
 <p>Chris is right, but you have to tell it what is getting substituted in the string by adding ' after. Get an OpenType font and open it in FontLab and look at the code. That&rsquo;s the easiest way to figure it out.</p>
 <p>George</p>
@@ -678,7 +691,7 @@ Sergey</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->But ordering does not solve your problem of prioritization. If your lookup contains ligatures A_B and B_C, whatever goes first in the list — “A B C” will be substituted to “A_B C”. To allow B_C to work over A_B two separate lookups are required (or contextual substitutions, which seem to be overkill here).<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>But ordering does not solve your problem of prioritization. If your lookup contains ligatures A_B and B_C, whatever goes first in the list — “A B C” will be substituted to “A_B C”. To allow B_C to work over A_B two separate lookups are required (or contextual substitutions, which seem to be overkill here).</em></p>
 <p>duh. i wasn&rsquo;t thinking. i shouldn&rsquo;t reply when i&rsquo;m preoccupied.</p>
 </div>
 	</div>
@@ -701,14 +714,14 @@ Sergey</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->feature liga {
+		<div class="commentbody"><p><em>feature liga {
 lookup liga.Pri1 {
 sub B C by B_C
 } liga.Pri1;
 lookup liga.Pri2 {
 sub A B by A_B
 } liga.Pri2;
-} liga;<!-- raw HTML omitted --></p>
+} liga;</em></p>
 <p>If you Type A B first I doubt the B C sub will work. The lookup for A B will kick in before you get to B C and if you don&rsquo;t have a sub for A B C you don&rsquo;t change anything. You should start with the sub of the long (complete) string first.  I think it should be:</p>
 <p>feature liga {
 lookup liga.Pri1 {
@@ -741,7 +754,7 @@ I felt bad because I had no shoes, until I met a man who had no Bodoni</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->oh, by the way the “sub SHI by S HI.li;” didn’t work. it gave me an error message when i compiled.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>oh, by the way the “sub SHI by S HI.li;” didn’t work. it gave me an error message when i compiled.</em></p>
 <p>You can&rsquo;t do many-to-many substitutions in OpenType. So if your input is multiple glyphs, then the output has to be a single glyph (i.e. a ligature lookup).</p>
 <p>Regarding ligature names, you should definitely use the underscore notation, so H_I, not HI.li</p>
 <p>A period . indicates that the glyph is a variant of a glyph, e.g. a.alt is an alternate form of a. But there is not HI glyph for HI.li to be a variant of.</p>
@@ -768,13 +781,13 @@ I felt bad because I had no shoes, until I met a man who had no Bodoni</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>No. Processing is going like this:
-<!-- raw HTML omitted -->
+<code>
 For each lookup
 For each position where lookup is applied,
 For each &lsquo;rule&rsquo; in the lookup.
 If rule matches the context do what it says, move to the next position
 If rule does not match the context, try next rule.
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>So lookup order has higher priority than position.</p>
 <p>About your approach, it won&rsquo;t work because &lsquo;position&rsquo; in your contextual substitution starts from B' (A is just backtrack context). So A_B will work first according to the algorithm above.</p>
 <p>It also misses another entry for B_C ligature, without context. And this example contains only two ligatures, in the real font more contexts may be needed for ligatures conflicting with B_C &ndash; looks like supportability case for me. Adding one ligature may cause changing everything around.</p>
@@ -923,7 +936,7 @@ Fontlab Ltd.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->by the way, why isn’t there some resource with examples of various effects one can achieve with Opentype? i had an idea about having the upper and lowercase alternate (LiKe So AnD sO oN, though i’d use it as a sort of randomizer), and i actually figured out how to achieve it eventually.. but it’s stuff like that you’d wish there was some website resource for where people could send in their tricks and tips. too bad, really. very little about Opentype out there it seems, or everyone’s sitting on their own coding and not wanting to share.. maybe? or wanting money for it, perhaps..<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>by the way, why isn’t there some resource with examples of various effects one can achieve with Opentype? i had an idea about having the upper and lowercase alternate (LiKe So AnD sO oN, though i’d use it as a sort of randomizer), and i actually figured out how to achieve it eventually.. but it’s stuff like that you’d wish there was some website resource for where people could send in their tricks and tips. too bad, really. very little about Opentype out there it seems, or everyone’s sitting on their own coding and not wanting to share.. maybe? or wanting money for it, perhaps..</em></p>
 <p>Your best source is workshops at the conferences like SOTA and ATypI. People are happy to show you how to do stuff. Nick Shinn did one on stylistic alternates in a script font and Thomas Phinney has demoed some amazing stuff with relatively easy code including random things. He also has an OT font that replaces profanity in text.</p>
 <p>George 
 I felt bad because I had no shoes, until I met a man who had no Bodoni</p>
@@ -948,7 +961,7 @@ I felt bad because I had no shoes, until I met a man who had no Bodoni</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">If your interested in learning more on this subject, there is still time, and there is still room at the <!-- raw HTML omitted -->TDC Font Tech Weekend<!-- raw HTML omitted --> starting this Friday evening.</div>
+		<div class="commentbody">If your interested in learning more on this subject, there is still time, and there is still room at the <a href="http://tdc.org/events/2006events/2006stdcfonttech.html">TDC Font Tech Weekend</a> starting this Friday evening.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -970,9 +983,9 @@ I felt bad because I had no shoes, until I met a man who had no Bodoni</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->Thomas Phinney has demoed some amazing stuff with relatively easy code including random things. He also has an OT font that replaces profanity in text.<!-- raw HTML omitted --></p>
+<p><em>Thomas Phinney has demoed some amazing stuff with relatively easy code including random things. He also has an OT font that replaces profanity in text.</em></p>
 </blockquote>
-<p>Are you talking about Amy Papaelias' <!-- raw HTML omitted -->TypeTalk Fonts<!-- raw HTML omitted -->?</p>
+<p>Are you talking about Amy Papaelias' <a href="http://www.typetalkfonts.com/">TypeTalk Fonts</a>?</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1017,12 +1030,12 @@ I felt bad because I had no shoes, until I met a man who had no Bodoni</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->you’d wish there was some website resource for where people could send in their tricks and tips. too bad, really. very little about Opentype out there<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>you’d wish there was some website resource for where people could send in their tricks and tips. too bad, really. very little about Opentype out there</em></p>
 <p>true&hellip;and typophile&rsquo;s the best place for that on the web&hellip;</p>
-<p><!-- raw HTML omitted -->PicLig<!-- raw HTML omitted --> by Christina Schultz is a great project too.</p>
-<p><!-- raw HTML omitted -->Thomas Phinney has demoed some amazing stuff with relatively easy code including random things. He also has an OT font that replaces profanity in text.<!-- raw HTML omitted --></p>
+<p><a href="http://www.piclig.net/">PicLig</a> by Christina Schultz is a great project too.</p>
+<p><em>Thomas Phinney has demoed some amazing stuff with relatively easy code including random things. He also has an OT font that replaces profanity in text.</em></p>
 <p>Tom used the TypeTalk project as inspiration to build his example using some very excellent contextual alternates&hellip;and to think i wasted away hours upon hours of grad school making ligatures! :)</p>
-<p><!-- raw HTML omitted -->she was an entertaining speaker as well as informative.<!-- raw HTML omitted --></p>
+<p><em>she was an entertaining speaker as well as informative.</em></p>
 <p>thanks chris! it was a great experience, although i don&rsquo;t remember any of it (i was too busy being paralyzed with fear!)&hellip;BTW, we met briefly, i believe, when you and gerry leonidas were shaming me for my abysmal knowledge of Greek&hellip;</p>
 <p>i&rsquo;ll be making a short presentation next week at SUNY New Paltz (where I developed the typetalk project) on 5/5. see the promo poster&hellip;
 [img:sites/default/files/old-images/amy_intro_small.jpg]</p>

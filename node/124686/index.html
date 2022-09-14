@@ -355,14 +355,29 @@ PLEASE, I have until tomorrow morning to solve this. Regards to all.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>The way to go (which works with FontForge, there should be a way with Fontlab) is to give yourself two lookups, one to substitute the first letter, which is just</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+lookup subfirst {
+  ignore sub  @LETTER s';
+  sub s' by s.init;
+} subfirst ;
+</PRE>
 <p>The second lookup, for the last letter can simply take the form</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+lookup sublast {
+  ignore sub @LETTER' @LETTER  ;
+  sub s' by s.fina;
+  [...]
+  sub otilde' by otilde.fina;
+  sub odieresis' by odieresis.fina;
+} sublast;
+</PRE>
 <p>The first line says not to substitute a letter when followed by a letter. Then you list the substitutions for the last letters. Then you simply use the feature calt as follows</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+feature calt {
+    lookup subfirst ;
+    lookup sublast  ;
+} calt;
+</PRE>
 <p>where the first lookup takes care of the first letter, and the second lookup takes care of the last letter (they are applied one after the other line by line). Of course you need to include in LETTER  s.init if ss may occur at the beginning of a word, and maybe other characters. Be careful, there is just one apostrophe per line which corresponds to the glyph (or class of glyphs) that is to be substituted.</p>
 </div>
 	</div>
@@ -407,11 +422,13 @@ PLEASE, I have until tomorrow morning to solve this. Regards to all.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>It would not work without some corrections, for instance for oacute because your rule is</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+sub oacute s' by oacute_s.fina;
+</PRE>
 <p>which asks to substitute the final s by oacute_s.fina when preceded by a oacute. You probably meant</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+sub oacute_s' by oacute_s.fina;
+</PRE>
 <p>The rule for o_s does not have that problem and does not work either. Here is what I would try. I would simply put the rules for o_s in a third lookup, that would take o_s and replace it with o_s.fina,  otilde_s by otilde_s.fina etc. That would give three passes for each line of input text, a first lookup that fixes the initials, a second lookup that fixes the final o, b_s w_s etc and a third lookup that fixes the o_s etc.</p>
 <p>Be careful. The lookups are the actual code that is executed. If you want the three lookups to be executed in some order,  you need to put them in that order in your feature file. The order they are listed in calt is irrelevant.</p>
 </div>
@@ -461,7 +478,7 @@ When you say &ldquo;give yourself lookups&rdquo;. I try your first sugestion in 
 	<div class="card-body">
 		<div class="commentbody"><p>I don&rsquo;t use fontlab; I don&rsquo;t know the interface. I have seen people using fontlab use such code elsewhere on typophile. Eliason or George should be able to answer.</p>
 <p>Here is an example <a href="http://typophile.com/node/65109#comment-383530">http://typophile.com/node/65109#comment-383530</a></p>
-<p>So, one solution is just to  write the code of the three lookups inside <!-- raw HTML omitted --> feature calt<!-- raw HTML omitted -->.</p>
+<p>So, one solution is just to  write the code of the three lookups inside <code> feature calt</code>.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

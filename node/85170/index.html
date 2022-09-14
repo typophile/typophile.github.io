@@ -192,12 +192,18 @@ Thanks</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>If you save the following lines</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>to a file named <!-- raw HTML omitted -->dmptxt.py<!-- raw HTML omitted -->, then</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>will take take a utf8 encoded file <!-- raw HTML omitted -->file.txt<!-- raw HTML omitted --> and output the list of corresponding uniXXXX.</p>
+<PRE>
+import sys, codecs
+infile=codecs.open(sys.argv[1],"r","utf-8")
+text=infile.read(); infile.close()
+for char in text:
+   print 'uni%04x ' % (ord(char)),
+</PRE>
+<p>to a file named <code>dmptxt.py</code>, then</p>
+<PRE>
+python dmptxt.py file.txt
+</PRE>
+<p>will take take a utf8 encoded file <code>file.txt</code> and output the list of corresponding uniXXXX.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -282,10 +288,18 @@ Thanks</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Python dictionaries are indeed fantastic for that type of processing. I have a small Python script, using the FontForge python module, that takes a font as input and produces a dictionary unicode:glyphname that can then be imported to output glyphnames instead of uniXXXX (<!-- raw HTML omitted -->print charname[ord(char)],<!-- raw HTML omitted -->).</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+		<div class="commentbody"><p>Python dictionaries are indeed fantastic for that type of processing. I have a small Python script, using the FontForge python module, that takes a font as input and produces a dictionary unicode:glyphname that can then be imported to output glyphnames instead of uniXXXX (<code>print charname[ord(char)],</code>).</p>
+<pre>
+import fontforge,sys
+fnt=fontforge.open(sys.argv[1],1)
+
+print 'charname = {',
+for g in fnt.glyphs():
+   if (g.unicode >= 0x21):
+      print "  0x%04X:'%s'," % (
+              g.unicode,g.glyphname)
+print '}'
+</pre><blockquote>
 </blockquote>
 </div>
 	</div>

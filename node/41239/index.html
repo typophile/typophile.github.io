@@ -82,7 +82,7 @@ Any ideas where to go with this next? I wondered about simply deleting the SALT 
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Not quite sure if this is what you did, but you shouldn&rsquo;t use contextual substitutions in the <!-- raw HTML omitted -->salt<!-- raw HTML omitted --> feature. You should only use simple substitutions (<!-- raw HTML omitted -->sub x by x.alt ;<!-- raw HTML omitted --> or <!-- raw HTML omitted -->sub x from [x.alt1 x.alt2 x.alt3] ;<!-- raw HTML omitted -->, for example). No idea whether this is what&rsquo;s causing the problem.</div>
+		<div class="commentbody">Not quite sure if this is what you did, but you shouldn&rsquo;t use contextual substitutions in the <code>salt</code> feature. You should only use simple substitutions (<code>sub x by x.alt ;</code> or <code>sub x from [x.alt1 x.alt2 x.alt3] ;</code>, for example). No idea whether this is what&rsquo;s causing the problem.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -196,21 +196,21 @@ sub [A B C D E F G H I J K L M N O P Q R S T U V W X Y Z] by [a.smcp b.smcp c.sm
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Here is the text I was thinking of from the Fontlab User Guide:</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted -->Contextual substitutions in invalid legacy format<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->Due to a misunderstanding between Adobe and Microsoft, early versions of
+<p><cite><strong>Contextual substitutions in invalid legacy format</strong></cite></p>
+<p><cite>Due to a misunderstanding between Adobe and Microsoft, early versions of
 Adobe InDesign (1.0, 1.5 and 2.0) contained a bug in the interpretation of
 contextual substitutions (for features such as calt or clig) so only “invalid”
 contextual substitutions work in these early versions . In Microsoft
 applications, only “valid” contextual substitutions work. InDesign CS and
 CS2 have a special routine so both “invalid” and “valid” contextual
-substitutions work.<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->If you enable this option, FontLab Studio will generate a font with “invalid”
+substitutions work.</cite></p>
+<p><cite>If you enable this option, FontLab Studio will generate a font with “invalid”
 contextual features that will work correctly in InDesign 1.0, 1.5 and 2.0 as
 well as InDesign CS and CS2, but these contextual features will not work in
-OpenType-savvy applications from Microsoft or other vendors.<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->If disabled, “valid” contextual OpenType features will be generated that
+OpenType-savvy applications from Microsoft or other vendors.</cite></p>
+<p><cite>If disabled, “valid” contextual OpenType features will be generated that
 will work in InDesign CS and CS2 and all other applications, but not in
-InDesign 1.0, 1.5, 2.0. It is recommended to keep this setting disabled.<!-- raw HTML omitted --></p>
+InDesign 1.0, 1.5, 2.0. It is recommended to keep this setting disabled.</cite></p>
 <p>Does this help?</p>
 </div>
 	</div>
@@ -327,17 +327,17 @@ calt</div>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I looked for that option in preferences. If only I knew what I was doing???<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I looked for that option in preferences. If only I knew what I was doing???</cite></p>
 <p>The option which you marked red in your screenshot should be off, yes.</p>
-<p>If I understand your feature order (post of 23.Jan.2008 7.40pm) and the feature code (post of 23.Jan.2008 5.56pm), then if a user switches on &lsquo;ss01&rsquo;/&lsquo;ss02&rsquo;, then <!-- raw HTML omitted -->all<!-- raw HTML omitted --> &lsquo;normal&rsquo; glyphs will be replaced by alternates, since substitution in these features is non-contextual. And once that happened, your &lsquo;calt&rsquo; will not show any effect, of course.
+<p>If I understand your feature order (post of 23.Jan.2008 7.40pm) and the feature code (post of 23.Jan.2008 5.56pm), then if a user switches on &lsquo;ss01&rsquo;/&lsquo;ss02&rsquo;, then <em>all</em> &lsquo;normal&rsquo; glyphs will be replaced by alternates, since substitution in these features is non-contextual. And once that happened, your &lsquo;calt&rsquo; will not show any effect, of course.
 One possible solution is using contextual substitution in &lsquo;ss01&rsquo; and &lsquo;ss02&rsquo; too. Then, if both &lsquo;ss01&rsquo;/&lsquo;ss02&rsquo; and &lsquo;calt&rsquo; are on, there&rsquo;s nothing left for &lsquo;calt&rsquo; since there&rsquo;s no match for the context any more.</p>
 <p>You write that</p>
-<p><!-- raw HTML omitted -->The Stylistic sets (and SALT) are all set up the same as CALT feature.<!-- raw HTML omitted --></p>
+<p><cite>The Stylistic sets (and SALT) are all set up the same as CALT feature.</cite></p>
 <p>but your code does not reflect this. &lsquo;ss01&rsquo; is not contextual, &lsquo;calt&rsquo; is. (I think that &lsquo;salt&rsquo; doesn&rsquo;t matter here since it is not addressed by InDesign.)
 Also you may check if the code</p>
-<p>    <!-- raw HTML omitted -->sub @upper @upper’ by @calt1;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->really<!-- raw HTML omitted --> does what you want. In your description you say</p>
-<p><!-- raw HTML omitted -->In Calt feature it basically substitutes an alternate every time 2 characters are typed in a row. So you&rsquo;d get c o o.alt l for &ldquo;cool&rdquo;.<!-- raw HTML omitted --></p>
+<p>    <code>sub @upper @upper’ by @calt1;</code></p>
+<p><em>really</em> does what you want. In your description you say</p>
+<p><cite>In Calt feature it basically substitutes an alternate every time 2 characters are typed in a row. So you&rsquo;d get c o o.alt l for &ldquo;cool&rdquo;.</cite></p>
 <p>but what the feature does is substitute every second uppercase or lowercase by its alternate form, so if you type &ldquo;cool&rdquo; what you get is c o.alt o l.alt.</p>
 <p>Karsten</p>
 </div>

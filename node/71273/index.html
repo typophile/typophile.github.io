@@ -128,18 +128,23 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Arno,</p>
-<p>the &ldquo;exclude_dflt&rdquo; and &ldquo;include_dflt&rdquo; refer to languages only, because each script has a <!-- raw HTML omitted -->DefaultLangSys<!-- raw HTML omitted --> &ldquo;language&rdquo;, i.e. within each script there is a set of languages plus a &ldquo;default&rdquo; language. As a font developer, you specify whether the lookups associated with the default language for a given script should be also registered in the &ldquo;named&rdquo; language (&ldquo;include_dflt&rdquo;), or whether they should be left out (&ldquo;exclude_dflt&rdquo;).</p>
+<p>the &ldquo;exclude_dflt&rdquo; and &ldquo;include_dflt&rdquo; refer to languages only, because each script has a <code>DefaultLangSys</code> &ldquo;language&rdquo;, i.e. within each script there is a set of languages plus a &ldquo;default&rdquo; language. As a font developer, you specify whether the lookups associated with the default language for a given script should be also registered in the &ldquo;named&rdquo; language (&ldquo;include_dflt&rdquo;), or whether they should be left out (&ldquo;exclude_dflt&rdquo;).</p>
 <p>There is a &ldquo;DFLT&rdquo; script tag, but its concept on the script level is different than the DefaultLangSys on the language level. Also, it&rsquo;s a fairly new addition to the OpenType spec and not all layout engines support it.</p>
 <p>So to give you a short answer: yes, the shorthand &ldquo;exclude_dflt&rdquo; and &ldquo;include_dflt&rdquo; only works for languages. Scripts are always mutually exclusive.</p>
-<p>The following is a way to define an OpenType Layout feature <!-- raw HTML omitted -->swsh<!-- raw HTML omitted --> to be registered in all globally (i.e. for the entire font) declared languagesystems:</p>
-<p><!-- raw HTML omitted -->languagesystem DFLT dflt;
+<p>The following is a way to define an OpenType Layout feature <code>swsh</code> to be registered in all globally (i.e. for the entire font) declared languagesystems:</p>
+<p><code>languagesystem DFLT dflt;
 languagesystem latn dflt;
 languagesystem latn ROM;
 languagesystem cyrl dflt;
-languagesystem cyrl SRB;<!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<p>The following is a <!-- raw HTML omitted -->valid<!-- raw HTML omitted --> way to write the same but using locally declared languagesystems (in AFDKO 2.5 syntax).</p>
-<p><!-- raw HTML omitted -->feature swsh { 
+languagesystem cyrl SRB;</code></p>
+<code>
+feature swsh { 
+  lookup swsh01 { 
+  sub a by a.swsh;
+  } swsh01;
+} swsh;</code>
+<p>The following is a <b>valid</b> way to write the same but using locally declared languagesystems (in AFDKO 2.5 syntax).</p>
+<p><code>feature swsh { 
 script DFLT; 
 language dflt;
 lookup swsh01 { 
@@ -153,9 +158,9 @@ script cyrl;
 language dflt; 
 lookup swsh01; 
 language SRB include_dflt;
-} swsh; <!-- raw HTML omitted --></p>
-<p>The following is an <!-- raw HTML omitted -->invalid<!-- raw HTML omitted --> way to write the same but using locally declared languagesystems (in AFDKO 2.5 syntax). I.e. it will not work with the current AFDKO syntax, although I guess it would be useful if such syntax were implemented.</p>
-<p><!-- raw HTML omitted -->feature swsh { 
+} swsh; </code></p>
+<p>The following is an <b>invalid</b> way to write the same but using locally declared languagesystems (in AFDKO 2.5 syntax). I.e. it will not work with the current AFDKO syntax, although I guess it would be useful if such syntax were implemented.</p>
+<p><code>feature swsh { 
 script DFLT; 
 language dflt;
 lookup swsh01 { 
@@ -163,8 +168,8 @@ sub a by a.swsh;
 } swsh01; 
 script latn include_DFLT; 
 script cyrl include_DFLT; 
-} swsh; <!-- raw HTML omitted --></p>
-<p>This way, all lookups defined in the script <!-- raw HTML omitted -->DFLT<!-- raw HTML omitted --> would be also registered with the scripts <!-- raw HTML omitted -->latn<!-- raw HTML omitted --> and <!-- raw HTML omitted -->cyrl<!-- raw HTML omitted -->. However, the default implicit value for scripts should be <!-- raw HTML omitted -->exclude_DFLT<!-- raw HTML omitted --> in order not to break backwards-compatibility.</p>
+} swsh; </code></p>
+<p>This way, all lookups defined in the script <code>DFLT</code> would be also registered with the scripts <code>latn</code> and <code>cyrl</code>. However, the default implicit value for scripts should be <code>exclude_DFLT</code> in order not to break backwards-compatibility.</p>
 <p>Adam</p>
 </div>
 	</div>
@@ -189,13 +194,58 @@ script cyrl include_DFLT;
 	<div class="card-body">
 		<div class="commentbody"><p>@ Adam</p>
 <p>Thanks!</p>
-<!-- raw HTML omitted -->
+<code>
+feature swsh {
+script DFLT;
+language dflt;
+lookup swsh01 {
+sub a by a.swsh;
+} swsh01;
+script latn;
+language dflt;
+lookup swsh01;
+language ROM include_dflt;
+script cyrl;
+language dflt;
+lookup swsh01;
+language SRB include_dflt;
+} swsh;</code>
 <p>You were probably so detailed because of comprehensibility. The statement &ldquo;include_dflt&rdquo; can be omitted, because the language statement is set to include by default, right? And in case of the script statement it is just the other way around with the difference, that it can be exclusive only. And the statement &ldquo;language dflt;&rdquo; can be probably also omitted.</p>
 <p>It is much easier to keep the overview in your code.</p>
 <p>But this would result in the same, wouldn’t it?:</p>
-<!-- raw HTML omitted -->
+<code>
+feature swsh {
+script DFLT;
+language dflt;
+lookup swsh01 {
+sub a by a.swsh;
+} swsh01;
+script latn;
+# language dflt;
+lookup swsh01;
+language ROM; # include_dflt;
+script cyrl;
+# language dflt;
+lookup swsh01;
+language SRB; # include_dflt;
+} swsh;</code>
 <p>And how about this?:</p>
-<!-- raw HTML omitted -->
+<code>
+feature swsh {
+# script latn;
+# language dflt;
+lookup swsh01 {
+sub a by a.swsh;
+} swsh01;
+language ROM; # include_dflt;
+script cyrl;
+# language dflt;
+lookup swsh01;
+language SRB; # include_dflt;
+script DFLT;
+# (?) language dflt;
+lookup swsh01;
+} swsh;</code>
 <p>I ask, because if you open a font in FontLab, it does not display the statement &ldquo;script latn; language dflt;&rdquo;.</p>
 </div>
 	</div>
@@ -218,9 +268,9 @@ script cyrl include_DFLT;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Arno, you&rsquo;re right. If <!-- raw HTML omitted -->include_dflt<!-- raw HTML omitted -->, <!-- raw HTML omitted -->script latn<!-- raw HTML omitted --> and <!-- raw HTML omitted -->language dflt<!-- raw HTML omitted --> are omitted, they are implied.</p>
-<p>You&rsquo;re also right that <!-- raw HTML omitted -->languagesystem cyrl DEU<!-- raw HTML omitted --> is allowed. Any mixture of valid script and language tags are permitted, except that for the <!-- raw HTML omitted -->DFLT<!-- raw HTML omitted --> script tag, named language tags are not permitted (only the special <!-- raw HTML omitted -->dflt<!-- raw HTML omitted --> language tag is allowed, which inside of the font file represents the DefaultLangSys).</p>
-<p>Note that <!-- raw HTML omitted -->languagesystem grek BUL<!-- raw HTML omitted --> is not allowed because <!-- raw HTML omitted -->BUL<!-- raw HTML omitted --> is not a valid language tag. The language tag for Bulgarian is <!-- raw HTML omitted -->BGR<!-- raw HTML omitted -->. Similarly, <!-- raw HTML omitted -->TUR<!-- raw HTML omitted --> is an invalid language tag but it keeps popping up. The valid language tag for Turkish is <!-- raw HTML omitted -->TRK<!-- raw HTML omitted -->.</p>
+		<div class="commentbody"><p>Arno, you&rsquo;re right. If <code>include_dflt</code>, <code>script latn</code> and <code>language dflt</code> are omitted, they are implied.</p>
+<p>You&rsquo;re also right that <code>languagesystem cyrl DEU</code> is allowed. Any mixture of valid script and language tags are permitted, except that for the <code>DFLT</code> script tag, named language tags are not permitted (only the special <code>dflt</code> language tag is allowed, which inside of the font file represents the DefaultLangSys).</p>
+<p>Note that <code>languagesystem grek BUL</code> is not allowed because <code>BUL</code> is not a valid language tag. The language tag for Bulgarian is <code>BGR</code>. Similarly, <code>TUR</code> is an invalid language tag but it keeps popping up. The valid language tag for Turkish is <code>TRK</code>.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -242,7 +292,7 @@ script cyrl include_DFLT;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Arno, you&rsquo;re right. If include_dflt, script latn  and language dflt are omitted, they are implied.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Arno, you&rsquo;re right. If include_dflt, script latn  and language dflt are omitted, they are implied.</cite></p>
 <p>Even here (Second example from my previous message with the difference, that the statement &ldquo;script latn;&rdquo; is likewise commented)?:</p>
 <p>feature swsh {
 script DFLT;
@@ -260,7 +310,7 @@ script cyrl;</p>
 language SRB; # include_dflt;
 } swsh;</p>
 <p>While I can understand, that the statement &ldquo;script latn&rdquo; is implied, when it is on the top of the feature, I wonder, how it can be implied, if it is not on the top, because the position &ldquo;top&rdquo; is the only marker, isn’t it? I mean, how can the compiler know, where it begins, when it is not on the top? (That was the reason, why I had posted the third example in my previous message. In that example the statement &ldquo;script latn&rdquo; is on the top [and commented].)</p>
-<p><!-- raw HTML omitted -->BUL is not allowed because BUL is not a valid language tag. The language tag for Bulgarian is BGR.<!-- raw HTML omitted --></p>
+<p><cite>BUL is not allowed because BUL is not a valid language tag. The language tag for Bulgarian is BGR.</cite></p>
 <p>Thanks. It’s not my font, which I try to fix. You just have found another bug in it!</p>
 </div>
 	</div>
@@ -285,7 +335,7 @@ language SRB; # include_dflt;
 	<div class="card-body">
 		<div class="commentbody"><p>No, this won&rsquo;t work. Try compiling it and you&rsquo;ll see that only the script tags DFLT and cyrl have been registered. (In fact, FontLab Studio doesn&rsquo;t even properly register DFLT and uses four zero bytes instead).</p>
 <p><a href="http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.b">http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html#4.b</a> explains how it works in detail.</p>
-<p>I should revise my earlier statement: all lookups declared within a feature definition <!-- raw HTML omitted -->before<!-- raw HTML omitted --> an explicit <!-- raw HTML omitted -->script<!-- raw HTML omitted --> and/or <!-- raw HTML omitted -->language<!-- raw HTML omitted --> keyword are registered for all languagesystems specified globally. However, if you don&rsquo;t specify <!-- raw HTML omitted -->any<!-- raw HTML omitted --> global languagesystem, AFDKO will assume <!-- raw HTML omitted -->languagesystem latn dflt;<!-- raw HTML omitted -->.</p>
+<p>I should revise my earlier statement: all lookups declared within a feature definition <i>before</i> an explicit <code>script</code> and/or <code>language</code> keyword are registered for all languagesystems specified globally. However, if you don&rsquo;t specify <i>any</i> global languagesystem, AFDKO will assume <code>languagesystem latn dflt;</code>.</p>
 <p>Adam</p>
 </div>
 	</div>
@@ -308,10 +358,10 @@ language SRB; # include_dflt;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I should revise my earlier statement: all lookups declared within a feature definition before an explicit script and/or language  keyword are registered for all languagesystems specified globally.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I should revise my earlier statement: all lookups declared within a feature definition before an explicit script and/or language  keyword are registered for all languagesystems specified globally.</cite></p>
 <p>And because of that the script tag &ldquo;script latn&rdquo; should not be omitted, if the languagesystem &ldquo;DFLT dflt&rdquo; is defined in the beginning:</p>
 <p>If you have the language system statement &ldquo;DFLT dflt&rdquo; in the beginning of the feature file, and if you have a language tag (except from dflt, BGR for example) in a feature without a script tag above, the AFDKO tries to register the language as languagesystem &ldquo;DFLT language (in my example &ldquo;BGR&rdquo;)&quot;; but because DFLT is defined for dflt only (in the feature file specification), makeotf crashes. So my recommendation is, not to omit the script tag &ldquo;script latn&rdquo;, if there is a language tag without another script tag above it in a feature.</p>
-<p><!-- raw HTML omitted -->This way, all lookups defined in the script DFLT would be also registered with the scripts latn and cyrl. However, the default implicit value for scripts should be exclude_DFLT  in order not to break backwards-compatibility.<!-- raw HTML omitted --></p>
+<p><cite>This way, all lookups defined in the script DFLT would be also registered with the scripts latn and cyrl. However, the default implicit value for scripts should be exclude_DFLT  in order not to break backwards-compatibility.</cite></p>
 <p>I would prefer consistence and would sacrifice the backwards compatibility. Alternatively it should be required to add the exclude or include statement, which means, that the AFDKO should report an error, if the statement is missing, except there is no dflt statement. But I would prefer the first alternative. As motto: Keep it simple, but be consistent with the rules in specifications.</p>
 </div>
 	</div>
@@ -361,7 +411,7 @@ language SRB; # include_dflt;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@ Adam</p>
-<p><!-- raw HTML omitted -->You&rsquo;re kidding me, right?<!-- raw HTML omitted --></p>
+<p><cite>You&rsquo;re kidding me, right?</cite></p>
 <p>No, this was my earnest. I am not kidding anybody, who is helping me, especially not in an unfair way. And you are a good teacher! I appreciate your explanations. I only disagree with you in that point. And the problem could be easily solved by exporting the feature file and replacing all tags &ldquo;script xxxx (grek for example)&rdquo; by &ldquo;script xxxx exclude_DFLT&rdquo;.</p>
 <p>This could be automated. Is the FontLab Studio version stored in the vfb files? If yes, the next versions of FontLab could post a message, if a user opens a font with OT features: &ldquo;The feature file syntax has changed. Shall the features be automatically corrected? YES/NO.&rdquo; If the user says &ldquo;NO&rdquo;, then FontLab only should add a comment to the the script tags. Something like that.</p>
 <hr>
@@ -390,7 +440,7 @@ language SRB; # include_dflt;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Quoting myself: <!-- raw HTML omitted -->Except from that I (think I) have understood the real meaning of the statement &ldquo;exclude_dflt&rdquo; today<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Quoting myself: <cite>Except from that I (think I) have understood the real meaning of the statement &ldquo;exclude_dflt&rdquo; today</cite></p>
 <p>No, it seems to be, that in the moment, in which a rule is defined for a language in one of the features, but not in the others, the applications don’t make use of the script-dflt-rules anymore. In none of the features. Damn!</p>
 <p>Nevertheless QuarkXpress behaves differently.</p>
 </div>
@@ -417,7 +467,7 @@ language SRB; # include_dflt;
 		<div class="commentbody"><p>Arno,</p>
 <p>the &ldquo;include_dflt&rdquo; or &ldquo;exclude_dflt&rdquo; rules are just shorthands for the AFDKO compiler as to which lookups to associate with which languagesystems.</p>
 <p>The AFDKO code: 
-<!-- raw HTML omitted -->feature swsh {
+<code>feature swsh {
 script latn;
 language dflt;
 lookup swsh01 {
@@ -427,12 +477,12 @@ language ROM include_dflt; # (include_dflt can be omitted)
 lookup swsh02 { 
 sub b by b.swsh; 
 } swsh02; 
-} swsh;<!-- raw HTML omitted --></p>
+} swsh;</code></p>
 <p>will produce the the following OpenType languagesystems-to-lookups associations: 
 latn/dflt — lookups: swsh01
 latn/ROM — lookups: swsh01 &amp; swsh02</p>
 <p>while the AFDKO code: 
-<!-- raw HTML omitted -->feature swsh {
+<code>feature swsh {
 script latn;
 language dflt;
 lookup swsh01 {
@@ -442,7 +492,7 @@ language ROM exclude_dflt;
 lookup swsh02 { 
 sub b by b.swsh; 
 } swsh02; 
-} swsh;<!-- raw HTML omitted --></p>
+} swsh;</code></p>
 <p>will produce the the following OpenType languagesystems-to-lookups associations: 
 latn/dflt — lookups: swsh01
 latn/ROM — lookups: swsh02</p>
@@ -476,23 +526,23 @@ Adam</p>
 	<div class="card-body">
 		<div class="commentbody"><p>(Edited. This message was written before I have read your previous message, Adam.)</p>
 <p>One more time:</p>
-<p><!-- raw HTML omitted -->languagesystem DFLT dflt;
+<p><code>languagesystem DFLT dflt;
 languagesystem latn dflt;
-languagesystem latn ROM;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature swsh {
+languagesystem latn ROM;</code></p>
+<p><code>feature swsh {
 lookup swsh01 {
 sub a by a.swsh;
 } swsh01;
-} swsh;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature ss01 {
+} swsh;</code></p>
+<p><code>feature ss01 {
 lookup swsh0101 {
 sub b by b.alt;
 } swsh0101;
 script latn;
 language ROM exclude_dflt;
-} ss01;<!-- raw HTML omitted --></p>
+} ss01;</code></p>
 <p>results in the same as</p>
-<p><!-- raw HTML omitted -->feature swsh {
+<p><code>feature swsh {
 script DFLT;
 language dflt;
 lookup swsh01 {
@@ -502,8 +552,8 @@ script latn;
 language dflt;
 lookup swsh01;
 language ROM;
-} swsh;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature ss01 {
+} swsh;</code></p>
+<p><code>feature ss01 {
 script DFLT;
 language dflt;
 lookup ss0101 {
@@ -512,7 +562,7 @@ sub b by b.alt;
 script latn;
 language dflt;
 lookup ss0101;
-} ss01;<!-- raw HTML omitted --></p>
+} ss01;</code></p>
 <p>And in the moment, in which a rule for a certain language is defined in feature A but not in feature B, the statement &ldquo;language dflt&rdquo; does not apply to feature B anymore, if the language is selected in the application.</p>
 <p>In my example b would not be substituted by b.alt in Romanian. I am getting headaches. I must build a test font, with the help of which I can better comprehend that. It may be, that I am irritated by the problem, that I had with QuarkXPress.</p>
 </div>
@@ -539,33 +589,33 @@ lookup ss0101;
 		<div class="commentbody"><p>@ Adam</p>
 <p>I could make out a part of the problem. Tested in Indesign CS3 for Windows.</p>
 <p>With the following code, the small caps would not work, if German is selected:</p>
-<p><!-- raw HTML omitted -->languagesystem latn dflt;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature smcp {
+<p><code>languagesystem latn dflt;</code></p>
+<p><code>feature smcp {
 sub @smcp1 by @smcp2;
 language DEU exclude_dflt;
-} smcp;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature ss01 {
+} smcp;</code></p>
+<p><code>feature ss01 {
 featureNames {
 name &ldquo;censor&rdquo;;
 name 1 &ldquo;censor&rdquo;;
 } ;
 sub f u k c by asterisk; # Lol, the board software is humorless.
 language DEU include_dflt;
-} ss01;<!-- raw HTML omitted --></p>
+} ss01;</code></p>
 <p>But with this code, the small caps work:</p>
-<p><!-- raw HTML omitted -->languagesystem latn dflt;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature smcp {
+<p><code>languagesystem latn dflt;</code></p>
+<p><code>feature smcp {
 sub @smcp1 by @smcp2;
 language DEU exclude_dflt;
-} smcp;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->feature ss01 {
+} smcp;</code></p>
+<p><code>feature ss01 {
 featureNames {
 name &ldquo;censor&rdquo;;
 name 1 &ldquo;censor&rdquo;;
 } ;
 sub f u k c by asterisk; # Lol, the board software is humorless.
 # language DEU include_dflt;
-} ss01;<!-- raw HTML omitted --></p>
+} ss01;</code></p>
 <p>Do you agree, that this is very irritating? My conclusions are, that the exclude_dflt statement works only, if the languagesystem of the questionable languagesystem (latn DEU in my example), that shall be excluded, is defined. And the languagesystem can be defined by putting an include_dflt statement (implied by the language tag without exclude_dflt statement) for the questionable language (DEU in my example) in a random feature (except from the feature with the exclude_dflt statement). Furthermore the OT programmer should define the languagesystems of all languages, that are defined in a feature – independent from the presence of an exclude_dflt or include_dflt statement in one of the features – above the first feature, because otherwise he may loose the overview and the features may not work as expected.</p>
 </div>
 	</div>
@@ -589,10 +639,10 @@ sub f u k c by asterisk; # Lol, the board software is humorless.
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>There is something suspicious in your code :)</p>
-<p><!-- raw HTML omitted -->feature smcp {
+<p><code>feature smcp {
 sub @smcp1 by @smcp2;
 language DEU exclude_dflt;
-} smcp;<!-- raw HTML omitted --></p>
+} smcp;</code></p>
 <p>Here, small caps should work for latn/dflt but not for latn/DEU. In your second example, no lookups are registered in latn/DEU at all. Perhaps then AFDKO is just throwing the whole latn/DEU tree out? (If there is no single lookup associated with it).</p>
 <p>Adam</p>
 </div>
@@ -764,7 +814,7 @@ Latin script, what one would get is the Croatian language.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->One would think that if one specified the Serbian language with the Latin script, what one would get is the Croatian language.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>One would think that if one specified the Serbian language with the Latin script, what one would get is the Croatian language.</cite></p>
 <p>Maybe 30 years ago one could have said that, but it&rsquo;s hardly acceptable now. Although the Serbian government officially uses Cyrillic script, Serbo-Croatian speakers who self-identify as Serbs, and use Serbian linguistic forms where these differ from Croatian, quite frequently use Latin script as well, and one really can&rsquo;t tell them that they&rsquo;re writing in Croatian when they do this.</p>
 </div>
 	</div>

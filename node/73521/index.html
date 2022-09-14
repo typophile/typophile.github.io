@@ -150,7 +150,7 @@ Frances</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->So far I have marked all the base glyphs with their anchor markings and checked them in the preview in FL. * I saved the features file in FL. Then in the demo version of Fontographer 5 I opened the FL .vfb file<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>So far I have marked all the base glyphs with their anchor markings and checked them in the preview in FL. * I saved the features file in FL. Then in the demo version of Fontographer 5 I opened the FL .vfb file</em></p>
 <ul>
 <li>There&rsquo;s something missing along the lines of »Then I generated the mark feature code from the anchor positions« here.</li>
 </ul>
@@ -202,8 +202,13 @@ Frances</p>
 	<div class="card-body">
 		<div class="commentbody"><p>The anchors you set in FontLab have no relevance to finished font. They are just used internally in FL to produce composite glyphs, and they don&rsquo;t automatically produce a »mark« feature when you save a feature file from FontLab. You have to write the mark feature code yourself. (You wouldn&rsquo;t even need to set FL anchors in order to do so, though it&rsquo;s easier to check the positioning of components when you have anchors and can preview the effect in the FL preview panel.)</p>
 <p>If you have for example an anchor in the glyph »A« at position (365, 725) and an anchor on the glyph »tildecomb« at position (0, 500), the corresponding mark feature code could look like this:</p>
-<!-- raw HTML omitted -->
-<p>When this code is in your OpenType panel, FontLab won&rsquo;t know what to do with it (pressing the compile button in FL will fail), but saving the complete feature code to a file and generating the font with Fontographer (or use the command-line tool <!-- raw HTML omitted -->makeotf<!-- raw HTML omitted --> from the Adobe FDK 2.5 directly) should work. (I don&rsquo;t have Fontographer to check it).</p>
+<code>
+feature mark {
+markClass tildecomb  <anchor 0 500> @ANCHORS_top;
+position base A  <anchor 365 725> mark @ANCHORS_top;
+} mark;
+</code>
+<p>When this code is in your OpenType panel, FontLab won&rsquo;t know what to do with it (pressing the compile button in FL will fail), but saving the complete feature code to a file and generating the font with Fontographer (or use the command-line tool <em>makeotf</em> from the Adobe FDK 2.5 directly) should work. (I don&rsquo;t have Fontographer to check it).</p>
 <p>Hope this helps!
 Jens</p>
 </div>
@@ -261,7 +266,12 @@ lookupflag RightToLeft;</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Hrmpf, my mark code didn&rsquo;t go through correctly, the coordinates got lost, I&rsquo;ll try again:</p>
-<!-- raw HTML omitted -->
+<code>
+feature mark {
+markClass tildecomb &lt;anchor 0 500&gt; @ANCHORS_top;
+position base A &lt;anchor 365 725&gt; mark @ANCHORS_top;
+} mark;
+</code>
 <p>I think you need both, the coordinates (to define how the marks should be positioned) and a group name (to define which mark can be combined with which base glyph).</p>
 </div>
 	</div>

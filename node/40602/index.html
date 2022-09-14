@@ -151,14 +151,14 @@ Sergey</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>For consistency&rsquo;s sake, I&rsquo;d call the other space <!-- raw HTML omitted -->space.deva<!-- raw HTML omitted -->, since &ldquo;deva&rdquo; is the OT script tag for Devanagari.</p>
+		<div class="commentbody"><p>For consistency&rsquo;s sake, I&rsquo;d call the other space <code>space.deva</code>, since &ldquo;deva&rdquo; is the OT script tag for Devanagari.</p>
 <p>In FontLab Studio, in the right-bottom part of the OpenType panel, you&rsquo;d write:</p>
-<p><!-- raw HTML omitted -->languagesystem latn dflt; 
-languagesystem deva dflt;<!-- raw HTML omitted --></p>
+<p><code>languagesystem latn dflt; 
+languagesystem deva dflt;</code></p>
 <p>and then you&rsquo;d add a new OpenType feature and in the top-right part of the OpenType panel, you&rsquo;d write:</p>
-<p><!-- raw HTML omitted -->feature locl {
+<p><code>feature locl {
 sub space by space.deva;
-} locl;<!-- raw HTML omitted --></p>
+} locl;</code></p>
 <p>Regards,
 Adam</p>
 </div>
@@ -182,9 +182,9 @@ Adam</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->For consistency’s sake, I’d call the other space space.deva, since “deva” is the OT script tag for Devanagari.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>For consistency’s sake, I’d call the other space space.deva, since “deva” is the OT script tag for Devanagari.</em></p>
 <p>Unless you are using the &lsquo;dev2&rsquo; tag for the improved Vista / Office 2007 shaping, or are making a font that supports both tags, in which case &lsquo;.dev&rsquo; seems a reasonably compromise.</p>
-<p><!-- raw HTML omitted -->In FontLab Studio, in the right-bottom part of the OpenType panel, you’d write&hellip;<!-- raw HTML omitted --></p>
+<p><em>In FontLab Studio, in the right-bottom part of the OpenType panel, you’d write&hellip;</em></p>
 <p>You could, but Devanagari requires OTL lookups not supported by FontLab, so you need to work in VOLT.</p>
 </div>
 	</div>
@@ -232,10 +232,10 @@ Adam</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Hello! Can I revive this thread for a moment?</p>
-<p>I&rsquo;ve been trying this above-mentioned method in VOLT on Vista, and haven&rsquo;t been able to get it to work properly. I&rsquo;ve created a <!-- raw HTML omitted --> feature with an alternate word space, and this does allow my text in Word, etc. to switch from the normal space to the alternate space, but not quite back again.</p>
+<p>I&rsquo;ve been trying this above-mentioned method in VOLT on Vista, and haven&rsquo;t been able to get it to work properly. I&rsquo;ve created a <locl> feature with an alternate word space, and this does allow my text in Word, etc. to switch from the normal space to the alternate space, but not quite back again.</p>
 <p>When I just have Latin text, or Devanagari text, everything is fine. In the Latin text words are separated by the normal space, and in Devanagari text the words are separated by the alternate space. But when the two scripts mix, it isn&rsquo;t so happy.</p>
 <p>My problem, as John and Sergey predict, appears when I have a text like वे वर्ष 1962 तक. Specifically, my problem is the space around &ldquo;1962&rdquo;… the space before the 1 is the alternate space, and the space after the 2 is a normal space. This is not how I&rsquo;d like the line of text to render.</p>
-<p>In Nepali text, for instance, it is less of an issue, as Nepali seems to use Latin figures and punctuation less often. But languages like Hindi, which may use it a lot, cause more difficulty. Although in my <!-- raw HTML omitted --> feature I also have alternate figures (one.deva, two.deva, etc.…) and alternate punctuation (comma.deva, etc.), these do not switch the way the space does, even when I set the default language in Word to Hindi. I don&rsquo;t know why they won&rsquo;t switch.</p>
+<p>In Nepali text, for instance, it is less of an issue, as Nepali seems to use Latin figures and punctuation less often. But languages like Hindi, which may use it a lot, cause more difficulty. Although in my <locl> feature I also have alternate figures (one.deva, two.deva, etc.…) and alternate punctuation (comma.deva, etc.), these do not switch the way the space does, even when I set the default language in Word to Hindi. I don&rsquo;t know why they won&rsquo;t switch.</p>
 <p>So, if I use two space glyphs, everything is groovy. Until a &ldquo;Latin&rdquo; character pops up in the string of text. Afterwards, all &ldquo;Latin&rdquo; characters will be the default Latin characters—including the word space—until another Devanagari character comes up. Then the space glyph switches to its alternate again. I don&rsquo;t know why this happens, and I don&rsquo;t know why my other alternates don&rsquo;t switch either.</p>
 <p>Other than that, I can get almost everything I put into VOLT to come out again properly! Except the below the base mark positioning. But that is another story ;-)</p>
 </div>
@@ -302,11 +302,11 @@ Adam</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->the space before the 1 is the alternate space, and the space after the 2 is a normal space. This is not how I’d like the line of text to render.<!-- raw HTML omitted --></p>
+<p><em>the space before the 1 is the alternate space, and the space after the 2 is a normal space. This is not how I’d like the line of text to render.</em></p>
 </blockquote>
 <p>This sounds like a layout engine issue, not a problem in your font.</p>
 <p>(hack alert!) You can try adding a contextual substitution to the font that replaces the default space by the Devanagari space, when the default space is preceded by a digit and followed by a Devanagari character. In pseudo-FDK notation,</p>
-<p><!-- raw HTML omitted -->sub [all digit glyphs] space' [all Devanagari glyphs] by space.dev;<!-- raw HTML omitted --></p>
+<p><code>sub [all digit glyphs] space' [all Devanagari glyphs] by space.dev;</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

@@ -73,7 +73,20 @@
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>Is it possible to use python or Robofab to replicate Fontlabs &lsquo;copy to composites&rsquo; command ?</p>
 <p>I know I could use something like this to update sidebearings of glyphs.</p>
-<!-- raw HTML omitted -->
+<code>
+from robofab.world import CurrentFont
+f = CurrentFont()
+#
+E = ['Emacron','Ebreve','Edotaccent','Eogonek','Ecaron','Egrave','Eacute','Ecircumflex','Edieresis']
+#
+for glyphName in E:
+        f[glyphName].leftMargin = f['E'].leftMargin
+	f[glyphName].rightMargin = f['E'].rightMargin
+#
+f.update()
+#
+print "E composites updated"
+</code>
 <p>This works fine until I get to the situation where the accents of glyphs over hang the sidebearing of the base glyph, this is where I would use the &lsquo;copy to composites&rsquo; command or the measurement line.</p>
 <p>[img:sites/default/files/old-images/Picture-1_3563.jpg]</p>
 <p>Using &lsquo;copy to composites&rsquo; is fine if not time consuming, but I have decomposed the composites in the process of generating the intermediate weight from a MM font. If I could write one macro that ensured all glyphs had the correct sidebearing it would save me loads of time.</p>
@@ -188,8 +201,24 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">I actually went down a different route of checking if the composites sidebearings matched the base glyph and then coloring the glyphs that didn&rsquo;t. It still dosen&rsquo;t get round the problem of the accents over hanging the sidebearings but it&rsquo;s heading in the direction of the functionality I wanted.</p>
-<!-- raw HTML omitted --></div>
+		<div class="commentbody"><p>I actually went down a different route of checking if the composites sidebearings matched the base glyph and then coloring the glyphs that didn&rsquo;t. It still dosen&rsquo;t get round the problem of the accents over hanging the sidebearings but it&rsquo;s heading in the direction of the functionality I wanted.</p>
+<code>
+from robofab.world import CurrentFont
+f = CurrentFont()
+#
+myGlyphs = ['Amacron','Abreve','Aogonek','Agrave','Aacute','Acircumflex','Atilde','Adieresis','Aring']
+for glyphName in myGlyphs:
+	if f[glyphName].rightMargin != f['A'].rightMargin or f[glyphName].leftMargin != f['A'].leftMargin:
+		print 'A'
+		f['A'].mark = 10	
+#
+myGlyphs =  ['Cacute','Ccircumflex','Ccaron','Ccedilla']
+for glyphName in myGlyphs:
+	if f[glyphName].leftMargin != f['C'].leftMargin or f[glyphName].rightMargin != f['C'].rightMargin:
+		print 'C'
+		f['C'].mark = 30	
+#
+</code></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

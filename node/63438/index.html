@@ -72,15 +72,15 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>I get the following messages when trying to output a font or when hitting the compile button on the OpenType panel:</p>
-<p>[WARNING] <!-- raw HTML omitted --> Glyph class @FLSFNT823E redefined [/Users/chrisL/Library/Application Support/FontLab/Studio 5/Features/fontlab.fea 110]</p>
-<p>[WARNING] <!-- raw HTML omitted --> Glyph class @DezBoulder-Alter redefined [/Users/chrisL/Library/Application Support/FontLab/Studio 5/Features/fontlab.fea 110]</p>
+<p>[WARNING] <FLSFNT823E> Glyph class @FLSFNT823E redefined [/Users/chrisL/Library/Application Support/FontLab/Studio 5/Features/fontlab.fea 110]</p>
+<p>[WARNING] <DezBoulder-Alter> Glyph class @DezBoulder-Alter redefined [/Users/chrisL/Library/Application Support/FontLab/Studio 5/Features/fontlab.fea 110]</p>
 <p>I have searched through all my classes but find nothing odd. What does the above mean and how do I fix it?</p>
 <p>Thanks!</p>
 </div>
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Hello Mr Lozos, you have classes of the same name defined in the Classes Panel as well as in the bottom segment of the OpenType Panel, and in <!-- raw HTML omitted -->Preferences &gt; General Options &gt; Unicode and OpenType<!-- raw HTML omitted --> have the option <!-- raw HTML omitted -->Add all glyph classes to OpenType feature definition code<!-- raw HTML omitted --> activated. So either deactivate the options or remove class definitions from the OpenType Panel segment.  Karsten</div>
+		<div class="commentbody">Hello Mr Lozos, you have classes of the same name defined in the Classes Panel as well as in the bottom segment of the OpenType Panel, and in <em>Preferences &gt; General Options &gt; Unicode and OpenType</em> have the option <em>Add all glyph classes to OpenType feature definition code</em> activated. So either deactivate the options or remove class definitions from the OpenType Panel segment.  Karsten</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -168,8 +168,8 @@
 	<div class="card-body">
 		<div class="commentbody"><p>Yes, Juergen, and it is doing a very good job of annoying me :-)</p>
 <p>Karsten&rsquo;s suggestion did not work. Now, instead of &ldquo;fea 110&rdquo; it is &ldquo;fea 107&rdquo; whatever that means.</p>
-<p>[WARNING] <!-- raw HTML omitted --> Glyph class @DezBoulder-Alter redefined [/Users/chrisL/Library/Application Support/FontLab/Studio 5/Features/fontlab.fea 107]</p>
-<p>[WARNING] <!-- raw HTML omitted --> Glyph class @FLSFNT1749 redefined [/Users/chrisL/Library/Application Support/FontLab/Studio 5/Features/fontlab.fea 107]</p>
+<p>[WARNING] <DezBoulder-Alter> Glyph class @DezBoulder-Alter redefined [/Users/chrisL/Library/Application Support/FontLab/Studio 5/Features/fontlab.fea 107]</p>
+<p>[WARNING] <FLSFNT1749> Glyph class @FLSFNT1749 redefined [/Users/chrisL/Library/Application Support/FontLab/Studio 5/Features/fontlab.fea 107]</p>
 <p>ChrisL</p>
 </div>
 	</div>
@@ -237,7 +237,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Karsten said:
-<!-- raw HTML omitted -->Preferences &gt; General Options &gt; Unicode and OpenType have the option Add all glyph classes to OpenType feature definition code activated. So either deactivate the options or remove class definitions from the OpenType Panel segment.<!-- raw HTML omitted --></p>
+<cite>Preferences &gt; General Options &gt; Unicode and OpenType have the option Add all glyph classes to OpenType feature definition code activated. So either deactivate the options or remove class definitions from the OpenType Panel segment.</cite></p>
 <p>Does this nullify all classes in exported fonts? For example, if I have kerning classes set up, and I disable that option, will class kerning be disabled in exported fonts or will they still work?</p>
 </div>
 	</div>
@@ -308,10 +308,10 @@
 	<div class="card-body">
 		<div class="commentbody">Mr Larabie, perhaps it is easier to answer your question by describing roughly how OpenType feature export works:
 Features defined in the OpenType Panel and text located in the OpenType Panel&rsquo;s bottom field will be merged into a single feature definition text file. This file serves as input for AFDKO with which FLS5 compiles OT layout tables.
-If you have activated the option <!-- raw HTML omitted -->Add all glyph classes to OpenType feature definition code<!-- raw HTML omitted -->, the Classes Panel&rsquo;s class definitions will be converted into AFDKO syntax and included in this feature definition text file too.
+If you have activated the option <em>Add all glyph classes to OpenType feature definition code</em>, the Classes Panel&rsquo;s class definitions will be converted into AFDKO syntax and included in this feature definition text file too.
 Now two problems may occur:
-<!-- raw HTML omitted -->(a)<!-- raw HTML omitted -->  If a class name is shared by a class defined in the Classes Panel and by a class defined in the OpenType Panel&rsquo;s bottom field, and if the <!-- raw HTML omitted -->Add<!-- raw HTML omitted --> option is activated, then AFDKO  will find two definitions for the same class in this feature definition text file, use the later definition, and emit a warning. This means: despite of the warning it will compile. You only get in trouble if the content of the identaically named classes differs. Then you may end up with too little or too much kerning. This is similar to what Mr Lozos experienced. In his case, the classes that shared a name were both in the Classes Panel &ndash; the effect is the same though.
-<!-- raw HTML omitted -->(b)<!-- raw HTML omitted -->  If there are no class definitions in the OpenType Panel&rsquo;s bottom field and the <!-- raw HTML omitted -->Add<!-- raw HTML omitted --> option is <!-- raw HTML omitted -->de<!-- raw HTML omitted -->activated (class definitions from the Classes Panel will be ignored), then MakeOTF will complain too &ndash; but this time compilation of OT layout tables will fail. This is the case you describe.</div>
+<em>(a)</em>  If a class name is shared by a class defined in the Classes Panel and by a class defined in the OpenType Panel&rsquo;s bottom field, and if the <em>Add</em> option is activated, then AFDKO  will find two definitions for the same class in this feature definition text file, use the later definition, and emit a warning. This means: despite of the warning it will compile. You only get in trouble if the content of the identaically named classes differs. Then you may end up with too little or too much kerning. This is similar to what Mr Lozos experienced. In his case, the classes that shared a name were both in the Classes Panel &ndash; the effect is the same though.
+<em>(b)</em>  If there are no class definitions in the OpenType Panel&rsquo;s bottom field and the <em>Add</em> option is <em>de</em>activated (class definitions from the Classes Panel will be ignored), then MakeOTF will complain too &ndash; but this time compilation of OT layout tables will fail. This is the case you describe.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

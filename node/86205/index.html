@@ -87,9 +87,13 @@
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Filter for kerning classes by matching the first character of each class with an underscore:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<pre>
+classes = fl.font.classes
+for c in range( len(classes) ):
+  class_text = classes[c]
+  if class_text[0] == "_":
+    print class_text
+</pre><blockquote>
 </blockquote>
 </div>
 	</div>
@@ -133,8 +137,19 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The FontLab Font object offers the folowing methods to access class attributes:</p>
-<!-- raw HTML omitted --></div>
+		<div class="commentbody"><p>The FontLab Font object offers the folowing methods to access class attributes:</p>
+<dl>
+<dt><strong>SetClassFlags</strong>(int class_index, bool left, bool right)</dt> 
+<dd>allows to set 'left' and 'right' properties of the kerning class</dd>
+<dt><strong>SetClassFlags</strong>(int class_index, bool lsb, bool rsb, bool width)</dt>
+<dd>allows to set 'lsb', 'rsb' and 'width' properties of the metrics class</dd>
+<dt><strong>GetClassLeft</strong>(int class_index)</dt> 
+<dd>returns the 'left' property of the class</dd>
+<dt><strong>GetClassRight</strong>(int class_index)</dt>
+<dd>returns the 'right' property of the class</dd>
+<dt><strong>GetClassMetricsFlags</strong>(int class_index)</dt> 
+<dd>returns the tuple containing LSB, RSB and Width flags of the metrics class</dd>
+</dl></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -156,9 +171,24 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Thanks Eigi. Mission accomplished</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<pre>
+# copy kern class information from source
+kernClasses = []
+kernClassesToBooleans = {}
+for index, glyphClass in enumerate(sourceFLFont.classes):
+    if glyphClass.startswith("_"):
+        kernClasses.append(glyphClass)
+        kernClassesToBooleans[glyphClass] = (sourceFLFont.GetClassLeft(index), sourceFLFont.GetClassRight(index))
+
+# clear target; copy classes
+targetFLFont.classes = []
+targetFLFont.classes = kernClasses
+
+# copy booleans into target
+for index, kernClass in enumerate(targetFLFont.classes):
+    leftBool, rightBool = kernClassesToBooleans[kernClass]
+    targetFLFont.SetClassFlags(index, leftBool, rightBool)
+</pre><blockquote>
 </blockquote>
 </div>
 	</div>

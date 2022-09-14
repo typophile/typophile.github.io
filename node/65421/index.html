@@ -71,8 +71,30 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody"><!-- raw HTML omitted -->
-<!-- raw HTML omitted --></div>
+  <div class="post-content e-content" itemprop="articleBody"><?php 
+
+$query = "select tid, name from term_data where vid = 4 order by name";
+
+$result = mysql_query($query);
+$count = mysql_num_rows($result);
+
+$query2 =  "select count(d.tid) as amount from term_node as n, term_data as d where d.vid = 4 and d.tid = n.tid";
+$taggedCountResult = mysql_query($query2);
+$taggedCount = mysql_fetch_object($taggedCountResult);
+
+$count_query = "select count(nid) as c from node";
+$count_result = db_query($count_query);
+$row = db_fetch_object($count_result);
+
+print "<div>$count tags and counting. $taggedCount->amount of $row->c posts have been tagged.</div>";
+print "<ul>";
+while ($row = mysql_fetch_object($result)) {
+    print "<li><a href=\"/taxonomy/term/$row->tid\">$row->name</a></li>";
+}
+print "</ul>";
+
+?>
+</div>
 
   
 </article>

@@ -89,14 +89,21 @@ The problem with OTFeaturesOpen (33210) is that it pops a dialog to select the f
 	<div class="card-body">
 		<div class="commentbody"><p>Matthew,</p>
 <p>resetting the features is possible if you don&rsquo;t use the command codes, but set the python attributes directly:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+fl.font.features.clean()
+fl.font.ot_classes = "" # to clear the lower right part of the OT panel
+fl.UpdateFont()
+</pre>
 <p>Loading feature code from a text file can probably be done, but it would be a bit more complicated. In principle, open a text file using python, detect the lines where one feature&rsquo;s code starts and ends, and add the feature to the font like this:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+fl.font.features.append(Feature(myFeatureTag, myFeatureCode))
+fl.UpdateFont()
+</pre>
 <p>Example:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+fl.font.features.append(Feature("liga", "feature liga\n  {\n  sub f i by f_i;\n  } liga;\n"))
+fl.UpdateFont()
+</pre>
 <p>hth,
 Jens</p>
 </div>
@@ -187,9 +194,55 @@ Eigi</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+		<div class="commentbody"><pre>
+from robofab.world import CurrentFont
+import os, re
+
+font = CurrentFont()
+
+# reset OT features - thank you Jens
+font.naked().features.clean()
+font.naked().ot_classes = "" 
+
+# open fea file
+feaFile = open({path to fea file}, 'r')
+feaCode = feaFile.read()
+
+
+# read ot_classses from file - from beginning of file to first feature declaration
+otClassesPattern = re.compile('^.*?(?=\nfeature )', re.DOTALL)
+otClasses = otClassesPattern.search(feaCode).group(0)
+
+# set ot_classses
+font.naked().ot_classes = otClasses
+
+
+# read features from file & add to font
+tagList = []
+tagPattern = re.compile('feature\s*(?P&lt;tag&gt;\w\w\w\w)\s*{', re.DOTALL)
+for match in tagPattern.finditer(feaCode):
+    tagList.append(match.group('tag'))
+
+for tag in tagList:
+    featurePattern = re.compile('feature\s+%s\s*{.*?}\s*%s;' % (tag, tag), re.DOTALL)
+    featureCode = featurePattern.search(feaCode).group(0)
+    font.naked().features.append(Feature(tag, featureCode))
+
+
+# delete kern feature if it exists - thank you Karsten
+for featureIndex in range(len(font.naked().features)-1,-1,-1):
+    if font.naked().features[featureIndex].tag == "kern":
+    	  del font.naked().features[featureIndex]
+
+# make new kern feature & append to feature list 
+kernFeature = font.naked().MakeKernFeature()
+font.naked().features.append(kernFeature)
+
+# recompile OT features
+font.update()
+fl.CallCommand(33203)
+
+</pre><blockquote>
 </blockquote>
 </div>
 	</div>
@@ -213,7 +266,7 @@ Eigi</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Maybe I&rsquo;m missing something, but if you just want your features in an external file (which is maybe not the only thing you&rsquo;re wanting to do), you can just put something like this at the bottom right pane of the OT panel:</p>
-<!-- raw HTML omitted -->
+<pre>include(myfeatures.fea)</pre>
 <p>The .fea file would be in the same directory as the .vfb file in this example.</p>
 </div>
 	</div>

@@ -82,8 +82,8 @@ This means instead of making glyphs for each combination of base glyph with dots
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>You still need precomposed versions of the default encoded Unicode characters, but then you can decompose these in VOLT and use GPOS mark positioning for the dots. This can be done either in the ccmp feature, or within the individual shaping features: isol, init, medi and fina. So, for example, one can decompose</p>
-<p><!-- raw HTML omitted -->ccmp
-uni0628 -&gt; B.isol dotbelow<!-- raw HTML omitted --></p>
+<p><code>ccmp
+uni0628 -&gt; B.isol dotbelow</code></p>
 <p>There are some software support issues with this approach &ndash; if a user in Word turns off display of marks, or chooses to display the marks in a different colour, this will incorrectly affect the dots &ndash; but it is the most practical approach for many traditional styles of Arabic in which dot position needs to be contextually adjusted.</p>
 </div>
 	</div>
@@ -155,7 +155,12 @@ why? because glyph will not be decomposed to the base character and Noqta, so I 
 	<div class="card-body">
 		<div class="commentbody"><p>Thanks bahman for the reply.</p>
 <p>From this discussion this far, I think the workflow goes something like this:</p>
-<!-- raw HTML omitted -->
+<ul>
+<li>Create all default encoded Unicode characters in Fontlab with nuqtas added to them.</li>
+<li>Decompose them in VOLT using CCMP feature.</li>
+<li>Add nuqtas to them again in VOLT using GPOS mark positioning.</li>
+<li>For all the other glyphs, only create a base glyph in FontLab, and add nuqtas in VOLT using CCMP feature.</li>
+</ul>
 <p>Please correct me if I&rsquo;m making any mistake in the above list.</p>
 <p>Another question: I&rsquo;ll use mark positioning to add Nuqtas. Then again I&rsquo;ll use Mark positioning to add Diacritics. Wouldn&rsquo;t that be a problem?</p>
 <p>Thanks and regards.</p>
@@ -180,8 +185,8 @@ why? because glyph will not be decomposed to the base character and Noqta, so I 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I&rsquo;ll use mark positioning to add Nuqtas. Then again I&rsquo;ll use Mark positioning to add Diacritics. Wouldn&rsquo;t that be a problem?<!-- raw HTML omitted --></p>
-<p>No, because you will use different named anchors for dots and for vowel marks (you may end up with more than one anchor for different numbers of dots, too). The other thing you need to cater for in this method is positioning of vowel signs relative to dots <!-- raw HTML omitted -->when preceded by some letters but not by others.<!-- raw HTML omitted --> In other words, sometimes you will want mark-to-mark positioning for the vowel signs and sometimes mark-to-base. And that is contextual.</p>
+		<div class="commentbody"><p><em>I&rsquo;ll use mark positioning to add Nuqtas. Then again I&rsquo;ll use Mark positioning to add Diacritics. Wouldn&rsquo;t that be a problem?</em></p>
+<p>No, because you will use different named anchors for dots and for vowel marks (you may end up with more than one anchor for different numbers of dots, too). The other thing you need to cater for in this method is positioning of vowel signs relative to dots <em>when preceded by some letters but not by others.</em> In other words, sometimes you will want mark-to-mark positioning for the vowel signs and sometimes mark-to-base. And that is contextual.</p>
 <p>There&rsquo;s no denying that this approach introduces a lot of complexities, and I only recommend it for styles in which you need to be able to move the dots around.</p>
 </div>
 	</div>

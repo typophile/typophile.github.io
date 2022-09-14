@@ -293,20 +293,20 @@ I didn&rsquo;t imagine that I would see you in such occasion :)</p>
 		<div class="commentbody"><p>I should first state that the &lsquo;valt&rsquo; GPOS feature is effectively deprecated, because there is a better way to achieve the functionality. Given that the context in which its functionality is expected to be used is vertical writing, and that it is also expected to be default behavior, we discovered that we could effect this through &lsquo;vmtx&rsquo; table overrides.</p>
 <p>I developed a Perl script, several years ago, that takes two files as input. One is a coverage table, specifically a list of CIDs and CID ranges that are candidates for this treatment. This means anything that is classified as full-width Latin, full-width Greek, or full-width Cyrillic, including full-width symbols. The other is the AFM file for the font, which has the glyph-level BBox information. (The AFDKO tool called &ldquo;tx&rdquo; has a mighty convenient &ldquo;-afm&rdquo; option for generating AFM files from a font.)</p>
 <p>Consider the full-width Latin glyphs for a, b, and p. In Adobe-Japan1-6, the CIDs are 816, 817, and 831, respectively. For Kozuka Mincho Pr6N Regular, the AFM records for these glyphs are as follows:</p>
-<p><!-- raw HTML omitted -->C -1 ; W0X 1000 ; N 816 ; B 276 -12 754 514 ;
+<p><CODE>C -1 ; W0X 1000 ; N 816 ; B 276 -12 754 514 ;
 C -1 ; W0X 1000 ; N 817 ; B 240 -12 762 772 ;
-C -1 ; W0X 1000 ; N 831 ; B 248 -257 775 514 ;<!-- raw HTML omitted --></p>
+C -1 ; W0X 1000 ; N 831 ; B 248 -257 775 514 ;</CODE></p>
 <p>Given that the top and bottom of the design space is at 880 and -120, what we effectively want to do is to center the glyphs within that 1000-unit space. When I run my script, which I named mkvmtx.pl, the following is the output for these three glyphs:</p>
-<p><!-- raw HTML omitted -->table vmtx {
+<p><CODE>table vmtx {
     VertOriginY \816 751;
     VertOriginY \831 628;
-} vmtx;<!-- raw HTML omitted --></p>
+} vmtx;</CODE></p>
 <p>What happened to the entry for CID+817? Look at its Y-axis values, specifically -12 and 772. There is exactly 108 units between the edges and the edges of the design space, so the glyph is alrady centered, and no adjustment is necessary. The default value is 880, and thus is not necessary.</p>
 <p>The workhorse portion of my script, which iterates through AFM records, ignoring those not in the coverage table (%cidrange), is below:</p>
-<p><!-- raw HTML omitted -->$ybottomlimit = -120;
+<p><CODE>$ybottomlimit = -120;
 $ytoplimit = 880;
-$ycenter = ($ybottomlimit + $ytoplimit) / 2;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->while ($line = &lt;STDIN&gt;) {
+$ycenter = ($ybottomlimit + $ytoplimit) / 2;</CODE></p>
+<p><CODE>while ($line = &lt;STDIN&gt;) {
     if ($line =~ /^C.*/) {
         chomp $line;
         ($cid,$ymin,$ymax) = (split(/ /,$line))[7,11,13];
@@ -318,15 +318,15 @@ $ycenter = ($ybottomlimit + $ytoplimit) / 2;<!-- raw HTML omitted --></p>
             printf STDOUT &quot;  VertOriginY \$cid %s;\n&quot;,$ytoplimit - $pushy if $pushy !~ /^-?[0-4]$/;
         }
     }
-}<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->sub round {
+}</CODE></p>
+<p><CODE>sub round {
     my ($arg) = @_;
     if ($arg =~ /.[0-4]\d*/) {
         $arg =~ s/.[0-4]\d*$//;
     } elsif ($arg =~ /.[5-9]\d*/) {
         $arg =~ s/(\d+).[5-9]\d*$/$1 + 1/e;
     } return $arg;
-}<!-- raw HTML omitted --></p>
+}</CODE></p>
 <p>If anyone would like the complete Perl script or the coverage tables for our CID character collections, or both, please feel free to drop me an email.</p>
 <p>Dr. Ken Lunde
 Senior Computer Scientist, CJKV Type Development

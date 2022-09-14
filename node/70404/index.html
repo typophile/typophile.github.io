@@ -72,16 +72,24 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>While we are waiting for WOFF support broadly, there are some protective measures available for webfonts to prevent them from being installed locally.</p>
-<p>There is a technique of obfuscating the <!-- raw HTML omitted -->name<!-- raw HTML omitted --> table, rendering it <!-- raw HTML omitted -->unusable as a system font, but fully functional as a webfont<!-- raw HTML omitted -->. Ethan Dunham of Font Squirrel and Fontspring has led much of the research below, based on some prior work from Peter Bilak of Typotheque and Philip Taylor with his Font Optimizer [0]</p>
+<p>There is a technique of obfuscating the <code>name</code> table, rendering it <strong>unusable as a system font, but fully functional as a webfont</strong>. Ethan Dunham of Font Squirrel and Fontspring has led much of the research below, based on some prior work from Peter Bilak of Typotheque and Philip Taylor with his Font Optimizer [0]</p>
 <p>Specifically, these are the modifications for a TrueType font:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<!--break-->
+<ul><li>Delete all name entries except for platformID 3, platEncID 1, LangID 0x0409</ul>
+<ul><li>Set entry 1 (Font Family) to  '' (empty string)
+<li>Set entry 2 (Font Subfamily) to a unicode smiley:☺ [1]
+<li>Set entry 3 (Unique ID) to '' (empty string)
+<li>Set entry 4 (Full name) to smiley:☺
+<li>Entry 5 (Version) may optionally be changed. Ethan recommends inserting some verbage about the font being protected. It shows up in the get info window on Mac 
+<li>Set entry 6 (Postscript name) to smiley:☺
+<li>Entries 7-14 can remain as is
+<li>Delete entries 15+</ul>
 <p>Create two Mac entries: platformID 1, platEncID 0, LangID 0x0</p>
-<!-- raw HTML omitted -->
+<ul><li>Set entry 1 to blank (basically have an entry but no value)
+<li>Set entry 4 to the Font Name (optional but will show up in Get Info)</ul>
 <p>When the Font Family name is an empty string, it is uninstallable in Windows. Meanwhile, the OpenType spec indicates that two-byte unicode characters (like the smiley) won&rsquo;t work in a font name on Mac at all. [2] As a result, it&rsquo;s rejected by OS X and not possible to install. Linux isn&rsquo;t able to cope with these modifications either. [3]</p>
-<p>These changes are done not only to the TrueType &ldquo;naked&rdquo; font, but can also be applied to the underlying TTF embedded in the EOT and WOFF files as well. It&rsquo;s also worth noting that Chrome&rsquo;s font sanitizing library OTS completely avoids the <!-- raw HTML omitted -->name<!-- raw HTML omitted --> table. [4]</p>
-<p><!-- raw HTML omitted -->I believe all non-free fonts should employ these changes as they are distributed for web use<!-- raw HTML omitted -->, essentially providing them with a similar &ldquo;garden fence&rdquo;-level of protection [5] as WOFF. Fontspring is already employing this technique, and you can test it out with the WebOnly option at the Font Squirrel generator [6].</p>
+<p>These changes are done not only to the TrueType &ldquo;naked&rdquo; font, but can also be applied to the underlying TTF embedded in the EOT and WOFF files as well. It&rsquo;s also worth noting that Chrome&rsquo;s font sanitizing library OTS completely avoids the <code>name</code> table. [4]</p>
+<p><strong>I believe all non-free fonts should employ these changes as they are distributed for web use</strong>, essentially providing them with a similar &ldquo;garden fence&rdquo;-level of protection [5] as WOFF. Fontspring is already employing this technique, and you can test it out with the WebOnly option at the Font Squirrel generator [6].</p>
 <p>If you guys think this is worthwhile, I&rsquo;d love to help draft this up into something more official so it&rsquo;s a documented standard that all foundries can use when preparing their work for sale as a webfont.</p>
 <p>[0] [[http://bitbucket.org/philip/font-optimizer/src/tip/obfuscate-font.pl]]
 [1] [[http://www.fileformat.info/info/unicode/char/263a/index.htm]]
@@ -95,12 +103,12 @@
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted -->オークリー サングラス<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted -->オークリー ゴーグル<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted -->オークリー メガネ<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted -->オークリー<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted -->オークリー 激安<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></div>
+		<div class="commentbody"><br><hr><br>
+<b><a href="http://www.oakley-sunglasses.asia/">オークリー サングラス</a></b><br>
+<b><a href="http://www.oakley-sunglasses.asia/">オークリー ゴーグル</a></b><br>
+<b><a href="http://www.oakley-sunglasses.asia/">オークリー メガネ</a></b><br>
+<b><a href="http://www.oakley-sunglasses.asia/">オークリー</a></b><br>
+<b><a href="http://www.oakley-sunglasses.asia/">オークリー 激安</a></b><br></div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -142,7 +150,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Like Paul said, you can already do this with the <!-- raw HTML omitted -->Generator<!-- raw HTML omitted --> by selecting the &ldquo;WebOnly&rdquo; Option. I&rsquo;m interested to hear your thoughts on it all. A more robust foundry service is in the works.</div>
+		<div class="commentbody">Like Paul said, you can already do this with the <a href="http://www.fontsquirrel.com/fontface/generator">Generator</a> by selecting the &ldquo;WebOnly&rdquo; Option. I&rsquo;m interested to hear your thoughts on it all. A more robust foundry service is in the works.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -236,7 +244,7 @@
 	<div class="card-body">
 		<div class="commentbody"><p>@Misha - Yes, all this is already being done in the generator.</p>
 <p>@Elliot - Thanks!</p>
-<p>One clarification to Paul&rsquo;s documentation: It is uninstallable on Windows not because the names don&rsquo;t match (they do and that is why the EOT works), but because the Family Name is <!-- raw HTML omitted -->.</p>
+<p>One clarification to Paul&rsquo;s documentation: It is uninstallable on Windows not because the names don&rsquo;t match (they do and that is why the EOT works), but because the Family Name is <blank>.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -322,9 +330,9 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@sii, Yeah, totally a legitimate concern. I&rsquo;ve asked a friend who works on the Chrome team that developed OTS (arguably the most aggressive in-browser font security software) to look this over. My expectation is he&rsquo;ll give the thumbs up, but like you, I want to feel confident about it.</p>
-<p>Since OTS was started, it has had <!-- raw HTML omitted -->this comment in the source<!-- raw HTML omitted -->, which puts me at ease:
-<!-- raw HTML omitted -->  // NAME is a required table, but we don&rsquo;t want anything to do with it. Thus,
-// we don&rsquo;t bother parsing it and we just serialise an empty name table.<!-- raw HTML omitted --></p>
+<p>Since OTS was started, it has had <a href="http://code.google.com/p/ots/source/browse/trunk/src/name.cc#23">this comment in the source</a>, which puts me at ease:
+<code>  // NAME is a required table, but we don&rsquo;t want anything to do with it. Thus,
+// we don&rsquo;t bother parsing it and we just serialise an empty name table.</code></p>
 <p>I&rsquo;ll also try to bounce this off John Daggett and Jonathan Kew of Mozilla. If you have contact with any webfonts engineers with IE, I&rsquo;d love their input</p>
 </div>
 	</div>
@@ -470,7 +478,7 @@
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Ethan (fontsquirrel) asked: <!-- raw HTML omitted -->What is the Extensis strategy for protecting fonts?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Ethan (fontsquirrel) asked: <cite>What is the Extensis strategy for protecting fonts?</cite></p>
 <p>In the current &ldquo;technology preview&rdquo; of our service, we do a bunch of measures at different levels, including a number of things relating to font processing, along these general lines.</p>
 <p>That being said, there&rsquo;s no question that this level of font crippling is more extensive than what we&rsquo;re currently doing. It&rsquo;s something we&rsquo;ll be looking at carefully.</p>
 <p>Cheers,</p>
@@ -534,7 +542,7 @@ Success at that has always been assumed.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Rich: <!-- raw HTML omitted -->if the naming scheme is legit as far as the OT spec is concerned<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Rich: <em>if the naming scheme is legit as far as the OT spec is concerned</em></p>
 <p>There&rsquo;s the rub, I think. The proposed modifications of the name table are not really legit as far as the OT spec is concerned, at least as interpreted by the OS makers, which is precisely why the system will not install such fonts. This method of obfuscation is based on a current difference between the handling of web fonts and the installation of fonts on the system, and I don&rsquo;t see any grounds for either presuming that this difference will be maintained in its present state or that such a difference can be formalised.</p>
 </div>
 	</div>
@@ -647,7 +655,7 @@ I played around a bit and managed to create a TTF that works as a web font in Sa
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@jh</p>
-<p><!-- raw HTML omitted -->This method of obfuscation is based on a current difference between the handling of web fonts and the installation of fonts on the system, and I don&rsquo;t see any grounds for either presuming that this difference will be maintained in its present state or that such a difference can be formalised.<!-- raw HTML omitted --></p>
+<p><em>This method of obfuscation is based on a current difference between the handling of web fonts and the installation of fonts on the system, and I don&rsquo;t see any grounds for either presuming that this difference will be maintained in its present state or that such a difference can be formalised.</em></p>
 <p>Yes, it exploits a &ldquo;blind spot&rdquo; in the way Windows and OSX currently recognize a font.
 And there is no way to know if the blind spot will stay blind unless MSFT and Apple say it will.</p>
 <p>But going forward, how about a simple naming convention that signals to the OS that the font should not be installed?
@@ -733,7 +741,7 @@ There is precedence for it with the keyword font names in the CSS 2.1 draft, too
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I think a more promising approach, one more likely to succeed, would be a fully spec’d permissions/electronic EULA table, where “do not install” is just one of several properties exposed.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>I think a more promising approach, one more likely to succeed, would be a fully spec’d permissions/electronic EULA table, where “do not install” is just one of several properties exposed.</em></p>
 <p>Promising in a way, perhaps, but I have problems with what it promises.
 I&rsquo;d rather it remain as is than go down that road.</p>
 <p>Rich</p>
@@ -823,7 +831,7 @@ SVG or no support: 1.1%</p>
 <blockquote>
 <p>their lead engineer said it&rsquo;s easier for them to make WOFF an installable format</p>
 </blockquote>
-<p>I think it’s up to the W3C working group to ensure that <!-- raw HTML omitted -->compliant<!-- raw HTML omitted --> apps and clients do not treat WOFF as an installable font format.</p>
+<p>I think it’s up to the W3C working group to ensure that <STRONG>compliant</STRONG> apps and clients do not treat WOFF as an installable font format.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -875,7 +883,7 @@ SVG or no support: 1.1%</p>
 	<div class="card-body">
 		<div class="commentbody"><p>PI&gt;David: that doesn&rsquo;t interest you?</p>
 <p>Yes Paul it does. Thank you for the interesting material. We have adopted much like what you describe in some of our web font obfuscation technology to serve dressed naked fonts.</p>
-<p>I&rsquo;m always a bit leery about doing any messing with the font names because they are so fragile to the user, and I can&rsquo;t help imagining that useful file and font names <!-- raw HTML omitted -->with<!-- raw HTML omitted --> meta data support is a good goal to seek for users now.</p>
+<p>I&rsquo;m always a bit leery about doing any messing with the font names because they are so fragile to the user, and I can&rsquo;t help imagining that useful file and font names <em>with</em> meta data support is a good goal to seek for users now.</p>
 <p>One of the classic issues we&rsquo;ve been facing (all composers and users of digital type), for the last 30 years, is how to keep track of fonts, (from conception to uses), mostly by file name and font name. So, e.g. for years we&rsquo;ve been shoehorning size and foundry info into names along with family, repertoire and style info.</p>
 <p>As I understand it, I could have to ship fonts like: FBSavageGothicBoldCondensedItalicDisplayProWebForIPadSVG18PTnot4woff.svg, and the file name could be SHTHD211.</p>
 <p>Sii&gt;My only point was that they may not work tomorrow. In which case they&rsquo;ll evolve, or die.</p>
@@ -952,7 +960,7 @@ SVG or no support: 1.1%</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I&rsquo;m absolutely astonished that all discussions so far are concentrated on the feasibility of this hack and nobody is making the principled argument that intentional poisoning of standard data formats is unconditionally evil, and security by obscurity really never works &ndash; especially when the structure of the underlying format is public knowledge.</p>
-<p>Since any software that encounters the intentionally crippled data may behave in unpredictable ways and thus open up vectors for attack, this kinds of hack &ndash; in an environment as fragile as the web no less &ndash; puts the data integrity and system security of the user in great danger and is therefore utterly irresponsible. As an user, I would consider this kind of technique a willful act of intrusion and endangerment &ndash; much like <!-- raw HTML omitted -->rootkit DRM<!-- raw HTML omitted --> &ndash; and say to anyone who employs it: Go to hell!</p>
+<p>Since any software that encounters the intentionally crippled data may behave in unpredictable ways and thus open up vectors for attack, this kinds of hack &ndash; in an environment as fragile as the web no less &ndash; puts the data integrity and system security of the user in great danger and is therefore utterly irresponsible. As an user, I would consider this kind of technique a willful act of intrusion and endangerment &ndash; much like <a href="http://en.wikipedia.org/wiki/Sony_BMG_CD_copy_protection_scandal">rootkit DRM</a> &ndash; and say to anyone who employs it: Go to hell!</p>
 <p>Some &ndash; actually, many, as it seems &ndash; people here need a computer security 101 lecture: The integrity of data exchanged in an open environment has &ndash; by magnitude &ndash; higher priority than a little bit more visual enhancement for your website.</p>
 </div>
 	</div>
@@ -975,7 +983,7 @@ SVG or no support: 1.1%</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->One issue with putting garbage data in a font is that it is hard to predict all the workflows which it might affect. Have you tested printing to PostScript and non-PostScript printers, and to PDF?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>One issue with putting garbage data in a font is that it is hard to predict all the workflows which it might affect. Have you tested printing to PostScript and non-PostScript printers, and to PDF?</cite></p>
 <p>Still interested in an answer to Read&rsquo;s question.</p>
 </div>
 	</div>
@@ -998,7 +1006,7 @@ SVG or no support: 1.1%</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I&rsquo;m absolutely astonished that all discussions so far are concentrated on the feasibility of this hack and nobody is making the principled argument that intentional poisoning of standard data formats is unconditionally evil, and security by obscurity really never works &ndash; especially when the structure of the underlying format is public knowledge.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I&rsquo;m absolutely astonished that all discussions so far are concentrated on the feasibility of this hack and nobody is making the principled argument that intentional poisoning of standard data formats is unconditionally evil, and security by obscurity really never works &ndash; especially when the structure of the underlying format is public knowledge.</cite></p>
 <p>You have to remember that this entire discussion is pretty much based on an inane fantasy in which intentional piracy is inevitable but users unintentionally pirate fonts by downloading web fonts and installing them without realizing that the a font license should be paid for somewhere along the way. So you really shouldn’t be surprised that the methods for preventing such a scenario are equally ridiculous.</p>
 </div>
 	</div>
@@ -1113,9 +1121,9 @@ SVG or no support: 1.1%</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@paul irish</p>
-<p><!-- raw HTML omitted -->This is stated as an interim solution, as I&rsquo;d think foundries would be interested in licensing their fonts to work, securely, in 100% of supporting browsers today.<!-- raw HTML omitted --></p>
-<p>I think you&rsquo;ve unintentionally hit the nail on the head. I don&rsquo;t think font producers - in the main - are much interested in licensing their fonts to work in 100% of browsers today. I&rsquo;ve never, ever heard any enthusiasm for providing web fonts at all. <!-- raw HTML omitted -->And I don&rsquo;t think there will be much enthusiasm for it after WOFF and EOT are ubiquitous, either.<!-- raw HTML omitted --></p>
-<p>One thing I <!-- raw HTML omitted -->have<!-- raw HTML omitted --> heard regarding licensing for the web is that &ldquo;We don&rsquo;t yet know what business model is going to work&rdquo;. And that therefore, judgment should be suspended while experimentation with different models goes forward.</p>
+<p><em>This is stated as an interim solution, as I&rsquo;d think foundries would be interested in licensing their fonts to work, securely, in 100% of supporting browsers today.</em></p>
+<p>I think you&rsquo;ve unintentionally hit the nail on the head. I don&rsquo;t think font producers - in the main - are much interested in licensing their fonts to work in 100% of browsers today. I&rsquo;ve never, ever heard any enthusiasm for providing web fonts at all. <strong>And I don&rsquo;t think there will be much enthusiasm for it after WOFF and EOT are ubiquitous, either.</strong></p>
+<p>One thing I <em>have</em> heard regarding licensing for the web is that &ldquo;We don&rsquo;t yet know what business model is going to work&rdquo;. And that therefore, judgment should be suspended while experimentation with different models goes forward.</p>
 <p>Yet, the one experiment I have yet to see tried by any established commercial font producer would seem to me to be the first choice/no-brainer: take a few fonts with good screen quality and offer to license them for web use and see what happens.
 Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, we don&rsquo;t know what will work&rdquo; is simply full of hot air IMHO.</p>
 </div>
@@ -1139,9 +1147,9 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>James: <!-- raw HTML omitted -->I am just continually confounded at how much thought and effort goes into trying to protect web fonts from being used as system fonts given that casual pirates will probably always take the casual route and just google “fontname font rapidshare OR torrent”.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>James: <em>I am just continually confounded at how much thought and effort goes into trying to protect web fonts from being used as system fonts given that casual pirates will probably always take the casual route and just google “fontname font rapidshare OR torrent”.</em></p>
 <p>That&rsquo;s not my definition of &lsquo;casual piracy&rsquo;. That&rsquo;s an intentional act to obtain a thing, not having a thing arrive on your computer because you visited a website.</p>
-<p><!-- raw HTML omitted -->But I don’t see a need for all these hacks because I think it silly to believe that anyone who will to make the effort to pirate web fonts would pay for fonts to begin with.<!-- raw HTML omitted --></p>
+<p><em>But I don’t see a need for all these hacks because I think it silly to believe that anyone who will to make the effort to pirate web fonts would pay for fonts to begin with.</em></p>
 <p>Exclusivity is a core value of a typeface. This is why clients pay more for exclusive use of a typeface than they do for non-exclusive use, and why retail licensors expect diminishing returns for a popular font: the more people who have a font, the less value it is perceived to have. Unlicensed use undermines this value, so whether the unlicensed user would or would not have paid for a license to begin with is irrelevant. It&rsquo;s especially irrelevant to my clients who are looking to use fonts on the web that are not available for licensing to other parties anyway. They are not interested in protecting sales, they are interested in protecting their investment in the exclusive value of those fonts.</p>
 <hr>
 <p>Now, having said that, let me be clear that I&rsquo;m not in favour of font obfuscation methods. The proper response to browsers that only support naked fonts for @font-face is not to support those browsers.</p>
@@ -1166,7 +1174,7 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Henry: <!-- raw HTML omitted -->I suggest you stop messing with the standard formats and keep waiting for a standard-conform web font technology that you like. Not having web fonts is not a big deal &ndash; having intentionally corrupted data is a huge deal.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Henry: <em>I suggest you stop messing with the standard formats and keep waiting for a standard-conform web font technology that you like. Not having web fonts is not a big deal &ndash; having intentionally corrupted data is a huge deal.</em></p>
 <p>I&rsquo;d agree with that.</p>
 <p>One of the things that OpenType made possible was the cleaning up of a lot of hacked, non-standard font data that had proliferated during the 8-bit years.</p>
 </div>
@@ -1190,7 +1198,7 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I don&rsquo;t think font producers - in the main - are much interested in licensing their fonts to work in 100% of browsers today. I&rsquo;ve never, ever heard any enthusiasm for providing web fonts at all. And I don&rsquo;t think there will be much enthusiasm for it after WOFF and EOT are ubiquitous, either.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I don&rsquo;t think font producers - in the main - are much interested in licensing their fonts to work in 100% of browsers today. I&rsquo;ve never, ever heard any enthusiasm for providing web fonts at all. And I don&rsquo;t think there will be much enthusiasm for it after WOFF and EOT are ubiquitous, either.</cite></p>
 <p>Wha?</p>
 <p>Monotype&rsquo;s new service, along with Typekit and all the others, provide fonts that are compatible with virtually all browsers. I&rsquo;m sure Monotype, Ascender, FontShop, et al. are quite enthusiastic about it. Quite a while ago, Adobe joined Monotype in Microsoft to support standardization of EOT, the goal of which was to get web fonts working in all browsers.</p>
 </div>
@@ -1240,7 +1248,7 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>David: <!-- raw HTML omitted -->&hellip;we&rsquo;d have nothing to @font-face to at all.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>David: <em>&hellip;we&rsquo;d have nothing to @font-face to at all.</em></p>
 <p>I&rsquo;d say that, at the present time, there is precious little to which to @font-face, but a lot of people pretending that there is and trying to make us think that there is some kind of pressing imperative that obliges us to do in a matter of a few months &ndash; using whatever hacks and compromises will get us to market &ndash; what has clearly not been a pressing imperative for more than a decade. It&rsquo;s surely a good thing that web type is finally moving, but between total inertia and running blindly off a cliff there is a lot of leeway for the kind of movement that goes places. There is going to be a cross-browser, standard web font format, and I don&rsquo;t see the point of compromising either principles or data to support what will quickly be, in the context of that format, non-standard legacy solutions affecting a minority of users. I see no more reason to support 100% of current browsers than I did to support 100% of word processing and page layout applications that didn&rsquo;t handle Unicode text or could only access variants using PUA mappings.</p>
 <hr>
 <p>For me, web fonts present something of a novel situation. For a dozen years, I&rsquo;ve been making a lot of fonts that in one way or another wouldn&rsquo;t work in current software. I&rsquo;d make them, ship them, and wait for the applications to support the features. Sometimes I took the long road, and had to propose characters to Unicode, get them approved and published in the standard, and wait for them to be supported in software before the font would work.</p>
@@ -1309,7 +1317,7 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>FWIW John Daggett (editor of the CSS3 Fonts spec) and font maestro at Mozilla gave his feedback on the details above:</p>
-<p><!-- raw HTML omitted -->Yeah, that should work fine I think.  I would try printing under OSX, since that&rsquo;s where swizzling the PS name might matter.  If the FF code changes in the future it will probably change towards the Chrome way of doing things, namely dropping the name table altogether so that we avoid all the nonsense associated with it on Windows.<!-- raw HTML omitted --></p>
+<p><cite>Yeah, that should work fine I think.  I would try printing under OSX, since that&rsquo;s where swizzling the PS name might matter.  If the FF code changes in the future it will probably change towards the Chrome way of doing things, namely dropping the name table altogether so that we avoid all the nonsense associated with it on Windows.</cite></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -1373,7 +1381,7 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->How is a a font identified without the name table? How is style linking handled without the name table?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>How is a a font identified without the name table? How is style linking handled without the name table?</cite></p>
 <p>You set this all up in the CSS and the font is just identified as a reference to a file.</p>
 </div>
 	</div>
@@ -1442,7 +1450,7 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --> &gt; Heh, I love the idea that one could set up CSS to style link italic text as letterspaced fraktur. :) <!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite> &gt; Heh, I love the idea that one could set up CSS to style link italic text as letterspaced fraktur. :) </cite></p>
 <p>Goudy would love it, eh? Sheepstealer.com anyone? ;-)</p>
 </div>
 	</div>
@@ -1534,7 +1542,7 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->If the file I saved had been encrypted with a random key sent by my browser and only known to it, that would have been a much better protection.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>If the file I saved had been encrypted with a random key sent by my browser and only known to it, that would have been a much better protection.</cite></p>
 <p>That’s not the job of the browser developers.</p>
 <hr>
 <p>Changing the name table is idiotic. It is absolute no protection and easily to repair. It is so naive to think, that this could protect fonts against piracy. Even a font editor is not needed for correcting the name table, TTX is enough.</p>
@@ -1626,7 +1634,7 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Michel: <!-- raw HTML omitted -->Do you really think it is harder than extracting a font from an unprotected pdf?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Michel: <cite>Do you really think it is harder than extracting a font from an unprotected pdf?</cite></p>
 <p>What&rsquo;s the relevance of this comparison?</p>
 </div>
 	</div>
@@ -1697,7 +1705,7 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I think you hit the nail on the head. 98.6% of font designers are okay with PDF embedding (unprotected or otherwise) so if these hacks provide a similar level of protection against truly casual drag-and-drop font re-use then they&rsquo;re okay with these @font-face schemes.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I think you hit the nail on the head. 98.6% of font designers are okay with PDF embedding (unprotected or otherwise) so if these hacks provide a similar level of protection against truly casual drag-and-drop font re-use then they&rsquo;re okay with these @font-face schemes.</cite></p>
 <p>Wow, I never made the connection, but Simon you are right. If the comparison holds up that PDF embedding is approximate to font-face embedding&hellip; well, that is big news for getting designers on board with this idea.</p>
 </div>
 	</div>
@@ -1720,7 +1728,7 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Like clockwork, this straw man argument pops up: <!-- raw HTML omitted -->This will not stop piracy.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p>Like clockwork, this straw man argument pops up: <cite>This will not stop piracy.</cite></p>
 <p>Nobody is trying to stop piracy. We are trying to reduce piracy, and much piracy is unintentional, because people don&rsquo;t know what they&rsquo;re doing is prohibited. If I own 100 acres of open space and don&rsquo;t put a fence around it, should I be surprised when people wander onto my property? I can put up a simple fence with some signs and significantly reduce trespassing &ndash; and I can now go up to someone I find on my property and be more confident that they know what they&rsquo;re doing is wrong.</p>
 <p>A message to the font geeks: Foundries are well aware that you can extract a font out of EOT or WOFF or PDF. It&rsquo;s not news.</p>
 </div>
@@ -1744,7 +1752,7 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --> I can put up a simple fence with some signs and significantly reduce trespassing <!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite> I can put up a simple fence with some signs and significantly reduce trespassing </cite></p>
 <p>Some people would also  put a lock on the gate.</p>
 </div>
 	</div>
@@ -1790,7 +1798,7 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Manipulating the name table as protection is useless. Except from that you violate specifications.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Manipulating the name table as protection is useless. Except from that you violate specifications.</cite></p>
 <p>Actually, AFAIK the technique described here is not a violation of the OpenType spec.</p>
 <p>It doesn&rsquo;t contribute much to the discussion to declare this approach &ldquo;useless&rdquo;. I haven&rsquo;t tested it myself, but if it does indeed make the font useless on the desktop but useful in a browser, then that is perhaps useful to someone.</p>
 </div>
@@ -1815,12 +1823,12 @@ Until such a test marketing occurs, anybody who waxes forth about &ldquo;well, w
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@ Christopher
-From the OpenType spec – Name ID 2 (Font Subfamily name): <!-- raw HTML omitted -->The Font Subfamily name distiguishes the font in a group with the same Font Family name (name ID 1). This is assumed to address style (italic, oblique) and weight (light, bold, black, etc.). A font with no particular differences in weight or style (e.g. medium weight, not italic and fsSelection bit 6 set) should have the string “Regular” stored in this position.<!-- raw HTML omitted --></p>
-<p>From the TrueType spec 1.66 – Name ID 2 (Font Subfamily name): <!-- raw HTML omitted -->for purposes of definition, this is assumed to address style (italic, oblique) and weight (light, bold, black, etc.) <!-- raw HTML omitted -->only<!-- raw HTML omitted -->. A font with no particular differences in weight or style (e.g. medium weight, not italic and fsSelection bit 6 set) should have the string “Regular” stored in this position.<!-- raw HTML omitted --></p>
-<p>The difference is the word <!-- raw HTML omitted -->only.<!-- raw HTML omitted --></p>
+From the OpenType spec – Name ID 2 (Font Subfamily name): <em>The Font Subfamily name distiguishes the font in a group with the same Font Family name (name ID 1). This is assumed to address style (italic, oblique) and weight (light, bold, black, etc.). A font with no particular differences in weight or style (e.g. medium weight, not italic and fsSelection bit 6 set) should have the string “Regular” stored in this position.</em></p>
+<p>From the TrueType spec 1.66 – Name ID 2 (Font Subfamily name): <em>for purposes of definition, this is assumed to address style (italic, oblique) and weight (light, bold, black, etc.) <strong>only</strong>. A font with no particular differences in weight or style (e.g. medium weight, not italic and fsSelection bit 6 set) should have the string “Regular” stored in this position.</em></p>
+<p>The difference is the word <em>only.</em></p>
 <p>If you follow the TT spec, you violate the specification. If you follow the OT spec, you violate the specification, because name ID 6 should be identically with the PS name in the CFF-table, if present.</p>
 <p>Except from that using empty strings is not in the intention of the specification.</p>
-<p>And with regard to name ID 6: <!-- raw HTML omitted -->If no name ID 6 is present, then there is no defined method for invoking this font on a PostScript interpreter.<!-- raw HTML omitted --></p>
+<p>And with regard to name ID 6: <em>If no name ID 6 is present, then there is no defined method for invoking this font on a PostScript interpreter.</em></p>
 <p>So, what happens, if I want to print a web page on a PS printer, especially if all web fonts have the same name string there and if the fonts are in the printer cache, which probably could happen?</p>
 <p>Manipulating the name table smells like trouble. You cannot know, if it works with all programs for which web fonts are intended to be used – all programs, that can display CSS-formatted markup. Those programs are not necessarily web browsers. (Well, Firefox is a browser, but its skin can be formatted with the help of CSS embedded web fonts. What is with other programs, that base on XUL and other markup languages?)</p>
 </div>
@@ -1893,7 +1901,7 @@ And the argument which you are using against Mr Slye and Mr Roberts, pointing to
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->A message to the font geeks: Foundries are well aware that you can extract a font out of EOT or WOFF or PDF. It&rsquo;s not news.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>A message to the font geeks: Foundries are well aware that you can extract a font out of EOT or WOFF or PDF. It&rsquo;s not news.</cite></p>
 <p>Christopher</p>
 <p>I was surprised that it was so easy to get those files on the desktop in the first place; if they had been in some hard to find cache, I would not have mentioned it. Now that I get instead of a file an &ldquo;Access denied&rdquo; with what a &ldquo;naive user&rdquo; could do, I feel much better about your scheme. Hard to believe that till yesterday the door had been left wide open!</p>
 <p>Michel</p>
@@ -1918,7 +1926,7 @@ And the argument which you are using against Mr Slye and Mr Roberts, pointing to
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Did PS become part of the web standard at some point, and I missed it?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Did PS become part of the web standard at some point, and I missed it?</cite></p>
 <p>Web standard? If you mean the specifications of CSS and HTML, it is possible to provide CSS for printers only. You even can format web documents in a way, that the content is visible in print only – except you turn of CSS.</p>
 <p>@ k.l.</p>
 <p>It is not a moot point, if you don’t know exactly the consequences of violating specifications. Except from that I miss the relation between the level of protection and the violation of specifications in this case. The hurdle to access a font is slightly higher only. The pirate still has to convert woff to ttf or otf (actually from the command line). If he is able to do that, he will also be able to edit the name table or to ask someone who is able to do that.</p>
@@ -2014,13 +2022,13 @@ And the argument which you are using against Mr Slye and Mr Roberts, pointing to
 		<div class="commentbody"><p>@arno</p>
 <p>Thanks for doing the spec work - I was hoping someone would look closely and save me the trouble. But the problem is, now I have to double-check you. Responsible journalism lives. Sort of.</p>
 <p>@christopherslye</p>
-<p><!-- raw HTML omitted -->Monotype&rsquo;s new service, along with Typekit and all the others, provide fonts that are compatible with virtually all browsers. I&rsquo;m sure Monotype, Ascender, FontShop, et al. are quite enthusiastic about it.<!-- raw HTML omitted --></p>
+<p><em>Monotype&rsquo;s new service, along with Typekit and all the others, provide fonts that are compatible with virtually all browsers. I&rsquo;m sure Monotype, Ascender, FontShop, et al. are quite enthusiastic about it.</em></p>
 <p>You are right. But please don&rsquo;t tell me there wasn&rsquo;t/isn&rsquo;t a lot of fear and apprehension. Resentment, too. I&rsquo;m not judging, just commenting. And reacting.
 Did I miss something? Was the font community urging browser makers to implement @font-face?
-No. But the browser makers did and this forced decisions. Now that those decisions have been made, if there wasn&rsquo;t <!-- raw HTML omitted -->some<!-- raw HTML omitted --> enthusiasm about engaging with customers for web fonts I would wonder about the emotional health of those involved. Even though that engagement is a little tentative and skeptical and conditional - with the obfuscation and whatnot.</p>
+No. But the browser makers did and this forced decisions. Now that those decisions have been made, if there wasn&rsquo;t <em>some</em> enthusiasm about engaging with customers for web fonts I would wonder about the emotional health of those involved. Even though that engagement is a little tentative and skeptical and conditional - with the obfuscation and whatnot.</p>
 <p>But what if the skeptics are right? And the whole font services thing is just a ploy to lure font designers out into the open so all the &ldquo;information wants to be free&rdquo; types can shoot them down like a bunch of turkeys?</p>
 <p>Gobble gobble.</p>
-<p>One thing I can tell you for sure: if you want web designers to respect you, you have to respect them and every font designer who wants to do business on the web effectively needs to have a blog or some equivalent line of communication to field customer inquiries about their fonts. Independent of whatever mega-site or service might be selling your stuff. Look, I can&rsquo;t <!-- raw HTML omitted -->prove<!-- raw HTML omitted --> this - at least not yet - but it&rsquo;s my hunch that responsiveness and accountability is going to go a long way.</p>
+<p>One thing I can tell you for sure: if you want web designers to respect you, you have to respect them and every font designer who wants to do business on the web effectively needs to have a blog or some equivalent line of communication to field customer inquiries about their fonts. Independent of whatever mega-site or service might be selling your stuff. Look, I can&rsquo;t <em>prove</em> this - at least not yet - but it&rsquo;s my hunch that responsiveness and accountability is going to go a long way.</p>
 <p>@sii</p>
 <p>98.6%?</p>
 <p>rich</p>
@@ -2093,7 +2101,7 @@ No. But the browser makers did and this forced decisions. Now that those decisio
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Maybe there <!-- raw HTML omitted -->is<!-- raw HTML omitted --> something to obfuscation after all! :-)</div>
+		<div class="commentbody">Maybe there <em>is</em> something to obfuscation after all! :-)</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -2135,9 +2143,9 @@ No. But the browser makers did and this forced decisions. Now that those decisio
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->David, I have no idea what you just said. Heh.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>David, I have no idea what you just said. Heh.</cite></p>
 <p>And I thought, it was my poor English.</p>
-<p><!-- raw HTML omitted -->There shall in that time be rumors of things going astray, erm, and there shall be a great confusion as to where things really are, and nobody will really know where lieth those little things with the sort of raffia-work base, that has an attachment. At that time, a friend shall lose his friend&rsquo;s hammer, and the young shall not know where lieth the things possessed by their fathers that their fathers put there only just the night before, about eight O&rsquo;clock.<!-- raw HTML omitted --></p>
+<p><cite>There shall in that time be rumors of things going astray, erm, and there shall be a great confusion as to where things really are, and nobody will really know where lieth those little things with the sort of raffia-work base, that has an attachment. At that time, a friend shall lose his friend&rsquo;s hammer, and the young shall not know where lieth the things possessed by their fathers that their fathers put there only just the night before, about eight O&rsquo;clock.</cite></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -2159,7 +2167,7 @@ No. But the browser makers did and this forced decisions. Now that those decisio
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->But please don&rsquo;t tell me there wasn&rsquo;t/isn&rsquo;t a lot of fear and apprehension. Resentment, too. I&rsquo;m not judging, just commenting. And reacting. Did I miss something? Was the font community urging browser makers to implement @font-face? No. But the browser makers did and this forced decisions.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>But please don&rsquo;t tell me there wasn&rsquo;t/isn&rsquo;t a lot of fear and apprehension. Resentment, too. I&rsquo;m not judging, just commenting. And reacting. Did I miss something? Was the font community urging browser makers to implement @font-face? No. But the browser makers did and this forced decisions.</cite></p>
 <p>Just remember that @font-face was around for quite a long time in IE for EOT (and in Netscape Navigator, heh). To be quite honest I wasn&rsquo;t paying attention when that was rolled out, but I don&rsquo;t remember a lot of FUD over EOT. Of course you&rsquo;re thinking of @font-face for raw fonts, which did generate a lot of anxiety, but that was not because of web fonts generally, but because they weren&rsquo;t protected in Safari, et al. Would there have been anxiety if all the other browsers had suddenly rolled out support for EOT? I think not.</p>
 <p>The subscription services are, IMO, a great solution to the problems that foundries had with raw font linking. I think most foundries would have liked it if the other browsers added support for EOT, too, but it wasn&rsquo;t to be. If anything, the foundries weren&rsquo;t paying attention and should have done a better job of planning and campaigning for web fonts much earlier, but I don&rsquo;t think it was out of fear. I think it was just inertia.</p>
 </div>
@@ -2282,13 +2290,13 @@ font-weight: 700;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Does anyone here speak Berlow?</p>
-<p><!-- raw HTML omitted -->Not almost entirely incorrect I&rsquo;m afraid; You might have me confused with someone in the in-crowd supporting woff&rsquo;s private data block?<!-- raw HTML omitted --></p>
+<p><cite>Not almost entirely incorrect I&rsquo;m afraid; You might have me confused with someone in the in-crowd supporting woff&rsquo;s private data block?</cite></p>
 <p>So am I right, or am I wrong? I am almost not entirely somewhat possibly sure what you mean :-)</p>
-<p><!-- raw HTML omitted -->What Mr. Berlow wants primarily to add is recommendations meta data, so authors can find out what fonts they need to use (to-the-property), and end users can sniff around at authorley type behavior.<!-- raw HTML omitted --></p>
+<p><cite>What Mr. Berlow wants primarily to add is recommendations meta data, so authors can find out what fonts they need to use (to-the-property), and end users can sniff around at authorley type behavior.</cite></p>
 <p>Not following. Who are the authors and who are the end-users? If authors are font designers, then why do they need to &ldquo;find out what fonts they need to use?&rdquo; And what is &ldquo;authorley type behavior?&rdquo;</p>
-<p><!-- raw HTML omitted -->It should be obvious to you, that when the tumult over goofy browser rendering ends, there will be a &ldquo;next&rdquo; tumult, or is one-tumult-at-a-time far enough for you to look? ;)<!-- raw HTML omitted --></p>
+<p><cite>It should be obvious to you, that when the tumult over goofy browser rendering ends, there will be a &ldquo;next&rdquo; tumult, or is one-tumult-at-a-time far enough for you to look? ;)</cite></p>
 <p>I never was a good chess player. One tumult at a time for me, thanks.</p>
-<p><!-- raw HTML omitted -->As a &lsquo;commercial&rsquo; vendor, I feel we have this already in hand, (preventing bad matches between users/use and fonts), and are likely to start swinging it around to our advantage. I&rsquo;m wondering when the &lsquo;non-commercial&rsquo; vendors are going to catch up otherwise, i.e. without a standard?<!-- raw HTML omitted --></p>
+<p><cite>As a &lsquo;commercial&rsquo; vendor, I feel we have this already in hand, (preventing bad matches between users/use and fonts), and are likely to start swinging it around to our advantage. I&rsquo;m wondering when the &lsquo;non-commercial&rsquo; vendors are going to catch up otherwise, i.e. without a standard?</cite></p>
 <p>What is a &lsquo;non-commercial&rsquo; vendor and where can I find one?</p>
 </div>
 	</div>
@@ -2338,8 +2346,8 @@ font-weight: 700;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Meanwhile, the W3C WebFonts Working Group is considering to make access to woff metadata optional.<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->I think this is a bad idea.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><a href="http://lists.w3.org/Archives/Public/www-font/2010AprJun/0153.html">Meanwhile, the W3C WebFonts Working Group is considering to make access to woff metadata optional.</a></p>
+<p><a href="http://lists.w3.org/Archives/Public/www-font/2010AprJun/0235.html">I think this is a bad idea.</a></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -2361,7 +2369,7 @@ font-weight: 700;
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Meanwhile, the W3C WebFonts Working Group is considering to make access to woff metadata optional.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Meanwhile, the W3C WebFonts Working Group is considering to make access to woff metadata optional.</cite></p>
 <p>There is really no stopping this from happening. Just as browser makers balked at standardizing EOT &ndash; which would have required browsers to enforce EOT&rsquo;s security measures &ndash; they are not interested in a requirement to present WOFF metadata. There is a large gap between technical requirements which ensure that fonts work properly, and other (desired) features which exist to &ldquo;only&rdquo; enlighten users or satisfy foundry interests.</p>
 <p>There was fairly strong pushback from browser developers over the use of the word &lsquo;should&rsquo; with regard to metadata (&ldquo;browsers SHOULD present users with information from metadata&rdquo;). Right now it looks like it will be &lsquo;may&rsquo;. It&rsquo;s definitely not going to be &lsquo;must&rsquo;.</p>
 <p>As some have observed, the spec has to dictate to not just desktop browsers, but any user agent, which might be a lightweight mobile UA, for example. Requiring every UA to add a UI element to expose information in WOFF metadata was not considered realistic. This is disappointing to me personally, but I understand their objections.</p>
@@ -2535,7 +2543,7 @@ Let&rsquo;s say . . . when you buy a font for web use, you get few days of leewa
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Server-side protection also doesn&rsquo;t deserve the word &ldquo;protection&rdquo;. The fonts ARE downloaded to the client and this successful request can always easily be rebuild to do a direct download or the fonts can be taken from the cache.</p>
-<p><!-- raw HTML omitted -->Casual font pirates (the ones wearing chinos) won&rsquo;t share fonts. They&rsquo;ll share URLs to unprotected fonts,<!-- raw HTML omitted --></p>
+<p><cite>Casual font pirates (the ones wearing chinos) won&rsquo;t share fonts. They&rsquo;ll share URLs to unprotected fonts,</cite></p>
 <p>Which doesn&rsquo;t work with the &ldquo;Same-origin rule&rdquo; in Firefox, which I hope will be included in other browsers as well. But leaving out all Firefox users, makes hot-linking kind of useless already.</p>
 <p>I am kind of surprised this discussion comes up at the moment. We discussed all this in the last 2 years here on Typophile, including server-side protection and name table obfuscating. Now almost every day a new webfont service is announced. And they all use obfuscation. Even FSI who doesn&rsquo;t offer raw fonts directly, offers it via Typekit. There is no doubt that this IS the interim solution until WOFF is fully established.</p>
 </div>
@@ -2559,7 +2567,7 @@ Let&rsquo;s say . . . when you buy a font for web use, you get few days of leewa
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->Even FSI who doesn&rsquo;t offer raw fonts directly<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>Even FSI who doesn&rsquo;t offer raw fonts directly</cite></p>
 <p>Are you sure? I remember a discussion on Typophile, in which someone wrote, that he had licensed a raw for web embedding from FSI. I think it was Milo. It was very expensive in comparison to Typekit, especially because the license was for the web version of the font only, as far as I remember.</p>
 <p>However, up till now I haven’t seen a web font, that has beaten the MS system fonts with regard to legibility. Actually web font embedding is primary interesting with regard to deco fonts or if the webpages are intended for printing. In this case I would provide different CSS for different media.</p>
 <p>Except from that the best websites I have seen were not made by typographers. In my opinion some of you overestimate the meaning of commercial webfonts for the graphical quality of websites.</p>
@@ -2610,7 +2618,7 @@ You are against everything and for nothing. How boring.</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@ Tim</p>
-<p><!-- raw HTML omitted -->You are against everything and for nothing.<!-- raw HTML omitted --></p>
+<p><cite>You are against everything and for nothing.</cite></p>
 <p>I don’t know, from what you conclude that. I am for a free web – a web with almost no control, for browsers that strictly follow the specifications, for OpenSource, for the CSS Zen Garden. For me the web is not primary a market place. I am interested in a web, that becomes attractive by private sites, investigative journalist, Wikileaks. If the web becomes more attractive, because private sites use commercial fonts without a license, yes, then I am even for font piracy. I am against piracy only in cases, in which pirates earn money in any way (with the pieces of work or with sales of the prey). I am against Steve Jobs, against the government of my country, for honey melons, for Mario Feliciano, for Honduran cigars, for Russian and Polish science fiction, for most blues – from cobalt blue to azure. And for women, that are unshaved in the intimate area (I am damn conservative with regard to that!).</p>
 </div>
 	</div>
@@ -2717,7 +2725,7 @@ Thanks, I didn&rsquo;t know about the same origin rule in Firefox.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@ Richard</p>
-<p>In case of the website <!-- raw HTML omitted -->fishmarekting<!-- raw HTML omitted --> and many of the styles for the CSS Zen Garden a web font could not much improve the impression, that you get from the site. (In case of fishmarketing the letters on the book, the hatchet and the label at the bottom right could not be replaced by a web font.) In all cases, in which letters are really fused with images, web fonts cannot replace image-replacement. Additionally you cannot create the same effects with CSS as with Photoshop. With regard to headlines in a linear design I agree. And if the hinting of body text webfonts is on the same level as the hinting of some of the MS system fonts, other fonts than the system fonts are useful for body text. But in case of the following site the webfont is not an improvement in my opinion: &ldquo;<a href="http://www.engstfeld-weiss.de/%22">http://www.engstfeld-weiss.de/&quot;</a>. It is just the other way around in case of that site. Except from the font, that does not really look good in body text on screen, the site is ordinary and boring.</p>
+<p>In case of the website <a href ="http://www.fishmarketing.net">fishmarekting</a> and many of the styles for the CSS Zen Garden a web font could not much improve the impression, that you get from the site. (In case of fishmarketing the letters on the book, the hatchet and the label at the bottom right could not be replaced by a web font.) In all cases, in which letters are really fused with images, web fonts cannot replace image-replacement. Additionally you cannot create the same effects with CSS as with Photoshop. With regard to headlines in a linear design I agree. And if the hinting of body text webfonts is on the same level as the hinting of some of the MS system fonts, other fonts than the system fonts are useful for body text. But in case of the following site the webfont is not an improvement in my opinion: &ldquo;<a href="http://www.engstfeld-weiss.de/%22">http://www.engstfeld-weiss.de/&quot;</a>. It is just the other way around in case of that site. Except from the font, that does not really look good in body text on screen, the site is ordinary and boring.</p>
 <p>With regard to Javascript: I try to avoid it.</p>
 </div>
 	</div>
@@ -2885,7 +2893,7 @@ I just got back from a web design conference and one speaker showed a page that 
 <p>Yes, the fishmarketing site is unflexible. It is a business card.</p>
 <p>I don’t know the advanced CSS3 features of Safari, because I had uninstalled it a while ago. Safari was storing its whole setup program with each update and without removing the old setups. And I did not like the rendering engine. So I did not use it for surfing, but for testing my webpages only. But it never was necessary to correct anything in my CSS for Safari, because Safari did make use of it correctly; and therefore I limited my checks to Firefox (my favorite browser), IE and Opera.</p>
 <p>I agree with you regarding to the theoretical possibilities, that you have with web fonts. But actually I am uncontended with the quality of most web fonts in body text sizes. Having a web font for body text, would be much more important for me, because with an embedded font you can better control line height, length and font size. But why not to embed Georgia, Verdana or Trebuchet MS? Actually not the new web fonts are interesting for me, but the possibility to embed system fonts. Although it is absurd in my opinion, if a private person, that does not sell anything in the web, shall license one of the MS system fonts. I assume, it is not allowed to embed a MS system font without a special license.</p>
-<p><!-- raw HTML omitted -->The text looked as good as anything you could cook up in Photoshop<!-- raw HTML omitted --></p>
+<p><cite>The text looked as good as anything you could cook up in Photoshop</cite></p>
 <p>But probably only, if the text is not fused with an image.</p>
 </div>
 	</div>
@@ -3154,7 +3162,7 @@ I&rsquo;m not holding my breath waiting for either to happen.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->There is no discussion such as you suggest going on here. In fact, we are about to make more good looking fonts available, and are going to show people how to use those too.<!-- raw HTML omitted -->
+		<div class="commentbody"><em>There is no discussion such as you suggest going on here. In fact, we are about to make more good looking fonts available, and are going to show people how to use those too.</em>
 I don&rsquo;t know who the &ldquo;we&rdquo; is, but I wish all concerned much success.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -3204,7 +3212,7 @@ I don&rsquo;t know who the &ldquo;we&rdquo; is, but I wish all concerned much su
 <p>Internet Explorer supports only one font format - .eot - which is locked to a given web site, and thus which allows licensing. Fortunately for my purpose, I can download WEFT from Microsoft - and I will have to check the license terms of the open-source licenses, just in case I run afoul of a religious war.</p>
 <p>Firefox supports .woff which also has some sort embedding site lock feature, so IE and Firefox do both have safe solutions for licensed fonts. This being like 90%, I would think the problem almost is solved.</p>
 <p>Most browsers support .ttf and .otf fonts except for IE, which is good for my application.</p>
-<p>Chrome used to only support .svg fonts. I knew that .svg was a vector image format, but I had never even <!-- raw HTML omitted -->heard<!-- raw HTML omitted --> of .svg fonts. There&rsquo;s obfuscation for you! But that&rsquo;s been fixed, so one only needs .svg fonts to look good on an iPhone these days.</p>
+<p>Chrome used to only support .svg fonts. I knew that .svg was a vector image format, but I had never even <em>heard</em> of .svg fonts. There&rsquo;s obfuscation for you! But that&rsquo;s been fixed, so one only needs .svg fonts to look good on an iPhone these days.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">

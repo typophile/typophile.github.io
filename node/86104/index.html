@@ -92,8 +92,21 @@ sub f f f by f_component f_e</p>
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>OpenType does not support many to many substitution, but you can use contextual substitutions to achieve similar effect, something like:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+lookup f_1st {
+  sub f by f_component;
+} f_1st
+
+lookup f_2nd {
+  sub f by f_e;
+} f_2nd;
+
+feature calt { # or clig, support varies between engines
+  sub f' lookup f_1st
+      f' lookup f_2nd
+      f;
+} calt;
+</pre>
 <p>Which substitutes &ldquo;fff&rdquo; by &ldquo;f_component f_e f&rdquo;.</p>
 </div>
 	</div>

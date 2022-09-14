@@ -107,8 +107,8 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I am not sure if I understand what you are asking for. I waited, and no one else has jumped in, so perhaps a clearer explanation would help?</p>
-<p>Unfortunately, if I get what you are describing, the answer is probably, &ldquo;no.&rdquo; That sort of event is beyond the intentions of OpenType, as far as I have heard or imagined. However, even as I say that, there <!-- raw HTML omitted -->might<!-- raw HTML omitted --> be some way to hack it to do so&hellip;.</p>
-<p><!-- raw HTML omitted -->If it is even possible<!-- raw HTML omitted --> you would likely need some sort of generationg script to create a bruteforst word-string set. Start with a substitution for each character with a struck alternate. Add a condition to apply it when a space appears after 1,2,3,4,5,6&hellip; characters. That would require a contextual rule that can allow wildcards between the character to be subbed, or a script to generate all possible combinations. I think the former is a no-go. The latter is probably the only possible way, and would result in a set of tasks that would likley bog down any OT rendering engine beyond usablity.</p>
+<p>Unfortunately, if I get what you are describing, the answer is probably, &ldquo;no.&rdquo; That sort of event is beyond the intentions of OpenType, as far as I have heard or imagined. However, even as I say that, there <em>might</em> be some way to hack it to do so&hellip;.</p>
+<p><strong>If it is even possible</strong> you would likely need some sort of generationg script to create a bruteforst word-string set. Start with a substitution for each character with a struck alternate. Add a condition to apply it when a space appears after 1,2,3,4,5,6&hellip; characters. That would require a contextual rule that can allow wildcards between the character to be subbed, or a script to generate all possible combinations. I think the former is a no-go. The latter is probably the only possible way, and would result in a set of tasks that would likley bog down any OT rendering engine beyond usablity.</p>
 <p>When then leads to, what application would you be trying to present this in, that supports OT in the way you want?</p>
 <p>You might be best off creating some sort of flash demo with actionscript or a similar lightweight language and presentation app.</p>
 <p>Sorry I can&rsquo;t be more definite here. OpenType is a dark and nebulous  art, like immortality or understanding women. ;)</p>
@@ -207,7 +207,7 @@ ah well.. back to the drawing board..</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Thanks Choz Cunningham, Talleming does not only answer <!-- raw HTML omitted -->what I asked for weeks ago<!-- raw HTML omitted --> but also sounds very promising for developing Arabic Ligatures.</div>
+		<div class="commentbody">Thanks Choz Cunningham, Talleming does not only answer <a href="http://typophile.com/node/28029">what I asked for weeks ago</a> but also sounds very promising for developing Arabic Ligatures.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -231,14 +231,14 @@ ah well.. back to the drawing board..</p>
 		<div class="commentbody"><p>Actually, I can easily see how to do this in OpenType. You don&rsquo;t need any dictionaries of words or anything, just a backwards chaining contextual substitution. Same techniques I used to produce some of the fancy effects in the sample contextual code I posted a couple of years ago.</p>
 <p>Part of the trick is to use individual letter substitutions rather than any ligature stuff.</p>
 <p>One way of doing it would be with some code that in FontLab or the Adobe FDK looks like this:
-<!-- raw HTML omitted -->
+<code>
 feature calt { # Contextual Alternates
 sub @reg_let' @reg_let @reg_let @reg_let space by @spec_let
 sub @reg_let' @reg_let @reg_let space by @spec_let
 sub @reg_let' @reg_let space by @spec_let
 sub @reg_let' space by @spec_let
 } calt;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>Mind you, that&rsquo;s a simplified version which will only work with words up to four letters long, but I&rsquo;m sure you get the idea. You just need to define each of those glyph classes to include the same number of glyphs, and create an entire set of extra &ldquo;special&rdquo; glyphs in the font, where each one has the &ldquo;regular&rdquo; glyph struck through, plus the same glyph without the strike-through raised above it.</p>
 <p>Somebody with a bit of Python experience could doubtless automate the creation of those added glyphs, btw.</p>
 <p>Cheers,</p>

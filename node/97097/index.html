@@ -73,26 +73,48 @@
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>Dear buddies</p>
 <p>Some time ago I had tested trying to build a font using makeotf-afdko 
-<!-- raw HTML omitted -->(Font, Version 1.002;PS 1.001;hotconv 1.0.57;makeotf.lib2.0.21895 DEVELOPMENT)<!-- raw HTML omitted --> 
+<code>(Font, Version 1.002;PS 1.001;hotconv 1.0.57;makeotf.lib2.0.21895 DEVELOPMENT)</code> 
 All of supporting data required has been edited from the source file example Adobe &ldquo;minionpro&rdquo;. The process of generating fonts was successfully and font can be used at least in windows xp. But after I checked this font microsoft font validator, there are some pretty annoying error messages as follows:</p>
-<p>into file: <!-- raw HTML omitted -->feature size <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->actually I haven&rsquo;t yet understand about the values of parameter, So I put them with random value, and It is succesfully generating error into Microsoft Font Validator (MFV) reviews :)<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted -->feature size {<!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
+<p>into file: <strong>feature size </strong>
+<em>actually I haven&rsquo;t yet understand about the values of parameter, So I put them with random value, and It is succesfully generating error into Microsoft Font Validator (MFV) reviews :)</em></p>
+<p><code><dt>feature size {</dt></p>
+ <dd>parameters 150 3 65 84;
+     sizemenuname "Regular";
+     sizemenuname 1 "Italic";</dd>
+<dt>} size;</dt></code>
 <p>The MFV review as follow:
 [img:sites/default/files/old-images/Fea-Size_4913.png]</p>
-<p>into file: <!-- raw HTML omitted -->feature family<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->I put these:<!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted -->feature ss01 { # Stylistic Set 1</p>
+<p>into file: <strong>feature family</strong>
+<em>I put these:</em>
+<code><dt>feature ss01 { # Stylistic Set 1</p>
 <h1 id="latin">Latin</h1>
-<p>featureNames {<!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
+<p>featureNames {</dt></p>
+<dd>	name 3 "Windows descriptive name for stylistic set 01";
+	name 1 "Mac descriptive name for stylistic set 01";
+	name 3 1 0x40c "Windows descriptive name for stylistic set 01";
+	name 1 0 1 "Mac descriptive name for stylistic set 01";</dd>
+<dt>};
+lookup ss012 {</dt>
+<dd>    sub @salt1' [@allnum @all_lc @liga_lc @QUOTE @acute]  by @salt2;</dd>
+<dt>} ss012;</dt>
+<dd>    language AZE ; # Azeri ................</dd>
+<dt>lookup ss012; 
+} ss01;</dt></code>
 <p>The MFV review as follow:
 [img:sites/default/files/old-images/SS01_3459.png]</p>
-<p>into file <!-- raw HTML omitted -->&ldquo;features&rdquo;<!-- raw HTML omitted -->:
-<!-- raw HTML omitted -->I put these:<!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted -->table OS/2 {<!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
+<p>into file <strong>&ldquo;features&rdquo;</strong>:
+<em>I put these:</em>
+<code><dt>table OS/2 {</dt></p>
+<dd>	TypoAscender 750;	# Top of Ascenders
+	TypoDescender -250;	# TypoAscender UPM
+	XHeight 500;
+	CapHeight 680;
+	WeightClass 700;	# Bold
+	Vendor "camp";
+	FSType 8;		# Editable embedding
+	Panose 2 0 8 5 2 0 0 9 0 4;</dd>
+<dt>} OS/2;</dt>
+</code>
 <p>(note: Previously I put the information &ldquo;width 3;&rdquo; below &ldquo;CapHeight 680;&rdquo;, but failed to read by makeotf-afdko, so I treat with suspicion that afdko will give value automatically)</p>
 <p>and here is the MFV error:
 [img:sites/default/files/old-images/TableOS2_3921.png]</p>
@@ -146,10 +168,10 @@ BTW  there is newer AFDKO see: <a href="http://blogs.adobe.com/typblography/2012
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->Thank you !!
-Apparently I missed the plane :)<!-- raw HTML omitted -->
+		<div class="commentbody"><strong>Thank you !!
+Apparently I missed the plane :)</strong>
 on the feature size, can anyone explain the basis for determining parameters such as:
-<!-- raw HTML omitted -->&ldquo;parameters 150 3 65 84&rdquo;<!-- raw HTML omitted --> 
+<code>&ldquo;parameters 150 3 65 84&rdquo;</code> 
 As I was getting at above, the numbers I wrote with random parameter, but it turns out makeotf not give an error message. So it seems fine. But I want to make sure to count or basics of logic determining these figures. Can anyone help?
 Bst regards</div>
 	</div>

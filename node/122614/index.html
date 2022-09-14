@@ -195,7 +195,7 @@ I know nothing, but you may find this useful <a href="http://fontforge.github.io
 use this script <a href="http://typophile.com/node/75834">http://typophile.com/node/75834</a>
 remove font name in generated file name</li>
 <li>Save this as FontMenuNameDB file:
-<!-- raw HTML omitted -->[PaintCans]
+<code>[PaintCans]
 f=PaintCans
 s=Regular
 c=PaintCans
@@ -205,7 +205,7 @@ c=1,PaintCans&lt;code&gt;</li>
 <ol start="4">
 <li>
 <p>Finally:
-<!-- raw HTML omitted -->makeOTF -f c:...\font.pfa -r&lt;code&gt;</p>
+<code>makeOTF -f c:...\font.pfa -r&lt;code&gt;</p>
 </li>
 <li>
 <p>Your new font:</p>
@@ -261,17 +261,17 @@ c=1,PaintCans&lt;code&gt;</li>
 <p>Here&rsquo;s the process in more detailed terms that might be easier to digest.</p>
 <p>1.) I used FontLab to create a Postscript version of the font (ASCII/UNIX Type1 ). This creates 4 files: .pfa, .pfm, .inf, .afm</p>
 <p>2.) I downloaded the scripts created by Arno Enslin here: <a href="http://typophile.com/node/75834">http://typophile.com/node/75834</a></p>
-<p>3.) I removed the .txt extention from the end of the downloaded file so my mac would recognize it as a zip file then uncompressed the file &amp; moved into FontLabs standard location for macros &amp; scripts located at <!-- raw HTML omitted --> Library/Application Support/FontLab/Studio 5/Macros <!-- raw HTML omitted --></p>
+<p>3.) I removed the .txt extention from the end of the downloaded file so my mac would recognize it as a zip file then uncompressed the file &amp; moved into FontLabs standard location for macros &amp; scripts located at <code> Library/Application Support/FontLab/Studio 5/Macros </code></p>
 <p>4.) In FontLab I went to WINDOW&gt;PANELS&gt;EDIT MACROS to open the EDIT MACROS window. I dragged the &ldquo;Generate_GlyphOrderAndAliasDB_file.py&rdquo; file into the EDIT MACROS window. The contents of the file appeared in the window.</p>
-<p>5.) I hit the RUN MACRO button at the top of the window that looks like a &ldquo;play&rdquo; button. This generated the <!-- raw HTML omitted --> GlyphOrderAndAliasDB <!-- raw HTML omitted --> file in the folder along with the rest of the type1 font files.</p>
-<p>6.) The font in this example was called &ldquo;PaintCans&rdquo; so I created a plain-text file named <!-- raw HTML omitted --> FontMenuNameDB <!-- raw HTML omitted --> (no file extension) with the following contents and saved it to the folder with the other font files.
-<!-- raw HTML omitted -->[PaintCans]
+<p>5.) I hit the RUN MACRO button at the top of the window that looks like a &ldquo;play&rdquo; button. This generated the <code> GlyphOrderAndAliasDB </code> file in the folder along with the rest of the type1 font files.</p>
+<p>6.) The font in this example was called &ldquo;PaintCans&rdquo; so I created a plain-text file named <code> FontMenuNameDB </code> (no file extension) with the following contents and saved it to the folder with the other font files.
+<code>[PaintCans]
 f=PaintCans
 s=Regular
 c=PaintCans
-c=1,PaintCans<!-- raw HTML omitted --></p>
+c=1,PaintCans</code></p>
 <p>7.) Having the latest Adobe Font Dev Kit for OpenType installed ( [[http://www.adobe.com/devnet/opentype/afdko.html|Adobe FDKO]] ) I ran the &ldquo;makeOTF&rdquo; script by opening a terminal window and entering: 
-<!-- raw HTML omitted --> makeOTF -f c:...\font.pfa -r <!-- raw HTML omitted --></p>
+<code> makeOTF -f c:...\font.pfa -r </code></p>
 <p>This all worked like a charm and the Adobe makeOTF script spit out an OTF file into the directory with the other files.</p>
 <p>This shaved about 7kb off of the file size which is great. I&rsquo;m not sure why but it&rsquo;s still good.</p>
 <p>I had an original font at 166kb. I removed thousands of paths and somehow wound up with a font that was 253kb (bigger when I expected smaller). This method did produce a smaller file but only by a little bit. I was hoping to understand where all this extra file size had come from &amp; to wind up with a new file under 166kb.</p>
@@ -349,7 +349,7 @@ That&rsquo;s all for today. Good night!</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>If you remove contours that fit in a 4x4 (resp. 5x5) rectangle, you can reduce the size to 115K (resp. 86K). For a limited time only  <!-- raw HTML omitted -->no 4x4 and no 5x5 speckle in PaintCans<!-- raw HTML omitted -->.</p>
+		<div class="commentbody"><p>If you remove contours that fit in a 4x4 (resp. 5x5) rectangle, you can reduce the size to 115K (resp. 86K). For a limited time only  <a href="http://www.iro.umontreal.ca/~boyer/typophile/nodots/">no 4x4 and no 5x5 speckle in PaintCans</a>.</p>
 <p>Michel</p>
 </div>
 	</div>
@@ -445,12 +445,19 @@ That&rsquo;s strange.
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>The file size depends  on the number of points. Identifying contours that fit in a 5x5 square is a basic exercise with Python and removing them (or rather drawing a new glyph without them) is only a few lines. Here <!-- raw HTML omitted -->nf<!-- raw HTML omitted --> is the new font where I draw the glyphs for some selection I made in FontForge</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>where <!-- raw HTML omitted -->largeside<!-- raw HTML omitted --> is length of the large side of the rectangle that circumscribes the contour.</p>
+		<div class="commentbody"><p>The file size depends  on the number of points. Identifying contours that fit in a 5x5 square is a basic exercise with Python and removing them (or rather drawing a new glyph without them) is only a few lines. Here <code>nf</code> is the new font where I draw the glyphs for some selection I made in FontForge</p>
+<PRE>
+   for g in font.selection.byGlyphs:
+     if g.foreground and len(list(g.foreground)) != 0:
+       pen=nf[g.glyphname].glyphPen()
+       for c in g.foreground:
+         if largeside(c)>5:
+           c.draw(pen)
+       pen = None
+</PRE>
+<p>where <code>largeside</code> is length of the large side of the rectangle that circumscribes the contour.</p>
 <p>Something else that could be tried* is removing only tiny contours that create holes because, once printed, they should disappear due to flowing ink, unless the character is printed very large.</p>
-<p>*Something still easier to do: when <!-- raw HTML omitted -->largeside(c)<!-- raw HTML omitted --> is not larger than 5, decide with some probabilty  <!-- raw HTML omitted -->p<!-- raw HTML omitted -->  to draw the contour <!-- raw HTML omitted -->c<!-- raw HTML omitted --> too. That might help keeping the appearance and, starting with 86K, there is room to add contours. Those contours could also be enlarged (with matrix transformations instead of doing it by hand).</p>
+<p>*Something still easier to do: when <code>largeside(c)</code> is not larger than 5, decide with some probabilty  <em>p</em>  to draw the contour <code>c</code> too. That might help keeping the appearance and, starting with 86K, there is room to add contours. Those contours could also be enlarged (with matrix transformations instead of doing it by hand).</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -498,9 +505,9 @@ or new message:
 	<div class="card-body">
 		<div class="commentbody"><p>Works like a charm!
 I suppose it can be ignored:
-<!-- raw HTML omitted -->line 12, in <!-- raw HTML omitted -->
+<code>line 12, in <module>
 f.copy()
-AttributeError: &lsquo;NoneType&rsquo; object has no attribute &lsquo;copy&rsquo; <!-- raw HTML omitted --></p>
+AttributeError: &lsquo;NoneType&rsquo; object has no attribute &lsquo;copy&rsquo; </code></p>
 <p>Many thanks for such a great tool.
 edit: I generated again the PaintCans_GW.otf, this time 98 304 B, and from .pfb - 93 415 B.</p>
 </div>
@@ -524,10 +531,42 @@ edit: I generated again the PaintCans_GW.otf, this time 98 304 B, and from .pfb 
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p>Sorry, that is just a stub. It is not the full script. The tool is something that can be clicked in the tools menu and requires a file in a special format (on unix, in the <!-- raw HTML omitted -->~/.fontforge/Python<!-- raw HTML omitted --> directory).</p>
+		<div class="commentbody"><p>Sorry, that is just a stub. It is not the full script. The tool is something that can be clicked in the tools menu and requires a file in a special format (on unix, in the <code>~/.fontforge/Python</code> directory).</p>
 <p>Here is a full script usable as a script. The advantage in copying in a new font and copying back is that the operation can be undone and redone (copy can be undone). I could not get that behaviour otherwise.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+import fontforge;
+ff=fontforge
+
+cwidth = {}                        # **
+def largeside(c):
+  (xmin,ymin,xmax,ymax) = c.boundingBox()
+  width = xmax-xmin
+  height = ymax - ymin
+  if width > height: return width
+  else: return height
+
+f = ff.activeFont()
+# f.copy()                         # **
+nf= ff.font()
+fsel = f.selection.byGlyphs;
+for g in fsel:
+  nf.createChar(g.unicode,g.glyphname)
+  nf.selection.select(("more",None), g)
+# nf.paste()                       # **
+for g in fsel:
+  cwidth[g.glyphname] = g.width    # **
+  if g.foreground and len(list(g.foreground)) != 0:
+    pen=nf[g.glyphname].glyphPen()
+    for c in g.foreground:
+      if largeside(c)>5:
+        c.draw(pen)
+    pen = None
+nf.copy()
+f.paste()
+for g in fsel:                     # **
+  g.width = cwidth[g.glyphname]    # **
+nf.close()
+</PRE>
 <h1 id="-modifications-according-to-post-below">** Modifications according to post below</h1>
 </div>
 	</div>
@@ -551,8 +590,10 @@ edit: I generated again the PaintCans_GW.otf, this time 98 304 B, and from .pfb 
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I see that for some reason the character widths were not preserved by my code. The lines</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+f.copy()
+nf.paste()
+</pre>
 <p>can indeed be removed and are now commented out. I also modified the code so as to keep a dictionary of the glyph widths before the clean up so as to restore those widths in the end.</p>
 </div>
 	</div>

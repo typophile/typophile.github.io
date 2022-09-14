@@ -84,7 +84,7 @@
 		<div class="commentbody"><p>The underlying reasoning is that &lsquo;i&rsquo; &ldquo;ee&rdquo; and &lsquo;ı&rsquo; &ldquo;ih&rdquo; are two different characters. Capitalizing and small-capitalizing in a Western locale loses the dot, which makes it a different character in Turkish.</p>
 <p>You don&rsquo;t really need an &ldquo;i.dot&rdquo; glyph (as dotted equivalent of &ldquo;dotlessi&rdquo;), you can use the regular latin &lsquo;i&rsquo; for that. So the translation you specify is not necessary.</p>
 <p>The only caveat is, for Turkish you should translate &ldquo;i&rdquo; to &ldquo;idotaccent.sc&rdquo; for small caps, and &ldquo;i&rdquo; to &ldquo;Idotaccent&rdquo; for capitals. The dotless &lsquo;i&rsquo; can be converted to a &lsquo;regular&rsquo; small cap I and capital I, for any locale, so it doesn&rsquo;t need a localized handling.</p>
-<p>You <!-- raw HTML omitted -->will<!-- raw HTML omitted --> get bonus points if you weed out the ligatures containing an &ldquo;i&rdquo; for Turkish, such as &ldquo;fi&rdquo; and &ldquo;ffi&rdquo; :-) (As a side note, your translation of &lsquo;i&rsquo; to &lsquo;i.dot&rsquo; may rule out that lookup; but I still think it makes life more complicated, instead of less.)</p>
+<p>You <em>will</em> get bonus points if you weed out the ligatures containing an &ldquo;i&rdquo; for Turkish, such as &ldquo;fi&rdquo; and &ldquo;ffi&rdquo; :-) (As a side note, your translation of &lsquo;i&rsquo; to &lsquo;i.dot&rsquo; may rule out that lookup; but I still think it makes life more complicated, instead of less.)</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -107,11 +107,11 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><blockquote>
-<p><!-- raw HTML omitted -->You will get bonus points if you weed out the ligatures containing an “i” for Turkish, such as “fi” and “ffi”<!-- raw HTML omitted --></p>
+<p><em>You will get bonus points if you weed out the ligatures containing an “i” for Turkish, such as “fi” and “ffi”</em></p>
 </blockquote>
 <p>That&rsquo;s exactly what will happen.</p>
 <blockquote>
-<p><!-- raw HTML omitted -->(As a side note, your translation of ’i’ to ’i.dot’ may rule out that lookup; but I still think it makes life more complicated, instead of less.)<!-- raw HTML omitted --></p>
+<p><em>(As a side note, your translation of ’i’ to ’i.dot’ may rule out that lookup; but I still think it makes life more complicated, instead of less.)</em></p>
 </blockquote>
 <p>I disagree. Taking care of the Turkish i upstream, in &lsquo;locl&rsquo;, makes the code for other features (e.g. &lsquo;liga&rsquo;, &lsquo;smcp&rsquo;) much much simpler.</p>
 </div>
@@ -138,21 +138,21 @@
 		<div class="commentbody"><p>Goran, your approach is good, but there are some issues,</p>
 <ol>
 <li>
-<p><!-- raw HTML omitted -->languagesystem dflt dflt;<!-- raw HTML omitted --> is incorrect.
-It should be <!-- raw HTML omitted -->languagesystem DFLT dflt;<!-- raw HTML omitted --></p>
+<p><code>languagesystem dflt dflt;</code> is incorrect.
+It should be <code>languagesystem DFLT dflt;</code></p>
 </li>
 <li>
 <p>If you want to be thorough, you can include other languages that need the same treatment such as Azeri (AZE) and Crimean Tatar (CRT).</p>
 </li>
 <li>
 <p>You can actually remove the substitution 
-<!-- raw HTML omitted -->sub i.small by idotaccent.small;<!-- raw HTML omitted --> 
+<code>sub i.small by idotaccent.small;</code> 
 from the &lsquo;locl&rsquo; feature. The reasoning for this is, the glyph &lsquo;i.small&rsquo; won&rsquo;t be in the glyph stream until &lsquo;smcp&rsquo; is applied. Since &lsquo;locl&rsquo; comes before &lsquo;smcp&rsquo; (and assuming that the text engine will do the right thing which is apply the lookups in the order they appear in the font), at the time &lsquo;locl&rsquo; is applied the glyph &lsquo;i.small&rsquo; won&rsquo;t be available as input. 
 In any case, don&rsquo;t forget to include the following substitution in &lsquo;smcp&rsquo;,
-<!-- raw HTML omitted -->sub i.dot by idotaccent.small;<!-- raw HTML omitted --></p>
+<code>sub i.dot by idotaccent.small;</code></p>
 </li>
 <li>
-<p><!-- raw HTML omitted -->idotaccent.small<!-- raw HTML omitted --> is not a good name because &lsquo;idotaccent&rsquo; is not a standard name. (&lsquo;Idotaccent&rsquo; is, but that&rsquo;s different). You need to call it something like &lsquo;i.dotsmall&rsquo;.</p>
+<p><code>idotaccent.small</code> is not a good name because &lsquo;idotaccent&rsquo; is not a standard name. (&lsquo;Idotaccent&rsquo; is, but that&rsquo;s different). You need to call it something like &lsquo;i.dotsmall&rsquo;.</p>
 </li>
 </ol>
 </div>

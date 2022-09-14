@@ -74,9 +74,9 @@
   <div class="post-content e-content" itemprop="articleBody"><p>I&rsquo;m currently in the process of using Microsoft VOLT to programme a Malayalam typeface and I have run into a few problems that I just don&rsquo;t understand how to fix. I&rsquo;m currently testing my file in Microsoft Word 2010.</p>
 <p>1, Malayalam has glyphs known as chillaksaram which, as I understand it, are formed through inputting a string like this: 
 na (ന) + virama ( ്) + ZWJ [Control+Shift+1]= ൻ.</p>
-<p>Within VOLT, I have included the relevant strings into a post-base substitution <!-- raw HTML omitted --> lookup and feature. This lookup sits below Akhand <!-- raw HTML omitted --> and Below-base form <!-- raw HTML omitted --> lookups that I have created.</p>
+<p>Within VOLT, I have included the relevant strings into a post-base substitution <pstf> lookup and feature. This lookup sits below Akhand <akhn> and Below-base form <blwf> lookups that I have created.</p>
 <p>2, Malayalam uses a rakar glyph that substitutes ra (ര) + virama ( ്). The substitution itself works but it doesn&rsquo;t repositioning to precede it&rsquo;s base consonant. I assume this is the job of the shaping engine and so I do not understand what action I&rsquo;m either not doing or preventing from happening?</p>
-<p>3, Finally, and more generally, I&rsquo;m unsure which script I should be using; Malayalam <!-- raw HTML omitted --> or Malayalam v.2 <!-- raw HTML omitted -->, or both? I need support for both Windows and Mac OSX systems. I often find problems that vary between them. I have been trying to follow closely the specifications laid out in Microsoft&rsquo;s Opentype Specification manual: <a href="http://www.microsoft.com/typography/OpenTypeDev/malayalam/intro.htm">http://www.microsoft.com/typography/OpenTypeDev/malayalam/intro.htm</a></p>
+<p>3, Finally, and more generally, I&rsquo;m unsure which script I should be using; Malayalam <mlym> or Malayalam v.2 <mlm2>, or both? I need support for both Windows and Mac OSX systems. I often find problems that vary between them. I have been trying to follow closely the specifications laid out in Microsoft&rsquo;s Opentype Specification manual: <a href="http://www.microsoft.com/typography/OpenTypeDev/malayalam/intro.htm">http://www.microsoft.com/typography/OpenTypeDev/malayalam/intro.htm</a></p>
 <p>Hopefully someone can point me in the right direction.</p>
 <p>Thanks in advance</p>
 <p>Jonny Pinhorn</p>
@@ -132,12 +132,12 @@ na (ന) + virama ( ്) + ZWJ [Control+Shift+1]= ൻ.</p>
 <ol>
 <li>
 <p>Chillu substitutions should be the first lookup in the {akhn} feature, processed before any others. The sequence you have is correct: letter + virama + ZWJ. Note that you might also want a ligature for 
-<!-- raw HTML omitted -->mNa mVirama ZWJ mRra -&gt; mChilluNRra<!-- raw HTML omitted -->
+<code>mNa mVirama ZWJ mRra -&gt; mChilluNRra</code>
 which should precede the shorter chillu strings in the lookup.</p>
 </li>
 <li>
 <p>For v.2 shaping, the input for the prescript rakar is 
-<!-- raw HTML omitted -->mVirama mRa -&gt; mRakar<!-- raw HTML omitted -->
+<code>mVirama mRa -&gt; mRakar</code>
 and this lookup must be associated with the {pref} feature. The layout engine knows to reorder the output of the {pref} feature to the beginning of the cluster.</p>
 </li>
 <li>
@@ -202,7 +202,7 @@ mPa mVirama mRa -&gt; mPra</p>
 <p>You are handling the below-base substitutions for consonants in the {blwf} feature, yes?</p>
 <p>I have to admit that subscript -La is an oddity: something I can make work without really understanding why it is done this way. It has its own {blwf} lookup (which isn&rsquo;t unusual, given that most of the subscripts have context exceptions), but then the conjunct ligatures involving subscript -La are handled subsequently in {blws}, rather than in the {akhn} feature with the other ligatures. I first noticed this in Microsoft&rsquo;s Kartika font, but no one at MS nor my Malayalam contact have been able to suggest why this might be so. I&rsquo;m hoping I might get this cleared up when I look at the Malayalam shaping engine issues in more detail later this month.</p>
 <p>When you refer to rakar ligatures, I presume you mean traditional lipi forms. I&rsquo;ve not had occasion to try to implement these, as all my Malayalam fonts have been for the reformed orthography. But my assumption would be that these substitutions would need to be performed in the {akhn} feature, before the {pref} feature substitutes the prescript -Ra, because the latter would trigger reordering by the layout engine. So I would expect (using my glyph naming conventions)</p>
-<p><!-- raw HTML omitted -->mPa  mVirama mRa -&gt; mPRa<!-- raw HTML omitted --></p>
+<p><code>mPa  mVirama mRa -&gt; mPRa</code></p>
 <p>in the {akhn} feature to work. If it doesn&rsquo;t then</p>
 <p>I can probably spare half an hour or so to look at your VOLT source, if that might help.</p>
 <p>john[at]tiro[dot]ca</p>

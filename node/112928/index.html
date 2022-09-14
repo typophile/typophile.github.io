@@ -71,10 +71,20 @@
 
     </p>
   </header>
-  <div class="post-content e-content" itemprop="articleBody">Most Active Threads of All Time<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted --></div>
+  <div class="post-content e-content" itemprop="articleBody"><p>Most Active Threads of All Time<br><br></p>
+<?php
+
+$postlist_query="SELECT node.nid AS nid, node.type AS node_type, node.title AS node_title, users.name AS users_name, users.uid AS users_uid, node_comment_statistics.comment_count AS node_comment_statistics_comment_count FROM node node  LEFT JOIN node_counter node_counter ON node.nid = node_counter.nid INNER JOIN users users ON node.uid = users.uid INNER JOIN node_comment_statistics node_comment_statistics ON node.nid = node_comment_statistics.nid WHERE (node.status = 1) AND (node_counter.totalcount > 0) ORDER BY node_comment_statistics_comment_count DESC";
+$postlist_result = db_query($postlist_query);
+print "<ul>";
+
+while($row = db_fetch_object($postlist_result)){
+print "<li>".l($row->title,"node/$row->nid")."</li>";
+}
+
+print"</ul>";
+?>
+<br></div>
 
   
 </article>

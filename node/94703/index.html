@@ -96,13 +96,13 @@ sub @Normal_Caps_End' by @Swash_Caps_End;
 
    <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted --> The problem must be in the way i made the classes. For example letter A has A1 and A2 alternatives. In Swash_Caps_Start this means: [A1, A2, B&hellip;], and in Normal_Caps_Start class its [A, A, B&hellip;]. This way the substitute classes have the same amount of pairs, but there are two A&rsquo;s in the other class. How is this done correctly? <!-- raw HTML omitted --></p>
-<p>This means that in effect you have you are trying to replace {A, A, B &hellip; } with {A1, A2, B &hellip; }, and the software cannot determine whether A should be substituted by A1 or A2. If you have a rule of the form <!-- raw HTML omitted -->sub @A by @B<!-- raw HTML omitted -->, it&rsquo;s perfectly OK to have the same glyph listed multiple times in class B, but generally <!-- raw HTML omitted -->not<!-- raw HTML omitted --> in class A.</p>
+		<div class="commentbody"><p><cite> The problem must be in the way i made the classes. For example letter A has A1 and A2 alternatives. In Swash_Caps_Start this means: [A1, A2, B&hellip;], and in Normal_Caps_Start class its [A, A, B&hellip;]. This way the substitute classes have the same amount of pairs, but there are two A&rsquo;s in the other class. How is this done correctly? </cite></p>
+<p>This means that in effect you have you are trying to replace {A, A, B &hellip; } with {A1, A2, B &hellip; }, and the software cannot determine whether A should be substituted by A1 or A2. If you have a rule of the form <code>sub @A by @B</code>, it&rsquo;s perfectly OK to have the same glyph listed multiple times in class B, but generally <em>not</em> in class A.</p>
 <p>What you need to do is map {A, B, &hellip; } to {A1, B1, &hellip;} and then substitute A1 by A2 in some lookup which occurs later in your features.</p>
 <p>Also, on an unrelated note I suspect that there is an error in your &lsquo;calt&rsquo; code. I think that where you write:</p>
-<p><!-- raw HTML omitted --> ignore sub @All_glyphs @Normal_Caps_End';<!-- raw HTML omitted --></p>
-<p>you actually want the following (assuming you&rsquo;re trying to get the substitution to occur only at the end of a word, i.e. where no glyph <!-- raw HTML omitted --> follows<!-- raw HTML omitted --> the target glyph).</p>
-<p><!-- raw HTML omitted -->ignore sub @Normal_Caps_End' @All_glyphs;<!-- raw HTML omitted --></p>
+<p><code> ignore sub @All_glyphs @Normal_Caps_End';</code></p>
+<p>you actually want the following (assuming you&rsquo;re trying to get the substitution to occur only at the end of a word, i.e. where no glyph <em> follows</em> the target glyph).</p>
+<p><code>ignore sub @Normal_Caps_End' @All_glyphs;</code></p>
 <p>André</p>
 </div>
 	</div>
@@ -147,7 +147,7 @@ sub @Normal_Caps_End' by @Swash_Caps_End;
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>If I understand you correctly, A1 and A2 are both swash versions intended for initial use, correct?</p>
-<p>If so, then yes, you&rsquo;d perform the A-&gt;A1 substitution in &lsquo;calt&rsquo;, and the A1-&gt;A2 substitution in &lsquo;salt&rsquo;, which would be done <!-- raw HTML omitted -->after<!-- raw HTML omitted --> your &lsquo;calt&rsquo; feature.</p>
+<p>If so, then yes, you&rsquo;d perform the A-&gt;A1 substitution in &lsquo;calt&rsquo;, and the A1-&gt;A2 substitution in &lsquo;salt&rsquo;, which would be done <em>after</em> your &lsquo;calt&rsquo; feature.</p>
 <p>Also, I&rsquo;d recommend duplicating your &lsquo;salt&rsquo; feature in &lsquo;ss01&rsquo; since InDesign implements stylistic sets but not &lsquo;salt&rsquo;, whereas Illustrator implements &lsquo;salt&rsquo; but not stylistic sets.</p>
 <p>Finally, don&rsquo;t name your glyphs A1, A2, etc. Use a suffix; for example A.1, A.2. Otherwise, you&rsquo;ll run into compatibility problems with (e.g.) Acrobat Distiller.</p>
 <p>André</p>

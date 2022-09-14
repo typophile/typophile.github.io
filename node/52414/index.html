@@ -148,7 +148,7 @@ Whoops that&rsquo;s fontlab, not fontforge.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I don&rsquo;t think the glyphs D.es and E.es are necessary. I believe it can be done in one shot. The FDK syntax should be something like this:
-<!-- raw HTML omitted -->
+<code>
 languagesystem latn dflt;
 languagesystem latn ESP;</p>
 <p>@ALL_LETTERS = [A-Z a-z];</p>
@@ -159,7 +159,7 @@ ignore sub @ALL_LETTERS D' E';
 ignore sub D' E' @ALL_LETTERS;
 sub D' E' by D_E;
 } liga;
-<!-- raw HTML omitted --></p>
+</code></p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -220,13 +220,18 @@ sub D' E' by D_E;
 <p>If the app does not have support for language-specific lookups, things won&rsquo;t work. For example, Adobe has been putting language-specific code in its fonts (e.g. Turkish) for quite some time, but only with InDesign CS3 we&rsquo;ve started seeing the results of that code.</p>
 </li>
 <li>
-<p>You&rsquo;ll be able to compile the features and see the results in Fontlab, but you should also include the line <!-- raw HTML omitted -->languagesystem DFLT dflt;<!-- raw HTML omitted --> in the features. However, the current Fontlab 5 will throw an error message because of that. You&rsquo;ll have no problems if you use the FDK.</p>
+<p>You&rsquo;ll be able to compile the features and see the results in Fontlab, but you should also include the line <code>languagesystem DFLT dflt;</code> in the features. However, the current Fontlab 5 will throw an error message because of that. You&rsquo;ll have no problems if you use the FDK.</p>
 </li>
 <li>
 <p>The end of ESP would be signaled by the end of the feature, the start of another language, or the start of another script. Matthew&rsquo;s case had to do with a language-specific ligature, so the best way to do it is through &lsquo;liga&rsquo;. In the case of Polish diacritics I&rsquo;d say &lsquo;locl&rsquo; is more appropriate. In the case of French, it depends on what you&rsquo;re trying to do. Below is some code for language-specific ligatures and diacritics.</p>
 </li>
 </ol>
-<!-- raw HTML omitted -->
+<code>
+languagesystem DFLT dflt;
+languagesystem latn dflt;
+languagesystem latn ESP;
+languagesystem latn FRA;
+languagesystem latn PLK;
 <p>feature locl {
 script latn;
 language FRA;
@@ -252,7 +257,7 @@ sub D' E' by D_E;</p>
 <p>language FRA include_dflt;
 sub e t by e_t;
 } liga;
-<!-- raw HTML omitted --></p>
+</code></p>
 <p>The code in &lsquo;locl&rsquo; is straightforward; glyphs are replaced by other glyphs depending on the language. The code in &lsquo;liga&rsquo; is a little more tricky because there are ligatures that you&rsquo;ll want to have for all the languages and/or scripts in addition to the language-specific ones. In this case, all Latin languages (including ESP, FRA and PLK) will have the &lsquo;f_i&rsquo; ligature. In addition, the &lsquo;D_E&rsquo; ligature will be available to Spanish, and the &lsquo;e_t&rsquo; ligature will be available to French.</p>
 <p>I could have been more concise with the &lsquo;liga&rsquo; code but when it comes to coding language-specific behavior I like to be as explicit as I can to avoid unexpected behaviors. For example, the keyword &lsquo;include_dflt&rsquo; could be omitted (because the lookups under &lsquo;language dflt;&rsquo; are inherited by default by other languages within the same script). However, &lsquo;language PLK;&rsquo; needs to be included in &lsquo;liga&rsquo; otherwise &lsquo;f_i&rsquo; will NOT be available for Polish.</p>
 </div>

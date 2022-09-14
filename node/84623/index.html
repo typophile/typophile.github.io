@@ -72,7 +72,7 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>Hello everybody,
-I&rsquo;m trying to make a monospaced version of my recently released font <!-- raw HTML omitted -->Orca Pro<!-- raw HTML omitted --> and I don&rsquo;t how to correctly set widths and sidebearings.</p>
+I&rsquo;m trying to make a monospaced version of my recently released font <a href="http://new.myfonts.com/fonts/v-design/orca-pro/">Orca Pro</a> and I don&rsquo;t how to correctly set widths and sidebearings.</p>
 <p>Let&rsquo;s say I want to set all glyphs to be 600 units wide, but so that they keep their relative sidebearings from the original font (e.g. the left sidebearing of letter &ldquo;L&rdquo; would be quite bigger than the right one).</p>
 <p>There are just few options how to set set width in Fontlab:</p>
 <ul>
@@ -166,10 +166,18 @@ desired width - original width : 2
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->I have been wondering whether there could be some macro script or perhaps some trick using action-set or so?<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><cite>I have been wondering whether there could be some macro script or perhaps some trick using action-set or so?</cite></p>
 <p>Yes, you can reset the widths mechanically…</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+from robofab.world import CurrentFont
+font = CurrentFont()
+targetWidth = 600
+for glyph in font:
+    widthDelta = targetWidth - glyph.width
+    glyph.leftMargin += int(widthDelta/2)
+    glyph.width = targetWidth
+    glyph.update()
+</pre>
 <p>…but what you&rsquo;ll find is that the contours of many glyphs, especially the widest and narrowest ones, will want to be adjusted to fit the width properly.</p>
 </div>
 	</div>
@@ -192,7 +200,7 @@ desired width - original width : 2
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->…which would be horribly tedious work&hellip;<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>…which would be horribly tedious work&hellip;</em></p>
 <p>The problem is that the optical center is, arguably, more important in monospaced fonts, and it&rsquo;s the spacing element least amenable to automation. So IMO you&rsquo;re stuck with the tedium.</p>
 <p>Also, you may want to consider redrawing some of the glyphs for monospace function (&ldquo;adjusted&rdquo; as Matthew says).</p>
 <p>On the bright side, no kerning!</p>
@@ -244,12 +252,12 @@ desired width - original width : 2
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Thank you all!
-I definitelly agree with you: type design is tedious work and I know there are no miraculous tricks. I have been working on the source font <!-- raw HTML omitted -->Orca Pro<!-- raw HTML omitted --> over 2 years and it was never ending story. You can always find a new kerning pair to add or a detail to fix.</p>
+I definitelly agree with you: type design is tedious work and I know there are no miraculous tricks. I have been working on the source font <a href="http://new.myfonts.com/fonts/v-design/orca-pro/">Orca Pro</a> over 2 years and it was never ending story. You can always find a new kerning pair to add or a detail to fix.</p>
 <p>As well I know I need to completely redraw a lot of glyphs (like M W m w @) and fine tune position of some extreme letters like L J P&hellip;</p>
 <p>However as for the metric itself I belive this macro Butterick mentioned could do maybe 70-80% of the raw work.</p>
-<p><!-- raw HTML omitted -->Butterick:<!-- raw HTML omitted --> I&rsquo;m not very experienced with Python macros - should I save the script you posted as a PY file, install Robofab.World and it should work then?</p>
+<p><strong>Butterick:</strong> I&rsquo;m not very experienced with Python macros - should I save the script you posted as a PY file, install Robofab.World and it should work then?</p>
 <hr>
-<p>Anyway this is my first post on Typophile and I am very glad there are so many people interested and willing to hlep - thank you! May I ask for your opinion about <!-- raw HTML omitted -->Orca<!-- raw HTML omitted -->? This is my very first release and I&rsquo;m pretty excited how pleople will react!</p>
+<p>Anyway this is my first post on Typophile and I am very glad there are so many people interested and willing to hlep - thank you! May I ask for your opinion about <a href="http://new.myfonts.com/fonts/v-design/orca-pro/">Orca</a>? This is my very first release and I&rsquo;m pretty excited how pleople will react!</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -272,7 +280,7 @@ I definitelly agree with you: type design is tedious work and I know there are n
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>@frode frank:
-<!-- raw HTML omitted -->Optically centering something like an L is not a math thing.<!-- raw HTML omitted --></p>
+<cite>Optically centering something like an L is not a math thing.</cite></p>
 <p>Yes, but the way I understand the original post, he already knows this. But he has painstakingly optically centered each glyph in the proportionally-spaced version of the font.</p>
 <p>What he is asking is if he can keep the hard work he has done for that font, and copy it over to the monospaced version.</p>
 </div>
@@ -317,7 +325,7 @@ I definitelly agree with you: type design is tedious work and I know there are n
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->What he is asking is if he can keep the hard work he has done for that font, and copy it over to the monospaced version.<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>What he is asking is if he can keep the hard work he has done for that font, and copy it over to the monospaced version.</em></p>
 <p>The spacing paradigm for proportional and monowidth is not the same.
 Optical centering plays a larger role in monospace.</p>
 <p>In theory, there are (at least) three letter spacing parameters:</p>

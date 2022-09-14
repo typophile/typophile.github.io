@@ -73,15 +73,15 @@
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>To my utter delight, the new [[http://www.adobe.com/devnet/opentype/afdko/|AFDKO]] now supports proper mark-to-base and mark-to-mark features &ndash; not limited to TrueType &lsquo;attachment points&rsquo;, it works perfectly with CFF (Type 1s) as well. So I spend the weekend updating my accents font, removing all rligs that glued a myriad of specifically spaced accents to a few characters and replacing them with a single accent glyph. I even could use the free DTL OTMaster Light to proof them! (And I am utterly convinced the full version is worth its full price, because with that I could have done the positioning straight away!)</p>
 <p>Here&rsquo;s the catch.</p>
-<p>Traditionally, I positioned my accent glyphs <!-- raw HTML omitted -->after<!-- raw HTML omitted --> its base glyph, then manually kerned it into place. The positioned accents I created had, therefore, to be of zero width and <!-- raw HTML omitted -->on the left side<!-- raw HTML omitted --> of the zero line. After some initial problems, I worked out I still could position its anchor points on the base point per accent:</p>
-<p><!-- raw HTML omitted -->  markClass [ @ALLTOPMARKS ] &lt;anchor -250 500&gt; @TOP_MARKS;<!-- raw HTML omitted --></p>
-<p>&ndash; the entire accent glyph is centered horizontally inside a 500 unit wide rectangle. So all I had to do was for umpteen characters figure out where <!-- raw HTML omitted -->their<!-- raw HTML omitted --> (optical) center was, and set the position for their anchor:</p>
-<p><!-- raw HTML omitted -->  position base [ g ] &lt;anchor 240 500&gt; mark @TOP_MARKS
-&lt;anchor 240 -250&gt; mark @BOTTOM_MARKS;<!-- raw HTML omitted --></p>
-<p>Works like a charm in OTMaster. I could even work out vertical stacking of the accents (mark-to-mark). Now the strange thing is, when testing with InDesign CS4, vertical stacking works as advertised, but the <!-- raw HTML omitted -->horizontal position<!-- raw HTML omitted --> is off by an entire character width. If I type in</p>
+<p>Traditionally, I positioned my accent glyphs <em>after</em> its base glyph, then manually kerned it into place. The positioned accents I created had, therefore, to be of zero width and <em>on the left side</em> of the zero line. After some initial problems, I worked out I still could position its anchor points on the base point per accent:</p>
+<p><code>  markClass [ @ALLTOPMARKS ] &lt;anchor -250 500&gt; @TOP_MARKS;</code></p>
+<p>&ndash; the entire accent glyph is centered horizontally inside a 500 unit wide rectangle. So all I had to do was for umpteen characters figure out where <em>their</em> (optical) center was, and set the position for their anchor:</p>
+<p><code>  position base [ g ] &lt;anchor 240 500&gt; mark @TOP_MARKS
+&lt;anchor 240 -250&gt; mark @BOTTOM_MARKS;</code></p>
+<p>Works like a charm in OTMaster. I could even work out vertical stacking of the accents (mark-to-mark). Now the strange thing is, when testing with InDesign CS4, vertical stacking works as advertised, but the <strong>horizontal position</strong> is off by an entire character width. If I type in</p>
 <p>m &lt;acute&gt;</p>
-<p>the acute appears the exact width of the &rsquo;m' to the right. I have confirmed this by typing in another &rsquo;m' right after the acute, and <!-- raw HTML omitted -->then<!-- raw HTML omitted --> the accent was placed perfectly &ndash; on the next &rsquo;m'.</p>
-<p>What are the conventions for combining accents? Should they have a non-zero width after all? (I think their widths would be discarded because they&rsquo;re positioned with the mark-to-base feature.) Should they be zero-width and on the <!-- raw HTML omitted -->right hand side<!-- raw HTML omitted --> of the null line? (That would imply that, lacking mark-to-base, one would type first the accent and then the base glyph &ndash; which is, I admit, <!-- raw HTML omitted -->also<!-- raw HTML omitted --> a historical convention &ndash; typewriter style.)</p>
+<p>the acute appears the exact width of the &rsquo;m' to the right. I have confirmed this by typing in another &rsquo;m' right after the acute, and <em>then</em> the accent was placed perfectly &ndash; on the next &rsquo;m'.</p>
+<p>What are the conventions for combining accents? Should they have a non-zero width after all? (I think their widths would be discarded because they&rsquo;re positioned with the mark-to-base feature.) Should they be zero-width and on the <em>right hand side</em> of the null line? (That would imply that, lacking mark-to-base, one would type first the accent and then the base glyph &ndash; which is, I admit, <em>also</em> a historical convention &ndash; typewriter style.)</p>
 <p>Or is OTMaster behaving correctly, and IDCS4 not?</p>
 </div>
 
@@ -132,8 +132,8 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Okay, thanks so far.</p>
-<p><!-- raw HTML omitted -->It doesn’t matter where on the zero-width the actual outline is positioned.<!-- raw HTML omitted --></p>
-<p>That&rsquo;s what I assumed. It seems I&rsquo;m making some mistake elsewhere &ndash; just for laughs I moved the accents to the <!-- raw HTML omitted -->right<!-- raw HTML omitted --> side of the zero line, and the results are exactly the same in OTMaster (correct) and CS4 (wrong).</p>
+<p><cite>It doesn’t matter where on the zero-width the actual outline is positioned.</cite></p>
+<p>That&rsquo;s what I assumed. It seems I&rsquo;m making some mistake elsewhere &ndash; just for laughs I moved the accents to the <em>right</em> side of the zero line, and the results are exactly the same in OTMaster (correct) and CS4 (wrong).</p>
 <p>[img:sites/default/files/old-images/more-accents_5051.PNG]</p>
 <p>The acute is right after the &rsquo;m' and should be on top &ndash; adding an extra &rsquo;m' after that shows the position is correct, apart from the minor issue it&rsquo;s too far to the right.</p>
 <p>The mk2base is now in &lsquo;rlig&rsquo;, I&rsquo;ll put them somewhere else and see what changes.</p>
@@ -159,9 +159,9 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Is my face red and all. I said</p>
-<p><!-- raw HTML omitted -->The mk2base is now in ’rlig’ &hellip;<!-- raw HTML omitted --></p>
-<p>and remembered Microsoft has a list of which feature should go where. That got me thinking. <!-- raw HTML omitted -->mark<!-- raw HTML omitted --> and <!-- raw HTML omitted -->mkmk<!-- raw HTML omitted --> <!-- raw HTML omitted -->are<!-- raw HTML omitted --> the feature names (and the only stuff that goes into these are the commands that perform the actual attachment) &ndash; they shouldn&rsquo;t occur in <!-- raw HTML omitted -->rlig<!-- raw HTML omitted --> or anywhere else.</p>
-<p>(This solves the shifting-to-the-right &ndash; have to think a bit more about <!-- raw HTML omitted -->mkmk<!-- raw HTML omitted -->.)</p>
+<p><cite>The mk2base is now in ’rlig’ &hellip;</cite></p>
+<p>and remembered Microsoft has a list of which feature should go where. That got me thinking. <code>mark</code> and <code>mkmk</code> <em>are</em> the feature names (and the only stuff that goes into these are the commands that perform the actual attachment) &ndash; they shouldn&rsquo;t occur in <code>rlig</code> or anywhere else.</p>
+<p>(This solves the shifting-to-the-right &ndash; have to think a bit more about <code>mkmk</code>.)</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -193,7 +193,7 @@
 <p>[img:sites/default/files/old-images/ie_no_fun_3801.PNG]</p>
 <p>and SIL Doulos &ndash; top WordPad, bottom CS4:</p>
 <p>[img:sites/default/files/old-images/hummbug_5249.PNG]</p>
-<p>&ndash; so it seems <!-- raw HTML omitted -->mkmk<!-- raw HTML omitted --> doesn&rsquo;t <!-- raw HTML omitted -->really<!-- raw HTML omitted --> work in CS4, while I&rsquo;m pretty sure it was mentioned as a new feature (perhaps even here on Typophile).
+<p>&ndash; so it seems <code>mkmk</code> doesn&rsquo;t <em>really</em> work in CS4, while I&rsquo;m pretty sure it was mentioned as a new feature (perhaps even here on Typophile).
 I&rsquo;d be gladly proven wrong. Anyone?</p>
 <p>&ndash;
 [Note] For some reason my custom glyph names-per-unicode do not survive the export to PFB/makeOTF trajectory, they never make it into the PFB. Custom names are preferred, because it makes writing the feature file just that bit easier (using &ldquo;macroncomb&rdquo; and &ldquo;opene&rdquo; rather than &ldquo;uni030F&rdquo; and &ldquo;uni2011&rdquo;). A rather unfortunate side effect is that these glyphs don&rsquo;t appear in Wordpad.</p>
@@ -240,7 +240,7 @@ I&rsquo;d be gladly proven wrong. Anyone?</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Miguel, thanks for affirming it hasn&rsquo;t bin fixed as of this date.</p>
-<p>As you can see by those older posts (and the even older one referred therein), it&rsquo;s quite the issue for me &ndash; that&rsquo;s why I keep trying. At the very least, Wordpad &ndash; of all possible programs! &ndash; showed me there is nothing wrong with my understanding of the AFDKO (and I&rsquo;m really thankful to Adobe for their free dev kit! It <!-- raw HTML omitted -->does<!-- raw HTML omitted --> tie in nicely to my scripting abilities.)</p>
+<p>As you can see by those older posts (and the even older one referred therein), it&rsquo;s quite the issue for me &ndash; that&rsquo;s why I keep trying. At the very least, Wordpad &ndash; of all possible programs! &ndash; showed me there is nothing wrong with my understanding of the AFDKO (and I&rsquo;m really thankful to Adobe for their free dev kit! It <em>does</em> tie in nicely to my scripting abilities.)</p>
 <p>Note To Self: Try again in another 6 months :-(</p>
 </div>
 	</div>
@@ -263,7 +263,7 @@ I&rsquo;d be gladly proven wrong. Anyone?</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><p><!-- raw HTML omitted -->At the very least, Wordpad — of all possible programs! — showed me there is nothing wrong&hellip;<!-- raw HTML omitted --></p>
+		<div class="commentbody"><p><em>At the very least, Wordpad — of all possible programs! — showed me there is nothing wrong&hellip;</em></p>
 <p>If you want a really pure test of whether something might be wrong with the font, NotePad is even better than Wordpad: just the font and the layout engine, and nothing else to get in the way.</p>
 </div>
 	</div>
@@ -383,7 +383,7 @@ Adam</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Guys &ndash; thanks for delving a bit deeper into this.</p>
-<p>I don&rsquo;t think there is an <!-- raw HTML omitted -->implementation<!-- raw HTML omitted --> defined limit to the number of stacked accents; I can&rsquo;t remember reading anything about that. Besides, there seems to be no way of knowing which &lsquo;number&rsquo; one particular accent has in its stacking order. <!-- raw HTML omitted -->mkmk<!-- raw HTML omitted --> accents only have positions relative to the preceding one, and the very first relative to its parent glyph.</p>
+<p>I don&rsquo;t think there is an <em>implementation</em> defined limit to the number of stacked accents; I can&rsquo;t remember reading anything about that. Besides, there seems to be no way of knowing which &lsquo;number&rsquo; one particular accent has in its stacking order. <code>mkmk</code> accents only have positions relative to the preceding one, and the very first relative to its parent glyph.</p>
 <p>That said, I&rsquo;m also not sure why there would be a hard-coded limitation in an OTF drawing routine, it could be written as a simple repeating piece of code (at least, that&rsquo;s how I would&rsquo;ve done it ;-).</p>
 <p>I suspect it&rsquo;s more a bug (or &lsquo;feature&rsquo;) in the way type gets blitted; it may be to a buffer restricted to the current font height plus ascenders, something like that. Do Word, Notepad, and Wordpad all use the same drawing APIs? (And &ndash; again, just suspecting &ndash; the answer is likely to be &lsquo;yes&rsquo;.)</p>
 </div>
@@ -428,7 +428,7 @@ Adam</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Back to the IDCS4 issue, <!-- raw HTML omitted -->perhaps this might help<!-- raw HTML omitted -->.</div>
+		<div class="commentbody">Back to the IDCS4 issue, <a href="http://www.thomasphinney.com/2009/01/adobe-world-ready-composer/" target="_blank">perhaps this might help</a>.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -476,9 +476,9 @@ Adam</p>
 	<div class="card-body">
 		<div class="commentbody"><p>Hey, a new way of typing &ldquo;aaaaaahhhh&hellip;&rdquo;!</p>
 <p>Thanks, John &ndash; that makes perfect sense. I seem to have guessed right :-)</p>
-<p><!-- raw HTML omitted -->.. printing to PDF should reveal them ..<!-- raw HTML omitted --></p>
-<p>Wordpad didn&rsquo;t show my accents either until I printed to PDF &ndash; although Miguel <!-- raw HTML omitted -->did<!-- raw HTML omitted --> say</p>
-<p><!-- raw HTML omitted -->.. I can’t see or print them <!-- raw HTML omitted --></p>
+<p><cite>.. printing to PDF should reveal them ..</cite></p>
+<p>Wordpad didn&rsquo;t show my accents either until I printed to PDF &ndash; although Miguel <em>did</em> say</p>
+<p><cite>.. I can’t see or print them </cite></p>
 <p>Still, nothing to worry about for font developers, as it must be a software thing: Trying to catch up with the standard :-D</p>
 </div>
 	</div>

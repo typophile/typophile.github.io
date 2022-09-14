@@ -83,8 +83,25 @@
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>try maybe my quick script</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+# -*- coding: utf-8 -*-
+import fontforge;
+
+def change_name_XXXX00001(arg1,font):
+   prefix=fontforge.askString("Prefix..","Prefix:",'GLYPH');
+   numer=1;
+   for i in font.selection.byGlyphs:
+      i.glyphname=prefix+("%04d" % numer);
+      numer+=1;
+
+def EnableSel(arg1,font):
+   for i in font.selection.byGlyphs:
+      return True;
+   return False;
+
+fontforge.registerMenuItem(change_name_XXXX00001,EnableSel,None,
+"Font",None,"Glyph_names","Change to XXXX00001");
+</pre>
 <p>Save code to file or download it from:
 [[http://www.glukfonts.pl/temp/gluk_names.py|www.glukfonts.pl/temp/gluk_names.py]]</p>
 </div>
@@ -202,9 +219,15 @@ Shahid</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>If You want make it through &ldquo;Execute Script..&rdquo;, You should paste this:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<blockquote>
+<pre>
+import fontforge;
+n=fontforge.activeFont();
+prefix=fontforge.askString("Prefix..","Prefix:",'GLYPH');
+numer=1;
+for i in n.selection.byGlyphs:
+   i.glyphname=prefix+("%04d" % numer);
+   numer+=1;
+</pre><blockquote>
 </blockquote>
 </div>
 	</div>
@@ -324,11 +347,18 @@ Thanks once again.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Here is a script that renames all glyphs to uniXXXX</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+for g in fnt.glyphs():
+  if g.unicode != -1:
+    g.glyphname = "uni%04X" % (g.unicode)
+</PRE>
 <p>Here is one that renames all afii to uni:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<PRE>
+import string
+for g in fnt.glyphs():
+  if string.find(g.glyphname,'afii') == 0:
+    g.glyphname = "uni%04X" % (g.unicode)
+</PRE>
 <p>I would personally not rename A to uni0041 but I rename all afii.</p>
 </div>
 	</div>
@@ -378,9 +408,10 @@ Wei</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Oh, then you use</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>on the glyphs <!-- raw HTML omitted -->g<!-- raw HTML omitted --> you want to rename; cf <!-- raw HTML omitted --> <a href="http://fontforge.org/python.html">http://fontforge.org/python.html</a><!-- raw HTML omitted -->.</p>
+<PRE>
+   g.glyphname=fontforge.nameFromUnicode(g.unicode)
+</PRE>
+<p>on the glyphs <code>g</code> you want to rename; cf <a href="http://fontforge.org/python.html"> <a href="http://fontforge.org/python.html">http://fontforge.org/python.html</a></a>.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -402,7 +433,7 @@ Wei</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">Of course that will not work for glyph names like <!-- raw HTML omitted -->uni0061.sc<!-- raw HTML omitted --> (or <!-- raw HTML omitted -->uni0061_uni1DC8<!-- raw HTML omitted --> or <!-- raw HTML omitted -->u00611DC8<!-- raw HTML omitted -->) that return <!-- raw HTML omitted -->-1<!-- raw HTML omitted --> as unicode value. You then need to parse the glyph name in order to rename it.</div>
+		<div class="commentbody">Of course that will not work for glyph names like <code>uni0061.sc</code> (or <code>uni0061_uni1DC8</code> or <code>u00611DC8</code>) that return <code>-1</code> as unicode value. You then need to parse the glyph name in order to rename it.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -423,16 +454,56 @@ Wei</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted -->
+		<div class="commentbody"><blockquote> I ran the scripts
+</blockquote>
+What I wrote  needs to be completed according to the way you use the code. I use such code in python scripts I call from bash shells. Above, Grzegorz wrote the script so as to call it from the GUI, using the "Execute script" window. Let me just add his lines to get a complete script to use that way:
+<pre>
+---
+fnt=fontforge.activeFont()
+for g in fnt.selection.byGlyphs:
+  if g.unicode != -1:
+     g.glyphname= fontforge.nameFromUnicode(g.unicode)
+---
+</pre>
+You first select the glyphs to rename and then, in the "Execute script" window with that script in it you click ok. That script renames according to the unicode value, not to the hex digits that follow the uniXXXX name; it does not look at the name at all.
 <p>Now here is a script that looks at the uniXXXX name. It will  rename only glyphs with a name of the form uniXXXX and  it assumes glyph names that start with uni are followed by a valid hex number, nothing else;  it does not check that what follows uni is a valid hex number.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+---
+import string
+fnt=fontforge.activeFont()
+for g in fnt.selection.byGlyphs:
+  name=g.glyphname
+  if string.find(name,'uni') == 0:
+    g.glyphname=fontforge.nameFromUnicode(int(name[3:],16))
+---
+</pre>
 <p>Again, you select the glyphs to rename, and click ok in the &ldquo;Execute script&rdquo; window.</p>
-<p>When you have many scripts, it is not handy to copy them all the time in the &ldquo;Execute script&rdquo; window. What you can do is save them in some file, say <!-- raw HTML omitted -->unicode2name.py<!-- raw HTML omitted --> and <!-- raw HTML omitted -->uniname2name.py<!-- raw HTML omitted -->. You then click &ldquo;File &gt; Preferences &gt; Script menu&rdquo; and give a name for the menu name, say &ldquo;Unicode to name&rdquo;; then you click on the three dots, go to the folder containing the script, put &ldquo;*.py&rdquo; in the the line just above &ldquo;Filter&rdquo; and click &ldquo;Filter&rdquo;; you will see the files .py appear. You select the one you want to associate to the given menu name.</p>
+<p>When you have many scripts, it is not handy to copy them all the time in the &ldquo;Execute script&rdquo; window. What you can do is save them in some file, say <code>unicode2name.py</code> and <code>uniname2name.py</code>. You then click &ldquo;File &gt; Preferences &gt; Script menu&rdquo; and give a name for the menu name, say &ldquo;Unicode to name&rdquo;; then you click on the three dots, go to the folder containing the script, put &ldquo;*.py&rdquo; in the the line just above &ldquo;Filter&rdquo; and click &ldquo;Filter&rdquo;; you will see the files .py appear. You select the one you want to associate to the given menu name.</p>
 <p>After, you can execute the script on the selected glyphs by clicking on &ldquo;File &gt; Script Menu&rdquo; and the appropriate name associated to the script. You can also execute with some key combination (it is control alt digit on my mac).</p>
 <p>A script that checks that the hex values are valid and that handles alternates (.sc, .alt, .ss02 etc) and also glyph names separated by an underscore requires splitting the glyph name and handling piecewise. Here is one that checks that the hex is valid and that can handle names of the form uniXXXXX.sc.ss02 i.e. alternames of uniXX&hellip;X</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+---
+import string
+ff=fontforge
+fnt=ff.activeFont()
+
+def ishex(h):
+  return all(c in string.hexdigits for c in h)
+
+def gname(altname):
+  l = string.split(altname,'.')
+  name=l[0]
+  if string.find(name,'uni') == 0:
+    hexd=name[3:]
+    if ishex(hexd):
+      l[0]= ff.nameFromUnicode(int(hexd,16))
+      return '.'.join(l)
+  return altname
+ 
+for g in fnt.selection.byGlyphs:
+  g.glyphname=gname(g.glyphname)
+---
+</pre>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -455,7 +526,12 @@ Wei</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>btw, Michael</p>
-<!-- raw HTML omitted -->
+<blockquote>
+[...] When you have many scripts, it is not handy to copy them all the time in the "Execute script" window [...]
+</blockquote>
+You can define own scripts in 'Tools' menu. For example first script:
+<pre>
+import fontforge;
 <p>def rename_unival(arg1,font):
 for g in font.selection.byGlyphs:
 if g.unicode != -1:
@@ -466,7 +542,7 @@ return True;
 return False;</p>
 <p>fontforge.registerMenuItem(rename_unival,EnableSel,None,
 &ldquo;Font&rdquo;,None,&ldquo;Glyph_names&rdquo;,&ldquo;Rename to unicode value&rdquo;); 
-<!-- raw HTML omitted --></p>
+</pre></p>
 <p>Save them in change2uni.py in  .Fontforge/python/ directory, and now You have new menu item   &lsquo;Rename to unicode value&rsquo; in a submenu &lsquo;Glyph_names&rsquo; of the &lsquo;Tools&rsquo; menu (of the Font window).</p>
 </div>
 	</div>
@@ -510,7 +586,8 @@ return False;</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody"><!-- raw HTML omitted --></div>
+		<div class="commentbody"><blockquote>Yo can define shortcut</blockquote>
+Oh, I had missed that; it is just the example in the doc that had none. </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -532,8 +609,10 @@ return False;</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Yo can define shortcut (for example key / ) in last line:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>
+fontforge.registerMenuItem(rename_unival,EnableSel,None,
+"Font","/","Glyph_names","Rename to unicode value"); 
+</pre>
 <p>I personally think, there are many advantages in &lsquo;Tools&rsquo; menu.</p>
 </div>
 	</div>
@@ -557,9 +636,10 @@ return False;</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Run this in a terminal window</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>and if you get <!-- raw HTML omitted -->0<!-- raw HTML omitted --> then your FontForge was not compiled to use Python scripts. You should get <!-- raw HTML omitted -->1<!-- raw HTML omitted --> for python scripts to work.</p>
+<pre>
+fontforge -lang=ff -c 'Print($haspython)'
+</pre>
+<p>and if you get <code>0</code> then your FontForge was not compiled to use Python scripts. You should get <code>1</code> for python scripts to work.</p>
 <p>Also put your code between the tags &lt;pre&gt; and &lt;/pre&gt; else it is unindented and unreadable.</p>
 </div>
 	</div>
@@ -583,12 +663,19 @@ return False;</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Here is a native fontforge script that does the renaming</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>If you call it <!-- raw HTML omitted -->renam.pe<!-- raw HTML omitted --> then the call</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>should do about the same as the python script you appear to be having trouble with. In fact, I just tried that script and it even renamed <!-- raw HTML omitted -->uni004F_uni0045.sc<!-- raw HTML omitted --> to <!-- raw HTML omitted -->O_E.sc<!-- raw HTML omitted -->. I don&rsquo;t know much native fontforge scripting and I am somewhat surprised that it did that.</p>
+<pre>
+Open($1)
+SelectWorthOutputting()
+foreach
+  SetCharName(NameFromUnicode(GlyphInfo("Unicode")))
+endloop
+Save($2)
+</pre>
+<p>If you call it <code>renam.pe</code> then the call</p>
+<pre>
+fontforge -lang=ff -script renam.pe infile.sfd outfile.sfd
+</pre>
+<p>should do about the same as the python script you appear to be having trouble with. In fact, I just tried that script and it even renamed <code>uni004F_uni0045.sc</code> to <code>O_E.sc</code>. I don&rsquo;t know much native fontforge scripting and I am somewhat surprised that it did that.</p>
 </div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
@@ -611,12 +698,14 @@ return False;</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>I would like to execute these scripts in the terminal as shell scripts&hellip; however something is wrong on my end (I&rsquo;m using mf2pt1 to convert Metafonts into TrueType/Otf and FontForge is part of the process). When I try to run this script inside the FontForge gui as Execute Script:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre><code>fnt=fontforge.activeFont()
+for g in fnt.selection.byGlyphs:
+  if g.unicode != -1:
+     g.glyphname= fontforge.nameFromUnicode(g.unicode)</code></pre>
 <p>I get the following error:
-<!-- raw HTML omitted -->No built-in function or script-file Called from&hellip;<!-- raw HTML omitted --></p>
+<code>No built-in function or script-file Called from&hellip;</code></p>
 <p>If it helps this is the part of the perl script that executes FontForge:
-<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<code><pre></p>
 <h1 id="use-fontforge-to-autohint-the-result">Use FontForge to autohint the result.</h1>
 <p>my $user_script = 0;   # 1=script file was provided by the user; 0=created here
 if (defined $ffscript) {
@@ -645,7 +734,7 @@ AUTOHINT
 ;
 close FFSCRIPT;
 }
-<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+</pre></code></p>
 <p>much appreciated.</p>
 </div>
 	</div>
@@ -692,7 +781,7 @@ Thanks Michel.</p>
 </div>
   <div class="comment card m-3">
 	<div class="card-body">
-		<div class="commentbody">The <!-- raw HTML omitted -->FontForge on Mac Ports<!-- raw HTML omitted --> can be installed for python2.6 or python2.7. Of course, it is not as recent as the github version but it does what I need.</div>
+		<div class="commentbody">The <a href="http://www.macports.org/ports.php?by=name&substr=fontforge">FontForge on Mac Ports</a> can be installed for python2.6 or python2.7. Of course, it is not as recent as the github version but it does what I need.</div>
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

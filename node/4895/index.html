@@ -82,6 +82,7 @@
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">MS Office on Windows interracts with Uniscribe, the MS Unicode Script Processor, which provides OpenType Layout support for specific scripts. The level of OTL support relies on the version of Uniscribe in use; the Office 2003 version of Uniscribe is the latest released by MS. To date, Microsoft's focus has been on complex script support, not on sophisticated typography in general, so things like smallcaps, automatic ligature substitution etc. are not currently supported. This will apparently change in the next version of Windows. <BR> <BR>Directionality is a character property, which effectively means there is no way to make private use area characters right-to-left except in private software, i.e. you can make a tool that will layout specific PUA characters right-to-left, but you cannot expect any other software to treat those characters the same way. This is why it is called the <i>private</i> use area.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -105,6 +106,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Dear John <BR> <BR>I imagine that by tool you do not mean simply a keyboard ? <BR>So if I understand well, the only way to input RTL in Word is to let him think that what I am typing is arabic (or hebrew) ? <BR> <BR>Etienne</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -128,6 +130,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Yes, by tool I meant some kind of text layout application or plug-in to another application, essentially something that would perform the role that Uniscribe performs for standard characters for your non-standard private use characters. <BR> <BR><i>So if I understand well, the only way to input RTL in Word is to let him think that what I am typing is arabic (or hebrew) ? </i> <BR> <BR>Or Syriac or Thaana. What is it that you are actually trying to do? If you are working with a script that is not yet encoded in Unicode but which would be a candidate for encoding, there may already be a proposal in the works and I could put you in touch with people working on this.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -151,6 +154,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Etienne, I just read the other thread and note that you are interested in Sogdian. My recommendation is to use the Unicode Syriac characters, since this will provide the closest transcription: the Unicode Syriac block includes special characters used to write Sogdian in the Syriac script, suggesting that there should be a one-to-one linguistic mapping of Syriac with the Sogdian letters that you want to support. Sorry I don't know more about Sogdian per se.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -174,6 +178,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Dear John <BR> <BR>I can see from microsoft (<a href="http://www.microsoft.com/typography/otfntdev/arabicot/shaping.htm" target="_blank"><a href="http://www.microsoft.com/typography/otfntdev/arabicot/shaping.htm">http://www.microsoft.com/typography/otfntdev/arabicot/shaping.htm</a></a>) : <BR> <BR> <BR>How the Arabic shaping engine works    <BR> <BR>The Uniscribe Arabic shaping engine processes text in stages. The stages are:  <BR> <BR> <BR> <BR>Analyzing the characters for contextual shape.   <BR>Shaping (substituting) glyphs with OTLS (OpenType Library Services).  <BR>Positioning glyphs with OTLS.  <BR> <BR> <BR> <BR> <BR>but &quot;where&quot; is the OTLS ? in the font or in Windows system ? (or in Word ?), that is can I modify it or not ? <BR> <BR>To answer to your suggestion : arabic is OK, as Sogdian has far less letters than arabic and arabic IME's far more frequent than the syriac. The sogdian language was indeed transcribed in syriac by nestorians for liturgical means but it is a different issue : we are dealing here with the script, and more precisely, the way letters connect or not with each others. In this regard syriac might be interesting as I can see that it has a predefined OT features (med2) for letters non connecting to the left, that is exactly what I need.  <BR>But basically the problem is the same: if the list of letters with their connecting characteristic is within Windows or Word IME, I cannot modify them, while if it is in the font I can do it, with arabic or syriac. <BR> <BR>Or may be should i write a long calt feature, to modify the result of the init medi fina in the way i want, replacing the non connected arabic waw by the connected sogdian waw, the connected arabic (farsi) peh by the unconnected sogdian peh and so on ? <BR> <BR>Etienne</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -197,6 +202,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><i>&gt;Directionality is a character property, which effectively means there is no way to make private use area characters right-to-left except in private software</i> <BR> <BR>Unless you use bidirectional override as specified in the Unicode standard. The Unicode control character &quot;Right-to-Left Override&quot; (U+202E) forces the text to be entered right-to-left until the end of the paragraph or until you pop (U+202C) the default directional formatting. The text engine must in that case take no notice of the code points of the characters when setting the input and rendering direction. <BR> <BR><a href="http://www.unicode.org/reports/tr9/#Explicit_Directional_Overrides" target="_blank"><a href="http://www.unicode.org/reports/tr9/#Explicit_Directional_Overrides">http://www.unicode.org/reports/tr9/#Explicit_Directional_Overrides</a></a> <BR> <BR>It is possible to see this behavior in a simple application like notepad in Windows. If you have activated RTL support in the system, you will have a context menu for inserting those and other control characters. This is also true for all text fields in applications that use this system function. <BR> <BR>MS Word, at least the 2003 version, has problems handling control characters. It prefers to keep the &quot;intelligent&quot; BiDi direction even if you insert a control character. <BR> <BR>It is, in theory, possible for a &quot;non-private&quot; application to let you force RTL or LTR on a style format level. Either for a run of characters or for paragraphs. Word processors like later versions of MS Word or OpenOffice Writer has the possibility to specify RTL in styles, but that seems to only influence the direction of arrow keys, put the pilcrow to the left etc., while the input direction still is bidirectional. <BR> <BR>A BiDi override on a markup level has been defined in the HTML standard since 1998 and it has been supported by browsers for a long time now. <BR> <BR>/m</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

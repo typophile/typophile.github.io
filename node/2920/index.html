@@ -82,6 +82,7 @@
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">You are making a Type 1 font, yes? In FontInfo/Encodings try selecting 'Bitstream Font Set' in the Microsoft Character Set. This is a strict cell-by-cell encoding of what you have in your FontLab font window in Names mode.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -105,6 +106,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Right, Type 1 &ndash; I thought that way I could just keep Monotype's hinting and not worry about it.  <BR> <BR>Thanks for the tip. I'll definitely try that.  <BR> <BR>I'm a little lost on what it actually means, though. What does the Character Set option do to the encoding? And how does one decide which set to select?</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -128,6 +130,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">The Character Set option determines how the first 256 characters in the font are interpreted, and whether they are re-ordered. If, for example, you select 'Western (Latin 1)&hellip;' the characters will be re-ordered to match that character set. The Bitstream Font Set is a fixed encoding that is not re-ordered, hence its usefulness for making custom fonts. <BR> <BR>&lt;i&gt;And how does one decide which set to select?&lt;/i&gt; <BR> <BR>Years of painful experience.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -151,6 +154,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">But why does the ordering matter?  <BR> <BR>I thought the point of the encoding table was to match a standard set of names with glyphs. Unless the ordering alters which name is paired with which glyph, how does it affect the application? <BR> <BR>I tried your advice, and using the Bitstream Character Set results in a font that works fine for applications that operate under Classic in OS X. But it still produces weird results in OS X proper (in both Carbon and Cocoa apps). E. g., the same file comes up correct in Endnote 5, but not in Endnote 6. It's even worse in Mellel and Word. <BR> <BR>For some reason, InDesign seems to get everything right, EXCEPT the character that was mapped to nbspace (00A0). <BR> <BR>Unfortunately, until everything is Unicode compatible, I have to find a solution.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -174,6 +178,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">OK, I've made some headway on this.  <BR> <BR>Two things that helped: <BR> <BR>1.  I went back to an old postscript Type 1 version of the font issued with GreekKeys, &quot;Athenian&quot; (circa 1991) and saved the encoding, which I then used for the new remapped fonts. <BR> <BR>2.  Following John Hudson's advice, I changed the Microsoft Character Set in Font Info (under Encoding and Unicode) to &quot;Bitstream Font Set,&quot; to enforce the encoding. <BR> <BR> <BR>This was sufficient to get rid of the problem with iota acute and the Euro symbol swap. (In the old encoding, iota acute is in the &quot;currency&quot; slot.) <BR> <BR>But it did not get rid of the missing omega lenis acute (which occupies the nbspace slot) in certain applications. After extensive testing, here is what I discovered: <BR> <BR> <BR>A.  What is crucial to the GreekKeys keyboard is the *index* number of the glyph. Therefore, you have to have a glyph for every glyph in the Athenian font (all 217 of them), and they have to be in the right order.  <BR> <BR>To get this, you have to start by appending an empty slot named &quot;.notdef&quot; which has the first index; and then paste each of the glyphs into a new font window, in the order their names appear in the GreekKeys encoding in Names mode. <BR> <BR>B.  But it also appears that the font can *not* have *more* than 217 glyphs. (When I did, the letters collapsed on each other in both Word X and FrameMaker 7. I still don't understand why this happened.)  <BR> <BR>So to solve the omega lenis acute problem, you have to replace an existing character, such as the backslash, in Names mode; then switch to Index mode, and drag and drop the appended glyph to the index slot occupied by backslash (59); and then *delete* the backslash glyph, which is not in index slot 60. Then return to Names mode and generated the Mac suitcase. <BR> <BR>Anyway, that's what I did. Here are the results: <BR> <BR> <BR>Everything works fine in BBEdit, Word X, FrameMaker 7, and Endnote 6. The normal omega lenis acute is missing in InDesign and Mellel, but the secondary one substituting for backslash works fine. (Iota acute, as noted, works fine.) <BR> <BR>One oddity is that Mellel screws up on two other characters: eta acute iota subscript and eta asper iota subscript. (It swaps them with pi and Omega, respectively, from some symbol font.) <BR> <BR>On the other hand, my legacy documents are likely to go straight into InDesign. In Mellel, one can (and should) use a unicode version. <BR> <BR>Best, Victor</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

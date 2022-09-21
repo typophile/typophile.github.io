@@ -83,6 +83,7 @@
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Nicholas,  <BR> <BR>I have run into the same problem. I'm pretty sure that the ftxenhancer application has a bug so it assignes wrong names to wrong features. It's essentially &quot;off by one&quot;. In a font I was trying to build, it assigned the small caps feature to the standard ligatures caption, the standard ligatures feature to the discretionary ligatures caption, the discretionary ligatures to the swash caption etc.  <BR> <BR>You may have luck by decompiling the font using TTX (<a href="http://www.font.org/software/ttx/" target="_blank"><a href="http://www.font.org/software/ttx/">http://www.font.org/software/ttx/</a></a> ) and manually correcting the &quot;feat&quot; and &quot;name&quot; tables.  <BR> <BR>Adam</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -106,6 +107,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Yes, it is a bug in ftxenhancer. It is assigning each item in the <b>feat</b> table a value from the <b>name</b> table that is one too high. For example, if it should give you item 271 from the table, it's giving you item 272 instead. I'm guessing the code incorrectly started counting items at 1 rather than 0. <BR> <BR>You can work around it (and I do) by dumping the <b>feat</b> table as XML, fixing the ID references, and then fusing it back into place. If you automate this with a script, it's not so bad. <BR> <BR>Use: <BR> <BR>1. <b>ftxdumperfuser -t feat -o myname.feat.xml -f 'My Font Full Name' myfont.dfont</b> <i>(or myfont.ttf or whatever)</i> <BR> <BR>2. Edit the table with BBEdit or whatever. You're looking for lines that start with <b>featType</b>; you'll have one for each feature type in the font. Here's an example from one of my fonts: <BR> <BR>&lt;featType type=&quot;10&quot; settingCount=&quot;4&quot; settingOffset=&quot;00000080&quot; flags=&quot;8000&quot; isExclusive=&quot;YES&quot; nameIndex=&quot;263&quot; name=&quot;Vertical Position&quot;&gt; <BR> <BR>Subtract one from the &quot;nameIndex&quot; property. In this case, 263 would become 262. <BR> <BR>Don't edit the <b>featSelector</b> items (which are the specific actions in your font), however!! Their indexes are correct. <BR> <BR>3. <b>ftxdumperfuser -t feat -d myfont.feat.xml -f 'My Font Full Name' myfont.dfont</b> <BR> <BR>That's it. <BR> <BR>Note that the only difference in the two command lines is the -o vs. -d flag. Also, if you're not using a multi-font suitcase (.dfont), you can omit the -f 'My Font Full Name' part of the command. <BR> <BR>Brent</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -129,6 +131,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Also, a (perhaps?) little-known fact: your TrueType fonts can support both OpenType and AAT features at the same time; they each are stored in separate tables in the font file. <BR> <BR>Generate your font as a .ttf or .dfont with OT features from FontLab or wherever, then post-process with the ftx tools to add your desired AAT features. <BR> <BR>It's double the work, but until Apple adopts OpenType in its native text routines, it's a way to provide typographic functions in both InDesign and Apple apps (such as Pages).</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -152,6 +155,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Brent,  <BR> <BR>I will jump in here with some breaking news. We at Fontlab Ltd. have just released TransType Pro 3, a new professional font converter: <a href="http://www.fontlab.com/" target="_blank"><a href="http://www.fontlab.com/">http://www.fontlab.com/</a></a>  <BR> <BR>One of its very cool features includes the conversion of GX/AAT advanced typographic features into OpenType features. The converted font that TransType outputs will contain only the OpenType layout tables, but a following scenario is possible:  <BR> <BR>1. You use FontLab 4.6 to create a font in OpenType PS (.otf) or OpenType TT / TrueType (.ttf) format without any features.  <BR> <BR>2. You create a MIF file that contains GX/AAT features and add them to the font using ftxenhancer. If needed, you correct the bugs produced by ftxenhancer.  <BR> <BR>3. You use TransType Pro 3 to convert the OpenType font with GX/AAT features into a font with OpenType features. The conversion does not 100% of all GX/AAT features, but a quite fair number, including some contextual features. I believe you can convert directly into FontLab's VFB format as well that will include the OpenType features code in source FEA notation but have not been able to verify it now.  <BR> <BR>4. (Optional) You open the font in FontLab. FontLab will decompile the OpenType features into source code and you tweak them manually. You generate a new OpenType font that includes the OpenType features.  <BR> <BR>5. You use ftx enhancer once again (with the same MIF file) to add the GX/AAT features to the new font. The resulted font will include both OpenType and GX/AAT features.  <BR> <BR>If you use the process, you will end up with only needing to write the MIF file from scratch. TransType Pro 3 will generate the OpenType features for you.  <BR> <BR>And to answer your questions in advance: TransType Pro 3 does not do the features conversion in the other direction, i.e. from OpenType features into GX/AAT features.  <BR> <BR>Regards, <BR>Adam Twardoch <BR>Fontlab Ltd. <BR> <BR>Ps. See you at TypoTechnica in London! I'm leaving to the airport in an hour <IMG SRC="http://www.typophile.com/forums/clipart/happy.gif" ALT=":-&#41;" BORDER=0></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -175,6 +179,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">&gt; I believe you can convert directly into  <BR>&gt; FontLab's VFB format as well that will  <BR>&gt; include the OpenType features code in  <BR>&gt; source FEA notation but have not been  <BR>&gt; able to verify it now.  <BR> <BR>Sorry, I was mistaken. This is not possible. TransType Pro 3 can convert *from* FontLab VFB but not into this format. Not however that TransType Pro 3 includes a similar conversion engine as FontLab Studio 5 so those of you who don't want to wait for FontLab Studio 5, can save their fonts in FontLab into the VFB format and use TrT Pro to generate their fonts.  <BR> <BR>Adam</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -198,6 +203,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Adam: <BR>What does TransType do with GX variations?</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -221,6 +227,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">In OS 8.6; <BR>By default, the AAT Font Tool adds features for Icelandic Ligatures, Multiply glyph and Hyphen to Minus. The AAT Font Tool does not append the Dipthong Ligatures feature, but its predecessor the GXifier does. <BR> <BR>To add the Dipthongs feature, append this MIF;  <BR> <BR>Type			LigatureList <BR>Name			Ligatures <BR>Namecode		1 <BR>Setting		Dipthong Ligatures <BR>Settingcode		10 <BR>Default		no <BR>Orientation		HV <BR>Forward		yes <BR>Exclusive		no <BR> <BR>List <BR>	ae			a e <BR>	oe			o e <BR>	AE			A E <BR>	OE			O E <BR> <BR>Fontographer does strange things with fonts. In the test font, it deleted Multiply and y acute, but when the same font was saved as in TypeTool and AAT-enabled, the Icelandic Ligs, Multiply and Minus features worked. <BR> <BR>Re: FontLab <BR> <BR>Adam,  <BR>a feature request for FontLab or TransType Pro 3;  <BR>maybe it's too much to ask, but it would be very useful if an AAT font could be converted to a dual-format AAT/OT font in a single step.  <BR> <BR>Also, FontLab opens GX/AAT variations fonts, but can it create a variations font? If not, is there any chance of adding this? GX Variations are potentially very useful, but I</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -82,6 +82,7 @@
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">FontLab decompiles the actual OpenType Layout tables in the font, but cannot always recompile them because of limitations in the decompiling/recompiling process. Subtables are not recognised during decompiling, for instance, or the font contains OTL lookup types that the Adobe FDK code in FontLab cannot compile.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -105,6 +106,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">FontLab 4.6 is great for developing new OpenType fonts but if you're trying to modify somebody else's OpenTypes, you will likely hit the problems that you describe.  <BR> <BR>Also, there is no universal solution for that. Not all OpenType Layout features can be expressed in the Adobe FDK for OpenType source code that FontLab internally uses.  <BR> <BR>One of the new features of FontLab Studio 5 will be  the ability to leave OpenType Layout tables in binary form when opening OpenType fonts. FontLab will have an option to decompile the features or not, and when generating the font, you will be able to select whether to use the stored binary tables or the features recompiled from the source.  <BR> <BR>This will enable the user to perform smaller modifications to existing OpenType fonts (changing glyph names, adding glyphs, modifying outlines) even if the OpenType features embedded in the font cannot be expressed in source code &ndash; for example for Arabic fonts that use GPOS lookups.  <BR> <BR>But this will be in FontLab Studio 5. With FontLab 4.6, the only sensible solution is to open the OpenType font in FontLab, completely reset the features in the OpenType table, perform the modifications (do not reorder any glyphs!) and generate a new OpenType font. Then, use TTX (<a href="http://www.font.org/software/ttx/" target="_blank"><a href="http://www.font.org/software/ttx/">http://www.font.org/software/ttx/</a></a> and <a href="http://www.letterror.com/code/ttx/" target="_blank"><a href="http://www.letterror.com/code/ttx/">http://www.letterror.com/code/ttx/</a></a> ). Convert both the old and the new fonts into .ttx files by dropping them onto the TTX icon. Open them in a text editor (e.g. UltraEdit-32 on Windows, BBEdit on Mac) and copy the XML code for the tables GSUB, GPOS and GDEF from the old font's .ttx file to the new font's .ttx file. Finally, convert the new font's .ttx file into an OpenType font by dropping the .ttx file onto the TTX icon.  <BR> <BR>Regards, <BR>Adam Twardoch <BR>Fontlab Ltd.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -128,6 +130,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">I wrote: &quot;reset the features in the OpenType table&quot;, but I meant: &quot;reset the features in the OpenType panel&quot;.  <BR> <BR>Adam</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -151,6 +154,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Adam, thanks very much. <BR> <BR>The problem, of course, is the approximately 250,000 kerning pairs in this font (of which I</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -174,6 +178,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">It seems to me that the problem is that FontLab's decompiling can't handle subtable breaks. <BR> <BR>* * * * <BR> <BR>Charles, <BR> <BR>&quot;The problem, of course, is the approximately 250,000 kerning pairs in this font (of which I</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -197,6 +202,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">&quot;If you elect not to decompile the features, I imagine you can</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -220,6 +226,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">&gt;&gt; This is a fundamental misrepresentation or misunderstanding of the way class kerning works. &gt;&gt; <BR> <BR>Only if you take file size as the only important parameter <BR> <BR>&gt;&gt; In such a situation, using class kerning to represent your 15K pairs, even if it results in 250K virtual pairs, is usually more space-efficient than simply putting in 15K flat pairs. &gt;&gt; <BR> <BR>I</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -243,6 +250,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Actually, no, I'm not taking file size as the only important consideration. But performance isn't any slower with class kerning than with flat kerning, either. <BR> <BR>Note that the nightmare around untangling and rebuilding the kerning has to do with FontLab failing to re-instantiate subtable breaks. This would be a problem regardless of whether you use pairs or classes. <BR> <BR>&quot;It does seem to me that if someone paid more attention to the classes, the 15,000 pairs wouldn</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -266,6 +274,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Oops. In that last sentence, replace &quot;size-independent kerning&quot; with &quot;non-contextual kerning.&quot; <BR> <BR>T</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -289,6 +298,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">A subtile difference, I suppose. <BR> <BR>As to the difficulties of efficient class-based kerning, while I haven't done *class-based kerning*, I do have some experience with something similar. When we first used Plain TeX, you were limited in the number of kern + ligature commands you could have. The limit was only on the number of commands, so if you wrote &quot;kern f, d c e o q -5&quot; (I've forgotten the syntax), you had five pairs with one &quot;command&quot;.  Of course, we used this with a Linotron 202 &amp; it's proprietary fonts, &amp; there was no reason to assume that d,c,e,o,q all had the same left sidebearing (usually didn't), even though they all have the same shape. You'd have to run everything off &amp; take a look to be sure. A lot of work. <BR> <BR>Cheers, C</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -98,6 +98,7 @@
 <p><a href="http://typophile.com/node/37295">http://typophile.com/node/37295</a>
 <a href="http://blogs.adobe.com/typblography/atypi2006/atypi_Adventures_in_class_kerning.pdf">http://blogs.adobe.com/typblography/atypi2006/atypi_Adventures_in_class_kerning.pdf</a></p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -123,6 +124,7 @@
 		<div class="commentbody"><p>Most likely, the problem resides in your own defined kerning classes. The likely culprit is a duplicate glyph in two or more of your classes.</p>
 <p>We ran into this problem recently and found that the ae glyph was present in its own class (left and right position), and also present in a class e1 (e as the first or left glyph). Removing one of the instances solved the problem.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -147,6 +149,7 @@
 	<div class="card-body">
 		<div class="commentbody"><cite>a duplicate glyph in two or more of your classes</cite>
 Which should be quite easy to find via kerning assistance.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -175,6 +178,7 @@ In case of this script font i would omit classes, because there are only very fe
 Does anyone know what FL&rsquo;s output codes e.g. &ldquo;subtable (0x1ce1e)&rdquo; are meaning? Then it would be easy to find where the problem is, i think.</p>
 <p>Hmmmm&hellip;</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -198,6 +202,7 @@ Does anyone know what FL&rsquo;s output codes e.g. &ldquo;subtable (0x1ce1e)&rdq
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Are we certain that this error pertains to GPOS, and not to the &lsquo;kern&rsquo; table (and I do mean kern <em>table</em>, not subtable of GPOS)? This situation would make some sense if that is the case. There is a fundamental problem with the specification of the &lsquo;kern&rsquo; table, in that the length descriptor is a 16-bit unsigned integer (USHORT) with maximum capacity of 65536. But the number of pairs is also given as a USHORT, while the length of each entry is 6 bytes. So the length field will overflow whenever there are more than 10922 flat pairs (actually I think it is less than that because of some header info). Some tools, including FontLab, choke on this situation. But again, it is specifically with the &lsquo;kern&rsquo; table, not GPOS kerning. I think it is possible to toggle the use of a &lsquo;kern&rsquo; table when generating in FL, perhaps try playing with that and see if it makes any difference?</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -224,6 +229,7 @@ Does anyone know what FL&rsquo;s output codes e.g. &ldquo;subtable (0x1ce1e)&rdq
 <p>I <em>think</em> FontLab supports the subtable break code from the AFDKO, in which case that&rsquo;s what you need to do (with switching over to AFDKO being more of a last resort). Christopher Slye or Miguel Sousa from my team could advise more on the detailed tactics of how to do this, if one of them stops by soon. They&rsquo;re both at TypeCon right now, but I expect they&rsquo;ll be back online in a day or two.</p>
 <p>T</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -251,6 +257,7 @@ Does anyone know what FL&rsquo;s output codes e.g. &ldquo;subtable (0x1ce1e)&rdq
 As i mentioned above, in this special font the number of classes is rather limited. And in most classes only two glyphs are contained, thus the number of subtables is very limited, too.</p>
 <p>Thomas, i will try to get the newer AFDKO running&hellip; it seems to be the only promising way.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -279,6 +286,7 @@ Now i created new classes with  as many glyps in each class as possibe, even wit
 [WARNING] Start of new pair positioning subtable; some pairs may never be accessed: [&hellip; &hellip;] [&hellip; &hellip;]</p>
 <p>I think i can ignore that.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -303,6 +311,7 @@ Now i created new classes with  as many glyps in each class as possibe, even wit
 	<div class="card-body">
 		<div class="commentbody">You can ignore that, but it means that there are classes which contain the same glyphs. It’s easy for you to check that.
 Pieter</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -326,6 +335,7 @@ Pieter</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">You&rsquo;re right, i&rsquo;m sorry. I just forgot to check the classes at least before compiling&hellip; ;-}</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -352,6 +362,7 @@ Pieter</div>
 <p>Sure about the &ldquo;can ignore that&rdquo; part? The warning says <cite>Start of new pair positioning subtable; some pairs may never be accessed</cite>, so you better <em>not</em> ignore it unless you don&rsquo;t care if all your kerning pairs show up when using the font.  :D</p>
 <p>Karsten</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -379,6 +390,7 @@ Pieter</div>
 Thanks.</p>
 <p>Pieter</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

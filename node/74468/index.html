@@ -85,6 +85,7 @@
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">There are no special limitations on which glyphs should work, so there must be a bug in the code somewhere.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -123,6 +124,7 @@ You want the proper cursive joins as default behaviour, don&rsquo;t you?</p>
 </ul>
 <p>This to be used in combination with the &ldquo;ignore&rdquo; command for beginnings and endings.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -150,6 +152,7 @@ You might be right about a bug in the code, but it sure is hard ti find if that&
 <p>@Nick
 Granted that would be a solution, but would work best on fonts that have a more rigid structure. If you look at the top sample where no ligatures are used it does connect cleanly. But you don&rsquo;t get that same fluidity of strokes that having some ligatures allows. Since the connections are particularly long in this style fluid connections are much harder to attain without ligatures.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -173,6 +176,7 @@ Granted that would be a solution, but would work best on fonts that have a more 
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">What do the relevant <code>sub</code> lines in your OpenType scripting look like?</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -212,6 +216,7 @@ sub o' o' l' @End by o_o_l.start2;
 sub @Letter1 o' o' l' @End by o_o_l.end;</p>
 <p>} clig;</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -238,6 +243,7 @@ sub @Letter1 o' o' l' @End by o_o_l.end;</p>
 <p>See Karsten&rsquo;s explanation in this thread:
 <a href="http://typophile.com/node/19625">http://typophile.com/node/19625</a></p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -264,6 +270,7 @@ sub @Letter1 o' o' l' @End by o_o_l.end;</p>
 I think the way I&rsquo;m using ignore is still correct, but in a very different context from how its being used for random substitution which this is pretty much the opposite of. There is nothing random here that I&rsquo;m attempting. I&rsquo;m calling up very specific substitutions that just happen to work for a lot of ligatures. The ignore here is used only once and its purpose is to cause the o_o_l.start and the o_o_l.start2 ligatures to come in at the beginning of a line of text. Having the subs for the same ligatures in a contextual sequence (after @Uncon) above the ignore rule allows these same beginning versions to come in after either a space or an non-connecting letter as well.</p>
 <p>In the OT feature preview window its working fine. I still need to generate this and test in applications, but I think it will work.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -287,6 +294,7 @@ I think the way I&rsquo;m using ignore is still correct, but in a very different
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">What changes the A t to A_t and where is it in relation to the code you posted above?</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -315,6 +323,7 @@ The A_t is in the following OT classes:
 Other ligatures in the same classes work fine in the OT feature preview, but the 4 standard ligatures starting with an A don&rsquo;t. So if I were to type in Af to get the A_f ligature which, unlike the A_t,  has no right side connection then the connected version of o_o_l comes in… just the opposite of what it should. If I type it in as /A_f  which bypasses the OT feature preview sub rules for that glyph, then the correct o_o_l version comes in.</p>
 <p>It just seems like there is some sort of glitch with cap ligatures in the OT feature preview. I will try to test it in Illustrator tonight to see if it works in real life.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -338,6 +347,7 @@ Other ligatures in the same classes work fine in the OT feature preview, but the
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">OK. I did a quick test in Illustrator and am getting the same results as in the OT feature preview. So somewhere along the way its not working for the A_t  A_t_t  A_f and  A_f_t ligatures. I might need to write code specific to those ligatures if all else fails. Everything else seems to be coming in as it should though, so I just need to figure out that piece of the puzzle.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -365,6 +375,7 @@ Other ligatures in the same classes work fine in the OT feature preview, but the
 It&rsquo;s not about randomness, but explains &ldquo;ignore&rdquo; for intial and final forms.</p>
 <p>One problem with substitutions is that they don&rsquo;t work very well at the beginning or end of a line of text in a layout application, as apps use a non-character space there. So to get the substitutions to always work, it may be necessary for the end user to type an actual space at either end of a text string on a single line.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -396,6 +407,7 @@ ignore sub @All o' o' l';
 This essentially says ignore this substitution if there is any glyph of any kind before the sequence. Since at the beginning of a line you have no glyph, then the subtable does not &ldquo;catch&rdquo; this sequence as listed in the ignore statement.</p>
 <p>I do agree about the end of line context. An ignore statement will not work on an end of line. I&rsquo;ve never been able to get that to work. I can get an end of word sub if there is a space or punctuation following it. So for end of line subs the user will have to add this by selection in their layout app.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -422,6 +434,7 @@ This essentially says ignore this substitution if there is any glyph of any kind
 Top to bottom: Beginning of line connecting on right; connecting on left with ending on right; non-connecting left with connecting on right; and non-connecting on left with end form on right.</p>
 <p><img src="/images/old-images/subs_5913.gif" alt=""></p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -445,6 +458,7 @@ Top to bottom: Beginning of line connecting on right; connecting on left with en
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">I&rsquo;m having some trouble following the logic of your code, but it might help to put the stuff that deals with beginnings in a separate lookup from the stuff that deals with endings. At least that&rsquo;s what I do, and it works.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -468,6 +482,7 @@ Top to bottom: Beginning of line connecting on right; connecting on left with en
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">It is a little odd I suppose. It does work. I just got the cap ligature problem fixed as well, but I&rsquo;m not clear about why it didn&rsquo;t work right off. I put A_t and other A_ligatures at the top of the list in the clig feature before all the lookups. That seemed to do the trick. But why they need to come before these lookups and the other ligatures and glyphs didn&rsquo;t still seems a mystery.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -491,6 +506,7 @@ Top to bottom: Beginning of line connecting on right; connecting on left with en
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Cool font Professor Stephen. :)</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -514,6 +530,7 @@ Top to bottom: Beginning of line connecting on right; connecting on left with en
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Your name extends into the text that is contained in the message box, Charles. Probably because of the underscores.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

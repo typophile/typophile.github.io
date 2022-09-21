@@ -82,6 +82,7 @@
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Lucia,  <BR> <BR>I agree &ndash; this is simply a horrible and stupid limitation of OpenType. I really would like to know the person's name who developed the part of the OpenType specification that limited the size of a GPOS subtable to 64KB. <IMG SRC="http://www.typophile.com/forums/clipart/happy.gif" ALT=":-&#41;" BORDER=0>  <BR> <BR>I believe Thomas Phinney should have a solution on that problem. I hope he sees that and replies.  <BR> <BR>Regards,  <BR>Adam</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -105,6 +106,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">I think that yes, you need one or more subtable breaks. I know how to do them in the FDK, but I'm not sure how to do them in FontLab. Unfortunately, for the next week or more, I'm going to be busy finishing up some presentations and then travelling, so I don't have time to dig into this properly. <BR> <BR>T</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -128,6 +130,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">As far as I know, all you need to do is insert &quot;subtable;&quot; every once in a while. One of these every 100 lines or so should do it. This just helps break up the kern feature. I agree with Adam, this is a pretty pointless limitation, but fortunately there is an easy workaround. <BR> <BR>So your kern feature might look like this: <BR> <BR>pos T a -50; <BR>pos T c -55; <BR>subtable; <BR>pos T e -55; <BR> <BR>&hellip; etc. Don't forget that semicolon at the end of each line. <BR> <BR>Alan</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -151,6 +154,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Aha! <BR>I've wondered about this myself. Very helpful. <BR> <BR>On a related note, has anyone ever noticed that while previewing <BR>class based kerning in the OT preview window, FontLab will <BR>apply a small amount of kerning to a glyph within a class even <BR>if kerning has not been defined for the glyph? For instance, <BR>the &quot;ta&quot; pair within the OT preview window will appear to have <BR>kerning even though I haven't applied kerning to &quot;ta&quot;. I have <BR>however defined a kerning class for &quot;a&quot; and related accents. <BR>If i generate the font and check it in InDesign the kerning <BR>for the phantom pair of &quot;ta&quot; doesn't appear. This appears <BR>to happen with any of my kerning classes within the OT <BR>preview window. Hope this makes sense.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -174,6 +178,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">I've noticed other mistakes in the FontLab opentype kern feature preview. It comes up when I'm using opentype classes. If this is my 'kern' feature&hellip; <BR> <BR>feature kern { <BR>  pos [B] @_kernO2 16; <BR>  pos [A] @_kernO2 -12; <BR>  pos @_kernO1 @_kernI2 -12; <BR>} kern; <BR> <BR>and this are my classes&hellip; <BR> <BR>@_kernI2 = [B D E F H I K L P R]; <BR>@_kernO1 = [D O Q]; <BR>@_kernO2 = [C G O Q]; <BR> <BR>I'd expect the space between A and C to get smaller but instead it gets larger when I activate the 'kern' feature in the opentype preview. The kern occurs correctly in illustrator though, which is terribly frustrating because taking a round-trip to illustrator to check my class based kerning is not acceptable, but this seems to be the only way to check if I've coded my kern feature correctly.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -197,6 +202,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Thanks a lot to everyone. (to spent yours weekends giving us interesting answers&hellip;) <BR>I thought this was a silly question, but now I have the confirmation that it is a real problem! <BR> <BR>Alan, I have done exactly this way, trying also to separate data with a certain &quot;logic&quot;&hellip; But it doesn't work. <BR>And I have noticed the same problems with classes&hellip; <BR> <BR>Thomas, when you will be back again, I would be gratefull if you could explain more. How Adobe fonts manage to have this feature? By the way I have opened the Minion Pro (with both greek and cyrillic) and if I compile the OT features I get the same error message. Does this font behave correctly with the apllications? <BR> <BR>Best regards, <BR>Lucia</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -220,6 +226,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Say for instance I don't recieve the error message Lucia describes. <BR>Will the font still work if don't insert &quot;subtable;&quot;? <BR> <BR>I have a full featured OT font with 2200 standard kerning <BR>pairs and several kerning classes for use under the &quot;kern&quot; feature. <BR> <BR>The font seems to be working fine in InDesign. <BR>Is there a risk here? <BR> <BR>Thanks</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -243,6 +250,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">are there any ill effects of adding subtables to the kern feature? I was trying to follow along with the discussion on the OpenType mailing list a couple weeks back and got lost. can anyone explain this concisely?</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -267,6 +275,7 @@
 	<div class="card-body">
 		<div class="commentbody">Very short: (a) If some of your kern classes have overlapping content, FLS5 automatically inserts subtable breaks but will warn you that some pairs may never be accessed. (b) If you insert &ldquo;subtable&rdquo; manually to cope with too many kerning pairs and if the order of kerning pairs isn&rsquo;t right, then some kerning pairs may not make it into the font &ndash; and you don&rsquo;t even get a warning.
 The most complete description is in Adobe&rsquo;s <a href="http://partners.adobe.com/public/developer/opentype/afdko/topic_feature_file_syntax.html#6.b.iii">Feature File Syntax</a> document.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -290,6 +299,7 @@ The most complete description is in Adobe&rsquo;s <a href="http://partners.adobe
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">thanks for the explanation and the link, karsten. so my next question is what is the best workaround to avoid this problem? is it to not have overlapping content in kerning classes?</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -319,6 +329,7 @@ Whatever suffices you actually choose to indicate that a class is intended to be
 _z.1 then will be marked as leftside pair, _z.2 as rightside pair either in FLS5&rsquo;s Classes panel or Kerning Assistance panel.</p>
 <p>This however addresses only overlapping of kerning classes' content (a), but not excessive kerning (b) &hellip;</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -350,6 +361,7 @@ Here&rsquo;s what I plan to cover:
 <p>If you can hold until then, I believe it&rsquo;s going to be worth it.</p>
 <p>I would give some hints now, but this issue can&rsquo;t really be handled in a couple of posts. Sorry :(</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -375,6 +387,7 @@ Here&rsquo;s what I plan to cover:
 		<div class="commentbody"><p>Looking at <a href="http://typophile.com/node/7156#comment-49196">Alan&rsquo;s post above</a>, I just noticed that his example will generate a &lsquo;bug&rsquo;. A font with his code will compile, but the last pair (<code>pos T e -55;</code>) won&rsquo;t be accessible (and FontLab or the FDK won&rsquo;t warn you about this).</p>
 <p>The thing is, all pairs that start with the same LEFT class, must be all contained within the same subtable.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -400,6 +413,7 @@ Here&rsquo;s what I plan to cover:
 		<div class="commentbody"><p><cite>I plan to talk about this at length during ATypI’s TypeTech forum.</cite></p>
 <p>This is good news!</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -428,6 +442,7 @@ Here&rsquo;s what I plan to cover:
 <p>I saved it flat just out of curiosity. It&rsquo;s about 60,000 kern pairs stored that way. It takes ten minuets to load the font. Not the way to make it work.. I need the class kerning to work..</p>
 <p>How do I get rid of the gpos error ? This would be FL.. The new one.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -456,6 +471,7 @@ Here&rsquo;s what I plan to cover:
 <p>I tried a million different ideas and this was the only thing that worked..  The idea to avoid this kind of thing is color all the glyphs in a class and don&rsquo;t drag and drop those if there colored.</p>
 <p>Live a learn.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -486,6 +502,7 @@ Other discussion in random order, some more, some less useful &hellip;
 4 <a href="http://www.typophile.com/node/20550">http://www.typophile.com/node/20550</a>
 5 <a href="http://www.typophile.com/node/34558">http://www.typophile.com/node/34558</a>
 6 <a href="http://www.typophile.com/node/29125">http://www.typophile.com/node/29125</a> (added a remark)</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -511,6 +528,7 @@ Other discussion in random order, some more, some less useful &hellip;
 		<div class="commentbody"><p>tracking</p>
 <p>ChrisL</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -537,6 +555,7 @@ Other discussion in random order, some more, some less useful &hellip;
 <p>How I got into this boat without a paddle was Since I don&rsquo;t speak or write Russian or Greek I found books and kerned it that way.. Later I accidentally added some of those glyphs to classes. Don&rsquo;t do that cause that is a miserable error to recover from.</p>
 <p>My entire font is now class based only. It&rsquo;s working perfectly so far. It&rsquo;s up to 646,782 stored flat pairs but amazingly there is only a little over 2000 (2335) tables so far.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -565,6 +584,7 @@ Other discussion in random order, some more, some less useful &hellip;
 <p>I never added any subtables. If there is a error now the program all by itself, generated it.</p>
 <p>I don&rsquo;t know what is causing the error to avoid it. What am I suppose to do try to compile it after every kern?</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -598,6 +618,7 @@ Other discussion in random order, some more, some less useful &hellip;
 <p>I&rsquo;m pretty sure if you kern the font in the correct order you will only have two subtables. Single pair kerning then a subtable for sub class kerning then a subtable for class kerning in that order.</p>
 <p>And now you know.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

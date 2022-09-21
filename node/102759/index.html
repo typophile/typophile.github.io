@@ -87,6 +87,7 @@ Is this a good idea? I&rsquo;m pretty sure it&rsquo;s not!</p>
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">The only reason to include both is if you want to not only correctly display legacy texts that use the Unicode presentation form codepoints to hard code ligatures but also want to preserve that encoding in PDFs with text reconstructed from parsed glyph names. Personally, I think you are doing users a favour if you <em>don&rsquo;t</em> do this, and instead let parsed glyph names map back to the letter sequence ffi, rather than to the presentation form codepoint. So my recommendation is to use the &lsquo;f_f_i&rsquo; format name, but map that glyph to the Unicode presentation form.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -111,6 +112,7 @@ Is this a good idea? I&rsquo;m pretty sure it&rsquo;s not!</p>
 	<div class="card-body">
 		<div class="commentbody"><blockquote>Or maybe the entire font drawing machinery crashes.</blockquote>
 <p>Like [[http://download.oracle.com/sunalerts/1021068.1.html|this]]?</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -141,6 +143,7 @@ Is this a good idea? I&rsquo;m pretty sure it&rsquo;s not!</p>
 <p>What&rsquo;s missed with this thinking?</p>
 <p>EDIT &ndash; could one use {ccmp} to deconstruct legacy ligatures?</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -167,6 +170,7 @@ Is this a good idea? I&rsquo;m pretty sure it&rsquo;s not!</p>
 <p>{liga} is an OpenType Layout feature, which means it maps from glyphs to glyphs independent of the characters in the text string. So let&rsquo;s say you have the word &lsquo;office&rsquo;, encoded as a sequence of six Unicode Latin alphabetic characters; with the {liga} feature active it will display with the ffi ligature. Now let&rsquo;s say you have a document from some legacy process in which the word &lsquo;oﬃce&rsquo; is encoded as three alphabetic characters with a Unicode presentation form ligature character in the middle. In my scheme, both encodings are displayed with the &lsquo;f_f_i&rsquo; ligature glyph, one via the {liga} feature and one via the cmap table. The <em>only</em> difference between the two is that the use of the &lsquo;f_f_i&rsquo; glyph naming means that the Unicode presentation form ligature character will not be preserved in PDFs in which text strings are reconstructed from parsed glyph names; instead, Acrobat will parse the &lsquo;f_f_i&rsquo; ligature glyph in the PDF as representing the alphabetic character sequence ffi. And I think that is a Good Thing.</p>
 <p>I suspect we might be talking about different kinds of legacy encodings here. I&rsquo;m talking about mechanisms that used Unicode presentation form codepoints to represent common Latin ligatures. This is different from mechanisms such as Adobe&rsquo;s expert set PS Type 1 fonts, which used 8-bit encodings for ligatures. Such documents require character transform operations to be cleaned up and standardised as Unicode encoded text, but in that case my recommendation would always be that legacy encodings of a ligature surch as ffi should always be converted to the underlying alphabetic character sequence and never to the Unicode presentation form ligature codepoint.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -192,6 +196,7 @@ Is this a good idea? I&rsquo;m pretty sure it&rsquo;s not!</p>
 		<div class="commentbody"><p><em>could one use {ccmp} to deconstruct legacy ligatures?</em></p>
 <p>Deconstruct to what? Remember, OTL features affect only glyph display, not text encoding. There wouldn&rsquo;t be any point in decomposing a legacy ligature glyph to underlying alphabetic glyphs only to recompose to a ligature glyph, all the while preserving that legacy codepoint in the text string.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -218,6 +223,7 @@ Is this a good idea? I&rsquo;m pretty sure it&rsquo;s not!</p>
 <p>John, practically speaking, and as far as I see (which may not be far enough), the only situation that would arise is when you&rsquo;re taking text from a pdf file. As you say, with ligatures, anything that relied on the older Mac or Windows OS had fibs for character encodings. The old TeX used proper ligaturing, though I&rsquo;m not sure how that wound up in a pdf file; the ASCII file would just have the base characters.</p>
 <p>Where I&rsquo;m lacking, aside from what might be wrong with the above, is just what can get into a pdf file, esp. the older ones. From time to time we do get in jobs where we have to extract the text from a pdf and then reset. But the extraction of the text is in the &ldquo;not my job&rdquo; department.  I would think Theunis has done as much or more of this than most of us, so I was trying to figure out how the situation he described could arise.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -246,6 +252,7 @@ So when I encounter these glyphs, I find-and-change them to regular text.</p>
 <p>I am working on a basic font creation program and was asked whether it should (a) allow the above anyway, as it is merely a question of interpretation and should be left to the font creator, (b) remove the few Unicodes for &lsquo;hardcoded&rsquo; ligatures so the user can only create them through the {liga} feature, or (c) basically point (b) but <em>also</em> automatically add the ligatures as single Unicode glyphs.</p>
 <p>From a technical point of view I&rsquo;d say (b), because the Unicode ligatures were actually a <em>very</em> bad idea – in my informed opinion :-) – and this effectively prohibits the user making bad mapping decisions.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -273,6 +280,7 @@ So when I encounter these glyphs, I find-and-change them to regular text.</p>
 		<div class="commentbody"><p><cite>So my recommendation is to use the &lsquo;f_f_i&rsquo; format name, but map that glyph to the Unicode presentation form.</cite></p>
 <p>This will not work the way you think it is; if the glyph is encoded that code point will be used regardless of the glyph name (which is the right thing to do; if you have a code point why second guess it?). At least the PDF readers and text extraction utilities I tested do so. However, you might still get back an <f><f><i> sequence in this particular case because some tools are smart enough to understand those legacy presentation forms and decompose them.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -298,6 +306,7 @@ So when I encounter these glyphs, I find-and-change them to regular text.</p>
 		<div class="commentbody"><p>Charles, what gets into a PDF &ndash; and hence what you can get out of a PDF &ndash; depends on how the PDF is created. For quite a while now it has been possible to store original document character strings in the PDF, which is what a good PDF-export tool will do. This should remove all chance: the characters used to encode the original document correspond to the characters stored in the PDF (in practice, this might mean normalisation of some kind, and I&rsquo;ve had mixed results when dealing with complex scripts).</p>
 <p>The whole glyph name mapping thing is only important when you&rsquo;re dealing with a PDF that has been distilled from a print stream: either a print-to-PDF function or distilled from a .ps file. In that case, the original document character strings are not available, because all Acrobat can get from the print stream is the embedded font and the glyph IDs. This is where Acrobat tries to parse the glyph names in the font to reconstruct the text.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -321,6 +330,7 @@ So when I encounter these glyphs, I find-and-change them to regular text.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Khaled, are you saying that if a) a document is originally encoded using alphabetic characters only, but displayed using {liga}, and b) the &lsquo;f_f_i&rsquo; glyph mapped in the {liga} feature <em>also</em> maps to the Unicode presentation form ligature, and c) a PDF is distilled from a print stream (rather than having the original character strings written to the PDF), then Acrobat will reconstruct the text as containing the presentation form codepoint and not the alphabetic sequence?</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -346,6 +356,7 @@ So when I encounter these glyphs, I find-and-change them to regular text.</p>
 		<div class="commentbody"><p>That is my experience (though not with legacy presentation forms since Adobe Reader decomposes them regardless of glyph name).</p>
 <p>On a second thought, it might be a problem in the PDF creation not in text extraction, the tools I tried don’t embed the names of encoded glyphs.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -378,6 +389,7 @@ So when I encounter these glyphs, I find-and-change them to regular text.</p>
 <blockquote> Older software may not, and may rely on the presence of the actual Unicode /ffi glyph.</blockquote>
 <p>Don&rsquo;t really think so. What software both used Unicode &amp; had non-OpenType ligaturing capabilities?</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -403,6 +415,7 @@ So when I encounter these glyphs, I find-and-change them to regular text.</p>
 		<div class="commentbody"><p><em>Adobe Reader decomposes them regardless of glyph name</em></p>
 <p>Which implies that my method is sound. The Unicode presentation form codepoints are mapped in the cmap table to representative glyphs &ndash; e.g. &lsquo;f_f_i&rsquo; &ndash; so that if such codepoints are encountered in text then they will display correctly. On the PDF side, it doesn&rsquo;t matter whether decomposition takes place by parsing glyph names or by normalisation of the presentation form codepoints to alphabetic characters: the result is the same, and there seems no point in providing duplicate sets of ligatures in a font with different names and mappings.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -426,6 +439,7 @@ So when I encounter these glyphs, I find-and-change them to regular text.</p>
 		<div class="commentbody"><p><cite>Which implies that my method is sound.</cite></p>
 <p>If you restrict yourself to Adobe products, yes. But I already have combinations of PDF creation and text extraction tool whee the one glyph solution does not work and you always get back the presentation code point.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -451,6 +465,7 @@ So when I encounter these glyphs, I find-and-change them to regular text.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Well, I&rsquo;ve never been one for complicating font production in order to accommodate what I consider bugs in other peoples' software. :)</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

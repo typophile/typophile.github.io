@@ -82,6 +82,7 @@
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Peter &ndash; <BR> <BR>I'm going to guess that what is happening is the translation from FOG to Postscript to FL. Postscript doesn't make a distinction about point types, coding only the coordinates of the on-curve points and the associated control points. If I'm not mistaken, PS doesn't handle decimal places, so coordinates are rounded to the nearest integer when a PS font is generated. Non-orthogonal curves and tangents are particularly susceptible to this. <BR> <BR>When FL reads the PS data from the font, I'm guessing that if the points aren't exactly colinear (due to rounding) that FL will not interpret them as tangent points per se. I would presume that your points and controls are still in the proper places (allowing for rounding). I'd be curious to see a screenshot with the control handles showing. For instance, did FL add a handle to the bottom side of that lower, outside curve point? <BR> <BR>I'm just starting the arduous transition to FL myself and am by no means an expert. Someone more technically savvy, like John Hudson, might have a better explanation. <BR> <BR>&ndash; Kent. <BR></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -105,6 +106,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Hi Kent, <BR>I know I read somewhere about different types of round points in FL.  <BR>I thought I read it here at Typophile but I can't find it. <BR>But even if that's the case, I would  <BR>like to know which curve points are tangent like points by just looking.  <BR> <BR>Here's a closer example (Fog version to the left).<img src="http://www.typophile.com/forums/messages/4101/11137.gif" alt="tangent2"> <BR>Sorry about the large image, but otherwise it's hard to see. <BR>/p</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -128,6 +130,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Peter &ndash; <BR> <BR>I've been thinking about this and spending some time with the FontLab manual.  <BR>I had an insight that I think might help. <BR> <BR>The FOG model is point-based. But the FontLab model is segment-based.  <BR> <BR>What I mean is that in FOG you are usually focused on what kind of point  <BR>you're placing. Whereas in FL, the emphasis is on what kind of line segment  <BR>is being operated on. FOG has three kinds of points &ndash; corner, curve, and  <BR>tangent. FL doesn't make these distinctions. <BR> <BR>FL distinguishes between two different kinds of line segment &ndash; a straight line  <BR>(which they also call a <i>vector</i>) and a curve (a bezier curve). A curve is described  <BR>by four points &ndash; two end points on the curve (<i>nodes</i>) and the two bezier  <BR>control points on the handles. A straight line is controlled by only two nodes &ndash;  <BR>one at either end, with no control handles. <BR> <BR>FL also distinguishes two different kinds of transitions between line segments &ndash;  <BR>a node can either be a smooth connection or a sharp connection. <BR> <BR>So, if you have a curve meeting another curve, then the node will have two  <BR>control handles, one contributing to each of the two curves. If the connection  <BR>is smooth, then the two handles will be co-linear &ndash; that is, they are linked  <BR>and stay aligned with each other &ndash; so this kind of node is what FOG would call  <BR>a curve point.  <BR> <BR>If two curves meet and the connection is sharp, then the two control handles  <BR>can be moved independent from one another. This node would then constitute  <BR>a corner point in FOG. <BR> <BR>If two straight line segments meet, then the node does not have any control  <BR>handles and is necessarily sharp. This would also be considered a corner point  <BR>in FOG. <BR> <BR>If a straight line meets a curve, then the node will have one control handle on  <BR>the curve side. If the connection is sharp, then this control handle can move  <BR>any which way and the node would be considered a corner point in FOG.  <BR> <BR>But if the connection is smooth, then the control handle on the curve side  <BR>will be co-linear with the vector segment meeting up with the curve and will  <BR>only move in a line with this vector &ndash; and this is what FOG would call  <BR>a tangent point. <BR> <BR>Does this help? <BR> <BR>So, you need to notice whether the node between a straight line and a curve  <BR>is smooth or sharp. When it is selected, you will see off to the side of the  <BR>node either a circle (smooth connection) or an x (sharp connection). You can  <BR>also turn on all connection types for every node, whether selected or not, by  <BR>selecting the button from the View/Show Layers toolbar. <BR> <BR>So, for example, if you select the node on the top of the inside of your  <BR>counter, you will see whether it is a smooth connection or not. If it isn't,  <BR>then double click the node to toggle the connection style. When the connection  <BR>is smooth, then you can change the &quot;curve&quot; on the right side to a straight line  <BR>by selecting the right control handle of the node and deleting it. (Deleting  <BR>either control handle of a segment will convert it to a straight line vector, since  <BR>a curve needs to be defined by two control handles.) <BR> <BR>Once the right-hand segment is a straight line and the left-hand segment is a  <BR>curve and the node is a smooth connection, then the handle on the left will  <BR>only move in line with the straight segment and you will have, in effect, a  <BR>tangent point. <BR> <BR>I hope this makes sense and is helpful. <BR> <BR>&ndash; Kent. <BR></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -151,6 +154,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">To follow up on Kent's thorough description, I wanted to add that FL has an excellent way of keeping users on their toes with regard to what is allowed in the world of PostScript Type 1 fonts: <BR> <BR>FL doesn't let you form a curve by anything other than two points with control handles. In Fontographer, you're allowed to create a curve that has a BCP handle on one end, and an &quot;empty&quot; point on the other end. But this can produce errors, since it is effectively creating a point-on-top-of-point situation. FL shows you that this is happening by immediately introducing a complimentary BCP handle when you create a curved segment. It invites you to define the curve properly. <BR> <BR>FL also makes you aware of the nature of Type 1 curves, by making the &quot;closepath&quot; and start/end points a tangible part of the path. This can be disorienting at first, and seem like a hassle, but it reveals the nature of the curves and allows greater control. <BR> <BR>Lastly, if you turn on the &quot;connection type&quot; layer as Kent suggests, FL does another neat thing: when two consecutive BCP handles cross each other's paths, the connection type indicator flips to the opposite side of the point, notifying you that the curve is not constructed as well as it could be. <BR> <BR>Lastly lastly, setting the preferences to show points in color is another handy visual cue.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -174,6 +178,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Thank you Kent (and Alan) for the thorough explanation, I finally got it sorted out.   <BR>I realise that I will have to learn a whole new concept on how to work on my faces&hellip;sigh.  <BR>Or hoping for a more Fog-like interface in the upcoming versions. I guess it will have to be a gradual transition <BR></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -197,6 +202,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">&gt; In Fontographer, you're allowed to create a curve that has a BCP handle on one end, and an &quot;empty&quot; point on the other end.  <BR> <BR>And this is &quot;illegal&quot;? Are you sure? <BR>What a bummer. I use that structure all the time, mostly because it's much more elegant: less redundant data -&gt; more control. <BR> <BR>On the other hand, I have noticed that strange things happen when such structures are output as a TT font from Fog, for some reason. <BR> <BR>hhp <BR></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -220,6 +226,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Yes, Hrant. To the best of my knowledge, that is considered a Type 1 no-no. It's my understanding that BCPs are considered points, along with vertices. When you create a one-sided curve, you are invisibly creating a BCP on the opposite end of the curve. That invisible BCP (invisible in Fog, at least) is located directly on top of the vertex, so then you have a point-on-point situation. Whether or not this is as likely to cause spiking as two vertices on top of each other, I'm not sure. But it's worth staying away from it (yeah, it's annoying, I agree). <BR> <BR>Alan</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -243,6 +250,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Alan, could you post an illustration? I'm having trouble visualizing the situation you describe.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -266,6 +274,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Alan, Hrant &ndash;  <BR> <BR>I'm not a real Postscript jockey, but to the best of my <BR> understanding I'm not so sure that the one-bcp-handled  <BR>curve is necessarily &quot;illegal.&quot; The thing is that the  <BR>various Postscript <b>curveto</b> commands require a  <BR>set number of arguments, based on the assumption of  <BR>two handles and endpoints (actually, the first point is a  <BR>given, so generally only six arguments are required.  <BR>You can reference the T1 Font Format, Ch. 6, pg 52.) <BR> <BR>The thing about FL is that it constructs curves with the  <BR>same assumption. But if you create a single-handled  <BR>curve in FOG, all that means is that the generated PS  <BR>instruction will contain a few arguments whose values  <BR>are zero. There's no restriction or caution about these  <BR>arguments being non-zero, as far as I can tell. <BR> <BR>I think that since these arguments only seem to be  <BR>calculation values, this construction wouldn't constitute  <BR>any point-on-point sort of violation. But who knows  <BR>what happens when Hrant tries to convert to TT. <BR> <BR>But Hrant, you don't gain any worthwhile savings in  <BR>terms of data points in the actual PS-generated font.  <BR>Maybe a digit here or there, but who's counting? Again,  <BR>I don't know about TT. <BR> <BR>&ndash; K. <BR></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -289,6 +298,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">&gt; you don't gain any worthwhile savings <BR> <BR>I didn't mean in the actual font data, but in the user's head: when you're making/adjusting a curve, there's less to handle (at least up to a point). <BR> <BR>hhp <BR></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -312,6 +322,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Mark - I've attached a series of images demonstrating the issue with the BCPs. The first image is how you might construct a curve in Fog (the point with the red circle is &quot;empty&quot;). The second image is how this exact outline opens in FL 4.5. The yellow dot you see in the middle of that point is a BCP that is lying directly on top of its vertex. (This is how FL translates the &quot;empty&quot; point when the other side has a BCP.) The third image is ideally how it should be constructed. <BR> <BR>However, if what Kent says is correct, then this is all a moot point. But this is just how I've learned it. <BR> <BR>Alan <BR> <BR><img src="http://www.typophile.com/forums/messages/4101/11330.gif" alt=""></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -335,6 +346,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Even if it's actually legal, I guess it's still probably better to avoid &quot;empty&quot; curve-recieving points, at least in the final result. Hmmm, Python script, anyone? <BR> <BR>A similar thing (legal but ill-advised) is to leave off explicit inflection points (like in the spines of an &quot;s&quot;), although this is actually commonly done by some otherwise fine designers (if rarely in very obvious spots such as the &quot;s&quot; spines). One good reason to define all your inflection points explicitly is TT output/conversion - it consistently blows up, at least in Fog. But I think there are other reasons too. Fortunately, you can easily spot a missing inflection point: the BCPs will be on opposite sides of the curve. <BR> <BR>hhp <BR></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -358,6 +370,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">&gt;  Fortunately, you can easily spot a missing inflection point: the BCPs will be on opposite sides of the curve.  <BR>  <BR>FL 4.5 used to be able to point them out with the FontAudit layer turned on. But it doesn't work for me any more. Any idea why? (It also won't let me turn *off* checking for semi-horizontal and vertical vectors, even though it's unchecked in the prefs.) <BR> <BR>Alan</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -381,6 +394,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Alan &ndash; <BR> <BR>I've been noticing the exact same problem with font  <BR>audit. I appreciate the feature, but I wish turning off  <BR>the semi-horizontal and semi-vertical vector alert really  <BR>worked. Very annoying. <BR> <BR>From your diagram above, the Postscript instruction for  <BR>the first would end up something like <BR> <BR><b>0 0 -66 -81 -103 0 rrcurveto</b> * <BR> <BR>(Note: I'm assuming this is the bottom curve of a  <BR>counter and thus the direction is clockwise. I don't  <BR>know your actual coordinates, so this is just an  <BR>approximation based on the pixel dimensions of your  <BR>screenshot.) <BR> <BR>The instruction for the second would be more like <BR> <BR><b>-33 -37 -60 -44 -76 0 rrcurveto</b> <BR> <BR>I don't really follow the *math* for applying the Bezier  <BR>equation, so I don't know if those initial zeros in the  <BR>first instruction would pose any potential weirdness.  <BR>I do know that trying to geometrically construct a  <BR>single-handled bezier is a little odd. <BR> <BR>For whatever it's worth. <BR> <BR>&ndash; K. <BR> <BR>* I suppose, technically, this first instruction could even  <BR>be written as <b> 0 -66 -81 -103 vhcurveto</b>, but I bet  <BR>that would really lead to interpretive weirdness. <BR></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -404,6 +418,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><i>Even if it's actually legal, I guess it's still probably better to avoid &quot;empty&quot; curve-recieving points, at least in the final result.</i> <BR> <BR>Not least because this is illegal in a TrueType font, so if your outline is going to be the source for any TT format conversion such constructions should be avoided. The MS Font Validator will report such constructions as outline errors.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -427,6 +442,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">FontLab will convert &quot;single-handed&quot; cubic curve into correct TT curve using the alternative curve conversion algorithm. There was a problem with version 4.0.x and maybe early releases of the 4.5, but now it works fine. <BR> <BR>There is no trouble to render single-handed curve to series of short straight lines (as most rasterizes do before filling the outline), so I don't think PostScript or ATM will have any problems rendering these curves. <BR> <BR>Theoretically single-handed curves may cause a problem during conversion to the quadratics when this case is not separately handled, which means that I'd recommend to avoid this type of curves where possible. <BR> <BR>I think some algorithm may be developed which will convert single-handed curves to normal ones using some form of approximation. It might be a good example of nice Python programming in FontLab :-)</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -450,6 +466,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">&gt; I think some algorithm may be developed which will convert single-handed curves to normal ones <BR> <BR>But above that you wrote: &quot;FontLab will convert 'single-handed' cubic curve into correct TT curve&quot; so don't you have the algorithm already? <BR> <BR>BTW, a possibly related question: <BR>I'm curious, where did you get the factor of 0.55197 when making a &quot;perfect&quot; circle? <BR> <BR>hhp <BR></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -473,6 +490,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">&gt;But above that you wrote: &quot;FontLab will convert 'single-handed' cubic curve into correct TT curve&quot; so don't you have the algorithm already?  <BR> <BR>Well, you can convert single-handed curve to quadratic curve and back, but as a result you will get 2 cubic curves. I mean that I can imagine algorithm which will convert single-handed curve to one &quot;normal&quot; curve. Alan Dague-Greene provided good example of what I mean. <BR> <BR>&gt;I'm curious, where did you get the factor of 0.55197 when making a &quot;perfect&quot; circle?  <BR> <BR>Did we publish this number somewhere or you just draw a very big circle in FL? :-)  <BR> <BR>Actually I don't remember how it was calcualted in the early days of FL, but now I would do it this way (pardon my math): measure a distance (along x or y direction) from the point located at 45 degrees on a curve and a midlle point of the one-quarter curve. On a curve it is: R * (4 + 3 * X) / 8 [where X is a value we want to find], on a circle: R / sqrt(2). <BR> <BR>Finally our X is [in C math notation]: (8 / sqrt(2) - 4) / 3 <BR> <BR>Precise value is: 0.55228474983079339840225, which is quite close to the value we use in FL (and which history I don't remember).</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -496,6 +514,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">&gt; 0.55197 <BR> <BR>I saw it in some Python scripts that come with FL. <BR> <BR>&gt; now I would do it this way &hellip;. <BR> <BR>Nice. <BR> <BR>hhp <BR></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -519,6 +538,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Hmmm, I really want to follow this bit, but I'm not sure  <BR>what factor (= 0.55197) you're referring to, Hrant. So I  <BR>don't quite follow Yuri's explanation. Could you back up  <BR>a step and let me in on what you're calculating here?  <BR>Thanks. <BR> <BR>&ndash; K. <BR></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -542,6 +562,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">There is no way to draw a precise circle with the cubic Bezier curve, but it is possible to approximate it. You can draw a 1/4 of a circle (90 degrees) with a single curve with a minimal error: to do that you need to set a length of each BCP to that magical factor multiplied to circle radius. As an experiment you can draw a circle in FL (it will produce 4 curves) and measure the length of each curve's BCP. Then take a calculator and divide it to half of the curve's diameter. <BR> <BR>Btw, it looks that calcualtion in my previous message may not give the best approximation. It will place the middle point of the curve exactly on the circle, but total approximation error may not be minimal. To calculate the ideal &quot;factor&quot; you need to render a curve and then approximate it with the curve minimizing the <b>total</b> error. As I understand it is how we got the original value.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -565,6 +586,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Well, it's probably not really related to the main issue. But here's an explanation: if you draw a &quot;perfect&quot; circle (using the application's tool, or maybe a physical one and then trace it), and you measure the length of the BCP arms in each quadrant, they are about 0.552 of the whole length. This is the value required in cubic bezier math to get a &quot;perfect&quot; circle. BTW, &quot;perfect&quot; is in quotes because you really can't represent a true circle in beziers (of any order). <BR> <BR>The way this <i>might</i> be related to the main issue is this: if you were to convert a one-sided curve to a near-equivalent two-sided one, some sort of preset factor values might be the trick. <BR> <BR>hhp <BR></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -588,6 +610,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Okay, thanks; I thought that might be what you guys were talking about.  <BR> <BR>(I still don't quite understand how you derived your formula, but that's okay.) <BR> <BR>&ndash; K.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -611,6 +634,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Hi, <BR> <BR>I know that this is an old, dead thread, but I have an observation about tangent curves. <BR> <BR>As far as I know, FreeHand and Fontographer (both developed by Alstys) were the only PostScript drawing programs that have ever supported tangent curves</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

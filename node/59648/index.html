@@ -96,6 +96,7 @@ The left shows Layer 1 misaligned atop the Solid font; the right shows Layer 2 w
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Your hhea table metrics are inconsistent, which may account for this problem.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -119,6 +120,7 @@ The left shows Layer 1 misaligned atop the Solid font; the right shows Layer 2 w
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">John, thank you for catching the inconsistency with my hhea table metrics. I have corrected this within the Layer 1 font but continue to experience the misalignment problem.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -142,6 +144,7 @@ The left shows Layer 1 misaligned atop the Solid font; the right shows Layer 2 w
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Nice b!</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -168,6 +171,7 @@ The left shows Layer 1 misaligned atop the Solid font; the right shows Layer 2 w
 <p><cite>but layer 1 is set at a slightly higher baseline.</cite></p>
 <p>Not slightly. It’s the half of the edge of the triangle. I notice, that the sum of WinAscent and Win Descent (or Ascender and Descender) is bigger than the Font BBox height (1224); is this allowed? I am not sure. And the solid style minus the layer 2 style is the layer 1 style. I can imagine, that this subtraction has cut a key glyph, Photoshop or Illustrator uses for alignment, at the top. I am speculating, hope this is okay. I think, that I would test the font with a very basic character set; I mean, that I would remove first most characters from the font. Do you have tested it with the b as the only glyph, that is contained in it? For the case, that the different height of a key glyph is the cause, I would try to insert a mini dummy outline (which is likewise a triangle, but with an edge length of round about 1 unit, isn’t it?) into the key glyph.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -194,6 +198,7 @@ The left shows Layer 1 misaligned atop the Solid font; the right shows Layer 2 w
 <p>Here is how the three font files were created: 1) I made an <em>unmerged</em> font for production that contained all triangles (both those of layer 1 and 2) as separate contours; 2) I merged all contours into individual characters, creating the solid font, adjusted metrics, kerning, and hinting; 3) imported the metrics from the solid file into the original unmerged production file and deleted triangles in each character to form the layer 1 and 2 font files. Which is to say, I did <em>not</em> create one of the layer files, then use a transformation or contour substraction to yield the other layer file. I&rsquo;m not sure if that makes sense.</p>
 <p>Any suggestions for what to start with in terms of a basic character set for doing a diagnostic?</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -219,6 +224,7 @@ The left shows Layer 1 misaligned atop the Solid font; the right shows Layer 2 w
 		<div class="commentbody"><p>Having the OS/2 Win- metrics values sum to greater than the bbox is permitted, although Adobe avoid doing it. There are circumstances in which it is desirable, notably if one is releasing a font that is liable to be extended in future with additional scripts or stacked diacritics, and you want to be able to maintain metrics compatibility. In that case, it makes sense to build some leeway into the Win- metrics.</p>
 <p>However, if an application is using the bbox to calculate vertical alignment, which it might do for the first line in a text block, then the font with shorter descenders will be raised, as shown. One way around this would be to create a dummy glyph in the font that is the same height as the ascender in the taller fonts, e.g. the height of your Solid and Layer 1 b. This will make the bbox values compatible.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -247,6 +253,7 @@ The left shows Layer 1 misaligned atop the Solid font; the right shows Layer 2 w
 <p><cite>Any suggestions for what to start with in terms of a basic character set for doing a diagnostic?</cite></p>
 <p>If there is a key glyph, that Photoshop CS2 or Illustrator CS2 use for alignment, I doubt, that this glyph is not in the alphabet (without diacritics). I can imagine, that it is the H. (Edited: It can’t be the b, because its height is the same in solid and layer 1.) If the different alignment remains, after you have removed all glyphs, except from the alphabet, I would remove the small letters additionally and test again. Something like that. But make sure, that you don’t change the bbox height, when you remove the glyphs. So keep a glyph, that is not in the basic alphabet and make make sure, that its height is 936 units in all three fonts.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -270,6 +277,7 @@ The left shows Layer 1 misaligned atop the Solid font; the right shows Layer 2 w
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">The problem also appears in Photoshop CS3, but only, if you use a text frame. If you type text without a frame, it does not appear. And if there is a key glyph, it is not the H.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -345,6 +353,7 @@ end
 <p><cite>Nice b!</cite>
 Yes. It’s nice.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -370,6 +379,7 @@ Yes. It’s nice.</p>
 		<div class="commentbody"><img src="/images/old-images/Thanks_4117.png" alt="">
 Brilliant! I can&rsquo;t express how grateful I am to you for coming up with this fix. 
 And belated thanks to Tom for his comment on the b.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -393,6 +403,7 @@ And belated thanks to Tom for his comment on the b.</div>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Good job, Arno! The lowercase d makes sense: it is the traditional PS font ascender measurement.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -418,6 +429,7 @@ And belated thanks to Tom for his comment on the b.</div>
 		<div class="commentbody"><p>Damn it! There is a negative side effect. Photoshop renders the aligner in the modes <em>sharp, sharper, strong and rounded</em>. It even renders it, if all three nodes of the aligner are at the same position. It’s small, but visible.</p>
 <p>Perhaps the problem can be solved by copying the aligner to the same position and change the path direction of the copied one.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -462,6 +474,7 @@ Perhaps it isn&rsquo;t even the worst idea to so with all fonts of any family, t
 (I am tired and may have missed other occurrences of bounding box values in the font. Haven&rsquo;t tested on which of the box values apps actually rely. And braces of course should be larger/smaller signs.)</p>
 <p>Karsten</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -487,6 +500,7 @@ Perhaps it isn&rsquo;t even the worst idea to so with all fonts of any family, t
 		<div class="commentbody"><p>Arno: thanks for flagging the potential Photoshop issue. I&rsquo;ve created a couple of quick .psd&rsquo;s using PS CS2, setting the text by clicking and also within text frames, and haven&rsquo;t noticed any visible sign of the aligner with all the various aliasing methods. What version of the program were you using when you encountered this problem with the aligner being visible?</p>
 <p>Karsten: being very much a newbie to formal type design, I had to Google TTX to know what you were referring to! Thanks very much for your suggestion of using it to fine-tune the font min and max values. I will look into this.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -516,6 +530,7 @@ Perhaps it isn&rsquo;t even the worst idea to so with all fonts of any family, t
 <p>Andy</p>
 <p>Photoshop CS3 renders the aligner, but I assume, that Photoshop CS2 also does it. It probably is dependent from the text size, in which you test. Imagine, that the aligner has no content. At least I thought, that a line with a height of zero does not have content. So it may help to double the aligner and change the path direction of the aligner, which is on the top. I want to test that. But even if it works, now I cannot exclude anymore, that there are negative side effects. The way, in which Photoshop aligns the first line, is the problem, not your fonts.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -544,6 +559,7 @@ Perhaps it isn&rsquo;t even the worst idea to so with all fonts of any family, t
 <li>Joking.</li>
 </ul>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -571,6 +587,7 @@ Perhaps it isn&rsquo;t even the worst idea to so with all fonts of any family, t
 <p>Andy, if you use the 10-units-aligner, the minimum size, at which it is visible, is round about 110 Pixel. Try 300 pixel. And remember, that it aligns with the text frame. So hit the enter key, when you are ready with writing the d.</p>
 <p>You could build an OpenType feature, that substitutes a fake d with the real d. But remember all the non OpenType savy apps.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

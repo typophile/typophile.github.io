@@ -92,6 +92,7 @@
 </ol>
 <p>The result is a combining mark that will give good position over a preceding a, e or u &ndash; and perfect position over the o.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -117,6 +118,7 @@
 		<div class="commentbody"><p>I hope I wasn&rsquo;t far off: I was setting the left &ldquo;neighbor&rdquo; in FontLab as an o and aligning to that. (checks)  Yup, same result.</p>
 <p>I don&rsquo;t have much experience using combining diacriticals. When a font is used, how does that resulting accent end up in the correct spot over both a dotless i, capital W etc?</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -140,6 +142,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">What happens to below diacriticals in italics? Should I offset them as if they were under an italic o, in which case the below accents end up a bit further to the left or should they align with their upper counterparts. For example: uni030A (ring comb) vs. uni0325 (ring below comb)</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -166,6 +169,7 @@
 <p>Theoretically, lower diacritics in italics should be offset a bit to the left, just as the upper ones should be offset to the right. I use something like an old-style &lsquo;phi&rsquo; character &ndash; an &lsquo;o&rsquo; with a slighly slanted vertical line through it &ndash; to visually align diacritics. But that&rsquo;s only going to look perfectly on the o&rsquo;s, slightly less so on a, e, g, n, and u, and like crap on an i, f, m or w; it&rsquo;s the same here as with the roman accents, only angled slightly.</p>
 <p>Theoretically (again), you should use the Opentype &ldquo;mark&rdquo; and &ldquo;mkmk&rdquo; features, which are designed <em>exactly</em> to deal with this; but I find programming them incredibly difficult, and the output software I use (Adobe InDesign) still doesn&rsquo;t support these features to the level I need it to.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -192,6 +196,7 @@
 <p><cite>When a font is used, how does that resulting accent end up in the correct spot over both a dotless i, capital W etc?</cite></p>
 <p>these are the worst case scenarios, so I made them as precomposed characters with &ldquo;the usual accents&rdquo; and used &ldquo;rlig&rdquo; to look them up (I think nowadays I&rsquo;d probably use &ldquo;ccmp&rdquo;; only on principal grounds, &lsquo;cause I don&rsquo;t think it really makes that much a difference).</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -222,6 +227,7 @@ sub uni012B uni0301 by uni012B0301</p>
 <p>(and remember that in FontLab, for example, uni0301 might be named &ldquo;acutecomb&rdquo;, in which case the second item would be <em>sub uni012B acutecomb by uni012B0301</em>)</p>
 <p>which covers the two ways a user could enter the character. If you have a lot of these though, writing the ccmp feature can get pretty complex. See, for example, the ccmp for SIL&rsquo;s Charis.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -245,6 +251,7 @@ sub uni012B uni0301 by uni012B0301</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">I usually make precomposed glyphs for ones in Unicode and use &lsquo;mark&rsquo; feature for the rest, no one complained about &lsquo;mark&rsquo; so far, but fortunately FontForge makes it dead simple to build precomposed glyphs based on already in place &lsquo;mark&rsquo; anchors so it shouldn&rsquo;t be hard to support &lsquo;ccmp&rsquo; scenario if requested.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -276,6 +283,7 @@ sub uni012B uni0301 by uni012B0301</p>
 <p>Typical candidates for contextual kerning are base letters narrower than diacritics, as |f|i|j|l|r|t|.</p>
 <p><strong>4</strong>. Further improvement can be done with variations in combining diacritical marks: different glyphs for uppercase and lowercase use, for over and below positions and also for stacked diacritics (for example: dieresis and circumflex would be combined in a precomposed glyph where their design is changed to get better result).</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -304,6 +312,7 @@ sub uni012B uni0301 by uni012B0301</p>
 sub uni012B uni0301 by uni012B0301</cite></p>
 <p>I&rsquo;d have to have my OT code in front to check, but wasn&rsquo;t it possible with <code>ccmp</code> to first <em>decode</em> an i_macron glyph first into a &lsquo;loose&rsquo; i and macron, then <em>recode</em> them again as <code>i macron acute</code> to get your singular glyph &ldquo;i with macron and acute&rdquo;?</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -330,6 +339,7 @@ sub uni012B uni0301 by uni012B0301</cite></p>
 <p>As I remember, you can&rsquo;t sub many from one in OT features. But even if you could, you would loose your imacron &ndash; Unless you meant to break it apart, do all you combining with other accents, then rebuild it &ndash; which would be just as much work.</p>
 <p>At our shop, we solve the issue by running a script on an incoming manuscript, so every Unicode character with a codepoint is so encoded, even if the author used combining accents in the manuscript. That means I know imacron is already a single character. But a customer using a script isn&rsquo;t something a font designer can count on . . .</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -353,6 +363,7 @@ sub uni012B uni0301 by uni012B0301</cite></p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Thanks, everyone. It&rsquo;s all very helpful.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

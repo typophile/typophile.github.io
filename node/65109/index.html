@@ -89,6 +89,7 @@ Greece</p>
 		<div class="commentbody"><p>You can put all the ligatures into one liga feature, but you may need to break them into multiple lookup subtables. There is no practical limit on the number of substitutions you can associate with a feature (a feature is just a tag), but there are limits on the number of substitutions you can put into a single lookup table.</p>
 <p>What software are you using for the OpenType Layout?</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -120,6 +121,7 @@ Thanks a lot</p>
 Anagrafi
 Greece</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -152,6 +154,7 @@ you cant mix single with multiple subs in one lookup</p>
 there are some limitations
 to meny lookups, subs, marking, context, will prevent the font from compiling</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -177,6 +180,7 @@ to meny lookups, subs, marking, context, will prevent the font from compiling</p
 		<div class="commentbody"><p>Typograph, that isn&rsquo;t what I meant by &lsquo;multiple lookup subtables&rsquo;. I mean that lookups have a maximum size, and hence multiple lookups might be necessary for a very large number of e.g. ligature substitutions.</p>
 <p>I don&rsquo;t use FontLab for OpenType Layout work, so someone else will have to explain the syntax to separate lookups.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -213,6 +217,7 @@ to meny lookups, subs, marking, context, will prevent the font from compiling</p
 <p><code>} liga;</code></p>
 <p>With 1,200 ligatures, grouping them into separate lookups should also make them all a bit easier to manage.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -238,6 +243,7 @@ to meny lookups, subs, marking, context, will prevent the font from compiling</p
 		<div class="commentbody"><p>What is the maximum lookups in a subtable or is that even the right parameter to determine when to break into a new subtable?</p>
 <p>ChrisL</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -263,6 +269,7 @@ to meny lookups, subs, marking, context, will prevent the font from compiling</p
 		<div class="commentbody"><p>As I understand it, the limit is 64K per lookup. The issue most often crops up with the <code>kern</code> feature, which can become quite large even in modest-sized fonts. You&rsquo;ll usually know you&rsquo;ve hit the limit when your feature fails to compile and the error mentions something like &ldquo;offset overflow.&rdquo; (The <code>kern</code> feature is easier to deal with since it supports subtable breaks, so you can divide it into subtables with simple &ldquo;<code>subtable;</code>&rdquo; statements.)</p>
 <p>It&rsquo;s worth mentioning that the order of lookup subtables does matter, just as with the order of statements and features. There&rsquo;s actually a flaw in my example code above; the lookups should be in the opposite order. If &ldquo;<code>sub f i by fi</code>&rdquo; runs first, then &ldquo;<code>sub f f i by ffi</code>&rdquo; won&rsquo;t do anything since every instance of &ldquo;<code>f i</code>&rdquo; has already been substituted by &ldquo;<code>fi</code>&rdquo;. (Sure, &ldquo;<code>sub f fi by ffi</code>&rdquo; would work, but feels less elegant.) Be careful to keep potential conflicts such as this in mind when organizing your code.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -88,6 +88,7 @@ Will I have big problems with webfonts across platforms? Because that jagged loo
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">It should look better in IE9, which uses y-direction greyscale smoothing in combination with x-direction subpixel smoothing.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -115,6 +116,7 @@ Will I have big problems with webfonts across platforms? Because that jagged loo
 <p>It is also worth asking yourself how large you need to make the font before it works nicely. This will vary by font quite a lot. You will probably want to use it larger than that because people scale text up &amp; down in size a great deal these days.</p>
 <p>RE: IE9 - until IE9 has a genuinely dominant market share ( and even then!) this will still be an issue. Old browsers seem to take a long time to disappear.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -155,6 +157,7 @@ March	42.2 %	5.2 %	32.9 %	2.5 %	1.3 %	0.3 %</p>
 <p>As we see from the numbers people are slowly moving over to the new browsers (which I hope has some kind of smoothing)</p>
 <p>But most people will still see the webfonts jagged? Me not like.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -180,6 +183,7 @@ March	42.2 %	5.2 %	32.9 %	2.5 %	1.3 %	0.3 %</p>
 		<div class="commentbody"><p>Eben, the issue Edvino is pointing to isn&rsquo;t something that can be readily addressed at the font level. It is due to the fact that GDI versions of ClearType, as used in IE prior to version 9, apply subpixel smoothing in the x-direction but no smoothing at all in the y-direction. This is fine at small sizes &ndash; better, I would say, than applying y-direction smoothing at those sizes as it maintains stroke density &ndash; but at larger sizes the type will look jagged. No amount of font engineering will resolve this, because it is a renderer issue.</p>
 <p>IE9 uses the newer, DWrite version of ClearType, which smooths in the y-direction and so looks better at larger sizes.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -207,6 +211,7 @@ March	42.2 %	5.2 %	32.9 %	2.5 %	1.3 %	0.3 %</p>
 </blockquote>
 <p>Y Hinting maintains stroke density just fine. Y aliasing was an admitted and costly mistake.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -240,6 +245,7 @@ PUSHB_1
 SCANTYPE</p>
 <p>Would this help?</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -267,6 +273,7 @@ SCANTYPE</p>
 <p>Personally, I think the gasp table should be extended to allow a whole range of different, size-specific rendering possibilities, including control of both bitmap rendering and spacing. This would enable one not only to determine at what sizes and in which directions what form of smoothing would be applied or not applied, it would also allow us to snap to full pixel grids for spacing at specific sizes and allow intermediate sizes to float in subpixel positioning environments.</p>
 <p>However, the growing prevalence of pinch-zooming in mobile devices makes mechanisms that introduce non-linear text scaling unpopular among UA developers.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -292,6 +299,7 @@ SCANTYPE</p>
 		<div class="commentbody"><p>Eben, the issue here is hardcoded in GDI ClearType: it doesn&rsquo;t know how to do symmetric smoothing.</p>
 <p>If you look at the latest <a href="http://www.microsoft.com/typography/otspec/gasp.htm">gasp table spec,</a> you&rsquo;ll see that the same flags have different meanings when applied to &lsquo;Font Smoothing&rsquo; (non-CT aliasing/antialiasing) and &lsquo;ClearType with Symmetric Smoothing&rsquo; (as in DWrite ClearType). GDI ClearType effectively ignores the gasp table: it is a fixed state for all sizes: x-direction subpixel smoothing and y-direction aliasing. As far as I&rsquo;m aware, this can&rsquo;t be changed at the font level because when GDI ClearType was shipped Beat hadn&rsquo;t yet implemented symmetrical smoothing.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -320,6 +328,7 @@ SCANTYPE</p>
 <p>ES&gt;Who is &ldquo;admitting&rdquo; this? Why costly?</p>
 <p>who do you think would have to admit such a thing? See above for costly, compared to the Mac, where rendering may be disagreeable to Windows users, but they don&rsquo;t use the Mac, so who cares;)</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -347,6 +356,7 @@ SCANTYPE</p>
 <p>As for legacy problems, the only way to resolve them is to leave them further and further behind until the last person using IE6 on Windows XP is carried out in a box.</p>
 <p>I&rsquo;m more concerned with the new problems coming down the pipe to a user&rsquo;s computer near you, but which there may be time to address before they become entrenched legacy problems. You and I have both spent time recently creating fonts that are tailored to full pixel grids at specific sizes (sorry, mine not released yet and I can&rsquo;t talk about them), but that careful work is wrecked in subpixel spacing environments if those fonts are preceded in the line of text by fonts that are not designed to the grid: our full font grid gets shifted off the full pixel boundaries. That isn&rsquo;t a problem affecting thousands of fonts in circulation and in legacy environments: it is a problem affecting your latest attempts to deal with those older problems.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -374,6 +384,7 @@ SCANTYPE</p>
 </blockquote>
 <p>My latest attempts? (Are actually immune to all such things, entirely).</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -402,6 +413,7 @@ SCANTYPE</p>
 <p>Personally, I don&rsquo;t care about the platform. My contention has been -and remains- that it&rsquo;s disagreeable to the human reading system. The purist in me would add that it is also a waste of potential, hence culturally impoverished.</p>
 <p>hhp</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -425,6 +437,7 @@ SCANTYPE</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Hrant talking about the web, I assume, and I agree.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -452,6 +465,7 @@ SCANTYPE</p>
 </blockquote>
 <p>Hudson make funny. Richie LOL.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -479,6 +493,7 @@ SCANTYPE</p>
 </blockquote>
 <p>I wish it were the software alone, we are waiting fer ta die,  but unfortunately, on windows, it&rsquo;s also the resolution of the boxes.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -510,6 +525,7 @@ A pixel density of about 130 ppi - as I&rsquo;ve got on my wife&rsquo;s new HP S
 How soon and at what price we&rsquo;ll see large desktop screens like that, I have no idea.</p>
 <p>Retina-like 234 ppi on the desktop?  Well, I&rsquo;m also hoping for advances in medical science so&rsquo;s I can live to see it! I don&rsquo;t want to be the guy carried out in the box!</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -539,6 +555,7 @@ How soon and at what price we&rsquo;ll see large desktop screens like that, I ha
 </ol>
 <p>hhp</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -562,6 +579,7 @@ How soon and at what price we&rsquo;ll see large desktop screens like that, I ha
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">One thing to keep in mind about &ldquo;actual-expertise&rdquo; in crude media type designers, I know.;)</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -587,6 +605,7 @@ How soon and at what price we&rsquo;ll see large desktop screens like that, I ha
 		<div class="commentbody"><p>You mean like making Arabic work on an 8×7 grid, using byte code, which I did at 13?</p>
 <p>hhp</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -610,6 +629,7 @@ How soon and at what price we&rsquo;ll see large desktop screens like that, I ha
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Good for you. But I mean continuing on non-stop until that dang Arabic works at all sizes from a single outline font for all rendering techniques with modern OT technology and effects that are reactive to adaptive layout and user needs.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -636,6 +656,7 @@ How soon and at what price we&rsquo;ll see large desktop screens like that, I ha
 But each one of us has something to contribute.</p>
 <p>hhp</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -659,6 +680,7 @@ But each one of us has something to contribute.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Of course, but intsead of contributing stuff along the road, or making things that run on the road, we are stuck by the powers that be, building the surface, over and over, except when we are explaining it over and over.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -682,6 +704,7 @@ But each one of us has something to contribute.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">I think it is more the case that the powers that be keep introducing new surfaces, and the tanks that we built to go up the last gravel hill can&rsquo;t be used in the wooden velodrome.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -711,6 +734,7 @@ But each one of us has something to contribute.</p>
 <p>c) the lack of any directly compatible resolution between Windows and Mac;</p>
 <p>d) all of the above?</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -737,6 +761,7 @@ But each one of us has something to contribute.</p>
 <p>MS has paid dearly for developers to fix these issues to be better with deltas  in their system fonts, linking to a white lie about wanting to escape deltas. Those developers have collaborated in the distancing of system fonts from what can be reasonably achieved in web fonts for this area of windows users, and the liars have moved on to the inexpert typographic pastures they could never have left in a real meritocracy, leaving me alone to explain the truth at my own expense. I&rsquo;m just now finally warming to the task ;)</p>
 <p>b and c are tangential, and d&hellip; Not so much.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -760,6 +785,7 @@ But each one of us has something to contribute.</p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">@dberlow You are not alone. (+ different explanations are possible)</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -788,6 +814,7 @@ But each one of us has something to contribute.</p>
 <p>Did anyone claim that CT effectively triples the resolution of the device for the reader? There is no sense in which that statement can be understood as true. What CT does (and other subpixel rendering technologies) is to effectively triple the resolution available to the sampler and hence to representing the characteristics of the typeface design. Simply put, you triple the number of discreet addressable device elements, which means that aspects of glyphs which formerly would have to either distorted through rounding to a full pixel (aliased) or degraded through reduction in stroke density (greyscale antialiasing) can be rendered with less distortion and less degradation. This is most obviously seen in CT rendering of diagonal strokes, which were typically subject to most distortion or degradation in non-subpixel rendering.</p>
 <p>But then I&rsquo;m the one who has always said that antialiasing in general, and CT no exception, is primarily about making typefaces look like typefaces &ndash; What You See Is What Looks More Like Times New Roman Than Lego &ndash; and not about reading.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -817,6 +844,7 @@ But each one of us has something to contribute.</p>
 <p>where in a not atypical personal attack, my &ldquo;shelf life&rdquo; is questioned in the headline  by someone whose own shelf life in crude media lasted about .25 nanoseconds past his MS employment.</p>
 <p>I&rsquo;m up past my bedtime, or I&rsquo;d make your arguments look like Sarah Palins brain after an hour of debate with J.Q. Adams.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -844,6 +872,7 @@ But each one of us has something to contribute.</p>
 <p>Ergo, when you say ‘Regardless of GDI vs DW, and only on Windows below 100 dpi for readers at a normal distance for those screen sizes present, CT Does Not &ldquo;effectively triple the resolution&rdquo;’, I&rsquo;m left wondering where the insight is, because for the reader at whatever distance the resolution is what the resolution is, and no text rendering method changes that resolution. What changes is the relationship of rasterised outline to that resolution, which is based on an effectively tripled x-direction grid due to supersampling.</p>
 <p>Now, I&rsquo;m only responsible for my own opinions and my own precision, so if you&rsquo;ve found evidence of anyone else interpreting that triple resolution statement differently, on Wikipedia (!) or anywhere else, that&rsquo;s between you and them.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -881,6 +910,7 @@ introduces color artifacts.’</a></p>
 <p><a href="http://en.wikipedia.org/wiki/ClearType">‘If the computer controlling the display knows the exact position and color of all the subpixels on the screen, it can take advantage of this to improve the apparent resolution of the images on the screen in certain situations. If each pixel on the display actually contains three rectangular subpixels of red, green, and blue, in that fixed order, then things on the screen that are smaller than one full pixel in size can be rendered by lighting only one or two of the subpixels. For example, if a diagonal line with a width smaller than a full pixel must be rendered, then this can be done by lighting only the subpixels that the line actually touches. If the line passes through the leftmost portion of the pixel, only the red subpixel is lit; if it passes through the rightmost portion of the pixel, only the blue subpixel is lit. This effectively triples the horizontal resolution of the image at normal viewing distances; but the drawback is that the line thus drawn will show color fringes (at some points it might look green, at other points it might look red or blue). ClearType uses this method to improve the smoothness of text. When the elements of a type character are smaller than a full pixel, ClearType lights only the appropriate subpixels of each full pixel in order to more closely follow the outlines of the character. Text rendered with ClearType looks “smoother” than text rendered without it, provided that the pixel layout of the display screen exactly matches what ClearType expects.’</a></p>
 <p>I find the reference to ‘normal viewing distances’ odd and irrelevant, because what is clearly being discussed, from the rest of the text and from the accompanying illustrations, is what is happening in the rasterising, i.e. exactly what I said above: the resolution is effectively tripled for sampling purposes, which enables finer display of type characteristics such as the thin diagonal line illustrated in the article. Once again, note how CT is explicitly associated with ‘smoothness’, with text ‘looking “smoother”’, about the resolution of the ‘image’.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -907,6 +937,7 @@ introduces color artifacts.’</a></p>
 <p>And you don&rsquo;t like <em>my</em> tone?</p>
 <p>Anyway, I&rsquo;m looking forward to seeing you in New Orleans, on the basis that Cajun food and bourbon are better conduits of civil discourse and mutual understanding than online forums.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -930,6 +961,7 @@ introduces color artifacts.’</a></p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Decision decisions &hellip; Should we drink to stagnant standards, the terminally decimated middle classes of type, graphic and web designers, more Mordors and red ink, or the right to vacillate between all for one and one for all and all for naught and one for one ?</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -953,6 +985,7 @@ introduces color artifacts.’</a></p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Let&rsquo;s drink to Gerald.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -976,6 +1009,7 @@ introduces color artifacts.’</a></p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -999,6 +1033,7 @@ introduces color artifacts.’</a></p>
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Why not one for fellowship?</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

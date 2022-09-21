@@ -83,6 +83,7 @@
 	<div class="card-body">
 		<div class="commentbody"><p>I've since found a very inconvenient answer to #1. But it works and it could be automated (anyone?). <BR> <BR>1) Use TTX 2.0b1 <a href="http://sourceforge.net/projects/fonttools/" target="_blank"><a href="http://sourceforge.net/projects/fonttools/">http://sourceforge.net/projects/fonttools/</a></a> to dump the original OpenType font. The resulting .ttx file will have &lt;glyphorder&gt; at the top which maps GlyphIDs to names. Get the IDs for the glyphs that will be substituted. <BR> <BR>2) Create a &quot;mif&quot; file with the following contents (the list is the substitution list) <BR><pre> <BR>Type          Noncontextual <BR>Name          Character Alternates <BR>Namecode      17 <BR>Setting       No Alternates <BR>Settingcode   0 <BR>Default       yes <BR>Orientation   HV <BR>Forward       yes <BR>Exclusive     yes <BR> <BR>Type          Noncontextual <BR>Name          Character Alternates <BR>Namecode      17 <BR>Setting       Alternates <BR>Settingcode   1 <BR>Default       no <BR>Orientation   HV <BR>Forward       yes <BR>Exclusive     yes <BR> <BR>        10      58 <BR>        11      63 <BR>        12      57 <BR>        13      66 <BR>        14      61 <BR>        15      60 <BR>        16      65 <BR>        17      64 <BR>        18      59 <BR>        19      62 <BR></pre> <BR>Unfortunately, I haven't fgured out a way to use my fancy names (&quot;zero.2&quot;) instead of the GlyphIDs which might change when messing around with the font too much in FontLab. <BR> <BR>3) Run ftxenhancer -m miffile myfont.otf <BR>(Apple font tools, <a href="http://developer.apple.com/fonts/" target="_blank"><a href="http://developer.apple.com/fonts/">http://developer.apple.com/fonts/</a></a>) <BR> <BR>The resulting CFF OpenType file will work in AAT aware applications as well as in OpenType applications.</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -106,6 +107,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Apple's font tool DumpPOST creates a text file with the Postscript names for all the characters in the font. The PS names can be changed in a text editor and appended to the font with the AAT Font Tool. These are 'classic', pre-OSX applications. In OSX, ftxdumperfuser may do the same job (I've not used it).</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -130,6 +132,7 @@
 	<div class="card-body">
 		<div class="commentbody"><p>The post resource version 3 doesn't have glyph names; I think I'll stick with ttx (I'm using the latest from CVS). <BR> <BR>There was one additional hurdle: Panther ignores the OpenType kerning information when AAT information is present. <BR> <BR>To fix this, I simply add a 'kern' table to the font which FontLab conveniently generates when it saves a PC TrueType font. <BR> <BR>1) In FontLab, save font as PC ttf AND CFF-otf <BR> <BR>2) Run magic script: <BR><pre> <BR>#!/bin/sh <BR>NAME=MyFont <BR> <BR>ttx -t kern $NAME.ttf <BR>sed -e 's/ttFont sfntVersion=\&quot;\x00\x01\x00\x00\&quot;/ttFont sfntVersion=\&quot;OTTO\&quot;/'  &lt;$name.ttx&gt; $NAME.kern <BR>rm $NAME.ttx <BR> <BR>mv $NAME.otf $NAME.otf.fl <BR>ttx -m $NAME.otf.fl $NAME.kern <BR>rm $NAME.kern <BR> <BR>echo &quot;Adding 'morx'  table&hellip;&quot; <BR>ftxenhancer -m $NAME.mif $NAME.otf <BR> <BR>echo &quot;*** BUILD COMPLETE ***&quot; <BR></pre> <BR>3) Trash the PC ttf. <BR> <BR>Robert</p>
 </div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -153,6 +156,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">Robert, how are you making fonts with version 3 post tables? Just interested to know what your procedure is.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -176,6 +180,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">FontLab (4.6, Mac) just did it, it didn't ask (I've only used the program for a couple of hours and I'm still somewhat mystified by its functionality). <BR> <BR>I use File-&gt;Generate Font-&gt;OpenType-CFF. The display next to the Options box says: &quot;Type 1 options: make PFM, make AFM; Unicode encoding; TT/OTF options: hinted (keep, autohint, visual); export Unicode; <BR>I think that these options aren't relevant when writing OT/CFF. <BR> <BR>See picture for the FontLab OpenType preferences dialog. <BR> <BR>Robert <BR> <BR><img src="http://www.typophile.com/forums/messages/4101/24893.gif" alt="OT preferences"></div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time
@@ -199,6 +204,7 @@
   <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><i>FontLab (4.6, Mac) just did it, it didn't ask&hellip;</i> <BR> <BR>It may be that, if making a PS OTF, FontLab writes the glyph names to the CFF table (I believe there is a place to store them there) and so writes a version 3 post table. That actually makes sense. I mainly work with TrueType fonts, for which FontLab writes a version 2 post table. I recently had to make a TT font with a version 3 table, and ended up needing another tool to do this.</div>
+		
 	</div>
 	<div class="card-footer text-muted post-meta text-end">
 		<time

@@ -47,7 +47,6 @@
     </header>
 
     <main class="pb7" role="main">
-      {{#if query}}
       <div class="px-4 py-2 text-center">
         <h1 class="display-5 fw-bold">Search the archive</h1>
         <div class="col-lg-6 py-2 mx-auto">
@@ -59,23 +58,14 @@
           </form>
         </div>
       </div>
-      {{ else }}
-      <div class="px-4 py-5 my-5 text-center">
-        <h1 class="display-5 fw-bold">Search the archive</h1>
-        <div class="col-lg-6 py-5 my-5 mx-auto">
-          <form>
-            <input name="q" value="{{query}}" />
-            <button class="btn btn-primary">
-              <i class="bi bi-search"></i>
-            </button>
-          </form>
-        </div>
-      </div>
-      {{/if}}
+
       <div class="container">
         {{#if pages}}
-        <nav aria-label="Page navigation" class="col-lg-6mx-auto text-center">
-          <ul class="pagination">
+        <nav aria-label="Page navigation" class="mx-auto text-center">
+          {{#if query}}
+          <p class="text-muted"><i>About {{total}} results</i></p>
+          {{/if}}
+          <ul class="pagination mx-auto justify-content-center">
             {{#each pages}}
             <li class="page-item">
               {{#if current}}
@@ -96,11 +86,28 @@
           <div class="card-body">
             <h5 class="card-title"><a href="/node/{{node}}">{{title}}</a></h5>
             <h6 class="card-subtitle mb-2 text-muted">{{author}} • {{date}}</h6>
+            <!-- Score: {{score}} -->
             <p class="card-text">{{{highlight}}}</p>
           </div>
         </div>
         {{/each}}
       </div>
+
+      <ul class="pagination mx-auto justify-content-center">
+        {{#each pages}}
+        <li class="page-item">
+          {{#if current}}
+          <span class="page-link text-body"><b>{{page}}</b></span>
+          {{ else }} {{#if linked}}
+          <a class="page-link" href="/?q={{@root/query}}&p={{page}}"
+            >{{page}}</a
+          >
+          {{else}}
+          <span class="page-link text-body">{{page}}</span>
+          {{/if}} {{/if}}
+        </li>
+        {{/each}}
+      </ul>
     </main>
   </body>
 </html>

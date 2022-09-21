@@ -1,7 +1,8 @@
 from flask import Flask, request
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search
-
+from elasticsearch_dsl.query import Q, SF
+import re
 from pybars import Compiler
 import math
 
@@ -37,10 +38,26 @@ def index():
     hits = []
     pages = []
     total = None
-    if query:
-        s = search.query("query_string", query=query, default_field="body").highlight(
-            "title", "body"
+    if query or True:
+        base_query = Q("query_string", query=query or "*", default_field="body")
+        s = search.query(
+            Q(
+                "function_score",
+                query=base_query,
+                functions=[
+                    SF(
+                        "gauss",
+                        date={
+                            "origin": "now",
+                            "scale": "1000d",
+                            "decay": 0.9,
+                        },
+                    )
+                ],
+            )
         )
+
+        s.highlight("title", "body")
         s.source(includes=["date"])
         if page:
             response = s[(page - 1) * HITS_PER_PAGE : (page) * HITS_PER_PAGE].execute()
@@ -50,7 +67,7 @@ def index():
             if "highlight" in hit.meta:
                 highlight = " ... ".join(hit.meta.highlight.body)
             else:
-                highlight = ""
+                highlight = re.sub(r"(?s)[\r\n].*", "", hit.body)
             hits.append(
                 {
                     "node": hit.meta.id,
@@ -79,5 +96,7 @@ def index():
             {"page": x, "linked": x != "...", "current": x == page}
             for x in relevant_pages
         ]
+        if len(pages) == 1:
+            pages = None
 
     return template({"query": query, "response": hits, "total": total, "pages": pages})

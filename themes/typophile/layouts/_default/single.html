@@ -26,7 +26,7 @@ define "main" }}
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody">
-    {{- .Params.body | markdownify -}}
+    {{- .Params.body | replaceRE "\\[img:sites/default/files/([^\\]]+)\\]" "![](/images/$1)" | markdownify -}}
   </div>
 
   {{ range $comment := .Params.comments }} {{ partial "comment.html" . }} {{ end

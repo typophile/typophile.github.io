@@ -88,14 +88,15 @@ def index():
         relevant_pages = [
             x for x in range(page - 1, page + 2) if x > 0 and x < total_pages
         ]
-        if 1 not in relevant_pages:
-            if 2 not in relevant_pages:
-                relevant_pages.insert(0, "...")
-            relevant_pages.insert(0, 1)
-        if not last_page in relevant_pages:
-            if (last_page - 1) not in relevant_pages:
-                relevant_pages.append("...")
-            relevant_pages.append(last_page)
+        if relevant_pages:
+            if 1 not in relevant_pages:
+                if 2 not in relevant_pages:
+                    relevant_pages.insert(0, "...")
+                relevant_pages.insert(0, 1)
+            if not last_page in relevant_pages:
+                if (last_page - 1) not in relevant_pages:
+                    relevant_pages.append("...")
+                relevant_pages.append(last_page)
         pages = [
             {"page": x, "linked": x != "...", "current": x == page}
             for x in relevant_pages

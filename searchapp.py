@@ -53,7 +53,7 @@ def index():
                         "gauss",
                         date={
                             "origin": "now",
-                            "scale": "1000d",
+                            "scale": "365d",
                             "decay": 0.9,
                         },
                     )
@@ -61,7 +61,7 @@ def index():
             )
         )
 
-        s.update_from_dict({"highlight": {"fields": {"title": {}, "body": {}}}})
+        s.update_from_dict({"highlight": {"fields": {"body": {}}}})
         if page:
             response = s[(page - 1) * HITS_PER_PAGE : (page) * HITS_PER_PAGE].execute()
         else:

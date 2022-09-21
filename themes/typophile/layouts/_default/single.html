@@ -27,6 +27,9 @@ define "main" }}
     {{- .Params.body | replaceRE "\\[img:sites/default/files/([^\\]]+)\\]" "![](/images/$1)" | markdownify -}}
   </div>
 
+  {{ range .Params.files }}
+  <img src="{{.uri | replaceRE "public://" "/images/" }}">
+  {{ end }}
   {{ range $comment := .Params.comments }} {{ partial "comment.html" . }} {{ end
   }}
 </article>

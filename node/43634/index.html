@@ -78,32 +78,32 @@
 <p>Unlike with Beowolf, whose PostScript method will render the changes applied to the letters only in print, this font is supposed to do it on screen. From what I have gathered so far, this is possible with OpenType-fonts as they allow the inclusion of Python scripts. These in turn can manipulate glyph outlines, positioning, etc.</p>
 <p>I have no idea how to script Python. And while I do have some experience with actionscripting in Flash and the syntax is pretty similar, what I need here is way beyond the scope of my skills. First, let me show you what I mean to do:</p>
 <p><strong>Phase 1: Generating random glyph outlines by interpolation of several “Master Phases”.</strong></p>
-<p>[img:sites/default/files/old-images/Randomization_1_01_4681.png]</p>
+<p><img src="/images/old-images/Randomization_1_01_4681.png" alt=""></p>
 <p>Fig 1: The master phases, shown with very little variance here. This will effect on the degree of “mutation” the interpolation will output. Compare Fig. 5 and 6.</p>
-<p>[img:sites/default/files/old-images/Randomization_1_02_4495.png]</p>
+<p><img src="/images/old-images/Randomization_1_02_4495.png" alt=""></p>
 <p>Fig 2: Master phases, with more variance between the glyphs this time.</p>
-<p>[img:sites/default/files/old-images/Randomization_1_03_4660.png]</p>
+<p><img src="/images/old-images/Randomization_1_03_4660.png" alt=""></p>
 <p>Fig 3: The master phases, overlayed. The blue areas show the boundaries of of movement the interpolation has for placing the nodes. The green areas stand for the possible positions of the handles. These polygons are created by the x/y-coordinates of the respective points in the master phases.</p>
-<p>[img:sites/default/files/old-images/Randomization_1_04_5571.png]</p>
+<p><img src="/images/old-images/Randomization_1_04_5571.png" alt=""></p>
 <p>Fig 4: This figure demonstrates why four master phases are in use. Interpolation requires, naturally, a minimum of two phases. If more than two are used however, the degree of possible variations multiplies. This also enables a better simulation of variation within characters that ahndwriting would produce as body machanics and the flow of writing influence the appearance of characters in writing.</p>
-<p>[img:sites/default/files/old-images/Randomization_1_05_6699.png]</p>
+<p><img src="/images/old-images/Randomization_1_05_6699.png" alt=""></p>
 <p>Fig 5: Variation is even more noticeable when more differently styled masters are used. Enjoyably, the interpolated phases are very consistent in style, so even though a degree of randomness is introduced into the character outlines, they still look like they belong together.</p>
-<p>[img:sites/default/files/old-images/Randomization_1_06_5181.png]</p>
+<p><img src="/images/old-images/Randomization_1_06_5181.png" alt=""></p>
 <p>Fig 6: Masters and interpolated characters in a row (low variance).</p>
-<p>[img:sites/default/files/old-images/Randomization_1_07_3892.png]</p>
+<p><img src="/images/old-images/Randomization_1_07_3892.png" alt=""></p>
 <p>Fig 7: Masters and interpolated characters in a row (high variance).</p>
-<p>[img:sites/default/files/old-images/Randomization_2_01_5052.png]</p>
+<p><img src="/images/old-images/Randomization_2_01_5052.png" alt=""></p>
 <p>Fig 8: The introduction of two additional parameters that randomly rotate and scale one out of five characters are supposed to further simulate the changing angles of strokes in handwriting.</p>
 <p><strong>Phase 2: Expanding the basic lines with tools to true outlines</strong></p>
-<p>[img:sites/default/files/old-images/Randomization_2_02_6291.png]</p>
+<p><img src="/images/old-images/Randomization_2_02_6291.png" alt=""></p>
 <p>Fig 9: Now that the characteres base strokes are randomized, they get expanded by a “tooltip” which is a geomtrical shape–although more complex shapes would also be concievable–that is applied over the length of the path.
 In this stage, the tooltip is still static, I am however considering adding another parameter to its rotation to make it react to changes in the path.</p>
-<p>[img:sites/default/files/old-images/Randomization_3_01_5492.png]</p>
+<p><img src="/images/old-images/Randomization_3_01_5492.png" alt=""></p>
 <p>Fig 10: After the base strokes are expanded, terminators that simulate the dynamics of starting/ending a stroke and the slight bleeding that occurs when the writing tool rest on or is pulled away from a surface.
 As of now, the method in creating these is rather primitve, taking the last position of the tool applied to the outline, moving a copy of this along the direction of the path, rotating an scaling it and the connect the extrema of those two shapes.
 This will change though, as soon as I can find a method for doing so.</p>
 <p><strong>Phase 3: Altering the baseline</strong></p>
-<p>[img:sites/default/files/old-images/Randomization_3_04_6604.png]</p>
+<p><img src="/images/old-images/Randomization_3_04_6604.png" alt=""></p>
 <p>Fig 11: The circular movement of the wrist when writing left to right results in the lines moving slightly upward until the hand is moved to the right for an easier writing position. To encorparate this effect, the first character of the first syllable is moved slightly below the baseline and a random character between 10-15 characters to the right is chosen and has its baseline lifted. The positions of the characters in between those extrema are interpolated in non-linear fashion, resulting in a slight curvature of the baseline.
 I am still working on the selection criteria, so they remain subject to change.
 Still I would like the frequency and amplitude of the basline undulation to be controllable factors.</p>

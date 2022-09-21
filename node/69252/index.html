@@ -72,18 +72,18 @@
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody"><p>Problem:
-[img:sites/default/files/old-images/GREP-kern-1_6550.gif]</p>
+<img src="/images/old-images/GREP-kern-1_6550.gif" alt=""></p>
 <p>Solution:
 While InDesign CS4 doesn&rsquo;t feature a kerning table, it does support GREP styles, which can be used to apply custom kerning values to extended text settings. Because I haven&rsquo;t seen this documented in a truly helpful way (not that I&rsquo;ve looked <em>too</em> hard) and some peeps have asked about it, here&rsquo;s a quick writeup of a possible procedure. Maybe if some of you have corrections or suggestions how to do it better, we can put together a killer workflow. (Scuse the atypically looong post… I figured Typophile was still the best place to put this.)</p>
 <p>So in the text above, note the absence of a kern pair for «Tó» while «To» looks fine.</p>
 <p><strong>Step 1: Kern the pair manually, once.</strong>
-[img:sites/default/files/old-images/GREP-kern-2_6377.gif]</p>
+<img src="/images/old-images/GREP-kern-2_6377.gif" alt=""></p>
 <p>.
 .
 <strong>Step 2: Define character style for kern pair.</strong>
 It seems that this has to be done in a roundabout way, since custom kerning values cannot be entered in the Character Style dialog.
 It&rsquo;s interesting to note that while InDesign only lets you insert a kerning value when the cursor is between the 2 glyphs in question, it seems that the kerning value is treated as a <em>property assigned to the first glyph in the pair</em>. Thus, by selecting the first one of these 2 glyphs and then defining a «New Character Style» you will be able to make a character style that contains this kerning value. (You want to pay attention that it doesn&rsquo;t contain anything else.) I&rsquo;d name it something telling, like kern_T_oacute in this case. 
-[img:sites/default/files/old-images/GREP-kern-3_6202.gif]</p>
+<img src="/images/old-images/GREP-kern-3_6202.gif" alt=""></p>
 <p>.
 .
 <strong>Step 3: Apply this Character Style to all occurrences of the pair in question, via GREP.</strong>
@@ -91,7 +91,7 @@ Make sure your text cursor is in one paragraph in question, then select «GREP S
 <code>T(?=ó)</code>
 The important thing is to only assign the character style to the &ldquo;T&rdquo; (as the kerning value is treated as a property of the <em>first</em> glyph in the pair), but <strong>only if it is followed by &ldquo;ó&rdquo;</strong> – this condition is what the (?=ó) specifies as a Positive Lookahead (cf. <a href="http://help.adobe.com/en_US/InDesign/6.0/WSa285fff53dea4f8617383751001ea8cb3f-6f59a.html">Adobe Guideline on Metacharacters</a>). If you want to include other possibilities too (like odieresis), you can specify a class of possible second glyphs in brackets, like in the screenshot below.
 When you hit Preview this baby should now automagically apply to all «Tó» pairs in the paragraph:
-[img:sites/default/files/old-images/GREP-kern-4_3891.gif]</p>
+<img src="/images/old-images/GREP-kern-4_3891.gif" alt=""></p>
 <p>.
 .
 <strong>Step 4: Redefine Paragraph Style to include GREP style.</strong>

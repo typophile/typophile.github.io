@@ -62,7 +62,6 @@ def index():
         )
 
         s.update_from_dict({"highlight": {"fields": {"title": {}, "body": {}}}})
-        s.source(includes=["date"])
         if page:
             response = s[(page - 1) * HITS_PER_PAGE : (page) * HITS_PER_PAGE].execute()
         else:
@@ -78,6 +77,7 @@ def index():
                     "title": hit.title,
                     "author": hit.author,
                     "date": hit.date,
+                    "node_type": hit.node_type,
                     "score": hit.meta.score,
                     "highlight": highlight,
                 }

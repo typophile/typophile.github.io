@@ -34,12 +34,16 @@ def index():
             page = 1
     else:
         page = 1
-    print(query)
     hits = []
     pages = []
     total = None
     if query or True:
-        base_query = Q("query_string", query=query or "*", default_field="body")
+        base_query = Q(
+            "query_string",
+            query=query or "*",
+            default_field="body",
+            default_operator="and",
+        )
         s = search.query(
             Q(
                 "function_score",
@@ -57,7 +61,7 @@ def index():
             )
         )
 
-        s.highlight("title", "body")
+        s.update_from_dict({"highlight": {"fields": {"title": {}, "body": {}}}})
         s.source(includes=["date"])
         if page:
             response = s[(page - 1) * HITS_PER_PAGE : (page) * HITS_PER_PAGE].execute()

@@ -16,6 +16,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="/style.css" rel="stylesheet">
 
     <meta property="og:title" content="Build: Handwriting OT font contextual troubles" />
 <meta property="og:description" content="" />
@@ -34,7 +36,7 @@
 
   </head>
 
-  <body class="ma0 avenir bg-near-white">
+  <body class="ma0">
 
       <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -55,7 +57,7 @@
   </nav>
 </header>
  
-    <main class="pb7" role="main">
+    <main role="main">
       
 <article class="container">
   <header class="post-header py-3">
@@ -66,13 +68,18 @@
       
         
           • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <span class="p-author h-card" itemprop="name">alan</span></span>
+            <span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:alan">
+            alan
+	    </a>
+        </span></span>
       
 
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody">This post really should be in &quot;Build&quot;, but for some reason I'm not allowed to start a topic there. News to me. Anyway &hellip; <BR> <BR>Hi everyone, <BR> <BR>I'm looking for a little bit of advice on a handwriting font I'm currently working on. The font uses contextual substitution to &quot;flip&quot; through a series of alternates for each glyph, much like LettError's Kosmik, if you're familiar with that. Instead of three variations of each letter, there are nine, but the idea is the same: a kind of controlled randomness (which really isn't random at all). <BR> <BR>In addition to the nine variations of each letter, some letters have up to three initial forms and/or up to three final forms. There are also quite a few ligatures, which themselves may have initial and final forms. The ligatures are always constructed of only two letters, no more. <BR> <BR>One last detail about the design of the font: it is unicase, so I'm converting all uppercase input to lowercase, for simplicity. <BR> <BR>**** Skip down to the next section if you already know how Kosmik works **** <BR> <BR>Here's how it works: <BR> <BR>First I ask the font to convert all of the letter combinations that will *always* result in a ligature (that is, there are at least nine variations of that ligature). These combinations are: en, er, ju, on, or, te, th, tt. This is contained in the 'liga' feature. <BR> <BR>Then I ask the font to begin swapping alternates, using the 'calt' feature. Each glyph belongs to a class of glyphs. There are nine alternates of each letter, so each of the nine glyphs gets put into a separate class. All of the &quot;default&quot; glyphs get put in the &quot;SET_ZERO&quot; class; all of the glyphs ending in &quot;.alt1&quot; get put into the &quot;SET_ONE&quot; class; glyphs ending in &quot;.alt2&quot; are put in the &quot;SET_TWO&quot; class, and so forth. <BR> <BR>My 'calt' feature says this: <BR> <BR># first, get rid of all that nasty uppercase stuff <BR>	sub @UPPERCASE by @LOWERCASE; <BR> <BR># then use the same method that Kosmik uses to &quot;flip&quot; through classes glyphs <BR>	sub @SET_ZERO @SET_ZERO' by @SET_ONE; <BR>	sub @SET_ONE @SET_ZERO' by @SET_TWO; <BR>	sub @SET_TWO @SET_ZERO' by @SET_THREE; <BR>	sub @SET_THREE @SET_ZERO' by @SET_FOUR; <BR>	sub @SET_FOUR @SET_ZERO' by @SET_FIVE; <BR>	sub @SET_FIVE @SET_ZERO' by @SET_SIX; <BR>	sub @SET_SIX @SET_ZERO' by @SET_SEVEN; <BR>	sub @SET_SEVEN @SET_ZERO' by @SET_EIGHT; <BR> <BR>So, if a user types &quot;mmmmm&quot;, they will actually get &quot;m m.alt1 m.alt2 m.alt3 m.alt4&quot;. This should be nothing new to many of you. <BR> <BR>Please note that the line: <BR>	sub @SET_EIGHT @SET_ZERO' by @SET_ZERO; <BR>is omitted, because returning to the original set is understood implicitly. <BR> <BR>Every time the user types a glyph, the font looks back at the last glyph, figures out what class it belongs to, and uses that information to determine which variant of the next glyph to place down (at least, that's how I think of it). Even the space character is included in this merry-go-round (yes, there are nine variations of the space character). That way, typing &quot;yes yes yes&quot; won't result in the same three glyphs appearing over and over. <BR> <BR>**** This is the next section, welcome back **** <BR> <BR>Thanks for your patience if you've gotten this far. Now I'll try to describe some of the issues I've run across. <BR> <BR>In order for the flipping to work correctly, every single glyph needs to belong to one of the nine classes (SET_ZERO through SET_EIGHT). That way, when the next letter is layed down, the font knows which version to use by looking at the class of the last glyph. If there were a glyph that ended up on the page which did not belong to any of the nine classes, the next glyph would have no point of reference, and would default to the first variant of that letter. This could have the inconceivably catastrophic effect of the same glyph appearing twice within a relatively small proximity!!!! AAAAAAAAAAHHHH!! <BR> <BR>It's something I'd like to avoid. The problem is that not all of the ligatures have nine variations. I have a &quot;tz&quot; ligature that only exists in one form. I can easily write a lookup that says, &quot;whenever an 'a.alt5' is followed by a 't.alt6' and then a 'z.alt7', replace the 't' and 'z' with 't_z', unless it's at the end of a word&quot;. And so forth. These specific cases are tedious, but simple to write, as shown in the Bickham Script feature file that Adobe released recently. <BR> <BR>But! The &quot;tz&quot; ligature must belong to one of the nine classes so the flipping can continue undisturbed. But there is only *one* &quot;tz&quot; ligature, and the classes used for flipping must each contain the same number of glyphs, or flipping is not allowed! <BR> <BR>It's the same case for initial and final forms: not all letters have three of each, but the glyphs all have to belong to a specific class, and the classes cannot have different numbers of glyphs contained within them. <BR> <BR>One way to simplify things would be to create the same number of alternates, initials, and finals for every single letter that can be typed with this font. That would eliminate the need to worry about differing numbers of alternates and specifying certain cases where they can and cannot appear. However, this is a handwriting font created from an actual handwriting sample, and making lots of extra letters and ligatures that are convincing is a non-trivial task. I'm willing to do it, if there isn't a way of resolving these issues with OT features. <BR> <BR>I'm hoping to work out all the OT features *before* cleaning up the auto-traced characters and tidying up the font, so right now the font is just a cesspool of mismatched character shapes and sizes and weights, with an external text file serving as my underground mad-scientist OT laboratory. <BR> <BR>If anyone has any insight, I would greatly appreciate it. <BR> <BR>Thanks, <BR>Alan</div>
 
+  
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">hmmm, i'm in no means an expert at this, but here's a bit of code i wrote trying to do something similar, except i only had 2 alternates for lower case letters that switched off with eachother. <BR> <BR>feature calt { <BR>  sub @class0 @class0' by @class1; <BR>  sub @class1 @class1' by @class0; <BR>  sub @class0 space @class0' by @class1; <BR>  sub @class1 space @class1' by @class0; <BR>  sub @class0 space @UC @class0' by @class1; <BR>  sub @class1 space @UC @class1' by @class0; <BR>} calt; <BR> <BR>one thing in here is that i didn't make 2 variations of the space character, but wrote code to &quot;skip over&quot; the space character. This should work for your t_z lig too just make a class of characters that only have one form and place them in the code above where it says &quot;space&quot;. But it's late and maybe that won't really work&hellip; <BR>Also, it's too late for me to think this through, but what happens if you put the t_z lig in every set? <BR>okay, i'll go to bed and let the pros sort out the confusion i caused in the morning. nite!</div>
@@ -87,10 +94,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>pablohoney77</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:pablohoney77">
+            pablohoney77
+	    </a>
+			</span></span>
 	</div>
 	
 </div>
@@ -108,10 +117,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>Thomas Phinney</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:Thomas&#43;Phinney">
+            Thomas Phinney
+	    </a>
+			</span></span>
 	</div>
 	
 </div>
@@ -129,10 +140,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>alan</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:alan">
+            alan
+	    </a>
+			</span></span>
 	</div>
 	
 </div>
@@ -150,10 +163,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>Miss Tiffany</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:Miss&#43;Tiffany">
+            Miss Tiffany
+	    </a>
+			</span></span>
 	</div>
 	
 </div>

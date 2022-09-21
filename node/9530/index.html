@@ -16,6 +16,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="/style.css" rel="stylesheet">
 
     <meta property="og:title" content="ExtraLight TrueType on PC" />
 <meta property="og:description" content="" />
@@ -34,7 +36,7 @@
 
   </head>
 
-  <body class="ma0 avenir bg-near-white">
+  <body class="ma0">
 
       <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -55,7 +57,7 @@
   </nav>
 </header>
  
-    <main class="pb7" role="main">
+    <main role="main">
       
 <article class="container">
   <header class="post-header py-3">
@@ -66,13 +68,18 @@
       
         
           • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <span class="p-author h-card" itemprop="name">burtnieks</span></span>
+            <span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:burtnieks">
+            burtnieks
+	    </a>
+        </span></span>
       
 
     </p>
   </header>
   <div class="post-content e-content" itemprop="articleBody">Hi there, masters. <BR>I am stick with problem generating ExtraLight TT font for Windows. <BR> <BR>Background: Local branch of global Co receives corporate font, designed specially for them elsewere. <BR>There are Mac &amp; PC versions, Mac PS1 have 8 members, from *ExtraLight to *Black. <BR>PC TT versions has only 6 - *ExtraLight and *Black are missing. <BR> <BR>Converted TT to WinXP (TransType, OS9 3-day demo). Opened, inspected and generated *ExtraLight in FL4.6 as Windows TT, font shows up in Font listings as expected, prints as expected BUT on screen (in OpenOffice, WordPad) looks very weird &ndash; like baddly generated bold or something like that. Strangely, but in CorelDraw 11 its OK. <BR> <BR>The catch is &ndash; when doing the same MacPS1-WinTT conversion (as experiment) with *Light version, it looks good in same conditions. <BR> <BR>Inspected outlines in FL, compared font settings &hellip; nothing shows up. All settings (except weight differences and naming, of course) looks the same. But *ExtraLight shows weird, prints good. <BR>Same with straight TransType generated Win TrueTupes for both &ndash; same result &ndash; *Light TT on WinXP OpenOffice looks good, *ExtraLight &ndash; weird. Much to say, *ExtraLight source PS1 on Mac is perfect, both outlines and bitmap part. <BR>Question is &ndash; may be ExtraLigts on Win needs some special knowledge to get correct screen representations? <BR>(I'm wondering that foreign designers who designed that font had the same problem &ndash; that's why ExtraLight is missing on Windows side &hellip; :-)</div>
 
+  
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody">You are correct. <BR> <BR>This is a fairly well-known and understood problem. Technically, it is an application bug, but it is present in many, many applications - half or more of all Windows applications last time Adobe tested this, which admittedly was years ago. <BR> <BR>Your ExtraLight font has a WeightClass of 200, because that's what the Win TrueType and OpenType specs say an ExtraLight font should have. <BR> <BR>The problem is that many applications assume that all fonts have a weightclass of 400 for the &quot;regular&quot; font and 700 for a style-linked &quot;bold&quot; font in a given family. <BR> <BR>So the app knows the name of the font, and assumes that the right WeightClass is 400. So it asks Windows to give it that font with a WeightClass of 400. The only one Windows can find has a WeightClass of 200, but Windows thinks a faux bold (smeared bold) is 300 more than that. 500 is closer to 400 than 200 is. So Windows promptly gives the bad app a faux bold (smeared) version of the font. PostScript devices will probably print this correctly, but it will be bold onscreen and if printed to a GDI device. <BR> <BR>Adobe encountered this problem early in OpenType development. Our workaround has been to use WeightClass values in between 250 and 300 for very light weights (250 or more doesn't raise the problem). <BR> <BR>There are some other complications that you can run into to do with specific WeightClass values combined with style links, but that's much more complex. You can find fully detailed information that I wrote up in the Adobe Font Development Kit for OpenType (FDK). Go here: <BR>&lt;<a href="http://partners.adobe.com/public/developer/opentype/afdko/topic.html" target="_blank"><a href="http://partners.adobe.com/public/developer/opentype/afdko/topic.html">http://partners.adobe.com/public/developer/opentype/afdko/topic.html</a></a>&gt; <BR> <BR>Among the downloads on the right is this: <BR>&lt;<a href="http://partners.adobe.com/public/developer/opentype/afdko/topic_font_wt_win.html" target="_blank"><a href="http://partners.adobe.com/public/developer/opentype/afdko/topic_font_wt_win.html">http://partners.adobe.com/public/developer/opentype/afdko/topic_font_wt_win.html</a></a>&gt; <BR> <BR>I hope that helps. <BR> <BR>T</div>
@@ -87,10 +94,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>Thomas Phinney</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:Thomas&#43;Phinney">
+            Thomas Phinney
+	    </a>
+			</span></span>
 	</div>
 	
 </div>

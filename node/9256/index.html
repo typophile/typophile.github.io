@@ -16,6 +16,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="/style.css" rel="stylesheet">
 
     <meta property="og:title" content="Need help writing MIF file &amp;#40;AAT&amp;#41;" />
 <meta property="og:description" content="" />
@@ -34,7 +36,7 @@
 
   </head>
 
-  <body class="ma0 avenir bg-near-white">
+  <body class="ma0">
 
       <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -55,7 +57,7 @@
   </nav>
 </header>
  
-    <main class="pb7" role="main">
+    <main role="main">
       
 <article class="container">
   <header class="post-header py-3">
@@ -66,7 +68,11 @@
       
         
           • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <span class="p-author h-card" itemprop="name">nickshanks</span></span>
+            <span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:nickshanks">
+            nickshanks
+	    </a>
+        </span></span>
       
 
     </p>
@@ -74,6 +80,7 @@
   <div class="post-content e-content" itemprop="articleBody"><p>Hi there, I am trying to implement a generic MIF for my fonts which activates option 14/6 (Typographical Extras/Periods to Ellipsis). I have written the below code which successfully changes the first full stop to an ellipsis, but I have no idea how to change the following two to DELs, can anyone help? (It is originally based on the swash Eva example from Apple's documentation - I realise that it does more than it needs too at the moment, but I'll clean that up later.) <BR> <BR><pre>Type	Contextual <BR>Name	Typographic Extras <BR>Namecode	14 <BR>Setting	Periods to Ellipsis <BR>Settingcode	6 <BR>Default	yes <BR>Orientation	HV <BR>Forward	yes <BR>Exclusive	no <BR> <BR>FS	32 <BR> <BR>	EOT	OOB	DEL	EOL	FS <BR>StartText	1	1	1	1	3 <BR>StartLine	1	1	1	1	3 <BR>Flush	1	1	2	1	2 <BR>Saw1	1	2	3	1	4 <BR>Saw2	1	2	5	1	6 <BR>Saw3	7	7	6	7	7 <BR> <BR>	GoTo	Mark?	Advance?	SubstMark	SubstCurrent <BR>1	StartText	no	yes	none	none <BR>2	Flush	no	yes	none	none <BR>3	Saw1	yes	yes	none	none <BR>4	Saw2	no	yes	none	none <BR>5	Saw2	no	yes	none	none <BR>6	Saw3	no	yes	none	none <BR>7	StartText	no	yes	Ellipsis	none <BR> <BR>Ellipsis <BR>	32	167</pre></p>
 </div>
 
+  
    <div class="comment card m-3">
 	<div class="card-body">
 		<div class="commentbody"><p>Although they can be incredibly powerful, the contextual substitutions in MIF source files are extremely frustrating to write. It's one area where OpenType's approach is easier by many magnitudes. <BR> <BR>Fortunately, there's a much easier way to solve your particular problem &ndash; just create a ligature of three periods in a row to an ellipsis character. For example: <BR> <BR><pre> <BR>Type           LigatureList <BR>Name           Typographical Extras <BR>Namecode       14 <BR>Setting        Periods to Ellipsis <BR>Settingcode    6 <BR>Default        no <BR>Orientation    H <BR>Forward        yes <BR>Exclusive      no <BR> <BR>List <BR>               ellipsis       period period period <BR></pre> <BR> <BR>Although it is not documented Apple's tutorials, you can mix contextual and noncontextual substitutions in any feature set (in this case, Typographical Extras). <BR> <BR>Brent</p>
@@ -89,10 +96,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>bsleeper</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:bsleeper">
+            bsleeper
+	    </a>
+			</span></span>
 	</div>
 	
 </div>
@@ -110,10 +119,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>nickshanks</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:nickshanks">
+            nickshanks
+	    </a>
+			</span></span>
 	</div>
 	
 </div>
@@ -131,10 +142,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>nickshanks</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:nickshanks">
+            nickshanks
+	    </a>
+			</span></span>
 	</div>
 	
 </div>
@@ -152,10 +165,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>Mark Simonson</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:Mark&#43;Simonson">
+            Mark Simonson
+	    </a>
+			</span></span>
 	</div>
 	
 </div>
@@ -173,10 +188,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>hrant</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:hrant">
+            hrant
+	    </a>
+			</span></span>
 	</div>
 	
 </div>
@@ -194,10 +211,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>Mark Simonson</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:Mark&#43;Simonson">
+            Mark Simonson
+	    </a>
+			</span></span>
 	</div>
 	
 </div>
@@ -215,10 +234,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>hrant</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:hrant">
+            hrant
+	    </a>
+			</span></span>
 	</div>
 	
 </div>
@@ -236,10 +257,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>charles ellertson</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:charles&#43;ellertson">
+            charles ellertson
+	    </a>
+			</span></span>
 	</div>
 	
 </div>
@@ -257,10 +280,12 @@
 		</time>
 		•
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span class="p-author h-card" itemprop="name"
-				>behnam</span
-			></span
-		>
+
+			<span class="p-author h-card" itemprop="name">
+            <a href="/?q=author:behnam">
+            behnam
+	    </a>
+			</span></span>
 	</div>
 	
 </div>

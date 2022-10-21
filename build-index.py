@@ -64,6 +64,7 @@ def bulk_data():
         if "author" in doc:
             doc["author"] = doc["author"].get("name")
         doc["body"] = strip_tags(doc["body"])
+        doc["comment_count"] = len(doc.get("comments", []))
         yield {"_index": "typophile", "_id": nid, "_source": doc}
 
 
